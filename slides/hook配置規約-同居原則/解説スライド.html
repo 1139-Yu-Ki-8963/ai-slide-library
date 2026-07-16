@@ -1,0 +1,81 @@
+<meta charset="utf-8">
+<title>hook は規約の定義ファイルと同じフォルダに置く</title>
+<style>
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+    --claude: #D97757;
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;
+    --cursor-soft: #EFF1F4;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+  .slide-viewport { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--page); overflow: hidden; }
+  .slide { position: absolute; top: 50%; left: 50%; width: 1280px; height: 720px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 4px 24px rgba(28,43,58,0.08); display: flex; flex-direction: column; padding: 40px 48px; gap: 18px; font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif; transform: translate(-50%,-50%) scale(var(--slide-scale,1)); transform-origin: center center; }
+  .slide-header { display: flex; flex-direction: column; gap: 4px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 30px; font-weight: 700; line-height: 1.25; color: var(--ink); }
+  .slide-subtitle { font-size: 14px; color: var(--ink-2); }
+  .compare-row { display: flex; gap: 24px; flex: 1; align-items: stretch; min-height: 0; }
+  .compare-card { flex: 1; border-radius: 10px; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+  .compare-card--ng { background: var(--surface); border: 1.5px solid var(--critical); border-top: 4px solid var(--critical); }
+  .compare-card--ok { background: var(--surface); border: 1.5px solid var(--good); border-top: 4px solid var(--good); flex: 1.3; }
+  .card-head { display: flex; align-items: center; gap: 8px; }
+  .card-head h2 { font-size: 16px; font-weight: 700; line-height: 1.3; }
+  .compare-card--ng .card-head h2 { color: var(--critical); }
+  .compare-card--ok .card-head h2 { color: var(--good); }
+  .tree { background: var(--tag-bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; font-family: 'SF Mono','Cascadia Code','Consolas','Menlo',monospace; font-size: 11.5px; line-height: 1.7; color: var(--ink-2); flex: 1; overflow: hidden; }
+  .compare-card--ng .tree { background: var(--critical-soft); border-color: var(--critical); opacity: 0.95; }
+  .compare-card--ok .tree { background: var(--good-soft); border-color: var(--good); }
+  .tree-line { display: flex; align-items: baseline; gap: 4px; white-space: nowrap; }
+  .tree-indent { color: var(--ink-3); user-select: none; }
+  .tree-folder { color: var(--ink); font-weight: 600; }
+  .tree-hl { color: var(--good); font-weight: 700; }
+  .tree-dim { color: var(--ink-3); }
+  .tree-tag { font-family: system-ui,-apple-system,'Segoe UI','Hiragino Sans',sans-serif; font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 3px; margin-left: auto; flex-shrink: 0; }
+  .tree-tag--critical { background: var(--critical-soft); color: var(--critical); }
+  .tree-tag--good { background: var(--good-soft); color: var(--good); }
+  .tree-tag--accent { background: var(--ink); color: #fff; }
+  .tree-sep { height: 1px; background: var(--border); margin: 6px 0; }
+  .card-status { display: flex; flex-direction: column; gap: 4px; }
+  .status-row { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; line-height: 1.4; padding: 5px 8px; border-radius: 4px; }
+  .status-ng { background: var(--critical-soft); color: var(--critical); }
+  .status-ok { background: var(--good-soft); color: var(--good); }
+  .status-icon { font-weight: 700; flex-shrink: 0; width: 1em; text-align: center; }
+  .step-chip { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .step-chip--critical { background: var(--critical); }
+  .step-chip--good { background: var(--good); }
+  .step-chip--main { background: var(--claude); }
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .step { display: flex; gap: 8px; align-items: center; }
+  .step-text { font-size: 13px; line-height: 1.4; color: var(--ink-2); }
+  .step-text strong { color: var(--ink); }
+  .slide-meta { height: 24px; padding-top: 6px; border-top: 1px solid var(--border); }
+</style>
+<div class="slide-viewport"><div class="slide">
+<header class="slide-header"><span class="slide-eyebrow">HOOKS-ARCHITECTURE</span><h1 class="slide-title">hook は規約の定義ファイルと同じフォルダに置く</h1><p class="slide-subtitle">flat な hooks/ ディレクトリに全 hook を投げ込む構造では、どの規約のための hook か判別できなくなる</p></header>
+<div class="compare-row">
+<article class="compare-card compare-card--ng"><div class="card-head"><span class="step-chip step-chip--critical">1</span><h2>flat バケット — 全部 hooks/ に入れる</h2></div>
+<div class="tree"><div class="tree-line"><span class="tree-folder">.claude/hooks/</span><span class="tree-tag tree-tag--critical">50本超</span></div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> check-naming.sh</div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> check-port.sh</div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> check-flow-gate.sh</div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> suggest-subagent.sh</div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> check-deferral.sh</div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> check-delegation.sh</div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> check-marker.sh</div><div class="tree-line"><span class="tree-indent">&nbsp; └─</span> <span class="tree-dim">…どの規約の hook？</span></div></div>
+<div class="card-status"><div class="status-row status-ng"><span class="status-icon">✕</span><span>ファイル名から所属する規約を特定できない</span></div><div class="status-row status-ng"><span class="status-icon">✕</span><span>規約を削除しても hook だけ残留する</span></div><div class="status-row status-ng"><span class="status-icon">✕</span><span>テストや設計記録の置き場がない</span></div></div></article>
+<article class="compare-card compare-card--ok"><div class="card-head"><span class="step-chip step-chip--good">2</span><h2>規約と同居 — 定義と強制を1フォルダに</h2></div>
+<div class="tree"><div class="tree-line"><span class="tree-folder">.claude/rules/&lt;topic&gt;/&lt;rule&gt;/</span><span class="tree-tag tree-tag--accent">1規約=1フォルダ</span></div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> <span class="tree-folder">rule.md</span><span class="tree-tag tree-tag--good">規約の定義</span></div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> <span class="tree-hl">check-xxx.sh</span><span class="tree-tag tree-tag--good">機械強制</span></div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> check-xxx.test.sh<span class="tree-tag tree-tag--good">回帰テスト</span></div><div class="tree-line"><span class="tree-indent">&nbsp; └─</span> design-notes.txt<span class="tree-tag tree-tag--good">設計経緯</span></div><div class="tree-sep"></div><div class="tree-line"><span class="tree-folder">.claude/skills/&lt;skill&gt;/</span><span class="tree-tag tree-tag--accent">スキルも同じ</span></div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> <span class="tree-folder">SKILL.md</span><span class="tree-tag tree-tag--good">スキル定義</span></div><div class="tree-line"><span class="tree-indent">&nbsp; └─</span> scripts/<span class="tree-hl">check-xxx.sh</span><span class="tree-tag tree-tag--good">スキル専用 hook</span></div></div>
+<div class="card-status"><div class="status-row status-ok"><span class="status-icon">✓</span><span>フォルダを見れば規約と hook の対応が自明</span></div><div class="status-row status-ok"><span class="status-icon">✓</span><span>規約の追加・削除がフォルダ単位で完結する</span></div><div class="status-row status-ok"><span class="status-icon">✓</span><span>テスト・設計記録も同居しレビューが容易</span></div></div></article>
+</div>
+<footer class="steps"><div class="step"><span class="step-chip step-chip--critical">1</span><p class="step-text"><strong>flat は判別不能</strong> — 50本が並ぶと所属不明</p></div><div class="step"><span class="step-chip step-chip--good">2</span><p class="step-text"><strong>同居で完結</strong> — 定義・強制・テスト・経緯が1箇所</p></div><div class="step"><span class="step-chip step-chip--main">3</span><p class="step-text"><strong>hook が block</strong> — 禁止パスへの新規作成を自動拒否</p></div></footer>
+<footer class="slide-meta"></footer>
+</div></div>
+<script>(function(){function f(){document.documentElement.style.setProperty('--slide-scale',Math.min(innerWidth/1280,innerHeight/720));}addEventListener('resize',f);f();})();</script>
