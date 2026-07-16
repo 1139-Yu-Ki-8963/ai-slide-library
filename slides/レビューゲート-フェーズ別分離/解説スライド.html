@@ -1,0 +1,231 @@
+<meta charset="utf-8">
+<title>レビューは最後に 1 回ではなく、開発の節目ごとに機械的に挟む</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root {
+    --page: #EDF0F4;          /* 背景（スライドの外） */
+    --surface: #FFFFFF;       /* スライド面 */
+    --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
+    --ink-2: #55667A;         /* 本文 */
+    --ink-3: #8494A6;         /* 補足・軸ラベル */
+    --border: #D9E0E8;        /* 罫線 */
+    --grid: #E9EDF2;          /* 図中グリッド線 */
+    --critical: #C0392B;      /* 警告・上限・停止 */
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;          /* 回復・完了・推奨 */
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;        /* パネルタグ地 */
+    /* ツール識別色（実在ツールを描く時のみここに追記する） */
+    --claude: #D97757;        /* Claude: コーラル */
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;        /* Cursor: チャコール */
+    --cursor-soft: #EFF1F4;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  /* ==== スライド枠（16:9 固定） ==== */
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 40px 48px;
+    gap: 18px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* ==== ヘッダ ==== */
+  .slide-header {
+    display: flex; flex-direction: column; gap: 4px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 32px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-subtitle { font-size: 15px; color: var(--ink-2); }
+
+  /* ==== ステップ番号チップ（図と本文で同番号・同色を使う） ==== */
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--main { background: var(--claude); }
+  .step-chip--critical { background: var(--critical); }
+  .step-chip--good { background: var(--good); }
+
+  /* ==== 対比カード（時間構造がない「並べて比べる」型に使う） ==== */
+  .compare-row { display: flex; gap: 24px; flex: 1; align-items: stretch; min-height: 0; }
+  .compare-card { flex: 1; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .stage-head { display: flex; align-items: center; gap: 8px; }
+  .stage-head h2 { font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .stage-desc { font-size: 12px; color: var(--ink-2); line-height: 1.4; }
+  .stage-note { font-size: 11px; color: var(--ink-3); }
+
+  /* ==== 例チップ ==== */
+  .layer-examples { display: flex; gap: 6px; flex-wrap: wrap; }
+  .ex { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
+
+  /* ==== 利点・欠点の列挙（✓/✕） ==== */
+  .stage-status { display: flex; flex-direction: column; gap: 4px; }
+  .status-row {
+    display: flex; align-items: flex-start; gap: 6px;
+    font-size: 12px; line-height: 1.3;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .status-ng { background: var(--critical-soft); color: var(--critical); }
+  .status-ok { background: var(--good-soft); color: var(--good); }
+  .status-icon { font-weight: 700; flex-shrink: 0; width: 1em; text-align: center; }
+
+  /* ==== カード間の矢印 ==== */
+  .stage-arrow { display: flex; align-items: center; justify-content: center; }
+
+  /* ==== 層構造（全幅帯） ==== */
+  .layer-stack { display: flex; flex-direction: column; }
+  .layer-band {
+    display: flex; align-items: center; gap: 20px;
+    padding: 20px 26px;
+    border-radius: 10px;
+    background: var(--tag-bg);
+    border: 1.5px solid var(--border);
+    border-left: 5px solid var(--ink-3);
+  }
+  .layer-body { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .layer-body h3 { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .layer-desc { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+
+  /* ==== フッタ: ステップ要約（図中の番号チップと同番号・同色で対応させる） ==== */
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .step { display: flex; gap: 8px; align-items: center; }
+  .step-text { font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+  .step-text strong { color: var(--ink); }
+
+  /* ==== 補足行（一言メモ） ==== */
+  .source-line {
+    font-size: 11px;
+    color: var(--ink-3);
+    border-top: 1px solid var(--border);
+    padding-top: 6px;
+  }
+
+  /* ==== メタデータフッター（区切り線 + 下端余白） ==== */
+  .slide-meta {
+    height: 24px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI開発ガバナンス — レビュー設計</span>
+      <h1 class="slide-title">レビューは最後に 1 回ではなく、開発の節目ごとに機械的に挟む</h1>
+      <p class="slide-subtitle">AI は大量のコードを速く作るため、最後のまとめレビューでは手遅れになる。節目ごとの専門ゲートで問題をその場で食い止める。</p>
+    </header>
+
+    <div class="compare-row">
+
+      <article class="compare-card" style="border-color: var(--critical);">
+        <div class="stage-head">
+          <span class="step-chip step-chip--critical">1</span>
+          <h2>まとめて 1 回のレビュー</h2>
+        </div>
+        <p class="stage-desc">実装が終わってからまとめて確認すると、早期に直せた問題が終盤まで持ち越される。</p>
+        <div class="stage-status">
+          <div class="status-row status-ng"><span class="status-icon">✕</span><span>発見が遅いほど修正コストが膨らむ</span></div>
+          <div class="status-row status-ng"><span class="status-icon">✕</span><span>観点が一度に混ざり抜け漏れが出る</span></div>
+        </div>
+      </article>
+
+      <div class="stage-arrow">
+        <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+          <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <article class="compare-card" style="border-color: var(--good); border-width: 2px;">
+        <div class="stage-head">
+          <span class="step-chip step-chip--good">2</span>
+          <h2>節目ごとの専門レビューゲート</h2>
+        </div>
+        <p class="stage-desc">開発の 4 つの節目に、観点を絞った専門レビューを機械的に挟む。ゲートを通らないと次の工程へ進めない。</p>
+        <span class="stage-note">4 つのゲートと観点</span>
+        <div class="layer-examples">
+          <span class="ex">実装前（設計の妥当性）</span>
+          <span class="ex">実装品質（コード規約）</span>
+          <span class="ex">共有前（テスト・型の自動検査）</span>
+          <span class="ex">仕上げ（画面・動作確認）</span>
+        </div>
+        <div class="stage-status">
+          <div class="status-row status-ok"><span class="status-icon">✓</span><span>問題を発生した工程内で食い止める</span></div>
+          <div class="status-row status-ok"><span class="status-icon">✓</span><span>観点が分かれて抜け漏れが減る</span></div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="layer-stack">
+      <div class="layer-band">
+        <span class="step-chip step-chip--main">3</span>
+        <div class="layer-body">
+          <h3>ゲートは「急いでいるから省略」ができない</h3>
+          <p class="layer-desc">レビュー通過が次の工程へ進む条件として機械強制されるため、繁忙や納期を理由にした省略が構造的に起こらない。</p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="steps">
+      <div class="step">
+        <span class="step-chip step-chip--critical">1</span>
+        <p class="step-text"><strong>一括レビュー</strong>— 発見が遅れ修正コストが膨らむ</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--good">2</span>
+        <p class="step-text"><strong>フェーズ別ゲート</strong>— 観点を絞り節目ごとに検査する</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--main">3</span>
+        <p class="step-text"><strong>省略の防止</strong>— 通過が次工程の条件として機械強制される</p>
+      </div>
+    </footer>
+
+    <p class="source-line" style="border-top: none;">導入の最初の一歩：まず「変更を共有する前の自動検査（テストとコードの型の自動チェック）」から導入し、効果を見ながら節目を増やす</p>
+
+    <!-- ==== 部品: メタデータフッター（区切り線 + 下端余白） ==== -->
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須） ==== -->
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
