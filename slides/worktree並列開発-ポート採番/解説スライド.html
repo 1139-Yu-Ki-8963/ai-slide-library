@@ -1,0 +1,213 @@
+<meta charset="utf-8">
+<title>並列する AI タスクは「作業場所」と「ポート番号」で物理的に分ける</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root {
+    --page: #EDF0F4;          /* 背景（スライドの外） */
+    --surface: #FFFFFF;       /* スライド面 */
+    --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
+    --ink-2: #55667A;         /* 本文 */
+    --ink-3: #8494A6;         /* 補足・軸ラベル */
+    --border: #D9E0E8;        /* 罫線 */
+    --grid: #E9EDF2;          /* 図中グリッド線 */
+    --critical: #C0392B;      /* 警告・上限・停止 */
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;          /* 回復・完了・推奨 */
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;        /* パネルタグ地 */
+    /* ツール識別色（実在ツールを描く時のみここに追記する） */
+    --claude: #D97757;        /* Claude: コーラル */
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;        /* Cursor: チャコール */
+    --cursor-soft: #EFF1F4;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  /* ==== スライド枠（16:9 固定） ==== */
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 40px 48px;
+    gap: 18px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* ==== ヘッダ ==== */
+  .slide-header {
+    display: flex; flex-direction: column; gap: 4px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 32px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-subtitle { font-size: 15px; color: var(--ink-2); }
+
+  /* ==== ステップ番号チップ（図と本文で同番号・同色を使う） ==== */
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--main { background: var(--claude); }
+  .step-chip--critical { background: var(--critical); }
+  .step-chip--good { background: var(--good); }
+
+  /* ==== 対比カード（時間構造がない「並べて比べる」型に使う） ==== */
+  .compare-row { display: flex; gap: 24px; flex: 1; align-items: stretch; min-height: 0; }
+  .compare-card { flex: 1; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+  .compare-card h2 { font-size: 16px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .compare-card p { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+  .stage-arrow { display: flex; align-items: center; justify-content: center; }
+
+  /* ==== 利点・欠点の列挙（✓/✕） ==== */
+  .stage-status { display: flex; flex-direction: column; gap: 4px; }
+  .status-row {
+    display: flex; align-items: flex-start; gap: 6px;
+    font-size: 12px; line-height: 1.3;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .status-ng { background: var(--critical-soft); color: var(--critical); }
+  .status-ok { background: var(--good-soft); color: var(--good); }
+  .status-icon { font-weight: 700; flex-shrink: 0; width: 1em; text-align: center; }
+
+  /* ==== 例チップ ==== */
+  .layer-examples { display: flex; gap: 6px; flex-wrap: wrap; }
+  .ex { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
+
+  /* ==== 層・積層構造（全幅帯。上辺ではなく左辺の色で層の位置づけを示す） ==== */
+  .layer-band {
+    display: flex; align-items: center; gap: 20px;
+    padding: 20px 26px;
+    border-radius: 10px;
+    background: var(--tag-bg);
+    border: 1.5px solid var(--border);
+    border-left: 5px solid var(--ink-3);
+  }
+  .layer-body { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .layer-body h3 { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .layer-desc { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+
+  /* ==== フッタ: ステップ要約（図中の番号チップと同番号・同色で対応させる） ==== */
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .step { display: flex; gap: 8px; align-items: center; }
+  .step-text { font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+  .step-text strong { color: var(--ink); }
+
+  /* ==== メタデータフッター（区切り線 + 下端余白） ==== */
+  .slide-meta {
+    height: 24px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI開発ガバナンス — 並列開発環境</span>
+      <h1 class="slide-title">並列する AI タスクは「作業場所」と「ポート番号」で物理的に分ける</h1>
+      <p class="slide-subtitle">AI は複数タスクを同時に走らせられるが、同じ場所で走らせると変更も検証サーバーも混線する。分離と採番の規約で衝突をなくす。</p>
+    </header>
+
+    <div class="compare-row">
+
+      <article class="compare-card" style="border-color: var(--critical);">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="step-chip step-chip--critical">1</span>
+          <h2>同じ作業場所での並行作業</h2>
+        </div>
+        <p>複数のタスクが同じフォルダと検証サーバーを共有すると、変更の混線とポートの衝突が起きる。</p>
+        <div class="stage-status">
+          <div class="status-row status-ng"><span class="status-icon">✕</span><span>どの変更がどのタスクのものか分からなくなる</span></div>
+          <div class="status-row status-ng"><span class="status-icon">✕</span><span>検証サーバーの取り合いで作業が止まる</span></div>
+        </div>
+      </article>
+
+      <div class="stage-arrow">
+        <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+          <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <article class="compare-card" style="border-color: var(--good); border-width: 2px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="step-chip step-chip--good">2</span>
+          <h2>worktree による物理分離</h2>
+        </div>
+        <p>タスクごとに独立した作業フォルダ（worktree）を切り、変更・ブランチ・検証環境を丸ごと分離する。</p>
+        <div class="layer-examples">
+          <span class="ex">1 タスク = 1 作業フォルダ</span>
+          <span class="ex">完了後は畳んで消す</span>
+          <span class="ex">本流には統合時だけ触れる</span>
+        </div>
+        <div class="stage-status">
+          <div class="status-row status-ok"><span class="status-icon">✓</span><span>変更が混ざらず原因追跡が容易</span></div>
+          <div class="status-row status-ok"><span class="status-icon">✓</span><span>複数の AI タスクが安全に同時進行</span></div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="layer-band">
+      <span class="step-chip step-chip--main">3</span>
+      <div class="layer-body">
+        <h3>ポート番号は計算式で機械採番する</h3>
+        <p class="layer-desc">検証サーバーの番号を「基準番号 + 作業場所の番号 × 10 + 用途番号」の式で一意に決め、起動前に既存プロセスの有無を検査する。空いている番号を場当たりで選ぶ運用をなくす。</p>
+      </div>
+    </div>
+
+    <footer class="steps">
+      <div class="step">
+        <span class="step-chip step-chip--critical">1</span>
+        <p class="step-text"><strong>混線</strong>— 同じ場所の並行作業は変更もサーバーも衝突する</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--good">2</span>
+        <p class="step-text"><strong>物理分離</strong>— 1 タスク 1 作業フォルダで独立させる</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--main">3</span>
+        <p class="step-text"><strong>機械採番</strong>— ポートは計算式で一意に決める</p>
+      </div>
+    </footer>
+
+    <p style="font-size:11px;color:var(--ink-3);border-top:none;padding-top:4px;">導入の最初の一歩：プロジェクトごとに基準ポート番号の割当表を 1 枚作ることから始める</p>
+
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・1ページでも削除禁止） ==== -->
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>

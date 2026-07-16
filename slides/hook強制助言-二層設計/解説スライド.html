@@ -1,0 +1,213 @@
+<meta charset="utf-8">
+<title>AIを縛る規約は「止める」と「気づかせる」の二層に分ける</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root {
+    --page: #EDF0F4;          /* 背景（スライドの外） */
+    --surface: #FFFFFF;       /* スライド面 */
+    --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
+    --ink-2: #55667A;         /* 本文 */
+    --ink-3: #8494A6;         /* 補足・軸ラベル */
+    --border: #D9E0E8;        /* 罫線 */
+    --grid: #E9EDF2;          /* 図中グリッド線 */
+    --critical: #C0392B;      /* 警告・上限・停止 */
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;          /* 回復・完了・推奨 */
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;        /* パネルタグ地 */
+    /* ツール識別色（実在ツールを描く時のみここに追記する） */
+    --claude: #D97757;        /* Claude: コーラル */
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;        /* Cursor: チャコール */
+    --cursor-soft: #EFF1F4;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  /* ==== スライド枠（16:9 固定） ==== */
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 40px 48px;
+    gap: 18px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* ==== ヘッダ ==== */
+  .slide-header {
+    display: flex; flex-direction: column; gap: 4px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 32px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-subtitle { font-size: 15px; color: var(--ink-2); }
+
+  /* ==== ステップ番号チップ（図と本文で同番号・同色を使う） ==== */
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--main { background: var(--claude); }
+  .step-chip--critical { background: var(--critical); }
+  .step-chip--good { background: var(--good); }
+  .step-chip--partial { background: var(--ink-3); }  /* 中間段階・第2層など「進行中/中立」を表す番号 */
+
+  /* ==== 対比カード（時間構造がない「並べて比べる」型に使う） ==== */
+  .compare-row { display: flex; gap: 24px; flex: 1; align-items: stretch; min-height: 0; }
+  .compare-card { flex: 1; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+
+  /* ==== カード見出し ==== */
+  .stage-head { display: flex; align-items: center; gap: 8px; }
+  .stage-head h2 { font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+
+  /* ==== 利点・欠点の列挙（✓/✕） ==== */
+  .stage-status { display: flex; flex-direction: column; gap: 4px; }
+  .status-row {
+    display: flex; align-items: flex-start; gap: 6px;
+    font-size: 12px; line-height: 1.3;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .status-ng { background: var(--critical-soft); color: var(--critical); }
+  .status-ok { background: var(--good-soft); color: var(--good); }
+  .status-icon { font-weight: 700; flex-shrink: 0; width: 1em; text-align: center; }
+
+  /* ==== 層・積層構造（全幅帯。上辺ではなく左辺の色で層の位置づけを示す） ==== */
+  .layer-band {
+    display: flex; align-items: center; gap: 20px;
+    padding: 20px 26px;
+    border-radius: 10px;
+    background: var(--tag-bg);
+    border: 1.5px solid var(--border);
+    border-left: 5px solid var(--ink-3);
+  }
+  .layer-body { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .layer-body h3 { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .layer-desc { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+  .layer-examples { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+  .ex { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
+
+  /* ==== フッタ: ステップ要約（図中の番号チップと同番号・同色で対応させる） ==== */
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .step { display: flex; gap: 8px; align-items: center; }
+  .step-text { font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+  .step-text strong { color: var(--ink); }
+
+  /* ==== メタデータフッター（区切り線 + 下端余白） ==== */
+  .slide-meta {
+    height: 24px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI開発ガバナンス — HOOK設計</span>
+      <h1 class="slide-title">AIを縛る規約は「止める」と「気づかせる」の二層に分ける</h1>
+      <p class="slide-subtitle">すべてを強制にすると開発が止まり、すべてお願いにすると守られない。違反の重大さで機械対応を分け、速度と安全を両立する。</p>
+    </header>
+
+    <div class="layer-band">
+      <span class="step-chip step-chip--main">1</span>
+      <div class="layer-body">
+        <h3>AI のすべての操作を、実行直前に hook が自動検査する</h3>
+        <p class="layer-desc">hook（AI ツールの操作に自動で割り込む仕組み）がコマンド実行・ファイル編集・最終応答を全件検査し、違反の重大さで下の二層に振り分ける。</p>
+      </div>
+    </div>
+
+    <div class="compare-row">
+
+      <div class="compare-card" style="border-color: var(--critical);">
+        <div class="stage-head">
+          <span class="step-chip step-chip--critical">2</span>
+          <h2>block — 実行を止める強制層</h2>
+        </div>
+        <p style="font-size: 13px; color: var(--ink-2); line-height: 1.5;">取り返しがつかない操作・確実な規約違反は、実行そのものをエラー終了で停止する。AI は指摘内容を直してから再実行する。</p>
+        <p style="font-size: 11px; color: var(--ink-3); font-weight: 700; margin-top: 4px;">適用する違反の例</p>
+        <div class="layer-examples">
+          <span class="ex">機密情報を含むコミット</span>
+          <span class="ex">命名規約違反のコミット</span>
+          <span class="ex">承認前のコード変更</span>
+        </div>
+        <div class="stage-status" style="margin-top: auto;">
+          <div class="status-row status-ok"><span class="status-icon">✓</span><span>人がレビューしなくても違反が通らない</span></div>
+          <div class="status-row status-ng"><span class="status-icon">✕</span><span>対象を広げすぎると開発が止まる → 重大違反に限定する</span></div>
+        </div>
+      </div>
+
+      <div class="compare-card" style="border-color: var(--good);">
+        <div class="stage-head">
+          <span class="step-chip step-chip--good">3</span>
+          <h2>advisory — 気づきを注入する助言層</h2>
+        </div>
+        <p style="font-size: 13px; color: var(--ink-2); line-height: 1.5;">止めるほどではない規約は、操作の直前に関連ルールを AI の文脈へ自動で流し込む。作業は止まらない。</p>
+        <p style="font-size: 11px; color: var(--ink-3); font-weight: 700; margin-top: 4px;">適用する規約の例</p>
+        <div class="layer-examples">
+          <span class="ex">命名規則のリマインド</span>
+          <span class="ex">レビュー観点の提示</span>
+          <span class="ex">公開可否の確認促し</span>
+        </div>
+        <div class="stage-status" style="margin-top: auto;">
+          <div class="status-row status-ok"><span class="status-icon">✓</span><span>開発速度を落とさずに規約を思い出させる</span></div>
+          <div class="status-row status-ng"><span class="status-icon">✕</span><span>強制力はない → 違反が重大化した規約は block へ昇格する</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer class="steps">
+      <div class="step">
+        <span class="step-chip step-chip--main">1</span>
+        <p class="step-text"><strong>検査</strong>— AI の操作は実行直前に hook が全件検査する</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--critical">2</span>
+        <p class="step-text"><strong>block</strong>— 重大違反は実行を停止し、修正後の再実行を促す</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--good">3</span>
+        <p class="step-text"><strong>advisory</strong>— 軽微な規約は知識注入のみで作業を続行させる</p>
+      </div>
+    </footer>
+
+    <!-- ==== 部品: メタデータフッター（区切り線 + 下端余白） ==== -->
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・削除禁止） ==== -->
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
