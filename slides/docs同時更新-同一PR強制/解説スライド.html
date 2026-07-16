@@ -1,0 +1,90 @@
+<meta charset="utf-8">
+<title>設計書はコードと「同じ変更単位」で更新させ、乖離を作らない</title>
+<style>
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+    --claude: #D97757;
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;
+    --cursor-soft: #EFF1F4;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+  .slide-viewport { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--page); overflow: hidden; }
+  .slide { position: absolute; top: 50%; left: 50%; width: 1280px; height: 720px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 4px 24px rgba(28,43,58,0.08); display: flex; flex-direction: column; padding: 40px 48px; gap: 18px; font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif; transform: translate(-50%,-50%) scale(var(--slide-scale,1)); transform-origin: center center; }
+  .slide-header { display: flex; flex-direction: column; gap: 4px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 30px; font-weight: 700; line-height: 1.25; color: var(--ink); }
+  .slide-subtitle { font-size: 14px; color: var(--ink-2); }
+  .compare-row { display: flex; gap: 24px; flex: 1; align-items: stretch; min-height: 0; }
+  .compare-card { flex: 1; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+  .card-head { display: flex; align-items: center; gap: 8px; }
+  .card-head h2 { font-size: 16px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .card-desc { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+  .stage-arrow { display: flex; align-items: center; justify-content: center; }
+  .status-row { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; line-height: 1.3; padding: 4px 8px; border-radius: 4px; }
+  .status-ng { background: var(--critical-soft); color: var(--critical); }
+  .status-ok { background: var(--good-soft); color: var(--good); }
+  .status-icon { font-weight: 700; flex-shrink: 0; width: 1em; text-align: center; }
+  .step-chip { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .step-chip--critical { background: var(--critical); }
+  .step-chip--good { background: var(--good); }
+  .step-chip--main { background: var(--claude); }
+  .layer-band { display: flex; align-items: center; gap: 20px; padding: 20px 26px; border-radius: 10px; background: var(--tag-bg); border: 1.5px solid var(--border); border-left: 5px solid var(--ink-3); }
+  .layer-body { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .layer-body h3 { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .layer-desc { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .step { display: flex; gap: 8px; align-items: center; }
+  .step-text { font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+  .step-text strong { color: var(--ink); }
+  .action-line { font-size: 11px; color: var(--ink-3); border-top: none; }
+  .slide-meta { height: 24px; padding-top: 6px; border-top: 1px solid var(--border); }
+</style>
+<div class="slide-viewport"><div class="slide">
+<header class="slide-header"><span class="slide-eyebrow">AI開発ガバナンス — ドキュメント鮮度</span><h1 class="slide-title">設計書はコードと「同じ変更単位」で更新させ、乖離を作らない</h1><p class="slide-subtitle">AI 開発では設計書がそのまま AI の入力になるため、乖離は人の混乱だけでなく AI の誤った前提に直結する。同時更新を仕組みで強制する。</p></header>
+<div class="compare-row">
+<article class="compare-card" style="border-color: var(--critical);">
+<div class="card-head"><span class="step-chip step-chip--critical">1</span><h2>コードだけが先に進む</h2></div>
+<p class="card-desc">実装を急ぐと設計書の更新が後回しになり、ドキュメントと実装が少しずつ乖離していく。</p>
+<div class="status-row status-ng"><span class="status-icon">✕</span><span>誰も設計書を信用しなくなる</span></div>
+<div class="status-row status-ng"><span class="status-icon">✕</span><span>AI が古い設計書を読み、誤った前提で作業する</span></div>
+</article>
+<div class="stage-arrow">
+  <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+    <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
+<article class="compare-card" style="border-color: var(--good); border-width: 2px;">
+<div class="card-head"><span class="step-chip step-chip--good">2</span><h2>コードと設計書を同じ変更単位に縛る</h2></div>
+<p class="card-desc">コード変更と対応する設計書の更新を、同じ変更提案（PR）の中で行うことを必須にする。</p>
+<div class="layer-examples" style="display:flex;gap:6px;flex-wrap:wrap;"><span class="ex" style="font-size:11px;font-weight:600;padding:2px 9px;border-radius:5px;background:var(--surface);border:1px solid var(--border);color:var(--ink-2);white-space:nowrap;">実装と文書が常に同じ鮮度</span><span class="ex" style="font-size:11px;font-weight:600;padding:2px 9px;border-radius:5px;background:var(--surface);border:1px solid var(--border);color:var(--ink-2);white-space:nowrap;">変更の理由が文書に残る</span></div>
+<div class="status-row status-ok"><span class="status-icon">✓</span><span>ドキュメントが「生きた定義」であり続ける</span></div>
+<div class="status-row status-ok"><span class="status-icon">✓</span><span>AI が最新の設計を前提に作業できる</span></div>
+</article>
+</div>
+<div class="layer-band">
+<span class="step-chip step-chip--main">3</span>
+<div class="layer-body">
+<h3>同時更新は「お願い」ではなく機械照合で強制する</h3>
+<p class="layer-desc">変更提案に対応する設計書の更新が含まれているかを機械的に照合し、漏れていれば差し戻す。更新忘れが人の注意力に依存しない。</p>
+</div>
+</div>
+<footer class="steps"><div class="step"><span class="step-chip step-chip--critical">1</span><p class="step-text"><strong>乖離</strong>— 後回しの文書更新は実装から取り残される</p></div><div class="step"><span class="step-chip step-chip--good">2</span><p class="step-text"><strong>同一変更単位</strong>— コードと設計書を同じ提案で更新する</p></div><div class="step"><span class="step-chip step-chip--main">3</span><p class="step-text"><strong>機械照合</strong>— 更新漏れは差し戻しで検出する</p></div></footer>
+<p class="action-line">導入の最初の一歩：「この機能の定義はこの設計書」という対応表を 1 枚作ることから始める</p>
+<footer class="slide-meta"></footer>
+</div></div>
+<script>(function(){function f(){document.documentElement.style.setProperty('--slide-scale',Math.min(innerWidth/1280,innerHeight/720));}addEventListener('resize',f);f();})();</script>
