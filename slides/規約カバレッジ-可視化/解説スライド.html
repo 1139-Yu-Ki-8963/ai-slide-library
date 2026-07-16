@@ -1,0 +1,245 @@
+<meta charset="utf-8">
+<title>規約には「何で守られているか」のラベルを付けて穴を見える化する</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root {
+    --page: #EDF0F4;          /* 背景（スライドの外） */
+    --surface: #FFFFFF;       /* スライド面 */
+    --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
+    --ink-2: #55667A;         /* 本文 */
+    --ink-3: #8494A6;         /* 補足・軸ラベル */
+    --border: #D9E0E8;        /* 罫線 */
+    --grid: #E9EDF2;          /* 図中グリッド線 */
+    --critical: #C0392B;      /* 警告・上限・停止 */
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;          /* 回復・完了・推奨 */
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;        /* パネルタグ地 */
+    /* ツール識別色（実在ツールを描く時のみここに追記する） */
+    --claude: #D97757;        /* Claude: コーラル */
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;        /* Cursor: チャコール */
+    --cursor-soft: #EFF1F4;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  /* ==== スライド枠（16:9 固定） ==== */
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 40px 48px;
+    gap: 18px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* ==== ヘッダ ==== */
+  .slide-header {
+    display: flex; flex-direction: column; gap: 4px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 32px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-subtitle { font-size: 15px; color: var(--ink-2); }
+
+  /* ==== ステップ番号チップ（図と本文で同番号・同色を使う） ==== */
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--critical { background: var(--critical); }
+  .step-chip--good { background: var(--good); }
+  .step-chip--partial { background: var(--ink-3); }  /* 中間段階・第2層など「進行中/中立」を表す番号 */
+
+  .slide-page { display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 18px; }
+
+  /* ==== 段階・対比カード（段階/成熟度の比較。上辺色で警告→中立→推奨を示す） ==== */
+  .stages-grid {
+    display: grid;
+    grid-template-columns: 1fr 28px 1fr 28px 1fr;
+    flex: 1;
+    min-height: 0;
+    align-items: stretch;
+  }
+  .stage-arrow { display: flex; align-items: center; justify-content: center; }
+  .stage-card {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 14px;
+    display: flex; flex-direction: column;
+    gap: 6px;
+    overflow: hidden;
+  }
+  .stage-card--critical { border-top: 3.5px solid var(--critical); }  /* 警告・現状の段階 */
+  .stage-card--partial  { border-top: 3.5px solid var(--ink-3); }     /* 中間の段階 */
+  .stage-card--good     { border-top: 3.5px solid var(--good); }      /* 推奨・到達段階 */
+  .stage-head { display: flex; align-items: center; gap: 8px; }
+  .stage-head h2 { font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .stage-desc { font-size: 12px; color: var(--ink-2); line-height: 1.4; }
+
+  /* ==== 担保手段ラベルのチップ列（カード2の例示） ==== */
+  .chip-label { font-size: 11px; font-weight: 700; color: var(--ink-3); margin-top: 2px; }
+  .chip-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag-chip {
+    font-size: 11px; font-weight: 600;
+    padding: 2px 9px; border-radius: 5px;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--ink-2); white-space: nowrap;
+  }
+
+  /* ==== 利点・欠点の列挙（✓/✕） ==== */
+  .stage-status { display: flex; flex-direction: column; gap: 4px; }
+  .status-row {
+    display: flex; align-items: flex-start; gap: 6px;
+    font-size: 12px; line-height: 1.3;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .status-ng { background: var(--critical-soft); color: var(--critical); }
+  .status-ok { background: var(--good-soft); color: var(--good); }
+  .status-icon { font-weight: 700; flex-shrink: 0; width: 1em; text-align: center; }
+
+  /* ==== フッタ: ステップ要約（図中の番号チップと同番号・同色で対応させる） ==== */
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .step { display: flex; gap: 8px; align-items: center; }
+  .step-text { font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+  .step-text strong { color: var(--ink); }
+
+  /* ==== 行動接続行（フッタ直後の1行。区切り線なし） ==== */
+  .action-line { font-size: 11px; color: var(--ink-3); border-top: none; padding-top: 0; }
+
+  /* ==== メタデータフッター（区切り線 + 下端余白） ==== */
+  .slide-meta {
+    height: 24px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <!-- ==== ページ1: 段階比較・対比型 ==== -->
+    <section class="slide-page is-active">
+
+      <header class="slide-header">
+        <span class="slide-eyebrow">AI開発ガバナンス — 規約カバレッジ</span>
+        <h1 class="slide-title">規約には「何で守られているか」のラベルを付けて穴を見える化する</h1>
+        <p class="slide-subtitle">ルールを増やしても、守られているかを検証できなければ形骸化する。規約ごとの担保手段を一覧化し、未担保の穴を優先的に自動化する。</p>
+      </header>
+
+      <div class="stages-grid">
+
+        <article class="stage-card stage-card--critical">
+          <div class="stage-head">
+            <span class="step-chip step-chip--critical">1</span>
+            <h2>文書だけの規約</h2>
+          </div>
+          <p class="stage-desc">ルール集は存在するが、実際に守られているかは誰も知らない。</p>
+          <div class="stage-status">
+            <div class="status-row status-ng"><span class="status-icon">✕</span><span>形骸化しても気づけない</span></div>
+            <div class="status-row status-ng"><span class="status-icon">✕</span><span>新任者や AI が違反しても検出されない</span></div>
+          </div>
+        </article>
+
+        <div class="stage-arrow">
+          <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+            <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <article class="stage-card stage-card--partial">
+          <div class="stage-head">
+            <span class="step-chip step-chip--partial">2</span>
+            <h2>担保手段を規約ごとに明示</h2>
+          </div>
+          <p class="stage-desc">すべての規約に「何で守られているか」のラベルを付けて一覧化する。</p>
+          <p class="chip-label">担保手段のラベル</p>
+          <div class="chip-row">
+            <span class="tag-chip">自動整形で担保</span>
+            <span class="tag-chip">静的検査で担保</span>
+            <span class="tag-chip">実行時の割り込み検査で担保</span>
+            <span class="tag-chip">未担保</span>
+          </div>
+          <div class="stage-status">
+            <div class="status-row status-ok"><span class="status-icon">✓</span><span>機械強制の穴が一覧になる</span></div>
+          </div>
+        </article>
+
+        <div class="stage-arrow">
+          <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+            <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <article class="stage-card stage-card--good">
+          <div class="stage-head">
+            <span class="step-chip step-chip--good">3</span>
+            <h2>未担保の穴から自動化</h2>
+          </div>
+          <p class="stage-desc">「未担保」ラベルの規約から優先的に機械化し、カバレッジを上げ続ける。</p>
+          <div class="stage-status">
+            <div class="status-row status-ok"><span class="status-icon">✓</span><span>「守られているはず」が「守られている」に変わる</span></div>
+            <div class="status-row status-ok"><span class="status-icon">✓</span><span>自動化投資の優先順位が明確になる</span></div>
+          </div>
+        </article>
+
+      </div>
+
+      <footer class="steps">
+        <div class="step">
+          <span class="step-chip step-chip--critical">1</span>
+          <p class="step-text"><strong>文書だけ</strong>— 検証できない規約は形骸化する</p>
+        </div>
+        <div class="step">
+          <span class="step-chip step-chip--partial">2</span>
+          <p class="step-text"><strong>担保の可視化</strong>— 規約ごとに守られ方をラベル付けする</p>
+        </div>
+        <div class="step">
+          <span class="step-chip step-chip--good">3</span>
+          <p class="step-text"><strong>穴から自動化</strong>— 未担保の規約を優先的に機械化する</p>
+        </div>
+      </footer>
+
+      <p class="action-line">導入の最初の一歩：既存のコーディング規約の一覧に「担保手段」の列を1列足すことから始める</p>
+
+    </section>
+
+    <!-- ==== 部品: メタデータフッター（区切り線 + 下端余白。全ページ共通で最後に1回だけ表示） ==== -->
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・1ページでも削除禁止。削除可はページ送りスクリプトのみ） ==== -->
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
