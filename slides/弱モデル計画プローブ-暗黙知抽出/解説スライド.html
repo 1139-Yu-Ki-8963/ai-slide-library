@@ -158,7 +158,7 @@
           <span class="step-chip step-chip--partial">2</span>
           <h2>弱い AI に初見読解させる</h2>
         </div>
-        <p class="stage-desc">前提知識ゼロの弱いモデルに計画だけを読ませる。賢いモデルは行間を補ってしまうため、あえて弱いモデルを使う。</p>
+        <p class="stage-desc">前提知識ゼロの Claude Haiku（軽量モデル）に計画だけを読ませる。Opus 級の賢いモデルは行間を補ってしまうため、読み手はあえて弱いモデルに固定する。</p>
         <p style="font-size: 11px; font-weight: 700; color: var(--ink-3); margin-top: 2px;">ズレの4分類</p>
         <div class="layer-examples">
           <span class="ex">誤読</span>
@@ -166,6 +166,7 @@
           <span class="ex">曖昧</span>
           <span class="ex">偶然の的中</span>
         </div>
+        <p style="font-size: 11.5px; color: var(--ink-2);">報告は 5 項目の定型で受け取る：目的の言い換え・手順の再説明・推測した前提・判断できなかった点・最初の一手</p>
         <div class="stage-status">
           <div class="status-row status-ok"><span class="status-icon">✓</span><span>理解が壊れた箇所が省略の地図になる</span></div>
         </div>
@@ -182,7 +183,7 @@
           <span class="step-chip step-chip--good">3</span>
           <h2>明文化して収束を確認する</h2>
         </div>
-        <p class="stage-desc">検出したズレを計画へ書き足し、別の初見の読み手で再検証する。新しいズレが出なくなれば完成。</p>
+        <p class="stage-desc">検出したズレを計画へ書き足し、別の初見の読み手で再検証する。新しいズレが出なくなれば完成。この検証は計画の保存前と承認提出前の 2 地点で hook（操作に自動で割り込む仕組み）が実行記録を検査し、未実施なら先へ進めない。</p>
         <div class="stage-status">
           <div class="status-row status-ok"><span class="status-icon">✓</span><span>実行前に説明不足を解消できる</span></div>
           <div class="status-row status-ok"><span class="status-icon">✓</span><span>検証は上限 2 周で打ち切り、時間の膨張を防ぐ</span></div>

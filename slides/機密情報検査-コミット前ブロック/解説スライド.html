@@ -124,11 +124,11 @@
         <span class="step-chip step-chip--critical">1</span>
         <div class="layer-body">
           <h3>第一関門: コミット時の検査</h3>
-          <p class="layer-desc">コミット対象の追加行に API トークン・秘密鍵らしき文字列があれば、コミット自体をエラー終了で停止する。検出時は件数とファイル名のみ通知し、機密値そのものは表示しない。</p>
+          <p class="layer-desc">コミット対象の追加行を既知の機密パターン集と照合し、一致すればコミット自体をエラー終了（終了コード 2）で停止する。検出時は件数とファイル名のみ通知し、機密値そのものは表示しない。</p>
           <div class="layer-examples">
-            <span class="ex">API トークン</span>
-            <span class="ex">秘密鍵</span>
-            <span class="ex">認証情報ファイル</span>
+            <span class="ex">クラウドのアクセスキー（AKIA… 形式）</span>
+            <span class="ex">コード共有サービスのトークン（ghp_… 形式）</span>
+            <span class="ex">秘密鍵ブロック（BEGIN PRIVATE KEY）</span>
           </div>
         </div>
       </div>

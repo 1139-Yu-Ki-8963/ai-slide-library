@@ -120,7 +120,7 @@
         <span class="step-chip step-chip--main">1</span>
         <div class="layer-body">
           <h3>委任前 — 調査チェックリストを作る</h3>
-          <p class="layer-desc">何を確認すれば合格か（判定基準・出力形式・推測の禁止）を先に明文化し、調査役への依頼文に埋め込む。</p>
+          <p class="layer-desc">何を確認すれば合格か（判定基準・出力形式・推測の禁止）を先に明文化し、調査役への依頼文に埋め込む。チェックリストのない調査委任は、hook（操作に自動で割り込む仕組み）が起動前に停止する。</p>
           <div class="layer-examples">
             <span class="ex">判定基準の明示</span>
             <span class="ex">出力形式の指定</span>
@@ -138,7 +138,7 @@
         <span class="step-chip step-chip--partial">2</span>
         <div class="layer-body">
           <h3>調査 — 証拠付きの事実だけを報告する</h3>
-          <p class="layer-desc">変更権限を持たない読み取り専用の調査役が、チェックリスト項目を 1 つずつ実行し、証拠を添えて報告する。</p>
+          <p class="layer-desc">変更権限を持たない読み取り専用の調査役が、チェックリスト項目を 1 つずつ実行し、証拠を添えて報告する。調査役はファイル変更ツールを持たない専用エージェントに固定する。</p>
           <div class="layer-examples">
             <span class="ex">読み取り専用の調査役</span>
             <span class="ex">項目ごとの証拠</span>
@@ -156,7 +156,7 @@
         <span class="step-chip step-chip--good">3</span>
         <div class="layer-body">
           <h3>判定と裏取り — 別の AI が照合し、依頼元が最終確認する</h3>
-          <p class="layer-desc">判定役がチェックリストと報告を突合して PASS / FAIL を宣言し、FAIL は調査へ差し戻す。PASS 後も依頼元が数値・原因を別経路で確認してから人へ報告する。差し戻しは上限 2 回で打ち切り、残指摘は人へ報告して判断を仰ぐ（レビューの無限ループによる時間の膨張を防ぐ）。</p>
+          <p class="layer-desc">判定役がチェックリストと報告を突合して PASS / FAIL を宣言し、FAIL は調査へ差し戻す。PASS 後も依頼元が数値・原因を別経路で確認してから人へ報告する（例：報告の「N 件」は別コマンドで再集計してから採用する）。差し戻しは上限 2 回で打ち切り、残指摘は人へ報告して判断を仰ぐ（レビューの無限ループによる時間の膨張を防ぐ）。</p>
           <div class="layer-examples">
             <span class="ex">PASS / FAIL の宣言</span>
             <span class="ex">FAIL は調査へ差し戻し</span>

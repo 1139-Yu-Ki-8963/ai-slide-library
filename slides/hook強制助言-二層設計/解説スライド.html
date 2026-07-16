@@ -133,7 +133,7 @@
       <span class="step-chip step-chip--main">1</span>
       <div class="layer-body">
         <h3>AI のすべての操作を、実行直前に hook が自動検査する</h3>
-        <p class="layer-desc">hook（AI ツールの操作に自動で割り込む仕組み）がコマンド実行・ファイル編集・最終応答を全件検査し、違反の重大さで下の二層に振り分ける。</p>
+        <p class="layer-desc">hook（AI ツールの操作に自動で割り込む仕組み）が、ツール実行前・実行後・応答確定前の 3 つの発火点でコマンド実行・ファイル編集・最終応答を全件検査し、違反の重大さで下の二層に振り分ける。</p>
       </div>
     </div>
 
@@ -144,7 +144,7 @@
           <span class="step-chip step-chip--critical">2</span>
           <h2>block — 実行を止める強制層</h2>
         </div>
-        <p style="font-size: 13px; color: var(--ink-2); line-height: 1.5;">取り返しがつかない操作・確実な規約違反は、実行そのものをエラー終了で停止する。AI は指摘内容を直してから再実行する。</p>
+        <p style="font-size: 13px; color: var(--ink-2); line-height: 1.5;">取り返しがつかない操作・確実な規約違反は、実行そのものをエラー終了（終了コード 2）で停止する。AI は指摘内容を直してから再実行する。同じ停止が 3 回連続したら自動解除する安全弁付きで、膠着はしない。</p>
         <p style="font-size: 11px; color: var(--ink-3); font-weight: 700; margin-top: 4px;">適用する違反の例</p>
         <div class="layer-examples">
           <span class="ex">機密情報を含むコミット</span>
