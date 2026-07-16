@@ -57,9 +57,10 @@
     color: var(--ink-3); font-size: 15px; pointer-events: none;
   }
   .hit-count { color: var(--ink-2); font-size: 13px; white-space: nowrap; }
-  .toolbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 32px; }
-  .toolbar .inner { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-  .toolbar .label { font-size: 12px; color: var(--ink-3); margin-right: 4px; }
+  .toolbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 32px 12px; }
+  .toolbar .inner { display: flex; flex-direction: column; gap: 8px; }
+  .facet-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .facet-row .label { font-size: 12px; color: var(--ink-3); min-width: 3.5em; }
   .chip {
     border: 1px solid var(--border); background: var(--surface); color: var(--ink-2);
     border-radius: 999px; padding: 4px 14px; font-size: 12.5px; cursor: pointer;
@@ -108,6 +109,7 @@
     background: var(--tag-bg); color: var(--ink-2);
     border-radius: 4px; padding: 2px 8px; font-size: 11px;
   }
+  .tag.theme { background: var(--accent-soft); color: var(--accent-deep); }
   .date { color: var(--ink-3); font-size: 11px; margin-left: auto; }
   .stale {
     background: var(--warn-soft); color: var(--warn);
@@ -155,21 +157,26 @@
 
 <nav class="toolbar">
   <div class="inner">
-    <span class="label">観点:</span>
-    <div id="tag-chips" style="display:contents"></div>
+    <div class="facet-row">
+      <span class="label">ツール:</span>
+      <div id="tool-chips" style="display:contents"></div>
+    </div>
+    <div class="facet-row">
+      <span class="label">テーマ:</span>
+      <div id="theme-chips" style="display:contents"></div>
+    </div>
   </div>
 </nav>
 
 <main>
   <div class="grid" id="grid"></div>
-  <div class="empty" id="empty">条件に合うスライドがありません。検索語を変えるか、観点フィルタを「すべて」に戻してください。</div>
+  <div class="empty" id="empty">条件に合うスライドがありません。検索語を変えるか、ツール・テーマの絞り込みを「すべて」に戻してください。</div>
   <noscript><p style="padding:32px;color:var(--ink-2)">このカタログの検索・一覧表示には JavaScript が必要です。スライド本体は slides/ フォルダから直接開けます。</p></noscript>
 </main>
 
 <footer class="site-footer">
   <div class="inner">
     スライドは1ファイル完結のHTMLです。ダウンロード後、ブラウザで開くだけで表示できます。
-    ／ このページは <code>scripts/build-catalog.mjs</code> が <code>docs/スライド蓄積簿.md</code> から自動生成します。
     ／ <a href="https://github.com/1139-Yu-Ki-8963/ai-slide-library">GitHub リポジトリ</a>
   </div>
 </footer>
@@ -182,44 +189,62 @@ const SLIDES = [
     "title": "Claude Code と Cursor の使い分け",
     "target": "Claude Code の 5時間/週次リミットと Cursor への切り替え運用",
     "problems": "リミット枯渇で作業が止まる・ツール併用の運用が決まっていない",
-    "date": "2026-07-09",
-    "tags": [
-      "リミット"
-    ]
+    "tools": [
+      "claude-code",
+      "cursor"
+    ],
+    "themes": [
+      "コスト・リミット",
+      "運用ルール"
+    ],
+    "date": "2026-07-09"
   },
   {
     "key": "ai-model使い分け-役割観点",
     "title": "AI モデルの使い分け方",
     "target": "Cursor auto モードと Claude Code の Opus/Sonnet/Haiku の役割別使い分け",
     "problems": "モデル選定が未決定・全部 Opus にしてコストが膨らんでいる",
-    "date": "2026-07-14",
-    "tags": [
-      "役割"
-    ]
+    "tools": [
+      "claude-code",
+      "cursor"
+    ],
+    "themes": [
+      "モデル・ツール選定",
+      "コスト・リミット"
+    ],
+    "date": "2026-07-14"
   },
   {
     "key": "claude-code安全性-層構造観点",
     "title": "Claude Code の安全性の仕組み",
     "target": "Claude Code の Permission・Sandbox・WSL の役割と層構造の違い",
     "problems": "セキュリティが心配・WSL とサンドボックスの違いがわからない",
-    "date": "2026-07-14",
-    "tags": [
-      "層構造"
-    ]
+    "tools": [
+      "claude-code"
+    ],
+    "themes": [
+      "セキュリティ"
+    ],
+    "date": "2026-07-14"
   },
   {
     "key": "claude-md分割戦略",
     "title": "設定ファイルの分割戦略 — 遵守率とコストの両立",
     "target": "CLAUDE.md の分割戦略（全部入り→種類分離→条件読み分けの3段階比較）",
     "problems": "CLAUDE.md が肥大化して規約が守られない・読み込みコストが増えている",
-    "date": "2026-07-16",
-    "tags": []
+    "tools": [
+      "claude-code"
+    ],
+    "themes": [
+      "設定・規約遵守"
+    ],
+    "date": "2026-07-16"
   }
 ];
 /*CATALOG-DATA-END*/
 
 const STALE_DAYS = 90;
-const state = { query: "", tag: "すべて" };
+const state = { query: "", tool: "すべて", theme: "すべて" };
 
 function esc(s) {
   return String(s).replace(/[&<>"']/g, c => ({
@@ -237,40 +262,46 @@ function isStale(dateStr) {
   return (Date.now() - d.getTime()) / 86400000 > STALE_DAYS;
 }
 
-function allTags() {
+function axisValues(field) {
   const set = new Set();
-  SLIDES.forEach(s => (s.tags || []).forEach(t => set.add(t)));
+  SLIDES.forEach(s => (s[field] || []).forEach(v => set.add(v)));
   return ["すべて", ...set];
 }
 
 function matches(s) {
-  if (state.tag !== "すべて" && !(s.tags || []).includes(state.tag)) return false;
+  if (state.tool !== "すべて" && !(s.tools || []).includes(state.tool)) return false;
+  if (state.theme !== "すべて" && !(s.themes || []).includes(state.theme)) return false;
   if (!state.query) return true;
-  const hay = [s.key, s.title, s.target, s.problems, (s.tags || []).join(" ")].join(" ").toLowerCase();
+  const hay = [
+    s.key, s.title, s.target, s.problems,
+    (s.tools || []).join(" "), (s.themes || []).join(" ")
+  ].join(" ").toLowerCase();
   return state.query.toLowerCase().split(/\s+/).every(q => hay.includes(q));
 }
 
-function renderChips() {
-  const wrap = document.getElementById("tag-chips");
+function renderChipRow(containerId, field, stateKey) {
+  const wrap = document.getElementById(containerId);
   wrap.innerHTML = "";
-  allTags().forEach(tag => {
+  axisValues(field).forEach(value => {
     const b = document.createElement("button");
-    b.className = "chip" + (state.tag === tag ? " active" : "");
-    b.textContent = tag;
-    b.onclick = () => { state.tag = tag; render(); };
+    b.className = "chip" + (state[stateKey] === value ? " active" : "");
+    b.textContent = value;
+    b.onclick = () => { state[stateKey] = value; render(); };
     wrap.appendChild(b);
   });
 }
 
 function render() {
-  renderChips();
+  renderChipRow("tool-chips", "tools", "tool");
+  renderChipRow("theme-chips", "themes", "theme");
   const grid = document.getElementById("grid");
   const list = SLIDES.filter(matches)
     .slice()
     .sort((a, b) => (b.date || "").localeCompare(a.date || ""));
   grid.innerHTML = list.map(s => {
     const path = slidePath(s.key);
-    const tags = (s.tags || []).map(t => `<span class="tag">${esc(t)}観点</span>`).join("");
+    const toolTags = (s.tools || []).map(t => `<span class="tag">${esc(t)}</span>`).join("");
+    const themeTags = (s.themes || []).map(t => `<span class="tag theme">${esc(t)}</span>`).join("");
     const stale = isStale(s.date) ? `<span class="stale">登録から${STALE_DAYS}日超</span>` : "";
     return `
     <article class="card">
@@ -282,7 +313,7 @@ function render() {
         <h2 class="card-title"><a href="${path}" target="_blank" rel="noopener">${esc(s.title)}</a></h2>
         <p class="card-target">${esc(s.target)}</p>
         <p class="card-problem">${esc(s.problems)}</p>
-        <div class="meta-row">${tags}${stale}<span class="date">${esc(s.date)} 登録</span></div>
+        <div class="meta-row">${toolTags}${themeTags}${stale}<span class="date">${esc(s.date)} 登録</span></div>
       </div>
       <div class="card-actions">
         <a href="${path}" target="_blank" rel="noopener">&#9654; 提示する</a>

@@ -18,12 +18,16 @@ if (!section) {
   process.exit(1);
 }
 
+// 「、」区切りの複数値セルを配列にする
+const splitTags = cell =>
+  cell.split("、").map(s => s.trim()).filter(Boolean);
+
 const slides = [];
 for (const line of section.split("\n")) {
   const cells = line.split("|").map(c => c.trim());
-  // 表行は [ "", key, target, problems, date, "" ] の 6 要素
-  if (cells.length !== 6 || !cells[1]) continue;
-  const [, key, target, problems, date] = cells;
+  // 表行は [ "", key, target, problems, tools, themes, date, "" ] の 8 要素
+  if (cells.length !== 8 || !cells[1]) continue;
+  const [, key, target, problems, tools, themes, date] = cells;
   if (key === "スライドキー" || /^-+$/.test(key)) continue;
 
   const slideFile = join(root, "slides", key, "解説スライド.html");
@@ -33,11 +37,15 @@ for (const line of section.split("\n")) {
   }
   const html = readFileSync(slideFile, "utf8");
   const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1]?.trim() || key;
-  const tags = key
-    .split("-")
-    .filter(seg => seg.endsWith("観点"))
-    .map(seg => seg.slice(0, -2));
-  slides.push({ key, title, target, problems, date, tags });
+  slides.push({
+    key,
+    title,
+    target,
+    problems,
+    tools: splitTags(tools),
+    themes: splitTags(themes),
+    date,
+  });
 }
 
 if (slides.length === 0) {
