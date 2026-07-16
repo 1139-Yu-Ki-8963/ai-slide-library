@@ -1,0 +1,191 @@
+<meta charset="utf-8">
+<title>機密情報は「コミット・push・公開」の三重の関門で機械的に止める</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root {
+    --page: #EDF0F4;          /* 背景（スライドの外） */
+    --surface: #FFFFFF;       /* スライド面 */
+    --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
+    --ink-2: #55667A;         /* 本文 */
+    --ink-3: #8494A6;         /* 補足・軸ラベル */
+    --border: #D9E0E8;        /* 罫線 */
+    --grid: #E9EDF2;          /* 図中グリッド線 */
+    --critical: #C0392B;      /* 警告・上限・停止 */
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;          /* 回復・完了・推奨 */
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;        /* パネルタグ地 */
+    /* ツール識別色（実在ツールを描く時のみここに追記する） */
+    --claude: #D97757;        /* Claude: コーラル */
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;        /* Cursor: チャコール */
+    --cursor-soft: #EFF1F4;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  /* ==== スライド枠（16:9 固定） ==== */
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 40px 48px;
+    gap: 18px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* ==== ヘッダ ==== */
+  .slide-header {
+    display: flex; flex-direction: column; gap: 4px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 32px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-subtitle { font-size: 15px; color: var(--ink-2); }
+
+  /* ==== ステップ番号チップ（図と本文で同番号・同色を使う） ==== */
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--critical { background: var(--critical); }
+  .step-chip--good { background: var(--good); }
+  .step-chip--partial { background: var(--ink-3); }  /* 中間段階・第2層など「進行中/中立」を表す番号 */
+
+  /* ==== 層・積層構造（全幅帯。上辺ではなく左辺の色で層の位置づけを示す） ==== */
+  .layer-stack { display: flex; flex-direction: column; gap: 16px; flex: 1; min-height: 0; justify-content: center; }
+  .layer-band {
+    display: flex; align-items: center; gap: 20px;
+    padding: 20px 26px;
+    border-radius: 10px;
+    background: var(--tag-bg);
+    border: 1.5px solid var(--border);
+    border-left: 5px solid var(--ink-3);
+  }
+  .layer-band--critical { background: var(--critical-soft); border-color: var(--critical); border-left-color: var(--critical); }  /* 警告・制限層 */
+  .layer-band--partial  { border-left-color: var(--ink-3); }     /* 中間層（背景は既定の --tag-bg のまま） */
+  .layer-band--good     { background: var(--good-soft); border-color: var(--good); border-left-color: var(--good); }      /* 最終・保護層 */
+  .layer-body { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .layer-body h3 { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .layer-desc { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+  .layer-examples { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+  .ex { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
+
+  /* ==== 層間の接続注記（層構造で「AがBを通過してからCが適用される」等を1行で説明） ==== */
+  .arrow-between { display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .arrow-text { font-size: 11px; font-weight: 600; color: var(--ink-3); }
+
+  /* ==== 出典行 ==== */
+  .source-line {
+    font-size: 11px;
+    color: var(--ink-3);
+    border-top: 1px solid var(--border);
+    padding-top: 6px;
+  }
+
+  /* ==== メタデータフッター（区切り線 + 下端余白） ==== */
+  .slide-meta {
+    height: 24px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI開発ガバナンス — 機密情報保護</span>
+      <h1 class="slide-title">機密情報は「コミット・push・公開」の三重の関門で機械的に止める</h1>
+      <p class="slide-subtitle">AI がうっかり API キーや顧客情報を書き込んでも、履歴に残る前・外に出る前・公開する前の各段階で hook（操作に自動で割り込む仕組み）が検出して停止する。</p>
+    </header>
+
+    <div class="layer-stack">
+
+      <div class="layer-band layer-band--critical">
+        <span class="step-chip step-chip--critical">1</span>
+        <div class="layer-body">
+          <h3>第一関門: コミット時の検査</h3>
+          <p class="layer-desc">コミット対象の追加行に API トークン・秘密鍵らしき文字列があれば、コミット自体をエラー終了で停止する。検出時は件数とファイル名のみ通知し、機密値そのものは表示しない。</p>
+          <div class="layer-examples">
+            <span class="ex">API トークン</span>
+            <span class="ex">秘密鍵</span>
+            <span class="ex">認証情報ファイル</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrow-between">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="arrow-text">第一関門を通過した変更も、外部リポジトリへ出る直前に再検査される</span>
+      </div>
+
+      <div class="layer-band layer-band--partial">
+        <span class="step-chip step-chip--partial">2</span>
+        <div class="layer-body">
+          <h3>第二関門: push 時の再検査</h3>
+          <p class="layer-desc">push 対象の未送信コミット全体の追加行を再走査し、すり抜けた機密値をリポジトリの外へ出る直前で止める。検出時は履歴からの除去までを要求する。</p>
+          <div class="layer-examples">
+            <span class="ex">未 push コミットの全追加行</span>
+            <span class="ex">履歴からの除去を要求</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrow-between">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="arrow-text">リポジトリを公開・配布する前には、差分ではなく全体の走査が入る</span>
+      </div>
+
+      <div class="layer-band layer-band--good">
+        <span class="step-chip step-chip--good">3</span>
+        <div class="layer-body">
+          <h3>最終防衛線: 公開前の機密漏洩走査</h3>
+          <p class="layer-desc">公開の前にスナップショット全体を走査し、機密文字列に加えて特定環境の絶対パス・顧客情報の残存まで最終確認する。</p>
+          <div class="layer-examples">
+            <span class="ex">全ファイルを対象に走査</span>
+            <span class="ex">絶対パス・顧客情報も検出対象</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="source-line">出典：本カタログ運用環境の hook 構成（2026年7月時点）</p>
+
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・1ページでも削除禁止。削除可はページ送りスクリプトのみ） ==== -->
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
