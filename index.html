@@ -17,6 +17,8 @@
     --accent-deep: #BC5B3B;
     --accent-soft: #FBF0EA;
     --tag-bg: #EDF1F6;
+    --mech-soft: #E9F0F8;
+    --mech-deep: #33618D;
     --warn: #9A6700;
     --warn-soft: #FFF4DA;
   }
@@ -68,6 +70,10 @@
   }
   .chip:hover { border-color: var(--accent); color: var(--accent-deep); }
   .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  .chip.disabled {
+    opacity: 0.45; cursor: default; pointer-events: none;
+    background: var(--page);
+  }
   main { padding: 28px 32px 48px; }
   .grid {
     display: grid;
@@ -109,6 +115,7 @@
     background: var(--tag-bg); color: var(--ink-2);
     border-radius: 4px; padding: 2px 8px; font-size: 11px;
   }
+  .tag.mech { background: var(--mech-soft); color: var(--mech-deep); }
   .tag.theme { background: var(--accent-soft); color: var(--accent-deep); }
   .date { color: var(--ink-3); font-size: 11px; margin-left: auto; }
   .stale {
@@ -162,6 +169,10 @@
       <div id="tool-chips" style="display:contents"></div>
     </div>
     <div class="facet-row">
+      <span class="label">仕組み:</span>
+      <div id="mech-chips" style="display:contents"></div>
+    </div>
+    <div class="facet-row">
       <span class="label">テーマ:</span>
       <div id="theme-chips" style="display:contents"></div>
     </div>
@@ -170,7 +181,7 @@
 
 <main>
   <div class="grid" id="grid"></div>
-  <div class="empty" id="empty">条件に合うスライドがありません。検索語を変えるか、ツール・テーマの絞り込みを「すべて」に戻してください。</div>
+  <div class="empty" id="empty">条件に合うスライドがありません。検索語を変えるか、ツール・仕組み・テーマの絞り込みを「すべて」に戻してください。</div>
   <noscript><p style="padding:32px;color:var(--ink-2)">このカタログの検索・一覧表示には JavaScript が必要です。スライド本体は slides/ フォルダから直接開けます。</p></noscript>
 </main>
 
@@ -183,6 +194,35 @@
 
 <script>
 /*CATALOG-DATA-START*/
+const VOCAB = {
+  "tools": [
+    "claude-code",
+    "cursor",
+    "codex",
+    "github-copilot",
+    "gemini-cli",
+    "汎用"
+  ],
+  "mechanisms": [
+    "model",
+    "CLAUDE.md",
+    "rules",
+    "skills",
+    "hooks",
+    "subagent",
+    "MCP",
+    "permission",
+    "sandbox"
+  ],
+  "themes": [
+    "コスト・リミット",
+    "セキュリティ",
+    "設定・規約遵守",
+    "モデル・ツール選定",
+    "運用ルール",
+    "環境構築"
+  ]
+};
 const SLIDES = [
   {
     "key": "claude-cursor使い分け-リミット観点",
@@ -193,6 +233,7 @@ const SLIDES = [
       "claude-code",
       "cursor"
     ],
+    "mechanisms": [],
     "themes": [
       "コスト・リミット",
       "運用ルール"
@@ -208,6 +249,9 @@ const SLIDES = [
       "claude-code",
       "cursor"
     ],
+    "mechanisms": [
+      "model"
+    ],
     "themes": [
       "モデル・ツール選定",
       "コスト・リミット"
@@ -222,6 +266,10 @@ const SLIDES = [
     "tools": [
       "claude-code"
     ],
+    "mechanisms": [
+      "permission",
+      "sandbox"
+    ],
     "themes": [
       "セキュリティ"
     ],
@@ -235,6 +283,10 @@ const SLIDES = [
     "tools": [
       "claude-code"
     ],
+    "mechanisms": [
+      "CLAUDE.md",
+      "rules"
+    ],
     "themes": [
       "設定・規約遵守"
     ],
@@ -244,7 +296,7 @@ const SLIDES = [
 /*CATALOG-DATA-END*/
 
 const STALE_DAYS = 90;
-const state = { query: "", tool: "すべて", theme: "すべて" };
+const state = { query: "", tool: "すべて", mech: "すべて", theme: "すべて" };
 
 function esc(s) {
   return String(s).replace(/[&<>"']/g, c => ({
@@ -263,18 +315,26 @@ function isStale(dateStr) {
 }
 
 function axisValues(field) {
-  const set = new Set();
-  SLIDES.forEach(s => (s[field] || []).forEach(v => set.add(v)));
-  return ["すべて", ...set];
+  // 語彙一覧の順を正とし、語彙外の使用中タグ（防御）を末尾に足す
+  const listed = VOCAB[field] || [];
+  const used = new Set();
+  SLIDES.forEach(s => (s[field] || []).forEach(v => used.add(v)));
+  const extras = [...used].filter(v => !listed.includes(v));
+  return [...listed, ...extras];
+}
+
+function countFor(field, value) {
+  return SLIDES.filter(s => (s[field] || []).includes(value)).length;
 }
 
 function matches(s) {
   if (state.tool !== "すべて" && !(s.tools || []).includes(state.tool)) return false;
+  if (state.mech !== "すべて" && !(s.mechanisms || []).includes(state.mech)) return false;
   if (state.theme !== "すべて" && !(s.themes || []).includes(state.theme)) return false;
   if (!state.query) return true;
   const hay = [
     s.key, s.title, s.target, s.problems,
-    (s.tools || []).join(" "), (s.themes || []).join(" ")
+    (s.tools || []).join(" "), (s.mechanisms || []).join(" "), (s.themes || []).join(" ")
   ].join(" ").toLowerCase();
   return state.query.toLowerCase().split(/\s+/).every(q => hay.includes(q));
 }
@@ -282,17 +342,27 @@ function matches(s) {
 function renderChipRow(containerId, field, stateKey) {
   const wrap = document.getElementById(containerId);
   wrap.innerHTML = "";
-  axisValues(field).forEach(value => {
+  ["すべて", ...axisValues(field)].forEach(value => {
     const b = document.createElement("button");
-    b.className = "chip" + (state[stateKey] === value ? " active" : "");
+    const count = value === "すべて" ? SLIDES.length : countFor(field, value);
+    const disabled = value !== "すべて" && count === 0;
+    b.className = "chip"
+      + (state[stateKey] === value ? " active" : "")
+      + (disabled ? " disabled" : "");
     b.textContent = value;
-    b.onclick = () => { state[stateKey] = value; render(); };
+    if (disabled) {
+      b.title = "該当スライドは準備中です";
+      b.setAttribute("aria-disabled", "true");
+    } else {
+      b.onclick = () => { state[stateKey] = value; render(); };
+    }
     wrap.appendChild(b);
   });
 }
 
 function render() {
   renderChipRow("tool-chips", "tools", "tool");
+  renderChipRow("mech-chips", "mechanisms", "mech");
   renderChipRow("theme-chips", "themes", "theme");
   const grid = document.getElementById("grid");
   const list = SLIDES.filter(matches)
@@ -301,6 +371,7 @@ function render() {
   grid.innerHTML = list.map(s => {
     const path = slidePath(s.key);
     const toolTags = (s.tools || []).map(t => `<span class="tag">${esc(t)}</span>`).join("");
+    const mechTags = (s.mechanisms || []).map(t => `<span class="tag mech">${esc(t)}</span>`).join("");
     const themeTags = (s.themes || []).map(t => `<span class="tag theme">${esc(t)}</span>`).join("");
     const stale = isStale(s.date) ? `<span class="stale">登録から${STALE_DAYS}日超</span>` : "";
     return `
@@ -313,7 +384,7 @@ function render() {
         <h2 class="card-title"><a href="${path}" target="_blank" rel="noopener">${esc(s.title)}</a></h2>
         <p class="card-target">${esc(s.target)}</p>
         <p class="card-problem">${esc(s.problems)}</p>
-        <div class="meta-row">${toolTags}${themeTags}${stale}<span class="date">${esc(s.date)} 登録</span></div>
+        <div class="meta-row">${toolTags}${mechTags}${themeTags}${stale}<span class="date">${esc(s.date)} 登録</span></div>
       </div>
       <div class="card-actions">
         <a href="${path}" target="_blank" rel="noopener">&#9654; 提示する</a>
