@@ -1,0 +1,238 @@
+<meta charset="utf-8">
+<title>完了の基準は「テストが通った」ではなく「実際に動いた証跡」</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root {
+    --page: #EDF0F4;          /* 背景（スライドの外） */
+    --surface: #FFFFFF;       /* スライド面 */
+    --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
+    --ink-2: #55667A;         /* 本文 */
+    --ink-3: #8494A6;         /* 補足・軸ラベル */
+    --border: #D9E0E8;        /* 罫線 */
+    --grid: #E9EDF2;          /* 図中グリッド線 */
+    --critical: #C0392B;      /* 警告・上限・停止 */
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;          /* 回復・完了・推奨 */
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;        /* パネルタグ地 */
+    /* ツール識別色（実在ツールを描く時のみここに追記する） */
+    --claude: #D97757;        /* Claude: コーラル */
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;        /* Cursor: チャコール */
+    --cursor-soft: #EFF1F4;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  /* ==== スライド枠（16:9 固定） ==== */
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 40px 48px;
+    gap: 18px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* ==== ヘッダ ==== */
+  .slide-header {
+    display: flex; flex-direction: column; gap: 4px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 32px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-subtitle { font-size: 15px; color: var(--ink-2); }
+
+  /* ==== ステップ番号チップ（図と本文で同番号・同色を使う） ==== */
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--critical { background: var(--critical); }
+  .step-chip--good { background: var(--good); }
+  .step-chip--partial { background: var(--ink-3); }  /* 中間段階・第2層など「進行中/中立」を表す番号 */
+
+  /* ==== 段階・対比カード（段階/成熟度の比較。上辺色で警告→中立→推奨を示す） ==== */
+  .stages-grid {
+    display: grid;
+    grid-template-columns: 1fr 28px 1fr 28px 1fr;
+    flex: 1;
+    min-height: 0;
+    align-items: stretch;
+  }
+  .stage-arrow { display: flex; align-items: center; justify-content: center; }
+  .stage-card {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 14px;
+    display: flex; flex-direction: column;
+    gap: 6px;
+    overflow: hidden;
+  }
+  .stage-card--critical { border-top: 3.5px solid var(--critical); }  /* 警告・現状の段階 */
+  .stage-card--partial  { border-top: 3.5px solid var(--ink-3); }     /* 中間の段階 */
+  .stage-card--good     { border-top: 3.5px solid var(--good); }      /* 推奨・到達段階 */
+  .stage-head { display: flex; align-items: center; gap: 8px; }
+  .stage-head h2 { font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .stage-desc { font-size: 12px; color: var(--ink-2); line-height: 1.4; }
+
+  /* ==== 証跡の例チップ（層構造の layer-examples/.ex を転用） ==== */
+  .example-label { font-size: 11px; color: var(--ink-3); font-weight: 700; }
+  .layer-examples { display: flex; gap: 6px; flex-wrap: wrap; }
+  .ex { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
+
+  /* ==== 利点・欠点の列挙（✓/✕） ==== */
+  .stage-status { display: flex; flex-direction: column; gap: 4px; }
+  .status-row {
+    display: flex; align-items: flex-start; gap: 6px;
+    font-size: 12px; line-height: 1.3;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .status-ng { background: var(--critical-soft); color: var(--critical); }
+  .status-ok { background: var(--good-soft); color: var(--good); }
+  .status-icon { font-weight: 700; flex-shrink: 0; width: 1em; text-align: center; }
+
+  /* ==== フッタ: ステップ要約（図中の番号チップと同番号・同色で対応させる） ==== */
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .step { display: flex; gap: 8px; align-items: center; }
+  .step-text { font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+  .step-text strong { color: var(--ink); }
+
+  /* ==== 行動接続行（フッタ直後の1行。区切り線なし） ==== */
+  .action-line {
+    font-size: 11px;
+    color: var(--ink-3);
+    padding-top: 0;
+    border-top: none;
+  }
+
+  /* ==== メタデータフッター（区切り線 + 下端余白） ==== */
+  .slide-meta {
+    height: 24px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI開発ガバナンス — 完了定義</span>
+      <h1 class="slide-title">完了の基準は「テストが通った」ではなく「実際に動いた証跡」</h1>
+      <p class="slide-subtitle">AI は「完了しました」と報告するのが得意で、確認の仕組みがないと見た目の完了が量産される。完了の定義そのものを証跡ベースへ引き上げる。</p>
+    </header>
+
+    <div class="stages-grid">
+
+      <article class="stage-card stage-card--critical">
+        <div class="stage-head">
+          <span class="step-chip step-chip--critical">1</span>
+          <h2>存在確認だけの完了</h2>
+        </div>
+        <p class="stage-desc">コードが書かれ、型や参照が合っていることだけを確認した状態。動くかは分からない。</p>
+        <div class="stage-status">
+          <div class="status-row status-ng"><span class="status-icon">✕</span><span>動作は何も保証されない</span></div>
+          <div class="status-row status-ng"><span class="status-icon">✕</span><span>「完了しました」の自己申告と区別できない</span></div>
+        </div>
+      </article>
+
+      <div class="stage-arrow">
+        <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+          <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <article class="stage-card stage-card--partial">
+        <div class="stage-head">
+          <span class="step-chip step-chip--partial">2</span>
+          <h2>テスト通過の完了</h2>
+        </div>
+        <p class="stage-desc">自動テストが全部通った状態。ただし保証されるのはテストが書かれた範囲だけ。</p>
+        <div class="stage-status">
+          <div class="status-row status-ok"><span class="status-icon">✓</span><span>過去の機能が壊れていないことは守れる</span></div>
+          <div class="status-row status-ng"><span class="status-icon">✕</span><span>「通った」と「動いた」は別物</span></div>
+        </div>
+      </article>
+
+      <div class="stage-arrow">
+        <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+          <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <article class="stage-card stage-card--good">
+        <div class="stage-head">
+          <span class="step-chip step-chip--good">3</span>
+          <h2>実害検証つきの完了</h2>
+        </div>
+        <p class="stage-desc">実際に動かした証跡（画面操作・応答の実物・一連の動作観察）を変更提案（PR）に必須で残す。証跡がなければ完了と認めない。</p>
+        <span class="example-label">求める証跡の例</span>
+        <div class="layer-examples">
+          <span class="ex">画面操作の記録</span>
+          <span class="ex">応答データの実物</span>
+          <span class="ex">一連の動作の観察</span>
+        </div>
+        <div class="stage-status">
+          <div class="status-row status-ok"><span class="status-icon">✓</span><span>「動いた」証拠つきで完了を宣言できる</span></div>
+          <div class="status-row status-ok"><span class="status-icon">✓</span><span>本番で初めて発覚する不具合を防ぐ</span></div>
+        </div>
+      </article>
+
+    </div>
+
+    <footer class="steps">
+      <div class="step">
+        <span class="step-chip step-chip--critical">1</span>
+        <p class="step-text"><strong>存在確認</strong>— 書けたことと動くことは別</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--partial">2</span>
+        <p class="step-text"><strong>テスト通過</strong>— 保証はテストの範囲まで</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--good">3</span>
+        <p class="step-text"><strong>実害検証</strong>— 動かした証跡を完了の条件にする</p>
+      </div>
+    </footer>
+
+    <p class="action-line">導入の最初の一歩：変更提案（PR）の定型欄に「動作確認の証跡」を必須項目として追加することから始める</p>
+
+    <!-- ==== 部品: メタデータフッター（区切り線 + 下端余白） ==== -->
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・削除禁止） ==== -->
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
