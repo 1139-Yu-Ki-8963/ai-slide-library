@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI解説スライドライブラリ</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9A%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --accent: #D97757;
+    --accent-deep: #BC5B3B;
+    --accent-soft: #FBF0EA;
+    --tag-bg: #EDF1F6;
+    --warn: #9A6700;
+    --warn-soft: #FFF4DA;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, system-ui, sans-serif;
+    line-height: 1.6;
+  }
+  .site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 32px 20px;
+  }
+  .site-header .inner, .toolbar .inner, main, .site-footer .inner {
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+  .brand-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .site-title { font-size: 24px; font-weight: 700; letter-spacing: 0.02em; }
+  .site-title .accent-bar {
+    display: inline-block; width: 10px; height: 22px;
+    background: var(--accent); border-radius: 3px;
+    margin-right: 10px; vertical-align: -2px;
+  }
+  .site-subtitle { color: var(--ink-2); font-size: 13px; }
+  .search-row { margin-top: 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .search-box { position: relative; flex: 1 1 320px; max-width: 560px; }
+  .search-box input {
+    width: 100%; padding: 10px 14px 10px 40px;
+    border: 1px solid var(--border); border-radius: 8px;
+    font-size: 14px; background: var(--page); color: var(--ink);
+  }
+  .search-box input:focus { outline: 2px solid var(--accent); outline-offset: -1px; background: var(--surface); }
+  .search-box .icon {
+    position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+    color: var(--ink-3); font-size: 15px; pointer-events: none;
+  }
+  .hit-count { color: var(--ink-2); font-size: 13px; white-space: nowrap; }
+  .toolbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 32px; }
+  .toolbar .inner { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .toolbar .label { font-size: 12px; color: var(--ink-3); margin-right: 4px; }
+  .chip {
+    border: 1px solid var(--border); background: var(--surface); color: var(--ink-2);
+    border-radius: 999px; padding: 4px 14px; font-size: 12.5px; cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent-deep); }
+  .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  main { padding: 28px 32px 48px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 24px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: box-shadow 0.18s, transform 0.18s;
+  }
+  .card:hover { box-shadow: 0 8px 24px rgba(28, 43, 58, 0.12); transform: translateY(-2px); }
+  .thumb {
+    position: relative; width: 100%; aspect-ratio: 16 / 9;
+    background: var(--page); overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .thumb iframe {
+    width: 1280px; height: 720px; border: 0;
+    transform-origin: 0 0; pointer-events: none;
+  }
+  .thumb a.thumb-link { position: absolute; inset: 0; z-index: 2; }
+  .card-body { padding: 16px 18px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .card-title { font-size: 15.5px; font-weight: 700; line-height: 1.45; }
+  .card-title a { color: inherit; text-decoration: none; }
+  .card-title a:hover { color: var(--accent-deep); }
+  .card-target { font-size: 12.5px; color: var(--ink-2); }
+  .card-problem {
+    font-size: 12.5px; color: var(--ink-2);
+    background: var(--accent-soft); border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0; padding: 7px 10px;
+  }
+  .card-problem::before { content: "こんな悩みに: "; color: var(--accent-deep); font-weight: 600; }
+  .meta-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: auto; padding-top: 4px; }
+  .tag {
+    background: var(--tag-bg); color: var(--ink-2);
+    border-radius: 4px; padding: 2px 8px; font-size: 11px;
+  }
+  .date { color: var(--ink-3); font-size: 11px; margin-left: auto; }
+  .stale {
+    background: var(--warn-soft); color: var(--warn);
+    border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600;
+  }
+  .card-actions { display: flex; border-top: 1px solid var(--border); }
+  .card-actions a {
+    flex: 1; text-align: center; padding: 10px 0;
+    font-size: 13px; font-weight: 600; text-decoration: none;
+    color: var(--ink-2); transition: background 0.15s, color 0.15s;
+  }
+  .card-actions a:hover { background: var(--accent-soft); color: var(--accent-deep); }
+  .card-actions a + a { border-left: 1px solid var(--border); }
+  .empty {
+    text-align: center; color: var(--ink-3); padding: 64px 0; font-size: 14px;
+    display: none;
+  }
+  .site-footer {
+    border-top: 1px solid var(--border); background: var(--surface);
+    padding: 20px 32px; font-size: 12px; color: var(--ink-3);
+  }
+  .site-footer a { color: var(--ink-2); }
+  @media (max-width: 640px) {
+    .site-header, .toolbar, main, .site-footer { padding-left: 16px; padding-right: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <div class="brand-row">
+      <h1 class="site-title"><span class="accent-bar"></span>AI解説スライドライブラリ</h1>
+      <p class="site-subtitle">AIツールの論点を横1枚（16:9）で説明するスライドHTML集。その場で提示、1クリックで保存。</p>
+    </div>
+    <div class="search-row">
+      <div class="search-box">
+        <span class="icon">&#128269;</span>
+        <input id="search" type="search" placeholder="悩み・キーワードで検索（例: リミット / コスト / セキュリティ）" autocomplete="off">
+      </div>
+      <span class="hit-count" id="hit-count"></span>
+    </div>
+  </div>
+</header>
+
+<nav class="toolbar">
+  <div class="inner">
+    <span class="label">観点:</span>
+    <div id="tag-chips" style="display:contents"></div>
+  </div>
+</nav>
+
+<main>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">条件に合うスライドがありません。検索語を変えるか、観点フィルタを「すべて」に戻してください。</div>
+  <noscript><p style="padding:32px;color:var(--ink-2)">このカタログの検索・一覧表示には JavaScript が必要です。スライド本体は slides/ フォルダから直接開けます。</p></noscript>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    スライドは1ファイル完結のHTMLです。ダウンロード後、ブラウザで開くだけで表示できます。
+    ／ このページは <code>scripts/build-catalog.mjs</code> が <code>docs/スライド蓄積簿.md</code> から自動生成します。
+    ／ <a href="https://github.com/1139-Yu-Ki-8963/ai-slide-library">GitHub リポジトリ</a>
+  </div>
+</footer>
+
+<script>
+/*CATALOG-DATA-START*/
+const SLIDES = [
+  {
+    "key": "claude-cursor使い分け-リミット観点",
+    "title": "Claude Code と Cursor の使い分け",
+    "target": "Claude Code の 5時間/週次リミットと Cursor への切り替え運用",
+    "problems": "リミット枯渇で作業が止まる・ツール併用の運用が決まっていない",
+    "date": "2026-07-09",
+    "tags": [
+      "リミット"
+    ]
+  },
+  {
+    "key": "ai-model使い分け-役割観点",
+    "title": "AI モデルの使い分け方",
+    "target": "Cursor auto モードと Claude Code の Opus/Sonnet/Haiku の役割別使い分け",
+    "problems": "モデル選定が未決定・全部 Opus にしてコストが膨らんでいる",
+    "date": "2026-07-14",
+    "tags": [
+      "役割"
+    ]
+  },
+  {
+    "key": "claude-code安全性-層構造観点",
+    "title": "Claude Code の安全性の仕組み",
+    "target": "Claude Code の Permission・Sandbox・WSL の役割と層構造の違い",
+    "problems": "セキュリティが心配・WSL とサンドボックスの違いがわからない",
+    "date": "2026-07-14",
+    "tags": [
+      "層構造"
+    ]
+  },
+  {
+    "key": "claude-md分割戦略",
+    "title": "設定ファイルの分割戦略 — 遵守率とコストの両立",
+    "target": "CLAUDE.md の分割戦略（全部入り→種類分離→条件読み分けの3段階比較）",
+    "problems": "CLAUDE.md が肥大化して規約が守られない・読み込みコストが増えている",
+    "date": "2026-07-16",
+    "tags": []
+  }
+];
+/*CATALOG-DATA-END*/
+
+const STALE_DAYS = 90;
+const state = { query: "", tag: "すべて" };
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+
+function slidePath(key) {
+  return "slides/" + encodeURIComponent(key) + "/" + encodeURIComponent("解説スライド.html");
+}
+
+function isStale(dateStr) {
+  const d = new Date(dateStr + "T00:00:00");
+  if (isNaN(d)) return false;
+  return (Date.now() - d.getTime()) / 86400000 > STALE_DAYS;
+}
+
+function allTags() {
+  const set = new Set();
+  SLIDES.forEach(s => (s.tags || []).forEach(t => set.add(t)));
+  return ["すべて", ...set];
+}
+
+function matches(s) {
+  if (state.tag !== "すべて" && !(s.tags || []).includes(state.tag)) return false;
+  if (!state.query) return true;
+  const hay = [s.key, s.title, s.target, s.problems, (s.tags || []).join(" ")].join(" ").toLowerCase();
+  return state.query.toLowerCase().split(/\s+/).every(q => hay.includes(q));
+}
+
+function renderChips() {
+  const wrap = document.getElementById("tag-chips");
+  wrap.innerHTML = "";
+  allTags().forEach(tag => {
+    const b = document.createElement("button");
+    b.className = "chip" + (state.tag === tag ? " active" : "");
+    b.textContent = tag;
+    b.onclick = () => { state.tag = tag; render(); };
+    wrap.appendChild(b);
+  });
+}
+
+function render() {
+  renderChips();
+  const grid = document.getElementById("grid");
+  const list = SLIDES.filter(matches)
+    .slice()
+    .sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  grid.innerHTML = list.map(s => {
+    const path = slidePath(s.key);
+    const tags = (s.tags || []).map(t => `<span class="tag">${esc(t)}観点</span>`).join("");
+    const stale = isStale(s.date) ? `<span class="stale">登録から${STALE_DAYS}日超</span>` : "";
+    return `
+    <article class="card">
+      <div class="thumb">
+        <iframe src="${path}" loading="lazy" scrolling="no" tabindex="-1" title="${esc(s.title)} のプレビュー"></iframe>
+        <a class="thumb-link" href="${path}" target="_blank" rel="noopener" aria-label="${esc(s.title)} を全画面で開く"></a>
+      </div>
+      <div class="card-body">
+        <h2 class="card-title"><a href="${path}" target="_blank" rel="noopener">${esc(s.title)}</a></h2>
+        <p class="card-target">${esc(s.target)}</p>
+        <p class="card-problem">${esc(s.problems)}</p>
+        <div class="meta-row">${tags}${stale}<span class="date">${esc(s.date)} 登録</span></div>
+      </div>
+      <div class="card-actions">
+        <a href="${path}" target="_blank" rel="noopener">&#9654; 提示する</a>
+        <a href="${path}" download="${esc(s.key)}.html">&#8595; ダウンロード</a>
+      </div>
+    </article>`;
+  }).join("");
+  document.getElementById("empty").style.display = list.length ? "none" : "block";
+  document.getElementById("hit-count").textContent = `${list.length}枚 / 全${SLIDES.length}枚`;
+  fitThumbs();
+}
+
+function fitThumbs() {
+  document.querySelectorAll(".thumb").forEach(t => {
+    const iframe = t.querySelector("iframe");
+    if (iframe) iframe.style.transform = `scale(${t.clientWidth / 1280})`;
+  });
+}
+
+document.getElementById("search").addEventListener("input", e => {
+  state.query = e.target.value.trim();
+  render();
+});
+window.addEventListener("resize", fitThumbs);
+render();
+</script>
+</body>
+</html>

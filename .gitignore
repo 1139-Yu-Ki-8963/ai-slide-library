@@ -1,0 +1,5 @@
+.DS_Store
+node_modules/
+.claude/markers/
+.claude/settings.local.json
+.port-slot
