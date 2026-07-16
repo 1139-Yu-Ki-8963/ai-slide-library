@@ -163,10 +163,12 @@
           <h2>分離委任 — 確定内容をベタ書きで渡す</h2>
         </div>
         <p class="stage-desc">「何をどう変えるか」は依頼側が決め、実行役には確定済みの実体（新規は全文・編集は変更前後の対）を渡す。</p>
+        <p style="font-size: 11.5px; color: var(--ink-2);">反映役の実例：文脈を読む反映は Claude Sonnet、コマンド実行のみは Claude Haiku（ファイル編集ツールを持たせない）</p>
         <div class="layer-examples">
           <span class="ex">変更前後の対を明記</span>
           <span class="ex">完了条件を添える</span>
           <span class="ex">スコープ外変更の禁止</span>
+          <span class="ex">変更対象のファイルパスを明示</span>
         </div>
         <div class="stage-status">
           <div class="status-row status-ok"><span class="status-icon">✓</span><span>実行役は迷わず正確に反映できる</span></div>
@@ -181,7 +183,7 @@
         <span class="step-chip step-chip--main">3</span>
         <div class="layer-body">
           <h3>分離は「お願い」ではなく hook で機械強制する</h3>
-          <p class="layer-desc">依頼側の AI が直接ファイルを書き換えようとすると hook（操作に自動で割り込む仕組み）が停止させ、実行役への委任に誘導する。ルールが人の注意力に依存しない。</p>
+          <p class="layer-desc">依頼側の AI が直接ファイルを書き換えようとすると hook（操作に自動で割り込む仕組み）が停止させ、実行役への委任に誘導する。ルールが人の注意力に依存しない。停止は 3 回連続で自動解除される安全弁付きで、膠着はしない。</p>
         </div>
       </div>
     </div>

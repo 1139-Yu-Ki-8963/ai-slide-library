@@ -159,6 +159,7 @@
           <span class="ex">1 タスク = 1 作業フォルダ</span>
           <span class="ex">完了後は畳んで消す</span>
           <span class="ex">本流には統合時だけ触れる</span>
+          <span class="ex">同時並列は上限を決める（例：同時 5 つまで）</span>
         </div>
         <div class="stage-status">
           <div class="status-row status-ok"><span class="status-icon">✓</span><span>変更が混ざらず原因追跡が容易</span></div>
@@ -172,7 +173,7 @@
       <span class="step-chip step-chip--main">3</span>
       <div class="layer-body">
         <h3>ポート番号は計算式で機械採番する</h3>
-        <p class="layer-desc">検証サーバーの番号を「基準番号 + 作業場所の番号 × 10 + 用途番号」の式で一意に決め、起動前に既存プロセスの有無を検査する。空いている番号を場当たりで選ぶ運用をなくす。</p>
+        <p class="layer-desc">検証サーバーの番号を「基準番号 + 作業場所の番号 × 10 + 用途番号」の式で一意に決め、起動前に既存プロセスの有無を検査する。空いている番号を場当たりで選ぶ運用をなくす。（例：基準 8300 のプロジェクトで 1 番目の作業場所の画面用サーバーは 8300 + 1×10 + 1 = 8311）</p>
       </div>
     </div>
 

@@ -123,7 +123,7 @@
         <span class="step-chip step-chip--main">1</span>
         <div class="layer-body">
           <h3>観測基盤 — 全操作を記録する</h3>
-          <p class="layer-desc">コマンド実行・スキル呼び出し・サブエージェント起動のすべてを機械可読の形式で時系列に記録する。問題調査と自動監視の土台になる。</p>
+          <p class="layer-desc">コマンド実行・スキル呼び出し・サブエージェント起動のすべてを1 行 1 イベントの機械可読ログ（JSONL 形式）で時系列に記録する。問題調査と自動監視の土台になる。</p>
           <div class="layer-examples">
             <span class="ex">全コマンドの記録</span>
             <span class="ex">呼び出し履歴</span>
@@ -141,7 +141,7 @@
         <span class="step-chip step-chip--critical">2</span>
         <div class="layer-body">
           <h3>空回り検知 — 同じ失敗の繰り返しを止める</h3>
-          <p class="layer-desc">同じ操作の失敗が一定時間を超えて続くと一度だけ介入し、方針転換の判断を促す。AI の無限リトライによる時間とコストの浪費を防ぐ。</p>
+          <p class="layer-desc">同じ操作の失敗が一定時間（例：600 秒）を超えて続くと一度だけ介入し、方針転換の判断を促す。AI の無限リトライによる時間とコストの浪費を防ぐ。</p>
           <div class="layer-examples">
             <span class="ex">失敗の長期化を検出</span>
             <span class="ex">介入は一度だけ</span>
