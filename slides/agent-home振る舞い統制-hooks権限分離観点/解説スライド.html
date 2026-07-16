@@ -1,0 +1,375 @@
+<title>AI エージェントの振る舞い統制 ── hooks 強制とサブエージェント権限分離</title>
+<style>
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+    --claude: #D97757;
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cat-plan: #4A6FA5;
+    --cat-research: #6B8E6B;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--page);
+  }
+
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  .slide {
+    width: 1280px; height: 720px;
+    background: var(--surface);
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+    padding: 40px 48px;
+    gap: 18px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Header ─── */
+  .slide-header {
+    margin-bottom: 0;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow {
+    display: inline-block; font-size: 13px; font-weight: 700;
+    color: var(--ink-3); letter-spacing: 0.06em; margin-bottom: 6px;
+  }
+  .slide-title {
+    font-size: 26px; font-weight: 700; color: var(--ink);
+    line-height: 1.35; text-wrap: balance; margin-bottom: 4px;
+  }
+  .slide-subtitle {
+    font-size: 14px; color: var(--ink-2); line-height: 1.5;
+  }
+
+  /* ─── Main Content ─── */
+  .content {
+    flex: 1;
+    display: flex;
+    gap: 24px;
+  }
+
+  /* ─── Left: Hooks Enforcement ─── */
+  .panel {
+    flex: 1;
+    background: var(--tag-bg);
+    border-radius: 12px;
+    padding: 16px 20px 14px;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .panel-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 700; color: var(--surface);
+    padding: 3px 10px; border-radius: 4px;
+    letter-spacing: 0.04em; width: fit-content; margin-bottom: 12px;
+  }
+  .panel-tag.enforce { background: var(--critical); }
+  .panel-tag.agents { background: var(--ink); }
+
+  .panel-desc {
+    font-size: 12px; color: var(--ink-2); margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .hook-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .hook-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+  }
+
+  .hook-timing {
+    font-size: 12px; font-weight: 700;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    color: var(--ink);
+    flex: 0 0 120px;
+  }
+
+  .hook-arrow {
+    color: var(--ink-3); font-size: 16px; flex: 0 0 20px; text-align: center;
+  }
+
+  .hook-action {
+    font-size: 11.5px; color: var(--ink-2); flex: 1; line-height: 1.4;
+  }
+
+  .badge-block {
+    display: inline-block;
+    font-size: 10px; font-weight: 700;
+    padding: 2px 7px; border-radius: 3px;
+    color: var(--critical); background: var(--critical-soft);
+  }
+  .badge-advisory {
+    display: inline-block;
+    font-size: 10px; font-weight: 700;
+    padding: 2px 7px; border-radius: 3px;
+    color: var(--ink-3); background: var(--grid);
+  }
+  .badge-rewrite {
+    display: inline-block;
+    font-size: 10px; font-weight: 700;
+    padding: 2px 7px; border-radius: 3px;
+    color: var(--claude-deep); background: var(--claude-soft);
+  }
+
+  .hook-note {
+    font-size: 10.5px; color: var(--ink-3); margin-top: 6px;
+    padding: 6px 10px;
+    background: var(--surface);
+    border-radius: 6px;
+    border-left: 3px solid var(--good);
+    line-height: 1.5;
+  }
+
+  /* ─── Right: Subagent Taxonomy ─── */
+  .agent-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .agent-row {
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .agent-category {
+    flex: 0 0 56px;
+    font-size: 11px; font-weight: 700;
+    color: var(--surface);
+    padding: 4px 0;
+    border-radius: 4px;
+    text-align: center;
+    letter-spacing: 0.03em;
+  }
+  .cat-plan { background: var(--cat-plan); }
+  .cat-exec { background: var(--ink-2); }
+  .cat-research { background: var(--cat-research); }
+  .cat-judge { background: var(--claude-deep); }
+
+  .agent-names {
+    flex: 1;
+    font-size: 12px; color: var(--ink);
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  }
+
+  .agent-role {
+    font-size: 11px; color: var(--ink-2);
+    font-family: system-ui, sans-serif;
+  }
+
+  .agent-perm {
+    flex: 0 0 auto;
+    font-size: 10px; font-weight: 600;
+    padding: 3px 8px; border-radius: 4px;
+  }
+  .perm-none {
+    color: var(--ink-3); background: var(--grid);
+  }
+  .perm-pass {
+    color: var(--claude-deep); background: var(--claude-soft);
+  }
+
+  .agent-note {
+    font-size: 10.5px; color: var(--ink-3); margin-top: 6px;
+    padding: 6px 10px;
+    background: var(--surface);
+    border-radius: 6px;
+    border-left: 3px solid var(--claude-deep);
+    line-height: 1.5;
+  }
+
+  /* ─── Steps Footer ─── */
+  .steps {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;
+    margin-top: 14px; padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .step { display: flex; gap: 10px; align-items: flex-start; }
+  .step-chip {
+    flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+    background: var(--ink); color: var(--surface);
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-text { display: flex; flex-direction: column; gap: 1px; }
+  .step-head { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .step-body { font-size: 11px; color: var(--ink-2); line-height: 1.45; }
+
+  .slide-meta {
+    border-top: 1px solid var(--border);
+    margin-top: 12px; padding-top: 8px; height: 4px;
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">設定・規約遵守</span>
+      <h1 class="slide-title">ルールはプロンプトではなく hooks で機械的に強制し、<br>権限はサブエージェント定義で分離する</h1>
+      <p class="slide-subtitle">「お願い」ではなく「構造」で AI エージェントの品質を保証する方式</p>
+    </header>
+
+    <div class="content">
+
+      <!-- 左パネル: Hooks Enforcement -->
+      <div class="panel">
+        <span class="panel-tag enforce">hooks による機械的強制</span>
+        <div class="panel-desc">ルール違反をシェルスクリプトで検知し、操作をブロックまたは助言を注入する</div>
+
+        <div class="hook-flow">
+          <div class="hook-row">
+            <span class="hook-timing">PreToolUse</span>
+            <span class="hook-arrow">→</span>
+            <span class="hook-action">コマンド実行前に検査。秘密鍵の混入・命名規則違反を <span class="badge-block">ブロック</span></span>
+          </div>
+          <div class="hook-row">
+            <span class="hook-timing">PostToolUse</span>
+            <span class="hook-arrow">→</span>
+            <span class="hook-action">実行後に検査。先送り表現・依頼文を検出し <span class="badge-advisory">助言注入</span></span>
+          </div>
+          <div class="hook-row">
+            <span class="hook-timing">Stop</span>
+            <span class="hook-arrow">→</span>
+            <span class="hook-action">最終応答を検査。違反があれば応答の <span class="badge-rewrite">書き直し強制</span></span>
+          </div>
+
+          <div class="hook-note">
+            安全弁: 同じ違反で 3 回連続ブロックすると自動解除（無限ループ防止）
+          </div>
+        </div>
+      </div>
+
+      <!-- 右パネル: Subagent Taxonomy -->
+      <div class="panel">
+        <span class="panel-tag agents">サブエージェント権限分離</span>
+        <div class="panel-desc">役割ごとにツールと権限を制限し、越権操作を定義レベルで防ぐ</div>
+
+        <div class="agent-grid">
+          <div class="agent-row">
+            <span class="agent-category cat-plan">計画系</span>
+            <div>
+              <div class="agent-names">brain</div>
+              <div class="agent-role">計画立案・タスク分解のみ</div>
+            </div>
+            <span class="agent-perm perm-none">合否宣言 不可</span>
+          </div>
+          <div class="agent-row">
+            <span class="agent-category cat-exec">実行系</span>
+            <div>
+              <div class="agent-names">worker-sonnet / worker-haiku</div>
+              <div class="agent-role">確定済み方針の反映。haiku は編集ツールなし</div>
+            </div>
+            <span class="agent-perm perm-none">合否宣言 不可</span>
+          </div>
+          <div class="agent-row">
+            <span class="agent-category cat-research">調査系</span>
+            <div>
+              <div class="agent-names">investigator / researcher</div>
+              <div class="agent-role">読み取り専用の事実収集と証拠付き報告</div>
+            </div>
+            <span class="agent-perm perm-none">合否宣言 不可</span>
+          </div>
+          <div class="agent-row">
+            <span class="agent-category cat-judge">判定系</span>
+            <div>
+              <div class="agent-names">code-reviewer / document-reviewer</div>
+              <div class="agent-role">成果物をルールに照合し合否を判定する</div>
+            </div>
+            <span class="agent-perm perm-pass">合否宣言 可</span>
+          </div>
+
+          <div class="agent-note">
+            PASS / FAIL を宣言できるのは判定系のみ。他の分類が合否を出すことは禁止
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer class="steps">
+      <div class="step">
+        <span class="step-chip">1</span>
+        <div class="step-text">
+          <span class="step-head">違反を構造的にブロック</span>
+          <span class="step-body">プロンプトの「お願い」ではなくシェルスクリプトで強制</span>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-chip">2</span>
+        <div class="step-text">
+          <span class="step-head">権限分離で事故を防止</span>
+          <span class="step-body">各エージェントの使えるツールと判断権を定義で制限</span>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-chip">3</span>
+        <div class="step-text">
+          <span class="step-head">自動解除でライブロック防止</span>
+          <span class="step-body">連続ブロック時の安全弁でエージェントの停止を回避</span>
+        </div>
+      </div>
+    </footer>
+
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale', Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
