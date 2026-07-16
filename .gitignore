@@ -3,3 +3,4 @@ node_modules/
 .claude/markers/
 .claude/settings.local.json
 .port-slot
+.flow-progress.json
