@@ -1,0 +1,239 @@
+<meta charset="utf-8">
+<title>開発プロセス自体を「設計して記録する成果物」として扱う</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root {
+    --page: #EDF0F4;          /* 背景（スライドの外） */
+    --surface: #FFFFFF;       /* スライド面 */
+    --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
+    --ink-2: #55667A;         /* 本文 */
+    --ink-3: #8494A6;         /* 補足・軸ラベル */
+    --border: #D9E0E8;        /* 罫線 */
+    --grid: #E9EDF2;          /* 図中グリッド線 */
+    --critical: #C0392B;      /* 警告・上限・停止 */
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;          /* 回復・完了・推奨 */
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;        /* パネルタグ地 */
+    --claude: #D97757;        /* Claude: コーラル */
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;        /* Cursor: チャコール */
+    --cursor-soft: #EFF1F4;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  /* ==== スライド枠（16:9 固定） ==== */
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 40px 48px;
+    gap: 18px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* ==== ヘッダ ==== */
+  .slide-header {
+    display: flex; flex-direction: column; gap: 4px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 32px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-subtitle { font-size: 15px; color: var(--ink-2); }
+
+  /* ==== ステップ番号チップ（図と本文で同番号・同色を使う） ==== */
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--critical { background: var(--critical); }
+  .step-chip--good { background: var(--good); }
+  .step-chip--partial { background: var(--ink-3); }  /* 中間段階・第2層など「進行中/中立」を表す番号 */
+
+  /* ==== 段階・対比カード（段階/成熟度の比較。上辺色で警告→中立→推奨を示す） ==== */
+  .stages-grid {
+    display: grid;
+    grid-template-columns: 1fr 28px 1fr 28px 1fr;
+    flex: 1;
+    min-height: 0;
+    align-items: stretch;
+  }
+  .stage-arrow { display: flex; align-items: center; justify-content: center; }
+  .stage-card {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 14px;
+    display: flex; flex-direction: column;
+    gap: 6px;
+    overflow: hidden;
+  }
+  .stage-card--critical { border-top: 3.5px solid var(--critical); }  /* 警告・現状の段階 */
+  .stage-card--partial  { border-top: 3.5px solid var(--ink-3); }     /* 中間の段階 */
+  .stage-card--good     { border-top: 3.5px solid var(--good); }      /* 推奨・到達段階 */
+  .stage-head { display: flex; align-items: center; gap: 8px; }
+  .stage-head h2 { font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .stage-desc { font-size: 12px; color: var(--ink-2); line-height: 1.4; }
+
+  /* ==== 例チップ（stage-card内の小見出し + タグ列挙） ==== */
+  .stage-examples-label { font-size: 11px; font-weight: 700; color: var(--ink-3); margin-top: 2px; }
+  .layer-examples { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+  .ex { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
+
+  /* ==== 利点・欠点の列挙（✓/✕） ==== */
+  .stage-status { display: flex; flex-direction: column; gap: 4px; margin-top: auto; }
+  .status-row {
+    display: flex; align-items: flex-start; gap: 6px;
+    font-size: 12px; line-height: 1.3;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .status-ng { background: var(--critical-soft); color: var(--critical); }
+  .status-ok { background: var(--good-soft); color: var(--good); }
+  .status-icon { font-weight: 700; flex-shrink: 0; width: 1em; text-align: center; }
+
+  /* ==== フッタ: ステップ要約（図中の番号チップと同番号・同色で対応させる） ==== */
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .step { display: flex; gap: 8px; align-items: center; }
+  .step-text { font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+  .step-text strong { color: var(--ink); }
+
+  /* ==== 行動接続行（フッタ直後の1行。区切り線なし） ==== */
+  .action-line { font-size: 11px; color: var(--ink-3); }
+
+  /* ==== 1ページ構成のページラッパー（flex連鎖維持のため保持） ==== */
+  .slide-page { display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 18px; }
+  .slide-page.is-active { display: flex; }
+
+  /* ==== メタデータフッター（区切り線 + 下端余白） ==== */
+  .slide-meta {
+    height: 24px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <section class="slide-page is-active">
+
+      <header class="slide-header">
+        <span class="slide-eyebrow">AI開発ガバナンス — プロセス改善</span>
+        <h1 class="slide-title">開発プロセス自体を「設計して記録する成果物」として扱う</h1>
+        <p class="slide-subtitle">AI 開発の進め方は試行錯誤の連続で、記録しなければ暗黙知のまま消える。プロセスを成果物化した組織だけにノウハウが蓄積する。</p>
+      </header>
+
+      <div class="stages-grid">
+
+        <article class="stage-card stage-card--critical">
+          <div class="stage-head">
+            <span class="step-chip step-chip--critical">1</span>
+            <h2>進め方が暗黙知のまま</h2>
+          </div>
+          <p class="stage-desc">AI との協業ルールや開発フローが会話と記憶の中だけにあり、なぜ今のやり方なのか誰も説明できない。</p>
+          <div class="stage-status">
+            <div class="status-row status-ng"><span class="status-icon">✕</span><span>人にも AI にも引き継げない</span></div>
+            <div class="status-row status-ng"><span class="status-icon">✕</span><span>同じ議論を何度も繰り返す</span></div>
+          </div>
+        </article>
+
+        <div class="stage-arrow">
+          <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+            <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <article class="stage-card stage-card--partial">
+          <div class="stage-head">
+            <span class="step-chip step-chip--partial">2</span>
+            <h2>プロセスを文書の成果物にする</h2>
+          </div>
+          <p class="stage-desc">開発の進め方そのものを設計メモ・意思決定記録（ADR）として書き残す。決定の理由と却下した代替案が財産になる。</p>
+          <p class="stage-examples-label">残す文書の例</p>
+          <div class="layer-examples">
+            <span class="ex">意思決定記録（ADR）</span>
+            <span class="ex">設計メモ</span>
+            <span class="ex">却下した代替案と理由</span>
+          </div>
+          <div class="stage-status">
+            <div class="status-row status-ok"><span class="status-icon">✓</span><span>決定の経緯を後から誰でも参照できる</span></div>
+          </div>
+        </article>
+
+        <div class="stage-arrow">
+          <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+            <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <article class="stage-card stage-card--good">
+          <div class="stage-head">
+            <span class="step-chip step-chip--good">3</span>
+            <h2>課題駆動で改善し続ける</h2>
+          </div>
+          <p class="stage-desc">フローの不具合や改善案を課題として起票し、決定 → 文書更新 → 運用反映のループを回す。プロセスが使うほど進化する。</p>
+          <div class="stage-status">
+            <div class="status-row status-ok"><span class="status-icon">✓</span><span>AI 協業ノウハウが組織に蓄積する</span></div>
+            <div class="status-row status-ok"><span class="status-icon">✓</span><span>属人化せず改善が続く</span></div>
+          </div>
+        </article>
+
+      </div>
+
+      <footer class="steps">
+        <div class="step">
+          <span class="step-chip step-chip--critical">1</span>
+          <p class="step-text"><strong>暗黙知の限界</strong>— 記録しない進め方は引き継げない</p>
+        </div>
+        <div class="step">
+          <span class="step-chip step-chip--partial">2</span>
+          <p class="step-text"><strong>成果物化</strong>— 決定の理由ごと文書に残す</p>
+        </div>
+        <div class="step">
+          <span class="step-chip step-chip--good">3</span>
+          <p class="step-text"><strong>改善ループ</strong>— 課題起票から文書と運用を更新する</p>
+        </div>
+      </footer>
+
+      <p class="action-line">導入の最初の一歩：次に進め方を変える時、その決定理由を 1 枚のメモに残すことから始める</p>
+
+    </section>
+
+    <!-- ==== 部品: メタデータフッター（区切り線 + 下端余白） ==== -->
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・削除禁止） ==== -->
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
