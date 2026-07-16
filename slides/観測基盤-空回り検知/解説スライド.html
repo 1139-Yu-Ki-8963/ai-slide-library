@@ -1,0 +1,191 @@
+<meta charset="utf-8">
+<title>AI の全操作を記録し、「空回り」と「劣化」を機械的に検知する</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root {
+    --page: #EDF0F4;          /* 背景（スライドの外） */
+    --surface: #FFFFFF;       /* スライド面 */
+    --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
+    --ink-2: #55667A;         /* 本文 */
+    --ink-3: #8494A6;         /* 補足・軸ラベル */
+    --border: #D9E0E8;        /* 罫線 */
+    --grid: #E9EDF2;          /* 図中グリッド線 */
+    --critical: #C0392B;      /* 警告・上限・停止 */
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;          /* 回復・完了・推奨 */
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;        /* パネルタグ地 */
+    /* ツール識別色（実在ツールを描く時のみここに追記する） */
+    --claude: #D97757;        /* Claude: コーラル */
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;        /* Cursor: チャコール */
+    --cursor-soft: #EFF1F4;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  /* ==== スライド枠（16:9 固定） ==== */
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 40px 48px;
+    gap: 18px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* ==== ヘッダ ==== */
+  .slide-header {
+    display: flex; flex-direction: column; gap: 4px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 32px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-subtitle { font-size: 15px; color: var(--ink-2); }
+
+  /* ==== ステップ番号チップ（図と本文で対応させる番号チップ） ==== */
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--main { background: var(--claude); }
+  .step-chip--critical { background: var(--critical); }
+  .step-chip--good { background: var(--good); }
+
+  /* ==== 層・積層構造（全幅帯。左辺の色で層の位置づけを示す） ==== */
+  .layer-stack { display: flex; flex-direction: column; gap: 10px; flex: 1; min-height: 0; justify-content: center; }
+  .layer-band {
+    display: flex; align-items: center; gap: 20px;
+    padding: 12px 22px;
+    border-radius: 10px;
+    background: var(--tag-bg);
+    border: 1.5px solid var(--border);
+    border-left: 5px solid var(--ink-3);
+  }
+  .layer-band--critical { background: var(--critical-soft); border-color: var(--critical); border-left-color: var(--critical); }  /* 警告・制限層 */
+  .layer-band--good     { background: var(--good-soft); border-color: var(--good); border-left-color: var(--good); }      /* 最終・保護層 */
+  .layer-body { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .layer-body h3 { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .layer-desc { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+  .layer-examples { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+  .ex { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
+
+  /* ==== 層間の接続注記 ==== */
+  .arrow-between { display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .arrow-text { font-size: 11px; font-weight: 600; color: var(--ink-3); }
+
+  /* ==== 出典行 ==== */
+  .source-line {
+    font-size: 11px;
+    color: var(--ink-3);
+    border-top: 1px solid var(--border);
+    padding-top: 6px;
+  }
+
+  /* ==== メタデータフッター（区切り線 + 下端余白） ==== */
+  .slide-meta {
+    height: 24px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI開発ガバナンス — 観測と監視</span>
+      <h1 class="slide-title">AI の全操作を記録し、「空回り」と「劣化」を機械的に検知する</h1>
+      <p class="slide-subtitle">AI が何をしたか追えない状態では、無限リトライも応答劣化も気づいた時には手遅れになる。観測の基盤が監視を可能にする。</p>
+    </header>
+
+    <div class="layer-stack">
+
+      <div class="layer-band">
+        <span class="step-chip step-chip--main">1</span>
+        <div class="layer-body">
+          <h3>観測基盤 — 全操作を記録する</h3>
+          <p class="layer-desc">コマンド実行・スキル呼び出し・サブエージェント起動のすべてを機械可読の形式で時系列に記録する。問題調査と自動監視の土台になる。</p>
+          <div class="layer-examples">
+            <span class="ex">全コマンドの記録</span>
+            <span class="ex">呼び出し履歴</span>
+            <span class="ex">時系列の証跡</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrow-between">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="arrow-text">記録が揃っているから、その上に自動の監視を築ける</span>
+      </div>
+
+      <div class="layer-band layer-band--critical">
+        <span class="step-chip step-chip--critical">2</span>
+        <div class="layer-body">
+          <h3>空回り検知 — 同じ失敗の繰り返しを止める</h3>
+          <p class="layer-desc">同じ操作の失敗が一定時間を超えて続くと一度だけ介入し、方針転換の判断を促す。AI の無限リトライによる時間とコストの浪費を防ぐ。</p>
+          <div class="layer-examples">
+            <span class="ex">失敗の長期化を検出</span>
+            <span class="ex">介入は一度だけ</span>
+            <span class="ex">方針転換を促す</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrow-between">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="arrow-text">監視対象は失敗の繰り返しだけでなく、会話の状態にも及ぶ</span>
+      </div>
+
+      <div class="layer-band layer-band--good">
+        <span class="step-chip step-chip--good">3</span>
+        <div class="layer-body">
+          <h3>文脈肥大監視 — 劣化する前に区切る</h3>
+          <p class="layer-desc">会話の文脈量を発話ごとに監視し、肥大の兆候を検知したら区切り直しを促す。長時間作業による応答品質の低下とコスト増を未然に防ぐ。</p>
+          <div class="layer-examples">
+            <span class="ex">文脈量の監視</span>
+            <span class="ex">区切り直しの促し</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="source-line">導入の最初の一歩：AI ツールの操作ログを 1 か所に集める仕組みを作ることから始める　／　出典：本カタログ運用環境の観測基盤構成（2026年7月時点）</p>
+
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・1ページでも削除禁止） ==== -->
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
