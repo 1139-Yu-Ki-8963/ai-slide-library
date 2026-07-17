@@ -8,6 +8,9 @@ import { fileURLToPath } from "node:url";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const ledgerPath = join(root, "docs", "スライド蓄積簿.md");
 const indexPath = join(root, "index.html");
+const promptsPath = join(root, "catalog-prompts.json");
+
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 const ledger = readFileSync(ledgerPath, "utf8");
 
@@ -17,8 +20,8 @@ if (!vocabSection) {
   console.error("エラー: docs/スライド蓄積簿.md に「## タグ語彙一覧」節がありません");
   process.exit(1);
 }
-const AXIS_KEYS = { "対象ツール": "tools", "仕組み": "mech", "テーマ": "themes" };
-const vocab = { tools: [], mech: [], themes: [] };
+const AXIS_KEYS = { "対象ツール": "tools", "仕組み": "mechanisms", "テーマ": "themes" };
+const vocab = { tools: [], mechanisms: [], themes: [] };
 for (const line of vocabSection.split("\n")) {
   const cells = line.split("|").map(c => c.trim());
   if (cells.length !== 4) continue;
@@ -48,42 +51,66 @@ const splitTags = cell => {
 };
 
 const slides = [];
+const prompts = {};
 const unknownTags = [];
+const validationErrors = [];
 for (const line of section.split("\n")) {
   const cells = line.split("|").map(c => c.trim());
-  // 表行は [ "", key, target, problems, tools, mech, themes, entities, pack, date, "" ] の 11 要素
+  // 表行は [ "", key, target, problems, tools, mechanisms, themes, entities, pack, date, "" ] の 11 要素
   if (cells.length !== 11 || !cells[1]) continue;
-  const [, key, target, problems, tools, mech, themes, entities, pack, date] = cells;
+  const [, key, target, problems, tools, mechanisms, themes, entities, pack, date] = cells;
   if (key === "スライドキー" || /^-+$/.test(key)) continue;
+
+  // 必須フィールドの空チェック
+  for (const [fieldName, value] of [["説明対象", target], ["提示する課題の例", problems], ["登録日", date]]) {
+    if (!value) validationErrors.push(`${key}: 必須項目「${fieldName}」が空です`);
+  }
+  // date 形式チェック
+  if (date && !DATE_RE.test(date)) {
+    validationErrors.push(`${key}: 登録日「${date}」が YYYY-MM-DD 形式ではありません`);
+  }
 
   const slideFile = join(root, "slides", key, "解説スライド.html");
   if (!existsSync(slideFile)) {
-    console.error(`警告: slides/${key}/解説スライド.html が存在しないためスキップします`);
+    validationErrors.push(`${key}: slides/${key}/解説スライド.html が存在しません`);
+    continue;
+  }
+  const thumbFile = join(root, "slides", key, "サムネイル.png");
+  if (!existsSync(thumbFile)) {
+    validationErrors.push(`${key}: slides/${key}/サムネイル.png が存在しません`);
     continue;
   }
   const html = readFileSync(slideFile, "utf8");
   const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1]?.trim() || key;
+  if (!title) validationErrors.push(`${key}: 必須項目「タイトル」が空です`);
   const promptFile = join(root, "slides", key, "取り込みプロンプト.md");
   const prompt = existsSync(promptFile) ? readFileSync(promptFile, "utf8") : "";
+  if (prompt) prompts[key] = prompt;
   const entry = {
     key,
     title,
     target,
     problems,
     tools: splitTags(tools),
-    mech: splitTags(mech),
+    mechanisms: splitTags(mechanisms),
     themes: splitTags(themes),
     entities: splitTags(entities),
     pack: pack.trim() === "あり",
-    prompt,
+    has_prompt: !!prompt,
     date,
   };
-  for (const [axis, words] of [["tools", entry.tools], ["mech", entry.mech], ["themes", entry.themes]]) {
+  for (const [axis, words] of [["tools", entry.tools], ["mechanisms", entry.mechanisms], ["themes", entry.themes]]) {
     for (const w of words) {
       if (!vocab[axis].includes(w)) unknownTags.push(`${key}: ${axis} 軸「${w}」`);
     }
   }
   slides.push(entry);
+}
+
+if (validationErrors.length > 0) {
+  console.error("エラー: 蓄積簿のデータ検証に失敗しました。");
+  for (const e of validationErrors) console.error(`  - ${e}`);
+  process.exit(1);
 }
 
 if (unknownTags.length > 0) {
@@ -109,4 +136,6 @@ const dataBlock =
   `const SLIDES = ${JSON.stringify(slides, null, 2)};\n` +
   "/*CATALOG-DATA-END*/";
 writeFileSync(indexPath, indexHtml.replace(marker, dataBlock));
-console.log(`index.html を再生成しました（スライド ${slides.length} 枚 / 語彙 ツール${vocab.tools.length}・仕組み${vocab.mech.length}・テーマ${vocab.themes.length}）`);
+writeFileSync(promptsPath, JSON.stringify(prompts, null, 2));
+console.log(`index.html を再生成しました（スライド ${slides.length} 枚 / 語彙 ツール${vocab.tools.length}・仕組み${vocab.mechanisms.length}・テーマ${vocab.themes.length}）`);
+console.log(`catalog-prompts.json を再生成しました（プロンプト ${Object.keys(prompts).length} 件）`);
