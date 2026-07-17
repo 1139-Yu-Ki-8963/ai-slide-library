@@ -1,7 +1,6 @@
 <meta charset="utf-8">
-<title>rules は「常時」「条件」「委譲」の 3 層で必要な規約だけを注入する</title>
+<title>rules は scope → 分野 → 規約名の 3 階層ツリーで管理する</title>
 <style>
-  /* ==== デザイントークン（変更禁止） ==== */
   :root {
     --page: #EDF0F4;
     --surface: #FFFFFF;
@@ -48,7 +47,6 @@
     transform-origin: center center;
   }
 
-  /* ==== ヘッダ ==== */
   .slide-header {
     display: flex; flex-direction: column; gap: 3px;
     padding-bottom: 10px;
@@ -56,32 +54,38 @@
   }
   .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
   .slide-title { font-size: 28px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
-  .slide-subtitle { font-size: 13.5px; color: var(--ink-2); line-height: 1.4; }
+  .slide-subtitle { font-size: 13px; color: var(--ink-2); line-height: 1.4; }
 
-  /* ==== 層構造 ==== */
-  .layer-stack { display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 0; justify-content: center; }
-  .layer-band {
-    display: flex; align-items: center; gap: 16px;
-    padding: 12px 20px;
-    border-radius: 10px;
+  .tree {
     background: var(--tag-bg);
-    border: 1.5px solid var(--border);
-    border-left: 5px solid var(--ink-3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+    font-size: 12px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
   }
-  .layer-band--critical { background: var(--critical-soft); border-color: var(--critical); border-left-color: var(--critical); }
-  .layer-band--partial  { border-left-color: var(--ink-3); }
-  .layer-band--good     { background: var(--good-soft); border-color: var(--good); border-left-color: var(--good); }
-  .layer-body { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-  .layer-body h3 { font-size: 14.5px; font-weight: 700; color: var(--ink); }
-  .layer-desc { font-size: 11.5px; color: var(--ink-2); line-height: 1.45; }
-  .layer-examples { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 2px; }
-  .ex { font-size: 10.5px; font-weight: 600; padding: 2px 8px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
+  .tree-line { display: flex; align-items: baseline; gap: 4px; white-space: nowrap; }
+  .tree-indent { color: var(--ink-3); user-select: none; }
+  .tree-folder { color: var(--ink); font-weight: 600; }
+  .tree-note { font-size: 10.5px; color: var(--ink-3); font-family: system-ui, sans-serif; }
+  .tree-tag {
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    font-size: 10px; font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .tree-tag--critical { background: var(--critical-soft); color: var(--critical); }
+  .tree-tag--good     { background: var(--good-soft); color: var(--good); }
+  .tree-tag--accent   { background: var(--ink); color: #fff; }
+  .tree-sep { height: 4px; }
 
-  /* ==== 層間の接続注記 ==== */
-  .arrow-between { display: flex; align-items: center; justify-content: center; gap: 6px; }
-  .arrow-text { font-size: 10.5px; font-weight: 600; color: var(--ink-3); }
-
-  /* ==== ステップ番号チップ ==== */
   .step-chip {
     display: inline-flex; align-items: center; justify-content: center;
     width: 20px; height: 20px;
@@ -91,13 +95,11 @@
   .step-chip--good { background: var(--good); }
   .step-chip--partial { background: var(--ink-3); }
 
-  /* ==== フッタ: ステップ要約 ==== */
   .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; padding-top: 10px; border-top: 1px solid var(--border); }
   .step { display: flex; gap: 8px; align-items: center; }
   .step-text { font-size: 12px; line-height: 1.4; color: var(--ink-2); }
   .step-text strong { color: var(--ink); }
 
-  /* ==== メタデータフッター ==== */
   .slide-meta {
     height: 20px;
     padding-top: 6px;
@@ -110,78 +112,49 @@
 
     <header class="slide-header">
       <span class="slide-eyebrow">CLAUDE CODE 設定管理</span>
-      <h1 class="slide-title">rules は「常時」「条件」「委譲」の 3 層で必要な規約だけを注入する</h1>
-      <p class="slide-subtitle">常時注入 19 規約 + 条件注入 18 規約をセッション状況に応じて読み分け、プロジェクトは値の追加だけを委譲される</p>
+      <h1 class="slide-title">rules は scope → 分野 → 規約名の 3 階層ツリーで管理する</h1>
+      <p class="slide-subtitle">scope が注入タイミング（常時 or 条件付き）、分野と規約名がグルーピング。規約フォルダに rule.md と hook を同居させて機械強制する</p>
     </header>
 
-    <div class="layer-stack">
-
-      <div class="layer-band layer-band--critical">
-        <span class="step-chip step-chip--critical">1</span>
-        <div class="layer-body">
-          <h3>always（常時注入・eager）— 19 規約・10 分野</h3>
-          <p class="layer-desc">rules/always/&lt;分野&gt;/&lt;規約名&gt;/rule.md の階層で管理。paths 指定なし、全セッションに全件注入される。hook script（.sh）を同フォルダに同居させ、違反を block / advisory で機械強制する</p>
-          <div class="layer-examples">
-            <span class="ex">agent/委任規約</span>
-            <span class="ex">naming/命名規約</span>
-            <span class="ex">response/応答品質</span>
-            <span class="ex">placement/配置ガード</span>
-            <span class="ex">review-checklist/語彙辞書</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="arrow-between">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="arrow-text">always に加えて、触ったファイルのパスが paths 条件に一致すると追加注入される</span>
-      </div>
-
-      <div class="layer-band layer-band--partial">
-        <span class="step-chip step-chip--partial">2</span>
-        <div class="layer-body">
-          <h3>scoped（条件注入・lazy）— 18 規約・6 分野</h3>
-          <p class="layer-desc">rules/scoped/&lt;分野&gt;/&lt;規約名&gt;/rule.md で管理。frontmatter の paths に一致するファイルを操作した時だけ注入される。全件を常時読み込まないことでトークン消費と注意力の分散を防ぐ</p>
-          <div class="layer-examples">
-            <span class="ex">dev-flow/gate/</span>
-            <span class="ex">agent-config/hooks/</span>
-            <span class="ex">review-checklist/code/</span>
-            <span class="ex">review-checklist/document/</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="arrow-between">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="arrow-text">上位規約が「委譲可」を宣言している場合、プロジェクト側が受け口で値を追加できる</span>
-      </div>
-
-      <div class="layer-band layer-band--good">
-        <span class="step-chip step-chip--good">3</span>
-        <div class="layer-body">
-          <h3>project 委譲（プロジェクト受け口）</h3>
-          <p class="layer-desc">&lt;repo&gt;/.claude/rules/ に配置。グローバル規約の「値」を追加する受け口。枠組み（hook の block/advisory 区分・違反時手順）はグローバルが常に正。値の削除・上書きは不可</p>
-          <div class="layer-examples">
-            <span class="ex">prh.yml（プロジェクト固有語彙）</span>
-            <span class="ex">naming-values.txt（コミット prefix）</span>
-            <span class="ex">flow-values.yml（開発フロー設定）</span>
-          </div>
-        </div>
-      </div>
-
+    <div class="tree">
+      <div class="tree-line"><span class="tree-folder">.claude/rules/</span></div>
+      <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">always/</span> <span class="tree-tag tree-tag--critical">常時注入（eager）</span></div>
+      <div class="tree-line"><span class="tree-indent">│  ├─</span> <span class="tree-folder">agent/</span> <span class="tree-tag tree-tag--accent">分野</span></div>
+      <div class="tree-line"><span class="tree-indent">│  │  └─</span> <span class="tree-folder">subagent-selection/</span> <span class="tree-tag tree-tag--accent">規約名</span></div>
+      <div class="tree-line"><span class="tree-indent">│  │     ├─</span> rule.md <span class="tree-note">規約本文（paths なし → 全セッションで注入）</span></div>
+      <div class="tree-line"><span class="tree-indent">│  │     ├─</span> check-subagent-choice.sh <span class="tree-tag tree-tag--good">hook 同居</span></div>
+      <div class="tree-line"><span class="tree-indent">│  │     └─</span> design-notes.txt <span class="tree-note">設計判断（非注入サイドカー）</span></div>
+      <div class="tree-line"><span class="tree-indent">│  ├─</span> <span class="tree-folder">naming/commit-branch/</span></div>
+      <div class="tree-line"><span class="tree-indent">│  │  ├─</span> rule.md + check-git-author-*.sh <span class="tree-note">同構造（規約 + hook）</span></div>
+      <div class="tree-line"><span class="tree-indent">│  │  └─</span> naming-values.txt <span class="tree-tag tree-tag--good">委譲受け口</span></div>
+      <div class="tree-line"><span class="tree-indent">│  └─</span> <span class="tree-folder">review-checklist/text-dictionary/</span></div>
+      <div class="tree-line"><span class="tree-indent">│     ├─</span> rule.md</div>
+      <div class="tree-line"><span class="tree-indent">│     └─</span> prh.yml <span class="tree-tag tree-tag--good">委譲受け口</span></div>
+      <div class="tree-sep"></div>
+      <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">scoped/</span> <span class="tree-tag tree-tag--critical">条件注入（lazy）</span></div>
+      <div class="tree-line"><span class="tree-indent">│  ├─</span> <span class="tree-folder">dev-flow/gate/</span></div>
+      <div class="tree-line"><span class="tree-indent">│  │  └─</span> rule.md <span class="tree-note">paths: ["**/*.ts", "**/*.tsx"] → 対象ファイル操作時のみ注入</span></div>
+      <div class="tree-line"><span class="tree-indent">│  └─</span> <span class="tree-folder">review-checklist/code/common/</span></div>
+      <div class="tree-line"><span class="tree-indent">│     └─</span> rule.md <span class="tree-note">paths: ["src/**"] → コードレビュー時のみ注入</span></div>
+      <div class="tree-sep"></div>
+      <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">&lt;repo&gt;/.claude/rules/</span> <span class="tree-tag tree-tag--good">プロジェクト委譲</span></div>
+      <div class="tree-line"><span class="tree-indent">   └─</span> <span class="tree-folder">always/</span></div>
+      <div class="tree-line"><span class="tree-indent">      ├─</span> project-context/rule.md <span class="tree-note">プロジェクト概要・ルート許可ディレクトリ</span></div>
+      <div class="tree-line"><span class="tree-indent">      └─</span> text-dictionary/prh.yml <span class="tree-note">固有語彙の追加（枠組みの上書きは不可）</span></div>
     </div>
 
     <footer class="steps">
       <div class="step">
         <span class="step-chip step-chip--critical">1</span>
-        <p class="step-text"><strong>always = 常時注入</strong>— 委任・命名・品質など全タスク共通の制約</p>
+        <p class="step-text"><strong>scope</strong>— always / scoped で注入タイミングを分ける</p>
       </div>
       <div class="step">
         <span class="step-chip step-chip--partial">2</span>
-        <p class="step-text"><strong>scoped = 条件注入</strong>— ゲート・レビュー基準など文脈限定の制約</p>
+        <p class="step-text"><strong>分野 / 規約名</strong>— 2 階層のフォルダでグルーピング</p>
       </div>
       <div class="step">
         <span class="step-chip step-chip--good">3</span>
-        <p class="step-text"><strong>project = 値の委譲</strong>— 語彙・命名値・フロー設定の追加のみ</p>
+        <p class="step-text"><strong>hook 同居 + 委譲</strong>— rule.md と check-*.sh を同フォルダに配置。値はプロジェクトへ委譲</p>
       </div>
     </footer>
 
