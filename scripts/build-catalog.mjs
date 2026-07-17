@@ -56,9 +56,9 @@ const unknownTags = [];
 const validationErrors = [];
 for (const line of section.split("\n")) {
   const cells = line.split("|").map(c => c.trim());
-  // 表行は [ "", key, target, problems, tools, mechanisms, themes, entities, pack, date, "" ] の 11 要素
-  if (cells.length !== 11 || !cells[1]) continue;
-  const [, key, target, problems, tools, mechanisms, themes, entities, pack, date] = cells;
+  // 表行は [ "", key, target, problems, tools, mechanisms, themes, entities, pack, importPrompt, date, "" ] の 12 要素
+  if (cells.length !== 12 || !cells[1]) continue;
+  const [, key, target, problems, tools, mechanisms, themes, entities, pack, importPrompt, date] = cells;
   if (key === "スライドキー" || /^-+$/.test(key)) continue;
 
   // 必須フィールドの空チェック
@@ -83,9 +83,22 @@ for (const line of section.split("\n")) {
   const html = readFileSync(slideFile, "utf8");
   const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1]?.trim() || key;
   if (!title) validationErrors.push(`${key}: 必須項目「タイトル」が空です`);
+
+  // 「導入プロンプト」列は「あり」または「—」のみ許可
+  const importPromptValue = importPrompt.trim();
+  if (importPromptValue !== "あり" && importPromptValue !== "—") {
+    validationErrors.push(`${key}: 「導入プロンプト」列の値「${importPromptValue}」が不正です（「あり」または「—」のみ許可）`);
+  }
   const promptFile = join(root, "slides", key, "取り込みプロンプト.md");
-  const prompt = existsSync(promptFile) ? readFileSync(promptFile, "utf8") : "";
-  if (prompt) prompts[key] = prompt;
+  let prompt = "";
+  if (importPromptValue === "あり") {
+    if (!existsSync(promptFile)) {
+      validationErrors.push(`${key}: 「導入プロンプト」列が「あり」ですが slides/${key}/取り込みプロンプト.md が存在しません`);
+    } else {
+      prompt = readFileSync(promptFile, "utf8");
+      prompts[key] = prompt;
+    }
+  }
   const entry = {
     key,
     title,
