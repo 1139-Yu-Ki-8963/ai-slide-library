@@ -51,9 +51,9 @@ const slides = [];
 const unknownTags = [];
 for (const line of section.split("\n")) {
   const cells = line.split("|").map(c => c.trim());
-  // 表行は [ "", key, target, problems, tools, mechanisms, themes, date, "" ] の 9 要素
-  if (cells.length !== 9 || !cells[1]) continue;
-  const [, key, target, problems, tools, mechanisms, themes, date] = cells;
+  // 表行は [ "", key, target, problems, tools, mechanisms, themes, entities, pack, date, "" ] の 11 要素
+  if (cells.length !== 11 || !cells[1]) continue;
+  const [, key, target, problems, tools, mechanisms, themes, entities, pack, date] = cells;
   if (key === "スライドキー" || /^-+$/.test(key)) continue;
 
   const slideFile = join(root, "slides", key, "解説スライド.html");
@@ -63,6 +63,8 @@ for (const line of section.split("\n")) {
   }
   const html = readFileSync(slideFile, "utf8");
   const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1]?.trim() || key;
+  const promptFile = join(root, "slides", key, "取り込みプロンプト.md");
+  const prompt = existsSync(promptFile) ? readFileSync(promptFile, "utf8") : "";
   const entry = {
     key,
     title,
@@ -71,6 +73,9 @@ for (const line of section.split("\n")) {
     tools: splitTags(tools),
     mechanisms: splitTags(mechanisms),
     themes: splitTags(themes),
+    entities: splitTags(entities),
+    pack: pack.trim() === "あり",
+    prompt,
     date,
   };
   for (const [axis, words] of [["tools", entry.tools], ["mechanisms", entry.mechanisms], ["themes", entry.themes]]) {
