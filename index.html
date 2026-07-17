@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI解説スライドライブラリ</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9A%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 <style>
   :root {
     --page: #EDF0F4;
@@ -25,6 +28,17 @@
     --pack-soft: #E8F3EC;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal; font-style: normal;
+    font-size: 18px; line-height: 1; letter-spacing: normal;
+    text-transform: none; display: inline-block; white-space: nowrap;
+    direction: ltr; -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased; vertical-align: -4px;
+  }
+  .card-actions .material-symbols-outlined { font-size: 18px; margin-right: 4px; }
+  .search-box .icon .material-symbols-outlined { font-size: 20px; }
+  .copy-btn .material-symbols-outlined { font-size: 16px; vertical-align: -3px; margin-right: 3px; }
   body {
     background: var(--page);
     color: var(--ink);
@@ -96,10 +110,7 @@
     background: var(--page); overflow: hidden;
     border-bottom: 1px solid var(--border);
   }
-  .thumb iframe {
-    width: 1280px; height: 720px; border: 0;
-    transform-origin: 0 0; pointer-events: none;
-  }
+  .thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .thumb a.thumb-link { position: absolute; inset: 0; z-index: 2; }
   .card-body { padding: 16px 18px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
   .card-title { font-size: 15.5px; font-weight: 700; line-height: 1.45; }
@@ -125,13 +136,6 @@
     border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600;
   }
   .card-actions { display: flex; border-top: 1px solid var(--border); }
-  .card-actions a {
-    flex: 1; text-align: center; padding: 10px 0;
-    font-size: 13px; font-weight: 600; text-decoration: none;
-    color: var(--ink-2); transition: background 0.15s, color 0.15s;
-  }
-  .card-actions a:hover { background: var(--accent-soft); color: var(--accent-deep); }
-  .card-actions a + a { border-left: 1px solid var(--border); }
   .empty {
     text-align: center; color: var(--ink-3); padding: 64px 0; font-size: 14px;
     display: none;
@@ -151,16 +155,16 @@
     border-radius: 999px; padding: 3px 10px;
     font-size: 11px; font-weight: 700;
   }
-  .card-actions button.act {
+  .card-actions .act {
     flex: 1; text-align: center; padding: 10px 0;
-    font-size: 13px; font-weight: 600;
+    font-size: 13px; font-weight: 600; text-decoration: none;
     color: var(--ink-2); background: none; border: none; cursor: pointer;
     font-family: inherit; transition: background 0.15s, color 0.15s;
     border-left: 1px solid var(--border);
   }
-  .card-actions button.act:first-child { border-left: 0; }
-  .card-actions button.act:hover { background: var(--accent-soft); color: var(--accent-deep); }
-  .card-actions button.act[aria-expanded="true"] { background: var(--accent-soft); color: var(--accent-deep); }
+  .card-actions .act:first-child { border-left: 0; }
+  .card-actions .act:hover { background: var(--accent-soft); color: var(--accent-deep); }
+  .card-actions .act[aria-expanded="true"] { background: var(--accent-soft); color: var(--accent-deep); }
   .import-panel { display: none; border-top: 1px solid var(--border); background: var(--page); padding: 14px 16px 16px; flex-direction: column; gap: 12px; }
   .import-panel.open { display: flex; }
   .import-panel h3 { font-size: 12px; color: var(--ink-2); font-weight: 700; }
@@ -193,7 +197,7 @@
     </div>
     <div class="search-row">
       <div class="search-box">
-        <span class="icon">&#128269;</span>
+        <span class="icon"><span class="material-symbols-outlined">search</span></span>
         <input id="search" type="search" placeholder="悩み・キーワードで検索（例: リミット / コスト / セキュリティ）" autocomplete="off">
       </div>
       <span class="hit-count" id="hit-count"></span>
@@ -863,6 +867,7 @@ function render() {
     .sort((a, b) => (b.date || "").localeCompare(a.date || ""));
   grid.innerHTML = list.map(s => {
     const path = slidePath(s.key);
+    const thumbPath = "slides/" + encodeURIComponent(s.key) + "/" + encodeURIComponent("サムネイル.png");
     const toolTags = (s.tools || []).map(t => `<span class="tag">${esc(t)}</span>`).join("");
     const mechTags = (s.mechanisms || []).map(t => `<span class="tag mech">${esc(t)}</span>`).join("");
     const themeTags = (s.themes || []).map(t => `<span class="tag theme">${esc(t)}</span>`).join("");
@@ -871,10 +876,10 @@ function render() {
     const hasPrompt = !!(s.prompt && s.prompt.length);
     const packZipPath = "slides/" + encodeURIComponent(s.key) + "/pack.zip";
     const importButton = hasPrompt
-      ? `<button type="button" class="act" data-toggle aria-expanded="false">&#9889; 導入する</button>`
+      ? `<button type="button" class="act" data-toggle aria-expanded="false"><span class="material-symbols-outlined">terminal</span>導入する</button>`
       : "";
     const packLink = s.pack
-      ? `<a href="${packZipPath}" download>&#8681; 改善パック（zip）</a>`
+      ? `<a class="act" href="${packZipPath}" download><span class="material-symbols-outlined">download</span>改善パック</a>`
       : "";
     const entityList = (s.entities || []).length
       ? `<h3>導入されるもの</h3><ul>${(s.entities || []).map(e => `<li>${esc(e)}</li>`).join("")}</ul>`
@@ -888,7 +893,7 @@ function render() {
         <p class="lead">貼り付けられた AI が、前提確認・配置（または構築）・検証まで実行します。</p>
         <div class="prompt-box">
           <pre>${esc(s.prompt)}</pre>
-          <button type="button" class="copy-btn" data-copy>コピー</button>
+          <button type="button" class="copy-btn" data-copy><span class="material-symbols-outlined">content_copy</span>コピー</button>
           <span class="copy-feedback">コピーしました</span>
         </div>
         ${entityList}
@@ -897,7 +902,7 @@ function render() {
     return `
     <article class="card">
       <div class="thumb">
-        <iframe src="${path}" loading="lazy" scrolling="no" tabindex="-1" title="${esc(s.title)} のプレビュー"></iframe>
+        <img class="thumb-img" loading="lazy" src="${thumbPath}" alt="${esc(s.title)} のサムネイル" width="640" height="360">
         <a class="thumb-link" href="${path}" target="_blank" rel="noopener" aria-label="${esc(s.title)} を全画面で開く"></a>
         ${packBadge}
       </div>
@@ -909,7 +914,8 @@ function render() {
       </div>
       <div class="card-actions">
         ${importButton}
-        <a href="${path}" download="${esc(s.key)}.html">&#8595; スライドHTML</a>
+        <a class="act" href="${path}" target="_blank" rel="noopener"><span class="material-symbols-outlined">open_in_new</span>開く</a>
+        <a class="act" href="${path}" download="${esc(s.key)}.html"><span class="material-symbols-outlined">download</span>スライドHTML</a>
         ${packLink}
       </div>
       ${importPanel}
@@ -917,7 +923,6 @@ function render() {
   }).join("");
   document.getElementById("empty").style.display = list.length ? "none" : "block";
   document.getElementById("hit-count").textContent = `${list.length}枚 / 全${SLIDES.length}枚`;
-  fitThumbs();
   bindCardEvents();
 }
 
@@ -960,18 +965,10 @@ function bindCardEvents() {
   });
 }
 
-function fitThumbs() {
-  document.querySelectorAll(".thumb").forEach(t => {
-    const iframe = t.querySelector("iframe");
-    if (iframe) iframe.style.transform = `scale(${t.clientWidth / 1280})`;
-  });
-}
-
 document.getElementById("search").addEventListener("input", e => {
   state.query = e.target.value.trim();
   render();
 });
-window.addEventListener("resize", fitThumbs);
 render();
 </script>
 </body>
