@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>rules のフォルダ階層で「常時」「条件」「委譲」の 3 種類を管理する</title>
+<title>規約は 3 フォルダに分けると AI が必要な分だけ読み込む</title>
 <style>
   :root {
     --page: #EDF0F4;
@@ -149,8 +149,8 @@
 
     <header class="slide-header">
       <span class="slide-eyebrow">CLAUDE CODE 設定管理</span>
-      <h1 class="slide-title">rules のフォルダ階層で「常時」「条件」「委譲」を管理する</h1>
-      <p class="slide-subtitle">.claude/rules/ の下に scope → 分野 → 規約名の 3 階層。規約フォルダに hook を同居させて機械強制する</p>
+      <h1 class="slide-title">規約は 3 フォルダに分けると AI が必要な分だけ読み込む</h1>
+      <p class="slide-subtitle">命名・レビュー基準は always/、場面限定は scoped/、プロジェクト固有値は受け口へ。hook 同居で機械強制する</p>
     </header>
 
     <div class="stages-grid">
@@ -158,20 +158,21 @@
       <article class="stage-card stage-card--critical">
         <div class="stage-head">
           <span class="step-chip step-chip--critical">1</span>
-          <h2>always/ — 常時注入</h2>
+          <h2>always/ — 全タスク共通</h2>
         </div>
-        <p class="stage-desc">paths なし。全セッションで無条件に注入</p>
+        <p class="stage-desc">どのタスクでも守るべき規約を置く。全セッションで自動注入される</p>
         <div class="tree">
           <div class="tree-line"><span class="tree-folder">rules/always/</span></div>
-          <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">&lt;分野&gt;/</span> <span class="tree-tag tree-tag--accent">分野</span></div>
-          <div class="tree-line"><span class="tree-indent">│&nbsp; └─</span> <span class="tree-folder">&lt;規約名&gt;/</span> <span class="tree-tag tree-tag--accent">規約名</span></div>
-          <div class="tree-line"><span class="tree-indent">│&nbsp; &nbsp; &nbsp; ├─</span> rule.md <span class="tree-tag tree-tag--critical">規約本文</span></div>
-          <div class="tree-line"><span class="tree-indent">│&nbsp; &nbsp; &nbsp; ├─</span> check-*.sh <span class="tree-tag tree-tag--good">hook 同居</span></div>
-          <div class="tree-line"><span class="tree-indent">│&nbsp; &nbsp; &nbsp; └─</span> design-notes.txt <span class="tree-note">非注入</span></div>
+          <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">naming/commit-branch/</span> <span class="tree-note">命名規約</span></div>
+          <div class="tree-line"><span class="tree-indent">│&nbsp; └─</span> rule.md + check-*.sh <span class="tree-tag tree-tag--good">hook 同居</span></div>
+          <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">review-checklist/text-dictionary/</span></div>
+          <div class="tree-line"><span class="tree-indent">│&nbsp; └─</span> rule.md + prh.yml <span class="tree-note">語彙辞書</span></div>
+          <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">agent/subagent-selection/</span></div>
+          <div class="tree-line"><span class="tree-indent">&nbsp; &nbsp; └─</span> rule.md + check-*.sh <span class="tree-note">委任規約</span></div>
         </div>
         <div class="stage-status">
           <div class="status-row status-ok"><span class="status-icon">✓</span><span>rule.md と hook を同フォルダに配置</span></div>
-          <div class="status-row status-ok"><span class="status-icon">✓</span><span>naming-values.txt 等で委譲受け口を提供</span></div>
+          <div class="status-row status-ok"><span class="status-icon">✓</span><span>全セッションで自動注入される</span></div>
         </div>
       </article>
 
@@ -184,19 +185,19 @@
       <article class="stage-card stage-card--partial">
         <div class="stage-head">
           <span class="step-chip step-chip--partial">2</span>
-          <h2>scoped/ — 条件注入</h2>
+          <h2>scoped/ — 場面限定</h2>
         </div>
-        <p class="stage-desc">frontmatter の paths 指定に一致する時だけ注入</p>
+        <p class="stage-desc">特定のファイルを触った時だけ必要な規約を置く</p>
         <div class="tree">
           <div class="tree-line"><span class="tree-folder">rules/scoped/</span></div>
-          <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">dev-flow/gate/</span></div>
-          <div class="tree-line"><span class="tree-indent">│&nbsp; └─</span> rule.md <span class="tree-note">paths: ["**/*.ts"]</span></div>
-          <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">review-checklist/code/</span></div>
-          <div class="tree-line"><span class="tree-indent">&nbsp; &nbsp; └─</span> rule.md <span class="tree-note">paths: ["src/**"]</span></div>
+          <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">review-checklist/code/</span></div>
+          <div class="tree-line"><span class="tree-indent">│&nbsp; └─</span> rule.md <span class="tree-note">paths: ["**/*.ts"] コードレビュー基準</span></div>
+          <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">dev-flow/gate/</span></div>
+          <div class="tree-line"><span class="tree-indent">&nbsp; &nbsp; └─</span> rule.md <span class="tree-note">paths: ["src/**"] 実装ゲート</span></div>
         </div>
         <div class="stage-status">
           <div class="status-row status-ok"><span class="status-icon">✓</span><span>不要な規約を読み込まずコスト抑制</span></div>
-          <div class="status-row status-ok"><span class="status-icon">✓</span><span>対象ファイル操作時に高 attention で注入</span></div>
+          <div class="status-row status-ok"><span class="status-icon">✓</span><span>対象ファイル操作時だけ注入</span></div>
         </div>
       </article>
 
@@ -209,9 +210,9 @@
       <article class="stage-card stage-card--good">
         <div class="stage-head">
           <span class="step-chip step-chip--good">3</span>
-          <h2>&lt;repo&gt; — プロジェクト委譲</h2>
+          <h2>&lt;repo&gt; — プロジェクト固有</h2>
         </div>
-        <p class="stage-desc">グローバル規約の値をプロジェクトで追加する受け口</p>
+        <p class="stage-desc">グローバル規約の値をプロジェクトごとに追加する受け口</p>
         <div class="tree">
           <div class="tree-line"><span class="tree-folder">&lt;repo&gt;/.claude/rules/</span></div>
           <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">always/</span></div>
@@ -221,7 +222,7 @@
         </div>
         <div class="stage-status">
           <div class="status-row status-ok"><span class="status-icon">✓</span><span>語彙・命名値をプロジェクトで追加</span></div>
-          <div class="status-row status-ng"><span class="status-icon">✕</span><span>枠組み（hook・違反時手順）の上書き不可</span></div>
+          <div class="status-row status-ng"><span class="status-icon">✕</span><span>hook・違反時手順の上書きは不可</span></div>
         </div>
       </article>
 
@@ -230,15 +231,15 @@
     <footer class="steps">
       <div class="step">
         <span class="step-chip step-chip--critical">1</span>
-        <p class="step-text"><strong>always = 常時注入</strong>— 共通制約を漏れなく適用</p>
+        <p class="step-text"><strong>always = 常時注入</strong>— 命名・レビュー等の共通規約</p>
       </div>
       <div class="step">
         <span class="step-chip step-chip--partial">2</span>
-        <p class="step-text"><strong>scoped = 条件注入</strong>— 文脈に合う規約だけ読み込み</p>
+        <p class="step-text"><strong>scoped = 条件注入</strong>— コードレビュー等の場面限定</p>
       </div>
       <div class="step">
         <span class="step-chip step-chip--good">3</span>
-        <p class="step-text"><strong>委譲 = 値の追加</strong>— 固有値を受け口で追加</p>
+        <p class="step-text"><strong>受け口 = 値の追加</strong>— 固有の語彙・命名値を追加</p>
       </div>
     </footer>
 
