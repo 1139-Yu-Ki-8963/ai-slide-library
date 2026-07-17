@@ -4,20 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI解説スライドライブラリ</title>
-<meta name="description" content="AIツールの論点を横1枚（16:9）で説明するスライドHTML集。検索・絞り込みで目的のスライドを探し、その場で提示・1クリックで保存できる。">
-<meta property="og:title" content="AI解説スライドライブラリ">
-<meta property="og:description" content="AIツールの論点を横1枚（16:9）で説明するスライドHTML集。検索・絞り込みで目的のスライドを探し、その場で提示・1クリックで保存できる。">
-<meta property="og:type" content="website">
-<script>
-(function () {
-  try {
-    var saved = localStorage.getItem("theme");
-    var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    var theme = saved || (prefersDark ? "dark" : "light");
-    if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
-  } catch (e) {}
-})();
-</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9A%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,7 +14,7 @@
     --surface: #FFFFFF;
     --ink: #1C2B3A;
     --ink-2: #55667A;
-    --ink-3: #5B6B7D;
+    --ink-3: #8494A6;
     --border: #D9E0E8;
     --accent: #D97757;
     --accent-deep: #BC5B3B;
@@ -40,24 +26,6 @@
     --warn-soft: #FFF4DA;
     --pack-bg: #2B7A4B;
     --pack-soft: #E8F3EC;
-  }
-  :root[data-theme="dark"] {
-    --page: #151B23;
-    --surface: #1E2733;
-    --ink: #E6ECF2;
-    --ink-2: #A8B4C0;
-    --ink-3: #8C9AA8;
-    --border: #303C4A;
-    --accent: #E08663;
-    --accent-deep: #EDA184;
-    --accent-soft: #33261F;
-    --tag-bg: #2A3441;
-    --mech-soft: #22303F;
-    --mech-deep: #7FA9D0;
-    --warn: #D9A741;
-    --warn-soft: #332B18;
-    --pack-bg: #3B9563;
-    --pack-soft: #1D2B22;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   .material-symbols-outlined {
@@ -94,50 +62,26 @@
     margin-right: 10px; vertical-align: -2px;
   }
   .site-subtitle { color: var(--ink-2); font-size: 13px; }
-  .theme-toggle {
-    width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border);
-    background: var(--surface); color: var(--ink-2); display: inline-flex; align-items: center; justify-content: center;
-    cursor: pointer; flex-shrink: 0; margin-left: auto; font-family: inherit;
-  }
-  .theme-toggle .material-symbols-outlined { font-size: 22px; vertical-align: 0; }
   .search-row { margin-top: 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
   .search-box { position: relative; flex: 1 1 320px; max-width: 560px; }
   .search-box input {
     width: 100%; padding: 10px 14px 10px 40px;
     border: 1px solid var(--border); border-radius: 8px;
-    font-size: 16px; background: var(--page); color: var(--ink);
+    font-size: 14px; background: var(--page); color: var(--ink);
   }
   .search-box input:focus { outline: 2px solid var(--accent); outline-offset: -1px; background: var(--surface); }
   .search-box .icon {
     position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
     color: var(--ink-3); font-size: 15px; pointer-events: none;
   }
-  .meta-info { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .hit-count { color: var(--ink-2); font-size: 13px; white-space: nowrap; }
-  .dot-sep { color: var(--border); }
-  .sort-label { color: var(--ink-3); font-size: 13px; white-space: nowrap; }
   .toolbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 32px 12px; }
   .toolbar .inner { display: flex; flex-direction: column; gap: 8px; }
-  .facet-toggle-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .facet-toggle-btn {
-    display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--border); background: var(--page);
-    color: var(--ink-2); border-radius: 8px; padding: 7px 12px; font-size: 12.5px; font-weight: 600; cursor: pointer;
-    min-height: 36px; font-family: inherit;
-  }
-  .facet-badge {
-    background: var(--accent); color: #fff; border-radius: 999px; font-size: 11px; font-weight: 700;
-    padding: 2px 9px; margin-left: 2px;
-  }
-  .facet-clear-btn {
-    background: none; border: none; color: var(--ink-3); font-size: 12.5px; text-decoration: underline;
-    cursor: pointer; padding: 6px 4px; min-height: 36px; font-family: inherit;
-  }
-  .facet-body { display: flex; flex-direction: column; gap: 8px; }
   .facet-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
   .facet-row .label { font-size: 12px; color: var(--ink-3); min-width: 3.5em; }
   .chip {
     border: 1px solid var(--border); background: var(--surface); color: var(--ink-2);
-    border-radius: 999px; padding: 4px 14px; font-size: 12.5px; cursor: pointer; font-family: inherit;
+    border-radius: 999px; padding: 4px 14px; font-size: 12.5px; cursor: pointer;
     transition: background 0.15s, color 0.15s, border-color 0.15s;
   }
   .chip:hover { border-color: var(--accent); color: var(--accent-deep); }
@@ -145,17 +89,6 @@
   .chip.disabled {
     opacity: 0.45; cursor: default; pointer-events: none;
     background: var(--page);
-  }
-  .loadmore-row { display: flex; justify-content: center; margin-top: 28px; }
-  .loadmore-btn {
-    border: 1px solid var(--accent); color: var(--accent-deep); background: var(--surface);
-    border-radius: 999px; padding: 11px 26px; font-size: 13.5px; font-weight: 700; cursor: pointer;
-    min-height: 44px; font-family: inherit;
-  }
-  .and-note { text-align: center; font-size: 11.5px; color: var(--ink-3); margin-top: 14px; }
-  @media (pointer: coarse) {
-    .chip, .tag, .facet-toggle-btn, .facet-clear-btn, .theme-toggle, .loadmore-btn { min-height: 44px; }
-    .card-actions .act, .copy-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
   }
   main { padding: 28px 32px 48px; }
   .grid {
@@ -179,14 +112,6 @@
   }
   .thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .thumb a.thumb-link { position: absolute; inset: 0; z-index: 2; }
-  .thumb-fallback { display: none; }
-  .thumb.is-fallback .thumb-fallback {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 4px; color: var(--ink-3); position: absolute; inset: 0;
-  }
-  .thumb.is-fallback .thumb-fallback .material-symbols-outlined { font-size: 30px; }
-  .thumb.is-fallback .thumb-fallback .fallback-label { font-size: 11.5px; }
-  .thumb.is-fallback .thumb-img { display: none; }
   .card-body { padding: 16px 18px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
   .card-title { font-size: 15.5px; font-weight: 700; line-height: 1.45; }
   .card-title a { color: inherit; text-decoration: none; }
@@ -200,10 +125,9 @@
   .card-problem::before { content: "こんな悩みに: "; color: var(--accent-deep); font-weight: 600; }
   .meta-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: auto; padding-top: 4px; }
   .tag {
-    background: var(--tag-bg); color: var(--ink-2); border: none; cursor: pointer; font-family: inherit;
+    background: var(--tag-bg); color: var(--ink-2);
     border-radius: 4px; padding: 2px 8px; font-size: 11px;
   }
-  .tag:hover { filter: brightness(0.95); }
   .tag.mech { background: var(--mech-soft); color: var(--mech-deep); }
   .tag.theme { background: var(--accent-soft); color: var(--accent-deep); }
   .date { color: var(--ink-3); font-size: 11px; margin-left: auto; }
@@ -223,7 +147,6 @@
   .site-footer a { color: var(--ink-2); }
   @media (max-width: 640px) {
     .site-header, .toolbar, main, .site-footer { padding-left: 16px; padding-right: 16px; }
-    .facet-body[hidden] { display: none; }
   }
   /* --- 配布バッジ・導入パネル --- */
   .pack-badge {
@@ -271,57 +194,40 @@
     <div class="brand-row">
       <h1 class="site-title"><span class="accent-bar"></span>AI解説スライドライブラリ</h1>
       <p class="site-subtitle">AIツールの論点を横1枚（16:9）で説明するスライドHTML集。その場で提示、1クリックで保存。</p>
-      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="表示モード切替"><span class="material-symbols-outlined" id="theme-toggle-icon">dark_mode</span></button>
     </div>
     <div class="search-row">
       <div class="search-box">
         <span class="icon"><span class="material-symbols-outlined">search</span></span>
-        <input id="search" type="search" placeholder="タイトル・説明・タグで検索（例: リミット / セキュリティ）" autocomplete="off">
+        <input id="search" type="search" placeholder="悩み・キーワードで検索（例: リミット / コスト / セキュリティ）" autocomplete="off">
       </div>
-      <span class="meta-info">
-        <span class="hit-count" id="hit-count" aria-live="polite"></span>
-        <span class="dot-sep">・</span>
-        <span class="sort-label">並び順: 登録が新しい順</span>
-      </span>
+      <span class="hit-count" id="hit-count"></span>
     </div>
   </div>
 </header>
 
 <nav class="toolbar">
   <div class="inner">
-    <div class="facet-toggle-row">
-      <button type="button" class="facet-toggle-btn" id="facet-toggle" aria-expanded="true">
-        <span class="material-symbols-outlined">tune</span>絞り込み<span class="facet-badge" id="facet-badge" hidden></span><span class="material-symbols-outlined">expand_more</span>
-      </button>
-      <button type="button" class="facet-clear-btn" id="facet-clear">すべてクリア</button>
+    <div class="facet-row">
+      <span class="label">ツール:</span>
+      <div id="tool-chips" style="display:contents"></div>
     </div>
-    <div class="facet-body" id="facet-body">
-      <div class="facet-row">
-        <span class="label">ツール:</span>
-        <div id="tool-chips" style="display:contents"></div>
-      </div>
-      <div class="facet-row">
-        <span class="label">仕組み:</span>
-        <div id="mech-chips" style="display:contents"></div>
-      </div>
-      <div class="facet-row">
-        <span class="label">テーマ:</span>
-        <div id="theme-chips" style="display:contents"></div>
-      </div>
-      <div class="facet-row">
-        <span class="label">配布:</span>
-        <div id="dist-chips" style="display:contents"></div>
-      </div>
+    <div class="facet-row">
+      <span class="label">仕組み:</span>
+      <div id="mech-chips" style="display:contents"></div>
+    </div>
+    <div class="facet-row">
+      <span class="label">テーマ:</span>
+      <div id="theme-chips" style="display:contents"></div>
+    </div>
+    <div class="facet-row">
+      <span class="label">配布:</span>
+      <div id="dist-chips" style="display:contents"></div>
     </div>
   </div>
 </nav>
 
 <main>
   <div class="grid" id="grid"></div>
-  <div class="loadmore-row" id="loadmore-row" style="display:none">
-    <button type="button" class="loadmore-btn" id="loadmore-btn"></button>
-  </div>
-  <p class="and-note">絞り込みは軸間 AND（すべての条件を満たすものを表示）</p>
   <div class="empty" id="empty">条件に合うスライドがありません。検索語を変えるか、ツール・仕組み・テーマの絞り込みを「すべて」に戻してください。</div>
   <noscript><p style="padding:32px;color:var(--ink-2)">このカタログの検索・一覧表示には JavaScript が必要です。スライド本体は slides/ フォルダから直接開けます。</p></noscript>
 </main>
@@ -932,14 +838,30 @@ const SLIDES = [
     "pack": false,
     "has_prompt": false,
     "date": "2026-07-17"
+  },
+  {
+    "key": "AI駆動整備-コンテキスト文書対応表",
+    "title": "AI 駆動開発は自動検証の基盤整備から始まる",
+    "target": "テスト・linter を機能させるために先に整備すべきコンテキスト文書の対応表",
+    "problems": "テストや linter を入れたいが何から始めればいいかわからない・自動化ツールを入れたが機能しない",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "運用ルール",
+      "環境構築"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "date": "2026-07-17"
   }
 ];
 /*CATALOG-DATA-END*/
 
 const STALE_DAYS = 90;
-const INITIAL_VISIBLE = 30;
-const LOAD_STEP = 30;
-const state = { query: "", tool: "すべて", mech: "すべて", theme: "すべて", dist: "すべて", visibleCount: INITIAL_VISIBLE };
+const state = { query: "", tool: "すべて", mech: "すべて", theme: "すべて", dist: "すべて" };
 
 function esc(s) {
   return String(s).replace(/[&<>"']/g, c => ({
@@ -966,33 +888,8 @@ function axisValues(field) {
   return [...listed, ...extras];
 }
 
-function normalizeText(s) {
-  return String(s).normalize('NFKC').toLowerCase();
-}
-
-function queryMatches(s) {
-  if (!state.query) return true;
-  const hay = normalizeText([
-    s.key, s.title, s.target, s.problems,
-    (s.tools || []).join(" "), (s.mechanisms || []).join(" "), (s.themes || []).join(" ")
-  ].join(" "));
-  const q = normalizeText(state.query);
-  return q.split(/\s+/).filter(Boolean).every(part => hay.includes(part));
-}
-
-const FIELD_STATE_KEY = { tools: "tool", mechanisms: "mech", themes: "theme" };
-
-// 件数の母数 = 他軸・検索適用後（自軸の選択は除外）
 function countFor(field, value) {
-  const stateKey = FIELD_STATE_KEY[field];
-  return SLIDES.filter(s => {
-    if (stateKey !== "tool" && state.tool !== "すべて" && !(s.tools || []).includes(state.tool)) return false;
-    if (stateKey !== "mech" && state.mech !== "すべて" && !(s.mechanisms || []).includes(state.mech)) return false;
-    if (stateKey !== "theme" && state.theme !== "すべて" && !(s.themes || []).includes(state.theme)) return false;
-    if (state.dist === "改善パックあり" && !s.pack) return false;
-    if (!(s[field] || []).includes(value)) return false;
-    return queryMatches(s);
-  }).length;
+  return SLIDES.filter(s => (s[field] || []).includes(value)).length;
 }
 
 function matches(s) {
@@ -1000,38 +897,12 @@ function matches(s) {
   if (state.mech !== "すべて" && !(s.mechanisms || []).includes(state.mech)) return false;
   if (state.theme !== "すべて" && !(s.themes || []).includes(state.theme)) return false;
   if (state.dist === "改善パックあり" && !s.pack) return false;
-  return queryMatches(s);
-}
-
-// --- URL 状態同期 ---
-function stateFromURL() {
-  const params = new URLSearchParams(location.search);
-  state.query = params.get("q") || "";
-  state.tool = params.get("tool") || "すべて";
-  state.mech = params.get("mech") || "すべて";
-  state.theme = params.get("theme") || "すべて";
-  state.dist = params.get("dist") || "すべて";
-  state.visibleCount = INITIAL_VISIBLE;
-}
-
-function syncURL(mode) {
-  const params = new URLSearchParams();
-  if (state.query) params.set("q", state.query);
-  if (state.tool !== "すべて") params.set("tool", state.tool);
-  if (state.mech !== "すべて") params.set("mech", state.mech);
-  if (state.theme !== "すべて") params.set("theme", state.theme);
-  if (state.dist !== "すべて") params.set("dist", state.dist);
-  const qs = params.toString();
-  const url = location.pathname + (qs ? "?" + qs : "") + location.hash;
-  if (mode === "push") history.pushState(null, "", url);
-  else history.replaceState(null, "", url);
-}
-
-function selectFacet(stateKey, value) {
-  state[stateKey] = value;
-  state.visibleCount = INITIAL_VISIBLE;
-  syncURL("push");
-  render();
+  if (!state.query) return true;
+  const hay = [
+    s.key, s.title, s.target, s.problems,
+    (s.tools || []).join(" "), (s.mechanisms || []).join(" "), (s.themes || []).join(" ")
+  ].join(" ").toLowerCase();
+  return state.query.toLowerCase().split(/\s+/).every(q => hay.includes(q));
 }
 
 function renderChipRow(containerId, field, stateKey) {
@@ -1041,17 +912,15 @@ function renderChipRow(containerId, field, stateKey) {
     const b = document.createElement("button");
     const count = value === "すべて" ? SLIDES.length : countFor(field, value);
     const disabled = value !== "すべて" && count === 0;
-    const active = state[stateKey] === value;
     b.className = "chip"
-      + (active ? " active" : "")
+      + (state[stateKey] === value ? " active" : "")
       + (disabled ? " disabled" : "");
     b.textContent = value;
-    b.setAttribute("aria-pressed", active ? "true" : "false");
     if (disabled) {
       b.title = "該当スライドは準備中です";
       b.setAttribute("aria-disabled", "true");
     } else {
-      b.onclick = () => selectFacet(stateKey, value);
+      b.onclick = () => { state[stateKey] = value; render(); };
     }
     wrap.appendChild(b);
   });
@@ -1066,73 +935,38 @@ function renderDistChips() {
   ].forEach(({ value, count }) => {
     const b = document.createElement("button");
     const disabled = value !== "すべて" && count === 0;
-    const active = state.dist === value;
     b.className = "chip"
-      + (active ? " active" : "")
+      + (state.dist === value ? " active" : "")
       + (disabled ? " disabled" : "");
     b.textContent = value;
-    b.setAttribute("aria-pressed", active ? "true" : "false");
     if (disabled) {
       b.title = "該当スライドは準備中です";
       b.setAttribute("aria-disabled", "true");
     } else {
-      b.onclick = () => selectFacet("dist", value);
+      b.onclick = () => { state.dist = value; render(); };
     }
     wrap.appendChild(b);
   });
 }
 
-function updateFacetBadge() {
-  // 選択数バッジは render() が通るたびにここで state から再計算する。
-  // クリック・クリア・popstate・初期化のどの経路でも state 反映後に render() 経由でここへ来るため、
-  // ここ以外の場所でバッジを更新しない（重複更新の禁止）。
-  const badge = document.getElementById("facet-badge");
-  const count = ["tool", "mech", "theme", "dist"].filter(k => state[k] !== "すべて").length;
-  badge.hidden = count === 0;
-  if (count > 0) badge.textContent = `${count}件選択中`;
-}
-
-// --- 導入プロンプトの遅延取得（catalog-prompts.json） ---
-let promptsCache = null;
-let promptsFetchPromise = null;
-function loadPrompts() {
-  if (promptsCache) return Promise.resolve(promptsCache);
-  if (!promptsFetchPromise) {
-    promptsFetchPromise = fetch("catalog-prompts.json")
-      .then(res => { if (!res.ok) throw new Error("failed"); return res.json(); })
-      .then(data => { promptsCache = data; return data; })
-      .catch(err => { promptsFetchPromise = null; throw err; });
-  }
-  return promptsFetchPromise;
-}
-
-function renderFacets() {
+function render() {
   renderChipRow("tool-chips", "tools", "tool");
   renderChipRow("mech-chips", "mechanisms", "mech");
   renderChipRow("theme-chips", "themes", "theme");
   renderDistChips();
-  updateFacetBadge();
-}
-
-function getVisibleSlides() {
-  const fullList = SLIDES.filter(matches)
+  const grid = document.getElementById("grid");
+  const list = SLIDES.filter(matches)
     .slice()
     .sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-  const visibleList = fullList.slice(0, state.visibleCount);
-  return { fullList, visibleList };
-}
-
-function renderGrid(visibleList) {
-  const grid = document.getElementById("grid");
-  grid.innerHTML = visibleList.map(s => {
+  grid.innerHTML = list.map(s => {
     const path = slidePath(s.key);
     const thumbPath = "slides/" + encodeURIComponent(s.key) + "/" + encodeURIComponent("サムネイル.png");
-    const toolTags = (s.tools || []).map(t => `<button type="button" class="tag" data-axis="tool" data-value="${esc(t)}">${esc(t)}</button>`).join("");
-    const mechTags = (s.mechanisms || []).map(t => `<button type="button" class="tag mech" data-axis="mech" data-value="${esc(t)}">${esc(t)}</button>`).join("");
-    const themeTags = (s.themes || []).map(t => `<button type="button" class="tag theme" data-axis="theme" data-value="${esc(t)}">${esc(t)}</button>`).join("");
+    const toolTags = (s.tools || []).map(t => `<span class="tag">${esc(t)}</span>`).join("");
+    const mechTags = (s.mechanisms || []).map(t => `<span class="tag mech">${esc(t)}</span>`).join("");
+    const themeTags = (s.themes || []).map(t => `<span class="tag theme">${esc(t)}</span>`).join("");
     const stale = isStale(s.date) ? `<span class="stale">登録から${STALE_DAYS}日超</span>` : "";
     const packBadge = s.pack ? `<span class="pack-badge">改善パック</span>` : "";
-    const hasPrompt = !!s.has_prompt;
+    const hasPrompt = !!(s.prompt && s.prompt.length);
     const packZipPath = "slides/" + encodeURIComponent(s.key) + "/pack.zip";
     const importButton = hasPrompt
       ? `<button type="button" class="act" data-toggle aria-expanded="false"><span class="material-symbols-outlined">terminal</span>導入する</button>`
@@ -1147,11 +981,11 @@ function renderGrid(visibleList) {
       ? `<p class="import-note">手動で導入する場合は「改善パック（zip）」からファイル一式を取得できます。</p>`
       : `<p class="import-note">この仕組みはスライドの内容を仕様として、あなたの環境に合わせて構築します。</p>`;
     const importPanel = hasPrompt ? `
-      <div class="import-panel" data-key="${esc(s.key)}">
+      <div class="import-panel">
         <h3>導入プロンプト — コピーして、あなたの AI に貼るだけ</h3>
         <p class="lead">貼り付けられた AI が、前提確認・配置（または構築）・検証まで実行します。</p>
         <div class="prompt-box">
-          <pre data-prompt-text>読み込み中…</pre>
+          <pre>${esc(s.prompt)}</pre>
           <button type="button" class="copy-btn" data-copy><span class="material-symbols-outlined">content_copy</span>コピー</button>
           <span class="copy-feedback">コピーしました</span>
         </div>
@@ -1161,8 +995,7 @@ function renderGrid(visibleList) {
     return `
     <article class="card">
       <div class="thumb">
-        <img class="thumb-img" loading="lazy" src="${thumbPath}" alt="${esc(s.title)} のサムネイル" width="640" height="360" onerror="this.closest('.thumb').classList.add('is-fallback')">
-        <div class="thumb-fallback"><span class="material-symbols-outlined">image</span><span class="fallback-label">サムネイル準備中</span></div>
+        <img class="thumb-img" loading="lazy" src="${thumbPath}" alt="${esc(s.title)} のサムネイル" width="640" height="360">
         <a class="thumb-link" href="${path}" target="_blank" rel="noopener" aria-label="${esc(s.title)} を全画面で開く"></a>
         ${packBadge}
       </div>
@@ -1180,29 +1013,9 @@ function renderGrid(visibleList) {
       ${importPanel}
     </article>`;
   }).join("");
+  document.getElementById("empty").style.display = list.length ? "none" : "block";
+  document.getElementById("hit-count").textContent = `${list.length}枚 / 全${SLIDES.length}枚`;
   bindCardEvents();
-}
-
-function renderStatus(fullList, visibleList) {
-  document.getElementById("empty").style.display = fullList.length ? "none" : "block";
-  document.getElementById("hit-count").textContent = `${fullList.length}件中 ${visibleList.length}件を表示`;
-
-  const remaining = fullList.length - visibleList.length;
-  const loadmoreRow = document.getElementById("loadmore-row");
-  const loadmoreBtn = document.getElementById("loadmore-btn");
-  if (remaining > 0) {
-    loadmoreRow.style.display = "";
-    loadmoreBtn.textContent = `もっと見る（残り ${remaining} 枚）`;
-  } else {
-    loadmoreRow.style.display = "none";
-  }
-}
-
-function render() {
-  renderFacets();
-  const { fullList, visibleList } = getVisibleSlides();
-  renderGrid(visibleList);
-  renderStatus(fullList, visibleList);
 }
 
 function bindCardEvents() {
@@ -1213,18 +1026,6 @@ function bindCardEvents() {
       if (!panel) return;
       const open = panel.classList.toggle("open");
       btn.setAttribute("aria-expanded", open ? "true" : "false");
-      if (open) {
-        const pre = panel.querySelector("[data-prompt-text]");
-        const key = panel.dataset.key;
-        if (pre && !pre.dataset.loaded) {
-          loadPrompts().then(data => {
-            pre.textContent = (data && data[key]) || "";
-            pre.dataset.loaded = "true";
-          }).catch(() => {
-            pre.textContent = "オフラインでは読み込めません";
-          });
-        }
-      }
     });
   });
   document.querySelectorAll(".copy-btn[data-copy]").forEach(btn => {
@@ -1254,79 +1055,12 @@ function bindCardEvents() {
       }
     });
   });
-  document.querySelectorAll(".tag[data-axis]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const axis = btn.dataset.axis;
-      const value = btn.dataset.value;
-      const next = state[axis] === value ? "すべて" : value;
-      selectFacet(axis, next);
-    });
-  });
 }
 
-// --- ダークモード切替 ---
-function currentTheme() {
-  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
-}
-function applyThemeIcon() {
-  document.getElementById("theme-toggle-icon").textContent = currentTheme() === "dark" ? "light_mode" : "dark_mode";
-}
-document.getElementById("theme-toggle").addEventListener("click", () => {
-  const next = currentTheme() === "dark" ? "light" : "dark";
-  if (next === "dark") document.documentElement.setAttribute("data-theme", "dark");
-  else document.documentElement.removeAttribute("data-theme");
-  try { localStorage.setItem("theme", next); } catch (e) {}
-  applyThemeIcon();
-});
-applyThemeIcon();
-
-// --- 絞り込みパネルの開閉 ---
-const facetBody = document.getElementById("facet-body");
-const facetToggleBtn = document.getElementById("facet-toggle");
-function setFacetOpen(open) {
-  facetBody.hidden = !open;
-  facetToggleBtn.setAttribute("aria-expanded", open ? "true" : "false");
-}
-facetToggleBtn.addEventListener("click", () => setFacetOpen(!!facetBody.hidden));
-setFacetOpen(!(window.matchMedia && window.matchMedia("(max-width: 640px)").matches));
-
-document.getElementById("facet-clear").addEventListener("click", () => {
-  state.tool = "すべて";
-  state.mech = "すべて";
-  state.theme = "すべて";
-  state.dist = "すべて";
-  state.visibleCount = INITIAL_VISIBLE;
-  syncURL("push");
-  render();
-});
-
-document.getElementById("loadmore-btn").addEventListener("click", () => {
-  state.visibleCount += LOAD_STEP;
-  render();
-});
-
-window.addEventListener("popstate", () => {
-  stateFromURL();
-  document.getElementById("search").value = state.query;
-  render();
-});
-
-// --- 検索（NFKC正規化 + 150msデバウンス） ---
-let searchDebounceTimer = null;
 document.getElementById("search").addEventListener("input", e => {
-  const value = e.target.value;
-  clearTimeout(searchDebounceTimer);
-  searchDebounceTimer = setTimeout(() => {
-    state.query = value.trim();
-    state.visibleCount = INITIAL_VISIBLE;
-    syncURL("replace");
-    render();
-  }, 150);
+  state.query = e.target.value.trim();
+  render();
 });
-
-// --- 初期化 ---
-stateFromURL();
-document.getElementById("search").value = state.query;
 render();
 </script>
 </body>
