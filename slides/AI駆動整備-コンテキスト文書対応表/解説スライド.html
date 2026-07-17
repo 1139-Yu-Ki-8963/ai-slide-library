@@ -1,0 +1,234 @@
+<meta charset="utf-8">
+<title>AI 駆動開発は自動検証の基盤整備から始まる</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  /* ==== スライド枠（16:9 固定） ==== */
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute; top: 50%; left: 50%;
+    width: 1280px; height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28,43,58,0.08);
+    display: flex; flex-direction: column;
+    padding: 36px 44px;
+    gap: 14px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%,-50%) scale(var(--slide-scale,1));
+    transform-origin: center center;
+  }
+
+  /* ==== ヘッダ ==== */
+  .slide-header { display: flex; flex-direction: column; gap: 3px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); }
+  .slide-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 28px; font-weight: 700; line-height: 1.25; color: var(--ink); }
+  .slide-subtitle { font-size: 13px; color: var(--ink-2); line-height: 1.4; }
+
+  /* ==== 対応表グループ ==== */
+  .groups-row { display: flex; gap: 20px; flex: 1; min-height: 0; }
+  .group-card {
+    flex: 1; border: 1.5px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .group-head { display: flex; align-items: center; gap: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .group-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 12px;
+    border-radius: 12px; color: #fff; background: var(--ink);
+  }
+  .group-label { font-size: 13px; font-weight: 600; color: var(--ink-3); }
+
+  /* ==== 対応行 ==== */
+  .mapping-list { display: flex; flex-direction: column; gap: 6px; }
+  .mapping-row { display: flex; align-items: center; gap: 8px; }
+  .mapping-tool {
+    font-size: 12px; font-weight: 600; color: var(--ink);
+    padding: 5px 10px; border-radius: 6px;
+    background: var(--tag-bg); border: 1px solid var(--border);
+    white-space: nowrap; min-width: 160px;
+  }
+  .mapping-arrow { flex-shrink: 0; }
+  .mapping-ctx {
+    font-size: 12px; font-weight: 600; color: var(--good);
+    padding: 5px 10px; border-radius: 6px;
+    background: var(--good-soft); border: 1px solid rgba(31,122,70,0.2);
+    white-space: nowrap;
+  }
+  .mapping-ctx--minor {
+    color: var(--ink-3); background: var(--surface);
+    border: 1px dashed var(--border);
+  }
+
+  /* ==== 言語例バンド ==== */
+  .lang-band {
+    display: flex; align-items: center; gap: 20px;
+    padding: 10px 20px; border-radius: 8px;
+    background: var(--tag-bg); border: 1px solid var(--border);
+  }
+  .lang-title { font-size: 12px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .lang-list { display: flex; gap: 16px; flex-wrap: wrap; }
+  .lang-item { font-size: 11px; color: var(--ink-2); }
+  .lang-item strong { color: var(--ink); font-weight: 700; }
+
+  /* ==== ステップ番号チップ ==== */
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--1 { background: var(--critical); }
+  .step-chip--2 { background: #D97757; }
+  .step-chip--3 { background: var(--good); }
+
+  /* ==== フッタステップ ==== */
+  .steps {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;
+    padding-top: 10px; border-top: 1px solid var(--border);
+  }
+  .step { display: flex; gap: 8px; align-items: center; }
+  .step-text { font-size: 12px; line-height: 1.4; color: var(--ink-2); }
+  .step-text strong { color: var(--ink); }
+
+  /* ==== メタデータフッター ==== */
+  .slide-meta { height: 20px; padding-top: 4px; border-top: 1px solid var(--border); }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI 駆動開発 — 整備項目</span>
+      <h1 class="slide-title">AI 駆動開発は自動検証の基盤整備から始まる</h1>
+      <p class="slide-subtitle">ルンバが走るには床からものをどかす。テスト・linter を動かすには「何が正しいのか」を定義するコンテキスト文書を先に整備する。</p>
+    </header>
+
+    <div class="groups-row">
+
+      <article class="group-card">
+        <div class="group-head">
+          <span class="group-badge">テスト系</span>
+          <span class="group-label">やりたいこと → 必要なコンテキスト</span>
+        </div>
+        <div class="mapping-list">
+          <div class="mapping-row">
+            <span class="mapping-tool">テストフレームワーク導入</span>
+            <svg class="mapping-arrow" width="20" height="12" viewBox="0 0 20 12"><path d="M0 6h16M12 1l5 5-5 5" fill="none" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="mapping-ctx mapping-ctx--minor">ツール選定のみ</span>
+          </div>
+          <div class="mapping-row">
+            <span class="mapping-tool">単体テスト整備</span>
+            <svg class="mapping-arrow" width="20" height="12" viewBox="0 0 20 12"><path d="M0 6h16M12 1l5 5-5 5" fill="none" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="mapping-ctx">単体テスト仕様書</span>
+          </div>
+          <div class="mapping-row">
+            <span class="mapping-tool">結合テスト整備</span>
+            <svg class="mapping-arrow" width="20" height="12" viewBox="0 0 20 12"><path d="M0 6h16M12 1l5 5-5 5" fill="none" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="mapping-ctx">結合テスト仕様書</span>
+          </div>
+          <div class="mapping-row">
+            <span class="mapping-tool">E2E テスト整備</span>
+            <svg class="mapping-arrow" width="20" height="12" viewBox="0 0 20 12"><path d="M0 6h16M12 1l5 5-5 5" fill="none" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="mapping-ctx">ユーザー操作フロー定義書</span>
+          </div>
+          <div class="mapping-row">
+            <span class="mapping-tool">カバレッジ計測導入</span>
+            <svg class="mapping-arrow" width="20" height="12" viewBox="0 0 20 12"><path d="M0 6h16M12 1l5 5-5 5" fill="none" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="mapping-ctx">テスト方針書</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="group-card">
+        <div class="group-head">
+          <span class="group-badge">静的検査系</span>
+          <span class="group-label">やりたいこと → 必要なコンテキスト</span>
+        </div>
+        <div class="mapping-list">
+          <div class="mapping-row">
+            <span class="mapping-tool">コード linter 導入</span>
+            <svg class="mapping-arrow" width="20" height="12" viewBox="0 0 20 12"><path d="M0 6h16M12 1l5 5-5 5" fill="none" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="mapping-ctx">コーディング規約</span>
+          </div>
+          <div class="mapping-row">
+            <span class="mapping-tool">文体 linter 導入</span>
+            <svg class="mapping-arrow" width="20" height="12" viewBox="0 0 20 12"><path d="M0 6h16M12 1l5 5-5 5" fill="none" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="mapping-ctx">用語辞書 + textlint 設定</span>
+          </div>
+          <div class="mapping-row">
+            <span class="mapping-tool">リンク切れ linter 導入</span>
+            <svg class="mapping-arrow" width="20" height="12" viewBox="0 0 20 12"><path d="M0 6h16M12 1l5 5-5 5" fill="none" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="mapping-ctx">リンク検査設定</span>
+          </div>
+          <div class="mapping-row">
+            <span class="mapping-tool">HTML 静的検査導入</span>
+            <svg class="mapping-arrow" width="20" height="12" viewBox="0 0 20 12"><path d="M0 6h16M12 1l5 5-5 5" fill="none" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="mapping-ctx">HTML 検査観点定義書</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="lang-band">
+      <span class="lang-title">テストフレームワーク例</span>
+      <div class="lang-list">
+        <span class="lang-item"><strong>JavaScript:</strong> vitest / Jest / Node.js --test</span>
+        <span class="lang-item"><strong>Ruby:</strong> RSpec / Minitest</span>
+        <span class="lang-item"><strong>Python:</strong> pytest / unittest</span>
+      </div>
+    </div>
+
+    <footer class="steps">
+      <div class="step">
+        <span class="step-chip step-chip--1">1</span>
+        <p class="step-text"><strong>コンテキスト文書</strong>を整備する（床をどかす）</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--2">2</span>
+        <p class="step-text"><strong>自動化ツール</strong>を導入する（ルンバを走らせる）</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--3">3</span>
+        <p class="step-text"><strong>AI が安全に変更できる状態</strong>になる</p>
+      </div>
+    </footer>
+
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
