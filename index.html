@@ -21,6 +21,8 @@
     --mech-deep: #33618D;
     --warn: #9A6700;
     --warn-soft: #FFF4DA;
+    --pack-bg: #2B7A4B;
+    --pack-soft: #E8F3EC;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -142,6 +144,43 @@
   @media (max-width: 640px) {
     .site-header, .toolbar, main, .site-footer { padding-left: 16px; padding-right: 16px; }
   }
+  /* --- 配布バッジ・導入パネル --- */
+  .pack-badge {
+    position: absolute; top: 10px; right: 10px; z-index: 3;
+    background: var(--pack-bg); color: #fff;
+    border-radius: 999px; padding: 3px 10px;
+    font-size: 11px; font-weight: 700;
+  }
+  .card-actions button.act {
+    flex: 1; text-align: center; padding: 10px 0;
+    font-size: 13px; font-weight: 600;
+    color: var(--ink-2); background: none; border: none; cursor: pointer;
+    font-family: inherit; transition: background 0.15s, color 0.15s;
+    border-left: 1px solid var(--border);
+  }
+  .card-actions button.act:first-child { border-left: 0; }
+  .card-actions button.act:hover { background: var(--accent-soft); color: var(--accent-deep); }
+  .card-actions button.act[aria-expanded="true"] { background: var(--accent-soft); color: var(--accent-deep); }
+  .import-panel { display: none; border-top: 1px solid var(--border); background: var(--page); padding: 14px 16px 16px; flex-direction: column; gap: 12px; }
+  .import-panel.open { display: flex; }
+  .import-panel h3 { font-size: 12px; color: var(--ink-2); font-weight: 700; }
+  .import-panel .lead { font-size: 11.5px; color: var(--ink-3); margin-top: -6px; }
+  .import-panel ul { padding-left: 18px; display: flex; flex-direction: column; gap: 3px; }
+  .import-panel li { font-size: 12px; color: var(--ink); }
+  .prompt-box pre {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 12px; font-size: 11px; line-height: 1.55; white-space: pre-wrap; word-break: break-word;
+    color: var(--ink); max-height: 200px; overflow-y: auto; margin: 0;
+  }
+  .copy-btn {
+    margin-top: 8px; background: var(--accent); color: #fff; border: none;
+    border-radius: 6px; padding: 6px 14px; font-size: 12px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+  .copy-btn:hover { background: var(--accent-deep); }
+  .copy-feedback { margin-left: 8px; font-size: 12px; color: var(--pack-bg); font-weight: 600; opacity: 0; transition: opacity 0.2s; }
+  .copy-feedback.show { opacity: 1; }
+  .import-note { font-size: 11px; color: var(--ink-3); }
 </style>
 </head>
 <body>
@@ -175,6 +214,10 @@
     <div class="facet-row">
       <span class="label">テーマ:</span>
       <div id="theme-chips" style="display:contents"></div>
+    </div>
+    <div class="facet-row">
+      <span class="label">配布:</span>
+      <div id="dist-chips" style="display:contents"></div>
     </div>
   </div>
 </nav>
@@ -238,6 +281,9 @@ const SLIDES = [
       "コスト・リミット",
       "運用ルール"
     ],
+    "entities": [],
+    "pack": false,
+    "prompt": "",
     "date": "2026-07-09"
   },
   {
@@ -256,6 +302,9 @@ const SLIDES = [
       "モデル・ツール選定",
       "コスト・リミット"
     ],
+    "entities": [],
+    "pack": false,
+    "prompt": "",
     "date": "2026-07-14"
   },
   {
@@ -273,6 +322,9 @@ const SLIDES = [
     "themes": [
       "セキュリティ"
     ],
+    "entities": [],
+    "pack": false,
+    "prompt": "",
     "date": "2026-07-14"
   },
   {
@@ -290,6 +342,11 @@ const SLIDES = [
     "themes": [
       "設定・規約遵守"
     ],
+    "entities": [
+      "規約: 設定ファイルの分割と読み分け"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: 設定ファイルの肥大化を防ぐ分割と条件読み分け\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/claude-md分割戦略/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -309,6 +366,11 @@ const SLIDES = [
       "設定・規約遵守",
       "運用ルール"
     ],
+    "entities": [
+      "規約: hook の配置場所の決め方"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: hook を規約と同じ場所に置く配置ルール\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/hook配置規約-同居原則/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -329,6 +391,12 @@ const SLIDES = [
       "環境構築",
       "設定・規約遵守"
     ],
+    "entities": [
+      "テンプレート: 設定リポジトリのフォルダ設計",
+      "スクリプト: シンボリックリンク配布"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: 設定を 1 か所で正本管理しシンボリックリンクで配る仕組み\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/agent-home設定一元管理-symlink配布観点/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -347,6 +415,11 @@ const SLIDES = [
     "themes": [
       "設定・規約遵守"
     ],
+    "entities": [
+      "規約: 振る舞い統制の全体設計"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: hooks による機械強制とサブエージェントの権限分離\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/agent-home振る舞い統制-hooks権限分離観点/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -366,6 +439,11 @@ const SLIDES = [
       "設定・規約遵守",
       "環境構築"
     ],
+    "entities": [
+      "テンプレート: 設定フォルダの書き分け構成"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: 設定フォルダの事実・規範・手順・自動化の書き分け構成\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/claude-code-テンプレート構成/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -384,6 +462,12 @@ const SLIDES = [
       "設定・規約遵守",
       "運用ルール"
     ],
+    "entities": [
+      "hook: block による停止",
+      "hook: advisory による注意喚起"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: AI の操作を「止める(block)」と「気づかせる(advisory)」の二層で制御する hook の仕組み\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/hook強制助言-二層設計/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -400,6 +484,12 @@ const SLIDES = [
     "themes": [
       "セキュリティ"
     ],
+    "entities": [
+      "hook: コミット時の機密文字列走査",
+      "規約: 検出時の通知と除去手順"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: コミット・push 前に機密情報らしき文字列を機械検出して止める仕組み\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/機密情報検査-コミット前ブロック/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -418,6 +508,11 @@ const SLIDES = [
       "運用ルール",
       "設定・規約遵守"
     ],
+    "entities": [
+      "規約: 役割分担と合否宣言権の定義"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: サブエージェントを 4 分類し合否宣言権を判定役に独占させる統制\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/サブエージェント4分類-合否宣言権/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -435,6 +530,11 @@ const SLIDES = [
     "themes": [
       "運用ルール"
     ],
+    "entities": [
+      "規約: 委任プロンプトの必須要素"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: 「決める」と「反映する」を分けて委任する設計\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/判断反映分離-委任設計/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -452,6 +552,11 @@ const SLIDES = [
     "themes": [
       "運用ルール"
     ],
+    "entities": [
+      "運用手順: 調査チェックリストと照合の流れ"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: 調査報告をチェックリスト照合と裏取りで検証する二段レビュー\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/調査報告裏取り-二段レビュー/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -470,6 +575,12 @@ const SLIDES = [
     "themes": [
       "運用ルール"
     ],
+    "entities": [
+      "運用手順: 初見読解プローブの実行手順",
+      "テンプレート: 5 項目報告形式"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: 弱いモデルに計画を初見読解させ暗黙知を抽出する手法\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/弱モデル計画プローブ-暗黙知抽出/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -487,6 +598,11 @@ const SLIDES = [
     "themes": [
       "運用ルール"
     ],
+    "entities": [
+      "規約: ルート判定の条件分岐"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: 開発タスクをルート分類して手順の重さを自動選択する統制\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/ルート分類-開発フロー統制/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -504,6 +620,11 @@ const SLIDES = [
     "themes": [
       "運用ルール"
     ],
+    "entities": [
+      "規約: ゲート配置と観点の分担"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: 開発の節目ごとに専門レビューを機械的に挟むゲート設計\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/レビューゲート-フェーズ別分離/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -520,6 +641,11 @@ const SLIDES = [
     "themes": [
       "運用ルール"
     ],
+    "entities": [
+      "テンプレート: 変更提案の必須節"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: テスト通過ではなく実際に動いた証跡を完了条件にする定義\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/実害検証-完了定義/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -538,6 +664,12 @@ const SLIDES = [
       "環境構築",
       "運用ルール"
     ],
+    "entities": [
+      "規約: ポート計算式と割当方式",
+      "テンプレート: 割当表の雛形"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: 並列開発でポート衝突を防ぐ計算式ベースのポート採番規約\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/worktree並列開発-ポート採番/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -554,6 +686,12 @@ const SLIDES = [
     "themes": [
       "運用ルール"
     ],
+    "entities": [
+      "hook: 失敗長期化と文脈肥大の検知",
+      "スクリプト: 操作ログの記録"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: 全操作の記録基盤と、それを使う空回り・文脈肥大の検知\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/観測基盤-空回り検知/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -572,6 +710,11 @@ const SLIDES = [
       "運用ルール",
       "設定・規約遵守"
     ],
+    "entities": [
+      "規約: 同時更新の照合ルール"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: コード変更と設計書更新を同じ変更単位に縛る運用\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/docs同時更新-同一PR強制/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -589,6 +732,11 @@ const SLIDES = [
     "themes": [
       "設定・規約遵守"
     ],
+    "entities": [
+      "テンプレート: 担保手段列付きの規約一覧"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: 規約ごとの担保手段をラベル付けして穴を一覧化する仕組み\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/規約カバレッジ-可視化/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   },
   {
@@ -605,13 +753,18 @@ const SLIDES = [
     "themes": [
       "運用ルール"
     ],
+    "entities": [
+      "テンプレート: 意思決定記録（ADR）の型"
+    ],
+    "pack": false,
+    "prompt": "次のスライドが説明する仕組みを、あなたの開発環境に合わせて設計・構築してください。作業はあなた（AI）が代行し、判断に迷う点だけ私に質問してください。効果や所要時間の見込みは述べず、検証で確認できた事実だけを報告してください。\n\n取り入れる仕組み: 開発プロセス自体を設計メモ・意思決定記録として蓄積する運用\n\n仕様の参照元（このスライドの内容を仕様として読んでください）:\nhttps://raw.githubusercontent.com/1139-Yu-Ki-8963/ai-slide-library/main/slides/開発プロセス-成果物化/解説スライド.html\n\n手順:\n1.【前提確認】私が使っている AI 開発ツールの種類・既存の設定や規約の有無を確認してください。そのうえで、この仕組みが私の環境に当てはまるか、どの形（規約・スクリプト・運用手順など）で実現するのが適切かを判断して報告してください。\n2.【設計と構築】参照元スライドの内容を仕様として、私の環境に合った形でこの仕組みを構築してください。特定環境に依存する値は私に確認するか、プレースホルダーにしてください。既存の設定・規約を上書きする必要がある場合は、必ず事前に私へ確認してください。\n3.【検証】構築した仕組みが意図どおり動く（または意図どおり運用できる）ことを、実際に小さく試して確認し、結果を報告してください。机上の確認だけで完了とせず、動かせるものは動かして確かめてください。\n",
     "date": "2026-07-16"
   }
 ];
 /*CATALOG-DATA-END*/
 
 const STALE_DAYS = 90;
-const state = { query: "", tool: "すべて", mech: "すべて", theme: "すべて" };
+const state = { query: "", tool: "すべて", mech: "すべて", theme: "すべて", dist: "すべて" };
 
 function esc(s) {
   return String(s).replace(/[&<>"']/g, c => ({
@@ -646,6 +799,7 @@ function matches(s) {
   if (state.tool !== "すべて" && !(s.tools || []).includes(state.tool)) return false;
   if (state.mech !== "すべて" && !(s.mechanisms || []).includes(state.mech)) return false;
   if (state.theme !== "すべて" && !(s.themes || []).includes(state.theme)) return false;
+  if (state.dist === "改善パックあり" && !s.pack) return false;
   if (!state.query) return true;
   const hay = [
     s.key, s.title, s.target, s.problems,
@@ -675,10 +829,34 @@ function renderChipRow(containerId, field, stateKey) {
   });
 }
 
+function renderDistChips() {
+  const wrap = document.getElementById("dist-chips");
+  wrap.innerHTML = "";
+  [
+    { value: "すべて", count: SLIDES.length },
+    { value: "改善パックあり", count: SLIDES.filter(s => s.pack).length }
+  ].forEach(({ value, count }) => {
+    const b = document.createElement("button");
+    const disabled = value !== "すべて" && count === 0;
+    b.className = "chip"
+      + (state.dist === value ? " active" : "")
+      + (disabled ? " disabled" : "");
+    b.textContent = value;
+    if (disabled) {
+      b.title = "該当スライドは準備中です";
+      b.setAttribute("aria-disabled", "true");
+    } else {
+      b.onclick = () => { state.dist = value; render(); };
+    }
+    wrap.appendChild(b);
+  });
+}
+
 function render() {
   renderChipRow("tool-chips", "tools", "tool");
   renderChipRow("mech-chips", "mechanisms", "mech");
   renderChipRow("theme-chips", "themes", "theme");
+  renderDistChips();
   const grid = document.getElementById("grid");
   const list = SLIDES.filter(matches)
     .slice()
@@ -689,11 +867,39 @@ function render() {
     const mechTags = (s.mechanisms || []).map(t => `<span class="tag mech">${esc(t)}</span>`).join("");
     const themeTags = (s.themes || []).map(t => `<span class="tag theme">${esc(t)}</span>`).join("");
     const stale = isStale(s.date) ? `<span class="stale">登録から${STALE_DAYS}日超</span>` : "";
+    const packBadge = s.pack ? `<span class="pack-badge">改善パック</span>` : "";
+    const hasPrompt = !!(s.prompt && s.prompt.length);
+    const packZipPath = "slides/" + encodeURIComponent(s.key) + "/pack.zip";
+    const importButton = hasPrompt
+      ? `<button type="button" class="act" data-toggle aria-expanded="false">&#9889; 導入する</button>`
+      : "";
+    const packLink = s.pack
+      ? `<a href="${packZipPath}" download>&#8681; 改善パック（zip）</a>`
+      : "";
+    const entityList = (s.entities || []).length
+      ? `<h3>導入されるもの</h3><ul>${(s.entities || []).map(e => `<li>${esc(e)}</li>`).join("")}</ul>`
+      : "";
+    const importNote = s.pack
+      ? `<p class="import-note">手動で導入する場合は「改善パック（zip）」からファイル一式を取得できます。</p>`
+      : `<p class="import-note">この仕組みはスライドの内容を仕様として、あなたの環境に合わせて構築します。</p>`;
+    const importPanel = hasPrompt ? `
+      <div class="import-panel">
+        <h3>導入プロンプト — コピーして、あなたの AI に貼るだけ</h3>
+        <p class="lead">貼り付けられた AI が、前提確認・配置（または構築）・検証まで実行します。</p>
+        <div class="prompt-box">
+          <pre>${esc(s.prompt)}</pre>
+          <button type="button" class="copy-btn" data-copy>コピー</button>
+          <span class="copy-feedback">コピーしました</span>
+        </div>
+        ${entityList}
+        ${importNote}
+      </div>` : "";
     return `
     <article class="card">
       <div class="thumb">
         <iframe src="${path}" loading="lazy" scrolling="no" tabindex="-1" title="${esc(s.title)} のプレビュー"></iframe>
         <a class="thumb-link" href="${path}" target="_blank" rel="noopener" aria-label="${esc(s.title)} を全画面で開く"></a>
+        ${packBadge}
       </div>
       <div class="card-body">
         <h2 class="card-title"><a href="${path}" target="_blank" rel="noopener">${esc(s.title)}</a></h2>
@@ -702,14 +908,56 @@ function render() {
         <div class="meta-row">${toolTags}${mechTags}${themeTags}${stale}<span class="date">${esc(s.date)} 登録</span></div>
       </div>
       <div class="card-actions">
-        <a href="${path}" target="_blank" rel="noopener">&#9654; 提示する</a>
-        <a href="${path}" download="${esc(s.key)}.html">&#8595; ダウンロード</a>
+        ${importButton}
+        <a href="${path}" download="${esc(s.key)}.html">&#8595; スライドHTML</a>
+        ${packLink}
       </div>
+      ${importPanel}
     </article>`;
   }).join("");
   document.getElementById("empty").style.display = list.length ? "none" : "block";
   document.getElementById("hit-count").textContent = `${list.length}枚 / 全${SLIDES.length}枚`;
   fitThumbs();
+  bindCardEvents();
+}
+
+function bindCardEvents() {
+  document.querySelectorAll(".card-actions button.act[data-toggle]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".card");
+      const panel = card.querySelector(".import-panel");
+      if (!panel) return;
+      const open = panel.classList.toggle("open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  });
+  document.querySelectorAll(".copy-btn[data-copy]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".card");
+      const pre = card.querySelector(".prompt-box pre");
+      if (!pre) return;
+      const text = pre.textContent;
+      const feedback = btn.parentElement.querySelector(".copy-feedback");
+      const showFeedback = () => {
+        if (!feedback) return;
+        feedback.classList.add("show");
+        setTimeout(() => feedback.classList.remove("show"), 1500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(showFeedback);
+      } else {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); } catch (e) {}
+        document.body.removeChild(ta);
+        showFeedback();
+      }
+    });
+  });
 }
 
 function fitThumbs() {
