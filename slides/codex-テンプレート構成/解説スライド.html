@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>Claude Code — AI駆動開発の docs 配置ガイド</title>
+<title>Codex CLI — AI駆動開発の docs 配置ガイド</title>
 <style>
   :root {
     --page: #EDF0F4;
@@ -9,7 +9,7 @@
     --ink-3: #8494A6;
     --border: #D9E0E8;
     --good: #1F7A46;
-    --claude: #D97757;
+    --codex: #10A37F;
     --row-1: #3B5998;
     --row-2: #D97757;
     --row-3: #1F7A46;
@@ -48,7 +48,7 @@
     padding-bottom: 12px;
     border-bottom: 2px solid var(--ink);
   }
-  .slide-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: var(--claude); }
+  .slide-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: var(--codex); }
   .slide-title { font-size: 30px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
   .slide-subtitle { font-size: 14px; color: var(--ink-2); }
 
@@ -118,9 +118,9 @@
   <div class="slide">
 
     <header class="slide-header">
-      <span class="slide-eyebrow">CLAUDE CODE</span>
-      <h1 class="slide-title">Claude Code — AI駆動開発の docs 配置ガイド</h1>
-      <p class="slide-subtitle">.md に書いてここに置く — それだけで AI の行動が変わる</p>
+      <span class="slide-eyebrow">CODEX CLI</span>
+      <h1 class="slide-title">Codex CLI — AI駆動開発の docs 配置ガイド</h1>
+      <p class="slide-subtitle">AGENTS.md と .codex/ に書いてここに置く — それだけで AI の行動が変わる</p>
     </header>
 
     <table class="guide-table">
@@ -134,28 +134,28 @@
       <tbody>
         <tr>
           <td>
-            <span class="content-label">プロジェクト概要</span>
-            <span class="content-detail">技術スタック・用語集・設定索引</span>
+            <span class="content-label">プロジェクト指示</span>
+            <span class="content-detail">技術スタック・用語集・作業規約・避けるべきパス</span>
           </td>
           <td>
-            <span class="path-main">CLAUDE.md</span>
-            <span class="path-sub">ルート直下（親ディレクトリから順に読込）<br>プレーン Markdown・frontmatter 不要</span>
+            <span class="path-main">AGENTS.md</span>
+            <span class="path-sub">ルート〜サブディレクトリに階層配置<br>近い階層ほど優先・全ファイルを連結読込<br>Cursor/Copilot と共有可</span>
           </td>
           <td>
-            <span class="effect-text">毎回のセッション開始時に自動で読み込まれる<br><span class="effect-arrow">&rarr;</span> AI が常にプロジェクトの文脈を把握した状態で作業する</span>
+            <span class="effect-text">セッション開始時にルートから順に自動で読み込まれる<br><span class="effect-arrow">&rarr;</span> ディレクトリ階層がそのままスコープ付きルールになる</span>
           </td>
         </tr>
         <tr>
           <td>
-            <span class="content-label">コーディング規約</span>
-            <span class="content-detail">命名ルール・DB設計規約・レビュー基準</span>
+            <span class="content-label">中央設定</span>
+            <span class="content-detail">モデル選択・MCP接続・サンドボックス・承認ポリシー</span>
           </td>
           <td>
-            <span class="path-main">.claude/rules/*.md</span>
-            <span class="path-sub">プレーン Markdown（frontmatter 不要）<br>00-global.md &nbsp; 常時適用<br>10-frontend.md &nbsp; paths: src/**<br>50-database.md &nbsp; paths: db/**</span>
+            <span class="path-main">.codex/config.toml</span>
+            <span class="path-sub">TOML 形式（信頼済みプロジェクトのみ読込）<br>sandbox_mode &nbsp; approval_policy<br>[mcp_servers.名前] &nbsp; 外部ツール接続</span>
           </td>
           <td>
-            <span class="effect-text">paths 条件で該当ファイル編集時だけ注入される<br><span class="effect-arrow">&rarr;</span> 生成されるコードが規約に従う</span>
+            <span class="effect-text">モデル・権限・外部ツールを一元管理できる<br><span class="effect-arrow">&rarr;</span> sandbox で read-only / write / full-access を制御する</span>
           </td>
         </tr>
         <tr>
@@ -164,11 +164,11 @@
             <span class="content-detail">デプロイ手順・コミットフロー</span>
           </td>
           <td>
-            <span class="path-main">.claude/skills/</span>
-            <span class="path-sub">SKILL.md に手順を記述<br>adapt/ &nbsp; safe-commit/</span>
+            <span class="path-main">.agents/skills/</span>
+            <span class="path-sub">SKILL.md + scripts/ + references/<br>deploy-flow/ &nbsp; safe-commit/</span>
           </td>
           <td>
-            <span class="effect-text">/コマンド名 で必要な時だけ呼び出される<br><span class="effect-arrow">&rarr;</span> 手順が属人化せず再現可能になる</span>
+            <span class="effect-text">/skills や $ で必要な時だけ呼び出される<br><span class="effect-arrow">&rarr;</span> 手順が属人化せず再現可能になる</span>
           </td>
         </tr>
         <tr>
@@ -177,24 +177,24 @@
             <span class="content-detail">専門役割の分離・タスク委任</span>
           </td>
           <td>
-            <span class="path-main">.claude/agents/*.md</span>
-            <span class="path-sub">YAML frontmatter で model/tools を指定<br>reviewer.md &nbsp; investigator.md</span>
+            <span class="path-main">.codex/agents/*.toml</span>
+            <span class="path-sub">TOML 形式で name/description/model を指定<br>verifier.toml &nbsp; reviewer.toml</span>
           </td>
           <td>
-            <span class="effect-text">Agent ツールから専門エージェントとして呼び出される<br><span class="effect-arrow">&rarr;</span> 役割ごとにツール権限とモデルを制御できる</span>
+            <span class="effect-text">独自コンテキストで最大6並列で実行される<br><span class="effect-arrow">&rarr;</span> 複雑なタスクを専門エージェントに自動委任できる</span>
           </td>
         </tr>
         <tr>
           <td>
-            <span class="content-label">実行制御・環境設定</span>
-            <span class="content-detail">フック・権限・外部ツール接続</span>
+            <span class="content-label">実行フック</span>
+            <span class="content-detail">ツール実行前後の自動処理</span>
           </td>
           <td>
-            <span class="path-main">settings.json + .mcp.json</span>
-            <span class="path-sub">settings.json &nbsp; hooks / permissions<br>.mcp.json &nbsp; MCP サーバー接続<br>allow / deny でコマンド許可を制御</span>
+            <span class="path-main">.codex/hooks.json</span>
+            <span class="path-sub">JSON 形式・stdin/stdout で JSON をやり取り<br>PreToolUse &nbsp; PostToolUse &nbsp; Stop</span>
           </td>
           <td>
-            <span class="effect-text">PreToolUse / PostToolUse 等のフックで動作を制御<br><span class="effect-arrow">&rarr;</span> コマンド実行の許可・拒否を精密に管理できる</span>
+            <span class="effect-text">ツール実行やセッション終了時にスクリプトが自動発火<br><span class="effect-arrow">&rarr;</span> lint・テスト・通知などを自動化できる</span>
           </td>
         </tr>
       </tbody>
