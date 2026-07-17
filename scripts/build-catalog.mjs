@@ -125,6 +125,16 @@ if (slides.length === 0) {
 }
 
 const indexHtml = readFileSync(indexPath, "utf8");
+
+// テンプレート指紋チェック: 古い checkout の index.html を土台に build すると
+// 改善版テンプレート（PR #16）が失われるため、必須マーカーの欠落を即エラーにする
+const TEMPLATE_MARKERS = ["visibleCount", "data-theme", "aria-live", "catalog-prompts.json"];
+const missingMarkers = TEMPLATE_MARKERS.filter(m => !indexHtml.includes(m));
+if (missingMarkers.length > 0) {
+  console.error(`エラー: index.html が古いテンプレートです（欠落マーカー: ${missingMarkers.join(", ")}）。origin/main の最新 index.html を取り込んでから build してください。`);
+  process.exit(1);
+}
+
 const marker = /\/\*CATALOG-DATA-START\*\/[\s\S]*?\/\*CATALOG-DATA-END\*\//;
 if (!marker.test(indexHtml)) {
   console.error("エラー: index.html に CATALOG-DATA マーカーがありません");
