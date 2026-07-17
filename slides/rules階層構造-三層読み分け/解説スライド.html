@@ -1,0 +1,204 @@
+<meta charset="utf-8">
+<title>rules は「常時」「条件」「委譲」の 3 層で必要な規約だけを注入する</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+    --claude: #D97757;
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;
+    --cursor-soft: #EFF1F4;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 36px 48px;
+    gap: 12px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* ==== ヘッダ ==== */
+  .slide-header {
+    display: flex; flex-direction: column; gap: 3px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 28px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-subtitle { font-size: 13.5px; color: var(--ink-2); line-height: 1.4; }
+
+  /* ==== 層構造 ==== */
+  .layer-stack { display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 0; justify-content: center; }
+  .layer-band {
+    display: flex; align-items: center; gap: 16px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    background: var(--tag-bg);
+    border: 1.5px solid var(--border);
+    border-left: 5px solid var(--ink-3);
+  }
+  .layer-band--critical { background: var(--critical-soft); border-color: var(--critical); border-left-color: var(--critical); }
+  .layer-band--partial  { border-left-color: var(--ink-3); }
+  .layer-band--good     { background: var(--good-soft); border-color: var(--good); border-left-color: var(--good); }
+  .layer-body { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .layer-body h3 { font-size: 14.5px; font-weight: 700; color: var(--ink); }
+  .layer-desc { font-size: 11.5px; color: var(--ink-2); line-height: 1.45; }
+  .layer-examples { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 2px; }
+  .ex { font-size: 10.5px; font-weight: 600; padding: 2px 8px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
+
+  /* ==== 層間の接続注記 ==== */
+  .arrow-between { display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .arrow-text { font-size: 10.5px; font-weight: 600; color: var(--ink-3); }
+
+  /* ==== ステップ番号チップ ==== */
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--critical { background: var(--critical); }
+  .step-chip--good { background: var(--good); }
+  .step-chip--partial { background: var(--ink-3); }
+
+  /* ==== フッタ: ステップ要約 ==== */
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .step { display: flex; gap: 8px; align-items: center; }
+  .step-text { font-size: 12px; line-height: 1.4; color: var(--ink-2); }
+  .step-text strong { color: var(--ink); }
+
+  /* ==== メタデータフッター ==== */
+  .slide-meta {
+    height: 20px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">CLAUDE CODE 設定管理</span>
+      <h1 class="slide-title">rules は「常時」「条件」「委譲」の 3 層で必要な規約だけを注入する</h1>
+      <p class="slide-subtitle">常時注入 19 規約 + 条件注入 18 規約をセッション状況に応じて読み分け、プロジェクトは値の追加だけを委譲される</p>
+    </header>
+
+    <div class="layer-stack">
+
+      <div class="layer-band layer-band--critical">
+        <span class="step-chip step-chip--critical">1</span>
+        <div class="layer-body">
+          <h3>always（常時注入・eager）— 19 規約・10 分野</h3>
+          <p class="layer-desc">rules/always/&lt;分野&gt;/&lt;規約名&gt;/rule.md の階層で管理。paths 指定なし、全セッションに全件注入される。hook script（.sh）を同フォルダに同居させ、違反を block / advisory で機械強制する</p>
+          <div class="layer-examples">
+            <span class="ex">agent/委任規約</span>
+            <span class="ex">naming/命名規約</span>
+            <span class="ex">response/応答品質</span>
+            <span class="ex">placement/配置ガード</span>
+            <span class="ex">review-checklist/語彙辞書</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrow-between">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="arrow-text">always に加えて、触ったファイルのパスが paths 条件に一致すると追加注入される</span>
+      </div>
+
+      <div class="layer-band layer-band--partial">
+        <span class="step-chip step-chip--partial">2</span>
+        <div class="layer-body">
+          <h3>scoped（条件注入・lazy）— 18 規約・6 分野</h3>
+          <p class="layer-desc">rules/scoped/&lt;分野&gt;/&lt;規約名&gt;/rule.md で管理。frontmatter の paths に一致するファイルを操作した時だけ注入される。全件を常時読み込まないことでトークン消費と注意力の分散を防ぐ</p>
+          <div class="layer-examples">
+            <span class="ex">dev-flow/gate/</span>
+            <span class="ex">agent-config/hooks/</span>
+            <span class="ex">review-checklist/code/</span>
+            <span class="ex">review-checklist/document/</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrow-between">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="arrow-text">上位規約が「委譲可」を宣言している場合、プロジェクト側が受け口で値を追加できる</span>
+      </div>
+
+      <div class="layer-band layer-band--good">
+        <span class="step-chip step-chip--good">3</span>
+        <div class="layer-body">
+          <h3>project 委譲（プロジェクト受け口）</h3>
+          <p class="layer-desc">&lt;repo&gt;/.claude/rules/ に配置。グローバル規約の「値」を追加する受け口。枠組み（hook の block/advisory 区分・違反時手順）はグローバルが常に正。値の削除・上書きは不可</p>
+          <div class="layer-examples">
+            <span class="ex">prh.yml（プロジェクト固有語彙）</span>
+            <span class="ex">naming-values.txt（コミット prefix）</span>
+            <span class="ex">flow-values.yml（開発フロー設定）</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer class="steps">
+      <div class="step">
+        <span class="step-chip step-chip--critical">1</span>
+        <p class="step-text"><strong>always = 常時注入</strong>— 委任・命名・品質など全タスク共通の制約</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--partial">2</span>
+        <p class="step-text"><strong>scoped = 条件注入</strong>— ゲート・レビュー基準など文脈限定の制約</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--good">3</span>
+        <p class="step-text"><strong>project = 値の委譲</strong>— 語彙・命名値・フロー設定の追加のみ</p>
+      </div>
+    </footer>
+
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
