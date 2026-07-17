@@ -17,8 +17,8 @@ if (!vocabSection) {
   console.error("エラー: docs/スライド蓄積簿.md に「## タグ語彙一覧」節がありません");
   process.exit(1);
 }
-const AXIS_KEYS = { "対象ツール": "tools", "仕組み": "mechanisms", "テーマ": "themes" };
-const vocab = { tools: [], mechanisms: [], themes: [] };
+const AXIS_KEYS = { "対象ツール": "tools", "仕組み": "mech", "テーマ": "themes" };
+const vocab = { tools: [], mech: [], themes: [] };
 for (const line of vocabSection.split("\n")) {
   const cells = line.split("|").map(c => c.trim());
   if (cells.length !== 4) continue;
@@ -51,9 +51,9 @@ const slides = [];
 const unknownTags = [];
 for (const line of section.split("\n")) {
   const cells = line.split("|").map(c => c.trim());
-  // 表行は [ "", key, target, problems, tools, mechanisms, themes, entities, pack, date, "" ] の 11 要素
+  // 表行は [ "", key, target, problems, tools, mech, themes, entities, pack, date, "" ] の 11 要素
   if (cells.length !== 11 || !cells[1]) continue;
-  const [, key, target, problems, tools, mechanisms, themes, entities, pack, date] = cells;
+  const [, key, target, problems, tools, mech, themes, entities, pack, date] = cells;
   if (key === "スライドキー" || /^-+$/.test(key)) continue;
 
   const slideFile = join(root, "slides", key, "解説スライド.html");
@@ -71,14 +71,14 @@ for (const line of section.split("\n")) {
     target,
     problems,
     tools: splitTags(tools),
-    mechanisms: splitTags(mechanisms),
+    mech: splitTags(mech),
     themes: splitTags(themes),
     entities: splitTags(entities),
     pack: pack.trim() === "あり",
     prompt,
     date,
   };
-  for (const [axis, words] of [["tools", entry.tools], ["mechanisms", entry.mechanisms], ["themes", entry.themes]]) {
+  for (const [axis, words] of [["tools", entry.tools], ["mech", entry.mech], ["themes", entry.themes]]) {
     for (const w of words) {
       if (!vocab[axis].includes(w)) unknownTags.push(`${key}: ${axis} 軸「${w}」`);
     }
@@ -109,4 +109,4 @@ const dataBlock =
   `const SLIDES = ${JSON.stringify(slides, null, 2)};\n` +
   "/*CATALOG-DATA-END*/";
 writeFileSync(indexPath, indexHtml.replace(marker, dataBlock));
-console.log(`index.html を再生成しました（スライド ${slides.length} 枚 / 語彙 ツール${vocab.tools.length}・仕組み${vocab.mechanisms.length}・テーマ${vocab.themes.length}）`);
+console.log(`index.html を再生成しました（スライド ${slides.length} 枚 / 語彙 ツール${vocab.tools.length}・仕組み${vocab.mech.length}・テーマ${vocab.themes.length}）`);
