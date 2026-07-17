@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/skills/adding-catalog-slides/scripts/check-slide-evidence.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

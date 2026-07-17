@@ -32,7 +32,7 @@ ai-slide-library 専用の登録オーケストレーター。スライドの生
 1. `Skill("generating-explanation-html-slides")` を起動し、出力先ディレクトリとして worktree 内の `slides/` を指定する（保存先は `slides/<スライドキー>/解説スライド.html` と同フォルダの `検査記録.md`）
 2. 共通スキル側の蓄積簿登録工程（旧5列形式）は実行しない。蓄積簿の列構成は本リポジトリの `docs/スライド蓄積簿.md` の記入規則が正であり、本スキルの Phase 3 が代替する
 
-完了条件: 観点レビュー表の全行 PASS のスライドと検査記録が `slides/<スライドキー>/` に保存されていること
+完了条件: 観点レビュー表の全行 PASS のスライドと検査記録が `slides/<スライドキー>/` に保存され、`evidence/検証用スクリーンショット.png`（1280×720）が同フォルダに保持されていること。独立レビュー（`Skill("reviewing-against-rules")` 経由の document-reviewer 判定）が PASS であること
 
 ### Phase 3: タグ付与と蓄積簿追記
 
@@ -50,6 +50,13 @@ ai-slide-library 専用の登録オーケストレーター。スライドの生
 4. 語彙一覧に無いタグでビルドが停止した場合は Phase 3 に戻り、語彙一覧かタグを修正する
 
 完了条件: サムネイルが生成され、カタログ再生成が成功し、枚数一致と新キーの埋め込みが確認されていること
+
+### Phase 4b: 独立レビューゲート（公開前必須）
+
+Phase 5 に進む前に、`Skill("reviewing-against-rules")` を起動し、`document-reviewer` にスライドの証跡スクリーンショット（`evidence/検証用スクリーンショット.png`）を渡して独立判定させる。document-reviewer は Read でマルチモーダルに PNG を読めるため Playwright は不要。PASS でなければ Phase 2 に戻って修正する。
+
+完了条件: document-reviewer による独立レビューが PASS であること
+
 ### Phase 5: 公開
 
 1. commit（命名規約に従う）→ push → PR 作成 → main へマージする
