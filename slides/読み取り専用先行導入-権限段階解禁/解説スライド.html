@@ -1,0 +1,241 @@
+<meta charset="utf-8">
+<title>AI の導入は編集権限を与えることから始めない</title>
+<style>
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 40px 48px;
+    gap: 18px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* ==== ヘッダ ==== */
+  .slide-header {
+    display: flex; flex-direction: column; gap: 4px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 32px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-subtitle { font-size: 15px; color: var(--ink-2); }
+
+  /* ==== 段階カード群 ==== */
+  .stages-grid {
+    display: grid;
+    grid-template-columns: 1fr 28px 1fr 28px 1fr;
+    flex: 1;
+    min-height: 0;
+    align-items: stretch;
+  }
+  .stage-arrow { display: flex; align-items: center; justify-content: center; }
+  .stage-card {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 15px;
+    display: flex; flex-direction: column;
+    gap: 9px;
+    overflow: hidden;
+  }
+  .stage-card--good    { border-top: 3.5px solid var(--good); }     /* ここから始める推奨 */
+  .stage-card--partial { border-top: 3.5px solid var(--ink-3); }    /* 段階的に拡大する中間・到達段階 */
+
+  .stage-head { display: flex; align-items: center; gap: 8px; }
+  .stage-head h2 { font-size: 15.5px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .stage-desc { font-size: 12.5px; color: var(--ink-2); line-height: 1.45; }
+
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: var(--surface); flex-shrink: 0;
+  }
+  .step-chip--good    { background: var(--good); }
+  .step-chip--partial { background: var(--ink-3); }
+
+  /* ==== 段階カード内: 許す操作/用途/リスクの3行リスト ==== */
+  .fact-list { list-style: none; display: flex; flex-direction: column; gap: 7px; flex: 1; }
+  .fact-list li { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); padding-left: 13px; position: relative; }
+  .fact-list li::before { content: ''; position: absolute; left: 0; top: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
+  .fact-list li strong { color: var(--ink); font-weight: 700; }
+
+  /* ==== リスクの目安タグ ==== */
+  .risk-tag {
+    display: inline-block;
+    font-size: 10.5px; font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 3px;
+    margin-left: 2px;
+  }
+  .risk-tag--good   { background: var(--good-soft); color: var(--good); }
+  .risk-tag--accent { background: var(--ink); color: var(--surface); }
+
+  /* ==== 下部: 仕組みの事実 + 両極失敗の警告（1行ずつ2分割の帯） ==== */
+  .fact-bar {
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .fact-seg {
+    flex: 1;
+    padding: 10px 18px;
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .fact-seg strong { color: var(--ink); }
+  .fact-seg--mechanism { background: var(--good-soft); border-right: 1px solid var(--border); }
+  .fact-seg--mechanism strong { color: var(--good); }
+  .fact-seg--warning { background: var(--critical-soft); color: var(--critical); }
+  .fact-seg--warning strong { color: var(--critical); }
+
+  /* ==== フッタ: ステップ要約（図中の番号チップと同番号・同色で対応） ==== */
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .step { display: flex; gap: 8px; align-items: flex-start; }
+  .step-text { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+  .step-text strong { color: var(--ink); }
+
+  /* ==== メタデータフッター（区切り線 + 下端余白） ==== */
+  .slide-meta {
+    height: 20px;
+    padding-top: 4px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI導入方式</span>
+      <h1 class="slide-title">AI の導入は編集権限を与えることから始めない</h1>
+      <p class="slide-subtitle">読み取り専用で先に価値を出し、安全網が揃った範囲から書き込みを段階的に解禁する</p>
+    </header>
+
+    <div class="stages-grid">
+
+      <article class="stage-card stage-card--good">
+        <div class="stage-head">
+          <span class="step-chip step-chip--good">1</span>
+          <h2>読み取り専用（まずここから）</h2>
+        </div>
+        <p class="stage-desc">AI にコードと設計文書を読ませるだけの段階</p>
+        <ul class="fact-list">
+          <li><strong>許す操作</strong> — コードと文書を読むだけ。編集は一切許可しない</li>
+          <li><strong>主な用途</strong> — コードの調査・影響範囲の分析・設計文書の下書き起こし</li>
+          <li><strong>リスクの目安</strong> — <span class="risk-tag risk-tag--good">ほぼゼロ</span>（コードが変わらないため）</li>
+        </ul>
+      </article>
+
+      <div class="stage-arrow">
+        <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+          <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <article class="stage-card stage-card--partial">
+        <div class="stage-head">
+          <span class="step-chip step-chip--partial">2</span>
+          <h2>提案まで（差分の作成）</h2>
+        </div>
+        <p class="stage-desc">変更案を作らせるが、適用は必ず人が行う段階</p>
+        <ul class="fact-list">
+          <li><strong>許す操作</strong> — 変更案（差分）の作成まで。適用するかどうかは人が判断し、人が反映する</li>
+          <li><strong>主な用途</strong> — 修正案の比較検討・レビュー付きの小さな改善提案</li>
+          <li><strong>リスクの目安</strong> — <span class="risk-tag risk-tag--good">低</span>（適用は常に人の手）</li>
+        </ul>
+      </article>
+
+      <div class="stage-arrow">
+        <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+          <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <article class="stage-card stage-card--partial">
+        <div class="stage-head">
+          <span class="step-chip step-chip--partial">3</span>
+          <h2>ガード付き書き込み</h2>
+        </div>
+        <p class="stage-desc">編集を許すが、安全網が揃った範囲に限る段階</p>
+        <ul class="fact-list">
+          <li><strong>許す操作</strong> — 編集。ただし現状の挙動を固定するテスト・機密情報の検査・レビューの関所が揃った範囲に限る</li>
+          <li><strong>主な用途</strong> — 本格的な AI 駆動開発（機能追加・リファクタリング）</li>
+          <li><strong>リスクの目安</strong> — <span class="risk-tag risk-tag--accent">管理下</span>（安全網が担保する範囲内）</li>
+        </ul>
+      </article>
+
+    </div>
+
+    <div class="fact-bar">
+      <div class="fact-seg fact-seg--mechanism">
+        <strong>仕組みの事実</strong> — Claude Code 等の AI 開発ツールは権限設定（permission。ツールごとの許可制御の仕組み）で「読むだけ」を機械的に強制できる。運用の約束ではなく設定で保証する
+      </div>
+      <div class="fact-seg fact-seg--warning">
+        <strong>両極とも失敗する</strong> — 「いきなり全権限を与える」も「怖いから一切使わない」も、価値を引き出せない失敗パターン
+      </div>
+    </div>
+
+    <footer class="steps">
+      <div class="step">
+        <span class="step-chip step-chip--good">1</span>
+        <p class="step-text"><strong>読むだけで価値を出す</strong> — まずは読み取り専用で調査・分析に使う</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--partial">2</span>
+        <p class="step-text"><strong>提案は AI・適用は人</strong> — 差分の作成までを任せ、反映は人が行う</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--partial">3</span>
+        <p class="step-text"><strong>安全網が揃った範囲だけ解禁</strong> — テスト・検査・レビューが整った領域だけ書き込みを許可する</p>
+      </div>
+    </footer>
+
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>

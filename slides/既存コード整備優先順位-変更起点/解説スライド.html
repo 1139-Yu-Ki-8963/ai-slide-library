@@ -1,0 +1,311 @@
+<meta charset="utf-8">
+<title>全面整備はしない — これから変更する場所から整備する</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root {
+    --page: #EDF0F4;          /* 背景（スライドの外） */
+    --surface: #FFFFFF;       /* スライド面 */
+    --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
+    --ink-2: #55667A;         /* 本文 */
+    --ink-3: #8494A6;         /* 補足・軸ラベル */
+    --border: #D9E0E8;        /* 罫線 */
+    --grid: #E9EDF2;          /* 図中グリッド線 */
+    --critical: #C0392B;      /* 警告・上限・停止 */
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;          /* 回復・完了・推奨 */
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;        /* パネルタグ地 */
+    --on-accent: #FFFFFF;     /* アクセント背景上の文字色 */
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  /* ==== スライド枠（16:9 固定） ==== */
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 36px 48px;
+    gap: 12px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* ==== ヘッダ ==== */
+  .slide-header {
+    display: flex; flex-direction: column; gap: 3px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 27px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-subtitle { font-size: 14px; color: var(--ink-2); }
+
+  /* ==== ステップ番号チップ ==== */
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 19px; height: 19px;
+    border-radius: 50%; font-size: 10.5px; font-weight: 700; color: var(--on-accent); flex-shrink: 0;
+  }
+  .step-chip--main { background: var(--good); }
+  .step-chip--critical { background: var(--critical); }
+  .step-chip--good { background: var(--good); }
+  .step-chip--partial { background: var(--ink-3); }
+  .step-chip-sm { width: 15px; height: 15px; font-size: 8.5px; }
+
+  /* ==== マトリクス全体レイアウト ==== */
+  .matrix-panel { flex: 1; display: flex; flex-direction: column; gap: 4px; min-height: 0; }
+  .matrix-row { flex: 1; display: flex; gap: 10px; min-height: 0; }
+
+  /* Y軸ブロック（左） */
+  .axis-y-title {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 12px; font-weight: 700; color: var(--ink-3);
+    display: flex; align-items: center; justify-content: center;
+    width: 18px; flex-shrink: 0;
+  }
+  .axis-y-block { width: 40px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; }
+  .axis-y-label { font-size: 11px; font-weight: 600; color: var(--ink-3); white-space: nowrap; }
+  .axis-y-line { position: relative; flex: 1; width: 2px; background: var(--ink-3); margin: 4px 0; }
+  .axis-y-line::before {
+    content: ''; position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 5px solid transparent; border-right: 5px solid transparent;
+    border-bottom: 8px solid var(--ink-3);
+  }
+
+  /* マトリクス本体（軸ラベル+2x2グリッド） */
+  .matrix-core { flex: 1; display: flex; flex-direction: column; gap: 4px; min-height: 0; }
+  .matrix-grid {
+    flex: 1; min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* X軸（下） */
+  .axis-x-line { position: relative; height: 2px; background: var(--ink-3); margin: 2px 0; }
+  .axis-x-line::after {
+    content: ''; position: absolute; top: 50%; right: -1px; transform: translateY(-50%);
+    width: 0; height: 0;
+    border-top: 5px solid transparent; border-bottom: 5px solid transparent;
+    border-left: 8px solid var(--ink-3);
+  }
+  .axis-x-labels { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; color: var(--ink-3); }
+  .axis-x-fact {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11.5px; color: var(--ink-2);
+  }
+
+  /* 象限カード */
+  .quad-card {
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex; flex-direction: column; gap: 3px;
+    min-height: 0; overflow: hidden;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+  }
+  .quad-tag {
+    display: inline-flex; align-self: flex-start;
+    font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+    color: var(--ink); background: var(--tag-bg);
+  }
+  .quad-card h3 { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .quad-card p { font-size: 11.5px; color: var(--ink-2); line-height: 1.4; }
+  .quad-line { display: flex; align-items: flex-start; gap: 5px; }
+  .quad-line p { flex: 1; }
+
+  .quad-card--top {
+    background: var(--good-soft); border: 2px solid var(--good);
+  }
+  .quad-card--top .quad-tag { background: var(--good); color: var(--on-accent); }
+
+  .quad-card--mid { border-left: 4px solid var(--ink-3); }
+  .quad-card--mid .quad-tag { color: var(--ink-2); }
+
+  .quad-card--off {
+    background: var(--tag-bg); border: 1.5px dashed var(--border);
+    opacity: 0.72;
+  }
+  .quad-card--off .quad-tag { background: var(--border); color: var(--ink-2); }
+  .quad-card--off h3 { color: var(--ink-2); font-weight: 600; }
+
+  /* ==== 下部帯: 事実の明示 ==== */
+  .fact-band {
+    flex: 0 0 auto;
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 14px;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 12px; color: var(--ink-2);
+  }
+  .fact-band strong { color: var(--ink); }
+
+  /* ==== 下部帯: warning ==== */
+  .warning-band {
+    flex: 0 0 auto;
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 14px;
+    background: var(--critical-soft);
+    border: 1px solid var(--critical);
+    border-left: 4px solid var(--critical);
+    border-radius: 8px;
+  }
+  .warning-band svg { flex-shrink: 0; }
+  .warning-band p { font-size: 12px; color: var(--critical); line-height: 1.4; }
+  .warning-band strong { font-weight: 700; }
+
+  /* ==== フッタ: ステップ要約 ==== */
+  .steps { flex: 0 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; padding-top: 8px; border-top: 1px solid var(--border); }
+  .step { display: flex; gap: 7px; align-items: center; }
+  .step-text { font-size: 12.5px; line-height: 1.4; color: var(--ink-2); }
+  .step-text strong { color: var(--ink); }
+
+  /* ==== メタデータフッター ==== */
+  .slide-meta {
+    height: 18px;
+    padding-top: 4px;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">レガシーコード整備優先順位付け</span>
+      <h1 class="slide-title">全面整備はしない — “これから変更する場所”から整備する</h1>
+      <p class="slide-subtitle">整備の順番は変更頻度と事業重要度で決める。使う場所だけを、使う直前に、AI と一緒に整備する。</p>
+    </header>
+
+    <section class="matrix-panel">
+      <div class="matrix-row">
+
+        <div class="axis-y-title">事業重要度</div>
+
+        <div class="axis-y-block">
+          <span class="axis-y-label">高</span>
+          <div class="axis-y-line"></div>
+          <span class="axis-y-label">低</span>
+        </div>
+
+        <div class="matrix-core">
+          <div class="matrix-grid">
+
+            <!-- 左上: 低頻度 × 高重要度 = 3番手 -->
+            <article class="quad-card quad-card--mid">
+              <span class="quad-tag">3番手</span>
+              <h3>読み取り専用の調査と最小限の文書化に留める</h3>
+              <p>変更予定は無いが、事業上の影響は大きい領域。手を入れず把握だけしておく。</p>
+            </article>
+
+            <!-- 右上: 高頻度 × 高重要度 = 最優先 -->
+            <article class="quad-card quad-card--top">
+              <span class="quad-tag">最優先</span>
+              <h3>直近の開発案件がある場所</h3>
+              <div class="quad-line">
+                <span class="step-chip step-chip--main step-chip-sm">2</span>
+                <p>案件と重ねて、最優先の対象をここで確定する。</p>
+              </div>
+              <div class="quad-line">
+                <span class="step-chip step-chip--good step-chip-sm">3</span>
+                <p>ここだけ先に設計文書・テスト・規約を整えてから着手する。</p>
+              </div>
+            </article>
+
+            <!-- 左下: 低頻度 × 低重要度 = 整備しない -->
+            <article class="quad-card quad-card--off">
+              <span class="quad-tag">整備しない</span>
+              <h3>触るときが来たら整備する</h3>
+              <p>今は文書化もテストも追加しない。次に変更が発生した時点で着手する。</p>
+            </article>
+
+            <!-- 右下: 高頻度 × 低重要度 = 2番手 -->
+            <article class="quad-card quad-card--mid">
+              <span class="quad-tag">2番手</span>
+              <h3>変更のたびに少しずつ整備</h3>
+              <p>頻繁に触るが影響範囲は小さい場所。改修の都度、触った分だけ整備する。</p>
+            </article>
+
+          </div>
+
+          <div class="axis-x-line"></div>
+          <div class="axis-x-labels">
+            <span>低</span>
+            <span style="display:flex; align-items:center; gap:5px;">
+              <span class="step-chip step-chip--main step-chip-sm">1</span>
+              変更頻度
+            </span>
+            <span>高</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="fact-band">
+      <strong>実測で選ぶ:</strong>
+      <span>変更頻度はバージョン管理の履歴（git log）から機械的に集計できる。勘ではなく実測で選ぶ。</span>
+    </div>
+
+    <div class="warning-band">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 3 L22 20 H2 Z" stroke="var(--critical)" stroke-width="2" stroke-linejoin="round"/>
+        <line x1="12" y1="9.5" x2="12" y2="14.5" stroke="var(--critical)" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="12" cy="17.3" r="1.15" fill="var(--critical)"/>
+      </svg>
+      <p><strong>よくある失敗:</strong> 全体を文書化してから使い始めようとする → 数百万行規模では終わらず、整備した端から古くなる。</p>
+    </div>
+
+    <footer class="steps">
+      <div class="step">
+        <span class="step-chip step-chip--main">1</span>
+        <p class="step-text"><strong>実測で候補を出す</strong>— 変更履歴の集計</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--good">2</span>
+        <p class="step-text"><strong>案件と重ねて</strong>最優先を決める</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--good">3</span>
+        <p class="step-text"><strong>そこだけ整備して</strong>使い始める</p>
+      </div>
+    </footer>
+
+    <!-- ==== 部品: メタデータフッター（区切り線 + 下端余白） ==== -->
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・削除禁止） ==== -->
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>

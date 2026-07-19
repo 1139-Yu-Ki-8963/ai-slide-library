@@ -183,11 +183,10 @@
         <div class="stage-head"><h2>現状診断</h2></div>
         <p class="stage-desc">AIが働ける土台があるかを棚卸しする</p>
         <ul class="stage-work">
-          <li>リポジトリ構成の調査</li>
-          <li>設計書・テストの現状確認</li>
-          <li>開発規約・環境構築手順の確認</li>
+          <li>リポジトリ・設計書・テスト・規約の棚卸し</li>
+          <li>変更履歴の実測による整備優先順位付け（全面整備はしない）</li>
         </ul>
-        <p class="stage-output">→ 診断結果と整備の優先順位</p>
+        <p class="stage-output">→ 診断結果と"どこから整備するか"の優先順位</p>
       </article>
 
       <div class="stage-arrow">
@@ -201,11 +200,10 @@
         <div class="stage-head"><h2>土台整備</h2></div>
         <p class="stage-desc">AIが読める「書かれた地図」を作る</p>
         <ul class="stage-work">
-          <li>README（プロジェクトの説明書）・設計書・用語集の整備</li>
-          <li>テストの整備</li>
-          <li>linter（コードを自動点検する仕組み）による自動検証の整備</li>
+          <li>読み取り専用のAIを先行投入し、設計文書の下書きを逆生成（確定は人のレビュー）</li>
+          <li>テストと linter（コード規約の自動チェック）の整備</li>
         </ul>
-        <p class="stage-output">→ AI が参照できるコンテキスト文書と自動検証</p>
+        <p class="stage-output">→ AI が参照できる文書と自動検証（優先範囲から）</p>
       </article>
 
       <div class="stage-arrow">
@@ -219,11 +217,10 @@
         <div class="stage-head"><h2>ツール導入と安全装置</h2></div>
         <p class="stage-desc">小さく安全に使い始める</p>
         <ul class="stage-work">
-          <li>AI ツールの選定</li>
-          <li>設定ファイルの配置</li>
-          <li>権限・機密情報ガードの設定</li>
+          <li>特性テスト（現状の挙動を固定するテスト）で安全網を張る</li>
+          <li>権限・機密ガードを設定し、書き込みを段階的に解禁</li>
         </ul>
-        <p class="stage-output">→ ガード付きの AI 開発環境</p>
+        <p class="stage-output">→ 安全網とガード付きの AI 開発環境</p>
       </article>
 
       <div class="stage-arrow">
