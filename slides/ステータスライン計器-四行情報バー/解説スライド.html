@@ -1,0 +1,326 @@
+<meta charset="utf-8">
+<title>ステータスラインの読みかた — 4 行の計器が今の状態を映す</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+    --claude: #D97757;
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;
+    --cursor-soft: #EFF1F4;
+    /* ツール識別色: Claude Code Terminal */
+    --term-bg: #151921;
+    --term-bar: #1E2330;
+    --term-text: #D4D0C8;
+    --term-dot-close: #FF5F57;
+    --term-dot-min: #FEBC2E;
+    --term-dot-max: #28C840;
+    --term-green: #4AB85E;
+    --term-amber: #CC9C38;
+    --term-red: #C84848;
+    --term-cyan: #4CB8C8;
+    --term-dim: #646C82;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 40px 48px;
+    gap: 18px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  .slide-header {
+    display: flex; flex-direction: column; gap: 4px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 32px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-subtitle { font-size: 15px; color: var(--ink-2); }
+
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--main { background: var(--claude); }
+  .step-chip--partial { background: var(--ink-3); }
+  .step-chip--good { background: var(--good); }
+  .step-chip--critical { background: var(--critical); }
+
+  .terminal {
+    background: var(--term-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .terminal-bar {
+    background: var(--term-bar);
+    padding: 7px 12px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .terminal-bar-label {
+    font-size: 11px; color: var(--term-dim);
+    margin-left: 8px;
+  }
+  .terminal-body {
+    padding: 8px 0;
+    font-family: 'SF Mono', 'Cascadia Code', 'JetBrains Mono', 'Consolas', 'Menlo', monospace;
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--term-text);
+  }
+  .tline {
+    display: flex; align-items: center;
+    padding: 0 14px;
+  }
+  .tline-marker {
+    width: 3px;
+    align-self: stretch;
+    border-radius: 2px;
+    margin-right: 10px;
+    flex-shrink: 0;
+  }
+  .tline-marker--1 { background: var(--claude); }
+  .tline-marker--2 { background: var(--ink-3); }
+  .tline-marker--3 { background: var(--critical); }
+  .tline-marker--4 { background: var(--good); }
+  .t-green { color: var(--term-green); }
+  .t-amber { color: var(--term-amber); }
+  .t-red { color: var(--term-red); }
+  .t-cyan { color: var(--term-cyan); }
+
+  .anno-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    flex: 1;
+    min-height: 0;
+  }
+  .anno-card {
+    background: var(--tag-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex; flex-direction: column;
+    gap: 6px;
+  }
+  .anno-card--1 { border-left: 4px solid var(--claude); }
+  .anno-card--2 { border-left: 4px solid var(--ink-3); }
+  .anno-card--3 { border-left: 4px solid var(--critical); }
+  .anno-card--4 { border-left: 4px solid var(--good); }
+
+  .anno-head {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .anno-head h3 {
+    font-size: 14px; font-weight: 700; color: var(--ink);
+  }
+  .anno-items {
+    display: flex; flex-direction: column; gap: 3px;
+    list-style: none;
+  }
+  .anno-item {
+    display: flex; align-items: baseline; gap: 6px;
+    font-size: 12px; line-height: 1.4;
+  }
+  .anno-key {
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+    font-size: 11px; font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .anno-sep { color: var(--border); flex-shrink: 0; font-size: 10px; }
+  .anno-val { color: var(--ink-2); }
+
+  .legend-box {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    padding: 5px 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    margin-top: 2px;
+  }
+  .legend-item {
+    font-size: 11px;
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+    color: var(--ink-2);
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 3px;
+  }
+  .legend-ring { font-size: 13px; }
+  .legend-divider {
+    width: 1px; height: 14px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+  .legend-swatch {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    margin-right: 2px;
+  }
+
+  .anno-note {
+    font-size: 11px; color: var(--ink-3);
+    font-style: italic;
+    margin-top: auto;
+    padding-top: 4px;
+    border-top: 1px solid var(--border);
+  }
+
+  .source-line {
+    font-size: 11px;
+    color: var(--ink-3);
+    border-top: 1px solid var(--border);
+    padding-top: 6px;
+  }
+
+  .slide-meta {
+    height: 24px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const resize = () => {
+      const sw = 1280, sh = 720;
+      const scale = Math.min(window.innerWidth / (sw + 20), window.innerHeight / (sh + 20));
+      document.querySelector(".slide").style.setProperty("--slide-scale", Math.min(scale, 1));
+    };
+    resize();
+    window.addEventListener("resize", resize);
+  });
+</script>
+
+<div class="slide-viewport">
+<div class="slide">
+
+  <header class="slide-header">
+    <span class="slide-eyebrow">CLAUDE CODE カスタマイズ — STATUSLINE.PY</span>
+    <h1 class="slide-title">ステータスラインの読みかた — 4 行の計器が今の状態を映す</h1>
+    <p class="slide-subtitle">入力欄の上に常時表示される情報バー。モデル・セッション・リソース消費・フロー進捗を一目で確認できる。</p>
+  </header>
+
+  <div class="terminal">
+    <div class="terminal-bar">
+      <span class="terminal-dot" style="background:var(--term-dot-close)"></span>
+      <span class="terminal-dot" style="background:var(--term-dot-min)"></span>
+      <span class="terminal-dot" style="background:var(--term-dot-max)"></span>
+      <span class="terminal-bar-label">claude — statusline</span>
+    </div>
+    <div class="terminal-body">
+      <div class="tline"><span class="tline-marker tline-marker--1"></span>🤖 Opus 4.6 (1M context) | 📂 battle-base | Branch: feature/team-ranking | oradora</div>
+      <div class="tline"><span class="tline-marker tline-marker--2"></span>Session: a1b2c3d4 | Name: 日次運用ラン</div>
+      <div class="tline"><span class="tline-marker tline-marker--3"></span><span class="t-green">◔ ctx:23%</span>  <span class="t-amber">◑ 5h:58%</span>  <span class="t-red">◕ 7d:84%</span></div>
+      <div class="tline"><span class="tline-marker tline-marker--4"></span><span class="t-cyan">⚙ Phase 3 実装 ▰▰▰▰▰▱▱▱▱▱▱▱▱ 5/12 API endpoint 追加</span></div>
+    </div>
+  </div>
+
+  <div class="anno-grid">
+
+    <div class="anno-card anno-card--1">
+      <div class="anno-head">
+        <span class="step-chip step-chip--main">1</span>
+        <h3>モデル・作業場所</h3>
+      </div>
+      <ul class="anno-items">
+        <li class="anno-item"><span class="anno-key">🤖 モデル名</span><span class="anno-sep">—</span><span class="anno-val">使用中の Claude モデル（Opus 4.6 / Sonnet 5 等）</span></li>
+        <li class="anno-item"><span class="anno-key">📂 フォルダ</span><span class="anno-sep">—</span><span class="anno-val">カレントディレクトリのベース名</span></li>
+        <li class="anno-item"><span class="anno-key">Branch</span><span class="anno-sep">—</span><span class="anno-val">現在の Git ブランチ（git 管理外では非表示）</span></li>
+        <li class="anno-item"><span class="anno-key">アカウント</span><span class="anno-sep">—</span><span class="anno-val">接続先の識別名（.claude-xxx → xxx と表示）</span></li>
+      </ul>
+    </div>
+
+    <div class="anno-card anno-card--2">
+      <div class="anno-head">
+        <span class="step-chip step-chip--partial">2</span>
+        <h3>セッション情報</h3>
+      </div>
+      <ul class="anno-items">
+        <li class="anno-item"><span class="anno-key">Session</span><span class="anno-sep">—</span><span class="anno-val">セッション ID の先頭 8 文字</span></li>
+        <li class="anno-item"><span class="anno-key">Name</span><span class="anno-sep">—</span><span class="anno-val">/name で設定したセッション名（未設定なら非表示）</span></li>
+      </ul>
+    </div>
+
+    <div class="anno-card anno-card--3">
+      <div class="anno-head">
+        <span class="step-chip step-chip--critical">3</span>
+        <h3>リソース使用率</h3>
+      </div>
+      <ul class="anno-items">
+        <li class="anno-item"><span class="anno-key">ctx</span><span class="anno-sep">—</span><span class="anno-val">コンテキストウィンドウ使用率（会話が長くなると上昇）</span></li>
+        <li class="anno-item"><span class="anno-key">5h</span><span class="anno-sep">—</span><span class="anno-val">5 時間あたりのレートリミット消費率</span></li>
+        <li class="anno-item"><span class="anno-key">7d</span><span class="anno-sep">—</span><span class="anno-val">7 日間あたりのレートリミット消費率</span></li>
+      </ul>
+      <div class="legend-box">
+        <span class="legend-item"><span class="legend-ring">○</span> 0–12%</span>
+        <span class="legend-item"><span class="legend-ring">◔</span> 13–37%</span>
+        <span class="legend-item"><span class="legend-ring">◑</span> 38–62%</span>
+        <span class="legend-item"><span class="legend-ring">◕</span> 63–87%</span>
+        <span class="legend-item"><span class="legend-ring">●</span> 88%+</span>
+        <span class="legend-divider"></span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--term-green)"></span>&lt;50%</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--term-amber)"></span>50–79%</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--term-red)"></span>≥80%</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--term-dim)"></span>取得不能</span>
+      </div>
+    </div>
+
+    <div class="anno-card anno-card--4">
+      <div class="anno-head">
+        <span class="step-chip step-chip--good">4</span>
+        <h3>開発フロー進捗</h3>
+      </div>
+      <ul class="anno-items">
+        <li class="anno-item"><span class="anno-key">Phase N 名称</span><span class="anno-sep">—</span><span class="anno-val">現在のフェーズ番号と名前</span></li>
+        <li class="anno-item"><span class="anno-key">▰▱ 進捗バー</span><span class="anno-sep">—</span><span class="anno-val">13 文字幅の達成度表示</span></li>
+        <li class="anno-item"><span class="anno-key">N/M</span><span class="anno-sep">—</span><span class="anno-val">現在ステップ / 総ステップ数</span></li>
+        <li class="anno-item"><span class="anno-key">ステップ名</span><span class="anno-sep">—</span><span class="anno-val">進行中のステップの名称</span></li>
+      </ul>
+      <p class="anno-note">※ flow-status.json が存在する場合のみ表示される条件付き行</p>
+    </div>
+
+  </div>
+
+  <p class="source-line">出典: statusline.py（settings.json の statusline.command で指定する Python スクリプト）</p>
+  <div class="slide-meta"></div>
+
+</div>
+</div>
