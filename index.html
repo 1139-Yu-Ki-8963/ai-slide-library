@@ -40,6 +40,8 @@
     --warn-soft: #FFF4DA;
     --pack-bg: #2B7A4B;
     --pack-soft: #E8F3EC;
+    --stage-soft: #F1EAFB;
+    --stage-deep: #6B4FA0;
   }
   :root[data-theme="dark"] {
     --page: #151B23;
@@ -58,6 +60,8 @@
     --warn-soft: #332B18;
     --pack-bg: #3B9563;
     --pack-soft: #1D2B22;
+    --stage-soft: #2A2340;
+    --stage-deep: #B79EE0;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   .material-symbols-outlined {
@@ -204,6 +208,7 @@
   .tag:hover { filter: brightness(0.95); }
   .tag.mech { background: var(--mech-soft); color: var(--mech-deep); }
   .tag.theme { background: var(--accent-soft); color: var(--accent-deep); }
+  .tag.stage { background: var(--stage-soft); color: var(--stage-deep); }
   .date { color: var(--ink-3); font-size: 11px; margin-left: auto; }
   .stale {
     background: var(--warn-soft); color: var(--warn);
@@ -229,6 +234,14 @@
     background: var(--pack-bg); color: #fff;
     border-radius: 999px; padding: 3px 10px;
     font-size: 11px; font-weight: 700;
+  }
+  /* 提案パック選択時の提示順バッジ（.pack-badge = 改善パック配布とは別物） */
+  .pack-order-badge {
+    position: absolute; top: 10px; left: 10px; z-index: 3;
+    background: var(--accent); color: #fff;
+    width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
   }
   .card-actions .act {
     flex: 1; text-align: center; padding: 10px 0;
@@ -307,8 +320,16 @@
         <div id="theme-chips" style="display:contents"></div>
       </div>
       <div class="facet-row">
+        <span class="label">導入段階:</span>
+        <div id="stage-chips" style="display:contents"></div>
+      </div>
+      <div class="facet-row">
         <span class="label">配布:</span>
         <div id="dist-chips" style="display:contents"></div>
+      </div>
+      <div class="facet-row">
+        <span class="label">提案パック:</span>
+        <div id="pack-chips" style="display:contents"></div>
       </div>
     </div>
   </div>
@@ -320,7 +341,7 @@
     <button type="button" class="loadmore-btn" id="loadmore-btn"></button>
   </div>
   <p class="and-note">絞り込みは軸間 AND（すべての条件を満たすものを表示）</p>
-  <div class="empty" id="empty">条件に合うスライドがありません。検索語を変えるか、ツール・仕組み・テーマの絞り込みを「すべて」に戻してください。</div>
+  <div class="empty" id="empty">条件に合うスライドがありません。検索語を変えるか、ツール・仕組み・テーマ・導入段階・提案パック・配布の絞り込みを「すべて」に戻してください。</div>
   <noscript><p style="padding:32px;color:var(--ink-2)">このカタログの検索・一覧表示には JavaScript が必要です。スライド本体は slides/ フォルダから直接開けます。</p></noscript>
 </main>
 
@@ -360,6 +381,14 @@ const VOCAB = {
     "モデル・ツール選定",
     "運用ルール",
     "環境構築"
+  ],
+  "stages": [
+    "全体像",
+    "現状診断",
+    "土台整備",
+    "ツール導入と安全装置",
+    "開発フロー確立",
+    "拡大・継続改善"
   ]
 };
 const SLIDES = [
@@ -376,6 +405,9 @@ const SLIDES = [
     "themes": [
       "コスト・リミット",
       "運用ルール"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
     ],
     "entities": [],
     "pack": false,
@@ -398,6 +430,9 @@ const SLIDES = [
       "モデル・ツール選定",
       "コスト・リミット"
     ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
     "entities": [],
     "pack": false,
     "has_prompt": false,
@@ -418,6 +453,9 @@ const SLIDES = [
     "themes": [
       "セキュリティ"
     ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
     "entities": [],
     "pack": false,
     "has_prompt": false,
@@ -437,6 +475,9 @@ const SLIDES = [
     ],
     "themes": [
       "設定・規約遵守"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
     ],
     "entities": [
       "規約: 設定ファイルの分割と読み分け"
@@ -461,6 +502,9 @@ const SLIDES = [
     "themes": [
       "設定・規約遵守",
       "運用ルール"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
     ],
     "entities": [
       "規約: hook の配置場所の決め方"
@@ -487,6 +531,9 @@ const SLIDES = [
       "環境構築",
       "設定・規約遵守"
     ],
+    "stages": [
+      "拡大・継続改善"
+    ],
     "entities": [
       "テンプレート: 設定リポジトリのフォルダ設計",
       "スクリプト: シンボリックリンク配布"
@@ -509,6 +556,9 @@ const SLIDES = [
     ],
     "themes": [
       "設定・規約遵守"
+    ],
+    "stages": [
+      "拡大・継続改善"
     ],
     "entities": [
       "規約: 振る舞い統制の全体設計"
@@ -538,6 +588,9 @@ const SLIDES = [
       "設定・規約遵守",
       "環境構築"
     ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
     "entities": [
       "テンプレート: 設定フォルダの書き分け構成"
     ],
@@ -565,6 +618,9 @@ const SLIDES = [
       "設定・規約遵守",
       "環境構築"
     ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
     "entities": [],
     "pack": false,
     "has_prompt": false,
@@ -589,6 +645,9 @@ const SLIDES = [
       "設定・規約遵守",
       "環境構築"
     ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
     "entities": [],
     "pack": false,
     "has_prompt": false,
@@ -609,6 +668,9 @@ const SLIDES = [
     "themes": [
       "設定・規約遵守",
       "運用ルール"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
     ],
     "entities": [
       "hook: block による停止",
@@ -631,6 +693,9 @@ const SLIDES = [
     ],
     "themes": [
       "セキュリティ"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
     ],
     "entities": [
       "hook: コミット時の機密文字列走査",
@@ -655,6 +720,9 @@ const SLIDES = [
       "運用ルール",
       "設定・規約遵守"
     ],
+    "stages": [
+      "拡大・継続改善"
+    ],
     "entities": [
       "規約: 役割分担と合否宣言権の定義"
     ],
@@ -677,6 +745,9 @@ const SLIDES = [
     "themes": [
       "運用ルール"
     ],
+    "stages": [
+      "拡大・継続改善"
+    ],
     "entities": [
       "規約: 委任プロンプトの必須要素"
     ],
@@ -697,6 +768,9 @@ const SLIDES = [
     ],
     "themes": [
       "運用ルール"
+    ],
+    "stages": [
+      "拡大・継続改善"
     ],
     "entities": [
       "運用手順: 調査チェックリストと照合の流れ"
@@ -721,6 +795,9 @@ const SLIDES = [
     "themes": [
       "運用ルール"
     ],
+    "stages": [
+      "拡大・継続改善"
+    ],
     "entities": [
       "運用手順: 初見読解プローブの実行手順",
       "テンプレート: 5 項目報告形式"
@@ -744,6 +821,9 @@ const SLIDES = [
     "themes": [
       "運用ルール"
     ],
+    "stages": [
+      "開発フロー確立"
+    ],
     "entities": [
       "規約: ルート判定の条件分岐"
     ],
@@ -752,7 +832,7 @@ const SLIDES = [
     "date": "2026-07-16"
   },
   {
-    "key": "レビューゲート-フェーズ別分離",
+    "key": "レビューゲート-段階別分離",
     "title": "レビューは最後に 1 回ではなく、開発の節目ごとに機械的に挟む",
     "target": "実装前・実装品質・共有前・仕上げの 4 節目に観点を絞った専門レビューを機械的に挟むゲート設計",
     "problems": "レビューを最後にまとめて 1 回行い問題が終盤まで持ち越される",
@@ -765,6 +845,9 @@ const SLIDES = [
     ],
     "themes": [
       "運用ルール"
+    ],
+    "stages": [
+      "開発フロー確立"
     ],
     "entities": [
       "規約: ゲート配置と観点の分担"
@@ -784,6 +867,9 @@ const SLIDES = [
     "mechanisms": [],
     "themes": [
       "運用ルール"
+    ],
+    "stages": [
+      "開発フロー確立"
     ],
     "entities": [
       "テンプレート: 変更提案の必須節"
@@ -807,6 +893,9 @@ const SLIDES = [
       "環境構築",
       "運用ルール"
     ],
+    "stages": [
+      "拡大・継続改善"
+    ],
     "entities": [
       "規約: ポート計算式と割当方式",
       "テンプレート: 割当表の雛形"
@@ -828,6 +917,9 @@ const SLIDES = [
     ],
     "themes": [
       "運用ルール"
+    ],
+    "stages": [
+      "拡大・継続改善"
     ],
     "entities": [
       "hook: 失敗長期化と文脈肥大の検知",
@@ -852,6 +944,9 @@ const SLIDES = [
       "運用ルール",
       "設定・規約遵守"
     ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
     "entities": [
       "規約: 同時更新の照合ルール"
     ],
@@ -873,6 +968,9 @@ const SLIDES = [
     "themes": [
       "設定・規約遵守"
     ],
+    "stages": [
+      "拡大・継続改善"
+    ],
     "entities": [
       "テンプレート: 担保手段列付きの規約一覧"
     ],
@@ -891,6 +989,9 @@ const SLIDES = [
     "mechanisms": [],
     "themes": [
       "運用ルール"
+    ],
+    "stages": [
+      "拡大・継続改善"
     ],
     "entities": [
       "テンプレート: 意思決定記録（ADR）の型"
@@ -914,6 +1015,9 @@ const SLIDES = [
     "themes": [
       "設定・規約遵守"
     ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
     "entities": [
       "規約: rules フォルダの読み分け設計"
     ],
@@ -933,6 +1037,9 @@ const SLIDES = [
     "themes": [
       "運用ルール",
       "環境構築"
+    ],
+    "stages": [
+      "土台整備"
     ],
     "entities": [],
     "pack": false,
@@ -954,6 +1061,9 @@ const SLIDES = [
     ],
     "themes": [
       "運用ルール"
+    ],
+    "stages": [
+      "開発フロー確立"
     ],
     "entities": [
       "運用手順: 暗黙知抽出の実行手順",
@@ -977,6 +1087,9 @@ const SLIDES = [
       "環境構築",
       "運用ルール"
     ],
+    "stages": [
+      "全体像"
+    ],
     "entities": [],
     "pack": false,
     "has_prompt": false,
@@ -998,6 +1111,9 @@ const SLIDES = [
     "themes": [
       "環境構築"
     ],
+    "stages": [
+      "現状診断"
+    ],
     "entities": [],
     "pack": false,
     "has_prompt": false,
@@ -1018,6 +1134,9 @@ const SLIDES = [
     "themes": [
       "運用ルール"
     ],
+    "stages": [
+      "開発フロー確立"
+    ],
     "entities": [],
     "pack": false,
     "has_prompt": false,
@@ -1035,10 +1154,63 @@ const SLIDES = [
     "themes": [
       "環境構築"
     ],
+    "stages": [],
     "entities": [],
     "pack": false,
     "has_prompt": false,
     "date": "2026-07-19"
+  }
+];
+const PACKS = [
+  {
+    "name": "経営層向け初回提案",
+    "slides": [
+      "AI駆動開発導入-五段階計画表",
+      "リポジトリ現状理想-AI可読性対比",
+      "AI実装フロー-一枚俯瞰",
+      "AI駆動整備-コンテキスト文書対応表"
+    ]
+  },
+  {
+    "name": "実務者向けツール導入編",
+    "slides": [
+      "claude-code-テンプレート構成",
+      "ai-model使い分け-役割観点",
+      "claude-cursor使い分け-リミット観点",
+      "claude-code安全性-層構造観点"
+    ]
+  },
+  {
+    "name": "実務者向け規約・ガードレール編",
+    "slides": [
+      "claude-md分割戦略",
+      "rules階層構造-三層読み分け",
+      "hook強制助言-二層設計",
+      "機密情報検査-コミット前ブロック",
+      "docs同時更新-同一PR強制"
+    ]
+  },
+  {
+    "name": "実務者向け開発フロー編",
+    "slides": [
+      "AI実装フロー-一枚俯瞰",
+      "ルート分類-開発フロー統制",
+      "レビューゲート-段階別分離",
+      "実害検証-完了定義",
+      "提示前二段レビュー-暗黙知と反証"
+    ]
+  },
+  {
+    "name": "実務者向け拡大・運用編",
+    "slides": [
+      "判断反映分離-委任設計",
+      "サブエージェント4分類-合否宣言権",
+      "worktree並列開発-ポート採番",
+      "調査報告裏取り-二段レビュー",
+      "観測基盤-空回り検知",
+      "規約カバレッジ-可視化",
+      "開発プロセス-成果物化"
+    ]
   }
 ];
 /*CATALOG-DATA-END*/
@@ -1046,7 +1218,11 @@ const SLIDES = [
 const STALE_DAYS = 90;
 const INITIAL_VISIBLE = 30;
 const LOAD_STEP = 30;
-const state = { query: "", tool: "すべて", mech: "すべて", theme: "すべて", dist: "すべて", visibleCount: INITIAL_VISIBLE };
+const PACKS_BY_NAME = new Map(PACKS.map(p => [p.name, p]));
+const state = {
+  query: "", tool: "すべて", mech: "すべて", theme: "すべて", stage: "すべて",
+  dist: "すべて", proposalPack: "すべて", visibleCount: INITIAL_VISIBLE
+};
 
 function esc(s) {
   return String(s).replace(/[&<>"']/g, c => ({
@@ -1088,7 +1264,13 @@ function queryMatches(s) {
   return q.split(/\s+/).filter(Boolean).every(part => hay.includes(part));
 }
 
-const FIELD_STATE_KEY = { tools: "tool", mechanisms: "mech", themes: "theme" };
+const FIELD_STATE_KEY = { tools: "tool", mechanisms: "mech", themes: "theme", stages: "stage" };
+
+function slideInSelectedProposalPack(s) {
+  if (state.proposalPack === "すべて") return true;
+  const pack = PACKS_BY_NAME.get(state.proposalPack);
+  return !!pack && pack.slides.includes(s.key);
+}
 
 // 件数の母数 = 他軸・検索適用後（自軸の選択は除外）
 function countFor(field, value) {
@@ -1097,7 +1279,9 @@ function countFor(field, value) {
     if (stateKey !== "tool" && state.tool !== "すべて" && !(s.tools || []).includes(state.tool)) return false;
     if (stateKey !== "mech" && state.mech !== "すべて" && !(s.mechanisms || []).includes(state.mech)) return false;
     if (stateKey !== "theme" && state.theme !== "すべて" && !(s.themes || []).includes(state.theme)) return false;
+    if (stateKey !== "stage" && state.stage !== "すべて" && !(s.stages || []).includes(state.stage)) return false;
     if (state.dist === "改善パックあり" && !s.pack) return false;
+    if (!slideInSelectedProposalPack(s)) return false;
     if (!(s[field] || []).includes(value)) return false;
     return queryMatches(s);
   }).length;
@@ -1107,7 +1291,9 @@ function matches(s) {
   if (state.tool !== "すべて" && !(s.tools || []).includes(state.tool)) return false;
   if (state.mech !== "すべて" && !(s.mechanisms || []).includes(state.mech)) return false;
   if (state.theme !== "すべて" && !(s.themes || []).includes(state.theme)) return false;
+  if (state.stage !== "すべて" && !(s.stages || []).includes(state.stage)) return false;
   if (state.dist === "改善パックあり" && !s.pack) return false;
+  if (!slideInSelectedProposalPack(s)) return false;
   return queryMatches(s);
 }
 
@@ -1118,7 +1304,9 @@ function stateFromURL() {
   state.tool = params.get("tool") || "すべて";
   state.mech = params.get("mech") || "すべて";
   state.theme = params.get("theme") || "すべて";
+  state.stage = params.get("stage") || "すべて";
   state.dist = params.get("dist") || "すべて";
+  state.proposalPack = params.get("pack") || "すべて";
   state.visibleCount = INITIAL_VISIBLE;
 }
 
@@ -1128,7 +1316,9 @@ function syncURL(mode) {
   if (state.tool !== "すべて") params.set("tool", state.tool);
   if (state.mech !== "すべて") params.set("mech", state.mech);
   if (state.theme !== "すべて") params.set("theme", state.theme);
+  if (state.stage !== "すべて") params.set("stage", state.stage);
   if (state.dist !== "すべて") params.set("dist", state.dist);
+  if (state.proposalPack !== "すべて") params.set("pack", state.proposalPack);
   const qs = params.toString();
   const url = location.pathname + (qs ? "?" + qs : "") + location.hash;
   if (mode === "push") history.pushState(null, "", url);
@@ -1190,12 +1380,39 @@ function renderDistChips() {
   });
 }
 
+function renderPackChips() {
+  // 「配布」軸（改善パックあり = s.pack の boolean フラグ）とは別物。
+  // こちらは docs/スライド蓄積簿.md 「## 提案パック定義」由来の PACKS（提示順付きスライド束）の選択 UI。
+  const wrap = document.getElementById("pack-chips");
+  wrap.innerHTML = "";
+  [
+    { value: "すべて", count: SLIDES.length },
+    ...PACKS.map(p => ({ value: p.name, count: p.slides.length }))
+  ].forEach(({ value, count }) => {
+    const b = document.createElement("button");
+    const disabled = value !== "すべて" && count === 0;
+    const active = state.proposalPack === value;
+    b.className = "chip"
+      + (active ? " active" : "")
+      + (disabled ? " disabled" : "");
+    b.textContent = value;
+    b.setAttribute("aria-pressed", active ? "true" : "false");
+    if (disabled) {
+      b.title = "該当スライドは準備中です";
+      b.setAttribute("aria-disabled", "true");
+    } else {
+      b.onclick = () => selectFacet("proposalPack", value);
+    }
+    wrap.appendChild(b);
+  });
+}
+
 function updateFacetBadge() {
   // 選択数バッジは render() が通るたびにここで state から再計算する。
   // クリック・クリア・popstate・初期化のどの経路でも state 反映後に render() 経由でここへ来るため、
   // ここ以外の場所でバッジを更新しない（重複更新の禁止）。
   const badge = document.getElementById("facet-badge");
-  const count = ["tool", "mech", "theme", "dist"].filter(k => state[k] !== "すべて").length;
+  const count = ["tool", "mech", "theme", "stage", "dist", "proposalPack"].filter(k => state[k] !== "すべて").length;
   badge.hidden = count === 0;
   if (count > 0) badge.textContent = `${count}件選択中`;
 }
@@ -1218,14 +1435,28 @@ function renderFacets() {
   renderChipRow("tool-chips", "tools", "tool");
   renderChipRow("mech-chips", "mechanisms", "mech");
   renderChipRow("theme-chips", "themes", "theme");
+  renderChipRow("stage-chips", "stages", "stage");
   renderDistChips();
+  renderPackChips();
   updateFacetBadge();
 }
 
+// 提案パック選択時はパック内の提示順、未選択時は従来どおり登録日の新しい順
+function packOrderFor(key) {
+  if (state.proposalPack === "すべて") return null;
+  const pack = PACKS_BY_NAME.get(state.proposalPack);
+  if (!pack) return null;
+  const idx = pack.slides.indexOf(key);
+  return idx === -1 ? null : idx + 1;
+}
+
 function getVisibleSlides() {
-  const fullList = SLIDES.filter(matches)
-    .slice()
-    .sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  const fullList = SLIDES.filter(matches).slice();
+  if (state.proposalPack !== "すべて") {
+    fullList.sort((a, b) => (packOrderFor(a.key) || 0) - (packOrderFor(b.key) || 0));
+  } else {
+    fullList.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  }
   const visibleList = fullList.slice(0, state.visibleCount);
   return { fullList, visibleList };
 }
@@ -1238,8 +1469,11 @@ function renderGrid(visibleList) {
     const toolTags = (s.tools || []).map(t => `<button type="button" class="tag" data-axis="tool" data-value="${esc(t)}">${esc(t)}</button>`).join("");
     const mechTags = (s.mechanisms || []).map(t => `<button type="button" class="tag mech" data-axis="mech" data-value="${esc(t)}">${esc(t)}</button>`).join("");
     const themeTags = (s.themes || []).map(t => `<button type="button" class="tag theme" data-axis="theme" data-value="${esc(t)}">${esc(t)}</button>`).join("");
+    const stageTags = (s.stages || []).map(t => `<button type="button" class="tag stage" data-axis="stage" data-value="${esc(t)}">${esc(t)}</button>`).join("");
     const stale = isStale(s.date) ? `<span class="stale">登録から${STALE_DAYS}日超</span>` : "";
     const packBadge = s.pack ? `<span class="pack-badge">改善パック</span>` : "";
+    const packOrder = packOrderFor(s.key);
+    const packOrderBadge = packOrder ? `<span class="pack-order-badge">${packOrder}</span>` : "";
     const hasPrompt = !!s.has_prompt;
     const packZipPath = "slides/" + encodeURIComponent(s.key) + "/pack.zip";
     const importButton = hasPrompt
@@ -1273,12 +1507,13 @@ function renderGrid(visibleList) {
         <div class="thumb-fallback"><span class="material-symbols-outlined">image</span><span class="fallback-label">サムネイル準備中</span></div>
         <a class="thumb-link" href="${path}" target="_blank" rel="noopener" aria-label="${esc(s.title)} を全画面で開く"></a>
         ${packBadge}
+        ${packOrderBadge}
       </div>
       <div class="card-body">
         <h2 class="card-title">${esc(s.title)}</h2>
         <p class="card-target">${esc(s.target)}</p>
         <p class="card-problem">${esc(s.problems)}</p>
-        <div class="meta-row">${toolTags}${mechTags}${themeTags}${stale}<span class="date">${esc(s.date)} 登録</span></div>
+        <div class="meta-row">${toolTags}${mechTags}${themeTags}${stageTags}${stale}<span class="date">${esc(s.date)} 登録</span></div>
       </div>
       <div class="card-actions">
         ${importButton}
@@ -1291,7 +1526,15 @@ function renderGrid(visibleList) {
   bindCardEvents();
 }
 
+function updateSortLabel() {
+  const label = state.proposalPack !== "すべて"
+    ? `並び順: 提示順（${state.proposalPack}）`
+    : "並び順: 登録が新しい順";
+  document.querySelector(".sort-label").textContent = label;
+}
+
 function renderStatus(fullList, visibleList) {
+  updateSortLabel();
   document.getElementById("empty").style.display = fullList.length ? "none" : "block";
   document.getElementById("hit-count").textContent = `${fullList.length}件中 ${visibleList.length}件を表示`;
 
@@ -1402,7 +1645,9 @@ document.getElementById("facet-clear").addEventListener("click", () => {
   state.tool = "すべて";
   state.mech = "すべて";
   state.theme = "すべて";
+  state.stage = "すべて";
   state.dist = "すべて";
+  state.proposalPack = "すべて";
   state.visibleCount = INITIAL_VISIBLE;
   syncURL("push");
   render();

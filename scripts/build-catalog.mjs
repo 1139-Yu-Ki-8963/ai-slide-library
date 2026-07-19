@@ -20,8 +20,8 @@ if (!vocabSection) {
   console.error("エラー: docs/スライド蓄積簿.md に「## タグ語彙一覧」節がありません");
   process.exit(1);
 }
-const AXIS_KEYS = { "対象ツール": "tools", "仕組み": "mechanisms", "テーマ": "themes" };
-const vocab = { tools: [], mechanisms: [], themes: [] };
+const AXIS_KEYS = { "対象ツール": "tools", "仕組み": "mechanisms", "テーマ": "themes", "導入段階": "stages" };
+const vocab = { tools: [], mechanisms: [], themes: [], stages: [] };
 for (const line of vocabSection.split("\n")) {
   const cells = line.split("|").map(c => c.trim());
   if (cells.length !== 4) continue;
@@ -56,9 +56,9 @@ const unknownTags = [];
 const validationErrors = [];
 for (const line of section.split("\n")) {
   const cells = line.split("|").map(c => c.trim());
-  // 表行は [ "", key, target, problems, tools, mechanisms, themes, entities, pack, importPrompt, date, "" ] の 12 要素
-  if (cells.length !== 12 || !cells[1]) continue;
-  const [, key, target, problems, tools, mechanisms, themes, entities, pack, importPrompt, date] = cells;
+  // 表行は [ "", key, target, problems, tools, mechanisms, themes, stages, entities, pack, importPrompt, date, "" ] の 13 要素
+  if (cells.length !== 13 || !cells[1]) continue;
+  const [, key, target, problems, tools, mechanisms, themes, stages, entities, pack, importPrompt, date] = cells;
   if (key === "スライドキー" || /^-+$/.test(key)) continue;
 
   // 必須フィールドの空チェック
@@ -107,17 +107,69 @@ for (const line of section.split("\n")) {
     tools: splitTags(tools),
     mechanisms: splitTags(mechanisms),
     themes: splitTags(themes),
+    stages: splitTags(stages),
     entities: splitTags(entities),
     pack: pack.trim() === "あり",
     has_prompt: !!prompt,
     date,
   };
-  for (const [axis, words] of [["tools", entry.tools], ["mechanisms", entry.mechanisms], ["themes", entry.themes]]) {
+  for (const [axis, words] of [["tools", entry.tools], ["mechanisms", entry.mechanisms], ["themes", entry.themes], ["stages", entry.stages]]) {
     for (const w of words) {
       if (!vocab[axis].includes(w)) unknownTags.push(`${key}: ${axis} 軸「${w}」`);
     }
   }
   slides.push(entry);
+}
+
+// --- 提案パック定義の読み取り（節が無ければ PACKS = [] で続行） ---
+const packsSection = ledger.split(/^## 提案パック定義$/m)[1]?.split(/^## /m)[0];
+const PACKS = [];
+if (packsSection) {
+  const slideKeys = new Set(slides.map(s => s.key));
+  const rowsByName = new Map(); // パック名 → [{ orderStr, key }]（蓄積簿の出現順を保持）
+  for (const line of packsSection.split("\n")) {
+    const cells = line.split("|").map(c => c.trim());
+    // 表行は [ "", パック名, 提示順, スライドキー, "" ] の 5 要素
+    if (cells.length !== 5 || !cells[1]) continue;
+    const [, name, orderStr, key] = cells;
+    if (name === "パック名" || /^-+$/.test(name)) continue;
+    if (!rowsByName.has(name)) rowsByName.set(name, []);
+    rowsByName.get(name).push({ orderStr, key });
+  }
+  for (const [name, rows] of rowsByName) {
+    const parsed = [];
+    for (const { orderStr, key } of rows) {
+      if (!slideKeys.has(key)) {
+        validationErrors.push(`提案パック「${name}」: スライドキー「${key}」が見つかりません`);
+        continue;
+      }
+      const order = Number(orderStr);
+      if (!Number.isInteger(order) || order <= 0) {
+        validationErrors.push(`提案パック「${name}」: 提示順「${orderStr}」が正の整数ではありません`);
+        continue;
+      }
+      parsed.push({ order, key });
+    }
+    const orders = parsed.map(p => p.order);
+    const seen = new Set();
+    const dups = new Set();
+    for (const o of orders) {
+      if (seen.has(o)) dups.add(o);
+      seen.add(o);
+    }
+    if (dups.size > 0) {
+      validationErrors.push(`提案パック「${name}」: 提示順が重複しています（${[...dups].sort((a, b) => a - b).join(", ")}）`);
+      continue;
+    }
+    const sortedOrders = [...orders].sort((a, b) => a - b);
+    const isSequential = sortedOrders.every((o, i) => o === i + 1);
+    if (!isSequential) {
+      validationErrors.push(`提案パック「${name}」: 提示順が 1..${sortedOrders.length} の連続になっていません（実際: ${sortedOrders.join(", ")}）`);
+      continue;
+    }
+    parsed.sort((a, b) => a.order - b.order);
+    PACKS.push({ name, slides: parsed.map(p => p.key) });
+  }
 }
 
 if (validationErrors.length > 0) {
@@ -157,8 +209,9 @@ const dataBlock =
   "/*CATALOG-DATA-START*/\n" +
   `const VOCAB = ${JSON.stringify(vocab, null, 2)};\n` +
   `const SLIDES = ${JSON.stringify(slides, null, 2)};\n` +
+  `const PACKS = ${JSON.stringify(PACKS, null, 2)};\n` +
   "/*CATALOG-DATA-END*/";
 writeFileSync(indexPath, indexHtml.replace(marker, dataBlock));
 writeFileSync(promptsPath, JSON.stringify(prompts, null, 2));
-console.log(`index.html を再生成しました（スライド ${slides.length} 枚 / 語彙 ツール${vocab.tools.length}・仕組み${vocab.mechanisms.length}・テーマ${vocab.themes.length}）`);
+console.log(`index.html を再生成しました（スライド ${slides.length} 枚・パック ${PACKS.length} 件 / 語彙 ツール${vocab.tools.length}・仕組み${vocab.mechanisms.length}・テーマ${vocab.themes.length}・導入段階${vocab.stages.length}）`);
 console.log(`catalog-prompts.json を再生成しました（プロンプト ${Object.keys(prompts).length} 件）`);
