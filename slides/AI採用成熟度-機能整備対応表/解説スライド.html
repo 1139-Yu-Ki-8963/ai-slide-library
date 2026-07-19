@@ -1,0 +1,323 @@
+<meta charset="utf-8">
+<title>AI 採用の 5 段階 — 各段階の状態と導入すべき機能</title>
+<style>
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+    --claude: #D97757;
+    --claude-deep: #BC5B3B;
+    --chip-ink: #FFFFFF;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute; top: 50%; left: 50%;
+    width: 1280px; height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28,43,58,0.08);
+    display: flex; flex-direction: column;
+    padding: 30px 40px;
+    gap: 10px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%,-50%) scale(var(--slide-scale,1));
+    transform-origin: center center;
+  }
+
+  .slide-header { display: flex; flex-direction: column; gap: 2px; padding-bottom: 8px; border-bottom: 2px solid var(--ink); }
+  .slide-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--ink); }
+  .slide-subtitle { font-size: 12px; color: var(--ink-2); }
+
+  .group-row {
+    display: grid;
+    grid-template-columns: 1fr 20px 1fr 20px 1fr 20px 1fr 20px 1fr;
+    align-items: center; height: 22px;
+  }
+  .group-item { display: flex; align-items: center; justify-content: center; gap: 5px; }
+  .group-item .label { font-size: 11px; font-weight: 700; color: var(--ink-2); }
+
+  .stages-grid {
+    display: grid;
+    grid-template-columns: 1fr 20px 1fr 20px 1fr 20px 1fr 20px 1fr;
+    flex: 1; min-height: 0; align-items: stretch;
+  }
+  .stage-arrow { display: flex; align-items: center; justify-content: center; }
+  .stage-card {
+    border: 1.5px solid var(--border); border-radius: 8px;
+    padding: 10px 9px; display: flex; flex-direction: column; gap: 4px; overflow: hidden;
+  }
+  .stage-card--prep  { border-top: 3px solid var(--ink-3); }
+  .stage-card--intro { border-top: 3px solid color-mix(in srgb, var(--good) 35%, var(--border) 65%); }
+  .stage-card--flow  { border-top: 3px solid color-mix(in srgb, var(--good) 70%, var(--border) 30%); }
+  .stage-card--scale { border-top: 3px solid var(--good); }
+
+  .stage-step-label { font-size: 9px; font-weight: 700; color: var(--ink-3); letter-spacing: 0.06em; }
+  .stage-head h2 { font-size: 12.5px; font-weight: 700; color: var(--ink); line-height: 1.25; margin-top: 1px; }
+  .stage-desc { font-size: 9.5px; color: var(--ink-2); line-height: 1.4; }
+  .stage-wall { font-size: 8.5px; color: var(--ink-3); line-height: 1.3; margin-top: 1px; }
+  .stage-wall strong { color: var(--ink-2); font-weight: 600; }
+
+  .section-label { font-size: 8px; font-weight: 700; color: var(--ink-3); letter-spacing: 0.05em; margin-top: 4px; margin-bottom: 1px; }
+
+  .stage-feat { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+  .stage-feat li {
+    font-size: 9.2px; line-height: 1.3; color: var(--ink); font-weight: 600;
+    padding-left: 9px; position: relative;
+  }
+  .stage-feat li::before {
+    content: ''; position: absolute; left: 0; top: 4px;
+    width: 4.5px; height: 4.5px; border-radius: 50%; background: var(--claude);
+  }
+  .stage-feat-none { font-size: 9px; color: var(--ink-3); font-style: italic; padding-left: 9px; }
+
+  .stage-guard { list-style: none; display: flex; flex-direction: column; gap: 1.5px; }
+  .stage-guard li {
+    font-size: 8.5px; line-height: 1.3; color: var(--ink-2);
+    padding-left: 9px; position: relative;
+  }
+  .stage-guard li::before {
+    content: ''; position: absolute; left: 0; top: 4px;
+    width: 4px; height: 4px; border-radius: 50%; background: var(--border);
+  }
+
+  .stage-output {
+    margin-top: auto;
+    font-size: 8.5px; color: var(--ink-3); line-height: 1.3;
+    border-top: 1px solid var(--border); padding-top: 4px;
+  }
+
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; border-radius: 50%;
+    font-size: 10px; font-weight: 700; color: var(--chip-ink); flex-shrink: 0;
+  }
+  .step-chip--partial  { background: var(--ink-3); }
+  .step-chip--main     { background: var(--claude); }
+  .step-chip--good     { background: var(--good); }
+  .step-chip--critical { background: var(--critical); }
+
+  .layer-band {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 16px; border-radius: 8px;
+    background: var(--critical-soft);
+    border: 1.5px solid var(--critical);
+    border-left: 4px solid var(--critical);
+  }
+  .layer-desc { font-size: 11px; color: var(--ink-2); line-height: 1.45; }
+  .layer-desc strong { color: var(--critical); }
+
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; padding-top: 6px; border-top: 1px solid var(--border); }
+  .step { display: flex; gap: 6px; align-items: flex-start; }
+  .step-text { font-size: 10.5px; line-height: 1.4; color: var(--ink-2); }
+  .step-text strong { color: var(--ink); }
+
+  .slide-meta { height: 10px; }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI 採用 成熟度モデル</span>
+      <h1 class="slide-title">AI 採用の 5 段階 — 各段階の状態と導入すべき機能</h1>
+      <p class="slide-subtitle">段階を飛ばさない — ガードレールを整備してから機能を解放する</p>
+    </header>
+
+    <div class="group-row">
+      <div class="group-item" style="grid-column: 1 / 4;">
+        <span class="step-chip step-chip--partial">1</span>
+        <span class="label">導入基盤を作る</span>
+      </div>
+      <div></div>
+      <div class="group-item" style="grid-column: 5 / 6;">
+        <span class="step-chip step-chip--main">2</span>
+        <span class="label">並列で動かす</span>
+      </div>
+      <div></div>
+      <div class="group-item" style="grid-column: 7 / 10;">
+        <span class="step-chip step-chip--good">3</span>
+        <span class="label">自律に委ねる</span>
+      </div>
+    </div>
+
+    <div class="stages-grid">
+
+      <article class="stage-card stage-card--prep">
+        <div class="stage-step-label">LEVEL 1</div>
+        <div class="stage-head"><h2>利用制限<br>Gated</h2></div>
+        <p class="stage-desc">AI ツールの利用が厳しく制限されている。古いモデル・高遅延・承認未整備</p>
+        <p class="stage-wall"><strong>壁:</strong> レガシー承認プロセス。非技術者が意思決定を支配</p>
+        <div class="section-label">使う機能</div>
+        <p class="stage-feat-none">—（AI 未導入）</p>
+        <div class="section-label">必要な整備</div>
+        <ul class="stage-guard">
+          <li>SSO/SCIM + 役割ベースアクセス制御</li>
+          <li>組織レベルの予算上限</li>
+          <li>既存承認フローへの組込み</li>
+        </ul>
+        <p class="stage-output">→ 経営層と合意し導入枠組みを構築</p>
+      </article>
+
+      <div class="stage-arrow">
+        <svg width="12" height="22" viewBox="0 0 16 28" fill="none">
+          <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <article class="stage-card stage-card--prep">
+        <div class="stage-step-label">LEVEL 2</div>
+        <div class="stage-head"><h2>1対1ペア作業<br>Assisted</h2></div>
+        <p class="stage-desc">1人+1エージェントの同期作業。全出力を手動確認。信頼不足で書き直しが多い</p>
+        <p class="stage-wall"><strong>壁:</strong> 出力を全件読まないと不安。同期型で遅い</p>
+        <div class="section-label">使う機能</div>
+        <ul class="stage-feat">
+          <li>Claude Code（Desktop/CLI/IDE）</li>
+          <li>Claude Cowork / Design</li>
+          <li>Analytics ダッシュボード</li>
+          <li>Compliance API</li>
+        </ul>
+        <div class="section-label">必要な整備</div>
+        <ul class="stage-guard">
+          <li>1人あたりの利用上限</li>
+          <li>中央管理のモデル設定</li>
+          <li>OpenTelemetry で既存監視に連携</li>
+        </ul>
+        <p class="stage-output">→ 複数エージェント運用と自己検証ループの確立</p>
+      </article>
+
+      <div class="stage-arrow">
+        <svg width="12" height="22" viewBox="0 0 16 28" fill="none">
+          <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <article class="stage-card stage-card--intro">
+        <div class="stage-step-label">LEVEL 3</div>
+        <div class="stage-head"><h2>並列オーケストレーター<br>Parallel</h2></div>
+        <p class="stage-desc">1人が5〜10エージェントを同時運用。各自が worktree でテスト・ビルド・スキャンまで自走</p>
+        <p class="stage-wall"><strong>壁:</strong> 手動レビューが律速。出力量に追いつかない</p>
+        <div class="section-label">使う機能</div>
+        <ul class="stage-feat">
+          <li>Auto mode</li>
+          <li>Agent view</li>
+          <li>Claude Code Review</li>
+          <li>Claude Security Review</li>
+          <li>Worktree isolation</li>
+          <li>Remote control（スマホ監視）</li>
+        </ul>
+        <div class="section-label">必要な整備</div>
+        <ul class="stage-guard">
+          <li>自動コードレビュー・セキュリティレビュー</li>
+          <li>E2E 検証パイプライン</li>
+          <li>事前承認された安全なコマンド</li>
+        </ul>
+      </article>
+
+      <div class="stage-arrow">
+        <svg width="12" height="22" viewBox="0 0 16 28" fill="none">
+          <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <article class="stage-card stage-card--flow">
+        <div class="stage-step-label">LEVEL 4</div>
+        <div class="stage-head"><h2>監督付き自律<br>Supervised</h2></div>
+        <p class="stage-desc">AI がコードの大半を書く。質問が「コード読んだ？」→「次は何をする？」に変化。メンテがバックグラウンド化</p>
+        <p class="stage-wall"><strong>壁:</strong> ループへの信頼。トークン使用量の管理</p>
+        <div class="section-label">使う機能</div>
+        <ul class="stage-feat">
+          <li>Subagents + Worktree isolation</li>
+          <li>Dynamic workflows</li>
+          <li>Routines / loop / batch</li>
+          <li>Claude Tag（使用状況監視）</li>
+        </ul>
+        <div class="section-label">必要な整備</div>
+        <ul class="stage-guard">
+          <li>自動コードレビュー・セキュリティレビュー</li>
+          <li>Agent sandbox</li>
+          <li>CLAUDE.md の整備</li>
+          <li>モデル選択によるトークン制御</li>
+        </ul>
+      </article>
+
+      <div class="stage-arrow">
+        <svg width="12" height="22" viewBox="0 0 16 28" fill="none">
+          <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <article class="stage-card stage-card--scale">
+        <div class="stage-step-label">LEVEL 5</div>
+        <div class="stage-head"><h2>AI ネイティブ<br>AI-native</h2></div>
+        <p class="stage-desc">ループ完全閉鎖。エージェントがエージェントを管理・起動・停止。人間は「意図」で指示し例外だけ監視</p>
+        <p class="stage-wall"><strong>壁:</strong> ドメイン特化の自動化を安全にスケール</p>
+        <div class="section-label">使う機能</div>
+        <ul class="stage-feat">
+          <li>Claude Agent SDK</li>
+          <li>Claude Tag（Slack 自動応答）</li>
+        </ul>
+        <div class="section-label">必要な整備</div>
+        <ul class="stage-guard">
+          <li>自動化向けのコスト制御</li>
+          <li>自動化向けのモデル選択</li>
+        </ul>
+      </article>
+
+    </div>
+
+    <div class="layer-band">
+      <span class="step-chip step-chip--critical">!</span>
+      <p class="layer-desc"><strong>よくある失敗:</strong> ガードレールなしに Level 3 の並列運用に飛びつく → 自動レビューがないまま出力が溢れ、品質が崩壊する</p>
+    </div>
+
+    <footer class="steps">
+      <div class="step">
+        <span class="step-chip step-chip--partial">1</span>
+        <p class="step-text"><strong>導入基盤を作る</strong>（Level 1〜2）— 承認の壁を取り、1対1ペアで信頼を築く</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--main">2</span>
+        <p class="step-text"><strong>並列で動かす</strong>（Level 3）— Auto mode と自動レビューで 5〜10 エージェントを同時運用</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--good">3</span>
+        <p class="step-text"><strong>自律に委ねる</strong>（Level 4〜5）— AI 主導で書き、人間は意図と例外に集中</p>
+      </div>
+    </footer>
+
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
