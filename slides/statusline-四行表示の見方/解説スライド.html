@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>ステータスラインの読みかた — 4 行の計器が今の状態を映す</title>
+<title>statusline — 入力欄の下に任意の情報を常時表示できるカスタマイズ機能</title>
 <style>
   /* ==== デザイントークン（変更禁止） ==== */
   :root {
@@ -233,9 +233,9 @@
 <div class="slide">
 
   <header class="slide-header">
-    <span class="slide-eyebrow">CLAUDE CODE カスタマイズ — STATUSLINE.PY</span>
-    <h1 class="slide-title">ステータスラインの読みかた — 4 行の計器が今の状態を映す</h1>
-    <p class="slide-subtitle">入力欄の上に常時表示される情報バー。モデル・セッション・リソース消費・フロー進捗を一目で確認できる。</p>
+    <span class="slide-eyebrow">CLAUDE CODE — STATUSLINE</span>
+    <h1 class="slide-title">statusline — 入力欄の下に任意の情報を常時表示できるカスタマイズ機能</h1>
+    <p class="slide-subtitle">この例ではモデル・セッション・リソース消費・フロー進捗の 4 行を設定している</p>
   </header>
 
   <div class="terminal">
@@ -246,8 +246,8 @@
       <span class="terminal-bar-label">claude — statusline</span>
     </div>
     <div class="terminal-body">
-      <div class="tline"><span class="tline-marker tline-marker--1"></span>🤖 Opus 4.6 (1M context) | 📂 battle-base | Branch: feature/team-ranking | oradora</div>
-      <div class="tline"><span class="tline-marker tline-marker--2"></span>Session: a1b2c3d4 | Name: 日次運用ラン</div>
+      <div class="tline"><span class="tline-marker tline-marker--1"></span>🤖 Opus 4.6 (1M context) | 📂 my-project | Branch: feature/add-dashboard | my-account</div>
+      <div class="tline"><span class="tline-marker tline-marker--2"></span>Session: a1b2c3d4 | Name: 機能実装セッション</div>
       <div class="tline"><span class="tline-marker tline-marker--3"></span><span class="t-green">◔ ctx:23%</span>  <span class="t-amber">◑ 5h:58%</span>  <span class="t-red">◕ 7d:84%</span></div>
       <div class="tline"><span class="tline-marker tline-marker--4"></span><span class="t-cyan">⚙ Phase 3 実装 ▰▰▰▰▰▱▱▱▱▱▱▱▱ 5/12 API endpoint 追加</span></div>
     </div>
@@ -264,7 +264,7 @@
         <li class="anno-item"><span class="anno-key">🤖 モデル名</span><span class="anno-sep">—</span><span class="anno-val">使用中の Claude モデル（Opus 4.6 / Sonnet 5 等）</span></li>
         <li class="anno-item"><span class="anno-key">📂 フォルダ</span><span class="anno-sep">—</span><span class="anno-val">カレントディレクトリのベース名</span></li>
         <li class="anno-item"><span class="anno-key">Branch</span><span class="anno-sep">—</span><span class="anno-val">現在の Git ブランチ（git 管理外では非表示）</span></li>
-        <li class="anno-item"><span class="anno-key">アカウント</span><span class="anno-sep">—</span><span class="anno-val">接続先の識別名（.claude-xxx → xxx と表示）</span></li>
+        <li class="anno-item"><span class="anno-key">アカウント</span><span class="anno-sep">—</span><span class="anno-val">接続先の識別名（.claude-xxx → xxx）</span></li>
       </ul>
     </div>
 
