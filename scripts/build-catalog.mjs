@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // docs/スライド蓄積簿.md の語彙一覧・スライド一覧から index.html のカタログデータを再生成する。
+// slides/ 配下のフォルダと蓄積簿の行は双方向に突合し、片方にしか無い場合はエラーで停止する。
 // 依存パッケージなし。実行: node scripts/build-catalog.mjs
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -51,6 +52,7 @@ const splitTags = cell => {
 };
 
 const slides = [];
+const allLedgerKeys = new Set();
 const prompts = {};
 const unknownTags = [];
 const validationErrors = [];
@@ -60,6 +62,7 @@ for (const line of section.split("\n")) {
   if (cells.length !== 13 || !cells[1]) continue;
   const [, key, target, problems, tools, mechanisms, themes, stages, entities, pack, importPrompt, date] = cells;
   if (key === "スライドキー" || /^-+$/.test(key)) continue;
+  allLedgerKeys.add(key);
 
   // 必須フィールドの空チェック
   for (const [fieldName, value] of [["説明対象", target], ["提示する課題の例", problems], ["登録日", date]]) {
@@ -119,6 +122,17 @@ for (const line of section.split("\n")) {
     }
   }
   slides.push(entry);
+}
+// --- slides/ ディレクトリと蓄積簿の突合（fs → 蓄積簿方向） ---
+// 蓄積簿 → fs 方向は上のループ内 existsSync が担う。fs にあるが蓄積簿に
+// 行が無いフォルダをここで検出し、両方向の違反を同じ validationErrors に
+// 集約する。基準は slides[] ではなく allLedgerKeys（成果物欠落の行も含む）。
+const slidesDir = join(root, "slides");
+for (const d of readdirSync(slidesDir, { withFileTypes: true })) {
+  if (!d.isDirectory()) continue;
+  if (!allLedgerKeys.has(d.name)) {
+    validationErrors.push(`${d.name}: slides/${d.name}/ が存在しますが蓄積簿に未登録です（docs/スライド蓄積簿.md の「スライド一覧」へ追記してから再実行）`);
+  }
 }
 
 // --- 提案パック定義の読み取り（節が無ければ PACKS = [] で続行） ---
