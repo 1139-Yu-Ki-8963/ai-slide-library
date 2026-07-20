@@ -328,6 +328,10 @@
         <div id="dist-chips" style="display:contents"></div>
       </div>
       <div class="facet-row">
+        <span class="label">テンプレート:</span>
+        <div id="template-chips" style="display:contents"></div>
+      </div>
+      <div class="facet-row">
         <span class="label">提案パック:</span>
         <div id="pack-chips" style="display:contents"></div>
       </div>
@@ -1475,7 +1479,7 @@ const LOAD_STEP = 30;
 const PACKS_BY_NAME = new Map(PACKS.map(p => [p.name, p]));
 const state = {
   query: "", tool: "すべて", mech: "すべて", theme: "すべて", stage: "すべて",
-  dist: "すべて", proposalPack: "すべて", visibleCount: INITIAL_VISIBLE
+  dist: "すべて", template: "すべて", proposalPack: "すべて", visibleCount: INITIAL_VISIBLE
 };
 
 function esc(s) {
@@ -1535,6 +1539,7 @@ function countFor(field, value) {
     if (stateKey !== "theme" && state.theme !== "すべて" && !(s.themes || []).includes(state.theme)) return false;
     if (stateKey !== "stage" && state.stage !== "すべて" && !(s.stages || []).includes(state.stage)) return false;
     if (state.dist === "改善パックあり" && !s.pack) return false;
+    if (state.template === "テンプレートあり" && !s.template) return false;
     if (!slideInSelectedProposalPack(s)) return false;
     if (!(s[field] || []).includes(value)) return false;
     return queryMatches(s);
@@ -1547,6 +1552,7 @@ function matches(s) {
   if (state.theme !== "すべて" && !(s.themes || []).includes(state.theme)) return false;
   if (state.stage !== "すべて" && !(s.stages || []).includes(state.stage)) return false;
   if (state.dist === "改善パックあり" && !s.pack) return false;
+  if (state.template === "テンプレートあり" && !s.template) return false;
   if (!slideInSelectedProposalPack(s)) return false;
   return queryMatches(s);
 }
@@ -1560,6 +1566,7 @@ function stateFromURL() {
   state.theme = params.get("theme") || "すべて";
   state.stage = params.get("stage") || "すべて";
   state.dist = params.get("dist") || "すべて";
+  state.template = params.get("tmpl") || "すべて";
   state.proposalPack = params.get("pack") || "すべて";
   state.visibleCount = INITIAL_VISIBLE;
 }
@@ -1572,6 +1579,7 @@ function syncURL(mode) {
   if (state.theme !== "すべて") params.set("theme", state.theme);
   if (state.stage !== "すべて") params.set("stage", state.stage);
   if (state.dist !== "すべて") params.set("dist", state.dist);
+  if (state.template !== "すべて") params.set("tmpl", state.template);
   if (state.proposalPack !== "すべて") params.set("pack", state.proposalPack);
   const qs = params.toString();
   const url = location.pathname + (qs ? "?" + qs : "") + location.hash;
@@ -1634,6 +1642,31 @@ function renderDistChips() {
   });
 }
 
+function renderTemplateChips() {
+  const wrap = document.getElementById("template-chips");
+  wrap.innerHTML = "";
+  [
+    { value: "すべて", count: SLIDES.length },
+    { value: "テンプレートあり", count: SLIDES.filter(s => s.template).length }
+  ].forEach(({ value, count }) => {
+    const b = document.createElement("button");
+    const disabled = value !== "すべて" && count === 0;
+    const active = state.template === value;
+    b.className = "chip"
+      + (active ? " active" : "")
+      + (disabled ? " disabled" : "");
+    b.textContent = value;
+    b.setAttribute("aria-pressed", active ? "true" : "false");
+    if (disabled) {
+      b.title = "該当スライドは準備中です";
+      b.setAttribute("aria-disabled", "true");
+    } else {
+      b.onclick = () => selectFacet("template", value);
+    }
+    wrap.appendChild(b);
+  });
+}
+
 function renderPackChips() {
   // 「配布」軸（改善パックあり = s.pack の boolean フラグ）とは別物。
   // こちらは docs/スライド蓄積簿.md 「## 提案パック定義」由来の PACKS（提示順付きスライド束）の選択 UI。
@@ -1666,7 +1699,7 @@ function updateFacetBadge() {
   // クリック・クリア・popstate・初期化のどの経路でも state 反映後に render() 経由でここへ来るため、
   // ここ以外の場所でバッジを更新しない（重複更新の禁止）。
   const badge = document.getElementById("facet-badge");
-  const count = ["tool", "mech", "theme", "stage", "dist", "proposalPack"].filter(k => state[k] !== "すべて").length;
+  const count = ["tool", "mech", "theme", "stage", "dist", "template", "proposalPack"].filter(k => state[k] !== "すべて").length;
   badge.hidden = count === 0;
   if (count > 0) badge.textContent = `${count}件選択中`;
 }
@@ -1691,6 +1724,7 @@ function renderFacets() {
   renderChipRow("theme-chips", "themes", "theme");
   renderChipRow("stage-chips", "stages", "stage");
   renderDistChips();
+  renderTemplateChips();
   renderPackChips();
   updateFacetBadge();
 }
@@ -1901,6 +1935,7 @@ document.getElementById("facet-clear").addEventListener("click", () => {
   state.theme = "すべて";
   state.stage = "すべて";
   state.dist = "すべて";
+  state.template = "すべて";
   state.proposalPack = "すべて";
   state.visibleCount = INITIAL_VISIBLE;
   syncURL("push");
