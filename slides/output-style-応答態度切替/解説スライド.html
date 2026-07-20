@@ -1,0 +1,277 @@
+<meta charset="utf-8">
+<title>Output Style — AI の応答態度を場面に合わせて切り替える機能</title>
+<style>
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+    --claude: #D97757;
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;
+    --cursor-soft: #EFF1F4;
+    --term-bg: #151921;
+    --term-bar: #1E2330;
+    --term-text: #D4D0C8;
+    --term-dot-close: #FF5F57;
+    --term-dot-min: #FEBC2E;
+    --term-dot-max: #28C840;
+    --term-green: #4AB85E;
+    --term-amber: #CC9C38;
+    --term-red: #C84848;
+    --term-cyan: #4CB8C8;
+    --term-dim: #646C82;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 36px 44px;
+    gap: 14px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  .slide-header {
+    display: flex; flex-direction: column; gap: 4px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 28px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-subtitle { font-size: 14px; color: var(--ink-2); }
+
+  /* メインコンテンツ: 左ターミナル + 右注釈 */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 56fr 44fr;
+    gap: 16px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* ターミナルモックアップ（縦長） */
+  .terminal {
+    background: var(--term-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column;
+  }
+  .terminal-bar {
+    background: var(--term-bar);
+    padding: 7px 12px;
+    display: flex; align-items: center; gap: 6px;
+    flex-shrink: 0;
+  }
+  .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .terminal-bar-label {
+    font-size: 11px; color: var(--term-dim);
+    margin-left: 8px;
+  }
+  .terminal-body {
+    padding: 12px 16px;
+    font-family: 'SF Mono', 'Cascadia Code', 'JetBrains Mono', 'Consolas', 'Menlo', monospace;
+    font-size: 11.5px;
+    line-height: 1.65;
+    color: var(--term-text);
+    flex: 1;
+    overflow: hidden;
+  }
+  .t-comment { color: var(--term-dim); }
+  .t-heading { color: var(--term-amber); font-weight: 700; }
+  .t-green { color: var(--term-green); }
+  .t-cyan { color: var(--term-cyan); }
+  .t-num { color: var(--claude); }
+  .t-bold { font-weight: 700; }
+  .t-line { display: block; }
+  .t-indent { padding-left: 20px; display: block; }
+  .t-gap { display: block; height: 6px; }
+
+  /* 右側注釈 */
+  .anno-stack {
+    display: flex; flex-direction: column;
+    gap: 10px;
+  }
+  .anno-card {
+    background: var(--tag-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 14px;
+    display: flex; flex-direction: column;
+    gap: 5px;
+    flex: 1;
+  }
+  .anno-card--active { border-left: 4px solid var(--claude); background: var(--claude-soft); }
+  .anno-card--inactive { border-left: 4px solid var(--ink-3); }
+  .anno-card--teach { border-left: 4px solid var(--good); }
+
+  .anno-head {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .anno-head h3 {
+    font-size: 13px; font-weight: 700; color: var(--ink);
+  }
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 20px; height: 20px; padding: 0 6px;
+    border-radius: 10px; font-size: 10px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--active { background: var(--claude); }
+  .step-chip--inactive { background: var(--ink-3); }
+  .step-chip--teach { background: var(--good); }
+
+  .anno-desc {
+    font-size: 11.5px;
+    color: var(--ink-2);
+    line-height: 1.45;
+  }
+  .anno-desc strong { color: var(--ink); font-weight: 600; }
+
+  .anno-when {
+    font-size: 10.5px;
+    color: var(--ink-3);
+    margin-top: auto;
+    padding-top: 4px;
+    border-top: 1px solid var(--border);
+  }
+
+  .source-line {
+    font-size: 11px;
+    color: var(--ink-3);
+    border-top: 1px solid var(--border);
+    padding-top: 6px;
+    flex-shrink: 0;
+  }
+  .slide-meta {
+    height: 20px;
+    padding-top: 4px;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+</style>
+
+<div class="slide-viewport">
+<div class="slide">
+
+  <header class="slide-header">
+    <span class="slide-eyebrow">CLAUDE CODE — OUTPUT STYLE</span>
+    <h1 class="slide-title">Output Style — AI の応答態度を<wbr>場面に合わせて切り替える機能</h1>
+    <p class="slide-subtitle">同じ指示でも Style によって「すぐ動く」か「確認してから動く」かが変わる</p>
+  </header>
+
+  <div class="main-grid">
+
+    <!-- 左: ターミナル（実際の注入テキスト） -->
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="terminal-dot" style="background:var(--term-dot-close)"></span>
+        <span class="terminal-dot" style="background:var(--term-dot-min)"></span>
+        <span class="terminal-dot" style="background:var(--term-dot-max)"></span>
+        <span class="terminal-bar-label">Proactive Style が有効時に AI が受け取る指示</span>
+      </div>
+      <div class="terminal-body">
+        <span class="t-line t-heading"># Output Style: Proactive</span>
+        <span class="t-gap"></span>
+        <span class="t-line t-comment"># Proactive Style Active</span>
+        <span class="t-line">The user chose continuous,</span>
+        <span class="t-line">autonomous execution. You should:</span>
+        <span class="t-gap"></span>
+        <span class="t-line"><span class="t-num">1.</span> <span class="t-bold">Execute immediately</span></span>
+        <span class="t-indent t-green">Start implementing right away.</span>
+        <span class="t-indent t-green">Make reasonable assumptions.</span>
+        <span class="t-gap"></span>
+        <span class="t-line"><span class="t-num">2.</span> <span class="t-bold">Minimize interruptions</span></span>
+        <span class="t-indent t-green">Prefer assumptions over</span>
+        <span class="t-indent t-green">asking questions.</span>
+        <span class="t-gap"></span>
+        <span class="t-line"><span class="t-num">3.</span> <span class="t-bold">Prefer action over planning</span></span>
+        <span class="t-indent t-green">Do not enter plan mode</span>
+        <span class="t-indent t-green">unless explicitly asked.</span>
+        <span class="t-gap"></span>
+        <span class="t-line"><span class="t-num">4.</span> <span class="t-bold">Expect course corrections</span></span>
+        <span class="t-gap"></span>
+        <span class="t-line"><span class="t-num">5.</span> <span class="t-bold">Do not take destructive actions</span></span>
+        <span class="t-indent t-cyan">Deletions and shared-system</span>
+        <span class="t-indent t-cyan">changes still need confirmation.</span>
+      </div>
+    </div>
+
+    <!-- 右: 3スタイルの比較 -->
+    <div class="anno-stack">
+
+      <div class="anno-card anno-card--active">
+        <div class="anno-head">
+          <span class="step-chip step-chip--active">有効</span>
+          <h3>Proactive（自律型）</h3>
+        </div>
+        <p class="anno-desc"><strong>即座に実行を開始</strong>し、妥当な判断ができる場面では確認せずに進む。方向転換は通常の入力として受け止める。ただし<strong>データ削除・共有システムへの操作</strong>は必ず確認する。</p>
+        <p class="anno-when">向いている場面: 方針が明確で大量の作業を一気に進めたいとき</p>
+      </div>
+
+      <div class="anno-card anno-card--inactive">
+        <div class="anno-head">
+          <span class="step-chip step-chip--inactive">既定</span>
+          <h3>Normal（標準型）</h3>
+        </div>
+        <p class="anno-desc">低リスクな操作は即実行、<strong>判断が必要な場面で確認</strong>する。大きな変更の前に計画の概要を提示し、不明点があれば事前に質問する。</p>
+        <p class="anno-when">向いている場面: 初めての作業や、判断の余地が大きいとき</p>
+      </div>
+
+      <div class="anno-card anno-card--teach">
+        <div class="anno-head">
+          <span class="step-chip step-chip--teach">学習</span>
+          <h3>Pedagogical（解説型）</h3>
+        </div>
+        <p class="anno-desc">各ステップで<strong>「なぜそうするか」を添えて説明</strong>する。複数の方法がある場面で比較を提示し、コードの背景知識や設計判断の根拠を補足する。</p>
+        <p class="anno-when">向いている場面: 仕組みを理解しながら進めたいとき</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <p class="source-line">出典: Claude Code /output-style コマンド（settings.json の outputStyle で永続設定可能）</p>
+  <div class="slide-meta"></div>
+
+</div>
+</div>
+
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
