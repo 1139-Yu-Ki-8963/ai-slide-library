@@ -56,9 +56,9 @@ const unknownTags = [];
 const validationErrors = [];
 for (const line of section.split("\n")) {
   const cells = line.split("|").map(c => c.trim());
-  // 表行は [ "", key, target, problems, tools, mechanisms, themes, stages, entities, pack, importPrompt, date, "" ] の 13 要素
-  if (cells.length !== 13 || !cells[1]) continue;
-  const [, key, target, problems, tools, mechanisms, themes, stages, entities, pack, importPrompt, date] = cells;
+  // 表行は [ "", key, target, problems, tools, mechanisms, themes, stages, entities, pack, importPrompt, template, date, "" ] の 14 要素
+  if (cells.length !== 14 || !cells[1]) continue;
+  const [, key, target, problems, tools, mechanisms, themes, stages, entities, pack, importPrompt, template, date] = cells;
   if (key === "スライドキー" || /^-+$/.test(key)) continue;
 
   // 必須フィールドの空チェック
@@ -99,6 +99,12 @@ for (const line of section.split("\n")) {
       prompts[key] = prompt;
     }
   }
+
+  // 「テンプレート」列は「あり」または「—」のみ許可
+  const templateValue = template.trim();
+  if (templateValue !== "あり" && templateValue !== "—") {
+    validationErrors.push(`${key}: 「テンプレート」列の値「${templateValue}」が不正です（「あり」または「—」のみ許可）`);
+  }
   const entry = {
     key,
     title,
@@ -111,6 +117,7 @@ for (const line of section.split("\n")) {
     entities: splitTags(entities),
     pack: pack.trim() === "あり",
     has_prompt: !!prompt,
+    template: templateValue === "あり",
     date,
   };
   for (const [axis, words] of [["tools", entry.tools], ["mechanisms", entry.mechanisms], ["themes", entry.themes], ["stages", entry.stages]]) {
