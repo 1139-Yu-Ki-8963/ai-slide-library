@@ -57,8 +57,8 @@
     <tbody>
       <tr><td><span class="step-chip">1</span></td><td class="cell-issue">プロジェクト<br>説明書</td>
         <td><span class="badge-critical">未作成</span><span class="cell-note">技術構成・使えるコマンド・守るべき原則を AI に伝える手段がない</span></td>
-        <td><span class="badge-path">.cursorrules</span><span class="cell-note">プロジェクトの<strong>行動原則</strong>。エディタ起動時に自動で読み込まれる</span></td>
-        <td><span class="gap-action">技術構成・コマンド一覧・行動原則を 1 ファイルに整理して配置</span></td></tr>
+        <td><span class="badge-path">AGENTS.md</span><span class="cell-note">プロジェクトの<strong>技術構成・行動原則</strong>を記述。エージェントがコンテキストとして自動参照する</span></td>
+        <td><span class="gap-action">技術構成・コマンド一覧・行動原則を AGENTS.md に整理して配置</span></td></tr>
       <tr><td><span class="step-chip">2</span></td><td class="cell-issue">設計書</td>
         <td><span class="badge-critical">0件</span><span class="cell-note">機能仕様が口頭や Slack に散在。AI は実装意図を推測するしかない</span></td>
         <td><span class="badge-path">docs/</span><span class="cell-note"><strong>機能設計書・画面設計書</strong>を格納。AI が仕様を参照しながら正確に実装できる</span></td>
@@ -69,8 +69,8 @@
         <td><span class="gap-action">命名規則・コーディング規約をファイル種別ごとに文書化</span></td></tr>
       <tr><td><span class="step-chip">4</span></td><td class="cell-issue">作業<br>手順書</td>
         <td><span class="badge-critical">未整備</span><span class="cell-note">繰り返し作業の手順が属人化。人が毎回口頭で指示している</span></td>
-        <td><span class="badge-path">Notepads</span><span class="cell-note">エディタ内のメモ帳機能で<strong>再利用可能な手順を保持</strong>し、必要時に参照させる</span></td>
-        <td><span class="gap-action">頻出の作業パターンを洗い出し、Notepads に定型化</span></td></tr>
+        <td><span class="badge-path">SKILL.md</span><span class="cell-note">Agent Skills で<strong>再利用可能な作業手順を定義</strong>し、必要時にエージェントへ読み込ませる</span></td>
+        <td><span class="gap-action">頻出の作業パターンを洗い出し、SKILL.md として定型化</span></td></tr>
       <tr><td><span class="step-chip">5</span></td><td class="cell-issue">可視化<br>サイト</td>
         <td><span class="badge-critical">なし</span><span class="cell-note">規約・画面一覧・API 一覧など、人が全体を俯瞰する手段がない</span></td>
         <td><span class="badge-path">project-portal/</span><span class="cell-note">規約一覧・画面一覧・マスタ表を<strong>ブラウザで閲覧できるサイト</strong>として構築</span></td>
