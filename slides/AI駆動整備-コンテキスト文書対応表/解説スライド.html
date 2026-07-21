@@ -121,23 +121,23 @@
           </tr>
           <tr>
             <td class="cell-tool">単体テスト整備</td>
-            <td class="cell-ctx">単体テスト仕様書</td>
-            <td>各関数の引数・戻り値・例外条件を定義する</td>
+            <td class="cell-ctx">観点表</td>
+            <td>各関数の引数・戻り値・例外条件を一覧化し、テストコードの根拠にする</td>
           </tr>
           <tr>
             <td class="cell-tool">結合テスト整備</td>
-            <td class="cell-ctx">結合テスト仕様書</td>
-            <td>モジュール間のデータの流れと中間データの形式・制約を定義する</td>
+            <td class="cell-ctx">API 設計書 / データフロー定義</td>
+            <td>モジュール間のデータの流れ・形式・制約を定義し、テストコードの根拠にする</td>
           </tr>
           <tr>
             <td class="cell-tool">E2E テスト整備</td>
-            <td class="cell-ctx">ユーザー操作フロー定義書</td>
-            <td>誰が・どの画面を・どの順序で操作し・何が表示されるべきかを定義する</td>
+            <td class="cell-ctx">画面設計書</td>
+            <td>操作手順・画面遷移・期待表示を定義し、テストコードの根拠にする</td>
           </tr>
           <tr>
             <td class="cell-tool">カバレッジ計測導入</td>
-            <td class="cell-ctx">テスト方針書</td>
-            <td>カバレッジ目標値・計測ツール・除外対象を定義する</td>
+            <td class="cell-ctx">CI 設定の前提定義</td>
+            <td>目標値・除外対象を定義し、CI にカバレッジ計測を組み込む</td>
           </tr>
         </tbody>
       </table>
@@ -170,8 +170,8 @@
           </tr>
           <tr>
             <td class="cell-tool">文体 linter 導入</td>
-            <td class="cell-ctx">用語辞書 + textlint 設定</td>
-            <td>用語の置き換えルールと対象ファイル範囲を定義する</td>
+            <td class="cell-ctx">文体規約 + 用語辞書</td>
+            <td>文体規約（文長・読点数・冗長表現等）と用語辞書（prh.yml）を定義する</td>
           </tr>
           <tr>
             <td class="cell-tool">リンク切れ linter 導入</td>
@@ -180,8 +180,8 @@
           </tr>
           <tr>
             <td class="cell-tool">HTML 静的検査導入</td>
-            <td class="cell-ctx">HTML 検査観点定義書</td>
-            <td>機械検査に変換する観点（必須属性・アクセシビリティ等）を選定・定義する</td>
+            <td class="cell-ctx">検査観点（rules/ に定義）</td>
+            <td>機械検査の観点（必須属性・アクセシビリティ等）を rules/ に定義する</td>
           </tr>
         </tbody>
       </table>
