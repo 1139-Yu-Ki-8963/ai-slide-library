@@ -1677,7 +1677,7 @@ function renderDistChips() {
 function renderTemplateChips() {
   const wrap = document.getElementById("template-chips");
   wrap.innerHTML = "";
-  const TEMPLATE_TYPES = ["図解型", "課題分析テーブル型", "現状理想対比テーブル型"];
+  const TEMPLATE_TYPES = [...new Set(SLIDES.map(s => s.template).filter(Boolean))].sort();
   [
     { value: "すべて", count: SLIDES.length },
     ...TEMPLATE_TYPES.map(t => ({ value: t, count: SLIDES.filter(s => s.template === t).length }))
