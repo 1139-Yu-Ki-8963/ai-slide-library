@@ -103,10 +103,10 @@ for (const line of section.split("\n")) {
     }
   }
 
-  // 「テンプレート」列は「あり」または「—」のみ許可
   const templateValue = template.trim();
-  if (templateValue !== "あり" && templateValue !== "—") {
-    validationErrors.push(`${key}: 「テンプレート」列の値「${templateValue}」が不正です（「あり」または「—」のみ許可）`);
+  const VALID_TEMPLATES = ["図解型", "課題分析テーブル型", "現状理想対比テーブル型", "—"];
+  if (!VALID_TEMPLATES.includes(templateValue)) {
+    validationErrors.push(`${key}: 「テンプレート」列の値「${templateValue}」が不正です（${VALID_TEMPLATES.join(" / ")} のみ許可）`);
   }
   const entry = {
     key,
@@ -120,7 +120,7 @@ for (const line of section.split("\n")) {
     entities: splitTags(entities),
     pack: pack.trim() === "あり",
     has_prompt: !!prompt,
-    template: templateValue === "あり",
+    template: templateValue === "—" ? "" : templateValue,
     date,
   };
   for (const [axis, words] of [["tools", entry.tools], ["mechanisms", entry.mechanisms], ["themes", entry.themes], ["stages", entry.stages]]) {
