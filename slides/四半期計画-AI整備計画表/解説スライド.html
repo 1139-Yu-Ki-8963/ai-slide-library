@@ -1,0 +1,255 @@
+<html lang="ja">
+<meta charset="utf-8">
+<title>AI整備計画表（4段階構成）</title>
+<style>
+  /* ==== デザイントークン ==== */
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E4E9F0;
+    --accent: #3b7dd8;
+    --accent-deep: #2f66b3;
+    --accent-soft: #EAF1FC;
+  }
+
+  /* ==== ダークモード（OS設定に追従） ==== */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page: #12151b;
+      --surface: #1b2028;
+      --ink: #EDF1F6;
+      --ink-2: #B7C0CC;
+      --ink-3: #8393A6;
+      --border: #2b323d;
+      --grid: #262d38;
+      --accent: #5a9cf0;
+      --accent-deep: #4785d6;
+      --accent-soft: #202b3d;
+    }
+  }
+  /* ==== ダークモード（明示指定。OS設定より優先） ==== */
+  :root[data-theme="dark"] {
+    --page: #12151b;
+    --surface: #1b2028;
+    --ink: #EDF1F6;
+    --ink-2: #B7C0CC;
+    --ink-3: #8393A6;
+    --border: #2b323d;
+    --grid: #262d38;
+    --accent: #5a9cf0;
+    --accent-deep: #4785d6;
+    --accent-soft: #202b3d;
+  }
+  :root[data-theme="light"] {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E4E9F0;
+    --accent: #3b7dd8;
+    --accent-deep: #2f66b3;
+    --accent-soft: #EAF1FC;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  /* ==== スライド枠（16:9 固定・カタログ共通） ==== */
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 40px 48px;
+    gap: 20px;
+    font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, -apple-system, sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* ==== ヘッダ（セクション番号 + タイトル） ==== */
+  .slide-header {
+    display: flex; flex-direction: column; gap: 6px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .slide-section {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--accent-deep);
+    background: var(--accent-soft);
+    border-radius: 4px;
+    padding: 3px 10px;
+  }
+  .slide-title { font-size: 27px; font-weight: 700; line-height: 1.3; color: var(--ink); text-wrap: balance; }
+
+  /* ==== ガントグリッド全体 ==== */
+  .gantt { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+
+  /* ==== 四半期ヘッダー（2段: 1Q〜4Q / 月範囲） ==== */
+  .gc-qheader {
+    display: flex;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .gc-qheader-spacer { flex: 0 0 200px; }
+  .gc-qheader-right {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .gc-qcell { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .gc-q { font-size: 14px; font-weight: 700; color: var(--ink); }
+  .gc-qmonths { font-size: 11px; color: var(--ink-3); }
+
+  /* ==== 段階行 ==== */
+  .gc-row {
+    flex: 1;
+    display: flex; align-items: stretch;
+    border-bottom: 1px solid var(--border);
+  }
+  .gc-row:last-child { border-bottom: none; }
+
+  .gc-row-left {
+    flex: 0 0 200px;
+    display: flex; align-items: center;
+    padding: 8px 16px 8px 0;
+  }
+  .gc-phase-name { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.4; }
+
+  .gc-row-right {
+    position: relative;
+    flex: 1;
+    background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 25% 100%;
+  }
+
+  /* ==== 矢印バー（先端三角形。CSS clip-path で描画） ==== */
+  .gc-bar {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 28px;
+    display: flex; align-items: center;
+    padding: 0 16px 0 12px;
+    background: linear-gradient(90deg, var(--accent-deep), var(--accent));
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%);
+    color: #fff;
+    font-size: 11px; font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .gc-bar-start,
+  .gc-bar-end {
+    position: absolute;
+    top: calc(50% + 20px);
+    font-size: 10px;
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+  .gc-bar-end { transform: translateX(-100%); }
+
+  /* ==== メタデータフッター（区切り線 + 下端余白） ==== */
+  .slide-meta {
+    height: 18px;
+    padding-top: 4px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-section">年間計画</span>
+      <h1 class="slide-title">AI整備計画表（4段階構成）</h1>
+    </header>
+
+    <div class="gantt">
+
+      <div class="gc-qheader">
+        <div class="gc-qheader-spacer"></div>
+        <div class="gc-qheader-right">
+          <div class="gc-qcell"><span class="gc-q">1Q</span><span class="gc-qmonths">1〜3月</span></div>
+          <div class="gc-qcell"><span class="gc-q">2Q</span><span class="gc-qmonths">4〜6月</span></div>
+          <div class="gc-qcell"><span class="gc-q">3Q</span><span class="gc-qmonths">7〜9月</span></div>
+          <div class="gc-qcell"><span class="gc-q">4Q</span><span class="gc-qmonths">10〜12月</span></div>
+        </div>
+      </div>
+
+      <div class="gc-row">
+        <div class="gc-row-left"><span class="gc-phase-name">現状診断・土台整備</span></div>
+        <div class="gc-row-right">
+          <div class="gc-bar" style="left: 2%; width: 23%;">1Q</div>
+          <span class="gc-bar-start" style="left: 2%;">1Q</span>
+          <span class="gc-bar-end" style="left: 25%;">1Q</span>
+        </div>
+      </div>
+
+      <div class="gc-row">
+        <div class="gc-row-left"><span class="gc-phase-name">ツール導入・安全装置</span></div>
+        <div class="gc-row-right">
+          <div class="gc-bar" style="left: 10%; width: 40%;">1Q後半〜2Q</div>
+          <span class="gc-bar-start" style="left: 10%;">1Q</span>
+          <span class="gc-bar-end" style="left: 50%;">2Q</span>
+        </div>
+      </div>
+
+      <div class="gc-row">
+        <div class="gc-row-left"><span class="gc-phase-name">開発フロー確立</span></div>
+        <div class="gc-row-right">
+          <div class="gc-bar" style="left: 25%; width: 50%;">2Q〜3Q</div>
+          <span class="gc-bar-start" style="left: 25%;">2Q</span>
+          <span class="gc-bar-end" style="left: 75%;">3Q</span>
+        </div>
+      </div>
+
+      <div class="gc-row">
+        <div class="gc-row-left"><span class="gc-phase-name">拡大・継続改善</span></div>
+        <div class="gc-row-right">
+          <div class="gc-bar" style="left: 75%; width: 23%;">4Q</div>
+          <span class="gc-bar-start" style="left: 75%;">4Q</span>
+          <span class="gc-bar-end" style="left: 98%;">4Q</span>
+        </div>
+      </div>
+
+    </div>
+
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・1ページでも削除禁止） ==== -->
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
+</html>
