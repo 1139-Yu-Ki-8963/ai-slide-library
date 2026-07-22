@@ -15,7 +15,9 @@ body{display:flex;justify-content:center;align-items:center}
 .ttl span{font-weight:400;color:#666}
 .sub{position:absolute;top:82px;left:60px;font-size:14px;color:#888;font-style:italic}
 
-.card{position:absolute;padding:18px 22px 14px}
+.ai-band{position:absolute;top:380px;left:0;right:0;bottom:54px;background:#f0f0f0;z-index:0}
+
+.card{position:absolute;padding:18px 22px 14px;z-index:1}
 .h{background:#1a1a1a;color:#fff}
 .a{background:#fff;color:#1a1a1a;border:1.5px solid #ccc}
 .cn{font-size:11px;opacity:.5;margin-bottom:6px}
@@ -32,17 +34,17 @@ body{display:flex;justify-content:center;align-items:center}
 .ll1{top:250px;left:50px}
 .ll2{top:500px;left:50px}
 
-.divider{position:absolute;top:390px;left:40px;right:40px;height:1px;background:#ddd}
+.msg{position:absolute;bottom:0;left:0;right:0;height:54px;background:#1a1a1a;color:#fff;display:flex;align-items:center;padding:0 60px;font-size:13px;letter-spacing:.02em;z-index:1}
 
-.msg{position:absolute;bottom:0;left:0;right:0;height:54px;background:#1a1a1a;color:#fff;display:flex;align-items:center;padding:0 60px;font-size:13px;letter-spacing:.02em}
-
-svg.overlay{position:absolute;top:0;left:0;width:1280px;height:720px;pointer-events:none}
+svg.overlay{position:absolute;top:0;left:0;width:1280px;height:720px;pointer-events:none;z-index:2}
 </style>
 </head>
 <body>
 <div class="s">
   <div class="ttl"><span>A</span>｜<b>AIに任せる — アクセス解析の定型レポート</b></div>
   <div class="sub">ルールが明確で、間違えてもやり直せる仕事</div>
+
+  <div class="ai-band"></div>
 
   <div class="ll ll1">人</div>
   <div class="ll ll2">AI</div>
@@ -52,8 +54,6 @@ svg.overlay{position:absolute;top:0;left:0;width:1280px;height:720px;pointer-eve
   <div class="card a c02"><div class="cn">02</div><div class="ct">データ取得・集計</div><div class="cd">媒体・ツールから自動取得</div></div>
   <div class="card a c03"><div class="cn">03</div><div class="ct">変化点を抽出</div><div class="cd">前週比・異常値を検出</div></div>
   <div class="card a c04"><div class="cn">04</div><div class="ct">レポート出力</div><div class="cd">仮説候補つきで自動作成</div></div>
-
-  <div class="divider"></div>
 
   <svg class="overlay" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
     <defs>
