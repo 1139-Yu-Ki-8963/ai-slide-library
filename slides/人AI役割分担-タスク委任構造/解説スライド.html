@@ -9,142 +9,101 @@
 :root{
   --bg:#fff;--text:#1a1a1a;--text-sub:#666;
   --human-bg:#1a1a1a;--human-text:#fff;
-  --ai-bg:#fff;--ai-text:#1a1a1a;--ai-border:#ccc;
-  --arrow:#999;--lane-label:#888;
+  --ai-bg:#fff;--ai-text:#1a1a1a;--ai-border:#bbb;
+  --arrow:#888;--lane-label:#999;
   --msg-bg:#1a1a1a;--msg-text:#fff;
-  --divider:#e0e0e0;
-  --feedback:#aaa;
+  --divider:#ddd;--feedback:#aaa;
 }
 @media(prefers-color-scheme:dark){:root{
-  --bg:#111;--text:#e8e8e8;--text-sub:#999;
-  --human-bg:#e8e8e8;--human-text:#111;
-  --ai-bg:#1a1a1a;--ai-text:#e8e8e8;--ai-border:#555;
-  --arrow:#777;--lane-label:#777;
-  --msg-bg:#e8e8e8;--msg-text:#111;
-  --divider:#333;
-  --feedback:#666;
+  --bg:#141414;--text:#e0e0e0;--text-sub:#888;
+  --human-bg:#e0e0e0;--human-text:#141414;
+  --ai-bg:#1e1e1e;--ai-text:#e0e0e0;--ai-border:#555;
+  --arrow:#777;--lane-label:#666;
+  --msg-bg:#e0e0e0;--msg-text:#141414;
+  --divider:#333;--feedback:#555;
 }}
+:root[data-theme="dark"]{
+  --bg:#141414;--text:#e0e0e0;--text-sub:#888;
+  --human-bg:#e0e0e0;--human-text:#141414;
+  --ai-bg:#1e1e1e;--ai-text:#e0e0e0;--ai-border:#555;
+  --arrow:#777;--lane-label:#666;
+  --msg-bg:#e0e0e0;--msg-text:#141414;
+  --divider:#333;--feedback:#555;
+}
+:root[data-theme="light"]{
+  --bg:#fff;--text:#1a1a1a;--text-sub:#666;
+  --human-bg:#1a1a1a;--human-text:#fff;
+  --ai-bg:#fff;--ai-text:#1a1a1a;--ai-border:#bbb;
+  --arrow:#888;--lane-label:#999;
+  --msg-bg:#1a1a1a;--msg-text:#fff;
+  --divider:#ddd;--feedback:#aaa;
+}
 html{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,sans-serif;background:var(--bg);color:var(--text)}
 body{width:100vw;height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden}
-.slide{width:1280px;height:720px;position:relative;display:flex;flex-direction:column;padding:48px 56px 0}
-
-.header{margin-bottom:32px}
-.title{font-size:28px;font-weight:700;letter-spacing:.02em;line-height:1.3}
+.slide{width:1280px;height:720px;display:flex;flex-direction:column}
+.header{padding:40px 56px 0}
+.title{font-size:26px;font-weight:700;letter-spacing:.02em}
 .title .tag{color:var(--text-sub);font-weight:400}
-.subtitle{font-size:15px;color:var(--text-sub);margin-top:6px;font-style:italic}
-
-.diagram{flex:1;display:flex;flex-direction:column;position:relative}
-
-.feedback-area{height:28px;position:relative;margin-bottom:4px}
-.feedback-label{position:absolute;left:80px;top:4px;font-size:11px;color:var(--feedback);letter-spacing:.03em}
-
-.lanes{flex:1;display:flex;flex-direction:column;gap:0}
-
-.lane{display:flex;align-items:center;gap:0;position:relative;padding:16px 0}
-.lane-label{width:40px;font-size:14px;font-weight:600;color:var(--lane-label);text-align:center;flex-shrink:0}
-
-.cards{display:flex;align-items:center;gap:0;flex:1;padding-left:24px}
-
-.card{width:220px;padding:20px 20px 16px;position:relative}
-.card-human{background:var(--human-bg);color:var(--human-text)}
-.card-ai{background:var(--ai-bg);color:var(--ai-text);border:1.5px solid var(--ai-border)}
-.card-num{font-size:12px;opacity:.6;margin-bottom:8px;font-variant-numeric:tabular-nums}
-.card-title{font-size:16px;font-weight:600;line-height:1.4;margin-bottom:6px}
-.card-desc{font-size:12px;opacity:.7;line-height:1.5}
-
-.arrow-right{width:40px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.arrow-right svg{display:block}
-
-.spacer{flex:1}
-
-.lane-divider{width:calc(100% - 64px);height:1px;background:var(--divider);margin:0 auto}
-
-.message-bar{height:56px;background:var(--msg-bg);color:var(--msg-text);display:flex;align-items:center;padding:0 32px;font-size:14px;line-height:1.6;letter-spacing:.03em;margin:0 -56px;width:calc(100% + 112px)}
-
-@media(max-width:800px){
-  .slide{width:100vw;height:auto;min-height:100vh;padding:24px}
-  .cards{flex-direction:column;gap:12px}
-  .arrow-right{transform:rotate(90deg);width:auto;height:32px}
-  .message-bar{margin:0 -24px;width:calc(100% + 48px)}
-}
+.sub{font-size:14px;color:var(--text-sub);margin-top:4px;font-style:italic}
+.diagram{flex:1;position:relative;padding:0 56px}
+.grid{display:grid;grid-template-columns:40px 24px 200px 1fr 200px 1fr 200px 1fr 200px;grid-template-rows:32px 120px 1px 120px;height:100%;align-content:center;row-gap:0;column-gap:0}
+.fb{grid-column:3/9;grid-row:1;position:relative}
+.fb-label{position:absolute;left:8px;bottom:2px;font-size:11px;color:var(--feedback);letter-spacing:.02em}
+.fb svg{position:absolute;top:0;left:0;width:100%;height:100%}
+.ll{grid-row:2;grid-column:1;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--lane-label)}
+.ll2{grid-row:4;grid-column:1;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--lane-label)}
+.div-line{grid-column:1/-1;grid-row:3;background:var(--divider)}
+.card{padding:16px 16px 12px}
+.card-h{background:var(--human-bg);color:var(--human-text)}
+.card-a{background:var(--ai-bg);color:var(--ai-text);border:1.5px solid var(--ai-border)}
+.card-num{font-size:11px;opacity:.55;margin-bottom:6px;font-variant-numeric:tabular-nums}
+.card-t{font-size:15px;font-weight:600;line-height:1.4;margin-bottom:4px}
+.card-d{font-size:11px;opacity:.65;line-height:1.5}
+.c01{grid-column:3;grid-row:2;align-self:center}
+.c05{grid-column:9;grid-row:2;align-self:center}
+.c02{grid-column:3;grid-row:4;align-self:center}
+.c03{grid-column:5;grid-row:4;align-self:center}
+.c04{grid-column:7;grid-row:4;align-self:center}
+.arr{display:flex;align-items:center;justify-content:center}
+.arr svg{display:block}
+.a23{grid-column:4;grid-row:4}
+.a34{grid-column:6;grid-row:4}
+.va-down{grid-column:3;grid-row:3;position:relative;z-index:2}
+.va-up{grid-column:8;grid-row:2/5;display:flex;align-items:center;justify-content:center}
+.msg{height:52px;background:var(--msg-bg);color:var(--msg-text);display:flex;align-items:center;padding:0 56px;font-size:13px;letter-spacing:.02em}
 </style>
 </head>
 <body>
 <div class="slide">
   <div class="header">
     <div class="title"><span class="tag">A</span>｜AIに任せる — アクセス解析の定型レポート</div>
-    <div class="subtitle">ルールが明確で、間違えてもやり直せる仕事</div>
+    <div class="sub">ルールが明確で、間違えてもやり直せる仕事</div>
   </div>
-
   <div class="diagram">
-    <!-- フィードバックループの破線ラベル -->
-    <div class="feedback-area">
-      <span class="feedback-label">月次などでルールを更新</span>
-      <svg width="100%" height="28" style="position:absolute;top:0;left:0;pointer-events:none">
-        <defs><marker id="fb" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="var(--feedback)"/></marker></defs>
-        <path d="M 920,24 L 920,4 L 100,4 L 100,24" fill="none" stroke="var(--feedback)" stroke-width="1.2" stroke-dasharray="6,4" marker-end="url(#fb)"/>
-      </svg>
-    </div>
-
-    <div class="lanes">
-      <!-- 人レーン -->
-      <div class="lane">
-        <div class="lane-label">人</div>
-        <div class="cards">
-          <div class="card card-human">
-            <div class="card-num">01</div>
-            <div class="card-title">ルールを設計</div>
-            <div class="card-desc">指標・手順・出力形式（初回のみ）</div>
-          </div>
-          <div class="arrow-right">
-            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M5,12 L17,12 M13,7 L18,12 L13,17" fill="none" stroke="var(--arrow)" stroke-width="1.5"/></svg>
-          </div>
-          <div class="spacer"></div>
-          <div class="card card-human">
-            <div class="card-num">05</div>
-            <div class="card-title">定期的に見直す</div>
-            <div class="card-desc">目的に合っているか点検</div>
-          </div>
-        </div>
+    <div class="grid">
+      <div class="fb">
+        <span class="fb-label">月次などでルールを更新</span>
+        <svg viewBox="0 0 1000 32" preserveAspectRatio="none">
+          <defs><marker id="af" markerWidth="7" markerHeight="7" refX="1" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7" fill="var(--feedback)"/></marker></defs>
+          <path d="M 950,28 L 950,6 L 50,6 L 50,28" fill="none" stroke="var(--feedback)" stroke-width="1.2" stroke-dasharray="6,4" marker-end="url(#af)"/>
+        </svg>
       </div>
-
-      <div class="lane-divider"></div>
-
-      <!-- AIレーン -->
-      <div class="lane">
-        <div class="lane-label">AI</div>
-        <div class="cards">
-          <div class="spacer" style="width:260px;flex:none"></div>
-          <div class="card card-ai">
-            <div class="card-num">02</div>
-            <div class="card-title">データ取得・集計</div>
-            <div class="card-desc">媒体・ツールから自動取得</div>
-          </div>
-          <div class="arrow-right">
-            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M5,12 L17,12 M13,7 L18,12 L13,17" fill="none" stroke="var(--arrow)" stroke-width="1.5"/></svg>
-          </div>
-          <div class="card card-ai">
-            <div class="card-num">03</div>
-            <div class="card-title">変化点を抽出</div>
-            <div class="card-desc">前週比・異常値を検出</div>
-          </div>
-          <div class="arrow-right">
-            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M5,12 L17,12 M13,7 L18,12 L13,17" fill="none" stroke="var(--arrow)" stroke-width="1.5"/></svg>
-          </div>
-          <div class="card card-ai">
-            <div class="card-num">04</div>
-            <div class="card-title">レポート出力</div>
-            <div class="card-desc">仮説候補つきで自動作成</div>
-          </div>
-          <div class="arrow-right">
-            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M5,12 L17,12 M13,7 L18,12 L13,17" fill="none" stroke="var(--arrow)" stroke-width="1.5"/></svg>
-          </div>
-        </div>
+      <div class="ll">人</div>
+      <div class="card card-h c01"><div class="card-num">01</div><div class="card-t">ルールを設計</div><div class="card-d">指標・手順・出力形式（初回のみ）</div></div>
+      <div class="card card-h c05"><div class="card-num">05</div><div class="card-t">定期的に見直す</div><div class="card-d">目的に合っているか点検</div></div>
+      <div class="div-line"></div>
+      <div class="ll2">AI</div>
+      <div class="card card-a c02"><div class="card-num">02</div><div class="card-t">データ取得・集計</div><div class="card-d">媒体・ツールから自動取得</div></div>
+      <div class="arr a23"><svg width="100%" height="24" viewBox="0 0 60 24"><path d="M8,12 L48,12 M42,6 L50,12 L42,18" fill="none" stroke="var(--arrow)" stroke-width="1.5"/></svg></div>
+      <div class="card card-a c03"><div class="card-num">03</div><div class="card-t">変化点を抽出</div><div class="card-d">前週比・異常値を検出</div></div>
+      <div class="arr a34"><svg width="100%" height="24" viewBox="0 0 60 24"><path d="M8,12 L48,12 M42,6 L50,12 L42,18" fill="none" stroke="var(--arrow)" stroke-width="1.5"/></svg></div>
+      <div class="card card-a c04"><div class="card-num">04</div><div class="card-t">レポート出力</div><div class="card-d">仮説候補つきで自動作成</div></div>
+      <div class="va-up">
+        <svg width="24" height="100%" viewBox="0 0 24 260"><defs><marker id="au" markerWidth="7" markerHeight="7" refX="3.5" refY="1" orient="auto"><path d="M0,7 L3.5,0 L7,7" fill="var(--arrow)"/></marker></defs><path d="M12,240 L12,20" fill="none" stroke="var(--arrow)" stroke-width="1.5" marker-end="url(#au)"/></svg>
       </div>
     </div>
   </div>
-
-  <div class="message-bar">日々の処理はAIが回す。人の仕事は、最初の設計と、目的に照らした見直しに集約される。</div>
+  <div class="msg">日々の処理はAIが回す。人の仕事は、最初の設計と、目的に照らした見直しに集約される。</div>
 </div>
 </body>
 </html>
