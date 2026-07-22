@@ -8,8 +8,8 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:#fff;
   font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,sans-serif;color:#1a1a1a}
-body{display:flex;justify-content:center;align-items:center}
-.s{width:1280px;height:720px;position:relative;background:#fff}
+.slide-viewport{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.s{width:1280px;height:720px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(var(--slide-scale, 1));transform-origin:center center;background:#fff}
 .ttl{position:absolute;top:36px;left:64px;font-size:28px;font-weight:700}
 .ttl span{font-weight:400;color:#666}
 .sub{position:absolute;top:76px;left:64px;font-size:14px;color:#888;font-style:italic}
@@ -34,6 +34,7 @@ svg.ov{position:absolute;top:0;left:0;width:1280px;height:720px;pointer-events:n
 </style>
 </head>
 <body>
+<div class="slide-viewport">
 <div class="s">
   <div class="ttl"><span>A</span>｜AIに任せる — アクセス解析の定型レポート</div>
   <div class="sub">ルールが明確で、間違えてもやり直せる仕事</div>
@@ -75,5 +76,18 @@ svg.ov{position:absolute;top:0;left:0;width:1280px;height:720px;pointer-events:n
 
   <div class="msg">日々の処理はAIが回す。人の仕事は、最初の設計と、目的に照らした見直しに集約される。</div>
 </div>
+</div>
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
 </body>
 </html>
