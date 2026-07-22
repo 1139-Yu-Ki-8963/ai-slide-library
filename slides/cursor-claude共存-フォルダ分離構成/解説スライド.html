@@ -1,0 +1,264 @@
+<meta charset="utf-8">
+<title>Cursor と Claude Code は設定フォルダが分離——1 リポジトリで共存する</title>
+<style>
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+    --claude: #D97757;
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;
+    --cursor-soft: #EFF1F4;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px; height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 36px 44px;
+    gap: 12px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  .slide-header {
+    display: flex; flex-direction: column; gap: 4px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 28px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+
+  .key-message {
+    background: var(--ink);
+    color: var(--surface);
+    padding: 9px 20px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+
+  .lead-points { display: flex; flex-direction: column; gap: 3px; }
+  .lead-point {
+    font-size: 13px; color: var(--ink-2); line-height: 1.5;
+    padding-left: 1.2em; text-indent: -1.2em;
+  }
+
+  .content-area {
+    display: flex; flex-direction: column;
+    gap: 6px; flex: 1; min-height: 0;
+  }
+  .content-label {
+    font-size: 12px; font-weight: 500; color: var(--ink-3);
+    padding: 3px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .body-columns {
+    display: flex; gap: 20px;
+    flex: 1; min-height: 0; align-items: stretch;
+  }
+
+  .tree {
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+    font-size: 11px; line-height: 1.65;
+    color: var(--ink-2);
+    flex: 0 0 44%;
+    overflow: hidden;
+  }
+  .tree-line { display: flex; align-items: baseline; gap: 4px; white-space: nowrap; }
+  .tree-indent { color: var(--ink-3); user-select: none; }
+  .tree-folder { color: var(--ink); font-weight: 600; }
+  .tree-note { font-size: 10px; color: var(--ink-3); font-family: system-ui, sans-serif; }
+  .tree-tag {
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    font-size: 9.5px; font-weight: 600;
+    padding: 1px 6px; border-radius: 3px;
+    margin-left: auto; flex-shrink: 0;
+  }
+  .tree-tag--accent { background: var(--ink); color: var(--surface); }
+  .tree-tag--good { background: var(--good-soft); color: var(--good); }
+  .tree-tag--claude { background: var(--claude-soft); color: var(--claude); }
+
+  .info-cards {
+    display: flex; flex-direction: column;
+    gap: 8px; flex: 1; min-width: 0;
+  }
+  .info-card {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex; flex-direction: column;
+    gap: 5px; flex: 1; min-height: 0;
+  }
+  .info-card--cursor { border-left: 5px solid var(--cursor); }
+  .info-card--shared { border-left: 5px solid var(--good); background: var(--good-soft); border-color: var(--good); }
+  .info-card--claude { border-left: 5px solid var(--claude); }
+
+  .card-head { display: flex; align-items: center; gap: 8px; }
+  .card-head svg { flex-shrink: 0; }
+  .card-head h2 { font-size: 14.5px; font-weight: 700; color: var(--ink); }
+  .card-desc { font-size: 11.5px; color: var(--ink-2); line-height: 1.5; }
+  .card-scope {
+    font-size: 10px; color: var(--ink-3);
+    margin-top: auto; padding-top: 4px;
+  }
+
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700;
+    color: var(--surface); flex-shrink: 0;
+  }
+  .step-chip--cursor { background: var(--cursor); }
+  .step-chip--good { background: var(--good); }
+  .step-chip--claude { background: var(--claude); }
+
+  .slide-meta {
+    height: 20px; padding-top: 4px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">REPOSITORY STRUCTURE — DUAL AI</span>
+      <h1 class="slide-title">Cursor と<wbr> Claude Code は<wbr>設定フォルダが<wbr>分離——<wbr>1 リポジトリで<wbr>共存する</h1>
+    </header>
+
+    <div class="key-message">.cursor/ と .claude/ は<wbr>独立——設計書・可視化は<wbr> project-portal/ に<wbr>集約して共有する</div>
+
+    <div class="lead-points">
+      <p class="lead-point">■ Cursor の<wbr>設定は<wbr> .cursor/ に、<wbr>Claude Code の<wbr>設定は<wbr> .claude/ に<wbr>閉じるため<wbr>互いに<wbr>干渉しない</p>
+      <p class="lead-point">■ 設計書も<wbr>可視化サイトも<wbr> project-portal/ に<wbr>集約し、<wbr>両方の<wbr> AI が<wbr>共通で<wbr>参照する</p>
+    </div>
+
+    <div class="content-area">
+      <div class="content-label">フォルダ構成 — Cursor + Claude Code 共存時</div>
+      <div class="body-columns">
+
+        <div class="tree">
+          <div class="tree-line"><span class="tree-folder">&lt;repo&gt;/</span></div>
+          <div class="tree-line"><span class="tree-indent">├─</span> AGENTS.md<span class="tree-tag tree-tag--accent">Cursor 自動読込</span></div>
+          <div class="tree-line"><span class="tree-indent">├─</span> CLAUDE.md<span class="tree-tag tree-tag--claude">Claude Code 自動読込</span></div>
+          <div class="tree-line"><span class="tree-indent">│</span></div>
+          <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">project-portal/</span><span class="tree-tag tree-tag--good">両 AI が参照</span></div>
+          <div class="tree-line"><span class="tree-indent">│&nbsp; ├─</span> 基盤情報/<span class="tree-note">&nbsp;技術スタック・用語辞書</span></div>
+          <div class="tree-line"><span class="tree-indent">│&nbsp; ├─</span> 規約/<span class="tree-note">&nbsp;コーディング規約・命名規約</span></div>
+          <div class="tree-line"><span class="tree-indent">│&nbsp; ├─</span> 一覧・設計図/<span class="tree-note">&nbsp;画面・API・テーブル等 9 種</span></div>
+          <div class="tree-line"><span class="tree-indent">│&nbsp; └─</span> 交差ビュー/<span class="tree-note">&nbsp;権限マトリクス・CRUD 図</span></div>
+          <div class="tree-line"><span class="tree-indent">│</span></div>
+          <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">.cursor/</span><span class="tree-note">&nbsp;Cursor 専用</span></div>
+          <div class="tree-line"><span class="tree-indent">│&nbsp; ├─</span> rules/*.mdc<span class="tree-note">&nbsp;ファイル条件で適用</span></div>
+          <div class="tree-line"><span class="tree-indent">│&nbsp; └─</span> skills/*.md<span class="tree-note">&nbsp;名前で呼び出し</span></div>
+          <div class="tree-line"><span class="tree-indent">│</span></div>
+          <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">.claude/</span><span class="tree-note">&nbsp;Claude Code 専用</span></div>
+          <div class="tree-line"><span class="tree-indent">&nbsp;&nbsp;&nbsp; ├─</span> <span class="tree-folder">rules/</span></div>
+          <div class="tree-line"><span class="tree-indent">&nbsp;&nbsp;&nbsp; │&nbsp; ├─</span> always/<span class="tree-note">&nbsp;常時注入</span></div>
+          <div class="tree-line"><span class="tree-indent">&nbsp;&nbsp;&nbsp; │&nbsp; └─</span> scoped/<span class="tree-note">&nbsp;条件注入</span></div>
+          <div class="tree-line"><span class="tree-indent">&nbsp;&nbsp;&nbsp; └─</span> skills/*.md<span class="tree-note">&nbsp;/コマンドで呼び出し</span></div>
+        </div>
+
+        <div class="info-cards">
+
+          <article class="info-card info-card--cursor">
+            <div class="card-head">
+              <span class="step-chip step-chip--cursor">1</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2 L21 7 L12 12 L3 7 Z" fill="var(--cursor)" opacity="0.9"/>
+                <path d="M3 7 L12 12 L12 22 L3 17 Z" fill="var(--cursor)" opacity="0.55"/>
+                <path d="M12 12 L21 7 L21 17 L12 22 Z" fill="var(--cursor)" opacity="0.3"/>
+              </svg>
+              <h2>Cursor の<wbr>設定領域</h2>
+            </div>
+            <p class="card-desc">AGENTS.md を自動読込。.cursor/rules/ の MDC 規約はファイル条件で自動適用。.cursor/skills/ に手順書を配置し名前で呼び出す</p>
+            <p class="card-scope">対象: AGENTS.md / .cursor/rules/*.mdc / .cursor/skills/*.md</p>
+          </article>
+
+          <article class="info-card info-card--shared">
+            <div class="card-head">
+              <span class="step-chip step-chip--good">2</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="4" y="2" width="16" height="20" rx="2" stroke="var(--good)" stroke-width="2" fill="none"/>
+                <line x1="8" y1="7" x2="16" y2="7" stroke="var(--good)" stroke-width="1.5"/>
+                <line x1="8" y1="11" x2="16" y2="11" stroke="var(--good)" stroke-width="1.5"/>
+                <line x1="8" y1="15" x2="13" y2="15" stroke="var(--good)" stroke-width="1.5"/>
+              </svg>
+              <h2>project-portal/ —<wbr> 共有資産</h2>
+            </div>
+            <p class="card-desc">設計情報と技術資産を一元管理するポータル。規約・一覧・交差ビュー・解析概要を HTML サイトに集約。人も AI もブラウザで同じ情報を参照する</p>
+            <p class="card-scope">対象: project-portal/ 配下（基盤情報・規約・一覧 9 種・交差ビュー 4 種・解析概要）</p>
+          </article>
+
+          <article class="info-card info-card--claude">
+            <div class="card-head">
+              <span class="step-chip step-chip--claude">3</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <g stroke="var(--claude)" stroke-width="2.2" stroke-linecap="round">
+                  <line x1="15.5" y1="12" x2="22" y2="12"/><line x1="15.03" y1="13.75" x2="20.66" y2="17"/>
+                  <line x1="13.75" y1="15.03" x2="17" y2="20.66"/><line x1="12" y1="15.5" x2="12" y2="22"/>
+                  <line x1="10.25" y1="15.03" x2="7" y2="20.66"/><line x1="8.97" y1="13.75" x2="3.34" y2="17"/>
+                  <line x1="8.5" y1="12" x2="2" y2="12"/><line x1="8.97" y1="10.25" x2="3.34" y2="7"/>
+                  <line x1="10.25" y1="8.97" x2="7" y2="3.34"/><line x1="12" y1="8.5" x2="12" y2="2"/>
+                  <line x1="13.75" y1="8.97" x2="17" y2="3.34"/><line x1="15.03" y1="10.25" x2="20.66" y2="7"/>
+                </g>
+              </svg>
+              <h2>Claude Code の<wbr>設定領域</h2>
+            </div>
+            <p class="card-desc">CLAUDE.md を自動読込。.claude/rules/ の always/ は常時注入、scoped/ は条件注入。.claude/skills/ に手順書を配置し /コマンドで呼び出す</p>
+            <p class="card-scope">対象: CLAUDE.md / .claude/rules/{always,scoped}/ / .claude/skills/</p>
+          </article>
+
+        </div>
+      </div>
+    </div>
+
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
