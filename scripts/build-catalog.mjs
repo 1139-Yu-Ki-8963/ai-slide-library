@@ -104,7 +104,7 @@ for (const line of section.split("\n")) {
   }
 
   const templateValue = template.trim();
-  const VALID_TEMPLATES = ["図解型", "課題分析テーブル型", "現状理想対比テーブル型", "役割分担型", "工程時系列型", "ガントチャート型", "—"];
+  const VALID_TEMPLATES = ["図解型", "課題分析テーブル型", "現状理想対比テーブル型", "役割分担型", "工程時系列型", "—"];
   if (!VALID_TEMPLATES.includes(templateValue)) {
     validationErrors.push(`${key}: 「テンプレート」列の値「${templateValue}」が不正です（${VALID_TEMPLATES.join(" / ")} のみ許可）`);
   }

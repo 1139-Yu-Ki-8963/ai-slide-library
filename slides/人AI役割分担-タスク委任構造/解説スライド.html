@@ -10,23 +10,14 @@
   --bg:#fff;--text:#1a1a1a;--text-sub:#666;
   --human-bg:#1a1a1a;--human-text:#fff;
   --ai-bg:#fff;--ai-text:#1a1a1a;--ai-border:#ccc;
-  --arrow:#999;--lane-label:#888;
+  --arrow:#3b7dd8;--lane-label:#888;
   --msg-bg:#1a1a1a;--msg-text:#fff;
   --divider:#e0e0e0;
   --feedback:#aaa;
 }
-@media(prefers-color-scheme:dark){:root{
-  --bg:#111;--text:#e8e8e8;--text-sub:#999;
-  --human-bg:#e8e8e8;--human-text:#111;
-  --ai-bg:#1a1a1a;--ai-text:#e8e8e8;--ai-border:#555;
-  --arrow:#777;--lane-label:#777;
-  --msg-bg:#e8e8e8;--msg-text:#111;
-  --divider:#333;
-  --feedback:#666;
-}}
 html{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,sans-serif;background:var(--bg);color:var(--text)}
-body{width:100vw;height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden}
-.slide{width:1280px;height:720px;position:relative;display:flex;flex-direction:column;padding:48px 56px 0}
+body{width:100vw;height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;background:var(--bg)}
+.slide{width:1280px;height:720px;position:relative;display:flex;flex-direction:column;padding:48px 56px 0;background:var(--bg)}
 
 .header{margin-bottom:32px}
 .title{font-size:28px;font-weight:700;letter-spacing:.02em;line-height:1.3}
@@ -36,37 +27,43 @@ body{width:100vw;height:100vh;display:flex;justify-content:center;align-items:ce
 .diagram{flex:1;display:flex;flex-direction:column;position:relative}
 
 .feedback-area{height:28px;position:relative;margin-bottom:4px}
-.feedback-label{position:absolute;left:80px;top:4px;font-size:11px;color:var(--feedback);letter-spacing:.03em}
+.feedback-label{position:absolute;left:170px;top:4px;font-size:11px;color:var(--feedback);letter-spacing:.03em}
 
-.lanes{flex:1;display:flex;flex-direction:column;gap:0}
+.lanes-grid{
+  flex:1;
+  display:grid;
+  grid-template-columns:50px 1fr 56px 1fr 56px 1fr 56px 1fr;
+  grid-template-rows:auto 56px auto;
+  align-items:center;
+}
 
-.lane{display:flex;align-items:center;gap:0;position:relative;padding:16px 0}
-.lane-label{width:40px;font-size:14px;font-weight:600;color:var(--lane-label);text-align:center;flex-shrink:0}
+.lane-label{font-size:14px;font-weight:600;color:var(--lane-label);text-align:center}
+.label-human{grid-column:1;grid-row:1}
+.label-ai{grid-column:1;grid-row:3}
 
-.cards{display:flex;align-items:center;gap:0;flex:1;padding-left:24px}
-
-.card{width:220px;padding:20px 20px 16px;position:relative}
+.card{width:100%;padding:20px 20px 16px}
 .card-human{background:var(--human-bg);color:var(--human-text)}
 .card-ai{background:var(--ai-bg);color:var(--ai-text);border:1.5px solid var(--ai-border)}
 .card-num{font-size:12px;opacity:.6;margin-bottom:8px;font-variant-numeric:tabular-nums}
 .card-title{font-size:16px;font-weight:600;line-height:1.4;margin-bottom:6px}
 .card-desc{font-size:12px;opacity:.7;line-height:1.5}
 
-.arrow-right{width:40px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.arrow-right svg{display:block}
+#card01{grid-column:2;grid-row:1}
+#card05{grid-column:8;grid-row:1}
+#card02{grid-column:2;grid-row:3}
+#card03{grid-column:4;grid-row:3}
+#card04{grid-column:6;grid-row:3}
 
-.spacer{flex:1}
+.arrow-h{grid-row:3;display:flex;align-items:center;justify-content:center}
+#arrow23{grid-column:3}
+#arrow34{grid-column:5}
 
-.lane-divider{width:calc(100% - 64px);height:1px;background:var(--divider);margin:0 auto}
+.connector-divider{grid-column:1/-1;grid-row:2;height:1px;background:var(--divider);align-self:center}
+.arrow-v{grid-row:2;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;background:var(--bg)}
+#arrow-down{grid-column:2}
+.arrow-up-corner{grid-column:6/9;grid-row:2;position:relative;z-index:1;background:var(--bg)}
 
 .message-bar{height:56px;background:var(--msg-bg);color:var(--msg-text);display:flex;align-items:center;padding:0 32px;font-size:14px;line-height:1.6;letter-spacing:.03em;margin:0 -56px;width:calc(100% + 112px)}
-
-@media(max-width:800px){
-  .slide{width:100vw;height:auto;min-height:100vh;padding:24px}
-  .cards{flex-direction:column;gap:12px}
-  .arrow-right{transform:rotate(90deg);width:auto;height:32px}
-  .message-bar{margin:0 -24px;width:calc(100% + 48px)}
-}
 </style>
 </head>
 <body>
@@ -82,64 +79,56 @@ body{width:100vw;height:100vh;display:flex;justify-content:center;align-items:ce
       <span class="feedback-label">月次などでルールを更新</span>
       <svg width="100%" height="28" style="position:absolute;top:0;left:0;pointer-events:none">
         <defs><marker id="fb" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="var(--feedback)"/></marker></defs>
-        <path d="M 920,24 L 920,4 L 100,4 L 100,24" fill="none" stroke="var(--feedback)" stroke-width="1.2" stroke-dasharray="6,4" marker-end="url(#fb)"/>
+        <path d="M 1049,24 L 1049,4 L 169,4 L 169,24" fill="none" stroke="var(--feedback)" stroke-width="1.2" stroke-dasharray="6,4" marker-end="url(#fb)"/>
       </svg>
     </div>
 
-    <div class="lanes">
-      <!-- 人レーン -->
-      <div class="lane">
-        <div class="lane-label">人</div>
-        <div class="cards">
-          <div class="card card-human">
-            <div class="card-num">01</div>
-            <div class="card-title">ルールを設計</div>
-            <div class="card-desc">指標・手順・出力形式（初回のみ）</div>
-          </div>
-          <div class="arrow-right">
-            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M5,12 L17,12 M13,7 L18,12 L13,17" fill="none" stroke="var(--arrow)" stroke-width="1.5"/></svg>
-          </div>
-          <div class="spacer"></div>
-          <div class="card card-human">
-            <div class="card-num">05</div>
-            <div class="card-title">定期的に見直す</div>
-            <div class="card-desc">目的に合っているか点検</div>
-          </div>
-        </div>
+    <div class="lanes-grid">
+      <div class="lane-label label-human">人</div>
+      <div class="lane-label label-ai">AI</div>
+
+      <div class="card card-human" id="card01">
+        <div class="card-num">01</div>
+        <div class="card-title">ルールを設計</div>
+        <div class="card-desc">指標・手順・出力形式（初回のみ）</div>
+      </div>
+      <div class="card card-human" id="card05">
+        <div class="card-num">05</div>
+        <div class="card-title">定期的に見直す</div>
+        <div class="card-desc">目的に合っているか点検</div>
       </div>
 
-      <div class="lane-divider"></div>
+      <div class="card card-ai" id="card02">
+        <div class="card-num">02</div>
+        <div class="card-title">データ取得・集計</div>
+        <div class="card-desc">媒体・ツールから自動取得</div>
+      </div>
+      <div class="arrow-h" id="arrow23">
+        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M5,12 L17,12 M13,7 L18,12 L13,17" fill="none" stroke="var(--arrow)" stroke-width="1.5"/></svg>
+      </div>
+      <div class="card card-ai" id="card03">
+        <div class="card-num">03</div>
+        <div class="card-title">変化点を抽出</div>
+        <div class="card-desc">前週比・異常値を検出</div>
+      </div>
+      <div class="arrow-h" id="arrow34">
+        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M5,12 L17,12 M13,7 L18,12 L13,17" fill="none" stroke="var(--arrow)" stroke-width="1.5"/></svg>
+      </div>
+      <div class="card card-ai" id="card04">
+        <div class="card-num">04</div>
+        <div class="card-title">レポート出力</div>
+        <div class="card-desc">仮説候補つきで自動作成</div>
+      </div>
 
-      <!-- AIレーン -->
-      <div class="lane">
-        <div class="lane-label">AI</div>
-        <div class="cards">
-          <div class="spacer" style="width:260px;flex:none"></div>
-          <div class="card card-ai">
-            <div class="card-num">02</div>
-            <div class="card-title">データ取得・集計</div>
-            <div class="card-desc">媒体・ツールから自動取得</div>
-          </div>
-          <div class="arrow-right">
-            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M5,12 L17,12 M13,7 L18,12 L13,17" fill="none" stroke="var(--arrow)" stroke-width="1.5"/></svg>
-          </div>
-          <div class="card card-ai">
-            <div class="card-num">03</div>
-            <div class="card-title">変化点を抽出</div>
-            <div class="card-desc">前週比・異常値を検出</div>
-          </div>
-          <div class="arrow-right">
-            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M5,12 L17,12 M13,7 L18,12 L13,17" fill="none" stroke="var(--arrow)" stroke-width="1.5"/></svg>
-          </div>
-          <div class="card card-ai">
-            <div class="card-num">04</div>
-            <div class="card-title">レポート出力</div>
-            <div class="card-desc">仮説候補つきで自動作成</div>
-          </div>
-          <div class="arrow-right">
-            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M5,12 L17,12 M13,7 L18,12 L13,17" fill="none" stroke="var(--arrow)" stroke-width="1.5"/></svg>
-          </div>
-        </div>
+      <div class="connector-divider"></div>
+      <div class="arrow-v" id="arrow-down">
+        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12,5 L12,17 M7,13 L12,18 L17,13" fill="none" stroke="var(--arrow)" stroke-width="1.5"/></svg>
+      </div>
+      <div class="arrow-up-corner" id="arrow-up">
+        <svg width="100%" height="56" viewBox="0 0 531 56" preserveAspectRatio="none" style="display:block">
+          <path d="M119,56 L119,28 L412,28 L412,10" fill="none" stroke="var(--arrow)" stroke-width="1.5"/>
+          <path d="M406,10 L412,4 L418,10" fill="none" stroke="var(--arrow)" stroke-width="1.5"/>
+        </svg>
       </div>
     </div>
   </div>
