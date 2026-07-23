@@ -1954,19 +1954,16 @@ function getVisibleSlides() {
   return { fullList, visibleList };
 }
 
-// 束ねカードの「開く:」「ダウンロード:」行。開くはメンバーごとに統合スライド内の該当タブ（#slug）へ、
-// ダウンロードはメンバーラベル付きのファイル名で統合スライドそのものを保存する。
+// 束ねカードの「⬇ ダウンロード:」行。メンバーラベル付きのファイル名で統合スライドそのものを保存する。
+// スライドを開く動線はサムネイルクリック（統合スライドが開きタブで切替できる）に一本化されており、
+// ツール別の直リンク（#slug）行はここでは描画しない。
 function renderVariantLinkRows(bundle) {
   const canonicalPath = slidePath(bundle.group.canonical);
-  const openLinks = bundle.group.members
-    .map(m => `<a class="variant-pill" href="${canonicalPath}#${esc(m.slug)}" target="_blank" rel="noopener">${esc(m.label)}</a>`)
-    .join("");
   const downloadLinks = bundle.group.members
     .map(m => `<a class="variant-pill" href="${canonicalPath}" download="${esc(`${bundle.group.base_name}（${m.label}版）.html`)}">${esc(m.label)}</a>`)
     .join("");
   return `
-      <div class="variant-link-row"><span class="variant-link-label">開く:</span>${openLinks}</div>
-      <div class="variant-link-row"><span class="variant-link-label">ダウンロード:</span>${downloadLinks}</div>`;
+      <div class="variant-link-row"><span class="variant-link-label">⬇ ダウンロード:</span>${downloadLinks}</div>`;
 }
 
 function renderGrid(visibleList) {
