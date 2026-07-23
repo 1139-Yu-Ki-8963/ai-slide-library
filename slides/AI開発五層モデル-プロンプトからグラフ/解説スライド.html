@@ -1,0 +1,225 @@
+<!--
+  generating-explanation-html-slides デザイントークン+部品カタログから生成
+  1ページ構成（層構造型・5層）。ページ送り部品なし。
+-->
+<meta charset="utf-8">
+<title>AI開発の5層モデル</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+    /* レイヤー識別色（5層モデルの各層を視覚的に区別） */
+    --layer-prompt: #E67E22;
+    --layer-prompt-soft: #FDF2E9;
+    --layer-context: #2E86C1;
+    --layer-context-soft: #EBF5FB;
+    --layer-harness: #7D3C98;
+    --layer-harness-soft: #F4ECF7;
+    --layer-loop: #148F77;
+    --layer-loop-soft: #E8F8F5;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  /* ==== スライド枠（16:9 固定） ==== */
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px;
+    height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 32px 48px;
+    gap: 14px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* ==== ヘッダ ==== */
+  .slide-header {
+    display: flex; flex-direction: column; gap: 4px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 28px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-subtitle { font-size: 14px; color: var(--ink-2); }
+
+  /* ==== ステップ番号チップ ==== */
+  .step-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: var(--surface); flex-shrink: 0;
+  }
+  .step-chip--prompt { background: var(--layer-prompt); }
+  .step-chip--context { background: var(--layer-context); }
+  .step-chip--harness { background: var(--layer-harness); }
+  .step-chip--loop { background: var(--layer-loop); }
+  .step-chip--good { background: var(--good); }
+
+  /* ==== 層構造（5層コンパクト） ==== */
+  .layer-stack { display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 0; justify-content: center; }
+  .layer-band {
+    display: flex; align-items: center; gap: 16px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: var(--tag-bg);
+    border: 1.5px solid var(--border);
+    border-left: 5px solid var(--ink-3);
+  }
+  .layer-band--prompt { background: var(--layer-prompt-soft); border-color: var(--layer-prompt); border-left-color: var(--layer-prompt); }
+  .layer-band--context { background: var(--layer-context-soft); border-color: var(--layer-context); border-left-color: var(--layer-context); }
+  .layer-band--harness { background: var(--layer-harness-soft); border-color: var(--layer-harness); border-left-color: var(--layer-harness); }
+  .layer-band--loop { background: var(--layer-loop-soft); border-color: var(--layer-loop); border-left-color: var(--layer-loop); }
+  .layer-band--graph { background: var(--good-soft); border-color: var(--good); border-left-color: var(--good); }
+  .layer-body { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .layer-body h3 { font-size: 15px; font-weight: 700; color: var(--ink); }
+  .layer-desc { font-size: 11px; color: var(--ink-2); line-height: 1.5; }
+  .layer-examples { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 2px; }
+  .ex { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
+
+  /* ==== 結論行 ==== */
+  .source-line {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-2);
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+    text-align: center;
+  }
+
+  /* ==== メタデータフッター ==== */
+  .slide-meta {
+    height: 20px;
+    padding-top: 4px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI開発の5層モデル</span>
+      <h1 class="slide-title">AI開発の<wbr>5層モデル —<wbr> プロンプトから<wbr>グラフまで</h1>
+      <p class="slide-subtitle">各レイヤーは<wbr>前のものに<wbr>構築される。<wbr>モデルを中心とした<wbr>システム全体の設計図</p>
+    </header>
+
+    <div class="layer-stack">
+
+      <div class="layer-band layer-band--prompt">
+        <span class="step-chip step-chip--prompt">1</span>
+        <div class="layer-body">
+          <h3>Prompt Engineering —<wbr> 1回の呼び出しを<wbr>制御する</h3>
+          <p class="layer-desc">役割・指示・制約・出力形式を<wbr>設計し、<wbr>モデルの応答を<wbr>方向づける</p>
+          <div class="layer-examples">
+            <span class="ex">Chain-of-Thought</span>
+            <span class="ex">Few-shot 例示</span>
+            <span class="ex">出力スキーマ指定</span>
+            <span class="ex">セルフコンシステンシー</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer-band layer-band--context">
+        <span class="step-chip step-chip--context">2</span>
+        <div class="layer-body">
+          <h3>Context Engineering —<wbr> モデルが<wbr>知っていることを<wbr>制御する</h3>
+          <p class="layer-desc">有限な<wbr>コンテキスト窓に<wbr>何を入れ、<wbr>何を省き、<wbr>何を要約するかを<wbr>決める</p>
+          <div class="layer-examples">
+            <span class="ex">取得文書の再順位付け</span>
+            <span class="ex">会話履歴の要約</span>
+            <span class="ex">ツール出力の取捨選択</span>
+            <span class="ex">長期記憶</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer-band layer-band--harness">
+        <span class="step-chip step-chip--harness">3</span>
+        <div class="layer-body">
+          <h3>Harness Engineering —<wbr> モデルの<wbr>振る舞いを<wbr>制御する</h3>
+          <p class="layer-desc">モデルを囲むコードが、<wbr>許容される操作・エラー回復・検証・権限を<wbr>統制する</p>
+          <div class="layer-examples">
+            <span class="ex">ツール呼び出し</span>
+            <span class="ex">スキーマ検証</span>
+            <span class="ex">権限管理</span>
+            <span class="ex">モデル振り分け</span>
+            <span class="ex">人間の承認</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer-band layer-band--loop">
+        <span class="step-chip step-chip--loop">4</span>
+        <div class="layer-body">
+          <h3>Loop Engineering —<wbr> 人間なしで<wbr>作業が継続する<wbr>方法を制御する</h3>
+          <p class="layer-desc">目標・停止条件・進捗検知を<wbr>設計し、<wbr>メーカーが生成し<wbr>チェッカーが採点する<wbr>循環を回す</p>
+          <div class="layer-examples">
+            <span class="ex">予算上限</span>
+            <span class="ex">停滞検知</span>
+            <span class="ex">テスト通過</span>
+            <span class="ex">メーカー/チェッカー分離</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer-band layer-band--graph">
+        <span class="step-chip step-chip--good">5</span>
+        <div class="layer-body">
+          <h3>Graph Engineering —<wbr> エージェント組織全体を<wbr>制御する</h3>
+          <p class="layer-desc">複数エージェントの<wbr>調整・適応・再編成を<wbr>設計し、<wbr>作業と予算に応じて<wbr>構造を書き換える</p>
+          <div class="layer-examples">
+            <span class="ex">プランナー</span>
+            <span class="ex">ビルダー</span>
+            <span class="ex">レビュアー</span>
+            <span class="ex">共有メモリ</span>
+            <span class="ex">動的再構成</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="source-line">モデルは<wbr>商品化しつつある。<wbr>その周りの<wbr>システムこそが、<wbr>今、<wbr>真のエンジニアリングの場</p>
+
+    <footer class="slide-meta"></footer>
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・削除禁止） ==== -->
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
