@@ -172,3 +172,37 @@ test("リポジトリ整備 転送ページがtitleを保持する", () => {
   const codexTitle = (codexHtml.match(/<title>([^<]*)<\/title>/) || [])[1] || "";
   assert.ok(codexTitle.includes("Codex"), `codex 転送ページの <title> に「Codex」が含まれていません（実際: ${codexTitle}）`);
 });
+
+// --- カタログ一覧のバリアントグループ束ね表示（描画コード） ---
+
+test("描画コードが VARIANT_GROUPS を参照する（データブロック外）", () => {
+  const html = readFileSync(indexPath, "utf8");
+  const endMarker = "/*CATALOG-DATA-END*/";
+  const endIdx = html.indexOf(endMarker);
+  assert.notEqual(endIdx, -1, "CATALOG-DATA-END マーカーが見つかりません");
+  const afterData = html.slice(endIdx + endMarker.length);
+  assert.ok(
+    afterData.includes("VARIANT_GROUPS"),
+    "データブロック外（描画コード側）に VARIANT_GROUPS を参照するコードが見つかりません",
+  );
+});
+
+test("束ねカードのバッジ文字列生成コードが存在する", () => {
+  const html = readFileSync(indexPath, "utf8");
+  assert.ok(html.includes("ツール対応"), "「◯ツール対応」バッジ文言の生成コードが見つかりません");
+  assert.ok(html.includes("表示形式"), "「◯表示形式」バッジ文言の生成コードが見つかりません");
+});
+
+test("ツール別ダウンロードの保存ファイル名テンプレートが存在する", () => {
+  const html = readFileSync(indexPath, "utf8");
+  assert.ok(
+    html.includes("版）.html"),
+    "ダウンロード保存名テンプレート（`◯◯版）.html`）が見つかりません",
+  );
+});
+
+test("束ねカードの「開く」「ダウンロード」行ラベルが存在する", () => {
+  const html = readFileSync(indexPath, "utf8");
+  assert.ok(html.includes("開く:"), "「開く:」ラベルが見つかりません");
+  assert.ok(html.includes("ダウンロード:"), "「ダウンロード:」ラベルが見つかりません");
+});

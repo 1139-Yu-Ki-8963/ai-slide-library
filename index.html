@@ -253,6 +253,24 @@
   .card-actions .act:first-child { border-left: 0; }
   .card-actions .act:hover { background: var(--accent-soft); color: var(--accent-deep); }
   .card-actions .act[aria-expanded="true"] { background: var(--accent-soft); color: var(--accent-deep); }
+  /* --- バリアントグループ束ねカード --- */
+  .variant-badge {
+    position: absolute; top: 10px; left: 10px; z-index: 3;
+    background: var(--accent); color: #fff;
+    border-radius: 999px; padding: 3px 10px;
+    font-size: 11px; font-weight: 700;
+  }
+  .variant-link-row {
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    padding: 8px 18px; border-top: 1px solid var(--border); font-size: 12px;
+  }
+  .variant-link-row .variant-link-label { color: var(--ink-3); font-weight: 600; margin-right: 2px; }
+  .variant-pill {
+    background: var(--accent-soft); color: var(--accent-deep);
+    border-radius: 999px; padding: 3px 10px; font-size: 11.5px;
+    text-decoration: none; font-weight: 600; font-family: inherit;
+  }
+  .variant-pill:hover { filter: brightness(0.95); }
   .import-panel { display: none; border-top: 1px solid var(--border); background: var(--page); padding: 14px 16px 16px; flex-direction: column; gap: 12px; }
   .import-panel.open { display: flex; }
   .import-panel h3 { font-size: 12px; color: var(--ink-2); font-weight: 700; }
@@ -1580,6 +1598,10 @@ const STALE_DAYS = 90;
 const INITIAL_VISIBLE = 30;
 const LOAD_STEP = 30;
 const PACKS_BY_NAME = new Map(PACKS.map(p => [p.name, p]));
+const SLIDE_BY_KEY = new Map(SLIDES.map(s => [s.key, s]));
+// バリアントグループのメンバーキー → 所属グループ の逆引き（束ねカード表示用）
+const MEMBER_KEY_TO_GROUP = new Map();
+VARIANT_GROUPS.forEach(g => g.members.forEach(m => MEMBER_KEY_TO_GROUP.set(m.key, g)));
 const state = {
   query: "", tool: "すべて", mech: "すべて", theme: "すべて", stage: "すべて",
   dist: "すべて", template: "すべて", proposalPack: "すべて", visibleCount: INITIAL_VISIBLE
@@ -1842,10 +1864,77 @@ function packOrderFor(key) {
   return idx === -1 ? null : idx + 1;
 }
 
+// 束ねカード（isBundle）／通常カードのどちらでも提示順を引けるようにするラッパー。
+// 束ねカードはメンバーキーのうちパックに載っているものを探して順序を採用する。
+function packOrderForItem(item) {
+  if (!item.isBundle) return packOrderFor(item.key);
+  if (state.proposalPack === "すべて") return null;
+  const pack = PACKS_BY_NAME.get(state.proposalPack);
+  if (!pack) return null;
+  for (const m of item.group.members) {
+    const idx = pack.slides.indexOf(m.key);
+    if (idx !== -1) return idx + 1;
+  }
+  return null;
+}
+
+function unionField(memberSlides, field) {
+  const set = new Set();
+  memberSlides.forEach(s => (s[field] || []).forEach(v => set.add(v)));
+  return [...set];
+}
+
+// バリアントグループの代表（canonical）情報を軸に、メンバー全員のタグを合成した束ねカード用オブジェクトを作る
+function buildBundleSlide(group) {
+  const canonical = SLIDE_BY_KEY.get(group.canonical);
+  const memberSlides = group.members.map(m => SLIDE_BY_KEY.get(m.key)).filter(Boolean);
+  const labelText = group.members.map(m => m.label).join(" / ");
+  const maxDate = memberSlides.reduce((max, s) => ((s.date || "") > max ? (s.date || "") : max), "");
+  return {
+    key: group.canonical,
+    isBundle: true,
+    group,
+    title: `${group.base_name}（${labelText}）`,
+    target: canonical.target,
+    problems: canonical.problems,
+    tools: unionField(memberSlides, "tools"),
+    mechanisms: unionField(memberSlides, "mechanisms"),
+    themes: unionField(memberSlides, "themes"),
+    stages: unionField(memberSlides, "stages"),
+    entities: canonical.entities,
+    pack: canonical.pack,
+    has_prompt: canonical.has_prompt,
+    template: canonical.template,
+    date: maxDate || canonical.date
+  };
+}
+
+// SLIDES を「束ね対象のグループは代表 1 件（束ねカード）にまとめ、それ以外は従来どおり」の表示リストへ変換する。
+// マッチ判定はグループ内メンバーのいずれかが matches() を満たせばグループ全体をヒットとみなす（OR 判定）。
+function buildDisplayList() {
+  const processedGroups = new Set();
+  const result = [];
+  SLIDES.forEach(s => {
+    const group = MEMBER_KEY_TO_GROUP.get(s.key);
+    if (!group) {
+      if (matches(s)) result.push(s);
+      return;
+    }
+    if (processedGroups.has(group)) return;
+    processedGroups.add(group);
+    const groupHits = group.members.some(m => {
+      const memberSlide = SLIDE_BY_KEY.get(m.key);
+      return memberSlide && matches(memberSlide);
+    });
+    if (groupHits) result.push(buildBundleSlide(group));
+  });
+  return result;
+}
+
 function getVisibleSlides() {
-  const fullList = SLIDES.filter(matches).slice();
+  const fullList = buildDisplayList();
   if (state.proposalPack !== "すべて") {
-    fullList.sort((a, b) => (packOrderFor(a.key) || 0) - (packOrderFor(b.key) || 0));
+    fullList.sort((a, b) => (packOrderForItem(a) || 0) - (packOrderForItem(b) || 0));
   } else {
     fullList.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
   }
@@ -1853,27 +1942,51 @@ function getVisibleSlides() {
   return { fullList, visibleList };
 }
 
+// 束ねカードの「開く:」「ダウンロード:」行。開くはメンバーごとに統合スライド内の該当タブ（#slug）へ、
+// ダウンロードはメンバーラベル付きのファイル名で統合スライドそのものを保存する。
+function renderVariantLinkRows(bundle) {
+  const canonicalPath = slidePath(bundle.group.canonical);
+  const openLinks = bundle.group.members
+    .map(m => `<a class="variant-pill" href="${canonicalPath}#${esc(m.slug)}" target="_blank" rel="noopener">${esc(m.label)}</a>`)
+    .join("");
+  const downloadLinks = bundle.group.members
+    .map(m => `<a class="variant-pill" href="${canonicalPath}" download="${esc(`${bundle.group.base_name}（${m.label}版）.html`)}">${esc(m.label)}</a>`)
+    .join("");
+  return `
+      <div class="variant-link-row"><span class="variant-link-label">開く:</span>${openLinks}</div>
+      <div class="variant-link-row"><span class="variant-link-label">ダウンロード:</span>${downloadLinks}</div>`;
+}
+
 function renderGrid(visibleList) {
   const grid = document.getElementById("grid");
   grid.innerHTML = visibleList.map(s => {
-    const path = slidePath(s.key);
-    const thumbPath = "slides/" + encodeURIComponent(s.key) + "/" + encodeURIComponent("サムネイル.png");
+    const canonicalKey = s.isBundle ? s.group.canonical : s.key;
+    const path = slidePath(canonicalKey);
+    const thumbPath = "slides/" + encodeURIComponent(canonicalKey) + "/" + encodeURIComponent("サムネイル.png");
     const toolTags = (s.tools || []).map(t => `<button type="button" class="tag" data-axis="tool" data-value="${esc(t)}">${esc(t)}</button>`).join("");
     const mechTags = (s.mechanisms || []).map(t => `<button type="button" class="tag mech" data-axis="mech" data-value="${esc(t)}">${esc(t)}</button>`).join("");
     const themeTags = (s.themes || []).map(t => `<button type="button" class="tag theme" data-axis="theme" data-value="${esc(t)}">${esc(t)}</button>`).join("");
     const stageTags = (s.stages || []).map(t => `<button type="button" class="tag stage" data-axis="stage" data-value="${esc(t)}">${esc(t)}</button>`).join("");
     const stale = isStale(s.date) ? `<span class="stale">登録から${STALE_DAYS}日超</span>` : "";
     const packBadge = s.pack ? `<span class="pack-badge">改善パック</span>` : "";
-    const packOrder = packOrderFor(s.key);
+    const packOrder = packOrderForItem(s);
     const packOrderBadge = packOrder ? `<span class="pack-order-badge">${packOrder}</span>` : "";
+    const variantBadge = s.isBundle
+      ? `<span class="variant-badge">${s.group.members.length}${s.group.kind === "tool" ? "ツール対応" : "表示形式"}</span>`
+      : "";
     const hasPrompt = !!s.has_prompt;
-    const packZipPath = "slides/" + encodeURIComponent(s.key) + "/pack.zip";
+    const packZipPath = "slides/" + encodeURIComponent(canonicalKey) + "/pack.zip";
     const importButton = hasPrompt
       ? `<button type="button" class="act" data-toggle aria-expanded="false"><span class="material-symbols-outlined">terminal</span>導入する</button>`
       : "";
     const packLink = s.pack
       ? `<a class="act" href="${packZipPath}" download><span class="material-symbols-outlined">download</span>改善パック</a>`
       : "";
+    // 束ねカードは一括「スライドHTML」ダウンロードボタンを非表示にし、ツール別ダウンロード行（下部）で代替する
+    const slideHtmlDownload = s.isBundle
+      ? ""
+      : `<a class="act" href="${path}" download="${esc(s.key)}.html"><span class="material-symbols-outlined">download</span>スライドHTML</a>`;
+    const variantLinkRows = s.isBundle ? renderVariantLinkRows(s) : "";
     const entityList = (s.entities || []).length
       ? `<h3>導入されるもの</h3><ul>${(s.entities || []).map(e => `<li>${esc(e)}</li>`).join("")}</ul>`
       : "";
@@ -1881,7 +1994,7 @@ function renderGrid(visibleList) {
       ? `<p class="import-note">手動で導入する場合は「改善パック（zip）」からファイル一式を取得できます。</p>`
       : `<p class="import-note">この仕組みはスライドの内容を仕様として、あなたの環境に合わせて構築します。</p>`;
     const importPanel = hasPrompt ? `
-      <div class="import-panel" data-key="${esc(s.key)}">
+      <div class="import-panel" data-key="${esc(canonicalKey)}">
         <h3>導入プロンプト — コピーして、あなたの AI に貼るだけ</h3>
         <p class="lead">貼り付けられた AI が、前提確認・配置（または構築）・検証まで実行します。</p>
         <div class="prompt-box">
@@ -1900,6 +2013,7 @@ function renderGrid(visibleList) {
         <a class="thumb-link" href="${path}" target="_blank" rel="noopener" aria-label="${esc(s.title)} を全画面で開く"></a>
         ${packBadge}
         ${packOrderBadge}
+        ${variantBadge}
       </div>
       <div class="card-body">
         <h2 class="card-title">${esc(s.title)}</h2>
@@ -1909,9 +2023,10 @@ function renderGrid(visibleList) {
       </div>
       <div class="card-actions">
         ${importButton}
-        <a class="act" href="${path}" download="${esc(s.key)}.html"><span class="material-symbols-outlined">download</span>スライドHTML</a>
+        ${slideHtmlDownload}
         ${packLink}
       </div>
+      ${variantLinkRows}
       ${importPanel}
     </article>`;
   }).join("");
