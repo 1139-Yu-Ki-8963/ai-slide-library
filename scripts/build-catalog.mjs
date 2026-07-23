@@ -193,6 +193,71 @@ if (packsSection) {
   }
 }
 
+// --- バリアントグループ定義の読み取り（節が無ければ VARIANT_GROUPS = [] で続行） ---
+const variantSection = ledger.split(/^## バリアントグループ定義$/m)[1]?.split(/^## /m)[0];
+const VARIANT_GROUPS = [];
+if (variantSection) {
+  const slideKeys = new Set(slides.map(s => s.key));
+  const VALID_KINDS = ["tool", "view"];
+  const rowsByName = new Map(); // グループ名 → [{ baseName, kind, canonical, memberKey, slug, label }]（蓄積簿の出現順を保持）
+  for (const line of variantSection.split("\n")) {
+    const cells = line.split("|").map(c => c.trim());
+    // 表行は [ "", グループ名, 基底表示名, 種別, 代表キー, メンバーキー, スラッグ, ラベル, "" ] の 9 要素
+    if (cells.length !== 9 || !cells[1]) continue;
+    const [, name, baseName, kind, canonical, memberKey, slug, label] = cells;
+    if (name === "グループ名" || /^-+$/.test(name)) continue;
+    if (!rowsByName.has(name)) rowsByName.set(name, []);
+    rowsByName.get(name).push({ baseName, kind, canonical, memberKey, slug, label });
+  }
+  const assignedKeys = new Map(); // スライドキー → 所属グループ名（重複所属検出用）
+  for (const [name, rows] of rowsByName) {
+    const kinds = new Set(rows.map(r => r.kind));
+    const baseNames = new Set(rows.map(r => r.baseName));
+    const canonicals = new Set(rows.map(r => r.canonical));
+    if (kinds.size > 1 || baseNames.size > 1 || canonicals.size > 1) {
+      validationErrors.push(`バリアントグループ「${name}」: 行ごとに 基底表示名・種別・代表キー のいずれかが食い違っています`);
+      continue;
+    }
+    const [kind] = kinds;
+    if (!VALID_KINDS.includes(kind)) {
+      validationErrors.push(`バリアントグループ「${name}」: 種別「${kind}」が不正です（${VALID_KINDS.join(" / ")} のみ許可）`);
+      continue;
+    }
+    const [baseName] = baseNames;
+    const [canonical] = canonicals;
+
+    const members = [];
+    const slugSet = new Set();
+    let hasError = false;
+    for (const { memberKey, slug, label } of rows) {
+      if (!slideKeys.has(memberKey)) {
+        validationErrors.push(`バリアントグループ「${name}」: メンバーキー「${memberKey}」が見つかりません`);
+        hasError = true;
+        continue;
+      }
+      if (slugSet.has(slug)) {
+        validationErrors.push(`バリアントグループ「${name}」: スラッグ「${slug}」が重複しています`);
+        hasError = true;
+        continue;
+      }
+      slugSet.add(slug);
+      if (assignedKeys.has(memberKey)) {
+        validationErrors.push(`バリアントグループ「${name}」: スライドキー「${memberKey}」は既にグループ「${assignedKeys.get(memberKey)}」に所属しています`);
+        hasError = true;
+        continue;
+      }
+      assignedKeys.set(memberKey, name);
+      members.push({ key: memberKey, slug, label });
+    }
+    if (hasError) continue;
+    if (!members.some(m => m.key === canonical)) {
+      validationErrors.push(`バリアントグループ「${name}」: 代表キー「${canonical}」がメンバーに含まれていません`);
+      continue;
+    }
+    VARIANT_GROUPS.push({ name, base_name: baseName, kind, canonical, members });
+  }
+}
+
 if (validationErrors.length > 0) {
   console.error("エラー: 蓄積簿のデータ検証に失敗しました。");
   for (const e of validationErrors) console.error(`  - ${e}`);
@@ -231,8 +296,9 @@ const dataBlock =
   `const VOCAB = ${JSON.stringify(vocab, null, 2)};\n` +
   `const SLIDES = ${JSON.stringify(slides, null, 2)};\n` +
   `const PACKS = ${JSON.stringify(PACKS, null, 2)};\n` +
+  `const VARIANT_GROUPS = ${JSON.stringify(VARIANT_GROUPS, null, 2)};\n` +
   "/*CATALOG-DATA-END*/";
 writeFileSync(indexPath, indexHtml.replace(marker, dataBlock));
 writeFileSync(promptsPath, JSON.stringify(prompts, null, 2));
-console.log(`index.html を再生成しました（スライド ${slides.length} 枚・パック ${PACKS.length} 件 / 語彙 ツール${vocab.tools.length}・仕組み${vocab.mechanisms.length}・テーマ${vocab.themes.length}・導入段階${vocab.stages.length}）`);
+console.log(`index.html を再生成しました（スライド ${slides.length} 枚・パック ${PACKS.length} 件・バリアントグループ ${VARIANT_GROUPS.length} 件 / 語彙 ツール${vocab.tools.length}・仕組み${vocab.mechanisms.length}・テーマ${vocab.themes.length}・導入段階${vocab.stages.length}）`);
 console.log(`catalog-prompts.json を再生成しました（プロンプト ${Object.keys(prompts).length} 件）`);

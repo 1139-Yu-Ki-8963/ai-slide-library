@@ -25,6 +25,63 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--page); }
 
+  #variant-tabs {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+  }
+  #variant-tabs button {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--ink-2);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  #variant-tabs button.active {
+    background: var(--claude);
+    border-color: var(--claude);
+    color: #fff;
+  }
+
+  #related-links {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    font-size: 12px;
+  }
+  #related-links .related-label {
+    color: var(--ink-3);
+    font-weight: 700;
+  }
+  #related-links a {
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--ink-2);
+    padding: 6px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+  }
+  #related-links a:hover {
+    border-color: var(--claude);
+    color: var(--claude);
+  }
+
   .slide-viewport {
     width: 100vw; height: 100vh;
     display: flex; align-items: center; justify-content: center;
@@ -195,23 +252,35 @@
   }
 </style>
 
+<nav id="variant-tabs">
+  <button type="button" data-slug="claude-code">Claude Code</button>
+  <button type="button" data-slug="cursor">Cursor</button>
+  <button type="button" data-slug="codex">Codex CLI</button>
+</nav>
+
+<nav id="related-links">
+  <span class="related-label">関連:</span>
+  <a href="../claude-code-テンプレート構成/解説スライド.html">docs配置ガイド</a>
+  <a href="../四半期計画-AI整備計画表/解説スライド.html">AI導入計画</a>
+</nav>
+
 <div class="slide-viewport">
   <div class="slide">
 
     <header class="slide-header">
-      <span class="slide-eyebrow">GAP ANALYSIS — CLAUDE CODE</span>
+      <span class="slide-eyebrow" data-v="eyebrow">GAP ANALYSIS — CLAUDE CODE</span>
       <h1 class="slide-title">リポジトリ整備の現状と理想</h1>
     </header>
 
-    <div class="lead-band">AI が自走するには「読める文書」と「見える仕組み」をリポジトリに揃える</div>
+    <div class="lead-band" data-v="lead-band">AI が自走するには「読める文書」と「見える仕組み」をリポジトリに揃える</div>
 
     <section class="head-message">
-      <p><span class="mark">■</span><span>現在のリポジトリには AI が参照できる文書も、人が俯瞰できる可視化基盤もない</span></p>
-      <p><span class="mark">■</span><span>依存関係の上流から順に 5 種類の文書・仕組みを整備し、AI と人の両方に情報を届ける</span></p>
+      <p><span class="mark">■</span><span data-v="head-msg-1">現在のリポジトリには AI が参照できる文書も、人が俯瞰できる可視化基盤もない</span></p>
+      <p><span class="mark">■</span><span data-v="head-msg-2">依存関係の上流から順に 5 種類の文書・仕組みを整備し、AI と人の両方に情報を届ける</span></p>
     </section>
 
     <table class="argument-table">
-      <caption>対象リポジトリの AI 可読性・運用可視性診断（上流から下流の依存順）</caption>
+      <caption data-v="table-caption">対象リポジトリの AI 可読性・運用可視性診断（上流から下流の依存順）</caption>
       <colgroup>
         <col class="col-step"><col class="col-category"><col class="col-current"><col class="col-ideal"><col class="col-gap">
       </colgroup>
@@ -233,11 +302,11 @@
             <span class="cell-note">技術構成・使えるコマンド・守るべき原則を AI に伝える手段がない</span>
           </td>
           <td>
-            <span class="badge-path">CLAUDE.md</span>
-            <span class="cell-note">プロジェクトの<strong>索引兼行動原則</strong>。AI が毎回のセッション開始時に自動で読み込む</span>
+            <span class="badge-path" data-v="project-doc-path">CLAUDE.md</span>
+            <span class="cell-note" data-v="project-doc-note">プロジェクトの<strong>索引兼行動原則</strong>。AI が毎回のセッション開始時に自動で読み込む</span>
           </td>
           <td>
-            <span class="gap-action">技術構成・コマンド一覧・行動原則を 1 ファイルに整理して配置</span>
+            <span class="gap-action" data-v="project-doc-gap">技術構成・コマンド一覧・行動原則を 1 ファイルに整理して配置</span>
           </td>
         </tr>
         <tr>
@@ -263,11 +332,11 @@
             <span class="cell-note">命名規則・コーディング規約が暗黙知。AI は毎回異なる書き方をする</span>
           </td>
           <td>
-            <span class="badge-path">rules/</span>
-            <span class="cell-note">規約を Markdown で記述。<strong>編集対象に応じて必要な規約だけ</strong>が AI に自動で届く</span>
+            <span class="badge-path" data-v="rule-file-path">rules/</span>
+            <span class="cell-note" data-v="rule-file-note">規約を Markdown で記述。<strong>編集対象に応じて必要な規約だけ</strong>が AI に自動で届く</span>
           </td>
           <td>
-            <span class="gap-action">命名規則・コーディング規約をファイル種別ごとに文書化</span>
+            <span class="gap-action" data-v="rule-file-gap">命名規則・コーディング規約をファイル種別ごとに文書化</span>
           </td>
         </tr>
         <tr>
@@ -278,11 +347,11 @@
             <span class="cell-note">繰り返し作業の手順が属人化。人が毎回口頭で指示している</span>
           </td>
           <td>
-            <span class="badge-path">skills/</span>
-            <span class="cell-note">定型作業を手順書として構造化。<strong>名前で呼ぶだけ</strong>で AI が手順どおりに動く</span>
+            <span class="badge-path" data-v="work-manual-path">skills/</span>
+            <span class="cell-note" data-v="work-manual-note">定型作業を手順書として構造化。<strong>名前で呼ぶだけ</strong>で AI が手順どおりに動く</span>
           </td>
           <td>
-            <span class="gap-action">頻出の作業パターンを洗い出し、再利用可能な手順書に整理</span>
+            <span class="gap-action" data-v="work-manual-gap">頻出の作業パターンを洗い出し、再利用可能な手順書に整理</span>
           </td>
         </tr>
         <tr>
@@ -303,7 +372,7 @@
       </tbody>
     </table>
 
-    <p class="source-line">出典：対象リポジトリの実地調査に基づく（調査時点の構成）</p>
+    <p class="source-line" data-v="source-line">出典：対象リポジトリの実地調査に基づく（調査時点の構成）</p>
 
     <footer class="slide-meta"></footer>
 
@@ -320,5 +389,166 @@
   }
   addEventListener('resize', f);
   f();
+})();
+</script>
+
+<script>
+(function(){
+  const VARIANTS = {
+    "claude-code": {
+      docTitle: "Claude Code 導入 リポジトリ整備の現状と理想",
+      eyebrow: "GAP ANALYSIS — CLAUDE CODE",
+      leadBand: "AI が自走するには「読める文書」と「見える仕組み」をリポジトリに揃える",
+      headMsg1: "現在のリポジトリには AI が参照できる文書も、人が俯瞰できる可視化基盤もない",
+      headMsg2: "依存関係の上流から順に 5 種類の文書・仕組みを整備し、AI と人の両方に情報を届ける",
+      tableCaption: "対象リポジトリの AI 可読性・運用可視性診断（上流から下流の依存順）",
+      projectDoc: {
+        path: "CLAUDE.md",
+        note: "プロジェクトの<strong>索引兼行動原則</strong>。AI が毎回のセッション開始時に自動で読み込む",
+        gap: "技術構成・コマンド一覧・行動原則を 1 ファイルに整理して配置"
+      },
+      ruleFile: {
+        path: "rules/",
+        note: "規約を Markdown で記述。<strong>編集対象に応じて必要な規約だけ</strong>が AI に自動で届く",
+        gap: "命名規則・コーディング規約をファイル種別ごとに文書化"
+      },
+      workManual: {
+        path: "skills/",
+        note: "定型作業を手順書として構造化。<strong>名前で呼ぶだけ</strong>で AI が手順どおりに動く",
+        gap: "頻出の作業パターンを洗い出し、再利用可能な手順書に整理"
+      },
+      sourceLine: "出典：対象リポジトリの実地調査に基づく（調査時点の構成）"
+    },
+    "cursor": {
+      docTitle: "Cursor 導入 リポジトリ整備の現状と理想",
+      eyebrow: "GAP ANALYSIS — CURSOR",
+      leadBand: "AI エディタが自走するには「読める文書」と「見える仕組み」をプロジェクトに揃える",
+      headMsg1: "現在のプロジェクトには AI エディタが参照できる文書も、人が俯瞰できる可視化基盤もない",
+      headMsg2: "依存関係の上流から順に 5 種類の文書・仕組みを整備し、AI と人の両方に情報を届ける",
+      tableCaption: "対象プロジェクトの AI 可読性・運用可視性診断（上流から下流の依存順）",
+      projectDoc: {
+        path: "AGENTS.md",
+        note: "プロジェクトの<strong>技術構成・行動原則</strong>を記述。エージェントがコンテキストとして自動参照する",
+        gap: "技術構成・コマンド一覧・行動原則を AGENTS.md に整理して配置"
+      },
+      ruleFile: {
+        path: ".cursor/rules/",
+        note: "MDC 形式の規約ファイル。<strong>ファイル条件で該当ファイル編集時のみ</strong>自動で届く",
+        gap: "命名規則・コーディング規約をファイル種別ごとに文書化"
+      },
+      workManual: {
+        path: "SKILL.md",
+        note: "Agent Skills で<strong>再利用可能な作業手順を定義</strong>し、必要時にエージェントへ読み込ませる",
+        gap: "頻出の作業パターンを洗い出し、SKILL.md として定型化"
+      },
+      sourceLine: "出典：対象プロジェクトの実地調査に基づく（調査時点の構成）"
+    },
+    "codex": {
+      docTitle: "Codex CLI 導入 リポジトリ整備の現状と理想",
+      eyebrow: "GAP ANALYSIS — CODEX CLI",
+      leadBand: "AI エージェントが自走するには「読める文書」と「見える仕組み」をリポジトリに揃える",
+      headMsg1: "現在のリポジトリには AI エージェントが参照できる文書も、人が俯瞰できる可視化基盤もない",
+      headMsg2: "Codex CLI は設定ファイルが少ない分、説明書と設計書の質が自走精度を直接左右する",
+      tableCaption: "対象リポジトリの AI 可読性・運用可視性診断（上流から下流の依存順）",
+      projectDoc: {
+        path: "AGENTS.md",
+        note: "プロジェクトの<strong>行動原則と作業手順</strong>。実行開始時に自動で読み込まれる",
+        gap: "技術構成・コマンド一覧・行動原則・主要手順を 1 ファイルに集約"
+      },
+      ruleFile: {
+        path: "AGENTS.md に集約",
+        note: "規約の分離機構がないため、<strong>説明書に規約セクションを設けて</strong>一元管理する",
+        gap: "命名規則・コーディング規約を説明書内のセクションとして整理"
+      },
+      workManual: {
+        path: "AGENTS.md に集約",
+        note: "手順の分離機構がないため、<strong>説明書に手順セクションを設けて</strong>定型化する",
+        gap: "頻出の作業パターンを洗い出し、説明書内のセクションに整理"
+      },
+      sourceLine: "出典：対象リポジトリの実地調査に基づく（調査時点の構成）"
+    }
+  };
+
+  var ROW_KEYS = ["projectDoc", "ruleFile", "workManual"];
+  var ROW_DATA_V = { projectDoc: "project-doc", ruleFile: "rule-file", workManual: "work-manual" };
+
+  function resolveInitialSlug(){
+    var hashSlug = (location.hash || "").replace("#", "");
+    if (VARIANTS[hashSlug]) return hashSlug;
+
+    var path = "";
+    try { path = decodeURIComponent(location.pathname); } catch (e) { path = location.pathname; }
+    var m = path.match(/[（(](Claude Code|Cursor|Codex(?: CLI)?)版[）)]/);
+    if (m) {
+      var name = m[1];
+      if (name === "Claude Code") return "claude-code";
+      if (name === "Cursor") return "cursor";
+      if (name.indexOf("Codex") === 0) return "codex";
+    }
+    return "claude-code";
+  }
+
+  function applyVariant(slug){
+    var actual = VARIANTS[slug] ? slug : "claude-code";
+    var v = VARIANTS[actual];
+
+    document.title = v.docTitle;
+    document.querySelector('[data-v="eyebrow"]').textContent = v.eyebrow;
+    document.querySelector('[data-v="lead-band"]').textContent = v.leadBand;
+    document.querySelector('[data-v="head-msg-1"]').textContent = v.headMsg1;
+    document.querySelector('[data-v="head-msg-2"]').textContent = v.headMsg2;
+    document.querySelector('[data-v="table-caption"]').textContent = v.tableCaption;
+    document.querySelector('[data-v="source-line"]').textContent = v.sourceLine;
+
+    for (var i = 0; i < ROW_KEYS.length; i++) {
+      var key = ROW_KEYS[i];
+      var dv = ROW_DATA_V[key];
+      var row = v[key];
+      document.querySelector('[data-v="' + dv + '-path"]').textContent = row.path;
+      document.querySelector('[data-v="' + dv + '-note"]').innerHTML = row.note;
+      document.querySelector('[data-v="' + dv + '-gap"]').textContent = row.gap;
+    }
+
+    var buttons = document.querySelectorAll('#variant-tabs button');
+    for (var j = 0; j < buttons.length; j++) {
+      var btn = buttons[j];
+      if (btn.dataset.slug === actual) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    }
+
+    return actual;
+  }
+
+  function switchVariant(slug, updateHash){
+    var actual = applyVariant(slug);
+    if (updateHash) {
+      history.replaceState(null, "", "#" + actual);
+    }
+    return actual;
+  }
+
+  var initial = resolveInitialSlug();
+  var actualInitial = switchVariant(initial, false);
+  if (!location.hash) {
+    history.replaceState(null, "", "#" + actualInitial);
+  }
+
+  var tabButtons = document.querySelectorAll('#variant-tabs button');
+  for (var k = 0; k < tabButtons.length; k++) {
+    tabButtons[k].addEventListener('click', (function(btn){
+      return function(){ switchVariant(btn.dataset.slug, true); };
+    })(tabButtons[k]));
+  }
+
+  window.addEventListener('hashchange', function(){
+    var slug = (location.hash || "").replace("#", "");
+    if (!VARIANTS[slug]) return;
+    var activeBtn = document.querySelector('#variant-tabs button.active');
+    if (activeBtn && activeBtn.dataset.slug === slug) return;
+    switchVariant(slug, false);
+  });
 })();
 </script>

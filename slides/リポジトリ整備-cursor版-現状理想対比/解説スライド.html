@@ -1,83 +1,16 @@
 <meta charset="utf-8">
 <title>Cursor 導入 リポジトリ整備の現状と理想</title>
+<meta http-equiv="refresh" content="0; url=../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html#cursor">
 <style>
-  :root {
-    --page: #EDF0F4; --surface: #FFFFFF; --ink: #1C2B3A; --ink-2: #55667A;
-    --ink-3: #8494A6; --border: #D9E0E8; --grid: #E9EDF2;
-    --critical: #C0392B; --critical-soft: #FAECEA;
-    --good: #1F7A46; --good-soft: #EAF4EE; --tag-bg: #EDF1F6;
-    --claude: #D97757; --claude-deep: #BC5B3B; --claude-soft: #FBF0EA;
-    --cursor: #23282E; --cursor-soft: #EFF1F4;
+  body {
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    color: #1C2B3A;
+    padding: 40px;
   }
-  html, body { height: 100%; overflow: hidden; }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--page); }
-  .slide-viewport { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--page); overflow: hidden; }
-  .slide { position: absolute; top: 50%; left: 50%; width: 1280px; height: 720px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 4px 24px rgba(28,43,58,0.08); display: flex; flex-direction: column; padding: 40px 48px; gap: 18px; font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif; transform: translate(-50%,-50%) scale(var(--slide-scale,1)); transform-origin: center center; }
-  .slide-header { display: flex; flex-direction: column; gap: 4px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
-  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
-  .slide-title { font-size: 32px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
-  .lead-band { background: var(--ink); color: var(--surface); border-radius: 6px; padding: 12px 20px; font-size: 19px; font-weight: 700; text-align: center; letter-spacing: 0.02em; }
-  .head-message { display: flex; flex-direction: column; gap: 5px; }
-  .head-message p { display: flex; gap: 7px; font-size: 15px; font-weight: 600; line-height: 1.55; color: var(--ink); }
-  .head-message .mark { color: var(--claude-deep); flex-shrink: 0; }
-  .argument-table { width: 100%; flex: 1; border-collapse: collapse; table-layout: fixed; }
-  .argument-table caption { text-align: left; font-size: 13px; font-weight: 700; color: var(--ink-3); padding-bottom: 6px; }
-  .argument-table th { background: var(--ink); color: var(--surface); font-size: 13px; font-weight: 700; text-align: left; padding: 7px 12px; }
-  .argument-table th:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
-  .argument-table th:last-child { border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
-  .col-step { width: 5%; } .col-category { width: 11%; } .col-current { width: 28%; } .col-ideal { width: 29%; } .col-gap { width: 27%; }
-  .argument-table td { vertical-align: top; border-bottom: 1px solid var(--border); padding: 9px 12px; font-size: 12px; color: var(--ink-2); line-height: 1.5; }
-  .argument-table tbody tr:nth-child(even) td { background: var(--tag-bg); }
-  .cell-issue { font-weight: 700; color: var(--ink); }
-  .step-chip { display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--claude); color: #fff; font-size: 12px; font-weight: 700; margin: 0 auto; }
-  .badge-critical { display: inline-block; font-family: 'SF Mono','Cascadia Code','Consolas','Menlo',monospace; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--critical-soft); color: var(--critical); line-height: 1.5; white-space: nowrap; }
-  .badge-path { display: inline-block; font-family: 'SF Mono','Cascadia Code','Consolas','Menlo',monospace; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--surface); color: var(--ink); border: 1px solid var(--border); line-height: 1.5; white-space: nowrap; }
-  .cell-note { display: block; margin-top: 4px; font-size: 11.5px; color: var(--ink-2); line-height: 1.45; }
-  .cell-note strong { color: var(--ink); font-weight: 600; }
-  .gap-action { position: relative; padding-left: 14px; font-size: 12px; color: var(--ink-2); line-height: 1.5; }
-  .gap-action::before { content: '\2192'; position: absolute; left: 0; top: 0; color: var(--claude); font-weight: 700; }
-  .source-line { font-size: 11px; color: var(--ink-3); border-top: 1px solid var(--border); padding-top: 6px; }
-  .slide-meta { height: 24px; padding-top: 6px; border-top: 1px solid var(--border); }
+  a { color: #D97757; }
 </style>
-<div class="slide-viewport"><div class="slide">
-  <header class="slide-header">
-    <span class="slide-eyebrow">GAP ANALYSIS — CURSOR</span>
-    <h1 class="slide-title">リポジトリ整備の現状と理想</h1>
-  </header>
-  <div class="lead-band">AI エディタが自走するには「読める文書」と「見える仕組み」をプロジェクトに揃える</div>
-  <section class="head-message">
-    <p><span class="mark">■</span><span>現在のプロジェクトには AI エディタが参照できる文書も、人が俯瞰できる可視化基盤もない</span></p>
-    <p><span class="mark">■</span><span>依存関係の上流から順に 5 種類の文書・仕組みを整備し、AI と人の両方に情報を届ける</span></p>
-  </section>
-  <table class="argument-table">
-    <caption>対象プロジェクトの AI 可読性・運用可視性診断（上流から下流の依存順）</caption>
-    <colgroup><col class="col-step"><col class="col-category"><col class="col-current"><col class="col-ideal"><col class="col-gap"></colgroup>
-    <thead><tr><th scope="col"></th><th scope="col">カテゴリ</th><th scope="col">現状</th><th scope="col">理想</th><th scope="col">ギャップ</th></tr></thead>
-    <tbody>
-      <tr><td><span class="step-chip">1</span></td><td class="cell-issue">プロジェクト<br>説明書</td>
-        <td><span class="badge-critical">未作成</span><span class="cell-note">技術構成・使えるコマンド・守るべき原則を AI に伝える手段がない</span></td>
-        <td><span class="badge-path">AGENTS.md</span><span class="cell-note">プロジェクトの<strong>技術構成・行動原則</strong>を記述。エージェントがコンテキストとして自動参照する</span></td>
-        <td><span class="gap-action">技術構成・コマンド一覧・行動原則を AGENTS.md に整理して配置</span></td></tr>
-      <tr><td><span class="step-chip">2</span></td><td class="cell-issue">設計書</td>
-        <td><span class="badge-critical">0件</span><span class="cell-note">機能仕様が口頭や Slack に散在。AI は実装意図を推測するしかない</span></td>
-        <td><span class="badge-path">docs/</span><span class="cell-note"><strong>機能設計書・画面設計書</strong>を格納。AI が仕様を参照しながら正確に実装できる</span></td>
-        <td><span class="gap-action">主要機能ごとに設計書を作成し、体系的に配置</span></td></tr>
-      <tr><td><span class="step-chip">3</span></td><td class="cell-issue">規約<br>ファイル</td>
-        <td><span class="badge-critical">0件</span><span class="cell-note">命名規則・コーディング規約が暗黙知。AI は毎回異なる書き方をする</span></td>
-        <td><span class="badge-path">.cursor/rules/</span><span class="cell-note">MDC 形式の規約ファイル。<strong>ファイル条件で該当ファイル編集時のみ</strong>自動で届く</span></td>
-        <td><span class="gap-action">命名規則・コーディング規約をファイル種別ごとに文書化</span></td></tr>
-      <tr><td><span class="step-chip">4</span></td><td class="cell-issue">作業<br>手順書</td>
-        <td><span class="badge-critical">未整備</span><span class="cell-note">繰り返し作業の手順が属人化。人が毎回口頭で指示している</span></td>
-        <td><span class="badge-path">SKILL.md</span><span class="cell-note">Agent Skills で<strong>再利用可能な作業手順を定義</strong>し、必要時にエージェントへ読み込ませる</span></td>
-        <td><span class="gap-action">頻出の作業パターンを洗い出し、SKILL.md として定型化</span></td></tr>
-      <tr><td><span class="step-chip">5</span></td><td class="cell-issue">可視化<br>サイト</td>
-        <td><span class="badge-critical">なし</span><span class="cell-note">規約・画面一覧・API 一覧など、人が全体を俯瞰する手段がない</span></td>
-        <td><span class="badge-path">project-portal/</span><span class="cell-note">規約一覧・画面一覧・マスタ表を<strong>ブラウザで閲覧できるサイト</strong>として構築</span></td>
-        <td><span class="gap-action">規約・画面・API の索引を HTML で構築し、人と AI の共通参照点にする</span></td></tr>
-    </tbody>
-  </table>
-  <p class="source-line">出典：対象プロジェクトの実地調査に基づく（調査時点の構成）</p>
-  <footer class="slide-meta"></footer>
-</div></div>
-<script>(function(){function f(){document.documentElement.style.setProperty('--slide-scale',Math.min(innerWidth/1280,innerHeight/720));}addEventListener('resize',f);f();})();</script>
+<script>
+  location.replace("../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html#cursor");
+</script>
+<p>このスライドは統合版に移動しました。</p>
+<p>自動で移動しない場合は<a href="../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html#cursor">こちら</a>。</p>

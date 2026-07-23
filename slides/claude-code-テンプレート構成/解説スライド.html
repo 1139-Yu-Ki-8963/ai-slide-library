@@ -21,6 +21,63 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--page); }
 
+  #variant-tabs {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+  }
+  #variant-tabs button {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--ink-2);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  #variant-tabs button.active {
+    background: var(--claude);
+    border-color: var(--claude);
+    color: #fff;
+  }
+
+  #related-links {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    font-size: 12px;
+  }
+  #related-links .related-label {
+    color: var(--ink-3);
+    font-weight: 700;
+  }
+  #related-links a {
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--ink-2);
+    padding: 6px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+  }
+  #related-links a:hover {
+    border-color: var(--claude);
+    color: var(--claude);
+  }
+
   .slide-viewport {
     width: 100vw; height: 100vh;
     display: flex; align-items: center; justify-content: center;
@@ -114,13 +171,25 @@
   }
 </style>
 
+<nav id="variant-tabs">
+  <button type="button" data-slug="claude-code">Claude Code</button>
+  <button type="button" data-slug="cursor">Cursor</button>
+  <button type="button" data-slug="codex">Codex CLI</button>
+</nav>
+
+<nav id="related-links">
+  <span class="related-label">関連:</span>
+  <a href="../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html">リポジトリ整備の現状と理想</a>
+  <a href="../四半期計画-AI整備計画表/解説スライド.html">AI導入計画</a>
+</nav>
+
 <div class="slide-viewport">
   <div class="slide">
 
     <header class="slide-header">
-      <span class="slide-eyebrow">Claude Code</span>
-      <h1 class="slide-title">Claude Code — AI駆動開発の docs 配置ガイド</h1>
-      <p class="slide-subtitle">.md に書いてここに置く — それだけで AI の行動が変わる</p>
+      <span class="slide-eyebrow" data-v="eyebrow">Claude Code</span>
+      <h1 class="slide-title" data-v="title">Claude Code — AI駆動開発の docs 配置ガイド</h1>
+      <p class="slide-subtitle" data-v="subtitle">.md に書いてここに置く — それだけで AI の行動が変わる</p>
     </header>
 
     <table class="guide-table">
@@ -134,67 +203,67 @@
       <tbody>
         <tr>
           <td>
-            <span class="content-label">プロジェクト概要</span>
-            <span class="content-detail">技術スタック・用語集・設定索引</span>
+            <span class="content-label" data-v="doc-overview-label">プロジェクト概要</span>
+            <span class="content-detail" data-v="doc-overview-detail">技術スタック・用語集・設定索引</span>
           </td>
           <td>
-            <span class="path-main">CLAUDE.md</span>
-            <span class="path-sub">ルート直下（親ディレクトリから順に読込）<br>プレーン Markdown・frontmatter 不要</span>
+            <span class="path-main" data-v="doc-overview-path-main">CLAUDE.md</span>
+            <span class="path-sub" data-v="doc-overview-path-sub">ルート直下（親ディレクトリから順に読込）<br>プレーン Markdown・frontmatter 不要</span>
           </td>
           <td>
-            <span class="effect-text">毎回のセッション開始時に自動で読み込まれる<br><span class="effect-arrow">&rarr;</span> AI が常にプロジェクトの文脈を把握した状態で作業する</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span class="content-label">コーディング規約</span>
-            <span class="content-detail">命名ルール・DB設計規約・レビュー基準</span>
-          </td>
-          <td>
-            <span class="path-main">.claude/rules/*.md</span>
-            <span class="path-sub">プレーン Markdown（frontmatter 不要）<br>00-global.md &nbsp; 常時適用<br>10-frontend.md &nbsp; paths: src/**<br>50-database.md &nbsp; paths: db/**</span>
-          </td>
-          <td>
-            <span class="effect-text">paths 条件で該当ファイル編集時だけ注入される<br><span class="effect-arrow">&rarr;</span> 生成されるコードが規約に従う</span>
+            <span class="effect-text" data-v="doc-overview-effect">毎回のセッション開始時に自動で読み込まれる<br><span class="effect-arrow">&rarr;</span> AI が常にプロジェクトの文脈を把握した状態で作業する</span>
           </td>
         </tr>
         <tr>
           <td>
-            <span class="content-label">操作手順・ワークフロー</span>
-            <span class="content-detail">デプロイ手順・コミットフロー</span>
+            <span class="content-label" data-v="coding-rule-label">コーディング規約</span>
+            <span class="content-detail" data-v="coding-rule-detail">命名ルール・DB設計規約・レビュー基準</span>
           </td>
           <td>
-            <span class="path-main">.claude/skills/</span>
-            <span class="path-sub">SKILL.md に手順を記述<br>adapt/ &nbsp; safe-commit/</span>
+            <span class="path-main" data-v="coding-rule-path-main">.claude/rules/*.md</span>
+            <span class="path-sub" data-v="coding-rule-path-sub">プレーン Markdown（frontmatter 不要）<br>00-global.md &nbsp; 常時適用<br>10-frontend.md &nbsp; paths: src/**<br>50-database.md &nbsp; paths: db/**</span>
           </td>
           <td>
-            <span class="effect-text">/コマンド名 で必要な時だけ呼び出される<br><span class="effect-arrow">&rarr;</span> 手順が属人化せず再現可能になる</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span class="content-label">サブエージェント定義</span>
-            <span class="content-detail">専門役割の分離・タスク委任</span>
-          </td>
-          <td>
-            <span class="path-main">.claude/agents/*.md</span>
-            <span class="path-sub">YAML frontmatter で model/tools を指定<br>reviewer.md &nbsp; investigator.md</span>
-          </td>
-          <td>
-            <span class="effect-text">Agent ツールから専門エージェントとして呼び出される<br><span class="effect-arrow">&rarr;</span> 役割ごとにツール権限とモデルを制御できる</span>
+            <span class="effect-text" data-v="coding-rule-effect">paths 条件で該当ファイル編集時だけ注入される<br><span class="effect-arrow">&rarr;</span> 生成されるコードが規約に従う</span>
           </td>
         </tr>
         <tr>
           <td>
-            <span class="content-label">実行制御・環境設定</span>
-            <span class="content-detail">フック・権限・外部ツール接続</span>
+            <span class="content-label" data-v="operation-flow-label">操作手順・ワークフロー</span>
+            <span class="content-detail" data-v="operation-flow-detail">デプロイ手順・コミットフロー</span>
           </td>
           <td>
-            <span class="path-main">settings.json + .mcp.json</span>
-            <span class="path-sub">settings.json &nbsp; hooks / permissions<br>.mcp.json &nbsp; MCP サーバー接続<br>allow / deny でコマンド許可を制御</span>
+            <span class="path-main" data-v="operation-flow-path-main">.claude/skills/</span>
+            <span class="path-sub" data-v="operation-flow-path-sub">SKILL.md に手順を記述<br>adapt/ &nbsp; safe-commit/</span>
           </td>
           <td>
-            <span class="effect-text">PreToolUse / PostToolUse 等のフックで動作を制御<br><span class="effect-arrow">&rarr;</span> コマンド実行の許可・拒否を精密に管理できる</span>
+            <span class="effect-text" data-v="operation-flow-effect">/コマンド名 で必要な時だけ呼び出される<br><span class="effect-arrow">&rarr;</span> 手順が属人化せず再現可能になる</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="content-label" data-v="subagent-def-label">サブエージェント定義</span>
+            <span class="content-detail" data-v="subagent-def-detail">専門役割の分離・タスク委任</span>
+          </td>
+          <td>
+            <span class="path-main" data-v="subagent-def-path-main">.claude/agents/*.md</span>
+            <span class="path-sub" data-v="subagent-def-path-sub">YAML frontmatter で model/tools を指定<br>reviewer.md &nbsp; investigator.md</span>
+          </td>
+          <td>
+            <span class="effect-text" data-v="subagent-def-effect">Agent ツールから専門エージェントとして呼び出される<br><span class="effect-arrow">&rarr;</span> 役割ごとにツール権限とモデルを制御できる</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="content-label" data-v="exec-control-label">実行制御・環境設定</span>
+            <span class="content-detail" data-v="exec-control-detail">フック・権限・外部ツール接続</span>
+          </td>
+          <td>
+            <span class="path-main" data-v="exec-control-path-main">settings.json + .mcp.json</span>
+            <span class="path-sub" data-v="exec-control-path-sub">settings.json &nbsp; hooks / permissions<br>.mcp.json &nbsp; MCP サーバー接続<br>allow / deny でコマンド許可を制御</span>
+          </td>
+          <td>
+            <span class="effect-text" data-v="exec-control-effect">PreToolUse / PostToolUse 等のフックで動作を制御<br><span class="effect-arrow">&rarr;</span> コマンド実行の許可・拒否を精密に管理できる</span>
           </td>
         </tr>
       </tbody>
@@ -215,5 +284,221 @@
   }
   addEventListener('resize', f);
   f();
+})();
+</script>
+
+<script>
+(function(){
+  const VARIANTS = {
+    "claude-code": {
+      accent: "#D97757",
+      eyebrow: "Claude Code",
+      title: "Claude Code — AI駆動開発の docs 配置ガイド",
+      subtitle: ".md に書いてここに置く — それだけで AI の行動が変わる",
+      rows: {
+        "doc-overview": {
+          label: "プロジェクト概要",
+          detail: "技術スタック・用語集・設定索引",
+          pathMain: "CLAUDE.md",
+          pathSub: "ルート直下（親ディレクトリから順に読込）<br>プレーン Markdown・frontmatter 不要",
+          effect: "毎回のセッション開始時に自動で読み込まれる<br><span class=\"effect-arrow\">&rarr;</span> AI が常にプロジェクトの文脈を把握した状態で作業する"
+        },
+        "coding-rule": {
+          label: "コーディング規約",
+          detail: "命名ルール・DB設計規約・レビュー基準",
+          pathMain: ".claude/rules/*.md",
+          pathSub: "プレーン Markdown（frontmatter 不要）<br>00-global.md &nbsp; 常時適用<br>10-frontend.md &nbsp; paths: src/**<br>50-database.md &nbsp; paths: db/**",
+          effect: "paths 条件で該当ファイル編集時だけ注入される<br><span class=\"effect-arrow\">&rarr;</span> 生成されるコードが規約に従う"
+        },
+        "operation-flow": {
+          label: "操作手順・ワークフロー",
+          detail: "デプロイ手順・コミットフロー",
+          pathMain: ".claude/skills/",
+          pathSub: "SKILL.md に手順を記述<br>adapt/ &nbsp; safe-commit/",
+          effect: "/コマンド名 で必要な時だけ呼び出される<br><span class=\"effect-arrow\">&rarr;</span> 手順が属人化せず再現可能になる"
+        },
+        "subagent-def": {
+          label: "サブエージェント定義",
+          detail: "専門役割の分離・タスク委任",
+          pathMain: ".claude/agents/*.md",
+          pathSub: "YAML frontmatter で model/tools を指定<br>reviewer.md &nbsp; investigator.md",
+          effect: "Agent ツールから専門エージェントとして呼び出される<br><span class=\"effect-arrow\">&rarr;</span> 役割ごとにツール権限とモデルを制御できる"
+        },
+        "exec-control": {
+          label: "実行制御・環境設定",
+          detail: "フック・権限・外部ツール接続",
+          pathMain: "settings.json + .mcp.json",
+          pathSub: "settings.json &nbsp; hooks / permissions<br>.mcp.json &nbsp; MCP サーバー接続<br>allow / deny でコマンド許可を制御",
+          effect: "PreToolUse / PostToolUse 等のフックで動作を制御<br><span class=\"effect-arrow\">&rarr;</span> コマンド実行の許可・拒否を精密に管理できる"
+        }
+      }
+    },
+    "cursor": {
+      accent: "#23282E",
+      eyebrow: "CURSOR",
+      title: "Cursor — AI駆動開発の docs 配置ガイド",
+      subtitle: ".mdc に書いてここに置く — それだけで AI の行動が変わる",
+      rows: {
+        "doc-overview": {
+          label: "プロジェクト概要",
+          detail: "技術スタック・用語集・コーディング方針",
+          pathMain: "AGENTS.md",
+          pathSub: "ルート直下（サブディレクトリにもネスト可）<br>frontmatter 不要・Codex/Copilot と共有可",
+          effect: "セッション開始時に自動で読み込まれる<br><span class=\"effect-arrow\">&rarr;</span> AI が常にプロジェクトの文脈を把握した状態で作業する"
+        },
+        "coding-rule": {
+          label: "コーディング規約",
+          detail: "命名ルール・DB設計規約・レビュー基準",
+          pathMain: ".cursor/rules/*.mdc",
+          pathSub: "YAML frontmatter + Markdown（.md は無視）<br>alwaysApply: true &nbsp; 常時適用<br>globs: src/** &nbsp; パス限定で自動適用<br>description のみ &nbsp; AI が判断して適用",
+          effect: "frontmatter の3フィールドで適用条件を制御<br><span class=\"effect-arrow\">&rarr;</span> @ルール名 での手動呼び出しにも対応する"
+        },
+        "operation-flow": {
+          label: "操作手順・ワークフロー",
+          detail: "デプロイ手順・コミットフロー",
+          pathMain: ".cursor/skills/",
+          pathSub: "deploy-flow/ &nbsp; デプロイ手順<br>safe-commit/ &nbsp; コミットフロー",
+          effect: "/スキル名 で必要な時だけ呼び出される<br><span class=\"effect-arrow\">&rarr;</span> 手順が属人化せず再現可能になる"
+        },
+        "subagent-def": {
+          label: "サブエージェント定義",
+          detail: "専門役割の分離・タスク委任",
+          pathMain: ".cursor/agents/*.md",
+          pathSub: "YAML frontmatter で name/model を指定<br>verifier.md &nbsp; reviewer.md",
+          effect: "独自コンテキストで並列実行される<br><span class=\"effect-arrow\">&rarr;</span> 複雑なタスクを専門エージェントに自動委任できる"
+        },
+        "exec-control": {
+          label: "実行制御・環境設定",
+          detail: "フック・外部ツール・権限・除外",
+          pathMain: ".cursor/ 配下の設定群",
+          pathSub: "hooks.json &nbsp; preToolUse 等のフック<br>mcp.json &nbsp; 外部ツール接続<br>permissions.json &nbsp; コマンド自動実行の許可",
+          effect: "エージェントの動作範囲と安全境界を制御する<br><span class=\"effect-arrow\">&rarr;</span> .cursorignore でファイルのアクセス除外も可能"
+        }
+      }
+    },
+    "codex": {
+      accent: "#10A37F",
+      eyebrow: "CODEX CLI",
+      title: "Codex CLI — AI駆動開発の docs 配置ガイド",
+      subtitle: "AGENTS.md と .codex/ に書いてここに置く — それだけで AI の行動が変わる",
+      rows: {
+        "doc-overview": {
+          label: "プロジェクト指示",
+          detail: "技術スタック・用語集・作業規約・避けるべきパス",
+          pathMain: "AGENTS.md",
+          pathSub: "ルート〜サブディレクトリに階層配置<br>近い階層ほど優先・全ファイルを連結読込<br>Cursor/Copilot と共有可",
+          effect: "セッション開始時にルートから順に自動で読み込まれる<br><span class=\"effect-arrow\">&rarr;</span> ディレクトリ階層がそのままスコープ付きルールになる"
+        },
+        "coding-rule": {
+          label: "中央設定",
+          detail: "モデル選択・MCP接続・サンドボックス・承認ポリシー",
+          pathMain: ".codex/config.toml",
+          pathSub: "TOML 形式（信頼済みプロジェクトのみ読込）<br>sandbox_mode &nbsp; approval_policy<br>[mcp_servers.名前] &nbsp; 外部ツール接続",
+          effect: "モデル・権限・外部ツールを一元管理できる<br><span class=\"effect-arrow\">&rarr;</span> sandbox で read-only / write / full-access を制御する"
+        },
+        "operation-flow": {
+          label: "操作手順・ワークフロー",
+          detail: "デプロイ手順・コミットフロー",
+          pathMain: ".agents/skills/",
+          pathSub: "SKILL.md + scripts/ + references/<br>deploy-flow/ &nbsp; safe-commit/",
+          effect: "/skills や $ で必要な時だけ呼び出される<br><span class=\"effect-arrow\">&rarr;</span> 手順が属人化せず再現可能になる"
+        },
+        "subagent-def": {
+          label: "サブエージェント定義",
+          detail: "専門役割の分離・タスク委任",
+          pathMain: ".codex/agents/*.toml",
+          pathSub: "TOML 形式で name/description/model を指定<br>verifier.toml &nbsp; reviewer.toml",
+          effect: "独自コンテキストで最大6並列で実行される<br><span class=\"effect-arrow\">&rarr;</span> 複雑なタスクを専門エージェントに自動委任できる"
+        },
+        "exec-control": {
+          label: "実行フック",
+          detail: "ツール実行前後の自動処理",
+          pathMain: ".codex/hooks.json",
+          pathSub: "JSON 形式・stdin/stdout で JSON をやり取り<br>PreToolUse &nbsp; PostToolUse &nbsp; Stop",
+          effect: "ツール実行やセッション終了時にスクリプトが自動発火<br><span class=\"effect-arrow\">&rarr;</span> lint・テスト・通知などを自動化できる"
+        }
+      }
+    }
+  };
+
+  var ROW_KEYS = ["doc-overview", "coding-rule", "operation-flow", "subagent-def", "exec-control"];
+
+  function resolveInitialSlug(){
+    var hashSlug = (location.hash || "").replace("#", "");
+    if (VARIANTS[hashSlug]) return hashSlug;
+
+    var path = "";
+    try { path = decodeURIComponent(location.pathname); } catch (e) { path = location.pathname; }
+    var m = path.match(/[（(](Claude Code|Cursor|Codex(?: CLI)?)版[）)]/);
+    if (m) {
+      var name = m[1];
+      if (name === "Claude Code") return "claude-code";
+      if (name === "Cursor") return "cursor";
+      if (name.indexOf("Codex") === 0) return "codex";
+    }
+    return "claude-code";
+  }
+
+  function applyVariant(slug){
+    var actual = VARIANTS[slug] ? slug : "claude-code";
+    var v = VARIANTS[actual];
+
+    document.documentElement.style.setProperty('--claude', v.accent);
+    document.title = v.title;
+    document.querySelector('[data-v="eyebrow"]').textContent = v.eyebrow;
+    document.querySelector('[data-v="title"]').textContent = v.title;
+    document.querySelector('[data-v="subtitle"]').textContent = v.subtitle;
+
+    for (var i = 0; i < ROW_KEYS.length; i++) {
+      var key = ROW_KEYS[i];
+      var row = v.rows[key];
+      document.querySelector('[data-v="' + key + '-label"]').textContent = row.label;
+      document.querySelector('[data-v="' + key + '-detail"]').textContent = row.detail;
+      document.querySelector('[data-v="' + key + '-path-main"]').textContent = row.pathMain;
+      document.querySelector('[data-v="' + key + '-path-sub"]').innerHTML = row.pathSub;
+      document.querySelector('[data-v="' + key + '-effect"]').innerHTML = row.effect;
+    }
+
+    var buttons = document.querySelectorAll('#variant-tabs button');
+    for (var j = 0; j < buttons.length; j++) {
+      var btn = buttons[j];
+      if (btn.dataset.slug === actual) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    }
+
+    return actual;
+  }
+
+  function switchVariant(slug, updateHash){
+    var actual = applyVariant(slug);
+    if (updateHash) {
+      history.replaceState(null, "", "#" + actual);
+    }
+    return actual;
+  }
+
+  var initial = resolveInitialSlug();
+  var actualInitial = switchVariant(initial, false);
+  if (!location.hash) {
+    history.replaceState(null, "", "#" + actualInitial);
+  }
+
+  var tabButtons = document.querySelectorAll('#variant-tabs button');
+  for (var k = 0; k < tabButtons.length; k++) {
+    tabButtons[k].addEventListener('click', (function(btn){
+      return function(){ switchVariant(btn.dataset.slug, true); };
+    })(tabButtons[k]));
+  }
+
+  window.addEventListener('hashchange', function(){
+    var slug = (location.hash || "").replace("#", "");
+    if (!VARIANTS[slug]) return;
+    var activeBtn = document.querySelector('#variant-tabs button.active');
+    if (activeBtn && activeBtn.dataset.slug === slug) return;
+    switchVariant(slug, false);
+  });
 })();
 </script>

@@ -1,0 +1,163 @@
+#!/usr/bin/env node
+// slides/*/解説スライド.html に複製された同一クラスセレクタの CSS 宣言が
+// 個別編集でずれていないかを検査する警告専用スクリプト。
+// 依存パッケージなし。実行: node scripts/check-css-drift.mjs
+// 常に exit 0（警告のみ。コミットや CI を止めない）。
+import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const slidesDir = join(root, "slides");
+
+// --- 対象ファイルの収集（転送ページは除外） ---
+
+function listSlideFiles() {
+  const entries = readdirSync(slidesDir, { withFileTypes: true });
+  const files = [];
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    const slidePath = join(slidesDir, entry.name, "解説スライド.html");
+    if (!existsSync(slidePath)) continue;
+    files.push({ key: entry.name, path: slidePath });
+  }
+  return files;
+}
+
+function isTransferPage(html) {
+  return html.includes('http-equiv="refresh"');
+}
+
+// --- <style> ブロックからの CSS ルール抽出 ---
+
+function extractStyleContent(html) {
+  const blocks = [];
+  const re = /<style[^>]*>([\s\S]*?)<\/style>/g;
+  let m;
+  while ((m = re.exec(html)) !== null) {
+    blocks.push(m[1]);
+  }
+  return blocks.join("\n");
+}
+
+function stripComments(css) {
+  return css.replace(/\/\*[\s\S]*?\*\//g, "");
+}
+
+// selector { declarations } を、@media 等のネストも含めて展開する。
+// @ で始まるブロック自身はルールとして記録せず、内側の通常ルールのみを記録する。
+function extractRules(css) {
+  const rules = [];
+  const stack = [];
+  let buf = "";
+  for (let i = 0; i < css.length; i++) {
+    const ch = css[i];
+    if (ch === "{") {
+      stack.push({ selector: buf.trim(), bodyStart: i + 1 });
+      buf = "";
+      continue;
+    }
+    if (ch === "}") {
+      const top = stack.pop();
+      if (top) {
+        const body = css.slice(top.bodyStart, i);
+        if (top.selector && !top.selector.startsWith("@")) {
+          const selectors = top.selector.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+          for (const selector of selectors) {
+            rules.push({ selector: selector, body: body });
+          }
+        }
+      }
+      buf = "";
+      continue;
+    }
+    buf += ch;
+  }
+  return rules;
+}
+
+function normalizeBody(body) {
+  return body
+    .trim()
+    .replace(/\s+/g, " ")
+    .replace(/;\s*}/g, "}")
+    .replace(/;?\s*$/, "")
+    .split(";")
+    .map(function (decl) { return decl.trim(); })
+    .filter(Boolean)
+    .sort()
+    .join(";");
+}
+
+// クラスセレクタ（.foo・.foo th のような子孫含む）のみを乖離検査対象とする。
+function isClassSelector(selector) {
+  return selector.indexOf(".") !== -1 && selector.indexOf("@") !== 0;
+}
+
+// --- 収集・比較 ---
+
+const files = listSlideFiles();
+const targetFiles = [];
+const bySelector = new Map();
+
+for (const entry of files) {
+  const key = entry.key;
+  const path = entry.path;
+  const html = readFileSync(path, "utf8");
+  if (isTransferPage(html)) continue;
+  targetFiles.push(key);
+  const css = stripComments(extractStyleContent(html));
+  const rules = extractRules(css);
+  const seenInFile = new Set();
+  for (const rule of rules) {
+    const selector = rule.selector;
+    const body = rule.body;
+    if (!isClassSelector(selector)) continue;
+    const normalized = normalizeBody(body);
+    const dedupeKey = selector + "::" + normalized;
+    if (seenInFile.has(dedupeKey)) continue; // 同一ファイル内の完全重複は1件に畳む
+    seenInFile.add(dedupeKey);
+    if (!bySelector.has(selector)) bySelector.set(selector, []);
+    bySelector.get(selector).push({ file: key, normalized: normalized, raw: body });
+  }
+}
+
+let sharedSelectorCount = 0;
+let driftCount = 0;
+const warnings = [];
+
+for (const entry of bySelector) {
+  const selector = entry[0];
+  const occurrences = entry[1];
+  const fileMap = new Map();
+  for (const occ of occurrences) {
+    if (!fileMap.has(occ.file)) fileMap.set(occ.file, occ);
+  }
+  if (fileMap.size < 2) continue;
+  sharedSelectorCount++;
+
+  const normalizedValues = new Set();
+  for (const occ of fileMap.values()) normalizedValues.add(occ.normalized);
+  if (normalizedValues.size <= 1) continue;
+
+  driftCount++;
+  const filesList = Array.from(fileMap.keys());
+  const summaryLines = Array.from(fileMap.values()).map(function (o) {
+    return "    - " + o.file + ": " + (o.normalized || "(空)");
+  });
+  warnings.push(
+    "[乖離] " + selector + "\n" +
+    "  出現ファイル: " + filesList.join(", ") + "\n" +
+    "  差分の要約:\n" + summaryLines.join("\n")
+  );
+}
+
+if (warnings.length === 0) {
+  console.log("乖離なし");
+} else {
+  for (const w of warnings) {
+    console.log(w);
+  }
+}
+
+console.log("対象 " + targetFiles.length + " ファイル / 共有セレクタ " + sharedSelectorCount + " 件 / 乖離 " + driftCount + " 件");
