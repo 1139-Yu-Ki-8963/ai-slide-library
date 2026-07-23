@@ -293,3 +293,44 @@ test("check-css-drift.mjs が集計行を出す", () => {
   assert.match(output, /共有セレクタ\s*\d+\s*件/, "「共有セレクタ」を含む集計行が見つかりません");
   assert.match(output, /乖離\s*\d+\s*件/, "「乖離」を含む集計行が見つかりません");
 });
+
+// --- 統合スライド3枚の関連スライドリンク ---
+
+test("claude-code-テンプレート構成 に related-links が存在する", () => {
+  const html = readFileSync(canonicalSlidePath, "utf8");
+  assert.ok(html.includes('id="related-links"'), "id=\"related-links\" が見つかりません");
+  assert.ok(
+    html.includes("../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html"),
+    "リポジトリ整備への相対リンクが見つかりません",
+  );
+  assert.ok(
+    html.includes("../四半期計画-AI整備計画表/解説スライド.html"),
+    "AI導入計画への相対リンクが見つかりません",
+  );
+});
+
+test("リポジトリ整備-claude-code版-現状理想対比 に related-links が存在する", () => {
+  const html = readFileSync(repoSeibiCanonicalPath, "utf8");
+  assert.ok(html.includes('id="related-links"'), "id=\"related-links\" が見つかりません");
+  assert.ok(
+    html.includes("../claude-code-テンプレート構成/解説スライド.html"),
+    "テンプレート構成への相対リンクが見つかりません",
+  );
+  assert.ok(
+    html.includes("../四半期計画-AI整備計画表/解説スライド.html"),
+    "AI導入計画への相対リンクが見つかりません",
+  );
+});
+
+test("四半期計画-AI整備計画表 に related-links が存在する", () => {
+  const html = readFileSync(aiPlanCanonicalPath, "utf8");
+  assert.ok(html.includes('id="related-links"'), "id=\"related-links\" が見つかりません");
+  assert.ok(
+    html.includes("../claude-code-テンプレート構成/解説スライド.html"),
+    "テンプレート構成への相対リンクが見つかりません",
+  );
+  assert.ok(
+    html.includes("../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html"),
+    "リポジトリ整備への相対リンクが見つかりません",
+  );
+});

@@ -53,6 +53,35 @@
     color: #fff;
   }
 
+  #related-links {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    font-size: 12px;
+  }
+  #related-links .related-label {
+    color: var(--ink-3);
+    font-weight: 700;
+  }
+  #related-links a {
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--ink-2);
+    padding: 6px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+  }
+  #related-links a:hover {
+    border-color: var(--claude);
+    color: var(--claude);
+  }
+
   .slide-viewport {
     width: 100vw; height: 100vh;
     display: flex; align-items: center; justify-content: center;
@@ -227,6 +256,12 @@
   <button type="button" data-slug="claude-code">Claude Code</button>
   <button type="button" data-slug="cursor">Cursor</button>
   <button type="button" data-slug="codex">Codex CLI</button>
+</nav>
+
+<nav id="related-links">
+  <span class="related-label">関連:</span>
+  <a href="../claude-code-テンプレート構成/解説スライド.html">docs配置ガイド</a>
+  <a href="../四半期計画-AI整備計画表/解説スライド.html">AI導入計画</a>
 </nav>
 
 <div class="slide-viewport">
