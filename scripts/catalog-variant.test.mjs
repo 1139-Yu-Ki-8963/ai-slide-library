@@ -57,3 +57,61 @@ test("VARIANT_GROUPS が index.html に出力される", () => {
   assert.equal(aiPlanGroup.kind, "view");
   assert.equal(aiPlanGroup.canonical, "四半期計画-AI整備計画表");
 });
+
+// --- テンプレート構成の統合スライド化（タブ切替統合） ---
+
+const canonicalSlidePath = join(root, "slides", "claude-code-テンプレート構成", "解説スライド.html");
+const cursorSlidePath = join(root, "slides", "cursor-テンプレート構成", "解説スライド.html");
+const codexSlidePath = join(root, "slides", "codex-テンプレート構成", "解説スライド.html");
+
+test("統合スライドが3variantを内蔵する", () => {
+  const html = readFileSync(canonicalSlidePath, "utf8");
+  assert.ok(html.includes("const VARIANTS"), "const VARIANTS が見つかりません");
+  assert.ok(html.includes("claude-code"), "スラッグ claude-code が見つかりません");
+  assert.ok(html.includes("cursor"), "スラッグ cursor が見つかりません");
+  assert.ok(html.includes("codex"), "スラッグ codex が見つかりません");
+
+  // claude-code 固有の文言（旧 claude-code 版にしか無かった実文言）
+  assert.ok(html.includes("CLAUDE.md"), "claude-code 固有文言「CLAUDE.md」が見つかりません");
+  assert.ok(html.includes(".claude/rules"), "claude-code 固有文言「.claude/rules」が見つかりません");
+
+  // cursor 固有の文言（旧 cursor 版にしか無かった実文言）
+  assert.ok(html.includes(".cursor/rules"), "cursor 固有文言「.cursor/rules」が見つかりません");
+  assert.ok(html.includes(".cursorignore"), "cursor 固有文言「.cursorignore」が見つかりません");
+
+  // codex 固有の文言（旧 codex 版にしか無かった実文言）
+  assert.ok(html.includes(".codex/config.toml"), "codex 固有文言「.codex/config.toml」が見つかりません");
+  assert.ok(html.includes("sandbox_mode"), "codex 固有文言「sandbox_mode」が見つかりません");
+});
+
+test("タブUIが存在する", () => {
+  const html = readFileSync(canonicalSlidePath, "utf8");
+  assert.ok(html.includes("variant-tabs"), "variant-tabs（タブバーの id/class）が見つかりません");
+  assert.ok(html.includes("location.hash"), "location.hash 参照が見つかりません");
+});
+
+test("転送ページが代表を指す", () => {
+  const cursorHtml = readFileSync(cursorSlidePath, "utf8");
+  assert.ok(cursorHtml.includes('http-equiv="refresh"'), "cursor 転送ページに http-equiv=\"refresh\" が見つかりません");
+  assert.ok(
+    cursorHtml.includes("../claude-code-テンプレート構成/解説スライド.html#cursor"),
+    "cursor 転送ページに代表スライドへの参照（#cursor）が見つかりません",
+  );
+
+  const codexHtml = readFileSync(codexSlidePath, "utf8");
+  assert.ok(codexHtml.includes('http-equiv="refresh"'), "codex 転送ページに http-equiv=\"refresh\" が見つかりません");
+  assert.ok(
+    codexHtml.includes("../claude-code-テンプレート構成/解説スライド.html#codex"),
+    "codex 転送ページに代表スライドへの参照（#codex）が見つかりません",
+  );
+});
+
+test("転送ページがtitleを保持する", () => {
+  const cursorHtml = readFileSync(cursorSlidePath, "utf8");
+  const cursorTitle = (cursorHtml.match(/<title>([^<]*)<\/title>/) || [])[1] || "";
+  assert.ok(cursorTitle.includes("Cursor"), `cursor 転送ページの <title> に「Cursor」が含まれていません（実際: ${cursorTitle}）`);
+
+  const codexHtml = readFileSync(codexSlidePath, "utf8");
+  const codexTitle = (codexHtml.match(/<title>([^<]*)<\/title>/) || [])[1] || "";
+  assert.ok(codexTitle.includes("Codex"), `codex 転送ページの <title> に「Codex」が含まれていません（実際: ${codexTitle}）`);
+});
