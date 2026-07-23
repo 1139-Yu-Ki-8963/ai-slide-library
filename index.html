@@ -1972,10 +1972,12 @@ function renderGrid(visibleList) {
     const packLink = s.pack
       ? `<a class="act" href="${packZipPath}" download><span class="material-symbols-outlined">download</span>改善パック</a>`
       : "";
-    // 束ねカードも通常カードと同一の action bar を使う。保存名はグループの base_name に統一する
-    // （メンバーキー名ではなく「docs配置ガイド.html」のような代表名で保存される）。
-    const slideHtmlDownloadName = s.isBundle ? `${s.group.base_name}.html` : `${s.key}.html`;
-    const slideHtmlDownload = `<a class="act" href="${openPath}" download="${esc(slideHtmlDownloadName)}"><span class="material-symbols-outlined">download</span>スライドHTML</a>`;
+    // 束ねカードの実体（統合スライド）は複数タブ・関連リンク入りの全部入りファイルであり、
+    // そのまま保存すると顧客にそのまま渡せない。束ねカードは保存せず新規タブで開く動線にする。
+    // 通常カード（束ね対象外）は単一表示で顧客提出可能なため従来どおりダウンロードを維持する。
+    const slideHtmlDownload = s.isBundle
+      ? `<a class="act" href="${openPath}" target="_blank" rel="noopener"><span class="material-symbols-outlined">open_in_new</span>スライドを開く</a>`
+      : `<a class="act" href="${openPath}" download="${esc(`${s.key}.html`)}"><span class="material-symbols-outlined">download</span>スライドHTML</a>`;
     const entityList = (s.entities || []).length
       ? `<h3>導入されるもの</h3><ul>${(s.entities || []).map(e => `<li>${esc(e)}</li>`).join("")}</ul>`
       : "";
