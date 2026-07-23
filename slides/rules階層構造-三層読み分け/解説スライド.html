@@ -1,0 +1,302 @@
+<meta charset="utf-8">
+<title>規約は「所有レベル」×「注入タイミング」の 2 軸で整理する</title>
+<style>
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+    --claude: #D97757;
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;
+    --cursor-soft: #EFF1F4;
+    --global: #2B5EA7;
+    --global-soft: #E8F0FA;
+    --project: #1F7A46;
+    --project-soft: #EAF4EE;
+    --always: #6E4CA8;
+    --always-soft: #F0ECFA;
+    --scoped: #A67C1A;
+    --scoped-soft: #FDF6E4;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--page); }
+
+  .slide-viewport {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page); overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px; height: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+    display: flex; flex-direction: column;
+    padding: 32px 44px 24px;
+    gap: 12px;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* ── Header ── */
+  .slide-header {
+    display: flex; flex-direction: column; gap: 3px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .slide-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-title { font-size: 26px; font-weight: 700; line-height: 1.25; color: var(--ink); }
+  .slide-subtitle { font-size: 13px; color: var(--ink-2); }
+
+  /* ── Layer (Global / Project) ── */
+  .layer {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .layer--global { border-left: 4px solid var(--global); }
+  .layer--project { border-left: 4px solid var(--project); }
+
+  .layer-head {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .layer-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 22px; padding: 0 10px;
+    border-radius: 11px; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .layer-chip--global { background: var(--global); }
+  .layer-chip--project { background: var(--project); }
+  .layer-path {
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+    font-size: 11px; color: var(--ink-3);
+  }
+
+  /* ── Two-column scope grid inside each layer ── */
+  .scope-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+
+  .scope-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .scope-card--always { border-top: 3px solid var(--always); }
+  .scope-card--scoped { border-top: 3px solid var(--scoped); }
+
+  .scope-head {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .scope-tag {
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+    font-size: 12px; font-weight: 700;
+    padding: 1px 8px; border-radius: 4px;
+  }
+  .scope-tag--always { background: var(--always-soft); color: var(--always); }
+  .scope-tag--scoped { background: var(--scoped-soft); color: var(--scoped); }
+  .scope-when { font-size: 11px; color: var(--ink-3); }
+
+  /* ── Tree (reuse original) ── */
+  .tree {
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 7px 10px;
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+    font-size: 11px; line-height: 1.65;
+    color: var(--ink-2);
+    flex: 1; overflow: hidden;
+  }
+  .tree-line { display: flex; align-items: baseline; gap: 4px; white-space: nowrap; }
+  .tree-indent { color: var(--ink-3); user-select: none; }
+  .tree-folder { color: var(--ink); font-weight: 600; }
+  .tree-note { font-size: 10px; color: var(--ink-3); font-family: system-ui, sans-serif; }
+  .tree-tag {
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    font-size: 9px; font-weight: 600;
+    padding: 0px 5px; border-radius: 3px;
+    margin-left: auto; flex-shrink: 0;
+  }
+  .tree-tag--good { background: var(--good-soft); color: var(--good); }
+  .tree-tag--accent { background: var(--ink); color: #fff; }
+
+  /* ── Delegation arrow ── */
+  .delegation {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 2px 0;
+  }
+  .delegation svg { flex-shrink: 0; }
+  .delegation-label { font-size: 12px; font-weight: 700; color: var(--global); }
+  .delegation-detail { font-size: 11px; color: var(--ink-3); }
+
+  /* ── Constraint ── */
+  .constraint {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--critical-soft);
+    border: 1px solid #F0D0CC;
+    border-radius: 5px;
+    padding: 6px 12px;
+  }
+  .constraint-icon { font-size: 12px; font-weight: 700; color: var(--critical); flex-shrink: 0; }
+  .constraint-text { font-size: 11.5px; color: var(--critical); font-weight: 500; }
+
+  /* ── Footer ── */
+  .slide-footer {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+  .footer-axis { display: flex; gap: 8px; align-items: flex-start; }
+  .footer-axis-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--ink-3); white-space: nowrap; padding-top: 1px;
+  }
+  .footer-axis-desc { font-size: 12px; color: var(--ink-2); line-height: 1.4; }
+  .footer-axis-desc strong { color: var(--ink); }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <!-- Header -->
+    <header class="slide-header">
+      <span class="slide-eyebrow">CLAUDE CODE 設定管理</span>
+      <h1 class="slide-title">規約は「所有レベル」×「注入タイミング」の 2 軸で整理する</h1>
+      <p class="slide-subtitle">まずグローバルとプロジェクト固有に分け、それぞれの中で always / scoped を使い分ける</p>
+    </header>
+
+    <!-- ===== Global Layer ===== -->
+    <div class="layer layer--global">
+      <div class="layer-head">
+        <span class="layer-chip layer-chip--global">グローバル</span>
+        <span class="layer-path">~/agent-home/rules/</span>
+        <span class="scope-when">— 全プロジェクト共通の規約</span>
+      </div>
+      <div class="scope-grid">
+        <!-- Global always -->
+        <div class="scope-card scope-card--always">
+          <div class="scope-head">
+            <span class="scope-tag scope-tag--always">always/</span>
+            <span class="scope-when">全セッションで常時注入</span>
+          </div>
+          <div class="tree">
+            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">naming/commit-branch/</span> <span class="tree-note">命名規約</span> <span class="tree-tag tree-tag--good">hook 同居</span></div>
+            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">review-checklist/text-dictionary/</span> <span class="tree-note">語彙辞書</span></div>
+            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">agent/subagent-selection/</span> <span class="tree-note">委任規約</span> <span class="tree-tag tree-tag--good">hook 同居</span></div>
+            <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">response/language/</span> <span class="tree-note">応答言語・文体</span></div>
+          </div>
+        </div>
+        <!-- Global scoped -->
+        <div class="scope-card scope-card--scoped">
+          <div class="scope-head">
+            <span class="scope-tag scope-tag--scoped">scoped/</span>
+            <span class="scope-when">対象パス操作時のみ注入</span>
+          </div>
+          <div class="tree">
+            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">review-checklist/code/</span> <span class="tree-note">paths: <code>**/*.ts</code></span></div>
+            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">dev-flow/gate/</span> <span class="tree-note">paths: <code>src/**</code></span></div>
+            <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">agent-config/hooks/</span> <span class="tree-note">paths: <code>tools/hooks/**</code></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delegation arrow -->
+    <div class="delegation">
+      <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
+        <path d="M8 0 L8 14" stroke="var(--global)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M3 12 L8 18 L13 12" stroke="var(--global)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="delegation-label">値の委譲（追加のみ）</span>
+      <span class="delegation-detail">— 語彙・命名値をプロジェクトで追加できる。枠組みの上書きは不可</span>
+    </div>
+
+    <!-- ===== Project Layer ===== -->
+    <div class="layer layer--project">
+      <div class="layer-head">
+        <span class="layer-chip layer-chip--project">プロジェクト固有</span>
+        <span class="layer-path">&lt;repo&gt;/.claude/rules/</span>
+        <span class="scope-when">— リポジトリ単位の規約と値の追加</span>
+      </div>
+      <div class="scope-grid">
+        <!-- Project always -->
+        <div class="scope-card scope-card--always">
+          <div class="scope-head">
+            <span class="scope-tag scope-tag--always">always/</span>
+            <span class="scope-when">プロジェクト内で常時注入</span>
+          </div>
+          <div class="tree">
+            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">project-context/rule.md</span> <span class="tree-note">概要・技術スタック</span></div>
+            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">naming-values.txt</span> <span class="tree-tag tree-tag--good">委譲受け口</span></div>
+            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">prh.yml</span> <span class="tree-tag tree-tag--good">委譲受け口</span></div>
+            <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">domain/dictionary/</span> <span class="tree-note">ドメイン用語辞書</span></div>
+          </div>
+        </div>
+        <!-- Project scoped -->
+        <div class="scope-card scope-card--scoped">
+          <div class="scope-head">
+            <span class="scope-tag scope-tag--scoped">scoped/</span>
+            <span class="scope-when">対象パス操作時のみ注入</span>
+          </div>
+          <div class="tree">
+            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">flow/approved-sha/</span> <span class="tree-note">マージ時のみ</span></div>
+            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">project/context-scope/</span> <span class="tree-note">コード編集時</span></div>
+            <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">review-checklist/</span> <span class="tree-note">レビュー観点の追加</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Constraint -->
+    <div class="constraint">
+      <span class="constraint-icon">✕</span>
+      <span class="constraint-text">hook（機械強制）と違反時手順はグローバルが正本。プロジェクトで追加できるのは「値」のみ（語彙・命名・レビュー観点）</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="slide-footer">
+      <div class="footer-axis">
+        <span class="footer-axis-label">第1軸:</span>
+        <p class="footer-axis-desc"><strong>所有レベル</strong> — グローバル（共通）か プロジェクト固有（リポジトリ単位）か</p>
+      </div>
+      <div class="footer-axis">
+        <span class="footer-axis-label">第2軸:</span>
+        <p class="footer-axis-desc"><strong>注入タイミング</strong> — always（常時）か scoped（条件付き）か。両レベル共通の考え方</p>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
