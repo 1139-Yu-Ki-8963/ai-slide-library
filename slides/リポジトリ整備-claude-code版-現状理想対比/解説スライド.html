@@ -52,6 +52,22 @@
     border-color: var(--claude);
     color: #fff;
   }
+  #variant-tabs .save-pill {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--ink-2);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+  }
 
   #related-links {
     position: fixed;
@@ -256,6 +272,7 @@
   <button type="button" data-slug="claude-code">Claude Code</button>
   <button type="button" data-slug="cursor">Cursor</button>
   <button type="button" data-slug="codex">Codex CLI</button>
+  <a id="save-current" class="save-pill" download>⬇ この表示で保存</a>
 </nav>
 
 <nav id="related-links">
@@ -471,6 +488,9 @@
 
   var ROW_KEYS = ["projectDoc", "ruleFile", "workManual"];
   var ROW_DATA_V = { projectDoc: "project-doc", ruleFile: "rule-file", workManual: "work-manual" };
+  var SAVE_BASENAME = "リポジトリ整備の現状と理想";
+  var saveLink = document.getElementById('save-current');
+  if (saveLink) saveLink.setAttribute('href', location.pathname);
 
   function resolveInitialSlug(){
     var hashSlug = (location.hash || "").replace("#", "");
@@ -510,14 +530,17 @@
     }
 
     var buttons = document.querySelectorAll('#variant-tabs button');
+    var activeLabel = actual;
     for (var j = 0; j < buttons.length; j++) {
       var btn = buttons[j];
       if (btn.dataset.slug === actual) {
         btn.classList.add('active');
+        activeLabel = btn.textContent;
       } else {
         btn.classList.remove('active');
       }
     }
+    if (saveLink) saveLink.setAttribute('download', SAVE_BASENAME + '（' + activeLabel + '版）.html');
 
     return actual;
   }
