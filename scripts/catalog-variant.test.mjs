@@ -277,3 +277,19 @@ test("AI導入計画 転送ページがtitleを保持する", () => {
     `ステージカード 転送ページの <title> に「5段階」が含まれていません（実際: ${stageCardsTitle}）`,
   );
 });
+
+// --- CSS 乖離検査スクリプト ---
+
+const cssDriftScript = join(root, "scripts", "check-css-drift.mjs");
+
+test("check-css-drift.mjs が exit 0 で終了する", () => {
+  const output = execFileSync("node", [cssDriftScript], { cwd: root, encoding: "utf8" });
+  assert.ok(output.length > 0, "標準出力が空です");
+});
+
+test("check-css-drift.mjs が集計行を出す", () => {
+  const output = execFileSync("node", [cssDriftScript], { cwd: root, encoding: "utf8" });
+  assert.match(output, /対象\s*\d+\s*ファイル/, "「対象」を含む集計行が見つかりません");
+  assert.match(output, /共有セレクタ\s*\d+\s*件/, "「共有セレクタ」を含む集計行が見つかりません");
+  assert.match(output, /乖離\s*\d+\s*件/, "「乖離」を含む集計行が見つかりません");
+});
