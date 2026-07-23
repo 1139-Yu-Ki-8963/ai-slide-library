@@ -115,3 +115,60 @@ test("転送ページがtitleを保持する", () => {
   const codexTitle = (codexHtml.match(/<title>([^<]*)<\/title>/) || [])[1] || "";
   assert.ok(codexTitle.includes("Codex"), `codex 転送ページの <title> に「Codex」が含まれていません（実際: ${codexTitle}）`);
 });
+
+// --- リポジトリ整備の統合スライド化（タブ切替統合） ---
+
+const repoSeibiCanonicalPath = join(root, "slides", "リポジトリ整備-claude-code版-現状理想対比", "解説スライド.html");
+const repoSeibiCursorPath = join(root, "slides", "リポジトリ整備-cursor版-現状理想対比", "解説スライド.html");
+const repoSeibiCodexPath = join(root, "slides", "リポジトリ整備-codex版-現状理想対比", "解説スライド.html");
+
+test("リポジトリ整備 統合スライドが3variantを内蔵する", () => {
+  const html = readFileSync(repoSeibiCanonicalPath, "utf8");
+  assert.ok(html.includes("const VARIANTS"), "const VARIANTS が見つかりません");
+  assert.ok(html.includes("claude-code"), "スラッグ claude-code が見つかりません");
+  assert.ok(html.includes("cursor"), "スラッグ cursor が見つかりません");
+  assert.ok(html.includes("codex"), "スラッグ codex が見つかりません");
+
+  // cursor 固有の代表文言（旧 cursor 版にしか無かった実文言）
+  assert.ok(html.includes(".cursor/rules/"), "cursor 固有文言「.cursor/rules/」が見つかりません");
+  assert.ok(html.includes("SKILL.md"), "cursor 固有文言「SKILL.md」が見つかりません");
+
+  // codex 固有の代表文言（旧 codex 版にしか無かった実文言）
+  assert.ok(html.includes("AGENTS.md に集約"), "codex 固有文言「AGENTS.md に集約」が見つかりません");
+  assert.ok(
+    html.includes("Codex CLI は設定ファイルが少ない分"),
+    "codex 固有文言「Codex CLI は設定ファイルが少ない分」が見つかりません",
+  );
+});
+
+test("リポジトリ整備 タブUIが存在する", () => {
+  const html = readFileSync(repoSeibiCanonicalPath, "utf8");
+  assert.ok(html.includes("variant-tabs"), "variant-tabs（タブバーの id/class）が見つかりません");
+  assert.ok(html.includes("location.hash"), "location.hash 参照が見つかりません");
+});
+
+test("リポジトリ整備 転送ページが代表を指す", () => {
+  const cursorHtml = readFileSync(repoSeibiCursorPath, "utf8");
+  assert.ok(cursorHtml.includes('http-equiv="refresh"'), "cursor 転送ページに http-equiv=\"refresh\" が見つかりません");
+  assert.ok(
+    cursorHtml.includes("../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html#cursor"),
+    "cursor 転送ページに代表スライドへの参照（#cursor）が見つかりません",
+  );
+
+  const codexHtml = readFileSync(repoSeibiCodexPath, "utf8");
+  assert.ok(codexHtml.includes('http-equiv="refresh"'), "codex 転送ページに http-equiv=\"refresh\" が見つかりません");
+  assert.ok(
+    codexHtml.includes("../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html#codex"),
+    "codex 転送ページに代表スライドへの参照（#codex）が見つかりません",
+  );
+});
+
+test("リポジトリ整備 転送ページがtitleを保持する", () => {
+  const cursorHtml = readFileSync(repoSeibiCursorPath, "utf8");
+  const cursorTitle = (cursorHtml.match(/<title>([^<]*)<\/title>/) || [])[1] || "";
+  assert.ok(cursorTitle.includes("Cursor"), `cursor 転送ページの <title> に「Cursor」が含まれていません（実際: ${cursorTitle}）`);
+
+  const codexHtml = readFileSync(repoSeibiCodexPath, "utf8");
+  const codexTitle = (codexHtml.match(/<title>([^<]*)<\/title>/) || [])[1] || "";
+  assert.ok(codexTitle.includes("Codex"), `codex 転送ページの <title> に「Codex」が含まれていません（実際: ${codexTitle}）`);
+});
