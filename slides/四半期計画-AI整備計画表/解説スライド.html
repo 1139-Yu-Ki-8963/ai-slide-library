@@ -489,14 +489,14 @@
   }
 </style>
 
-<nav id="view-tabs">
+<nav id="view-tabs" data-export-strip>
   <button type="button" data-slug="gantt">ガント</button>
   <button type="button" data-slug="process-flow">工程表</button>
   <button type="button" data-slug="stage-cards">ステージカード</button>
   <a id="save-current" class="save-pill" download>⬇ この表示で保存</a>
 </nav>
 
-<nav id="related-links">
+<nav id="related-links" data-export-strip>
   <span class="related-label">関連:</span>
   <a href="../claude-code-テンプレート構成/解説スライド.html">docs配置ガイド</a>
   <a href="../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html">リポジトリ整備の現状と理想</a>
@@ -801,7 +801,7 @@
 })();
 </script>
 
-<script>
+<script data-export-strip>
 (function(){
   var VIEWS = {
     "gantt": { title: "AI整備計画表（4段階構成）" },
@@ -883,6 +883,32 @@
     if (activeBtn && activeBtn.dataset.slug === slug) return;
     switchView(slug, false);
   });
+
+  if (saveLink) {
+    saveLink.addEventListener('click', function(e){
+      e.preventDefault();
+      var activeSlug = actualInitial;
+      for (var s = 0; s < SLUGS.length; s++) {
+        var liveEl = document.getElementById('view-' + SLUGS[s]);
+        if (liveEl && liveEl.classList.contains('active')) { activeSlug = SLUGS[s]; break; }
+      }
+      var root = document.documentElement.cloneNode(true);
+      root.querySelectorAll('[data-export-strip]').forEach(function(el){ el.remove(); });
+      root.querySelectorAll('.view').forEach(function(el){
+        if (el.getAttribute('data-view') !== activeSlug) el.remove();
+      });
+      var html = "<!DOCTYPE html>\n" + root.outerHTML;
+      var blob = new Blob([html], { type: "text/html" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = saveLink.getAttribute('download') || (SAVE_BASENAME + '.html');
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+  }
 })();
 </script>
 </html>

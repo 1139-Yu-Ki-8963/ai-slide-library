@@ -187,14 +187,14 @@
   }
 </style>
 
-<nav id="variant-tabs">
+<nav id="variant-tabs" data-export-strip>
   <button type="button" data-slug="claude-code">Claude Code</button>
   <button type="button" data-slug="cursor">Cursor</button>
   <button type="button" data-slug="codex">Codex CLI</button>
   <a id="save-current" class="save-pill" download>⬇ この表示で保存</a>
 </nav>
 
-<nav id="related-links">
+<nav id="related-links" data-export-strip>
   <span class="related-label">関連:</span>
   <a href="../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html">リポジトリ整備の現状と理想</a>
   <a href="../四半期計画-AI整備計画表/解説スライド.html">AI導入計画</a>
@@ -304,7 +304,7 @@
 })();
 </script>
 
-<script>
+<script data-export-strip>
 (function(){
   const VARIANTS = {
     "claude-code": {
@@ -523,5 +523,23 @@
     if (activeBtn && activeBtn.dataset.slug === slug) return;
     switchVariant(slug, false);
   });
+
+  if (saveLink) {
+    saveLink.addEventListener('click', function(e){
+      e.preventDefault();
+      var root = document.documentElement.cloneNode(true);
+      root.querySelectorAll('[data-export-strip]').forEach(function(el){ el.remove(); });
+      var html = "<!DOCTYPE html>\n" + root.outerHTML;
+      var blob = new Blob([html], { type: "text/html" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = saveLink.getAttribute('download') || (SAVE_BASENAME + '.html');
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+  }
 })();
 </script>
