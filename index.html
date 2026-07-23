@@ -346,7 +346,7 @@
         <div id="dist-chips" style="display:contents"></div>
       </div>
       <div class="facet-row">
-        <span class="label">テンプレート:</span>
+        <span class="label">型の見本:</span>
         <div id="template-chips" style="display:contents"></div>
       </div>
       <div class="facet-row">
@@ -509,7 +509,7 @@ const SLIDES = [
     ],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "",
     "date": "2026-07-16"
   },
   {
@@ -736,7 +736,7 @@ const SLIDES = [
     ],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "",
     "date": "2026-07-16"
   },
   {
@@ -788,7 +788,7 @@ const SLIDES = [
     ],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "",
     "date": "2026-07-16"
   },
   {
@@ -814,7 +814,7 @@ const SLIDES = [
     ],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "",
     "date": "2026-07-16"
   },
   {
@@ -837,7 +837,7 @@ const SLIDES = [
     ],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "",
     "date": "2026-07-16"
   },
   {
@@ -890,7 +890,7 @@ const SLIDES = [
     ],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "",
     "date": "2026-07-16"
   },
   {
@@ -941,7 +941,7 @@ const SLIDES = [
     ],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "",
     "date": "2026-07-16"
   },
   {
@@ -964,12 +964,12 @@ const SLIDES = [
     ],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "",
     "date": "2026-07-16"
   },
   {
     "key": "rules階層構造-三層読み分け",
-    "title": "規約は 3 フォルダに分けると AI が必要な分だけ読み込む",
+    "title": "規約は「所有レベル」×「注入タイミング」の 2 軸で整理する",
     "target": "rules の内部階層構造（always/scoped の 2 層読み分けとプロジェクト委譲の仕組み）",
     "problems": "規約を書いても AI に読まれない・読み込みコストが膨らむ",
     "tools": [
@@ -990,7 +990,7 @@ const SLIDES = [
     ],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "",
     "date": "2026-07-17"
   },
   {
@@ -1034,7 +1034,7 @@ const SLIDES = [
     "entities": [],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "段階比較型",
     "date": "2026-07-19"
   },
   {
@@ -1059,7 +1059,7 @@ const SLIDES = [
     "entities": [],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "",
     "date": "2026-07-19"
   },
   {
@@ -1131,7 +1131,7 @@ const SLIDES = [
     "entities": [],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "",
     "date": "2026-07-19"
   },
   {
@@ -1156,7 +1156,7 @@ const SLIDES = [
     "entities": [],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "",
     "date": "2026-07-19"
   },
   {
@@ -1177,7 +1177,7 @@ const SLIDES = [
     "entities": [],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "",
     "date": "2026-07-19"
   },
   {
@@ -1222,7 +1222,7 @@ const SLIDES = [
     "entities": [],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "",
     "date": "2026-07-19"
   },
   {
@@ -1289,7 +1289,7 @@ const SLIDES = [
     "entities": [],
     "pack": false,
     "has_prompt": false,
-    "template": "現状理想対比テーブル型",
+    "template": "",
     "date": "2026-07-20"
   },
   {
@@ -1312,7 +1312,7 @@ const SLIDES = [
     "entities": [],
     "pack": false,
     "has_prompt": false,
-    "template": "現状理想対比テーブル型",
+    "template": "",
     "date": "2026-07-20"
   },
   {
@@ -1334,7 +1334,7 @@ const SLIDES = [
     "entities": [],
     "pack": false,
     "has_prompt": false,
-    "template": "現状理想対比テーブル型",
+    "template": "",
     "date": "2026-07-21"
   },
   {
@@ -1361,7 +1361,7 @@ const SLIDES = [
     ],
     "pack": false,
     "has_prompt": false,
-    "template": "図解型",
+    "template": "層構造型",
     "date": "2026-07-21"
   },
   {
@@ -1453,7 +1453,7 @@ const SLIDES = [
     "entities": [],
     "pack": false,
     "has_prompt": false,
-    "template": "工程時系列型",
+    "template": "",
     "date": "2026-07-22"
   }
 ];
@@ -1692,6 +1692,9 @@ function stateFromURL() {
   state.stage = params.get("stage") || "すべて";
   state.dist = params.get("dist") || "すべて";
   state.template = params.get("tmpl") || "すべて";
+  // 旧値の後方互換
+  if (state.template === "図解型") state.template = "すべて";
+  if (state.template === "テンプレートあり") state.template = "すべて";
   state.proposalPack = params.get("pack") || "すべて";
   state.visibleCount = INITIAL_VISIBLE;
 }
