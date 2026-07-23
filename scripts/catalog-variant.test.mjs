@@ -334,3 +334,25 @@ test("四半期計画-AI整備計画表 に related-links が存在する", () =
     "リポジトリ整備への相対リンクが見つかりません",
   );
 });
+
+// --- 提案パック絞り込み時の束ねカードのハッシュ付与 ---
+
+test("提案パック絞り込み時の束ねカードにパック指定メンバーのハッシュを付与するコードが存在する", () => {
+  const html = readFileSync(indexPath, "utf8");
+  assert.ok(
+    html.includes("function packMemberForItem"),
+    "packMemberForItem 関数が見つかりません",
+  );
+  assert.ok(
+    /const packMember = packMemberForItem\(s\);/.test(html),
+    "renderGrid 内で packMemberForItem(s) の呼び出しが見つかりません",
+  );
+  assert.ok(
+    /const openPath = packMember \? `\$\{path\}#\$\{esc\(packMember\.slug\)\}` : path;/.test(html),
+    "packMember に応じたハッシュ付き openPath の組み立てコードが見つかりません",
+  );
+  assert.ok(
+    html.includes('href="${openPath}" target="_blank"'),
+    "thumb-link の href が openPath を参照していません",
+  );
+});

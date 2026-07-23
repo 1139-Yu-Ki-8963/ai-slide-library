@@ -1881,6 +1881,15 @@ function packOrderForItem(item) {
   return null;
 }
 
+// 束ねカードを提案パック絞り込みで表示している間、そのパックが指定したメンバー（スラッグ）を返す。
+// パック未選択・束ねカードでない・パックにメンバーが載っていない場合は null（呼び出し側は代表タブのまま開く）。
+function packMemberForItem(item) {
+  if (!item.isBundle || state.proposalPack === "すべて") return null;
+  const pack = PACKS_BY_NAME.get(state.proposalPack);
+  if (!pack) return null;
+  return item.group.members.find(m => pack.slides.includes(m.key)) || null;
+}
+
 function unionField(memberSlides, field) {
   const set = new Set();
   memberSlides.forEach(s => (s[field] || []).forEach(v => set.add(v)));
@@ -1965,6 +1974,10 @@ function renderGrid(visibleList) {
   grid.innerHTML = visibleList.map(s => {
     const canonicalKey = s.isBundle ? s.group.canonical : s.key;
     const path = slidePath(canonicalKey);
+    // 提案パック絞り込み表示中の束ねカードは、パックが指定したメンバーのタブ（#slug）を直接開く。
+    // 通常表示（パック未選択）は代表のハッシュ無し URL のまま。
+    const packMember = packMemberForItem(s);
+    const openPath = packMember ? `${path}#${esc(packMember.slug)}` : path;
     const thumbPath = "slides/" + encodeURIComponent(canonicalKey) + "/" + encodeURIComponent("サムネイル.png");
     const toolTags = (s.tools || []).map(t => `<button type="button" class="tag" data-axis="tool" data-value="${esc(t)}">${esc(t)}</button>`).join("");
     const mechTags = (s.mechanisms || []).map(t => `<button type="button" class="tag mech" data-axis="mech" data-value="${esc(t)}">${esc(t)}</button>`).join("");
@@ -1988,7 +2001,7 @@ function renderGrid(visibleList) {
     // 束ねカードは一括「スライドHTML」ダウンロードボタンを非表示にし、ツール別ダウンロード行（下部）で代替する
     const slideHtmlDownload = s.isBundle
       ? ""
-      : `<a class="act" href="${path}" download="${esc(s.key)}.html"><span class="material-symbols-outlined">download</span>スライドHTML</a>`;
+      : `<a class="act" href="${openPath}" download="${esc(s.key)}.html"><span class="material-symbols-outlined">download</span>スライドHTML</a>`;
     const variantLinkRows = s.isBundle ? renderVariantLinkRows(s) : "";
     const entityList = (s.entities || []).length
       ? `<h3>導入されるもの</h3><ul>${(s.entities || []).map(e => `<li>${esc(e)}</li>`).join("")}</ul>`
@@ -2013,7 +2026,7 @@ function renderGrid(visibleList) {
       <div class="thumb">
         <img class="thumb-img" loading="lazy" src="${thumbPath}" alt="${esc(s.title)} のサムネイル" width="640" height="360" onerror="this.closest('.thumb').classList.add('is-fallback')">
         <div class="thumb-fallback"><span class="material-symbols-outlined">image</span><span class="fallback-label">サムネイル準備中</span></div>
-        <a class="thumb-link" href="${path}" target="_blank" rel="noopener" aria-label="${esc(s.title)} を全画面で開く"></a>
+        <a class="thumb-link" href="${openPath}" target="_blank" rel="noopener" aria-label="${esc(s.title)} を全画面で開く"></a>
         ${packBadge}
         ${packOrderBadge}
         ${variantBadge}
