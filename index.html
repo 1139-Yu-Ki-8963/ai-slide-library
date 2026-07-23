@@ -260,17 +260,6 @@
     border-radius: 999px; padding: 3px 10px;
     font-size: 11px; font-weight: 700;
   }
-  .variant-link-row {
-    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
-    padding: 8px 18px; border-top: 1px solid var(--border); font-size: 12px;
-  }
-  .variant-link-row .variant-link-label { color: var(--ink-3); font-weight: 600; margin-right: 2px; }
-  .variant-pill {
-    background: var(--accent-soft); color: var(--accent-deep);
-    border-radius: 999px; padding: 3px 10px; font-size: 11.5px;
-    text-decoration: none; font-weight: 600; font-family: inherit;
-  }
-  .variant-pill:hover { filter: brightness(0.95); }
   .import-panel { display: none; border-top: 1px solid var(--border); background: var(--page); padding: 14px 16px 16px; flex-direction: column; gap: 12px; }
   .import-panel.open { display: flex; }
   .import-panel h3 { font-size: 12px; color: var(--ink-2); font-weight: 700; }
@@ -1954,18 +1943,6 @@ function getVisibleSlides() {
   return { fullList, visibleList };
 }
 
-// 束ねカードの「⬇ ダウンロード:」行。メンバーラベル付きのファイル名で統合スライドそのものを保存する。
-// スライドを開く動線はサムネイルクリック（統合スライドが開きタブで切替できる）に一本化されており、
-// ツール別の直リンク（#slug）行はここでは描画しない。
-function renderVariantLinkRows(bundle) {
-  const canonicalPath = slidePath(bundle.group.canonical);
-  const downloadLinks = bundle.group.members
-    .map(m => `<a class="variant-pill" href="${canonicalPath}" download="${esc(`${bundle.group.base_name}（${m.label}版）.html`)}">${esc(m.label)}</a>`)
-    .join("");
-  return `
-      <div class="variant-link-row"><span class="variant-link-label">⬇ ダウンロード:</span>${downloadLinks}</div>`;
-}
-
 function renderGrid(visibleList) {
   const grid = document.getElementById("grid");
   grid.innerHTML = visibleList.map(s => {
@@ -1995,11 +1972,10 @@ function renderGrid(visibleList) {
     const packLink = s.pack
       ? `<a class="act" href="${packZipPath}" download><span class="material-symbols-outlined">download</span>改善パック</a>`
       : "";
-    // 束ねカードは一括「スライドHTML」ダウンロードボタンを非表示にし、ツール別ダウンロード行（下部）で代替する
-    const slideHtmlDownload = s.isBundle
-      ? ""
-      : `<a class="act" href="${openPath}" download="${esc(s.key)}.html"><span class="material-symbols-outlined">download</span>スライドHTML</a>`;
-    const variantLinkRows = s.isBundle ? renderVariantLinkRows(s) : "";
+    // 束ねカードも通常カードと同一の action bar を使う。保存名はグループの base_name に統一する
+    // （メンバーキー名ではなく「docs配置ガイド.html」のような代表名で保存される）。
+    const slideHtmlDownloadName = s.isBundle ? `${s.group.base_name}.html` : `${s.key}.html`;
+    const slideHtmlDownload = `<a class="act" href="${openPath}" download="${esc(slideHtmlDownloadName)}"><span class="material-symbols-outlined">download</span>スライドHTML</a>`;
     const entityList = (s.entities || []).length
       ? `<h3>導入されるもの</h3><ul>${(s.entities || []).map(e => `<li>${esc(e)}</li>`).join("")}</ul>`
       : "";
@@ -2039,7 +2015,6 @@ function renderGrid(visibleList) {
         ${slideHtmlDownload}
         ${packLink}
       </div>
-      ${variantLinkRows}
       ${importPanel}
     </article>`;
   }).join("");

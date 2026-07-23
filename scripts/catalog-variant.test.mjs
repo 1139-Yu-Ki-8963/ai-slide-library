@@ -193,24 +193,27 @@ test("束ねカードのバッジ文字列生成コードが存在する", () =>
   assert.ok(html.includes("表示形式"), "「◯表示形式」バッジ文言の生成コードが見つかりません");
 });
 
-test("ツール別ダウンロードの保存ファイル名テンプレートが存在する", () => {
+test("束ねカードのツール別ピル行描画（renderVariantLinkRows）が廃止されている", () => {
   const html = readFileSync(indexPath, "utf8");
   assert.ok(
-    html.includes("版）.html"),
-    "ダウンロード保存名テンプレート（`◯◯版）.html`）が見つかりません",
+    !html.includes("renderVariantLinkRows"),
+    "renderVariantLinkRows 関数（ツール別ダウンロードピル行の描画）の参照が残っています（廃止対象）",
   );
+  assert.ok(!html.includes("variant-link-row"), "variant-link-row（ピル行のCSS/参照）が残っています（廃止対象）");
+  assert.ok(!html.includes("variant-pill"), "variant-pill（ピルのCSS/参照）が残っています（廃止対象）");
+  assert.ok(!html.includes("⬇ ダウンロード:"), "「⬇ ダウンロード:」ラベルが残っています（廃止対象）");
 });
 
-test("束ねカードの「開く」行が廃止され「ダウンロード」行のみ存在する", () => {
+test("束ねカードは通常カードと同一の action bar を使い、base_name.html で保存する", () => {
   const html = readFileSync(indexPath, "utf8");
-  const fnStart = html.indexOf("function renderVariantLinkRows");
-  const fnEnd = html.indexOf("function renderGrid");
-  assert.ok(fnStart !== -1 && fnEnd > fnStart, "renderVariantLinkRows 関数が見つかりません");
-  const fnBody = html.slice(fnStart, fnEnd);
-  assert.ok(!fnBody.includes("開く:"), "描画テンプレートに「開く:」ラベルが残っています（廃止対象）");
-  assert.ok(fnBody.includes("⬇ ダウンロード:"), "描画テンプレートに「⬇ ダウンロード:」ラベルが見つかりません");
-  const rowCount = (fnBody.match(/variant-link-row/g) || []).length;
-  assert.strictEqual(rowCount, 1, `描画テンプレートの行数が 1 ではありません（実際: ${rowCount}）`);
+  assert.ok(
+    html.includes("const slideHtmlDownloadName = s.isBundle ? `${s.group.base_name}.html` : `${s.key}.html`;"),
+    "束ねカードの download 名を group.base_name.html にするテンプレートが見つかりません",
+  );
+  assert.ok(
+    html.includes('const slideHtmlDownload = `<a class="act" href="${openPath}" download="${esc(slideHtmlDownloadName)}">'),
+    "束ねカード／通常カード共通の action bar ダウンロードリンク生成コードが見つかりません",
+  );
 });
 
 // --- AI導入計画の統合スライド化（表示形式スイッチャー統合） ---
