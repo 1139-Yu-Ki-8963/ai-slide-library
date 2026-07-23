@@ -13,31 +13,33 @@ html,body{width:100%;height:100%;overflow:hidden;background:#fff;
 .ttl{position:absolute;top:36px;left:64px;font-size:28px;font-weight:700}
 .ttl span{font-weight:400;color:#666}
 .sub{position:absolute;top:76px;left:64px;font-size:14px;color:#888;font-style:italic}
-.ai-band{position:absolute;top:340px;left:0;right:0;bottom:54px;background:#f0f0f0}
+.hdr-line{position:absolute;top:105px;left:64px;right:64px;height:1px;background:#ddd}
+.ai-band{position:absolute;top:385px;left:0;right:0;bottom:54px;background:#f0f0f0}
 .card{position:absolute;padding:18px 22px 14px;z-index:1;display:flex;flex-direction:column;justify-content:center}
 .h{background:#1a1a1a;color:#fff}
 .a{background:#fff;color:#1a1a1a;border:1.5px solid #ccc}
 .cn{font-size:13px;opacity:.5;margin-bottom:8px}
 .ct{font-size:16px;font-weight:600;margin-bottom:5px;line-height:1.35}
 .cd{font-size:12px;opacity:.6;line-height:1.5}
-.c01{top:140px;left:80px;width:256px;height:144px}
-.c05{top:140px;left:944px;width:256px;height:144px}
-.c02{top:380px;left:300px;width:220px;height:190px}
-.c03{top:380px;left:550px;width:220px;height:190px}
-.c04{top:380px;left:800px;width:220px;height:190px}
+.c01{top:170px;left:80px;width:256px;height:144px}
+.c05{top:170px;left:944px;width:256px;height:144px}
+.c02{top:430px;left:300px;width:220px;height:190px}
+.c03{top:430px;left:550px;width:220px;height:190px}
+.c04{top:430px;left:800px;width:220px;height:190px}
 .ll{position:absolute;font-size:16px;font-weight:600;color:#999;z-index:1}
-.l1{top:200px;left:44px}
-.l2{top:435px;left:44px}
+.l1{top:230px;left:44px}
+.l2{top:485px;left:44px}
 svg.ov{position:absolute;top:0;left:0;width:1280px;height:720px;pointer-events:none;z-index:2}
 .msg{position:absolute;bottom:0;left:0;right:0;height:54px;background:#1a1a1a;color:#fff;
-  display:flex;align-items:center;padding:0 64px;font-size:13px;letter-spacing:.02em;z-index:1}
+  display:flex;align-items:center;justify-content:center;padding:0 64px;font-size:13px;letter-spacing:.02em;z-index:1}
 </style>
 </head>
 <body>
 <div class="slide-viewport">
 <div class="s">
-  <div class="ttl"><span>A</span>｜AIに任せる — アクセス解析の定型レポート</div>
+  <div class="ttl"><span>タスク委任パターン</span>｜AIに任せる — アクセス解析の定型レポート</div>
   <div class="sub">ルールが明確で、間違えてもやり直せる仕事</div>
+  <div class="hdr-line"></div>
 
   <div class="ai-band"></div>
 
@@ -58,20 +60,20 @@ svg.ov{position:absolute;top:0;left:0;width:1280px;height:720px;pointer-events:n
     </defs>
 
     <!-- フィードバック破線: 05 → 01 -->
-    <text x="640" y="114" fill="#888" font-size="12" font-family="Hiragino Kaku Gothic ProN,system-ui" text-anchor="middle">月次などでルールを更新</text>
-    <path d="M 1072,140 L 1072,118 L 208,118 L 208,140" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#fb)"/>
+    <text x="640" y="144" fill="#888" font-size="12" font-family="Hiragino Kaku Gothic ProN,system-ui" text-anchor="middle">月次などでルールを更新</text>
+    <path d="M 1072,170 L 1072,148 L 208,148 L 208,170" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#fb)"/>
 
     <!-- 01 → 02: L字コネクタ -->
-    <path d="M 208,284 L 208,340 L 410,340 L 410,380" fill="none" stroke="#1a1a1a" stroke-width="2" marker-end="url(#bk)"/>
+    <path d="M 208,314 L 208,385 L 410,385 L 410,430" fill="none" stroke="#1a1a1a" stroke-width="2" marker-end="url(#bk)"/>
 
     <!-- 02 → 03: 横矢印 -->
-    <path d="M 520,475 L 550,475" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#gr)"/>
+    <path d="M 520,525 L 550,525" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#gr)"/>
 
     <!-- 03 → 04: 横矢印 -->
-    <path d="M 770,475 L 800,475" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#gr)"/>
+    <path d="M 770,525 L 800,525" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#gr)"/>
 
     <!-- 04 → 05: L字コネクタ -->
-    <path d="M 910,380 L 910,340 L 1072,340 L 1072,284" fill="none" stroke="#1a1a1a" stroke-width="2" marker-end="url(#bk)"/>
+    <path d="M 910,430 L 910,385 L 1072,385 L 1072,314" fill="none" stroke="#1a1a1a" stroke-width="2" marker-end="url(#bk)"/>
   </svg>
 
   <div class="msg">日々の処理はAIが回す。人の仕事は、最初の設計と、目的に照らした見直しに集約される。</div>
