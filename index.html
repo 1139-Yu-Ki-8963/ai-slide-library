@@ -299,7 +299,7 @@
       <span class="meta-info">
         <span class="hit-count" id="hit-count" aria-live="polite"></span>
         <span class="dot-sep">・</span>
-        <span class="sort-label">並び順: 更新が新しい順</span>
+        <span class="sort-label">並び順: 登録が新しい順</span>
       </span>
     </div>
   </div>
@@ -1486,6 +1486,28 @@ const SLIDES = [
     "template": "工程時系列型",
     "date": "2026-07-22",
     "updated": "2026-07-23"
+  },
+  {
+    "key": "AI開発五層モデル-プロンプトからグラフ",
+    "title": "AI開発の5層モデル",
+    "target": "AI開発の5層モデル（プロンプト→コンテキスト→ハーネス→ループ→グラフ）と各層の役割",
+    "problems": "AIアプリ開発がプロンプト作成から先に進まない・モデルを中心としたシステム全体の設計方法が分からない",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "運用ルール",
+      "環境構築"
+    ],
+    "stages": [
+      "全体像"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-23"
   }
 ];
 const PACKS = [
@@ -1933,7 +1955,6 @@ function buildBundleSlide(group) {
   const memberSlides = group.members.map(m => SLIDE_BY_KEY.get(m.key)).filter(Boolean);
   const labelText = group.members.map(m => m.label).join(" / ");
   const maxDate = memberSlides.reduce((max, s) => ((s.date || "") > max ? (s.date || "") : max), "");
-  const maxUpdated = memberSlides.reduce((max, s) => (((s.updated || s.date || "") > max) ? (s.updated || s.date || "") : max), "");
   return {
     key: group.canonical,
     isBundle: true,
@@ -1949,8 +1970,7 @@ function buildBundleSlide(group) {
     pack: canonical.pack,
     has_prompt: canonical.has_prompt,
     template: canonical.template,
-    date: maxDate || canonical.date,
-    updated: maxUpdated || maxDate || canonical.date
+    date: maxDate || canonical.date
   };
 }
 
@@ -1981,7 +2001,7 @@ function getVisibleSlides() {
   if (state.proposalPack !== "すべて") {
     fullList.sort((a, b) => (packOrderForItem(a) || 0) - (packOrderForItem(b) || 0));
   } else {
-    fullList.sort((a, b) => (b.updated || b.date || "").localeCompare(a.updated || a.date || ""));
+    fullList.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
   }
   const visibleList = fullList.slice(0, state.visibleCount);
   return { fullList, visibleList };
@@ -2001,7 +2021,7 @@ function renderGrid(visibleList) {
     const mechTags = (s.mechanisms || []).map(t => `<button type="button" class="tag mech" data-axis="mech" data-value="${esc(t)}">${esc(t)}</button>`).join("");
     const themeTags = (s.themes || []).map(t => `<button type="button" class="tag theme" data-axis="theme" data-value="${esc(t)}">${esc(t)}</button>`).join("");
     const stageTags = (s.stages || []).map(t => `<button type="button" class="tag stage" data-axis="stage" data-value="${esc(t)}">${esc(t)}</button>`).join("");
-    const stale = isStale(s.updated || s.date) ? `<span class="stale">更新から${STALE_DAYS}日超</span>` : "";
+    const stale = isStale(s.date) ? `<span class="stale">登録から${STALE_DAYS}日超</span>` : "";
     const packBadge = s.pack ? `<span class="pack-badge">改善パック</span>` : "";
     const packOrder = packOrderForItem(s);
     const packOrderBadge = packOrder ? `<span class="pack-order-badge">${packOrder}</span>` : "";
@@ -2054,7 +2074,7 @@ function renderGrid(visibleList) {
         <h2 class="card-title">${esc(s.title)}</h2>
         <p class="card-target">${esc(s.target)}</p>
         <p class="card-problem">${esc(s.problems)}</p>
-        <div class="meta-row">${toolTags}${mechTags}${themeTags}${stageTags}${stale}<span class="date">${esc(s.updated || s.date)} 更新</span></div>
+        <div class="meta-row">${toolTags}${mechTags}${themeTags}${stageTags}${stale}<span class="date">${esc(s.date)} 登録</span></div>
       </div>
       <div class="card-actions">
         ${importButton}
@@ -2070,7 +2090,7 @@ function renderGrid(visibleList) {
 function updateSortLabel() {
   const label = state.proposalPack !== "すべて"
     ? `並び順: 提示順（${state.proposalPack}）`
-    : "並び順: 更新が新しい順";
+    : "並び順: 登録が新しい順";
   document.querySelector(".sort-label").textContent = label;
 }
 
