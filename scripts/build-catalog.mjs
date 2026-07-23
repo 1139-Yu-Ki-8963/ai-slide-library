@@ -3,6 +3,7 @@
 // slides/ 配下のフォルダと蓄積簿の行は双方向に突合し、片方にしか無い場合はエラーで停止する。
 // 依存パッケージなし。実行: node scripts/build-catalog.mjs
 import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
+import { execSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -123,6 +124,13 @@ for (const line of section.split("\n")) {
     template: templateValue === "—" ? "" : templateValue,
     date,
   };
+  try {
+    const gitDate = execSync(
+      `git log -1 --format=%aI -- "slides/${key}"`,
+      { cwd: root, encoding: "utf8" }
+    ).trim();
+    if (gitDate) entry.updated = gitDate.slice(0, 10);
+  } catch (e) {}
   for (const [axis, words] of [["tools", entry.tools], ["mechanisms", entry.mechanisms], ["themes", entry.themes], ["stages", entry.stages]]) {
     for (const w of words) {
       if (!vocab[axis].includes(w)) unknownTags.push(`${key}: ${axis} 軸「${w}」`);
