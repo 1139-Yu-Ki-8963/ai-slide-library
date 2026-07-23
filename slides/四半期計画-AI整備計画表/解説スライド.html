@@ -2,89 +2,11 @@
 <meta charset="utf-8">
 <title>AI整備計画表（4段階構成）</title>
 <style>
-  /* ==== 共通リセット・タブUI ==== */
   html, body { height: 100%; overflow: hidden; margin: 0; padding: 0; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #fff; }
+  body { background: var(--page); }
 
-  #view-tabs {
-    position: fixed;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    display: flex;
-    gap: 8px;
-    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
-  }
-  #view-tabs button {
-    appearance: none;
-    -webkit-appearance: none;
-    border: 1px solid #D9E0E8;
-    background: #fff;
-    color: #55667A;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 6px 16px;
-    border-radius: 999px;
-    cursor: pointer;
-  }
-  #view-tabs button.active {
-    background: #2f66b3;
-    border-color: #2f66b3;
-    color: #fff;
-  }
-  #view-tabs .save-pill {
-    appearance: none;
-    -webkit-appearance: none;
-    border: 1px solid #D9E0E8;
-    background: #fff;
-    color: #55667A;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 6px 16px;
-    border-radius: 999px;
-    cursor: pointer;
-    text-decoration: none;
-    line-height: 1;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  #related-links {
-    position: fixed;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
-    font-size: 12px;
-  }
-  #related-links .related-label {
-    color: #8494A6;
-    font-weight: 700;
-  }
-  #related-links a {
-    background: #fff;
-    border: 1px solid #D9E0E8;
-    color: #55667A;
-    padding: 6px 14px;
-    border-radius: 999px;
-    text-decoration: none;
-  }
-  #related-links a:hover {
-    border-color: #2f66b3;
-    color: #2f66b3;
-  }
-
-  .view { display: none; }
-  .view.active { display: block; }
-
-  /* ==== view: gantt（元 四半期計画-AI整備計画表） ==== */
-  #view-gantt {
+  :root {
     --page: #fff;
     --surface: #FFFFFF;
     --ink: #1C2B3A;
@@ -97,12 +19,12 @@
     --accent-soft: #EAF1FC;
   }
 
-  #view-gantt .slide-viewport {
+  .slide-viewport {
     width: 100vw; height: 100vh;
     display: flex; align-items: center; justify-content: center;
     background: var(--page); overflow: hidden;
   }
-  #view-gantt .slide {
+  .slide {
     position: absolute;
     top: 50%; left: 50%;
     width: 1280px;
@@ -120,12 +42,12 @@
   }
 
   /* ==== ヘッダ（セクション番号 + タイトル） ==== */
-  #view-gantt .slide-header {
+  .slide-header {
     display: flex; flex-direction: column; gap: 6px;
     padding-bottom: 16px;
     border-bottom: 1px solid var(--border);
   }
-  #view-gantt .slide-section {
+  .slide-section {
     display: inline-block;
     align-self: flex-start;
     font-size: 12px; font-weight: 700;
@@ -135,43 +57,43 @@
     border-radius: 4px;
     padding: 3px 10px;
   }
-  #view-gantt .slide-title { font-size: 27px; font-weight: 700; line-height: 1.3; color: var(--ink); text-wrap: balance; }
+  .slide-title { font-size: 27px; font-weight: 700; line-height: 1.3; color: var(--ink); text-wrap: balance; }
 
   /* ==== ガントグリッド全体 ==== */
-  #view-gantt .gantt { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  .gantt { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 
   /* ==== 四半期ヘッダー（2段: 1Q〜4Q / 月範囲） ==== */
-  #view-gantt .gc-qheader {
+  .gc-qheader {
     display: flex;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border);
   }
-  #view-gantt .gc-qheader-spacer { flex: 0 0 200px; }
-  #view-gantt .gc-qheader-right {
+  .gc-qheader-spacer { flex: 0 0 200px; }
+  .gc-qheader-right {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
   }
-  #view-gantt .gc-qcell { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-  #view-gantt .gc-q { font-size: 14px; font-weight: 700; color: var(--ink); }
-  #view-gantt .gc-qmonths { font-size: 11px; color: var(--ink-3); }
+  .gc-qcell { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .gc-q { font-size: 14px; font-weight: 700; color: var(--ink); }
+  .gc-qmonths { font-size: 11px; color: var(--ink-3); }
 
   /* ==== 段階行 ==== */
-  #view-gantt .gc-row {
+  .gc-row {
     flex: 1;
     display: flex; align-items: stretch;
     border-bottom: 1px solid var(--border);
   }
-  #view-gantt .gc-row:last-child { border-bottom: none; }
+  .gc-row:last-child { border-bottom: none; }
 
-  #view-gantt .gc-row-left {
+  .gc-row-left {
     flex: 0 0 200px;
     display: flex; align-items: center;
     padding: 8px 16px 8px 0;
   }
-  #view-gantt .gc-phase-name { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.4; }
+  .gc-phase-name { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.4; }
 
-  #view-gantt .gc-row-right {
+  .gc-row-right {
     position: relative;
     flex: 1;
     background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px);
@@ -179,7 +101,7 @@
   }
 
   /* ==== 矢印バー（先端三角形。CSS clip-path で描画） ==== */
-  #view-gantt .gc-bar {
+  .gc-bar {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -193,601 +115,87 @@
     white-space: nowrap;
     overflow: hidden;
   }
-  #view-gantt .gc-bar-start,
-  #view-gantt .gc-bar-end {
+  .gc-bar-start,
+  .gc-bar-end {
     position: absolute;
     top: calc(50% + 20px);
     font-size: 10px;
     color: var(--ink-3);
     white-space: nowrap;
   }
-  #view-gantt .gc-bar-end { transform: translateX(-100%); }
+  .gc-bar-end { transform: translateX(-100%); }
 
   /* ==== メタデータフッター（区切り線 + 下端余白） ==== */
-  #view-gantt .slide-meta {
+  .slide-meta {
     height: 18px;
     padding-top: 4px;
-    border-top: 1px solid var(--border);
-  }
-
-  /* ==== view: process-flow（元 工程時系列-AI導入手順） ==== */
-  #view-process-flow {
-    --page: #fff;
-    --surface: #FFFFFF;
-    --ink: #1C2B3A;
-    --ink-2: #55667A;
-    --ink-3: #8494A6;
-    --border: #D9E0E8;
-    --grid: #E4E9F0;
-    --accent: #3b7dd8;
-    --accent-deep: #2f66b3;
-    --accent-soft: #EAF1FC;
-  }
-
-  #view-process-flow .slide-viewport {
-    width: 100vw; height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--page); overflow: hidden;
-  }
-  #view-process-flow .slide {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 1280px;
-    height: 720px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
-    display: flex; flex-direction: column;
-    padding: 40px 48px;
-    gap: 20px;
-    font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, -apple-system, sans-serif;
-    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
-    transform-origin: center center;
-  }
-
-  /* ==== ヘッダ（青いアクセントバー付き） ==== */
-  #view-process-flow .slide-header {
-    display: flex; gap: 14px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border);
-  }
-  #view-process-flow .header-accent-bar { flex: 0 0 5px; border-radius: 3px; background: linear-gradient(180deg, var(--accent), var(--accent-deep)); }
-  #view-process-flow .header-text { display: flex; flex-direction: column; gap: 6px; }
-  #view-process-flow .slide-title { font-size: 28px; font-weight: 700; line-height: 1.3; color: var(--ink); text-wrap: balance; }
-  #view-process-flow .slide-desc { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
-
-  /* ==== 時系列全体 ==== */
-  #view-process-flow .timeline { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-
-  /* ==== 月ヘッダー行 ==== */
-  #view-process-flow .tl-months {
-    display: flex;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-  }
-  #view-process-flow .tl-months-spacer { flex: 0 0 240px; }
-  #view-process-flow .tl-months-right {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-  }
-  #view-process-flow .tl-month {
-    font-size: 13px; font-weight: 700; color: var(--ink-3);
-    text-align: center;
-    letter-spacing: 0.04em;
-  }
-
-  /* ==== 工程行 ==== */
-  #view-process-flow .tl-row {
-    flex: 1;
-    display: flex; align-items: stretch;
-    border-bottom: 1px solid var(--border);
-  }
-  #view-process-flow .tl-row:last-child { border-bottom: none; }
-
-  #view-process-flow .tl-row-left {
-    flex: 0 0 240px;
-    display: flex; flex-direction: column; gap: 6px;
-    justify-content: center;
-    padding: 8px 16px 8px 0;
-  }
-  #view-process-flow .tl-process-tag {
-    display: inline-block;
-    align-self: flex-start;
-    background: var(--accent);
-    color: #fff;
-    font-size: 13px; font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 4px;
-  }
-  #view-process-flow .tl-desc { font-size: 12px; color: var(--ink-2); line-height: 1.55; }
-
-  #view-process-flow .tl-row-right {
-    position: relative;
-    flex: 1;
-    background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size: 16.667% 100%;
-  }
-
-  /* ==== 矢印バー（先端三角形。CSS clip-path で描画） ==== */
-  #view-process-flow .tl-bar {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 30px;
-    display: flex; align-items: center;
-    padding: 0 16px 0 12px;
-    background: linear-gradient(90deg, var(--accent-deep), var(--accent));
-    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%);
-    color: #fff;
-    font-size: 11px; font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-  #view-process-flow .tl-bar-start,
-  #view-process-flow .tl-bar-end {
-    position: absolute;
-    top: calc(50% + 22px);
-    font-size: 10.5px;
-    color: var(--ink-3);
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-  }
-  #view-process-flow .tl-bar-end { transform: translateX(-100%); }
-
-  /* ==== メタデータフッター（区切り線 + 下端余白） ==== */
-  #view-process-flow .slide-meta {
-    height: 18px;
-    padding-top: 4px;
-    border-top: 1px solid var(--border);
-  }
-
-  /* ==== view: stage-cards（元 AI駆動開発導入-五段階計画表） ==== */
-  #view-stage-cards {
-    --page: #EDF0F4;
-    --surface: #FFFFFF;
-    --ink: #1C2B3A;
-    --ink-2: #55667A;
-    --ink-3: #8494A6;
-    --border: #D9E0E8;
-    --grid: #E9EDF2;
-    --critical: #C0392B;
-    --critical-soft: #FAECEA;
-    --good: #1F7A46;
-    --good-soft: #EAF4EE;
-    --tag-bg: #EDF1F6;
-    --claude: #D97757;
-    --claude-deep: #BC5B3B;
-    --claude-soft: #FBF0EA;
-    --cursor: #23282E;
-    --cursor-soft: #EFF1F4;
-    --chip-ink: #FFFFFF;
-  }
-
-  #view-stage-cards .slide-viewport {
-    width: 100vw; height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--page); overflow: hidden;
-  }
-  #view-stage-cards .slide {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 1280px;
-    height: 720px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
-    display: flex; flex-direction: column;
-    padding: 36px 48px;
-    gap: 14px;
-    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
-    transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
-    transform-origin: center center;
-  }
-
-  #view-stage-cards .slide-header {
-    display: flex; flex-direction: column; gap: 4px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--ink);
-  }
-  #view-stage-cards .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
-  #view-stage-cards .slide-title { font-size: 28px; font-weight: 700; line-height: 1.25; color: var(--ink); }
-  #view-stage-cards .slide-subtitle { font-size: 14px; color: var(--ink-2); }
-
-  /* ==== 読み順グループ帯（段階カード5枚の列構成と同一グリッドで整列） ==== */
-  #view-stage-cards .group-row {
-    display: grid;
-    grid-template-columns: 1fr 22px 1fr 22px 1fr 22px 1fr 22px 1fr;
-    align-items: center;
-    height: 26px;
-  }
-  #view-stage-cards .group-item { display: flex; align-items: center; justify-content: center; gap: 6px; }
-  #view-stage-cards .group-item span.label { font-size: 12px; font-weight: 700; color: var(--ink-2); }
-
-  /* ==== 段階カード（5枚 + 矢印4本の9列グリッド） ==== */
-  #view-stage-cards .stages-grid {
-    display: grid;
-    grid-template-columns: 1fr 22px 1fr 22px 1fr 22px 1fr 22px 1fr;
-    flex: 1;
-    min-height: 0;
-    align-items: stretch;
-  }
-  #view-stage-cards .stage-arrow { display: flex; align-items: center; justify-content: center; }
-  #view-stage-cards .stage-card {
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 11px;
-    display: flex; flex-direction: column;
-    gap: 6px;
-    overflow: hidden;
-  }
-  /* 段階1〜2: 準備段階（partial・ink-3） */
-  #view-stage-cards .stage-card--prep { border-top: 3.5px solid var(--ink-3); }
-  /* 段階3〜5: good を単純適用せず、good トークンへの色混合率を段階的に上げて進行を示す */
-  #view-stage-cards .stage-card--intro   { border-top: 3.5px solid color-mix(in srgb, var(--good) 35%, var(--border) 65%); }
-  #view-stage-cards .stage-card--flow    { border-top: 3.5px solid color-mix(in srgb, var(--good) 70%, var(--border) 30%); }
-  #view-stage-cards .stage-card--scale   { border-top: 3.5px solid var(--good); }
-
-  #view-stage-cards .stage-step-label { font-size: 10px; font-weight: 700; color: var(--ink-3); letter-spacing: 0.06em; }
-  #view-stage-cards .stage-head h2 { font-size: 13.5px; font-weight: 700; color: var(--ink); line-height: 1.3; margin-top: 2px; }
-  #view-stage-cards .stage-desc { font-size: 10.5px; color: var(--ink-2); line-height: 1.4; }
-
-  #view-stage-cards .stage-work { list-style: none; display: flex; flex-direction: column; gap: 4px; }
-  #view-stage-cards .stage-work li {
-    font-size: 9.8px; line-height: 1.35; color: var(--ink-2);
-    padding-left: 10px; position: relative;
-  }
-  #view-stage-cards .stage-work li::before {
-    content: ''; position: absolute; left: 0; top: 5px;
-    width: 5px; height: 5px; border-radius: 50%; background: var(--border);
-  }
-
-  #view-stage-cards .stage-output {
-    margin-top: auto;
-    font-size: 9.5px; color: var(--ink-3); line-height: 1.35;
-    border-top: 1px solid var(--border);
-    padding-top: 6px;
-  }
-
-  /* ==== step-chip（読み順グループ①②③でのみ使用） ==== */
-  #view-stage-cards .step-chip {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 20px; height: 20px;
-    border-radius: 50%; font-size: 11px; font-weight: 700; color: var(--chip-ink); flex-shrink: 0;
-  }
-  #view-stage-cards .step-chip--main     { background: var(--claude); }
-  #view-stage-cards .step-chip--critical { background: var(--critical); }
-  #view-stage-cards .step-chip--good     { background: var(--good); }
-  #view-stage-cards .step-chip--partial  { background: var(--ink-3); }
-
-  /* ==== 警告帯（層構造の全幅帯部品を1本だけ流用） ==== */
-  #view-stage-cards .layer-band {
-    display: flex; align-items: center; gap: 14px;
-    padding: 10px 20px;
-    border-radius: 10px;
-    background: var(--tag-bg);
-    border: 1.5px solid var(--border);
-    border-left: 5px solid var(--ink-3);
-  }
-  #view-stage-cards .layer-band--critical { background: var(--critical-soft); border-color: var(--critical); border-left-color: var(--critical); }
-  #view-stage-cards .layer-desc { font-size: 12.5px; color: var(--ink-2); line-height: 1.5; }
-  #view-stage-cards .layer-desc strong { color: var(--critical); }
-
-  /* ==== フッタ: 読み順グループ要約 ==== */
-  #view-stage-cards .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding-top: 10px; border-top: 1px solid var(--border); }
-  #view-stage-cards .step { display: flex; gap: 8px; align-items: center; }
-  #view-stage-cards .step-text { font-size: 12.5px; line-height: 1.4; color: var(--ink-2); }
-  #view-stage-cards .step-text strong { color: var(--ink); }
-
-  /* ==== メタデータフッター（区切り線 + 下端余白。内容は入れない） ==== */
-  #view-stage-cards .slide-meta {
-    height: 20px;
-    padding-top: 6px;
     border-top: 1px solid var(--border);
   }
 </style>
 
-<nav id="view-tabs" data-export-strip>
-  <button type="button" data-slug="gantt">ガント</button>
-  <button type="button" data-slug="process-flow">工程表</button>
-  <button type="button" data-slug="stage-cards">ステージカード</button>
-  <a id="save-current" class="save-pill" download>⬇ この表示で保存</a>
-</nav>
+<div class="slide-viewport">
+  <div class="slide">
 
-<nav id="related-links" data-export-strip>
-  <span class="related-label">関連:</span>
-  <a href="../claude-code-テンプレート構成/解説スライド.html">docs配置ガイド</a>
-  <a href="../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html">リポジトリ整備の現状と理想</a>
-</nav>
+    <header class="slide-header">
+      <span class="slide-section">年間計画</span>
+      <h1 class="slide-title">AI整備計画表（4段階構成）</h1>
+    </header>
 
-<section class="view" id="view-gantt" data-view="gantt">
-  <div class="slide-viewport">
-    <div class="slide">
+    <div class="gantt">
 
-      <header class="slide-header">
-        <span class="slide-section">年間計画</span>
-        <h1 class="slide-title">AI整備計画表（4段階構成）</h1>
-      </header>
-
-      <div class="gantt">
-
-        <div class="gc-qheader">
-          <div class="gc-qheader-spacer"></div>
-          <div class="gc-qheader-right">
-            <div class="gc-qcell"><span class="gc-q">1Q</span><span class="gc-qmonths">1〜3月</span></div>
-            <div class="gc-qcell"><span class="gc-q">2Q</span><span class="gc-qmonths">4〜6月</span></div>
-            <div class="gc-qcell"><span class="gc-q">3Q</span><span class="gc-qmonths">7〜9月</span></div>
-            <div class="gc-qcell"><span class="gc-q">4Q</span><span class="gc-qmonths">10〜12月</span></div>
-          </div>
+      <div class="gc-qheader">
+        <div class="gc-qheader-spacer"></div>
+        <div class="gc-qheader-right">
+          <div class="gc-qcell"><span class="gc-q">1Q</span><span class="gc-qmonths">1〜3月</span></div>
+          <div class="gc-qcell"><span class="gc-q">2Q</span><span class="gc-qmonths">4〜6月</span></div>
+          <div class="gc-qcell"><span class="gc-q">3Q</span><span class="gc-qmonths">7〜9月</span></div>
+          <div class="gc-qcell"><span class="gc-q">4Q</span><span class="gc-qmonths">10〜12月</span></div>
         </div>
-
-        <div class="gc-row">
-          <div class="gc-row-left"><span class="gc-phase-name">現状診断・土台整備</span></div>
-          <div class="gc-row-right">
-            <div class="gc-bar" style="left: 2%; width: 23%;">1Q</div>
-            <span class="gc-bar-start" style="left: 2%;">1Q</span>
-            <span class="gc-bar-end" style="left: 25%;">1Q</span>
-          </div>
-        </div>
-
-        <div class="gc-row">
-          <div class="gc-row-left"><span class="gc-phase-name">ツール導入・安全装置</span></div>
-          <div class="gc-row-right">
-            <div class="gc-bar" style="left: 10%; width: 40%;">1Q後半〜2Q</div>
-            <span class="gc-bar-start" style="left: 10%;">1Q</span>
-            <span class="gc-bar-end" style="left: 50%;">2Q</span>
-          </div>
-        </div>
-
-        <div class="gc-row">
-          <div class="gc-row-left"><span class="gc-phase-name">開発フロー確立</span></div>
-          <div class="gc-row-right">
-            <div class="gc-bar" style="left: 25%; width: 50%;">2Q〜3Q</div>
-            <span class="gc-bar-start" style="left: 25%;">2Q</span>
-            <span class="gc-bar-end" style="left: 75%;">3Q</span>
-          </div>
-        </div>
-
-        <div class="gc-row">
-          <div class="gc-row-left"><span class="gc-phase-name">拡大・継続改善</span></div>
-          <div class="gc-row-right">
-            <div class="gc-bar" style="left: 75%; width: 23%;">4Q</div>
-            <span class="gc-bar-start" style="left: 75%;">4Q</span>
-            <span class="gc-bar-end" style="left: 98%;">4Q</span>
-          </div>
-        </div>
-
       </div>
 
-      <footer class="slide-meta"></footer>
+      <div class="gc-row">
+        <div class="gc-row-left"><span class="gc-phase-name">現状診断・土台整備</span></div>
+        <div class="gc-row-right">
+          <div class="gc-bar" style="left: 2%; width: 23%;">1Q</div>
+          <span class="gc-bar-start" style="left: 2%;">1Q</span>
+          <span class="gc-bar-end" style="left: 25%;">1Q</span>
+        </div>
+      </div>
+
+      <div class="gc-row">
+        <div class="gc-row-left"><span class="gc-phase-name">ツール導入・安全装置</span></div>
+        <div class="gc-row-right">
+          <div class="gc-bar" style="left: 10%; width: 40%;">1Q後半〜2Q</div>
+          <span class="gc-bar-start" style="left: 10%;">1Q</span>
+          <span class="gc-bar-end" style="left: 50%;">2Q</span>
+        </div>
+      </div>
+
+      <div class="gc-row">
+        <div class="gc-row-left"><span class="gc-phase-name">開発フロー確立</span></div>
+        <div class="gc-row-right">
+          <div class="gc-bar" style="left: 25%; width: 50%;">2Q〜3Q</div>
+          <span class="gc-bar-start" style="left: 25%;">2Q</span>
+          <span class="gc-bar-end" style="left: 75%;">3Q</span>
+        </div>
+      </div>
+
+      <div class="gc-row">
+        <div class="gc-row-left"><span class="gc-phase-name">拡大・継続改善</span></div>
+        <div class="gc-row-right">
+          <div class="gc-bar" style="left: 75%; width: 23%;">4Q</div>
+          <span class="gc-bar-start" style="left: 75%;">4Q</span>
+          <span class="gc-bar-end" style="left: 98%;">4Q</span>
+        </div>
+      </div>
 
     </div>
+
+    <footer class="slide-meta"></footer>
+
   </div>
-</section>
+</div>
 
-<section class="view" id="view-process-flow" data-view="process-flow">
-  <div class="slide-viewport">
-    <div class="slide">
-
-      <header class="slide-header">
-        <div class="header-accent-bar"></div>
-        <div class="header-text">
-          <h1 class="slide-title">AI導入プロジェクトの工程時系列</h1>
-          <p class="slide-desc">診断から運用定着まで、各工程の期間と重なりを月軸で配置した全体計画</p>
-        </div>
-      </header>
-
-      <div class="timeline">
-
-        <div class="tl-months">
-          <div class="tl-months-spacer"></div>
-          <div class="tl-months-right">
-            <span class="tl-month">1月</span>
-            <span class="tl-month">2月</span>
-            <span class="tl-month">3月</span>
-            <span class="tl-month">4月</span>
-            <span class="tl-month">5月</span>
-            <span class="tl-month">6月</span>
-          </div>
-        </div>
-
-        <div class="tl-row">
-          <div class="tl-row-left">
-            <span class="tl-process-tag">現状診断</span>
-            <p class="tl-desc">既存コードの可読性・テスト・文書化状態を評価</p>
-          </div>
-          <div class="tl-row-right">
-            <div class="tl-bar" style="left: 2%; width: 22%;">現状診断</div>
-            <span class="tl-bar-start" style="left: 2%;">1月</span>
-            <span class="tl-bar-end" style="left: 24%;">2月中旬</span>
-          </div>
-        </div>
-
-        <div class="tl-row">
-          <div class="tl-row-left">
-            <span class="tl-process-tag">土台整備</span>
-            <p class="tl-desc">設計文書の逆生成・テスト基盤の構築</p>
-          </div>
-          <div class="tl-row-right">
-            <div class="tl-bar" style="left: 17%; width: 49%;">土台整備</div>
-            <span class="tl-bar-start" style="left: 17%;">2月</span>
-            <span class="tl-bar-end" style="left: 66%;">4月</span>
-          </div>
-        </div>
-
-        <div class="tl-row">
-          <div class="tl-row-left">
-            <span class="tl-process-tag">ツール導入</span>
-            <p class="tl-desc">AIツール選定・権限設定・安全装置構築</p>
-          </div>
-          <div class="tl-row-right">
-            <div class="tl-bar" style="left: 44%; width: 39%;">ツール導入</div>
-            <span class="tl-bar-start" style="left: 44%;">3月下旬</span>
-            <span class="tl-bar-end" style="left: 83%;">5月</span>
-          </div>
-        </div>
-
-        <div class="tl-row">
-          <div class="tl-row-left">
-            <span class="tl-process-tag">運用定着</span>
-            <p class="tl-desc">パイロット運用・振り返り・全社展開判定</p>
-          </div>
-          <div class="tl-row-right">
-            <div class="tl-bar" style="left: 67%; width: 31%;">運用定着</div>
-            <span class="tl-bar-start" style="left: 67%;">5月</span>
-            <span class="tl-bar-end" style="left: 98%;">6月</span>
-          </div>
-        </div>
-
-      </div>
-
-      <footer class="slide-meta"></footer>
-
-    </div>
-  </div>
-</section>
-
-<section class="view" id="view-stage-cards" data-view="stage-cards">
-  <div class="slide-viewport">
-    <div class="slide">
-
-      <header class="slide-header">
-        <span class="slide-eyebrow">AI駆動開発 導入解説</span>
-        <h1 class="slide-title">AI駆動開発の導入は5段階で進める</h1>
-        <p class="slide-subtitle">ツール導入から始めない — 診断と土台整備が先、拡大は最後</p>
-      </header>
-
-      <div class="group-row">
-        <div class="group-item" style="grid-column: 1 / 4;">
-          <span class="step-chip step-chip--partial">1</span>
-          <span class="label">土台を作る</span>
-        </div>
-        <div></div>
-        <div class="group-item" style="grid-column: 5 / 6;">
-          <span class="step-chip step-chip--main">2</span>
-          <span class="label">安全に導入する</span>
-        </div>
-        <div></div>
-        <div class="group-item" style="grid-column: 7 / 10;">
-          <span class="step-chip step-chip--good">3</span>
-          <span class="label">型にして広げる</span>
-        </div>
-      </div>
-
-      <div class="stages-grid">
-
-        <article class="stage-card stage-card--prep">
-          <div class="stage-step-label">STEP 1</div>
-          <div class="stage-head"><h2>現状診断</h2></div>
-          <p class="stage-desc">AIが働ける土台があるかを棚卸しする</p>
-          <ul class="stage-work">
-            <li>リポジトリ・設計書・テスト・規約の棚卸し</li>
-            <li>変更履歴の実測による整備優先順位付け（全面整備はしない）</li>
-          </ul>
-          <p class="stage-output">→ 診断結果と"どこから整備するか"の優先順位</p>
-        </article>
-
-        <div class="stage-arrow">
-          <svg width="14" height="24" viewBox="0 0 16 28" fill="none">
-            <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-
-        <article class="stage-card stage-card--prep">
-          <div class="stage-step-label">STEP 2</div>
-          <div class="stage-head"><h2>土台整備</h2></div>
-          <p class="stage-desc">AIが読める「書かれた地図」を作る</p>
-          <ul class="stage-work">
-            <li>読み取り専用のAIを先行投入し、設計文書の下書きを逆生成（確定は人のレビュー）</li>
-            <li>テストと linter（コード規約の自動チェック）の整備</li>
-          </ul>
-          <p class="stage-output">→ AI が参照できる文書と自動検証（優先範囲から）</p>
-        </article>
-
-        <div class="stage-arrow">
-          <svg width="14" height="24" viewBox="0 0 16 28" fill="none">
-            <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-
-        <article class="stage-card stage-card--intro">
-          <div class="stage-step-label">STEP 3</div>
-          <div class="stage-head"><h2>ツール導入と安全装置</h2></div>
-          <p class="stage-desc">小さく安全に使い始める</p>
-          <ul class="stage-work">
-            <li>特性テスト（現状の挙動を固定するテスト）で安全網を張る</li>
-            <li>権限・機密ガードを設定し、書き込みを段階的に解禁</li>
-          </ul>
-          <p class="stage-output">→ 安全網とガード付きの AI 開発環境</p>
-        </article>
-
-        <div class="stage-arrow">
-          <svg width="14" height="24" viewBox="0 0 16 28" fill="none">
-            <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-
-        <article class="stage-card stage-card--flow">
-          <div class="stage-step-label">STEP 4</div>
-          <div class="stage-head"><h2>開発フロー確立</h2></div>
-          <p class="stage-desc">1タスクの流れを型にする</p>
-          <ul class="stage-work">
-            <li>計画の人間承認</li>
-            <li>節目ごとのレビューゲート（承認しないと次に進めない区切り）</li>
-            <li>「実際に動いた証跡」による完了定義</li>
-          </ul>
-          <p class="stage-output">→ 再現可能な実装フロー</p>
-        </article>
-
-        <div class="stage-arrow">
-          <svg width="14" height="24" viewBox="0 0 16 28" fill="none">
-            <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-
-        <article class="stage-card stage-card--scale">
-          <div class="stage-step-label">STEP 5</div>
-          <div class="stage-head"><h2>拡大と継続改善</h2></div>
-          <p class="stage-desc">チーム全体で回し続ける</p>
-          <ul class="stage-work">
-            <li>並列開発</li>
-            <li>AI の役割分業</li>
-            <li>全操作の記録と改善ループ</li>
-          </ul>
-          <p class="stage-output">→ 自己改善する AI 駆動開発体制</p>
-        </article>
-
-      </div>
-
-      <div class="layer-band layer-band--critical">
-        <span class="step-chip step-chip--critical">!</span>
-        <p class="layer-desc"><strong>よくある失敗：</strong>段階3のツール導入から始める → 規約もテストも無いままAIがコードを量産し、レビューが破綻する</p>
-      </div>
-
-      <footer class="steps">
-        <div class="step">
-          <span class="step-chip step-chip--partial">1</span>
-          <p class="step-text"><strong>土台を作る</strong>（段階1〜2）— 現状診断と、AIが読める文書・自動検証の整備</p>
-        </div>
-        <div class="step">
-          <span class="step-chip step-chip--main">2</span>
-          <p class="step-text"><strong>安全に導入する</strong>（段階3）— ツール選定と権限・機密情報ガードの設定</p>
-        </div>
-        <div class="step">
-          <span class="step-chip step-chip--good">3</span>
-          <p class="step-text"><strong>型にして広げる</strong>（段階4〜5）— レビューゲートで型化し、チーム全体へ拡大</p>
-        </div>
-      </footer>
-
-      <footer class="slide-meta"></footer>
-
-    </div>
-  </div>
-</section>
-
-<!-- ==== スケーリング（常時必須・1ページでも削除禁止） ==== -->
 <script>
 (function(){
   function f(){
@@ -798,117 +206,6 @@
   }
   addEventListener('resize', f);
   f();
-})();
-</script>
-
-<script data-export-strip>
-(function(){
-  var VIEWS = {
-    "gantt": { title: "AI整備計画表（4段階構成）" },
-    "process-flow": { title: "AI導入プロジェクトの工程時系列" },
-    "stage-cards": { title: "AI駆動開発の導入は5段階で進める" }
-  };
-  var SLUGS = ["gantt", "process-flow", "stage-cards"];
-  var SAVE_BASENAME = "AI導入計画";
-  var saveLink = document.getElementById('save-current');
-  if (saveLink) saveLink.setAttribute('href', location.pathname);
-
-  function resolveInitialSlug(){
-    var hashSlug = (location.hash || "").replace("#", "");
-    if (VIEWS[hashSlug]) return hashSlug;
-
-    var path = "";
-    try { path = decodeURIComponent(location.pathname); } catch (e) { path = location.pathname; }
-    var m = path.match(/[（(](ガント|工程表|ステージカード)版[）)]/);
-    if (m) {
-      var name = m[1];
-      if (name === "ガント") return "gantt";
-      if (name === "工程表") return "process-flow";
-      if (name === "ステージカード") return "stage-cards";
-    }
-    return "gantt";
-  }
-
-  function applyView(slug){
-    var actual = VIEWS[slug] ? slug : "gantt";
-    document.title = VIEWS[actual].title;
-
-    for (var i = 0; i < SLUGS.length; i++) {
-      var s = SLUGS[i];
-      var el = document.getElementById("view-" + s);
-      if (el) el.classList.toggle("active", s === actual);
-    }
-
-    var buttons = document.querySelectorAll('#view-tabs button');
-    var activeLabel = actual;
-    for (var j = 0; j < buttons.length; j++) {
-      var btn = buttons[j];
-      if (btn.dataset.slug === actual) {
-        btn.classList.add('active');
-        activeLabel = btn.textContent;
-      } else {
-        btn.classList.remove('active');
-      }
-    }
-    if (saveLink) saveLink.setAttribute('download', SAVE_BASENAME + '（' + activeLabel + '版）.html');
-
-    return actual;
-  }
-
-  function switchView(slug, updateHash){
-    var actual = applyView(slug);
-    if (updateHash) {
-      history.replaceState(null, "", "#" + actual);
-    }
-    return actual;
-  }
-
-  var initial = resolveInitialSlug();
-  var actualInitial = switchView(initial, false);
-  if (!location.hash) {
-    history.replaceState(null, "", "#" + actualInitial);
-  }
-
-  var tabButtons = document.querySelectorAll('#view-tabs button');
-  for (var k = 0; k < tabButtons.length; k++) {
-    tabButtons[k].addEventListener('click', (function(btn){
-      return function(){ switchView(btn.dataset.slug, true); };
-    })(tabButtons[k]));
-  }
-
-  window.addEventListener('hashchange', function(){
-    var slug = (location.hash || "").replace("#", "");
-    if (!VIEWS[slug]) return;
-    var activeBtn = document.querySelector('#view-tabs button.active');
-    if (activeBtn && activeBtn.dataset.slug === slug) return;
-    switchView(slug, false);
-  });
-
-  if (saveLink) {
-    saveLink.addEventListener('click', function(e){
-      e.preventDefault();
-      var activeSlug = actualInitial;
-      for (var s = 0; s < SLUGS.length; s++) {
-        var liveEl = document.getElementById('view-' + SLUGS[s]);
-        if (liveEl && liveEl.classList.contains('active')) { activeSlug = SLUGS[s]; break; }
-      }
-      var root = document.documentElement.cloneNode(true);
-      root.querySelectorAll('[data-export-strip]').forEach(function(el){ el.remove(); });
-      root.querySelectorAll('.view').forEach(function(el){
-        if (el.getAttribute('data-view') !== activeSlug) el.remove();
-      });
-      var html = "<!DOCTYPE html>\n" + root.outerHTML;
-      var blob = new Blob([html], { type: "text/html" });
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = saveLink.getAttribute('download') || (SAVE_BASENAME + '.html');
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    });
-  }
 })();
 </script>
 </html>
