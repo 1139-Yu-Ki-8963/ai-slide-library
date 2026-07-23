@@ -1972,7 +1972,7 @@ function renderGrid(visibleList) {
     const packOrder = packOrderForItem(s);
     const packOrderBadge = packOrder ? `<span class="pack-order-badge">${packOrder}</span>` : "";
     const variantBadge = s.isBundle
-      ? `<span class="variant-badge">${s.group.members.length}${s.group.kind === "tool" ? "ツール対応" : "表示形式"}</span>`
+      ? `<span class="variant-badge">${s.group.members.length} ${s.group.kind === "tool" ? "ツール対応" : "表示形式"}</span>`
       : "";
     const hasPrompt = !!s.has_prompt;
     const packZipPath = "slides/" + encodeURIComponent(canonicalKey) + "/pack.zip";

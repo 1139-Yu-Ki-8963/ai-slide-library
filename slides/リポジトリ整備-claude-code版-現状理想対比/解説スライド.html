@@ -542,5 +542,13 @@
       return function(){ switchVariant(btn.dataset.slug, true); };
     })(tabButtons[k]));
   }
+
+  window.addEventListener('hashchange', function(){
+    var slug = (location.hash || "").replace("#", "");
+    if (!VARIANTS[slug]) return;
+    var activeBtn = document.querySelector('#variant-tabs button.active');
+    if (activeBtn && activeBtn.dataset.slug === slug) return;
+    switchVariant(slug, false);
+  });
 })();
 </script>
