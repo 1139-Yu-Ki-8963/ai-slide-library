@@ -291,6 +291,7 @@
 (function(){
   const VARIANTS = {
     "claude-code": {
+      accent: "#D97757",
       eyebrow: "Claude Code",
       title: "Claude Code — AI駆動開発の docs 配置ガイド",
       subtitle: ".md に書いてここに置く — それだけで AI の行動が変わる",
@@ -333,6 +334,7 @@
       }
     },
     "cursor": {
+      accent: "#23282E",
       eyebrow: "CURSOR",
       title: "Cursor — AI駆動開発の docs 配置ガイド",
       subtitle: ".mdc に書いてここに置く — それだけで AI の行動が変わる",
@@ -375,6 +377,7 @@
       }
     },
     "codex": {
+      accent: "#10A37F",
       eyebrow: "CODEX CLI",
       title: "Codex CLI — AI駆動開発の docs 配置ガイド",
       subtitle: "AGENTS.md と .codex/ に書いてここに置く — それだけで AI の行動が変わる",
@@ -440,6 +443,7 @@
     var actual = VARIANTS[slug] ? slug : "claude-code";
     var v = VARIANTS[actual];
 
+    document.documentElement.style.setProperty('--claude', v.accent);
     document.title = v.title;
     document.querySelector('[data-v="eyebrow"]').textContent = v.eyebrow;
     document.querySelector('[data-v="title"]').textContent = v.title;
