@@ -1,0 +1,336 @@
+<meta charset="utf-8">
+<title>Claude Code 複数アカウント<wbr>切り替えの仕組み</title>
+<style>
+:root {
+  --page: #EDF0F4;
+  --surface: #FFFFFF;
+  --ink: #1C2B3A;
+  --ink-2: #55667A;
+  --ink-3: #8494A6;
+  --border: #D9E0E8;
+  --grid: #E9EDF2;
+  --critical: #C0392B;
+  --critical-soft: #FAECEA;
+  --good: #1F7A46;
+  --good-soft: #EAF4EE;
+  --tag-bg: #EDF1F6;
+  --claude: #D97757;
+  --claude-deep: #BC5B3B;
+  --claude-soft: #FBF0EA;
+  --bedrock: #FF9900;
+  --bedrock-soft: #FFF4E5;
+}
+
+html, body { height: 100%; overflow: hidden; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--page); }
+
+.slide-viewport {
+  width: 100vw; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--page); overflow: hidden;
+}
+.slide {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 1280px; height: 720px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(28, 43, 58, 0.08);
+  display: flex; flex-direction: column;
+  padding: 40px 48px 56px;
+  gap: 18px;
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+  transform: translate(-50%, -50%) scale(var(--slide-scale, 1));
+  transform-origin: center center;
+}
+
+.slide-header { display: flex; flex-direction: column; gap: 4px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+.slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+.slide-title { font-size: 28px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+.slide-subtitle { font-size: 15px; color: var(--ink-2); }
+
+.slide-page { display: none; flex-direction: column; flex: 1; gap: 14px; min-height: 0; }
+.slide-page.is-active { display: flex; }
+
+.layer-stack { display: flex; flex-direction: column; gap: 12px; flex: 1; min-height: 0; justify-content: center; }
+.layer-band { display: flex; align-items: center; gap: 20px; padding: 16px 26px; border-radius: 10px; background: var(--tag-bg); border: 1.5px solid var(--border); border-left: 5px solid var(--ink-3); }
+.layer-band--critical { background: var(--critical-soft); border-color: var(--critical); border-left-color: var(--critical); }
+.layer-band--good { background: var(--good-soft); border-color: var(--good); border-left-color: var(--good); }
+.layer-body { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.layer-body h3 { font-size: 16px; font-weight: 700; color: var(--ink); }
+.layer-desc { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+
+.slide-meta { margin-top: auto; border-top: 1px solid var(--border); padding-top: 8px; min-height: 8px; }
+
+.pager { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); z-index: 100; }
+.pager button { background: none; border: 1px solid var(--border); border-radius: 4px; padding: 4px 10px; cursor: pointer; font-size: 14px; color: var(--ink); }
+.pager button:disabled { opacity: 0.3; cursor: default; }
+.pager-count { font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+/* 1ページ目: 仕組み全体の SVG 図解 */
+.diagram-wrap { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+.diagram-wrap svg { width: 100%; max-width: 1180px; height: auto; display: block; }
+.caution-line { font-size: 12px; color: var(--critical); font-weight: 600; text-align: center; padding: 4px 0; }
+
+/* Bedrock 認証方式カード（2ページ目用） */
+.auth-cards { display: flex; gap: 12px; flex: 0 0 auto; }
+.auth-card { flex: 1; background: var(--tag-bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+.auth-card-head { display: flex; align-items: center; gap: 8px; }
+.auth-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+.auth-dot--claude { background: var(--claude); }
+.auth-dot--ink3 { background: var(--ink-3); }
+.auth-dot--good { background: var(--good); }
+.auth-card h4 { font-size: 14px; font-weight: 700; color: var(--ink); }
+.auth-card .auth-desc { font-size: 11.5px; color: var(--ink-2); line-height: 1.5; }
+.auth-card .auth-confirm { font-size: 11px; color: var(--good); line-height: 1.5; font-weight: 600; }
+.auth-card .code { font-family: "SF Mono", "Menlo", monospace; font-size: 10.5px; background: var(--ink); color: #9fe6a0; padding: 8px 10px; border-radius: 6px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+.code-inline { font-family: "SF Mono", "Menlo", monospace; font-size: 11px; background: var(--ink); color: #9fe6a0; padding: 4px 10px; border-radius: 6px; display: inline-block; margin-top: 2px; }
+.region-examples { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+.region-chip { font-family: "SF Mono", "Menlo", monospace; font-size: 11px; background: var(--surface); border: 1px solid var(--critical); color: var(--ink); padding: 3px 8px; border-radius: 6px; }
+</style>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">CLAUDE CODE 環境構築</span>
+      <h1 class="slide-title">複数アカウントを<wbr>並行して使う方法</h1>
+      <p class="slide-subtitle">CLAUDE_CONFIG_DIR による<wbr>設定ディレクトリの隔離</p>
+    </header>
+
+    <!-- 1ページ目: ディレクトリを分ける戦略を SVG で図解 -->
+    <section class="slide-page is-active">
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 1180 470" width="1180" height="470" xmlns="http://www.w3.org/2000/svg" style="font-family: system-ui, -apple-system, 'Hiragino Sans', sans-serif;">
+
+          <!-- ゾーン1: 戦略の一文 -->
+          <text x="590" y="35" font-size="20" font-weight="700" text-anchor="middle" style="fill: var(--ink);">ディレクトリを分ければ 2つのアカウントを並行して使える</text>
+
+          <!-- ゾーン2: メインの図（2つの大きなボックス） -->
+          <g>
+            <!-- 左ボックス: メインアカウント -->
+            <rect x="40" y="70" width="535" height="250" rx="12" style="fill: var(--good-soft); stroke: var(--good); stroke-width: 3;"></rect>
+            <text x="64" y="100" font-size="16" font-weight="700" style="fill: var(--ink);">メインアカウント</text>
+            <text x="64" y="132" font-size="22" font-weight="700" style="fill: var(--ink); font-family: 'SF Mono', 'Menlo', monospace;">~/.claude/</text>
+            <line x1="64" y1="140" x2="551" y2="140" style="stroke: var(--border); stroke-width: 1;"></line>
+
+            <!-- 認証情報（1行目・1列目） -->
+            <rect x="55" y="155" width="220" height="40" rx="8" style="fill: var(--surface); stroke: var(--good); stroke-width: 1.2;"></rect>
+            <circle cx="71" cy="175" r="7" style="fill: none; stroke: var(--good); stroke-width: 2;"></circle>
+            <rect x="78" y="173" width="14" height="4" style="fill: var(--good);"></rect>
+            <rect x="88" y="170" width="3" height="4" style="fill: var(--good);"></rect>
+            <rect x="92" y="170" width="3" height="6" style="fill: var(--good);"></rect>
+            <text x="99" y="179" font-size="11" style="fill: var(--ink);">認証情報</text>
+
+            <!-- settings.json（1行目・2列目） -->
+            <rect x="295" y="155" width="220" height="40" rx="8" style="fill: var(--surface); stroke: var(--good); stroke-width: 1.2;"></rect>
+            <circle cx="311" cy="175" r="9" style="fill: none; stroke: var(--good); stroke-width: 2;"></circle>
+            <circle cx="311" cy="175" r="3" style="fill: var(--good);"></circle>
+            <rect x="309" y="163" width="4" height="4" style="fill: var(--good);"></rect>
+            <rect x="309" y="183" width="4" height="4" style="fill: var(--good);"></rect>
+            <rect x="299" y="173" width="4" height="4" style="fill: var(--good);"></rect>
+            <rect x="319" y="173" width="4" height="4" style="fill: var(--good);"></rect>
+            <text x="329" y="179" font-size="11" style="fill: var(--ink);">settings.json</text>
+
+            <!-- rules / skills（2行目・1列目） -->
+            <rect x="55" y="203" width="220" height="40" rx="8" style="fill: var(--surface); stroke: var(--good); stroke-width: 1.2;"></rect>
+            <rect x="65" y="214" width="12" height="18" rx="1" style="fill: none; stroke: var(--good); stroke-width: 1.5;"></rect>
+            <line x1="68" y1="221" x2="74" y2="221" style="stroke: var(--good); stroke-width: 1.5; stroke-linecap: round;"></line>
+            <line x1="68" y1="226" x2="74" y2="226" style="stroke: var(--good); stroke-width: 1.5; stroke-linecap: round;"></line>
+            <text x="89" y="227" font-size="11" style="fill: var(--ink);">rules / skills</text>
+
+            <!-- セッション履歴（2行目・2列目） -->
+            <rect x="295" y="203" width="220" height="40" rx="8" style="fill: var(--surface); stroke: var(--good); stroke-width: 1.2;"></rect>
+            <circle cx="311" cy="223" r="9" style="fill: none; stroke: var(--good); stroke-width: 2;"></circle>
+            <line x1="311" y1="223" x2="311" y2="217" style="stroke: var(--good); stroke-width: 2; stroke-linecap: round;"></line>
+            <line x1="311" y1="223" x2="317" y2="223" style="stroke: var(--good); stroke-width: 2; stroke-linecap: round;"></line>
+            <text x="325" y="227" font-size="11" style="fill: var(--ink);">セッション履歴</text>
+
+            <text x="64" y="286" font-size="12.5" style="fill: var(--ink-2);">デスクトップアプリ・VS Code・CLI が参照</text>
+
+            <!-- 右ボックス: サブアカウント -->
+            <rect x="605" y="70" width="535" height="250" rx="12" style="fill: var(--tag-bg); stroke: var(--ink-3); stroke-width: 3;"></rect>
+            <text x="629" y="100" font-size="16" font-weight="700" style="fill: var(--ink);">サブアカウント</text>
+            <text x="629" y="132" font-size="22" font-weight="700" style="fill: var(--ink); font-family: 'SF Mono', 'Menlo', monospace;">~/.claude-account-b/</text>
+            <line x1="629" y1="140" x2="1116" y2="140" style="stroke: var(--border); stroke-width: 1;"></line>
+
+            <!-- 認証情報（1行目・1列目） -->
+            <rect x="620" y="155" width="220" height="40" rx="8" style="fill: var(--surface); stroke: var(--ink-3); stroke-width: 1.2;"></rect>
+            <circle cx="636" cy="175" r="7" style="fill: none; stroke: var(--ink-3); stroke-width: 2;"></circle>
+            <rect x="643" y="173" width="14" height="4" style="fill: var(--ink-3);"></rect>
+            <rect x="653" y="170" width="3" height="4" style="fill: var(--ink-3);"></rect>
+            <rect x="657" y="170" width="3" height="6" style="fill: var(--ink-3);"></rect>
+            <text x="664" y="179" font-size="11" style="fill: var(--ink);">認証情報</text>
+
+            <!-- settings.json（1行目・2列目） -->
+            <rect x="860" y="155" width="220" height="40" rx="8" style="fill: var(--surface); stroke: var(--ink-3); stroke-width: 1.2;"></rect>
+            <circle cx="876" cy="175" r="9" style="fill: none; stroke: var(--ink-3); stroke-width: 2;"></circle>
+            <circle cx="876" cy="175" r="3" style="fill: var(--ink-3);"></circle>
+            <rect x="874" y="163" width="4" height="4" style="fill: var(--ink-3);"></rect>
+            <rect x="874" y="183" width="4" height="4" style="fill: var(--ink-3);"></rect>
+            <rect x="864" y="173" width="4" height="4" style="fill: var(--ink-3);"></rect>
+            <rect x="884" y="173" width="4" height="4" style="fill: var(--ink-3);"></rect>
+            <text x="894" y="179" font-size="11" style="fill: var(--ink);">settings.json</text>
+
+            <!-- rules / skills（2行目・1列目） -->
+            <rect x="620" y="203" width="220" height="40" rx="8" style="fill: var(--surface); stroke: var(--ink-3); stroke-width: 1.2;"></rect>
+            <rect x="630" y="214" width="12" height="18" rx="1" style="fill: none; stroke: var(--ink-3); stroke-width: 1.5;"></rect>
+            <line x1="633" y1="221" x2="639" y2="221" style="stroke: var(--ink-3); stroke-width: 1.5; stroke-linecap: round;"></line>
+            <line x1="633" y1="226" x2="639" y2="226" style="stroke: var(--ink-3); stroke-width: 1.5; stroke-linecap: round;"></line>
+            <text x="654" y="227" font-size="11" style="fill: var(--ink);">rules / skills</text>
+
+            <!-- セッション履歴（2行目・2列目） -->
+            <rect x="860" y="203" width="220" height="40" rx="8" style="fill: var(--surface); stroke: var(--ink-3); stroke-width: 1.2;"></rect>
+            <circle cx="876" cy="223" r="9" style="fill: none; stroke: var(--ink-3); stroke-width: 2;"></circle>
+            <line x1="876" y1="223" x2="876" y2="217" style="stroke: var(--ink-3); stroke-width: 2; stroke-linecap: round;"></line>
+            <line x1="876" y1="223" x2="882" y2="223" style="stroke: var(--ink-3); stroke-width: 2; stroke-linecap: round;"></line>
+            <text x="890" y="227" font-size="11" style="fill: var(--ink);">セッション履歴</text>
+
+            <text x="629" y="276" font-size="11" style="fill: var(--ink-2);">CLI 専用 ─ 環境変数で切り替え</text>
+            <text x="629" y="296" font-size="11" style="fill: var(--ink-2);">Bedrock 接続は settings.json で設定（<tspan style="fill: var(--claude); font-weight: 600;">→ 2ページ目</tspan>）</text>
+          </g>
+
+          <!-- ゾーン3: 切り替え方法 -->
+          <g>
+            <text x="228" y="359" font-size="13" text-anchor="end" style="fill: var(--ink-2);">起動方法 →</text>
+            <rect x="240" y="335" width="700" height="36" rx="8" style="fill: var(--ink);"></rect>
+            <text x="590" y="359" font-size="14" text-anchor="middle" style="fill: var(--surface); font-family: 'SF Mono', 'Menlo', monospace;">CLAUDE_CONFIG_DIR=~/.claude-account-b claude</text>
+          </g>
+
+          <!-- ゾーン4: エイリアス登録 + 制約 -->
+          <g>
+            <text x="40" y="397" font-size="13" font-weight="700" style="fill: var(--ink);">エイリアス登録（~/.zshrc に追記）</text>
+            <rect x="40" y="405" width="660" height="28" rx="6" style="fill: var(--ink);"></rect>
+            <text x="56" y="424" font-size="12" style="fill: var(--surface); font-family: 'SF Mono', 'Menlo', monospace;">alias claude-account-b='CLAUDE_CONFIG_DIR="$HOME/.claude-account-b" claude'</text>
+            <text x="40" y="449" font-size="11" style="fill: var(--good);">→ 以降 claude-account-b で起動できる</text>
+            <text x="1140" y="424" font-size="12" text-anchor="end" font-weight="600" style="fill: var(--critical);">⚠ デスクトップアプリ・VS Code は非対応</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 2ページ目: Bedrock 認証方式の3カラム比較 -->
+    <section class="slide-page" style="padding-top: 10px;">
+      <div class="layer-stack">
+
+        <div class="layer-band">
+          <div class="layer-body">
+            <h3>Bedrock サブ環境の設定</h3>
+            <p class="layer-desc">~/.claude-bedrock-{id}/settings.json に<wbr>認証情報を記載する。<wbr>env ブロックに CLAUDE_CODE_USE_BEDROCK と<wbr> AWS_REGION を必ず含める。</p>
+            <p class="layer-desc">命名規則: ~/.claude-bedrock-{識別名}/</p>
+            <p class="layer-desc">ディレクトリ作成: <span class="code-inline">mkdir -p ~/.claude-bedrock-dev</span></p>
+          </div>
+        </div>
+
+        <div class="auth-cards">
+          <div class="auth-card">
+            <div class="auth-card-head">
+              <span class="auth-dot auth-dot--claude"></span>
+              <h4>Bearer Token</h4>
+            </div>
+            <p class="auth-desc">AccessKey が<wbr> {user}-at-{accountId} 形式の場合</p>
+            <div class="code">"env": {
+  "CLAUDE_CODE_USE_BEDROCK": "1",
+  "AWS_REGION": "ap-northeast-1",
+  "AWS_BEARER_TOKEN_BEDROCK": "ABSK..."
+}</div>
+            <p class="auth-confirm">確認: /status で Provider: Amazon Bedrock と表示</p>
+          </div>
+          <div class="auth-card">
+            <div class="auth-card-head">
+              <span class="auth-dot auth-dot--ink3"></span>
+              <h4>IAM アクセスキー</h4>
+            </div>
+            <p class="auth-desc">AccessKey が<wbr> AKIA... で始まる場合</p>
+            <div class="code">"env": {
+  "CLAUDE_CODE_USE_BEDROCK": "1",
+  "AWS_REGION": "ap-northeast-1",
+  "AWS_ACCESS_KEY_ID": "AKIA...",
+  "AWS_SECRET_ACCESS_KEY": "..."
+}</div>
+            <p class="auth-confirm">確認: /status で Provider: Amazon Bedrock と表示</p>
+          </div>
+          <div class="auth-card">
+            <div class="auth-card-head">
+              <span class="auth-dot auth-dot--good"></span>
+              <h4>SSO / Identity Center</h4>
+            </div>
+            <p class="auth-desc">aws sso login で<wbr>一時クレデンシャルを取得</p>
+            <p class="auth-desc">事前に aws sso login --profile {profile} が必要</p>
+            <div class="code">"env": {
+  "CLAUDE_CODE_USE_BEDROCK": "1",
+  "AWS_REGION": "ap-northeast-1",
+  "AWS_PROFILE": "my-sso-profile"
+}</div>
+            <p class="auth-confirm">確認: /status で Provider: Amazon Bedrock と表示</p>
+          </div>
+        </div>
+
+        <div class="layer-band layer-band--critical">
+          <div class="layer-body">
+            <h3>モデル版固定と制約</h3>
+            <p class="layer-desc">Bedrock のデフォルトモデルは<wbr> Anthropic API より遅延する。<wbr>settings.json の env に<wbr>リージョンプレフィックス付きモデル ID を追加して固定する<wbr>（例: jp.anthropic.claude-opus-4-8）。</p>
+            <p class="layer-desc">WebSearch ツールは利用不可。</p>
+            <div class="region-examples">
+              <span class="region-chip">us-east-1 → us.anthropic.</span>
+              <span class="region-chip">ap-northeast-1 → jp.anthropic.</span>
+              <span class="region-chip">eu-west-1 → eu.anthropic.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer class="slide-meta"></footer>
+
+  </div>
+
+  <nav class="pager">
+    <button type="button" data-pager-prev aria-label="前のページ">←</button>
+    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>2</span></span>
+    <button type="button" data-pager-next aria-label="次のページ">→</button>
+  </nav>
+</div>
+
+<script>
+(function () {
+  var pages = Array.prototype.slice.call(document.querySelectorAll('.slide-page'));
+  var pager = document.querySelector('.pager');
+  if (!pager) return;
+  if (pages.length < 2) { pager.style.display = 'none'; return; }
+  var idx = 0;
+  var prev = pager.querySelector('[data-pager-prev]');
+  var next = pager.querySelector('[data-pager-next]');
+  var current = pager.querySelector('[data-pager-current]');
+  pager.querySelector('[data-pager-total]').textContent = pages.length;
+  function render() {
+    pages.forEach(function (p, i) { p.classList.toggle('is-active', i === idx); });
+    current.textContent = idx + 1;
+    prev.disabled = idx === 0;
+    next.disabled = idx === pages.length - 1;
+  }
+  prev.addEventListener('click', function () { if (idx > 0) { idx--; render(); } });
+  next.addEventListener('click', function () { if (idx < pages.length - 1) { idx++; render(); } });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft' && idx > 0) { idx--; render(); }
+    if (e.key === 'ArrowRight' && idx < pages.length - 1) { idx++; render(); }
+  });
+  render();
+})();
+</script>
+
+<script>
+(function(){
+  function f(){
+    document.documentElement.style.setProperty(
+      '--slide-scale',
+      Math.min(innerWidth/1280, innerHeight/720)
+    );
+  }
+  addEventListener('resize', f);
+  f();
+})();
+</script>
