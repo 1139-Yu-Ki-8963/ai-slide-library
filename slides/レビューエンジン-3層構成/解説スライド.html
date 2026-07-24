@@ -189,7 +189,7 @@
       </header>
 
       <div class="flow-diagram">
-        <svg width="1180" height="155" viewBox="0 0 1180 155" aria-label="工程 1 から工程 6 までのレビューフロー図。工程 5 から工程 2 へ戻る収束ループを持つ">
+        <svg width="1180" height="190" viewBox="0 0 1180 190" aria-label="工程 1 から工程 6 までのレビューフロー図。工程 5 から工程 2 へ戻る収束ループを持つ">
           <defs>
             <marker id="arrow-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
               <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/>
@@ -237,8 +237,8 @@
           <line x1="1006" y1="50" x2="1046" y2="50" stroke="var(--ink-3)" stroke-width="1.75" marker-end="url(#arrow-ink)"/>
 
           <!-- 収束ループ: Phase 5 → Phase 2 へ戻る曲線矢印 -->
-          <path d="M927,85 C927,132 308,132 308,85" fill="none" stroke="var(--critical)" stroke-width="1.75" stroke-dasharray="5 3" marker-end="url(#arrow-critical)"/>
-          <text class="flow-loop-text" x="617" y="145" text-anchor="middle">新規指摘あり → 再実行</text>
+          <path d="M927,89 C927,158 308,158 308,89" fill="none" stroke="var(--critical)" stroke-width="1.75" stroke-dasharray="5 3" marker-end="url(#arrow-critical)"/>
+          <text class="flow-loop-text" x="617" y="180" text-anchor="middle">新規指摘あり → 再実行</text>
         </svg>
       </div>
 
@@ -264,7 +264,7 @@
           <span class="step-chip step-chip--good">4</span>
           <div class="layer-body">
             <h3>判断系レビュー</h3>
-            <p class="layer-desc">4 つの専門家が<wbr>観点別に照合。<wbr>Haiku・Sonnet・Fable の<wbr>3 モデルを使い分ける</p>
+            <p class="layer-desc">4 つの専門家が<wbr>観点別に照合。<wbr>Haiku・Sonnet・Opus の<wbr>3 モデルを使い分ける</p>
           </div>
         </div>
 
@@ -371,7 +371,7 @@
 
         <article class="compare-card">
           <h2>反証</h2>
-          <p class="compare-desc">Fable が作成文脈を<wbr>持たない懐疑者として<wbr>反証を試みる。<wbr>「誤りがある」前提で<wbr>証拠を探す</p>
+          <p class="compare-desc">Opus が作成文脈を<wbr>持たない懐疑者として<wbr>反証を試みる。<wbr>「誤りがある」前提で<wbr>証拠を探す</p>
           <ul class="compare-list">
             <li>論理整合・範囲整合・影響範囲の 3 観点で反証</li>
             <li>コード差分に対して反証（変更が壊すものを探す）</li>
