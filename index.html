@@ -2003,7 +2003,13 @@ function getVisibleSlides() {
   if (state.proposalPack !== "すべて") {
     fullList.sort((a, b) => (packOrderForItem(a) || 0) - (packOrderForItem(b) || 0));
   } else {
-    fullList.sort((a, b) => (b.updated || b.date || "").localeCompare(a.updated || a.date || ""));
+    fullList.forEach(function(s, i) { s._origIdx = i; });
+    fullList.sort(function(a, b) {
+      var da = (b.updated || b.date || ""), db = (a.updated || a.date || "");
+      var cmp = da.localeCompare(db);
+      if (cmp !== 0) return cmp;
+      return b._origIdx - a._origIdx;
+    });
   }
   const visibleList = fullList.slice(0, state.visibleCount);
   return { fullList, visibleList };
