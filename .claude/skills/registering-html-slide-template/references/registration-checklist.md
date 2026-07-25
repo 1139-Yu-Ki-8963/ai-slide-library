@@ -19,6 +19,19 @@
 - 生成後の一覧にキー・型名・リンクがある
 - スライドをコミットした後に再生成し、`updated`を同期する
 
+## 共通スキルへの型登録
+
+- `~/agent-home/skills/generating-explanation-html-slides/SKILL.md`を正本として確認する
+- 型診断表に「テーマの性質→新型」の判定行を追加する
+- 型一覧に構造要約と参照テンプレートを追加する
+- 型別追加ヒアリングに入力項目・数値の出所・反映先を追加する
+- Phase 2の構造設計ルールとPhase 3のテンプレート読込分岐に追加する
+- `references/slide-review-checklist.md`に型固有の合否観点を追加する
+- `generating-explanation-html-slides-guide.html`の型一覧・参照資料・フローを同期する
+- `rg`で4つの登録先（診断表・型一覧・ヒアリング・レビュー表）を確認する
+- `git diff --check`とガイドテンプレート検証をPASSにする
+- 共通スキルの変更をスライド成果物と別コミットにする
+
 ## 公開確認
 
 - 一覧URLがHTTP 200

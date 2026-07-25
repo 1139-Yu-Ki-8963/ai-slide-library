@@ -1,8 +1,8 @@
 ---
 name: registering-html-slide-template
 description: |
-  新HTMLスライド型を登録。
-  TRIGGER when: 新型、テンプレート登録時。
+  新HTMLスライド型を登録し、共通スキルの型選択ロジックまで同期する。
+  TRIGGER when: 新型、テンプレート登録、型選択ロジック追加時。
   SKIP: 既存型で1枚作成時。
 invocation: registering-html-slide-template
 type: orchestration
@@ -58,7 +58,25 @@ allowed-tools: [Bash, Read, Write, Edit, Agent, AskUserQuestion]
 4. サンプル文言・数値は実データと誤認されないよう、必要に応じて「例」「サンプル」と明記する。
 5. サムネイルは公開成果物として `slides/<key>/サムネイル.png` に置く。検証用スクリーンショットは `~/agent-home/tools/MCP/playwright/` に絶対パスで保存する。
 
-### Phase 4: カタログへ登録
+### Phase 4: 共通スキルへ型登録
+
+完了条件: `generating-explanation-html-slides` が新型を診断・ヒアリング・構造設計・レビュー対象として認識する。
+
+新型を作っただけでは登録完了とみなさない。`generating-explanation-html-slides` が今後の型未指定依頼で選べるよう、次の同期を必ず行う。
+
+1. グローバル正本 `~/agent-home/skills/generating-explanation-html-slides/SKILL.md` を Read し、既存の型一覧・型診断表・型別追加ヒアリング・Phase 2/3 の型分岐・参照資料・完了条件を確認する。
+2. 新型の判定語（テーマの性質→型名）を型診断表へ追加する。既存型と重なる場合は、優先順位または AskUserQuestion の確認条件も明記する。
+3. 型一覧へ、構造の要約と参照テンプレートを追加する。新しい参照テンプレートが必要なら `generating-explanation-html-slides/references/` に作成し、既存の保持済みテンプレートを使う場合はその正本スキル名・`artifact-template.json`・参照画像を明記する。
+4. 型別追加ヒアリングへ、入力項目・数値の出所・テンプレート反映先を追加する。
+5. Phase 2 の構造設計ルールと Phase 3 のテンプレート読込分岐へ同じ型を追加する。
+6. `references/slide-review-checklist.md` に、型固有の合否観点を追加する。少なくとも「構造要素の対応」「実測値/例示値の区別」「数値の検算または出所」を含める。
+7. `references/generating-explanation-html-slides-guide.html` の型診断表・参照テンプレート・ワークフロー説明を更新する。
+8. `rg` で型名が SKILL.md・ガイド・レビュー表に存在することを確認し、`git diff --check` と `node /Users/MacPro/agent-home/skills/managing-agent-configs/scripts/manage-portal.mjs verify --only guide-テンプレ準拠` を実行する。
+9. 型登録の変更と生成スライドの変更を混ぜず、グローバル正本の変更は対象ファイルだけを別コミットにする。
+
+**完了**: 新型が「診断候補→型別ヒアリング→構造設計→テンプレート読込→固有レビュー」の全経路に存在し、静的検証がPASSしたこと
+
+### Phase 5: カタログへ登録
 
 完了条件: 蓄積簿・型検証・一覧データが新型を認識し、生成検査が成功している。
 
@@ -68,7 +86,7 @@ allowed-tools: [Bash, Read, Write, Edit, Agent, AskUserQuestion]
 4. 生成された一覧に新型、HTMLリンク、サムネイルリンクがあることを確認する。
 5. スライドをコミットした後に、カタログをもう一度生成する。`updated` は実際のスライドコミット日を使うため、先に生成すると更新順が古いままになる。
 
-### Phase 5: レビューと実機検証
+### Phase 6: レビューと実機検証
 
 完了条件: 固定レビュー、HTMLレビュー、表示検証、内容検証がすべて合格している。
 
@@ -83,7 +101,7 @@ allowed-tools: [Bash, Read, Write, Edit, Agent, AskUserQuestion]
    - 外部画像・外部フォントが必須ではない
 5. 指摘があれば一括修正し、全レビューを再実行する。
 
-### Phase 6: 公開反映
+### Phase 7: 公開反映
 
 完了条件: 公開リポジトリと公開URLの一覧・HTML・サムネイルが一致している。
 
@@ -127,9 +145,10 @@ HTMLとサムネイルがローカルで存在しても、カタログ生成前�
 | Phase 1 | 型の要件と登録対象が確定している |
 | Phase 2 | 全件比較と共通シェル契約が記録されている |
 | Phase 3 | 共通シェル準拠のHTMLとサムネイルがある |
-| Phase 4 | 蓄積簿・検証スクリプト・一覧が新型を認識する |
-| Phase 5 | 固定レビューとデスクトップ／モバイル検証が合格する |
-| Phase 6 | push後の公開一覧・HTML・サムネイルが一致する |
+| Phase 4 | 共通スキルの型診断・ヒアリング・構造・レビューが新型を認識する |
+| Phase 5 | 蓄積簿・検証スクリプト・一覧が新型を認識する |
+| Phase 6 | 固定レビューとデスクトップ／モバイル検証が合格する |
+| Phase 7 | push後の公開一覧・HTML・サムネイルが一致する |
 | **Goal** | 新型が再利用可能な型として登録され、公開URLで内容を確認できる |
 
 ## サブエージェント委任仕様
@@ -137,7 +156,7 @@ HTMLとサムネイルがローカルで存在しても、カタログ生成前�
 | 呼び出し箇所 | subagent_type | prompt 骨格 | 期待返却値 |
 |---|---|---|---|
 | Phase 2 | investigator | 全スライドの共通シェル・例外・リダイレクトを読み取り専用で比較 | ファイル別の判定表と残存リスク |
-| Phase 5 | worker-haiku | 指定HTMLを1280×720／375×667で開き、表示条件を検証 | PASS/FAIL、再現情報、保存した検証画像 |
+| Phase 6 | worker-haiku | 指定HTMLを1280×720／375×667で開き、表示条件を検証 | PASS/FAIL、再現情報、保存した検証画像 |
 
 ## 参照資料
 
