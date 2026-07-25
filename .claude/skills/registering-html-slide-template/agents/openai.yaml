@@ -1,0 +1,7 @@
+interface:
+  display_name: "HTMLスライド型登録"
+  short_description: "新しいHTMLスライド型を調査・登録・公開"
+  default_prompt: "Use $registering-html-slide-template to register a new reusable HTML slide template."
+
+policy:
+  allow_implicit_invocation: true
