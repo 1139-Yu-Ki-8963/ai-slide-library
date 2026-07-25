@@ -161,10 +161,15 @@
   .constraint-text { font-size: 11.5px; color: var(--critical); font-weight: 500; }
 
   /* ── Footer ── */
-  .slide-footer {
+  .footer-notes {
     display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
     padding-top: 8px;
+  }
+  .slide-meta {
+    height: 20px;
+    padding-top: 4px;
     border-top: 1px solid var(--border);
+    flex-shrink: 0;
   }
   .footer-axis { display: flex; gap: 8px; align-items: flex-start; }
   .footer-axis-label {
@@ -274,7 +279,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="slide-footer">
+    <div class="footer-notes">
       <div class="footer-axis">
         <span class="footer-axis-label">第1軸:</span>
         <p class="footer-axis-desc"><strong>所有レベル</strong> — グローバル（共通）か プロジェクト固有（リポジトリ単位）か</p>
@@ -283,7 +288,8 @@
         <span class="footer-axis-label">第2軸:</span>
         <p class="footer-axis-desc"><strong>注入タイミング</strong> — always（常時）か scoped（条件付き）か。両レベル共通の考え方</p>
       </div>
-    </footer>
+    </div>
+    <footer class="slide-meta"></footer>
 
   </div>
 </div>
