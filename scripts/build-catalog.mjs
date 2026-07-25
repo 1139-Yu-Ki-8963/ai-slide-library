@@ -9,12 +9,40 @@ import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const ledgerPath = join(root, "docs", "スライド蓄積簿.md");
+const purposePath = join(root, "docs", "スライド主題一覧.md");
 const indexPath = join(root, "index.html");
 const promptsPath = join(root, "catalog-prompts.json");
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 const ledger = readFileSync(ledgerPath, "utf8");
+
+// --- スライド主題一覧の読み取り ---
+// 主題はHTMLから推測せず、一覧・検索・生成物で共有する正本から読む。
+if (!existsSync(purposePath)) {
+  console.error("エラー: docs/スライド主題一覧.md がありません");
+  process.exit(1);
+}
+const purposeDoc = readFileSync(purposePath, "utf8");
+const purposeSection = purposeDoc.split(/^\| スライドキー \| 伝えるべき主題 \|$/m)[1];
+if (!purposeSection) {
+  console.error("エラー: docs/スライド主題一覧.md に主題一覧表がありません");
+  process.exit(1);
+}
+const purposes = new Map();
+const purposeErrors = [];
+for (const line of purposeSection.split("\n")) {
+  const cells = line.split("|").map(c => c.trim());
+  if (cells.length !== 4 || !cells[1] || !cells[2] || /^-+$/.test(cells[1])) continue;
+  const [key, purpose] = [cells[1], cells[2]];
+  if (purposes.has(key)) purposeErrors.push(`${key}: 主題が重複しています`);
+  if (!/[。！？]$/.test(purpose)) purposeErrors.push(`${key}: 主題は一文として句点で終えてください`);
+  purposes.set(key, purpose);
+}
+if (purposeErrors.length) {
+  console.error("主題一覧の検証に失敗しました:\n" + purposeErrors.map(e => `- ${e}`).join("\n"));
+  process.exit(1);
+}
 
 // --- タグ語彙一覧の読み取り ---
 const vocabSection = ledger.split(/^## タグ語彙一覧$/m)[1]?.split(/^## /m)[0];
@@ -112,6 +140,7 @@ for (const line of section.split("\n")) {
   const entry = {
     key,
     title,
+    purpose: purposes.get(key) || "",
     target,
     problems,
     tools: splitTags(tools),
@@ -140,6 +169,13 @@ for (const line of section.split("\n")) {
     }
   }
   slides.push(entry);
+}
+const ledgerKeys = new Set(slides.map(s => s.key));
+for (const key of ledgerKeys) {
+  if (!purposes.has(key)) validationErrors.push(`${key}: docs/スライド主題一覧.md に主題がありません`);
+}
+for (const key of purposes.keys()) {
+  if (!ledgerKeys.has(key)) validationErrors.push(`${key}: 主題一覧にありますがスライド一覧に登録されていません`);
 }
 // --- slides/ ディレクトリと蓄積簿の突合（fs → 蓄積簿方向） ---
 // 蓄積簿 → fs 方向は上のループ内 existsSync が担う。fs にあるが蓄積簿に
