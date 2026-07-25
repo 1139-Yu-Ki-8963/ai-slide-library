@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>AI採用成熟度 — 現在地と次の一手（強弱設計の改善例）</title>
+<title>AI採用成熟度 — 5段階と解禁条件（強弱設計の改善例）</title>
 <style>
   :root {
     --page: #EDF0F4;
@@ -134,12 +134,12 @@
 
   .slide-meta { height: 10px; }
 
-  /* 資料全体の強弱を検証する改善版: 現在地と次の一手だけを強くする */
+  /* 資料全体の強弱を検証する改善版: 結論と解禁条件を先に強くする */
   .focus-layout { display: grid; grid-template-columns: 310px 1fr; grid-template-rows: 1fr 118px; gap: 18px; flex: 1; min-height: 0; }
   .current-panel { border: 2px solid var(--claude); border-radius: 12px; padding: 18px 20px; background: var(--focus-soft); display: flex; flex-direction: column; gap: 9px; }
   .panel-kicker { font-size: 10px; font-weight: 800; letter-spacing: .08em; color: var(--claude-deep); }
-  .current-panel h2 { font-size: 25px; line-height: 1.12; color: var(--ink); }
-  .current-score { font-size: 42px; font-weight: 800; color: var(--claude-deep); line-height: 1; margin-top: 6px; }
+  .current-panel h2 { font-size: 24px; line-height: 1.2; color: var(--ink); }
+  .current-score { font-size: 24px; font-weight: 800; color: var(--claude-deep); line-height: 1.2; margin-top: 6px; }
   .current-score small { font-size: 15px; color: var(--ink-2); font-weight: 600; }
   .current-panel p { font-size: 12px; line-height: 1.55; color: var(--ink-2); }
   .current-panel .signal { margin-top: auto; padding-top: 9px; border-top: 1px solid var(--focus-border); font-size: 11px; color: var(--ink); font-weight: 700; }
@@ -168,49 +168,49 @@
 
     <header class="slide-header">
       <span class="slide-eyebrow">AI 採用 成熟度モデル｜強弱設計の改善例</span>
-      <h1 class="slide-title">現在地を先に示す：LEVEL 3から次は「レビュー自動化」</h1>
-      <p class="slide-subtitle">5段階を均等に説明せず、判断に必要な現在地と次の一手を先に示す（実測診断ではありません）</p>
+      <h1 class="slide-title">AI採用は5段階。自律化の前にガードレールを整える</h1>
+      <p class="slide-subtitle">段階を均等に並べるのではなく、各段階の役割と「次へ進む条件」を先に示す</p>
     </header>
 
     <div class="focus-layout">
       <section class="current-panel">
-        <span class="panel-kicker">改善例｜CURRENT STATE</span>
-        <h2>LEVEL 3<br>並列運用</h2>
-        <div class="current-score">3<span>/5</span></div>
-        <p>1人が複数エージェントを運用し、worktreeで実装と検証を分担できる状態。</p>
-        <p class="signal">ボトルネック：手動レビューが出力量に追いつかない</p>
+        <span class="panel-kicker">CORE MESSAGE</span>
+        <h2>自律化の前に<br>ガードレールを整える</h2>
+        <div class="current-score">土台 → 並列 → 自律</div>
+        <p>AI採用は機能を一気に解禁する話ではない。権限・作業分離・レビュー・検証を段階的に整える。</p>
+        <p class="signal">解禁順：分離 → レビュー → 検証</p>
       </section>
 
       <section class="next-panel">
+        <article class="next-card">
+          <span class="tag">LEVEL 1–2｜土台</span>
+          <h3>利用制限・ペア作業</h3>
+          <p><strong>役割：</strong>安全に使い始め、出力を人が確認できる状態を作る。</p>
+          <ul><li>SSO・権限・利用上限</li><li>全出力の手動確認</li></ul>
+        </article>
         <article class="next-card next-card--priority">
-          <span class="tag">NEXT PRIORITY</span>
-          <h3>レビューを自動化</h3>
-          <p><strong>最初に整える：</strong>コードレビュー・セキュリティレビュー・E2E検証をパイプライン化する。</p>
-          <ul><li>自動レビューを必須ゲート化</li><li>失敗時の再実行条件を記録</li></ul>
+          <span class="tag">LEVEL 3｜GATE</span>
+          <h3>並列で動かす</h3>
+          <p><strong>進む条件：</strong>複数エージェントの出力を機械的に検証できる。</p>
+          <ul><li>worktreeで作業を分離</li><li>レビュー・E2Eを自動化</li></ul>
         </article>
         <article class="next-card">
-          <span class="tag">KEEP</span>
-          <h3>並列運用を維持</h3>
-          <p>worktree分離と事前承認コマンドを使い、作業単位の独立性を保つ。</p>
-          <ul><li>作業単位を分離</li><li>権限を増やさない</li></ul>
-        </article>
-        <article class="next-card">
-          <span class="tag">LATER</span>
-          <h3>自律化は後段</h3>
-          <p>監督付き自律やバックグラウンド化は、検証網が整ってから解禁する。</p>
-          <ul><li>レビュー網の合格後に解禁</li><li>人間の例外判断を残す</li></ul>
+          <span class="tag">LEVEL 4–5｜後段</span>
+          <h3>監督付き自律</h3>
+          <p><strong>役割：</strong>検証網とコスト管理が整った後に、人は意図と例外に集中する。</p>
+          <ul><li>バックグラウンド化</li><li>例外判断は人に残す</li></ul>
         </article>
       </section>
 
       <div class="maturity-row" aria-label="AI採用成熟度の5段階">
         <div class="maturity"><b>LEVEL 1</b>利用制限</div><div class="maturity-arrow">›</div>
         <div class="maturity"><b>LEVEL 2</b>ペア作業</div><div class="maturity-arrow">›</div>
-        <div class="maturity maturity--current"><b>LEVEL 3｜現在地</b>並列運用</div><div class="maturity-arrow">›</div>
-        <div class="maturity maturity--next"><b>LEVEL 4｜次の一手</b>監督付き自律</div><div class="maturity-arrow">›</div>
+        <div class="maturity maturity--current"><b>LEVEL 3</b>並列運用</div><div class="maturity-arrow">›</div>
+        <div class="maturity maturity--next"><b>LEVEL 4</b>監督付き自律</div><div class="maturity-arrow">›</div>
         <div class="maturity"><b>LEVEL 5</b>全面自律</div>
       </div>
 
-      <!-- 旧5段階カードの均等配置は、改善版では現在地・次の一手・後段へ再編した -->
+      <!-- 旧5段階カードの均等配置は、改善版では役割・解禁条件の順へ再編した -->
     </div>
 
     <!--
