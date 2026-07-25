@@ -446,9 +446,9 @@ const SLIDES = [
   },
   {
     "key": "ai-model使い分け-役割観点",
-    "title": "AI モデルの使い分け方",
-    "purpose": "タスクの性質に応じてClaude CodeとCursorのモデル・モードを使い分ける方法を示す。",
-    "target": "Cursor auto モードと Claude Code の Opus/Sonnet/Haiku の役割別使い分け",
+    "title": "Claude Codeのlimitが切れた時だけCursorへ切り替える",
+    "purpose": "Claude Codeを主力にし、limitが切れた時だけCursorへ切り替え、設計はOpus・それ以外はComposerで継続する運用を示す。",
+    "target": "Claude Codeのモデルを役割で使い分け、limitが切れた時だけCursorへ切り替える運用",
     "problems": "モデル選定が未決定・全部 Opus にしてコストが膨らんでいる",
     "tools": [
       "claude-code",
@@ -469,8 +469,8 @@ const SLIDES = [
     "has_prompt": false,
     "template": "",
     "date": "2026-07-14",
-    "updated": "2026-07-17",
-    "updatedAt": "2026-07-17T16:59:52+09:00"
+    "updated": "2026-07-26",
+    "updatedAt": "2026-07-26T01:39:29+09:00"
   },
   {
     "key": "claude-code安全性-層構造観点",
@@ -653,8 +653,8 @@ const SLIDES = [
     "has_prompt": false,
     "template": "",
     "date": "2026-07-16",
-    "updated": "2026-07-24",
-    "updatedAt": "2026-07-24T14:42:36+09:00"
+    "updated": "2026-07-26",
+    "updatedAt": "2026-07-26T01:39:29+09:00"
   },
   {
     "key": "cursor-テンプレート構成",
@@ -863,8 +863,8 @@ const SLIDES = [
     "has_prompt": false,
     "template": "",
     "date": "2026-07-16",
-    "updated": "2026-07-17",
-    "updatedAt": "2026-07-17T16:59:52+09:00"
+    "updated": "2026-07-26",
+    "updatedAt": "2026-07-26T01:39:29+09:00"
   },
   {
     "key": "実害検証-完了定義",
@@ -1219,8 +1219,8 @@ const SLIDES = [
     "has_prompt": false,
     "template": "段階比較型",
     "date": "2026-07-19",
-    "updated": "2026-07-19",
-    "updatedAt": "2026-07-19T10:25:26+09:00"
+    "updated": "2026-07-26",
+    "updatedAt": "2026-07-26T01:39:29+09:00"
   },
   {
     "key": "読み取り専用先行導入-権限段階解禁",
@@ -1247,8 +1247,8 @@ const SLIDES = [
     "has_prompt": false,
     "template": "",
     "date": "2026-07-19",
-    "updated": "2026-07-19",
-    "updatedAt": "2026-07-19T14:17:39+09:00"
+    "updated": "2026-07-26",
+    "updatedAt": "2026-07-26T01:39:29+09:00"
   },
   {
     "key": "設計文書逆生成-整備自走ループ",
@@ -1719,8 +1719,8 @@ const SLIDES = [
     "has_prompt": false,
     "template": "課題比較影響型",
     "date": "2026-07-25",
-    "updated": "2026-07-25",
-    "updatedAt": "2026-07-25T21:48:36+09:00"
+    "updated": "2026-07-26",
+    "updatedAt": "2026-07-26T01:39:29+09:00"
   },
   {
     "key": "ai開発課題-重点行分析型",

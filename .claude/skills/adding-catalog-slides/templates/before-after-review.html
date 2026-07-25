@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{SLIDE_TITLE}}｜前後比較・公開禁止</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#edf0f4;color:#1d2b3a;font-family:system-ui,-apple-system,"Hiragino Sans",sans-serif}.notice{padding:10px;background:#fff3f3;color:#b3261e;text-align:center;font-weight:700}.wrap{max-width:1280px;margin:auto;padding:16px 12px 36px}.title{margin:0 0 8px;font-size:22px}.panel,.criteria{margin:0 0 18px;background:#fff;border:1px solid #d7dee7;border-radius:10px;overflow:hidden}.criteria{padding:14px 16px;border-left:5px solid #087db5}.criteria h2,.panel h2{margin:0 0 8px;font-size:17px}.criteria p{margin:5px 0;font-size:13px;line-height:1.55}.criteria ul{margin:6px 0 0;padding-left:1.3em;font-size:13px;line-height:1.6}.panel h2{padding:11px 14px;color:#fff;background:#596b80}.panel.proposal h2{background:#0d8a58}.panel img{display:block;width:100%;height:auto}.meta{color:#64748b;font-size:13px;margin:0 0 18px}@media(max-width:600px){.wrap{padding:10px 8px 24px}.title{font-size:18px}.criteria p,.criteria ul{font-size:12px}.panel h2{font-size:15px}}
+  </style>
+</head>
+<body>
+  <div class="notice">公開禁止｜ユーザーレビュー専用</div>
+  <main class="wrap">
+    <h1 class="title">{{SLIDE_TITLE}}</h1>
+    <p class="meta">{{REVIEW_PURPOSE}}</p>
+    <section class="criteria">
+      <h2>適用規約・判断基準</h2>
+      <p>{{RULES}}</p>
+      <ul>{{CRITERIA_ITEMS}}</ul>
+    </section>
+    <section class="criteria">
+      <h2>今回の変更点（Before → After）</h2>
+      <ul>{{CHANGE_ITEMS}}</ul>
+      <p><strong>保持した情報：</strong>{{PRESERVED_ITEMS}}</p>
+      <p><strong>未承認のため変更していない情報：</strong>{{UNTOUCHED_ITEMS}}</p>
+    </section>
+    <section class="panel current"><h2>1枚目：現在版</h2><img src="{{BEFORE_IMAGE}}" alt="現在版"></section>
+    <section class="panel proposal"><h2>2枚目：改善提案</h2><img src="{{AFTER_IMAGE}}" alt="改善提案"></section>
+  </main>
+</body>
+</html>

@@ -339,17 +339,9 @@ test("check-css-drift.mjs が集計行を出す", () => {
 
 // --- 統合スライド3枚の関連スライドリンク ---
 
-test("claude-code-テンプレート構成 に related-links が存在する", () => {
+test("claude-code-テンプレート構成 にフッター関連メモが存在しない", () => {
   const html = readFileSync(canonicalSlidePath, "utf8");
-  assert.ok(html.includes('id="related-links"'), "id=\"related-links\" が見つかりません");
-  assert.ok(
-    html.includes("../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html"),
-    "リポジトリ整備への相対リンクが見つかりません",
-  );
-  assert.ok(
-    html.includes("../四半期計画-AI整備計画表/解説スライド.html"),
-    "AI導入計画への相対リンクが見つかりません",
-  );
+  assert.ok(!html.includes('id="related-links"'), "フッター関連メモが残っています");
 });
 
 test("リポジトリ整備-claude-code版-現状理想対比 に related-links が存在する", () => {
