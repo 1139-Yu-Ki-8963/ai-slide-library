@@ -63,32 +63,35 @@
   .stage-arrow { display: flex; align-items: center; justify-content: center; }
   .stage-card {
     border: 1.5px solid var(--border); border-radius: 8px;
-    padding: 10px 9px; display: flex; flex-direction: column; gap: 5px; overflow: hidden;
+    padding: 10px 9px; display: flex; flex-direction: column; gap: 4px; overflow: hidden;
   }
   .stage-card--prep  { border-top: 3px solid var(--ink-3); }
   .stage-card--intro { border-top: 3px solid color-mix(in srgb, var(--good) 35%, var(--border) 65%); }
   .stage-card--flow  { border-top: 3px solid color-mix(in srgb, var(--good) 70%, var(--border) 30%); }
   .stage-card--scale { border-top: 3px solid var(--good); }
 
-  .stage-step-label { font-size: 10px; font-weight: 700; color: var(--ink-3); letter-spacing: 0.06em; }
-  .stage-head h2 { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.25; margin-top: 1px; }
+  .stage-step-label { font-size: 9px; font-weight: 700; color: var(--ink-3); letter-spacing: 0.06em; }
+  .stage-head h2 { font-size: 12.5px; font-weight: 700; color: var(--ink); line-height: 1.25; margin-top: 1px; }
+  .stage-desc { font-size: 9.5px; color: var(--ink-2); line-height: 1.4; }
+  .stage-wall { font-size: 8.5px; color: var(--ink-3); line-height: 1.3; margin-top: 1px; }
+  .stage-wall strong { color: var(--ink-2); font-weight: 600; }
 
-  .section-label { font-size: 10px; font-weight: 700; color: var(--ink-3); letter-spacing: 0.05em; margin-top: 5px; margin-bottom: 1px; }
+  .section-label { font-size: 8px; font-weight: 700; color: var(--ink-3); letter-spacing: 0.05em; margin-top: 4px; margin-bottom: 1px; }
 
   .stage-feat { list-style: none; display: flex; flex-direction: column; gap: 2px; }
   .stage-feat li {
-    font-size: 10px; line-height: 1.3; color: var(--ink); font-weight: 600;
+    font-size: 9.2px; line-height: 1.3; color: var(--ink); font-weight: 600;
     padding-left: 9px; position: relative;
   }
   .stage-feat li::before {
     content: ''; position: absolute; left: 0; top: 4px;
     width: 4.5px; height: 4.5px; border-radius: 50%; background: var(--claude);
   }
-  .stage-feat-none { font-size: 10px; color: var(--ink-3); font-style: italic; padding-left: 9px; }
+  .stage-feat-none { font-size: 9px; color: var(--ink-3); font-style: italic; padding-left: 9px; }
 
   .stage-guard { list-style: none; display: flex; flex-direction: column; gap: 1.5px; }
   .stage-guard li {
-    font-size: 10px; line-height: 1.3; color: var(--ink-2);
+    font-size: 8.5px; line-height: 1.3; color: var(--ink-2);
     padding-left: 9px; position: relative;
   }
   .stage-guard li::before {
@@ -98,7 +101,7 @@
 
   .stage-output {
     margin-top: auto;
-    font-size: 10px; color: var(--ink-3); line-height: 1.3;
+    font-size: 8.5px; color: var(--ink-3); line-height: 1.3;
     border-top: 1px solid var(--border); padding-top: 4px;
   }
 
@@ -135,8 +138,8 @@
 
     <header class="slide-header">
       <span class="slide-eyebrow">AI 採用 成熟度モデル</span>
-      <h1 class="slide-title">AI 採用の 5 段階で、機能とガードレールを同時に整える</h1>
-      <p class="slide-subtitle">使える機能が増えるほど、権限・監視・自動検証を段階的に強化する</p>
+      <h1 class="slide-title">AI 採用の 5 段階 — 各段階の状態と導入すべき機能</h1>
+      <p class="slide-subtitle">段階を飛ばさない — ガードレールを整備してから機能を解放する</p>
     </header>
 
     <div class="group-row">
@@ -161,6 +164,8 @@
       <article class="stage-card stage-card--prep">
         <div class="stage-step-label">LEVEL 1</div>
         <div class="stage-head"><h2>利用制限<br>Gated</h2></div>
+        <p class="stage-desc">AI ツールの利用が厳しく制限されている。古いモデル・高遅延・承認未整備</p>
+        <p class="stage-wall"><strong>壁:</strong> レガシー承認プロセス。非技術者が意思決定を支配</p>
         <div class="section-label">使う機能</div>
         <p class="stage-feat-none">—（AI 未導入）</p>
         <div class="section-label">必要な整備</div>
@@ -181,17 +186,20 @@
       <article class="stage-card stage-card--prep">
         <div class="stage-step-label">LEVEL 2</div>
         <div class="stage-head"><h2>1対1ペア作業<br>Assisted</h2></div>
+        <p class="stage-desc">1人+1エージェントの同期作業。全出力を手動確認。信頼不足で書き直しが多い</p>
+        <p class="stage-wall"><strong>壁:</strong> 出力を全件読まないと不安。同期型で遅い</p>
         <div class="section-label">使う機能</div>
         <ul class="stage-feat">
-          <li>Claude Code（CLI / IDE）</li>
-          <li>Cowork / Design</li>
-          <li>利用状況ダッシュボード</li>
+          <li>Claude Code（Desktop/CLI/IDE）</li>
+          <li>Claude Cowork / Design</li>
+          <li>Analytics ダッシュボード</li>
+          <li>Compliance API</li>
         </ul>
         <div class="section-label">必要な整備</div>
         <ul class="stage-guard">
-          <li>個人ごとの利用上限</li>
-          <li>モデル設定の中央管理</li>
-          <li>利用ログを既存監視へ連携</li>
+          <li>1人あたりの利用上限</li>
+          <li>中央管理のモデル設定</li>
+          <li>OpenTelemetry で既存監視に連携</li>
         </ul>
         <p class="stage-output">→ 複数エージェント運用と自己検証ループの確立</p>
       </article>
@@ -205,16 +213,22 @@
       <article class="stage-card stage-card--intro">
         <div class="stage-step-label">LEVEL 3</div>
         <div class="stage-head"><h2>並列オーケストレーター<br>Parallel</h2></div>
+        <p class="stage-desc">1人が5〜10エージェントを同時運用。各自が worktree でテスト・ビルド・スキャンまで自走</p>
+        <p class="stage-wall"><strong>壁:</strong> 手動レビューが律速。出力量に追いつかない</p>
         <div class="section-label">使う機能</div>
         <ul class="stage-feat">
-          <li>Auto mode / Agent view</li>
-          <li>コード・セキュリティレビュー</li>
+          <li>Auto mode</li>
+          <li>Agent view</li>
+          <li>Claude Code Review</li>
+          <li>Claude Security Review</li>
           <li>Worktree isolation</li>
+          <li>Remote control（スマホ監視）</li>
         </ul>
         <div class="section-label">必要な整備</div>
         <ul class="stage-guard">
-          <li>自動レビューとE2E検証</li>
-          <li>安全なコマンドの事前承認</li>
+          <li>自動コードレビュー・セキュリティレビュー</li>
+          <li>E2E 検証パイプライン</li>
+          <li>事前承認された安全なコマンド</li>
         </ul>
       </article>
 
@@ -227,17 +241,21 @@
       <article class="stage-card stage-card--flow">
         <div class="stage-step-label">LEVEL 4</div>
         <div class="stage-head"><h2>監督付き自律<br>Supervised</h2></div>
+        <p class="stage-desc">AI がコードの大半を書く。質問が「コード読んだ？」→「次は何をする？」に変化。メンテがバックグラウンド化</p>
+        <p class="stage-wall"><strong>壁:</strong> ループへの信頼。トークン使用量の管理</p>
         <div class="section-label">使う機能</div>
         <ul class="stage-feat">
-          <li>Subagents + Worktree</li>
-          <li>Dynamic workflows / Routines</li>
-          <li>使用状況モニタリング</li>
+          <li>Subagents + Worktree isolation</li>
+          <li>Dynamic workflows</li>
+          <li>Routines / loop / batch</li>
+          <li>Claude Tag（使用状況監視）</li>
         </ul>
         <div class="section-label">必要な整備</div>
         <ul class="stage-guard">
-          <li>自動レビューとAgent sandbox</li>
+          <li>自動コードレビュー・セキュリティレビュー</li>
+          <li>Agent sandbox</li>
           <li>CLAUDE.md の整備</li>
-          <li>モデル選択とトークン制御</li>
+          <li>モデル選択によるトークン制御</li>
         </ul>
       </article>
 
@@ -250,15 +268,17 @@
       <article class="stage-card stage-card--scale">
         <div class="stage-step-label">LEVEL 5</div>
         <div class="stage-head"><h2>AI ネイティブ<br>AI-native</h2></div>
+        <p class="stage-desc">ループ完全閉鎖。エージェントがエージェントを管理・起動・停止。人間は「意図」で指示し例外だけ監視</p>
+        <p class="stage-wall"><strong>壁:</strong> ドメイン特化の自動化を安全にスケール</p>
         <div class="section-label">使う機能</div>
         <ul class="stage-feat">
           <li>Claude Agent SDK</li>
-          <li>Slack からの自動起動</li>
+          <li>Claude Tag（Slack 自動応答）</li>
         </ul>
         <div class="section-label">必要な整備</div>
         <ul class="stage-guard">
-          <li>自動化のコスト制御</li>
-          <li>自動化のモデル選択</li>
+          <li>自動化向けのコスト制御</li>
+          <li>自動化向けのモデル選択</li>
         </ul>
       </article>
 

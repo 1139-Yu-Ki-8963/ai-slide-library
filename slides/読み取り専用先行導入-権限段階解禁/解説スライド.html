@@ -50,13 +50,6 @@
   .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
   .slide-title { font-size: 32px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
   .slide-subtitle { font-size: 15px; color: var(--ink-2); }
-  .permission-order { display: flex; align-items: center; gap: 10px; padding: 7px 12px; border: 1px solid var(--border); border-radius: 7px; color: var(--ink-2); font-size: 12px; }
-  .permission-order strong { color: var(--ink); }
-  .risk-scale { margin-left: auto; display: inline-flex; align-items: center; gap: 5px; font-size: 11px; }
-  .risk-scale i { font-style: normal; padding: 2px 7px; border-radius: 3px; font-weight: 700; }
-  .risk-low { background: var(--good-soft); color: var(--good); }
-  .risk-medium { background: #FFF4D6; color: #8A6500; }
-  .risk-high { background: var(--critical-soft); color: var(--critical); }
 
   /* ==== 段階カード群 ==== */
   .stages-grid {
@@ -105,8 +98,7 @@
     margin-left: 2px;
   }
   .risk-tag--good   { background: var(--good-soft); color: var(--good); }
-  .risk-tag--medium { background: #FFF4D6; color: #8A6500; }
-  .risk-tag--high { background: var(--critical-soft); color: var(--critical); }
+  .risk-tag--accent { background: var(--ink); color: var(--surface); }
 
   /* ==== 下部: 仕組みの事実 + 両極失敗の警告（1行ずつ2分割の帯） ==== */
   .fact-bar {
@@ -149,7 +141,6 @@
       <span class="slide-eyebrow">AI導入方式</span>
       <h1 class="slide-title">AI の導入は編集権限を与えることから始めない</h1>
       <p class="slide-subtitle">読み取り専用で先に価値を出し、安全網が揃った範囲から書き込みを段階的に解禁する</p>
-      <div class="permission-order"><strong>権限解禁の順序</strong><span>読み取り専用</span><span>→</span><span>提案</span><span>→</span><span>ガード付き書き込み</span><span class="risk-scale"><i class="risk-low">低</i><i class="risk-medium">中</i><i class="risk-high">高</i> リスク尺度</span></div>
     </header>
 
     <div class="stages-grid">
@@ -163,7 +154,7 @@
         <ul class="fact-list">
           <li><strong>許す操作</strong> — コードと文書を読むだけ。編集は一切許可しない</li>
           <li><strong>主な用途</strong> — コードの調査・影響範囲の分析・設計文書の下書き起こし</li>
-          <li><strong>リスクの目安</strong> — <span class="risk-tag risk-tag--good">低</span>（コードが変わらないため）</li>
+          <li><strong>リスクの目安</strong> — <span class="risk-tag risk-tag--good">ほぼゼロ</span>（コードが変わらないため）</li>
         </ul>
       </article>
 
@@ -182,7 +173,7 @@
         <ul class="fact-list">
           <li><strong>許す操作</strong> — 変更案（差分）の作成まで。適用するかどうかは人が判断し、人が反映する</li>
           <li><strong>主な用途</strong> — 修正案の比較検討・レビュー付きの小さな改善提案</li>
-          <li><strong>リスクの目安</strong> — <span class="risk-tag risk-tag--medium">中</span>（適用は常に人の手）</li>
+          <li><strong>リスクの目安</strong> — <span class="risk-tag risk-tag--good">低</span>（適用は常に人の手）</li>
         </ul>
       </article>
 
@@ -201,7 +192,7 @@
         <ul class="fact-list">
           <li><strong>許す操作</strong> — 編集。ただし現状の挙動を固定するテスト・機密情報の検査・レビューの関所が揃った範囲に限る</li>
           <li><strong>主な用途</strong> — 本格的な AI 駆動開発（機能追加・リファクタリング）</li>
-          <li><strong>リスクの目安</strong> — <span class="risk-tag risk-tag--high">高</span>（安全網が担保する範囲内）</li>
+          <li><strong>リスクの目安</strong> — <span class="risk-tag risk-tag--accent">管理下</span>（安全網が担保する範囲内）</li>
         </ul>
       </article>
 

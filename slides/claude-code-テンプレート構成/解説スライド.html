@@ -22,11 +22,13 @@
   body { background: var(--page); }
 
   #variant-tabs {
-    position: static;
-    align-self: flex-start;
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
     display: flex;
     gap: 8px;
-    flex: 0 0 auto;
     font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
   }
   #variant-tabs button {
@@ -185,6 +187,13 @@
   }
 </style>
 
+<nav id="variant-tabs" data-export-strip>
+  <button type="button" data-slug="claude-code">Claude Code</button>
+  <button type="button" data-slug="cursor">Cursor</button>
+  <button type="button" data-slug="codex">Codex CLI</button>
+  <a id="save-current" class="save-pill" download>⬇ この表示で保存</a>
+</nav>
+
 <nav id="related-links" data-export-strip>
   <span class="related-label">関連:</span>
   <a href="../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html">リポジトリ整備の現状と理想</a>
@@ -193,13 +202,6 @@
 
 <div class="slide-viewport">
   <div class="slide">
-
-    <nav id="variant-tabs" data-export-strip>
-      <button type="button" data-slug="claude-code">Claude Code</button>
-      <button type="button" data-slug="cursor">Cursor</button>
-      <button type="button" data-slug="codex">Codex CLI</button>
-      <a id="save-current" class="save-pill" download>⬇ この表示で保存</a>
-    </nav>
 
     <header class="slide-header">
       <span class="slide-eyebrow" data-v="eyebrow">Claude Code</span>
