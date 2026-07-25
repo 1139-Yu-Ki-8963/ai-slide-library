@@ -129,7 +129,10 @@ for (const line of section.split("\n")) {
       `git log -1 --format=%aI -- "slides/${key}"`,
       { cwd: root, encoding: "utf8" }
     ).trim();
-    if (gitDate) entry.updated = gitDate.slice(0, 10);
+    if (gitDate) {
+      entry.updated = gitDate.slice(0, 10);
+      entry.updatedAt = gitDate;
+    }
   } catch (e) {}
   for (const [axis, words] of [["tools", entry.tools], ["mechanisms", entry.mechanisms], ["themes", entry.themes], ["stages", entry.stages]]) {
     for (const w of words) {
