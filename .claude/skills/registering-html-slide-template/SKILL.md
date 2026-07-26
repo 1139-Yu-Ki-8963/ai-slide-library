@@ -31,15 +31,16 @@ allowed-tools: [Bash, Read, Write, Edit, Agent, AskUserQuestion]
 完了条件: 参考画像、読み手、結論、制約、型名候補、対象リポジトリが記録されている。
 
 1. 参考画像とユーザー固有の背景色・サイズ・余白・ヘッダー・フッター規約を読む。
-2. 既存の蓄積簿、カタログ生成スクリプト、代表スライドを確認する。
-3. 「既存型の派生」か「新規型」かを判定する。判断できない場合は勝手に登録せず確認する。
-4. 型名は意味語で確定し、既存キー・型名との重複を確認する。
+2. `~/agent-home/skills/generating-explanation-html-slides/references/slide-design-system.md` を読み、共通シェルを型固有レイアウトより先に確定する。
+3. 既存の蓄積簿、カタログ生成スクリプト、代表スライドを確認する。
+4. 「既存型の派生」か「新規型」かを判定する。判断できない場合は勝手に登録せず確認する。
+5. 型名は意味語で確定し、既存キー・型名との重複を確認する。
 
 ### Phase 2: 共通シェルを調査して固定
 
 完了条件: 全スライド走査の結果と、新型が守る共通シェル契約が表になっている。
 
-1. `slides/*/解説スライド.html` を全件走査する。
+1. `~/agent-home/skills/generating-explanation-html-slides/references/slide-design-system.md` を再読し、`slides/*/解説スライド.html` を全件走査する。
 2. 次の共通契約を機械的に比較する。
    - `.slide-viewport`、`.slide`、`.slide-header`、`.slide-title`
    - 1280×720、縮小式、横スクロールなし

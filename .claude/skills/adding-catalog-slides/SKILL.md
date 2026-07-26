@@ -22,14 +22,15 @@ ai-slide-library 専用の登録オーケストレーター。スライドの生
 
 ### Phase 1: 作業ブランチ準備
 
-1. `Skill("parallel-dev-worktree")` で feature ブランチの worktree を作成する（メインツリーの直接編集は hook で block される）
-2. 以降の作業はすべて worktree 内で行う
+1. `~/agent-home/skills/generating-explanation-html-slides/references/slide-design-system.md` を読む。共通シェルと型固有レイアウトを分離し、会社別差分はテーマ変数・共通パーツへ寄せる。
+2. `Skill("parallel-dev-worktree")` で feature ブランチの worktree を作成する（メインツリーの直接編集は hook で block される）
+3. 以降の作業はすべて worktree 内で行う
 
 完了条件: worktree 内で `git status` がクリーンであること
 
 ### Phase 2: スライド生成（共通スキルへ委譲）
 
-1. `Skill("generating-explanation-html-slides")` を起動し、出力先ディレクトリとして worktree 内の `slides/` を指定する（保存先は `slides/<スライドキー>/解説スライド.html` と同フォルダの `検査記録.md`）
+1. `~/agent-home/skills/generating-explanation-html-slides/references/slide-design-system.md` を再読してから `Skill("generating-explanation-html-slides")` を起動し、出力先ディレクトリとして worktree 内の `slides/` を指定する（保存先は `slides/<スライドキー>/解説スライド.html` と同フォルダの `検査記録.md`）
 2. 共通スキル側の蓄積簿登録工程（旧5列形式）は実行しない。蓄積簿の列構成は本リポジトリの `docs/スライド蓄積簿.md` の記入規則が正であり、本スキルの Phase 3 が代替する
 
 #### 既存スライドの更新の場合
