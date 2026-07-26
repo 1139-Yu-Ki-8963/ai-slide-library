@@ -49,7 +49,7 @@ Phase 7の検査項目には、グローバルSkillの`verify-slide-static-contr
 - 保存済み`サムネイル.png`の640×360寸法
 - 既存登録時のスライドキーと蓄積簿・主題一覧の集合一致
 
-完了条件: `test:slide-contract` と `test:slide-layout` がともに終了コード0であること。
+完了条件: 追加前は`SLIDE_VERIFY_REGISTRY=0 SLIDE_VERIFY_CATALOG=0 npm test`でスライド本体3系統を通過し、Phase 14後のPhase 15では環境変数なしの`npm test`で台帳・主題一覧・カタログを含む全件を通過すること。
 
 ## Phase 8: 公開成果物の観点レビュー
 
@@ -141,7 +141,7 @@ Phase 8〜11は同一のHTML、実描画、サムネイルを読み取り専用�
 }
 ```
 
-Phase 12だけが4枝のJSON schema・対象キー・成果物ハッシュを検証して統合記録を書く。`fail`、`hold`、`critical`を1件でも含む場合は修正へ送る。修正後はPhase 7へ戻り、機械検証を通過したうえで、変更の影響を受けるレビュー枝を再実行する。公開判定は4枝すべての`status=pass`を要求する。
+Phase 12だけが4枝のJSON schema・対象キー・成果物ハッシュを検証して統合記録を書く。JSONは`slides/<キー>/検査記録/phase-8.json`〜`phase-11.json`に分離し、各枝は読み取り専用で返却する。`fail`、`hold`、`critical`を1件でも含む場合は修正へ送る。修正後はPhase 7へ戻り、機械検証を通過したうえで、変更の影響を受けるレビュー枝を再実行する。公開判定は4枝すべての`status=pass`を要求する。
 
 ## Phase 12: 修正・再検証
 
@@ -173,14 +173,14 @@ Phase 8、Phase 9、Phase 10、またはPhase 11で`status=fail`または`status
 2. `npm test`をカタログ生成後の最終状態で実行し、静的検査・契約検査・レイアウト検査・一覧検査を全件PASSさせる。
 3. `git diff --check`を実行する。
 4. ユーザーの明示的な公開承認を確認する。
-5. commit前hookで、機械検証PASS・観点レビュー記録・証跡の存在・対象成果物のSHA一致を確認する。
+5. commit前hookで、機械検証PASS・観点レビュー記録・4枝JSON・証跡の存在・staged HTMLと記録のSHA一致を確認する。
 6. 条件未達ならcommitを停止する。commitはこのPhaseで実行し、後続Phaseで生成物を変更しない。
 
 完了条件: 公開承認があり、commit前ゲートがPASSしていること。
 
 ## Phase 16: 公開後検証・完了報告
 
-1. Phase 15で確定したcommitだけをpushしてGitHub Pagesへ反映する。
+1. Phase 15で確定したcommitについて、`.git/slide-publish-approval.json`の`status=approved`と`approvedCommitSha=HEAD`を作成した後にpushしてGitHub Pagesへ反映する。承認記録がなければhookがpushを停止する。
 2. 公開URL、個別HTML、サムネイル、一覧をPlaywrightで検証する。
 3. 一覧画像数、`naturalWidth`、表示枠、代表スライドのHTTP 200を確認する。
 4. push後のworktreeがcleanで、公開前のcommitと公開物の生成内容が一致することを確認する。
@@ -192,7 +192,7 @@ Phase 8、Phase 9、Phase 10、またはPhase 11で`status=fail`または`status
 
 | Phase | 完了条件 |
 |---|---|
-| Phase 7 | 機械検証2系統が終了コード0 |
+| Phase 7 | 静的契約・共通契約・レイアウトの3系統が終了コード0 |
 | Phase 8 | 公開観点レビュー全行PASS |
 | Phase 9 | デッキ全体レビュー全行PASS（単一スライドは適用対象なし） |
 | Phase 10 | 情報過多・分割要否レビュー全行PASS |

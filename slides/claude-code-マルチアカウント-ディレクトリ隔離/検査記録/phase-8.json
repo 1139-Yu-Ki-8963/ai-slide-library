@@ -1,0 +1,8 @@
+{
+  "phase": 8,
+  "targetKeys": ["claude-code-マルチアカウント-ディレクトリ隔離"],
+  "status": "pass",
+  "findings": [],
+  "checkedAt": "2026-07-26T00:00:00+09:00",
+  "artifactSha256": "27a0501b5e1c629bc6ef2fc8ac90ef7ebf606b9f5ebbcf22eae52e2ef8ad5944"
+}
