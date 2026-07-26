@@ -154,7 +154,7 @@ footer.slide-meta strong { color: var(--ink); }
 .slide-footer .sequence { text-align: right; }
 
 @media (max-width: 700px) {
-  .slide { transform: scale(min(calc(100vw / 1280), calc(100vh / 720))); }
+  .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
 }
 </style>
 </head><body><div class="slide-viewport"><main class="slide"><header class="head slide-header"><div class="eyebrow">開発ツール運用ガイド｜改善提案</div><h1 class="slide-title">Claude Codeのlimitが切れた時だけCursorへ切り替える</h1><p>通常はClaude Codeのモデルを役割で使い分け、limitが切れた時だけCursorへ切り替える。</p></header><section class="table"><div class="cell th">タスク</div><div class="cell th claude">Claude Code（通常）</div><div class="cell th cursor">Cursor（Claude Codeのlimitが切れた時）</div><div class="cell task">設計・計画</div><div class="cell claude-cell"><span class="model">Opus</span><br>高い判断力が必要な設計判断・計画立案</div><div class="cell cursor-cell"><span class="model accent">Opus</span><br>設計を継続する</div><div class="cell task">実装・調査・レビュー</div><div class="cell claude-cell"><span class="model">Sonnet</span><br>コード修正・仕様調査・差分レビュー</div><div class="cell cursor-cell"><span class="model accent">Composer</span><br>通常作業を継続する</div><div class="cell task">コマンド実行・テスト起動</div><div class="cell claude-cell"><span class="model">Haiku</span><br>判断不要の定型作業を高速処理</div><div class="cell cursor-cell"><span class="model accent">Composer</span><br>CursorではComposerに統一</div></section><div class="note">切り替えルール：Claude Codeのlimitが切れた時だけCursorへ切り替える。Cursor側は設計=Opus、それ以外=Composer。Cursorのautoモードは使わない。</div><footer class="foot slide-meta"><span><strong>主力：</strong>Claude Code</span><span><strong>代替：</strong>limitが切れた時だけCursor</span><span><strong>固定：</strong>Cursorは設計=Opus／それ以外=Composer</span></footer></main></div></body></html>

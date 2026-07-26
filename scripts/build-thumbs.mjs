@@ -30,16 +30,20 @@ async function main() {
 
   const browser = await chromium.launch({ headless: true });
   try {
+    // Render the canonical 1280x720 slide and downsample via the device scale.
+    // Rendering at 640x360 activates the mobile CSS and can crop absolute
+    // positioned shells before the thumbnail is captured.
+    const context = await browser.newContext({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 0.5 });
     for (const key of keys) {
       const slideFile = join(slidesDir, key, "解説スライド.html");
       const thumbFile = join(slidesDir, key, "サムネイル.png");
-      const page = await browser.newPage();
-      await page.setViewportSize({ width: 640, height: 360 });
+      const page = await context.newPage();
       await page.goto("file://" + slideFile, { waitUntil: "networkidle" });
       await page.waitForTimeout(300);
       await page.screenshot({ path: thumbFile });
       await page.close();
     }
+    await context.close();
   } finally {
     await browser.close();
   }
