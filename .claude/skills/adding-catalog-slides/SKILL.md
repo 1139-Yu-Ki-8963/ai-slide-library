@@ -28,6 +28,15 @@ allowed-tools: Bash, Read, Write, Edit, AskUserQuestion
 
 生成・更新された全対象と、既存カタログ全件を対象に、グローバルSkill配下の検証スクリプトを実行する。
 
+各対象HTMLについて、次のHTML共通検証も実行し、JSON証跡を保存する。
+
+1. `sync-html-rule-copies.mjs`
+2. `verify-html-static.mjs <対象HTML>`
+3. `verify-html-runtime.mjs <対象HTML>`
+4. `verify-html-review-contract.mjs`
+
+いずれかが未実装、未実行、証跡なし、終了コード非0ならPhase 7を`blocked`とし、Phase 8以降へ進まない。共通AIレビュー後の集約はPhase 12で対象HTMLごとに`aggregate-html-review.mjs`を実行する。
+
 実行:
 
 ```bash
@@ -55,7 +64,7 @@ Phase 7の検査項目には、グローバルSkillの`verify-slide-static-contr
 
 このSkill自身が、公開前レビューの観点と判定を完結させる。別のレビューSkillは呼び出さない。
 
-グローバルSkillの`references/information-design-review-checklist.md`を全文の正本として読み、以下を順に確認する。ここでは内容を要約して観点を減らしてはならない。
+グローバルの配布コピー`reviewing-explanatory-html/references/rules/html-editorial-quality.md`と`html-visual-explanation.md`、スライド差分`generating-explanation-html-slides/references/rules/html-slide.md`、および`information-design-review-checklist.md`を全文で読む。このSkill自身が`artifact-review`相当の内容・表示・実装・安全性を判定し、別のレビューSkillは呼ばない。要約して観点を減らしてはならない。
 
 1. レビュー前の内部確認16項目（目的、読み手、役割、結論、階層、図形関係、線の意味、色の意味、グラフ・表の読み方、装飾、保持情報、適用箇所、HTML構造、共通レイアウト、縮小・カタログ認識、関連ファイル）を整理する。
 2. 図形、矢印・接続線、文字、配色・アクセシビリティ、視線の流れ、整列、余白を確認する。
@@ -65,7 +74,9 @@ Phase 7の検査項目には、グローバルSkillの`verify-slide-static-contr
 6. 主張、数値、固有名詞、単位、期間、条件、注釈、出典、凡例、軸、表項目、比較対象、因果関係、前提条件が維持されているかを元資料と照合する。
 7. 16:9、縮小、サムネイル、カタログ、編集可能性、配置・命名・台帳整合性・公開安全性を確認する。
 
-各指摘は「対象箇所 / 問題 / 理由 / 必要な修正」で記録し、重大、要修正、改善推奨、問題なし、判断保留に分類する。結果は正本の出力形式（総合判定、重大な問題、要修正の問題、改善推奨、内容保持、表示・実装、ai-slide-library適合性、次のアクション）に従う。ユーザーの明示的な修正依頼がない限り、レビュー中にHTML・CSS・画像・カタログ・サムネイルを変更しない。
+各指摘は「対象箇所 / 問題 / 理由 / 影響 / 必要な修正 / 修正後確認」で記録する。結果は対象、要約、良い点、指摘事項、情報設計の再編集案、観点別チェック、実装可能な優先順位付き修正方針、ai-slide-library適合性、次のアクションを持つ。ユーザーの明示的な修正依頼がない限り、レビュー中にHTML・CSS・画像・カタログ・サムネイルを変更しない。
+
+HTML共通12 criteriaの結果は、`reviewing-explanatory-html/references/html-review-record.schema.json`へ完全準拠するAI JSONとして、対象ごとに`slides/<キー>/検査記録/html-common-ai.json`へ保存する。`artifact`は対象HTMLのパス、`artifactSha256`はPhase 7の静的・実描画JSONと同じSHA-256、`checks`は共通12 criteriaを重複・欠落なく1件ずつ持つ。Phase 8固有の図表・情報設計結果は従来どおり`phase-8.json`へ分離し、共通AI JSONの代用にしない。
 
 単一スライドの図表・情報設計だけを対象にする。デッキ全体レビューはPhase 9、情報過多・分割要否はPhase 10、実務性・非テンプレ感はPhase 11で実施し、ここで再実行しない。複数ページでデッキ文脈がある場合も、Phase 8ではページ単位の図表・情報設計に限定する。
 
@@ -75,6 +86,7 @@ Phase 7の検査項目には、グローバルSkillの`verify-slide-static-contr
 
 ## Phase 9: デッキ全体・アートディレクションレビュー
 
+グローバルSkillの`references/deck-level-art-direction-review.md`を全文の正本として読み、全観点を適用する。以下の箇条書きは重点項目であり、全文レビューの代用にしない。Phase 8、10、11とは統合しない。
 
 対象観点:
 
@@ -134,18 +146,18 @@ Phase 8〜11は同一のHTML、実描画、サムネイルを読み取り専用�
 {
   "phase": 8,
   "targetKeys": ["対象キー"],
-  "status": "pass|fail|hold",
-  "findings": [{"severity": "critical|high|medium|low", "decision": "fail|hold|pass|suggestion", "target": "", "evidence": "", "fix": ""}],
+  "status": "pass|fail|hold|blocked",
+  "findings": [{"severity": "critical|high|medium|low", "decision": "fail|hold|pass|suggestion|not-applicable", "target": "", "evidence": "", "fix": ""}],
   "checkedAt": "ISO-8601",
   "artifactSha256": "対象HTMLのSHA-256"
 }
 ```
 
-Phase 12だけが4枝のJSON schema・対象キー・HTML成果物SHAを検証して統合記録を書く。`artifactSha256`は対象HTMLのSHA-256とし、PNGは別途寸法・描画検証で保証する。JSONは`slides/<キー>/検査記録/phase-8.json`〜`phase-11.json`に分離し、各枝は読み取り専用で返却する。`fail`、`hold`、`critical`を1件でも含む場合は修正へ送る。修正後はPhase 7へ戻り、機械検証を通過したうえで、変更の影響を受けるレビュー枝を再実行する。公開判定は4枝すべての`status=pass`を要求する。
+Phase 12だけが4枝のJSON schema・対象キー・HTML成果物SHAを検証して統合記録を書く。`artifactSha256`は対象HTMLのSHA-256とし、PNGは別途寸法・描画検証で保証する。JSONは`slides/<キー>/検査記録/phase-8.json`〜`phase-11.json`に分離し、各枝は読み取り専用で返却する。加えて、Phase 7の`html-common-static.json`と`html-common-runtime.json`、Phase 8の`html-common-ai.json`を対象ごとに`aggregate-html-review.mjs`へ渡す。`blocked`、`fail`、`hold`、`critical`を1件でも含む場合は公開・commit不可とし、修正可能なものだけ修正へ送る。修正後はPhase 7へ戻り、機械検証を通過したうえで、変更の影響を受けるレビュー枝を再実行する。公開判定はHTML共通集約`overall=pass`かつ4枝すべての`status=pass`を要求する。
 
 ## Phase 12: 修正・再検証
 
-Phase 8、Phase 9、Phase 10、またはPhase 11で`status=fail`または`status=hold`が出た場合は、生成HTMLを修正し、Phase 7→11を再実行する。AIレビューの修正であっても、必ず機械検証へ戻る。Phase 12は修正前に4枝のJSONをschema検証し、修正後に古いJSONを再利用してはならない。
+Phase 8、Phase 9、Phase 10、またはPhase 11で`status=fail`または`status=hold`が出た場合は、生成HTMLを修正し、Phase 7→11を再実行する。`status=blocked`は不足した実装・実行・証跡を解消するまで公開・commit不可とする。AIレビューの修正であっても、必ず機械検証へ戻る。Phase 12は修正前に4枝のJSONをschema検証し、対象HTMLごとにHTML共通の静的・実描画・AI JSONを`aggregate-html-review.mjs`で集約する。修正後に古いJSONを再利用してはならない。
 
 完了条件: Phase 7〜11が連続してPASSし、修正内容と反復回数を検査記録へ記載していること。
 
@@ -192,7 +204,7 @@ Phase 8、Phase 9、Phase 10、またはPhase 11で`status=fail`または`status
 
 | Phase | 完了条件 |
 |---|---|
-| Phase 7 | 静的契約・共通契約・レイアウトの3系統が終了コード0 |
+| Phase 7 | HTML共通の同期・静的・実描画・契約と、スライド固有3系統が終了コード0 |
 | Phase 8 | 公開観点レビュー全行PASS |
 | Phase 9 | デッキ全体レビュー全行PASS（単一スライドは適用対象なし） |
 | Phase 10 | 情報過多・分割要否レビュー全行PASS |
@@ -226,7 +238,11 @@ Phase 8、Phase 9、Phase 10、またはPhase 11で`status=fail`または`status
 ## 参照資料
 
 - `~/agent-home/skills/generating-explanation-html-slides/SKILL.md` — Phase 1〜6の生成工程
+- `~/agent-home/skills/reviewing-explanatory-html/references/rules/html-output.md` — HTML共通ゲートの配布コピー
+- `~/agent-home/skills/reviewing-explanatory-html/references/rules/html-editorial-quality.md` — HTML共通の編集品質詳細
+- `~/agent-home/skills/reviewing-explanatory-html/references/rules/html-visual-explanation.md` — HTML共通の図表・視覚説明品質詳細
 - `~/agent-home/skills/generating-explanation-html-slides/references/information-design-review-checklist.md` — Phase 8で全文適用する図表・情報設計レビュー正本
+- `~/agent-home/skills/generating-explanation-html-slides/references/rules/html-slide.md` — グローバルHTMLスライド差分ruleの完全同期コピー
 - `~/agent-home/skills/generating-explanation-html-slides/references/deck-level-art-direction-review.md` — Phase 9で全文適用するデッキ全体レビュー正本
 - `~/agent-home/skills/generating-explanation-html-slides/references/existing-deck-split-review.md` — Phase 10で全文適用する情報過多・分割要否レビュー正本
 - `~/agent-home/skills/generating-explanation-html-slides/references/practical-slide-editorial-review.md` — Phase 11で全文適用する実務性・非テンプレ感レビュー正本
