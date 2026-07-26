@@ -1,4 +1,159 @@
 <meta charset="utf-8"><title>AI開発の整備効果を世代別KPIで確認する</title>
 <style>
 :root{--page:#EDF0F4;--surface:#fff;--ink:#1C2B3A;--ink2:#55667A;--muted:#8494A6;--line:#D9E0E8;--blue:#087DB5;--blueSoft:#E5F2F8}*{box-sizing:border-box;margin:0}html,body{height:100%;overflow:hidden}body{background:var(--page);font-family:system-ui,-apple-system,'Hiragino Sans',sans-serif}.slide-viewport{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}.slide{position:absolute;top:50%;left:50%;width:1280px;height:720px;padding:36px 48px 28px;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 4px 24px #1c2b3a14;transform:translate(-50%,-50%) scale(var(--slide-scale,1));display:flex;flex-direction:column;gap:15px;color:var(--ink)}.head{display:flex;flex-direction:column;gap:4px;border-bottom:2px solid var(--ink);padding-bottom:12px}.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}h1{font-size:30px;line-height:1.25}.sub{font-size:14px;color:var(--ink2)}.table-title{font-size:17px;color:var(--blue);font-weight:700;margin-top:8px}.table-title:before{content:'';display:inline-block;width:5px;height:20px;background:var(--blue);vertical-align:-4px;margin-right:9px}.trend{width:100%;border-collapse:collapse;table-layout:fixed;font-size:16px}.trend th{font-size:15px;padding:10px 8px}.trend td{padding:14px 12px;border-bottom:1px solid #c8cdd2;text-align:center}.trend td:first-child,.trend th:first-child{text-align:center;width:20%}.trend .focus td{background:var(--blueSoft);border-top:5px solid var(--blue);border-bottom:5px solid var(--blue);color:#277ea5}.trend .focus td:first-child{border-left:5px solid var(--blue)}.trend .focus td:last-child{border-right:5px solid var(--blue);font-weight:700}.summary{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:8px;color:var(--blue);font-size:19px;font-weight:700}.summary small{font-size:18px}.meta{height:22px;border-top:1px solid var(--line);padding-top:6px;margin-top:auto}
+</style>
+<style data-shared-slide-shell>
+/* GENERATED FROM: slide-design-system / shared-slide-shell.css */
+/*
+ * Shared slide shell
+ * 正本: generating-explanation-html-slides/references/shared-slide-shell.css
+ * 最終HTMLは単体配布できるよう、このCSSを生成時に内包する。
+ * 型固有の表・図表・本文レイアウトはこのファイルへ追加しない。
+ */
+:root {
+  --paper: #f5f4f1;
+  --ink: #202426;
+  --muted: #626967;
+  --faint: #d7d9d5;
+  --accent: #a15d32;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
+}
+
+.viewport,
+.slide-viewport {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1280px;
+  height: 720px;
+  padding: 46px 58px 30px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  gap: 0;
+  transform: translate(-50%, -50%) scale(var(--slide-scale, var(--scale, 1)));
+  transform-origin: center center;
+}
+
+header,
+.slide-header {
+  position: static;
+  inset: auto;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding-bottom: 17px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.header-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 55px;
+}
+
+.kicker {
+  color: var(--accent);
+  font-family: system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+.title,
+.slide-title {
+  display: block;
+  max-width: none;
+  margin: 0;
+  font-size: 33px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: .01em;
+}
+
+.single-line-title {
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.title-num {
+  display: inline-block;
+  font-family: "Noto Serif CJK JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.lede,
+.slide-subtitle {
+  align-self: end;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.lede em {
+  color: var(--ink);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.bottom,
+.slide-footer,
+footer.slide-meta {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 35px;
+  padding-top: 10px;
+  color: var(--muted);
+  font-family: system-ui, sans-serif;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.bottom strong,
+.slide-footer strong,
+footer.slide-meta strong { color: var(--ink); }
+
+.warning,
+.slide-footer .warning {
+  padding-left: 10px;
+  border-left: 3px solid var(--accent);
+}
+
+.sequence,
+.slide-footer .sequence { text-align: right; }
+
+@media (max-width: 700px) {
+  .slide { transform: scale(min(calc(100vw / 1280), calc(100vh / 720))); }
+}
 </style><div class="slide-viewport"><main class="slide"><header class="head"><span class="eyebrow">AI開発ガバナンス — 効果測定</span><h1>AI開発の整備効果を世代別KPIで確認する</h1><p class="sub">AI開発を担う層ほど、前提情報へ到達する時間とレビューの手戻りに差が出やすい。重点行から優先改善を決める。</p></header><div class="table-title">AI開発タスクの完了状況 <span style="font-size:11px;color:var(--muted);font-weight:500">（例示値・四半期比較）</span></div><table class="trend"><thead><tr><th>チーム区分</th><th>2025年度上期</th><th>2025年度下期</th><th>増減</th><th>改善率</th></tr></thead><tbody><tr class="focus"><td>新規導入チーム</td><td>38件</td><td>62件</td><td>+24件</td><td>+63.2%</td></tr><tr class="focus"><td>拡大フェーズ</td><td>74件</td><td>108件</td><td>+34件</td><td>+45.9%</td></tr><tr><td>定着フェーズ</td><td>126件</td><td>141件</td><td>+15件</td><td>+11.9%</td></tr><tr><td>全社平均</td><td>82件</td><td>104件</td><td>+22件</td><td>+26.8%</td></tr></tbody></table><div class="summary"><span>≪全体サマリー≫</span><small>✓ AI開発タスク数：415件　【前年：320件】 ⇒ 増加率：+29.7%</small><small>✓ レビュー手戻り率：18.0%　【前年：27.0%】 ⇒ 改善率：-33.3%</small></div><footer class="meta"></footer></main></div><script>(function(){function f(){document.documentElement.style.setProperty('--slide-scale',Math.min(innerWidth/1280,innerHeight/720))}addEventListener('resize',f);f()})();</script>

@@ -1,3 +1,159 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI開発で優先すべき2つの課題</title><style>
 :root{--ink:#1c2b3a;--muted:#60728a;--line:#d9e0e8;--blue:#0d8fca;--panel:#f5f7f9}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}body{background:#edf0f4;font-family:system-ui,-apple-system,"Hiragino Sans",sans-serif;color:var(--ink)}.slide{width:1280px;height:720px;margin:auto;padding:38px 48px 28px;background:#fff;border:1px solid var(--line);border-radius:10px;display:flex;flex-direction:column;gap:14px}.eyebrow{font-size:13px;font-weight:700;color:#8494a6;letter-spacing:.12em}.head{border-bottom:2px solid var(--ink);padding-bottom:11px}.head h1{font-size:29px;line-height:1.2;margin:4px 0 5px}.head p{font-size:15px;color:var(--muted);margin:0}.panels{display:grid;grid-template-columns:1fr 1fr;gap:28px;flex:1}.panel{background:var(--panel);border-radius:20px;padding:20px 22px;display:flex;flex-direction:column}.pill{align-self:center;background:#0d92cf;color:#fff;font-size:20px;font-weight:800;border-radius:28px;padding:11px 54px;margin:0 0 20px}.section{font-size:17px;font-weight:800;margin:0 0 10px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);background:#fff;padding:18px 12px;margin-bottom:30px}.metric{text-align:center;border-right:1px solid #cbd5df;padding:0 12px}.metric:last-child{border-right:0}.label{display:inline-block;background:#0d92cf;color:#fff;font-size:14px;font-weight:700;border-radius:16px;padding:4px 22px;margin-bottom:14px}.value{font-size:37px;line-height:1;font-weight:800;color:#0b84bb;white-space:nowrap}.unit{font-size:19px;margin-left:10px;font-weight:700}.detail{font-size:14px;line-height:1.55;color:#53677c;margin-top:14px}.impact{margin-top:auto}.impact ul{margin:0;padding-left:20px;color:#53677c;font-size:14px;line-height:1.7}.evidence{display:grid;grid-template-columns:1fr 1fr 1fr;background:#fff;padding:22px 18px;margin-bottom:30px}.evidence .metric{min-height:106px}.evidence .value{font-size:36px}.evidence .unit{font-size:18px}.footer{border-top:1px solid var(--line);padding-top:10px;font-size:14px;color:var(--muted)}
-</style></head><body><main class="slide"><header class="head"><div class="eyebrow">AI開発ガバナンス｜優先課題</div><h1>AI開発で優先すべき2つの課題</h1><p>速度と品質の問題は別々に見えても、前提情報と成果物の扱い方に共通原因がある。</p></header><section class="panels"><article class="panel"><h2 class="pill">前提を探す時間が長い</h2><h3 class="section">■ 現状の課題データ</h3><div class="metrics"><div class="metric"><span class="label">仕様</span><div class="value">6.2<span class="unit">時間</span></div><p class="detail">標準化が進まず、毎回の確認と調整に時間を要する。</p></div><div class="metric"><span class="label">設計</span><div class="value">11.8<span class="unit">時間</span></div><p class="detail">既存資料の探索と読み替えが多く、着手が遅れる。</p></div><div class="metric"><span class="label">レビュー</span><div class="value">9.4<span class="unit">時間</span></div><p class="detail">判断材料が揃わず、確認が往復する。</p></div></div><div class="impact"><h3 class="section">■ 業務に生ずる影響</h3><ul><li>本来の実装より準備作業が先行する</li><li>AIへの依頼品質が担当者ごとに変わる</li><li>短納期の変更ほど手戻りが増える</li></ul></div></article><article class="panel"><h2 class="pill">成果物の品質が揃わない</h2><h3 class="section">■ 現状の課題データ</h3><div class="evidence"><div class="metric"><span class="label">レビュー観点</span><div class="value">92<span class="unit">%</span></div><p class="detail">23 / 25観点が担当者の経験に依存する。</p></div><div class="metric"><span class="label">母数</span><div class="value">25<span class="unit">観点</span></div><p class="detail">共通の確認対象として定義されている。</p></div><div class="metric"><span class="label">運用</span><div class="value">4<span class="unit">種</span></div><p class="detail">案件ごとにテンプレートと記録方法が乱立する。</p></div></div><div class="impact"><h3 class="section">■ 業務に生ずる影響</h3><ul><li>成果物の読み手が毎回ルールを推測する</li><li>同じ指摘が別案件で繰り返される</li><li>改善の効果を比較できない</li></ul></div></article></section><footer class="footer">提案：前提情報を標準化し、レビュー観点と記録方法を共通化することで、速度と品質を同時に改善する。</footer></main></body></html>
+</style>
+<style data-shared-slide-shell>
+/* GENERATED FROM: slide-design-system / shared-slide-shell.css */
+/*
+ * Shared slide shell
+ * 正本: generating-explanation-html-slides/references/shared-slide-shell.css
+ * 最終HTMLは単体配布できるよう、このCSSを生成時に内包する。
+ * 型固有の表・図表・本文レイアウトはこのファイルへ追加しない。
+ */
+:root {
+  --paper: #f5f4f1;
+  --ink: #202426;
+  --muted: #626967;
+  --faint: #d7d9d5;
+  --accent: #a15d32;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
+}
+
+.viewport,
+.slide-viewport {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1280px;
+  height: 720px;
+  padding: 46px 58px 30px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  gap: 0;
+  transform: translate(-50%, -50%) scale(var(--slide-scale, var(--scale, 1)));
+  transform-origin: center center;
+}
+
+header,
+.slide-header {
+  position: static;
+  inset: auto;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding-bottom: 17px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.header-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 55px;
+}
+
+.kicker {
+  color: var(--accent);
+  font-family: system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+.title,
+.slide-title {
+  display: block;
+  max-width: none;
+  margin: 0;
+  font-size: 33px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: .01em;
+}
+
+.single-line-title {
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.title-num {
+  display: inline-block;
+  font-family: "Noto Serif CJK JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.lede,
+.slide-subtitle {
+  align-self: end;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.lede em {
+  color: var(--ink);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.bottom,
+.slide-footer,
+footer.slide-meta {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 35px;
+  padding-top: 10px;
+  color: var(--muted);
+  font-family: system-ui, sans-serif;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.bottom strong,
+.slide-footer strong,
+footer.slide-meta strong { color: var(--ink); }
+
+.warning,
+.slide-footer .warning {
+  padding-left: 10px;
+  border-left: 3px solid var(--accent);
+}
+
+.sequence,
+.slide-footer .sequence { text-align: right; }
+
+@media (max-width: 700px) {
+  .slide { transform: scale(min(calc(100vw / 1280), calc(100vh / 720))); }
+}
+</style>
+</head><body><main class="slide"><header class="head"><div class="eyebrow">AI開発ガバナンス｜優先課題</div><h1>AI開発で優先すべき2つの課題</h1><p>速度と品質の問題は別々に見えても、前提情報と成果物の扱い方に共通原因がある。</p></header><section class="panels"><article class="panel"><h2 class="pill">前提を探す時間が長い</h2><h3 class="section">■ 現状の課題データ</h3><div class="metrics"><div class="metric"><span class="label">仕様</span><div class="value">6.2<span class="unit">時間</span></div><p class="detail">標準化が進まず、毎回の確認と調整に時間を要する。</p></div><div class="metric"><span class="label">設計</span><div class="value">11.8<span class="unit">時間</span></div><p class="detail">既存資料の探索と読み替えが多く、着手が遅れる。</p></div><div class="metric"><span class="label">レビュー</span><div class="value">9.4<span class="unit">時間</span></div><p class="detail">判断材料が揃わず、確認が往復する。</p></div></div><div class="impact"><h3 class="section">■ 業務に生ずる影響</h3><ul><li>本来の実装より準備作業が先行する</li><li>AIへの依頼品質が担当者ごとに変わる</li><li>短納期の変更ほど手戻りが増える</li></ul></div></article><article class="panel"><h2 class="pill">成果物の品質が揃わない</h2><h3 class="section">■ 現状の課題データ</h3><div class="evidence"><div class="metric"><span class="label">レビュー観点</span><div class="value">92<span class="unit">%</span></div><p class="detail">23 / 25観点が担当者の経験に依存する。</p></div><div class="metric"><span class="label">母数</span><div class="value">25<span class="unit">観点</span></div><p class="detail">共通の確認対象として定義されている。</p></div><div class="metric"><span class="label">運用</span><div class="value">4<span class="unit">種</span></div><p class="detail">案件ごとにテンプレートと記録方法が乱立する。</p></div></div><div class="impact"><h3 class="section">■ 業務に生ずる影響</h3><ul><li>成果物の読み手が毎回ルールを推測する</li><li>同じ指摘が別案件で繰り返される</li><li>改善の効果を比較できない</li></ul></div></article></section><footer class="footer">提案：前提情報を標準化し、レビュー観点と記録方法を共通化することで、速度と品質を同時に改善する。</footer></main></body></html>

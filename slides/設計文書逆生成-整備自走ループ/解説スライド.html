@@ -137,6 +137,161 @@
     border-top: 1px solid var(--border);
   }
 </style>
+<style data-shared-slide-shell>
+/* GENERATED FROM: slide-design-system / shared-slide-shell.css */
+/*
+ * Shared slide shell
+ * 正本: generating-explanation-html-slides/references/shared-slide-shell.css
+ * 最終HTMLは単体配布できるよう、このCSSを生成時に内包する。
+ * 型固有の表・図表・本文レイアウトはこのファイルへ追加しない。
+ */
+:root {
+  --paper: #f5f4f1;
+  --ink: #202426;
+  --muted: #626967;
+  --faint: #d7d9d5;
+  --accent: #a15d32;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
+}
+
+.viewport,
+.slide-viewport {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1280px;
+  height: 720px;
+  padding: 46px 58px 30px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  gap: 0;
+  transform: translate(-50%, -50%) scale(var(--slide-scale, var(--scale, 1)));
+  transform-origin: center center;
+}
+
+header,
+.slide-header {
+  position: static;
+  inset: auto;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding-bottom: 17px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.header-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 55px;
+}
+
+.kicker {
+  color: var(--accent);
+  font-family: system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+.title,
+.slide-title {
+  display: block;
+  max-width: none;
+  margin: 0;
+  font-size: 33px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: .01em;
+}
+
+.single-line-title {
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.title-num {
+  display: inline-block;
+  font-family: "Noto Serif CJK JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.lede,
+.slide-subtitle {
+  align-self: end;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.lede em {
+  color: var(--ink);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.bottom,
+.slide-footer,
+footer.slide-meta {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 35px;
+  padding-top: 10px;
+  color: var(--muted);
+  font-family: system-ui, sans-serif;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.bottom strong,
+.slide-footer strong,
+footer.slide-meta strong { color: var(--ink); }
+
+.warning,
+.slide-footer .warning {
+  padding-left: 10px;
+  border-left: 3px solid var(--accent);
+}
+
+.sequence,
+.slide-footer .sequence { text-align: right; }
+
+@media (max-width: 700px) {
+  .slide { transform: scale(min(calc(100vw / 1280), calc(100vh / 720))); }
+}
+</style>
 
 <div class="slide-viewport">
   <div class="slide">

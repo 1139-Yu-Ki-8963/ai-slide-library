@@ -1,4 +1,159 @@
 <meta charset="utf-8"><title>AI開発の課題領域とKPIを俯瞰する</title>
 <style>
 :root{--page:#EDF0F4;--surface:#fff;--ink:#1C2B3A;--ink2:#55667A;--muted:#8494A6;--line:#D9E0E8;--blue:#087DB5;--red:#C0392B}*{box-sizing:border-box;margin:0}html,body{height:100%;overflow:hidden}body{background:var(--page);font-family:system-ui,-apple-system,'Hiragino Sans',sans-serif}.slide-viewport{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}.slide{position:absolute;top:50%;left:50%;width:1280px;height:720px;padding:36px 48px 28px;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 4px 24px #1c2b3a14;transform:translate(-50%,-50%) scale(var(--slide-scale,1));display:flex;flex-direction:column;gap:14px;color:var(--ink)}.slide-header{display:flex;flex-direction:column;gap:4px;padding-bottom:12px;border-bottom:2px solid var(--ink)}.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}h1{font-size:30px;line-height:1.25} .subtitle{font-size:14px;color:var(--ink2)}.section{font-size:18px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:10px}.section:before{content:'';width:5px;height:24px;background:var(--blue)}.section:after{content:'';height:1px;background:#087db555;flex:1}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{border:1.5px solid #3c91b5;border-radius:10px;overflow:hidden;min-height:166px}.card h2{font-size:17px;color:#fff;background:var(--blue);text-align:center;padding:8px}.card ul{padding:12px 16px;list-style:none;font-size:13px;line-height:1.35;display:grid;gap:8px}.card li:before{content:'✓';font-weight:700;margin-right:7px}.card small{display:block;padding-left:18px;color:var(--ink2);font-size:11px}.kpi-title{font-size:17px;font-weight:700;color:var(--blue)}.kpi-title small{font-size:11px;color:var(--muted);font-weight:500}.kpi{width:100%;border-collapse:collapse;font-size:13px}.kpi th{background:var(--blue);color:#fff;padding:9px}.kpi td{border:1px solid #e9edf2;padding:8px 12px;height:39px}.kpi td:nth-child(n+2){text-align:center}.kpi td:nth-child(4){color:var(--blue);font-weight:700}.kpi td:last-child{color:var(--red);font-weight:700}.bar{display:flex;align-items:center;gap:8px}.bar i{height:10px;background:var(--blue);display:block;width:var(--w);flex:0 0 var(--w)}.bar em{font-style:normal;min-width:45px}.note{font-size:10px;color:var(--muted);text-align:right}.slide-meta{height:22px;border-top:1px solid var(--line);margin-top:auto}
+</style>
+<style data-shared-slide-shell>
+/* GENERATED FROM: slide-design-system / shared-slide-shell.css */
+/*
+ * Shared slide shell
+ * 正本: generating-explanation-html-slides/references/shared-slide-shell.css
+ * 最終HTMLは単体配布できるよう、このCSSを生成時に内包する。
+ * 型固有の表・図表・本文レイアウトはこのファイルへ追加しない。
+ */
+:root {
+  --paper: #f5f4f1;
+  --ink: #202426;
+  --muted: #626967;
+  --faint: #d7d9d5;
+  --accent: #a15d32;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
+}
+
+.viewport,
+.slide-viewport {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1280px;
+  height: 720px;
+  padding: 46px 58px 30px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  gap: 0;
+  transform: translate(-50%, -50%) scale(var(--slide-scale, var(--scale, 1)));
+  transform-origin: center center;
+}
+
+header,
+.slide-header {
+  position: static;
+  inset: auto;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding-bottom: 17px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.header-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 55px;
+}
+
+.kicker {
+  color: var(--accent);
+  font-family: system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+.title,
+.slide-title {
+  display: block;
+  max-width: none;
+  margin: 0;
+  font-size: 33px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: .01em;
+}
+
+.single-line-title {
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.title-num {
+  display: inline-block;
+  font-family: "Noto Serif CJK JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.lede,
+.slide-subtitle {
+  align-self: end;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.lede em {
+  color: var(--ink);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.bottom,
+.slide-footer,
+footer.slide-meta {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 35px;
+  padding-top: 10px;
+  color: var(--muted);
+  font-family: system-ui, sans-serif;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.bottom strong,
+.slide-footer strong,
+footer.slide-meta strong { color: var(--ink); }
+
+.warning,
+.slide-footer .warning {
+  padding-left: 10px;
+  border-left: 3px solid var(--accent);
+}
+
+.sequence,
+.slide-footer .sequence { text-align: right; }
+
+@media (max-width: 700px) {
+  .slide { transform: scale(min(calc(100vw / 1280), calc(100vh / 720))); }
+}
 </style><div class="slide-viewport"><main class="slide"><header class="slide-header"><span class="eyebrow">AI開発ガバナンス — 現状診断</span><h1>AI開発の課題領域とKPIを俯瞰する</h1><p class="subtitle">仕様・知識・検証・運用を別々に見るのではなく、開発品質へ影響する4領域として整理する。</p></header><div class="section">現在見えている課題</div><section class="cards"><article class="card"><h2>仕様管理</h2><ul><li>前提が散在<small>AGENTS.mdの入口が定まらない</small></li><li>変更理由が残らない<small>設計と実装の鮮度がずれる</small></li></ul></article><article class="card"><h2>知識整備</h2><ul><li>Skillsの役割が曖昧<small>手順が再利用されない</small></li><li>rulesが埋もれる<small>固有規約が見つからない</small></li></ul></article><article class="card"><h2>検証基盤</h2><ul><li>検査が点在<small>品質が担当者に依存する</small></li><li>失敗が残らない<small>同じ不具合を繰り返す</small></li></ul></article><article class="card"><h2>運用設計</h2><ul><li>責任境界が曖昧<small>委任と承認が決まらない</small></li><li>改善が続かない<small>成熟度を測れない</small></li></ul></article></section><div class="kpi-title">主要KPIの現状 <small>（例示値・初回診断用）</small></div><table class="kpi"><thead><tr><th>指標</th><th>目標</th><th>現状</th><th>達成率</th><th>優先対応</th></tr></thead><tbody><tr><td>仕様参照率</td><td>100%</td><td>72%</td><td><div class="bar"><em>72.0%</em><i style="--w:72%"></i></div></td><td>入口統一</td></tr><tr><td>Skills再利用率</td><td>80%</td><td>46%</td><td><div class="bar"><em>57.5%</em><i style="--w:58%"></i></div></td><td>型登録</td></tr><tr><td>自動検証実行率</td><td>90%</td><td>55%</td><td><div class="bar"><em>61.1%</em><i style="--w:61%"></i></div></td><td>検査接続</td></tr><tr><td>レビュー記録率</td><td>100%</td><td>61%</td><td><div class="bar"><em>61.0%</em><i style="--w:61%"></i></div></td><td>完了条件化</td></tr></tbody></table><p class="note">※数値は構成サンプル。実測値へ置き換えて利用する。</p><footer class="slide-meta"></footer></main></div><script>(function(){function f(){document.documentElement.style.setProperty('--slide-scale',Math.min(innerWidth/1280,innerHeight/720))}addEventListener('resize',f);f()})();</script>
