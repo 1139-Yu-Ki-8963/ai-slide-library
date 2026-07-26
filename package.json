@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "test": "npm run test:slide-contract && npm run test:slide-layout",
+    "test": "npm run test:slide-static && npm run test:slide-contract && npm run test:slide-layout",
+    "test:slide-static": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-static-contract.mjs\"",
+    "test:slide-final": "npm test",
     "test:slide-contract": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-contract.mjs\"",
     "test:slide-layout": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/qa-slide-layout.mjs\""
   },
