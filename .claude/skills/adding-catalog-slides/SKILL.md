@@ -137,11 +137,11 @@ Phase 8〜11は同一のHTML、実描画、サムネイルを読み取り専用�
   "status": "pass|fail|hold",
   "findings": [{"severity": "critical|high|medium|low", "decision": "fail|hold|pass|suggestion", "target": "", "evidence": "", "fix": ""}],
   "checkedAt": "ISO-8601",
-  "artifactSha256": "対象HTML・PNG・入力資料のハッシュ"
+  "artifactSha256": "対象HTMLのSHA-256"
 }
 ```
 
-Phase 12だけが4枝のJSON schema・対象キー・成果物ハッシュを検証して統合記録を書く。JSONは`slides/<キー>/検査記録/phase-8.json`〜`phase-11.json`に分離し、各枝は読み取り専用で返却する。`fail`、`hold`、`critical`を1件でも含む場合は修正へ送る。修正後はPhase 7へ戻り、機械検証を通過したうえで、変更の影響を受けるレビュー枝を再実行する。公開判定は4枝すべての`status=pass`を要求する。
+Phase 12だけが4枝のJSON schema・対象キー・HTML成果物SHAを検証して統合記録を書く。`artifactSha256`は対象HTMLのSHA-256とし、PNGは別途寸法・描画検証で保証する。JSONは`slides/<キー>/検査記録/phase-8.json`〜`phase-11.json`に分離し、各枝は読み取り専用で返却する。`fail`、`hold`、`critical`を1件でも含む場合は修正へ送る。修正後はPhase 7へ戻り、機械検証を通過したうえで、変更の影響を受けるレビュー枝を再実行する。公開判定は4枝すべての`status=pass`を要求する。
 
 ## Phase 12: 修正・再検証
 
