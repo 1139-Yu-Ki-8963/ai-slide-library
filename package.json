@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "test": "npm run test:slide-contract && npm run test:slide-layout",
+    "test:slide-contract": "node scripts/verify-slide-contract.mjs",
+    "test:slide-layout": "node scripts/qa-slide-layout.mjs"
+  },
   "devDependencies": {
     "playwright": "^1.61.1"
   }

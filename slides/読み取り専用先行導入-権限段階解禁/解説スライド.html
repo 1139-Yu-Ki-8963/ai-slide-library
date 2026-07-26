@@ -232,7 +232,10 @@ header,
 }
 
 .title,
-.slide-title {
+.slide-title,
+.slide-header .slide-title,
+.slide-header h1,
+header h1 {
   display: block;
   max-width: none;
   margin: 0;
@@ -271,10 +274,16 @@ header,
 
 .bottom,
 .slide-footer,
-footer.slide-meta {
+footer.slide-meta,
+footer.meta {
   display: grid;
   grid-template-columns: 1.35fr 1fr;
   gap: 35px;
+  height: auto;
+  flex: 0 0 auto;
+  min-height: 0;
+  margin: 0;
+  border-top: 0;
   padding-top: 10px;
   color: var(--muted);
   font-family: system-ui, sans-serif;

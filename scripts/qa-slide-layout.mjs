@@ -38,10 +38,11 @@ for (const entry of entries) {
       const cs = getComputedStyle(slide);
       const clipped = [];
       for (const el of slide.querySelectorAll("*")) {
-        // Chromium reports SVG <tspan> getBoundingClientRect() in the SVG user
-        // coordinate space on transformed pages. The parent SVG bounds are the
-        // authoritative rendered bounds for this check.
-        if (el.tagName.toLowerCase() === "tspan") continue;
+        if (el.tagName.toLowerCase() === "tspan") {
+          const svg = el.ownerSVGElement;
+          if (svg && (svg.scrollWidth > svg.clientWidth + 1 || svg.scrollHeight > svg.clientHeight + 1)) clipped.push({ tag: "svg", svgOverflow: true, text: el.textContent });
+          continue;
+        }
         const r = el.getBoundingClientRect();
         if (r.width <= 0 || r.height <= 0) continue;
         const style = getComputedStyle(el);
@@ -51,25 +52,30 @@ for (const entry of entries) {
         const outside = r.left < sr.left - 1 || r.top < sr.top - 1 || r.right > sr.right + 1 || r.bottom > sr.bottom + 1;
         if (outside) clipped.push({ tag: el.tagName, className: String(el.className?.baseVal || el.className || ""), outside: true, left: r.left, top: r.top, right: r.right, bottom: r.bottom });
       }
+      const visibleCount = selector => [...document.querySelectorAll(selector)].filter(el => {
+        const style = getComputedStyle(el);
+        const rect = el.getBoundingClientRect();
+        return style.display !== "none" && style.visibility !== "hidden" && rect.width > 0 && rect.height > 0;
+      }).length;
       return {
         missingShell: false,
         slide: { x: sr.x, y: sr.y, width: sr.width, height: sr.height, cssWidth: cs.width, cssHeight: cs.height, transform: cs.transform },
         viewport: { x: vr.x, y: vr.y, width: vr.width, height: vr.height },
         page: { scrollWidth: document.documentElement.scrollWidth, scrollHeight: document.documentElement.scrollHeight, clientWidth: document.documentElement.clientWidth, clientHeight: document.documentElement.clientHeight },
         clipped,
-        titleCount: document.querySelectorAll(".slide-title, .title").length,
-        footerCount: document.querySelectorAll("footer.slide-meta, .slide-footer, .bottom").length,
+        titleCount: visibleCount(".slide-title, .title, .slide-header h1, header h1"),
+        footerCount: visibleCount("footer.slide-meta, footer.meta, .slide-footer, .bottom"),
       };
     });
     const screenshot = join(outDir, `${entry.key}-${viewport.name}.png`);
     await page.screenshot({ path: screenshot });
-    results.push({ key: entry.key, viewport: viewport.name, screenshot, errors, ...metrics });
+    results.push({ key: entry.key, viewport: viewport.name, screenshot: `${entry.key}-${viewport.name}.png`, errors, ...metrics });
     await page.close();
   }
 }
 await browser.close();
 const report = { generatedAt: new Date().toISOString(), count: entries.length, results };
 writeFileSync(join(outDir, "report.json"), JSON.stringify(report, null, 2));
-const failures = results.filter((r) => r.errors.length || r.missingShell || r.clipped?.length || (r.viewport === "desktop" && (r.slide?.cssWidth !== "1280px" || r.slide?.cssHeight !== "720px")) || (r.viewport === "mobile" && r.page?.scrollWidth > r.page?.clientWidth));
+const failures = results.filter((r) => r.errors.length || r.missingShell || r.clipped?.length || r.titleCount !== 1 || r.footerCount !== 1 || (r.viewport === "desktop" && (r.slide?.cssWidth !== "1280px" || r.slide?.cssHeight !== "720px")) || (r.viewport === "mobile" && r.page?.scrollWidth > r.page?.clientWidth));
 console.log(JSON.stringify({ count: entries.length, renders: results.length, failures: failures.length, failureKeys: [...new Set(failures.map((r) => `${r.key}:${r.viewport}`))], report: join(outDir, "report.json") }, null, 2));
 process.exitCode = failures.length ? 1 : 0;
