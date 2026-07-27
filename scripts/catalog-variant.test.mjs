@@ -1,26 +1,201 @@
 #!/usr/bin/env node
-// バリアントグループ定義（docs/スライド蓄積簿.md「## バリアントグループ定義」節）が
-// build-catalog.mjs によって index.html に正しく出力されることを検証する。
+// 現行の正式仕様:
+// - 49登録のうち2組×3 variantを各1カードへ束ね、既定表示は45カード
+// - 各variantはredirectではなく、固有HTML・タイトル・サムネイルを持つ
+// - docs/スライド蓄積簿.md → build-catalog.mjs → index.html の定義を検証する
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const indexPath = join(root, "index.html");
 const buildScript = join(root, "scripts", "build-catalog.mjs");
+const cssDriftScript = join(root, "scripts", "check-css-drift.mjs");
 
-function extractVariantGroups(html) {
-  const startMarker = "const VARIANT_GROUPS = ";
-  const startIdx = html.indexOf(startMarker);
-  assert.notEqual(startIdx, -1, "index.html に const VARIANT_GROUPS = が見つかりません");
-  const afterStart = startIdx + startMarker.length;
-  const endIdx = html.indexOf(";\n", afterStart);
-  assert.notEqual(endIdx, -1, "VARIANT_GROUPS 定義の終端（;\\n）が見つかりません");
-  const jsonText = html.slice(afterStart, endIdx);
-  return JSON.parse(jsonText);
+const EXPECTED_GROUPS = {
+  "テンプレート構成": {
+    canonical: "claude-code-テンプレート構成",
+    members: [
+      { key: "claude-code-テンプレート構成", slug: "claude-code", titlePattern: /Claude Code/ },
+      { key: "cursor-テンプレート構成", slug: "cursor", titlePattern: /Cursor/ },
+      { key: "codex-テンプレート構成", slug: "codex", titlePattern: /Codex/ },
+    ],
+  },
+  "リポジトリ整備": {
+    canonical: "リポジトリ整備-claude-code版-現状理想対比",
+    members: [
+      { key: "リポジトリ整備-claude-code版-現状理想対比", slug: "claude-code", titlePattern: /Claude Code/ },
+      { key: "リポジトリ整備-cursor版-現状理想対比", slug: "cursor", titlePattern: /Cursor/ },
+      { key: "リポジトリ整備-codex版-現状理想対比", slug: "codex", titlePattern: /Codex/ },
+    ],
+  },
+};
+
+function extractCatalogJson(html, name) {
+  const startMarker = `const ${name} = `;
+  const startIndex = html.indexOf(startMarker);
+  assert.notEqual(startIndex, -1, `index.html に ${startMarker.trim()} が見つかりません`);
+  const valueStart = startIndex + startMarker.length;
+  const valueEnd = html.indexOf(";\n", valueStart);
+  assert.notEqual(valueEnd, -1, `${name} 定義の終端（;\\n）が見つかりません`);
+  return JSON.parse(html.slice(valueStart, valueEnd));
+}
+
+function readCatalogModel() {
+  const html = readFileSync(indexPath, "utf8");
+  return {
+    html,
+    slides: extractCatalogJson(html, "SLIDES"),
+    groups: extractCatalogJson(html, "VARIANT_GROUPS"),
+  };
+}
+
+function slidePaths(key) {
+  return {
+    html: join(root, "slides", key, "解説スライド.html"),
+    thumbnail: join(root, "slides", key, "サムネイル.png"),
+  };
+}
+
+function titleOf(htmlPath) {
+  return (readFileSync(htmlPath, "utf8").match(/<title>([^<]+)<\/title>/i) || [])[1]?.trim() || "";
+}
+
+function sha256(path) {
+  return createHash("sha256").update(readFileSync(path)).digest("hex");
+}
+
+function pngDimensions(path) {
+  const buffer = readFileSync(path);
+  assert.equal(buffer.toString("ascii", 1, 4), "PNG", `${path} はPNGではありません`);
+  return { width: buffer.readUInt32BE(16), height: buffer.readUInt32BE(20) };
+}
+
+function clone(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function validateVariantModel({ slides, groups }) {
+  const errors = [];
+  const slideKeys = new Set();
+  for (const slide of slides) {
+    if (slideKeys.has(slide.key)) errors.push({ code: "registered-key-duplicate", detail: slide.key });
+    slideKeys.add(slide.key);
+  }
+
+  const groupsByName = new Map();
+  const memberOwners = new Map();
+  for (const group of groups) {
+    if (groupsByName.has(group.name)) errors.push({ code: "group-duplicate", detail: group.name });
+    groupsByName.set(group.name, group);
+    const members = Array.isArray(group.members) ? group.members : [];
+    const memberKeys = new Set();
+    const slugs = new Set();
+    for (const member of members) {
+      if (!slideKeys.has(member.key)) errors.push({ code: "unknown-member", detail: member.key });
+      if (memberKeys.has(member.key) || memberOwners.has(member.key)) {
+        errors.push({ code: "member-duplicate", detail: member.key });
+      }
+      memberKeys.add(member.key);
+      memberOwners.set(member.key, group.name);
+      if (!member.slug || !member.label || slugs.has(member.slug)) {
+        errors.push({ code: "variant-option-invalid", detail: member.key });
+      }
+      slugs.add(member.slug);
+    }
+    if (!slideKeys.has(group.canonical)) errors.push({ code: "unknown-canonical", detail: group.canonical });
+    if (!memberKeys.has(group.canonical)) errors.push({ code: "canonical-not-member", detail: group.canonical });
+  }
+
+  const expectedNames = new Set(Object.keys(EXPECTED_GROUPS));
+  const actualNames = new Set(groups.map(group => group.name));
+  if (groups.length !== expectedNames.size || actualNames.size !== expectedNames.size) {
+    errors.push({ code: "group-count", detail: `${groups.length}` });
+  }
+  for (const [name, expected] of Object.entries(EXPECTED_GROUPS)) {
+    const actual = groupsByName.get(name);
+    if (!actual) {
+      errors.push({ code: "group-missing", detail: name });
+      continue;
+    }
+    if (actual.canonical !== expected.canonical) {
+      errors.push({ code: "canonical-mismatch", detail: `${name}:${actual.canonical}` });
+    }
+    const expectedMembers = new Set(expected.members.map(member => member.key));
+    const actualMembers = new Set(actual.members.map(member => member.key));
+    if (
+      actual.members.length !== expected.members.length ||
+      expectedMembers.size !== actualMembers.size ||
+      [...expectedMembers].some(key => !actualMembers.has(key))
+    ) {
+      errors.push({ code: "member-set-mismatch", detail: name });
+    }
+    const expectedSlugs = new Set(expected.members.map(member => member.slug));
+    const actualSlugs = new Set(actual.members.map(member => member.slug));
+    if (expectedSlugs.size !== actualSlugs.size || [...expectedSlugs].some(slug => !actualSlugs.has(slug))) {
+      errors.push({ code: "slug-set-mismatch", detail: name });
+    }
+  }
+  for (const name of actualNames) {
+    if (!expectedNames.has(name)) errors.push({ code: "unknown-group", detail: name });
+  }
+
+  const expectedCardCount = slideKeys.size - memberOwners.size + groups.length;
+  return { errors, registeredCount: slideKeys.size, expectedCardCount, memberOwners };
+}
+
+function assertIndependentHtmlGroup(groupName) {
+  const spec = EXPECTED_GROUPS[groupName];
+  const contents = spec.members.map(member => {
+    const paths = slidePaths(member.key);
+    assert.ok(existsSync(paths.html), `${member.key}: 解説スライド.html がありません`);
+    const html = readFileSync(paths.html, "utf8");
+    assert.doesNotMatch(html, /http-equiv\s*=\s*["']refresh["']/i, `${member.key}: redirectが残っています`);
+    return { member, paths, html };
+  });
+  return contents;
+}
+
+function assertTitlesAreProductSpecific(groupName) {
+  const contents = assertIndependentHtmlGroup(groupName);
+  const titles = contents.map(({ member, paths }) => {
+    const title = titleOf(paths.html);
+    assert.notEqual(title, "", `${member.key}: titleが空です`);
+    assert.match(title, member.titlePattern, `${member.key}: 製品名を含む固有titleではありません`);
+    return title;
+  });
+  assert.equal(new Set(titles).size, titles.length, `${groupName}: titleが重複しています`);
+}
+
+function assertUniqueFiles(groupName, field) {
+  const paths = EXPECTED_GROUPS[groupName].members.map(member => slidePaths(member.key)[field]);
+  for (const path of paths) assert.ok(existsSync(path), `${path} がありません`);
+  assert.equal(new Set(paths.map(sha256)).size, paths.length, `${groupName}: ${field}の内容が重複しています`);
+}
+
+function assertThumbnailDimensions(groupName) {
+  for (const member of EXPECTED_GROUPS[groupName].members) {
+    const path = slidePaths(member.key).thumbnail;
+    assert.ok(existsSync(path), `${member.key}: サムネイル.png がありません`);
+    assert.deepEqual(pngDimensions(path), { width: 640, height: 360 }, `${member.key}: サムネイル寸法が不正です`);
+  }
+}
+
+function expectVariantError(name, mutate, expectedCode) {
+  test(name, () => {
+    const model = readCatalogModel();
+    const fixture = { slides: clone(model.slides), groups: clone(model.groups) };
+    mutate(fixture);
+    const result = validateVariantModel(fixture);
+    assert.ok(
+      result.errors.some(error => error.code === expectedCode),
+      `${expectedCode}を検出できませんでした: ${JSON.stringify(result.errors)}`,
+    );
+  });
 }
 
 test("build-catalog が正常終了する", () => {
@@ -29,409 +204,198 @@ test("build-catalog が正常終了する", () => {
   });
 });
 
-test("VARIANT_GROUPS が index.html に出力される", () => {
-  const html = readFileSync(indexPath, "utf8");
-  const dataBlockMatch = html.match(/\/\*CATALOG-DATA-START\*\/([\s\S]*?)\/\*CATALOG-DATA-END\*\//);
-  assert.ok(dataBlockMatch, "CATALOG-DATA マーカーが見つかりません");
+test("正式なバリアントグループ数は2組", () => {
+  assert.equal(readCatalogModel().groups.length, 2);
+});
 
-  const variantGroups = extractVariantGroups(html);
-
-  assert.equal(variantGroups.length, 3, "グループ数は 3 であるべき");
-
-  const names = new Set(variantGroups.map(g => g.name));
-  assert.deepEqual(names, new Set(["テンプレート構成", "リポジトリ整備", "AI導入計画"]));
-
-  const templateGroup = variantGroups.find(g => g.name === "テンプレート構成");
-  assert.ok(templateGroup, "「テンプレート構成」グループが見つかりません");
-  assert.equal(templateGroup.canonical, "claude-code-テンプレート構成");
-  const templateKeys = new Set(templateGroup.members.map(m => m.key));
+test("正式なグループ名はテンプレート構成とリポジトリ整備", () => {
   assert.deepEqual(
-    templateKeys,
-    new Set(["claude-code-テンプレート構成", "cursor-テンプレート構成", "codex-テンプレート構成"]),
-  );
-  const templateSlugs = new Set(templateGroup.members.map(m => m.slug));
-  assert.deepEqual(templateSlugs, new Set(["claude-code", "cursor", "codex"]));
-
-  const aiPlanGroup = variantGroups.find(g => g.name === "AI導入計画");
-  assert.ok(aiPlanGroup, "「AI導入計画」グループが見つかりません");
-  assert.equal(aiPlanGroup.kind, "view");
-  assert.equal(aiPlanGroup.canonical, "四半期計画-AI整備計画表");
-});
-
-// --- テンプレート構成の統合スライド化（タブ切替統合） ---
-
-const canonicalSlidePath = join(root, "slides", "claude-code-テンプレート構成", "解説スライド.html");
-const cursorSlidePath = join(root, "slides", "cursor-テンプレート構成", "解説スライド.html");
-const codexSlidePath = join(root, "slides", "codex-テンプレート構成", "解説スライド.html");
-
-test("統合スライドが3variantを内蔵する", () => {
-  const html = readFileSync(canonicalSlidePath, "utf8");
-  assert.ok(html.includes("const VARIANTS"), "const VARIANTS が見つかりません");
-  assert.ok(html.includes("claude-code"), "スラッグ claude-code が見つかりません");
-  assert.ok(html.includes("cursor"), "スラッグ cursor が見つかりません");
-  assert.ok(html.includes("codex"), "スラッグ codex が見つかりません");
-
-  // claude-code 固有の文言（旧 claude-code 版にしか無かった実文言）
-  assert.ok(html.includes("CLAUDE.md"), "claude-code 固有文言「CLAUDE.md」が見つかりません");
-  assert.ok(html.includes(".claude/rules"), "claude-code 固有文言「.claude/rules」が見つかりません");
-
-  // cursor 固有の文言（旧 cursor 版にしか無かった実文言）
-  assert.ok(html.includes(".cursor/rules"), "cursor 固有文言「.cursor/rules」が見つかりません");
-  assert.ok(html.includes(".cursorignore"), "cursor 固有文言「.cursorignore」が見つかりません");
-
-  // codex 固有の文言（旧 codex 版にしか無かった実文言）
-  assert.ok(html.includes(".codex/config.toml"), "codex 固有文言「.codex/config.toml」が見つかりません");
-  assert.ok(html.includes("sandbox_mode"), "codex 固有文言「sandbox_mode」が見つかりません");
-});
-
-test("タブUIが存在する", () => {
-  const html = readFileSync(canonicalSlidePath, "utf8");
-  assert.ok(html.includes("variant-tabs"), "variant-tabs（タブバーの id/class）が見つかりません");
-  assert.ok(html.includes("location.hash"), "location.hash 参照が見つかりません");
-});
-
-test("転送ページが代表を指す", () => {
-  const cursorHtml = readFileSync(cursorSlidePath, "utf8");
-  assert.ok(cursorHtml.includes('http-equiv="refresh"'), "cursor 転送ページに http-equiv=\"refresh\" が見つかりません");
-  assert.ok(
-    cursorHtml.includes("../claude-code-テンプレート構成/解説スライド.html#cursor"),
-    "cursor 転送ページに代表スライドへの参照（#cursor）が見つかりません",
-  );
-
-  const codexHtml = readFileSync(codexSlidePath, "utf8");
-  assert.ok(codexHtml.includes('http-equiv="refresh"'), "codex 転送ページに http-equiv=\"refresh\" が見つかりません");
-  assert.ok(
-    codexHtml.includes("../claude-code-テンプレート構成/解説スライド.html#codex"),
-    "codex 転送ページに代表スライドへの参照（#codex）が見つかりません",
+    new Set(readCatalogModel().groups.map(group => group.name)),
+    new Set(Object.keys(EXPECTED_GROUPS)),
   );
 });
 
-test("転送ページがtitleを保持する", () => {
-  const cursorHtml = readFileSync(cursorSlidePath, "utf8");
-  const cursorTitle = (cursorHtml.match(/<title>([^<]*)<\/title>/) || [])[1] || "";
-  assert.ok(cursorTitle.includes("Cursor"), `cursor 転送ページの <title> に「Cursor」が含まれていません（実際: ${cursorTitle}）`);
-
-  const codexHtml = readFileSync(codexSlidePath, "utf8");
-  const codexTitle = (codexHtml.match(/<title>([^<]*)<\/title>/) || [])[1] || "";
-  assert.ok(codexTitle.includes("Codex"), `codex 転送ページの <title> に「Codex」が含まれていません（実際: ${codexTitle}）`);
+test("各グループは3variantを保持する", () => {
+  for (const group of readCatalogModel().groups) assert.equal(group.members.length, 3, group.name);
 });
 
-// --- リポジトリ整備の統合スライド化（タブ切替統合） ---
-
-const repoSeibiCanonicalPath = join(root, "slides", "リポジトリ整備-claude-code版-現状理想対比", "解説スライド.html");
-const repoSeibiCursorPath = join(root, "slides", "リポジトリ整備-cursor版-現状理想対比", "解説スライド.html");
-const repoSeibiCodexPath = join(root, "slides", "リポジトリ整備-codex版-現状理想対比", "解説スライド.html");
-
-test("リポジトリ整備 統合スライドが3variantを内蔵する", () => {
-  const html = readFileSync(repoSeibiCanonicalPath, "utf8");
-  assert.ok(html.includes("const VARIANTS"), "const VARIANTS が見つかりません");
-  assert.ok(html.includes("claude-code"), "スラッグ claude-code が見つかりません");
-  assert.ok(html.includes("cursor"), "スラッグ cursor が見つかりません");
-  assert.ok(html.includes("codex"), "スラッグ codex が見つかりません");
-
-  // cursor 固有の代表文言（旧 cursor 版にしか無かった実文言）
-  assert.ok(html.includes(".cursor/rules/"), "cursor 固有文言「.cursor/rules/」が見つかりません");
-  assert.ok(html.includes("SKILL.md"), "cursor 固有文言「SKILL.md」が見つかりません");
-
-  // codex 固有の代表文言（旧 codex 版にしか無かった実文言）
-  assert.ok(html.includes("AGENTS.md に集約"), "codex 固有文言「AGENTS.md に集約」が見つかりません");
-  assert.ok(
-    html.includes("Codex CLI は設定ファイルが少ない分"),
-    "codex 固有文言「Codex CLI は設定ファイルが少ない分」が見つかりません",
+test("テンプレート構成の代表キー・メンバー・slugが正式仕様と一致する", () => {
+  const group = readCatalogModel().groups.find(item => item.name === "テンプレート構成");
+  assert.equal(group.canonical, EXPECTED_GROUPS["テンプレート構成"].canonical);
+  assert.deepEqual(
+    new Set(group.members.map(member => member.key)),
+    new Set(EXPECTED_GROUPS["テンプレート構成"].members.map(member => member.key)),
+  );
+  assert.deepEqual(
+    new Set(group.members.map(member => member.slug)),
+    new Set(EXPECTED_GROUPS["テンプレート構成"].members.map(member => member.slug)),
   );
 });
 
-test("リポジトリ整備 タブUIが存在する", () => {
-  const html = readFileSync(repoSeibiCanonicalPath, "utf8");
-  assert.ok(html.includes("variant-tabs"), "variant-tabs（タブバーの id/class）が見つかりません");
-  assert.ok(html.includes("location.hash"), "location.hash 参照が見つかりません");
-});
-
-test("リポジトリ整備 転送ページが代表を指す", () => {
-  const cursorHtml = readFileSync(repoSeibiCursorPath, "utf8");
-  assert.ok(cursorHtml.includes('http-equiv="refresh"'), "cursor 転送ページに http-equiv=\"refresh\" が見つかりません");
-  assert.ok(
-    cursorHtml.includes("../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html#cursor"),
-    "cursor 転送ページに代表スライドへの参照（#cursor）が見つかりません",
+test("リポジトリ整備の代表キー・メンバー・slugが正式仕様と一致する", () => {
+  const group = readCatalogModel().groups.find(item => item.name === "リポジトリ整備");
+  assert.equal(group.canonical, EXPECTED_GROUPS["リポジトリ整備"].canonical);
+  assert.deepEqual(
+    new Set(group.members.map(member => member.key)),
+    new Set(EXPECTED_GROUPS["リポジトリ整備"].members.map(member => member.key)),
   );
-
-  const codexHtml = readFileSync(repoSeibiCodexPath, "utf8");
-  assert.ok(codexHtml.includes('http-equiv="refresh"'), "codex 転送ページに http-equiv=\"refresh\" が見つかりません");
-  assert.ok(
-    codexHtml.includes("../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html#codex"),
-    "codex 転送ページに代表スライドへの参照（#codex）が見つかりません",
+  assert.deepEqual(
+    new Set(group.members.map(member => member.slug)),
+    new Set(EXPECTED_GROUPS["リポジトリ整備"].members.map(member => member.slug)),
   );
 });
 
-test("リポジトリ整備 転送ページがtitleを保持する", () => {
-  const cursorHtml = readFileSync(repoSeibiCursorPath, "utf8");
-  const cursorTitle = (cursorHtml.match(/<title>([^<]*)<\/title>/) || [])[1] || "";
-  assert.ok(cursorTitle.includes("Cursor"), `cursor 転送ページの <title> に「Cursor」が含まれていません（実際: ${cursorTitle}）`);
-
-  const codexHtml = readFileSync(repoSeibiCodexPath, "utf8");
-  const codexTitle = (codexHtml.match(/<title>([^<]*)<\/title>/) || [])[1] || "";
-  assert.ok(codexTitle.includes("Codex"), `codex 転送ページの <title> に「Codex」が含まれていません（実際: ${codexTitle}）`);
+test("登録スライドは49件", () => {
+  assert.equal(readCatalogModel().slides.length, 49);
 });
 
-// --- カタログ一覧のバリアントグループ束ね表示（描画コード） ---
+test("49登録から2組の3variantを束ねると既定カードは45件", () => {
+  const result = validateVariantModel(readCatalogModel());
+  assert.equal(result.expectedCardCount, 45);
+});
 
-test("描画コードが VARIANT_GROUPS を参照する（データブロック外）", () => {
-  const html = readFileSync(indexPath, "utf8");
+test("variantメンバーはグループ内・グループ間で重複しない", () => {
+  const result = validateVariantModel(readCatalogModel());
+  assert.ok(!result.errors.some(error => error.code === "member-duplicate"), JSON.stringify(result.errors));
+  assert.equal(result.memberOwners.size, 6);
+});
+
+test("variantメンバーと代表キーは全て登録済みキー", () => {
+  const result = validateVariantModel(readCatalogModel());
+  assert.ok(!result.errors.some(error => error.code.startsWith("unknown-")), JSON.stringify(result.errors));
+});
+
+test("各代表キーは自身のグループメンバーに含まれる", () => {
+  const result = validateVariantModel(readCatalogModel());
+  assert.ok(!result.errors.some(error => error.code === "canonical-not-member"), JSON.stringify(result.errors));
+});
+
+test("生成済みカタログのバリアントモデルは全契約を満たす", () => {
+  assert.deepEqual(validateVariantModel(readCatalogModel()).errors, []);
+});
+
+test("テンプレート構成3variantはredirectではなく独立HTML", () => {
+  assert.equal(assertIndependentHtmlGroup("テンプレート構成").length, 3);
+});
+
+test("テンプレート構成3variantは製品別の固有titleを持つ", () => {
+  assertTitlesAreProductSpecific("テンプレート構成");
+});
+
+test("テンプレート構成3variantのHTML内容は相互に異なる", () => {
+  assertUniqueFiles("テンプレート構成", "html");
+});
+
+test("テンプレート構成3variantは各640×360サムネイルを持つ", () => {
+  assertThumbnailDimensions("テンプレート構成");
+});
+
+test("テンプレート構成3variantのサムネイル内容は相互に異なる", () => {
+  assertUniqueFiles("テンプレート構成", "thumbnail");
+});
+
+test("リポジトリ整備3variantはredirectではなく独立HTML", () => {
+  assert.equal(assertIndependentHtmlGroup("リポジトリ整備").length, 3);
+});
+
+test("リポジトリ整備3variantは製品別の固有titleを持つ", () => {
+  assertTitlesAreProductSpecific("リポジトリ整備");
+});
+
+test("リポジトリ整備3variantのHTML内容は相互に異なる", () => {
+  assertUniqueFiles("リポジトリ整備", "html");
+});
+
+test("リポジトリ整備3variantは各640×360サムネイルを持つ", () => {
+  assertThumbnailDimensions("リポジトリ整備");
+});
+
+test("リポジトリ整備3variantのサムネイル内容は相互に異なる", () => {
+  assertUniqueFiles("リポジトリ整備", "thumbnail");
+});
+
+expectVariantError("variant欠落を拒否する", fixture => {
+  fixture.groups[0].members.pop();
+}, "member-set-mismatch");
+
+expectVariantError("variant重複を拒否する", fixture => {
+  fixture.groups[0].members.push(clone(fixture.groups[0].members[0]));
+}, "member-duplicate");
+
+expectVariantError("未知variantキーを拒否する", fixture => {
+  fixture.groups[0].members[1].key = "unknown-slide-key";
+}, "unknown-member");
+
+expectVariantError("不正な代表キーを拒否する", fixture => {
+  fixture.groups[0].canonical = fixture.slides.find(
+    slide => !fixture.groups[0].members.some(member => member.key === slide.key),
+  ).key;
+}, "canonical-mismatch");
+
+expectVariantError("variant選択肢のslug欠落を拒否する", fixture => {
+  fixture.groups[0].members[0].slug = "";
+}, "variant-option-invalid");
+
+test("描画コードがデータブロック外でVARIANT_GROUPSを参照する", () => {
+  const html = readCatalogModel().html;
   const endMarker = "/*CATALOG-DATA-END*/";
-  const endIdx = html.indexOf(endMarker);
-  assert.notEqual(endIdx, -1, "CATALOG-DATA-END マーカーが見つかりません");
-  const afterData = html.slice(endIdx + endMarker.length);
-  assert.ok(
-    afterData.includes("VARIANT_GROUPS"),
-    "データブロック外（描画コード側）に VARIANT_GROUPS を参照するコードが見つかりません",
-  );
+  const endIndex = html.indexOf(endMarker);
+  assert.notEqual(endIndex, -1);
+  assert.ok(html.slice(endIndex + endMarker.length).includes("VARIANT_GROUPS"));
 });
 
 test("束ねカードのバッジ文字列生成コードが存在する", () => {
-  const html = readFileSync(indexPath, "utf8");
-  assert.ok(html.includes("ツール対応"), "「◯ツール対応」バッジ文言の生成コードが見つかりません");
-  assert.ok(html.includes("表示形式"), "「◯表示形式」バッジ文言の生成コードが見つかりません");
+  const html = readCatalogModel().html;
+  assert.ok(html.includes("ツール対応"));
+  assert.ok(html.includes("表示形式"));
 });
 
-test("束ねカードのツール別ピル行描画（renderVariantLinkRows）が廃止されている", () => {
-  const html = readFileSync(indexPath, "utf8");
-  assert.ok(
-    !html.includes("renderVariantLinkRows"),
-    "renderVariantLinkRows 関数（ツール別ダウンロードピル行の描画）の参照が残っています（廃止対象）",
-  );
-  assert.ok(!html.includes("variant-link-row"), "variant-link-row（ピル行のCSS/参照）が残っています（廃止対象）");
-  assert.ok(!html.includes("variant-pill"), "variant-pill（ピルのCSS/参照）が残っています（廃止対象）");
-  assert.ok(!html.includes("⬇ ダウンロード:"), "「⬇ ダウンロード:」ラベルが残っています（廃止対象）");
+test("廃止済みのvariantピル行描画が復活していない", () => {
+  const html = readCatalogModel().html;
+  assert.ok(!html.includes("renderVariantLinkRows"));
+  assert.ok(!html.includes("variant-link-row"));
+  assert.ok(!html.includes("variant-pill"));
+  assert.ok(!html.includes("⬇ ダウンロード:"));
 });
 
-test("束ねカードはダウンロードせずスライドを開く動線を使う", () => {
-  const html = readFileSync(indexPath, "utf8");
+test("束ねカードはダウンロードせずスライドを開く", () => {
+  const html = readCatalogModel().html;
   assert.ok(
     html.includes('? `<a class="act" href="${openPath}" target="_blank" rel="noopener"><span class="material-symbols-outlined">open_in_new</span>スライドを開く</a>`'),
-    "束ねカード用の「スライドを開く」リンク生成コードが見つかりません",
-  );
-  assert.ok(html.includes("スライドを開く"), "「スライドを開く」の文言が見つかりません");
-});
-
-test("束ねカードの描画コードに download 属性が存在しない", () => {
-  const html = readFileSync(indexPath, "utf8");
-  const openLinkMatch = html.match(
-    /\? `<a class="act" href="\$\{openPath\}" target="_blank" rel="noopener">[\s\S]*?<\/a>`/,
-  );
-  assert.ok(openLinkMatch, "束ねカード用リンク生成コードが見つかりません");
-  assert.ok(
-    !openLinkMatch[0].includes("download"),
-    "束ねカード用リンク生成コードに download 属性が残っています",
   );
 });
 
-test("通常カードは従来どおり download 属性でスライドHTMLを保存する", () => {
-  const html = readFileSync(indexPath, "utf8");
+test("束ねカード用リンクにdownload属性がない", () => {
+  const html = readCatalogModel().html;
+  const match = html.match(/\? `<a class="act" href="\$\{openPath\}" target="_blank" rel="noopener">[\s\S]*?<\/a>`/);
+  assert.ok(match);
+  assert.ok(!match[0].includes("download"));
+});
+
+test("通常カードはdownload属性でスライドHTMLを保存する", () => {
   assert.ok(
-    html.includes(
+    readCatalogModel().html.includes(
       ': `<a class="act" href="${openPath}" download="${esc(`${s.key}.html`)}"><span class="material-symbols-outlined">download</span>スライドHTML</a>`;',
     ),
-    "通常カード用の download リンク生成コードが見つかりません",
   );
 });
 
-// --- 統合スライド3枚の配布用書き出し（clean export）静的検証 ---
-
-test("統合スライド3枚に data-export-strip と createObjectURL によるBlob書き出しが存在する", () => {
-  const targets = [canonicalSlidePath, repoSeibiCanonicalPath, aiPlanCanonicalPath];
-  for (const p of targets) {
-    const html = readFileSync(p, "utf8");
-    assert.ok(html.includes("data-export-strip"), `${p} に data-export-strip が見つかりません`);
-    assert.ok(html.includes("createObjectURL"), `${p} に createObjectURL によるBlob書き出しが見つかりません`);
-    assert.ok(
-      html.includes("querySelectorAll('[data-export-strip]')"),
-      `${p} に data-export-strip 要素を除去するコードが見つかりません`,
-    );
-  }
-});
-
-// --- AI導入計画の統合スライド化（表示形式スイッチャー統合） ---
-
-const aiPlanCanonicalPath = join(root, "slides", "四半期計画-AI整備計画表", "解説スライド.html");
-const aiPlanProcessFlowPath = join(root, "slides", "工程時系列-AI導入手順", "解説スライド.html");
-const aiPlanStageCardsPath = join(root, "slides", "AI駆動開発導入-五段階計画表", "解説スライド.html");
-
-test("AI導入計画 統合スライドが3表示形式を内蔵する", () => {
-  const html = readFileSync(aiPlanCanonicalPath, "utf8");
-  assert.ok(html.includes("gantt"), "スラッグ gantt が見つかりません");
-  assert.ok(html.includes("process-flow"), "スラッグ process-flow が見つかりません");
-  assert.ok(html.includes("stage-cards"), "スラッグ stage-cards が見つかりません");
-  assert.ok(
-    html.includes('data-view="gantt"'),
-    "data-view=\"gantt\" セクションが見つかりません",
-  );
-  assert.ok(
-    html.includes('data-view="process-flow"'),
-    "data-view=\"process-flow\" セクションが見つかりません",
-  );
-  assert.ok(
-    html.includes('data-view="stage-cards"'),
-    "data-view=\"stage-cards\" セクションが見つかりません",
-  );
-
-  // 工程表版の代表文言（旧 工程時系列-AI導入手順 にしか無かった実文言）
-  assert.ok(html.includes("AI導入プロジェクトの工程時系列"), "工程表 固有文言「AI導入プロジェクトの工程時系列」が見つかりません");
-  assert.ok(html.includes("既存コードの可読性・テスト・文書化状態を評価"), "工程表 固有文言「既存コードの可読性・テスト・文書化状態を評価」が見つかりません");
-
-  // ステージカード版の代表文言（旧 AI駆動開発導入-五段階計画表 にしか無かった実文言）
-  assert.ok(html.includes("AI駆動開発の導入は5段階で進める"), "ステージカード 固有文言「AI駆動開発の導入は5段階で進める」が見つかりません");
-  assert.ok(html.includes("よくある失敗"), "ステージカード 固有文言「よくある失敗」が見つかりません");
-});
-
-test("AI導入計画 表示形式スイッチャーUIが存在する", () => {
-  const html = readFileSync(aiPlanCanonicalPath, "utf8");
-  assert.ok(html.includes("view-tabs"), "view-tabs（タブバーの id/class）が見つかりません");
-  assert.ok(html.includes("location.hash"), "location.hash 参照が見つかりません");
-});
-
-test("AI導入計画 転送ページが代表を指す", () => {
-  const processFlowHtml = readFileSync(aiPlanProcessFlowPath, "utf8");
-  assert.ok(processFlowHtml.includes('http-equiv="refresh"'), "工程表 転送ページに http-equiv=\"refresh\" が見つかりません");
-  assert.ok(
-    processFlowHtml.includes("../四半期計画-AI整備計画表/解説スライド.html#process-flow"),
-    "工程表 転送ページに代表スライドへの参照（#process-flow）が見つかりません",
-  );
-
-  const stageCardsHtml = readFileSync(aiPlanStageCardsPath, "utf8");
-  assert.ok(stageCardsHtml.includes('http-equiv="refresh"'), "ステージカード 転送ページに http-equiv=\"refresh\" が見つかりません");
-  assert.ok(
-    stageCardsHtml.includes("../四半期計画-AI整備計画表/解説スライド.html#stage-cards"),
-    "ステージカード 転送ページに代表スライドへの参照（#stage-cards）が見つかりません",
-  );
-});
-
-test("AI導入計画 転送ページがtitleを保持する", () => {
-  const processFlowHtml = readFileSync(aiPlanProcessFlowPath, "utf8");
-  const processFlowTitle = (processFlowHtml.match(/<title>([^<]*)<\/title>/) || [])[1] || "";
-  assert.ok(
-    processFlowTitle.includes("工程時系列"),
-    `工程表 転送ページの <title> に「工程時系列」が含まれていません（実際: ${processFlowTitle}）`,
-  );
-
-  const stageCardsHtml = readFileSync(aiPlanStageCardsPath, "utf8");
-  const stageCardsTitle = (stageCardsHtml.match(/<title>([^<]*)<\/title>/) || [])[1] || "";
-  assert.ok(
-    stageCardsTitle.includes("5段階"),
-    `ステージカード 転送ページの <title> に「5段階」が含まれていません（実際: ${stageCardsTitle}）`,
-  );
-});
-
-// --- CSS 乖離検査スクリプト ---
-
-const cssDriftScript = join(root, "scripts", "check-css-drift.mjs");
-
-test("check-css-drift.mjs が exit 0 で終了する", () => {
+test("check-css-drift.mjs がexit 0で終了する", () => {
   const output = execFileSync("node", [cssDriftScript], { cwd: root, encoding: "utf8" });
-  assert.ok(output.length > 0, "標準出力が空です");
+  assert.ok(output.length > 0);
 });
 
-test("check-css-drift.mjs が集計行を出す", () => {
+test("check-css-drift.mjs が対象・共有セレクタ・乖離の集計を出す", () => {
   const output = execFileSync("node", [cssDriftScript], { cwd: root, encoding: "utf8" });
-  assert.match(output, /対象\s*\d+\s*ファイル/, "「対象」を含む集計行が見つかりません");
-  assert.match(output, /共有セレクタ\s*\d+\s*件/, "「共有セレクタ」を含む集計行が見つかりません");
-  assert.match(output, /乖離\s*\d+\s*件/, "「乖離」を含む集計行が見つかりません");
+  assert.match(output, /対象\s*\d+\s*ファイル/);
+  assert.match(output, /共有セレクタ\s*\d+\s*件/);
+  assert.match(output, /乖離\s*\d+\s*件/);
 });
 
-// --- 統合スライド3枚の関連スライドリンク ---
-
-test("claude-code-テンプレート構成 にフッター関連メモが存在しない", () => {
-  const html = readFileSync(canonicalSlidePath, "utf8");
-  assert.ok(!html.includes('id="related-links"'), "フッター関連メモが残っています");
-});
-
-test("リポジトリ整備-claude-code版-現状理想対比 に related-links が存在する", () => {
-  const html = readFileSync(repoSeibiCanonicalPath, "utf8");
-  assert.ok(html.includes('id="related-links"'), "id=\"related-links\" が見つかりません");
-  assert.ok(
-    html.includes("../claude-code-テンプレート構成/解説スライド.html"),
-    "テンプレート構成への相対リンクが見つかりません",
-  );
-  assert.ok(
-    html.includes("../四半期計画-AI整備計画表/解説スライド.html"),
-    "AI導入計画への相対リンクが見つかりません",
-  );
-});
-
-test("四半期計画-AI整備計画表 に related-links が存在する", () => {
-  const html = readFileSync(aiPlanCanonicalPath, "utf8");
-  assert.ok(html.includes('id="related-links"'), "id=\"related-links\" が見つかりません");
-  assert.ok(
-    html.includes("../claude-code-テンプレート構成/解説スライド.html"),
-    "テンプレート構成への相対リンクが見つかりません",
-  );
-  assert.ok(
-    html.includes("../リポジトリ整備-claude-code版-現状理想対比/解説スライド.html"),
-    "リポジトリ整備への相対リンクが見つかりません",
-  );
-});
-
-// --- 提案パック絞り込み時の束ねカードのハッシュ付与 ---
-
-test("提案パック絞り込み時の束ねカードにパック指定メンバーのハッシュを付与するコードが存在する", () => {
-  const html = readFileSync(indexPath, "utf8");
-  assert.ok(
-    html.includes("function packMemberForItem"),
-    "packMemberForItem 関数が見つかりません",
-  );
-  assert.ok(
-    /const packMember = packMemberForItem\(s\);/.test(html),
-    "renderGrid 内で packMemberForItem(s) の呼び出しが見つかりません",
-  );
-  assert.ok(
-    /const openPath = packMember \? `\$\{path\}#\$\{esc\(packMember\.slug\)\}` : path;/.test(html),
-    "packMember に応じたハッシュ付き openPath の組み立てコードが見つかりません",
-  );
-  assert.ok(
-    html.includes('href="${openPath}" target="_blank"'),
-    "thumb-link の href が openPath を参照していません",
-  );
-});
-
-// --- 統合スライド3枚の「この表示で保存」ボタン ---
-
-test("claude-code-テンプレート構成 に「この表示で保存」ボタンが存在する", () => {
-  const html = readFileSync(canonicalSlidePath, "utf8");
-  assert.ok(html.includes('id="save-current"'), "id=\"save-current\" が見つかりません");
-  assert.ok(html.includes("この表示で保存"), "「この表示で保存」の文言が見つかりません");
-  assert.ok(
-    html.includes("saveLink.setAttribute('download', SAVE_BASENAME + '（' + activeLabel + '版）.html')"),
-    "タブ切替時に download 属性を更新するコードが見つかりません",
-  );
-  assert.ok(
-    html.includes("saveLink.setAttribute('href', location.pathname)"),
-    "初期化時に href を location.pathname に設定するコードが見つかりません",
-  );
-});
-
-test("リポジトリ整備-claude-code版-現状理想対比 に「この表示で保存」ボタンが存在する", () => {
-  const html = readFileSync(repoSeibiCanonicalPath, "utf8");
-  assert.ok(html.includes('id="save-current"'), "id=\"save-current\" が見つかりません");
-  assert.ok(html.includes("この表示で保存"), "「この表示で保存」の文言が見つかりません");
-  assert.ok(
-    html.includes("saveLink.setAttribute('download', SAVE_BASENAME + '（' + activeLabel + '版）.html')"),
-    "タブ切替時に download 属性を更新するコードが見つかりません",
-  );
-  assert.ok(
-    html.includes("saveLink.setAttribute('href', location.pathname)"),
-    "初期化時に href を location.pathname に設定するコードが見つかりません",
-  );
-});
-
-test("四半期計画-AI整備計画表 に「この表示で保存」ボタンが存在する", () => {
-  const html = readFileSync(aiPlanCanonicalPath, "utf8");
-  assert.ok(html.includes('id="save-current"'), "id=\"save-current\" が見つかりません");
-  assert.ok(html.includes("この表示で保存"), "「この表示で保存」の文言が見つかりません");
-  assert.ok(
-    html.includes("saveLink.setAttribute('download', SAVE_BASENAME + '（' + activeLabel + '版）.html')"),
-    "タブ切替時に download 属性を更新するコードが見つかりません",
-  );
-  assert.ok(
-    html.includes("saveLink.setAttribute('href', location.pathname)"),
-    "初期化時に href を location.pathname に設定するコードが見つかりません",
-  );
+test("提案パック絞り込み時に束ねカードへ指定memberのhashを付与する", () => {
+  const html = readCatalogModel().html;
+  assert.ok(html.includes("function packMemberForItem"));
+  assert.match(html, /const packMember = packMemberForItem\(s\);/);
+  assert.match(html, /const openPath = packMember \? `\$\{path\}#\$\{esc\(packMember\.slug\)\}` : path;/);
+  assert.ok(html.includes('href="${openPath}" target="_blank"'));
 });
