@@ -22,7 +22,7 @@ allowed-tools: Bash, Read, Write, Edit, AskUserQuestion
 
 - HTML、タイトル、副題、本文、図表、共有CSSを新規作成・変更した場合は、`generating-explanation-html-slides` のPhase 1〜6を完了していること
 - タグ・台帳だけの変更、またはHTMLを変更しないサムネイル再生成は生成工程を適用対象外とし、このSkillのPhase 7から開始する
-- 生成Skillの成果物は単一HTMLで、型・スライドキー・内容が確定していること
+- 生成Skillの成果物はリポジトリ内の単一共有CSSを直接参照するHTMLで、型・スライドキー・内容が確定していること
 - Phase 15のcommit完了前に、スライド画像、一覧画像、HTML、レビュー結果をユーザー向けの最終成果物として提示しないこと
 - 公開承認がない限り、Phase 17のpush・公開へ進まないこと
 
@@ -49,9 +49,10 @@ SLIDE_VERIFY_REGISTRY=0 SLIDE_VERIFY_CATALOG=0 npm test
 
 検査内容:
 
+- `pretest`でグローバル正本CSSを`assets/shared-slide-shell.css`へ同期し、全HTMLの参照を統一する
 - `verify-slide-rule-enforcement.mjs`で、ヘッダー規約1件・criterion 1件・checker・正常/違反fixture・証跡・公開ゲートの完全対応を検査する
 - `verify-slide-header-contract.mjs`で、HTMLファイル数・DOMヘッダー数とは独立に全論理ページ状態を検出して母数にし、共有ヘッダーも各状態で再検査する。DOM、文字数、改行、実描画行数、文字列内包、座標、computed style、子要素、疑似要素、inline style、`!important`、指定フォントとFontFaceの利用可能性を正本と比較する
-- 全スライドの共有CSS内包ブロックが1つで、正本と完全一致すること
+- 全スライドが`assets/shared-slide-shell.css`を1つだけ直接参照し、共有CSSのインライン複製が0件で、公開用CSSがグローバル正本と完全一致すること
 - タイトル40文字以内、副題70文字以内、両方に強制改行がなく、実描画1行かつ文字列描画矩形がスライド内に収まること
 - タイトル・副題・フッターのcomputed値が共通契約と一致すること
 - 1280×720のスライドサイズ、ヘッダー・タイトル・フッターの内包

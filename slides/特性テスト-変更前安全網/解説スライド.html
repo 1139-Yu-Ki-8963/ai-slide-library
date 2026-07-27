@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI変更の前に、現状挙動をテストで固定する</title>
 <style>
-:root {
+:root{
   --surface: #fff;
   --soft: #f1efea;
   --critical: #934238;
@@ -13,306 +13,31 @@
   --good: #356a4b;
   --good-soft: #eaf2ed;
 }
-.slide-page { display: none; flex: 1; min-height: 0; flex-direction: column; }
-.slide-page.is-active { display: flex; }
-.content { flex: 1; min-height: 0; padding: 22px 0 10px; font-family: system-ui, sans-serif; }
-.definition { padding: 12px 16px; border-left: 4px solid var(--accent); background: var(--soft); color: var(--muted); font-size: 13px; line-height: 1.5; }
-.definition strong { color: var(--ink); }
-.capture-flow { display: grid; grid-template-columns: 1fr 52px 1.25fr; align-items: stretch; gap: 0; margin-top: 18px; }
-.capture-block { padding: 20px 22px; border-top: 3px solid var(--faint); }
-.capture-block.primary { border-color: var(--good); background: var(--good-soft); }
-.step-label { display: block; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .12em; }
-.capture-block h2, .change-block h2, .spec-block h2 { margin: 7px 0 8px; font-size: 22px; }
-.capture-block p, .change-block p, .spec-block p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
-.capture-block ul, .change-block ul, .spec-block ul { margin: 11px 0 0; padding-left: 19px; color: var(--ink); font-size: 13px; line-height: 1.65; }
-.output { margin-top: 13px !important; padding-top: 10px; border-top: 1px solid var(--faint); color: var(--good) !important; font-weight: 800; }
-.connector { display: grid; place-items: center; color: var(--muted); font-size: 24px; }
-.caution { margin-top: 16px; padding: 12px 15px; border-left: 4px solid var(--critical); background: var(--critical-soft); color: var(--critical); font-size: 12px; line-height: 1.5; }
-.change-layout { display: grid; grid-template-columns: 1.15fr 42px 1fr; align-items: stretch; height: 100%; }
-.change-block { padding: 22px 24px; border-top: 4px solid var(--good); background: var(--good-soft); }
-.spec-block { padding: 22px 24px; border-top: 4px solid var(--accent); background: var(--soft); }
-.boundary { margin-top: 18px; padding: 13px 15px; border: 1px solid var(--faint); background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 700; line-height: 1.45; }
-.page-nav { display: flex; justify-content: flex-end; gap: 8px; padding-top: 5px; font-family: system-ui, sans-serif; }
-.page-nav button { min-width: 92px; padding: 6px 11px; border: 1px solid var(--muted); background: var(--surface); color: var(--ink); font-weight: 700; cursor: pointer; }
-.page-nav button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.page-nav button:disabled { opacity: .42; cursor: default; }
+.slide-page{ display: none; flex: 1; min-height: 0; flex-direction: column; }
+.slide-page.is-active{ display: flex; }
+.content{ flex: 1; min-height: 0; padding: 22px 0 10px; font-family: system-ui, sans-serif; }
+.definition{ padding: 12px 16px; border-left: 4px solid var(--accent); background: var(--soft); color: var(--muted); font-size: 13px; line-height: 1.5; }
+.definition strong{ color: var(--ink); }
+.capture-flow{ display: grid; grid-template-columns: 1fr 52px 1.25fr; align-items: stretch; gap: 0; margin-top: 18px; }
+.capture-block{ padding: 20px 22px; border-top: 3px solid var(--faint); }
+.capture-block.primary{ border-color: var(--good); background: var(--good-soft); }
+.step-label{ display: block; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .12em; }
+.capture-block h2, .change-block h2, .spec-block h2{ margin: 7px 0 8px; font-size: 22px; }
+.capture-block p, .change-block p, .spec-block p{ margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.capture-block ul, .change-block ul, .spec-block ul{ margin: 11px 0 0; padding-left: 19px; color: var(--ink); font-size: 13px; line-height: 1.65; }
+.output{ margin-top: 13px !important; padding-top: 10px; border-top: 1px solid var(--faint); color: var(--good) !important; font-weight: 800; }
+.connector{ display: grid; place-items: center; color: var(--muted); font-size: 24px; }
+.caution{ margin-top: 16px; padding: 12px 15px; border-left: 4px solid var(--critical); background: var(--critical-soft); color: var(--critical); font-size: 12px; line-height: 1.5; }
+.change-layout{ display: grid; grid-template-columns: 1.15fr 42px 1fr; align-items: stretch; height: 100%; }
+.change-block{ padding: 22px 24px; border-top: 4px solid var(--good); background: var(--good-soft); }
+.spec-block{ padding: 22px 24px; border-top: 4px solid var(--accent); background: var(--soft); }
+.boundary{ margin-top: 18px; padding: 13px 15px; border: 1px solid var(--faint); background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 700; line-height: 1.45; }
+.page-nav{ display: flex; justify-content: flex-end; gap: 8px; padding-top: 5px; font-family: system-ui, sans-serif; }
+.page-nav button{ min-width: 92px; padding: 6px 11px; border: 1px solid var(--muted); background: var(--surface); color: var(--ink); font-weight: 700; cursor: pointer; }
+.page-nav button:focus-visible{ outline: 3px solid var(--accent); outline-offset: 2px; }
+.page-nav button:disabled{ opacity: .42; cursor: default; }
 </style>
-<style data-shared-slide-shell>
-/* GENERATED FROM: slide-design-system / shared-slide-shell.css */
-/*
- * Shared slide shell
- * 正本: generating-explanation-html-slides/references/shared-slide-shell.css
- * 最終HTMLは単体配布できるよう、このCSSを生成時に内包する。
- * 型固有の表・図表・本文レイアウトはこのファイルへ追加しない。
- */
-:root {
-  --paper: #f5f4f1;
-  --ink: #202426;
-  --muted: #626967;
-  --faint: #d7d9d5;
-  --accent: #a15d32;
-}
-
-*, *::before, *::after { box-sizing: border-box; }
-
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-}
-
-body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-}
-
-.viewport,
-.slide-viewport {
-  width: 100vw;
-  height: 100vh;
-  display: grid;
-  place-items: center;
-  background: var(--paper);
-  overflow: hidden;
-}
-
-.slide {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 1280px;
-  height: 720px;
-  padding: 46px 58px 30px;
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  gap: 0;
-  transform: translate(-50%, -50%) scale(var(--slide-scale, var(--scale, 1)));
-  transform-origin: center center;
-}
-
-.slide[data-page]:not(.is-active) {
-  display: none;
-}
-
-.slide[data-page].is-active {
-  display: flex;
-}
-
-:is(#slide-header-contract, header, .slide-header) {
-  position: relative;
-  inset: auto;
-  width: auto;
-  height: 99px;
-  min-height: 99px;
-  flex: 0 0 99px;
-  display: block;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
-  gap: 0;
-  margin: 0;
-  padding: 0;
-  padding-bottom: 17px;
-  overflow: visible;
-  color: #202426;
-  background: transparent;
-  box-shadow: none;
-  opacity: 1;
-  transform: none;
-  border: 0;
-  border-bottom: 1px solid var(--ink);
-}
-
-:is(#slide-header-contract, header, .slide-header) .header-split {
-  display: contents;
-}
-
-:is(#slide-header-contract, header, .slide-header) > :is(div, section):has(.slide-title) {
-  display: contents;
-}
-
-:is(#slide-header-contract, header, .slide-header) :is(.kicker, .slide-eyebrow, .eyebrow, .section-no) {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: auto;
-  display: block;
-  width: auto;
-  height: auto;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  color: #a15d32;
-  background: transparent;
-  font-family: system-ui, sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  font-style: normal;
-  line-height: 1.2;
-  letter-spacing: .16em;
-  text-align: right;
-  text-decoration: none;
-  text-transform: none;
-  white-space: nowrap;
-  opacity: 1;
-  box-shadow: none;
-  transform: none;
-}
-
-:is(#slide-header-contract, header, .slide-header) :is(.title, .slide-title, h1) {
-  position: absolute;
-  top: 16px;
-  right: 0;
-  left: 0;
-  display: block;
-  width: auto;
-  height: auto;
-  max-width: none;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  color: #202426;
-  background: transparent;
-  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  font-size: 33px;
-  font-weight: 600;
-  font-style: normal;
-  line-height: 1.15;
-  letter-spacing: .01em;
-  text-align: left;
-  text-decoration: none;
-  text-transform: none;
-  white-space: nowrap;
-  overflow: visible;
-  opacity: 1;
-  box-shadow: none;
-  transform: none;
-}
-
-:is(#slide-header-contract, header, .slide-header) .single-line-title {
-  white-space: nowrap;
-  overflow: visible;
-}
-
-:is(#slide-header-contract, header, .slide-header) .title-num {
-  display: inline;
-  color: inherit;
-  font: inherit;
-  letter-spacing: inherit;
-  opacity: inherit;
-  transform: none;
-}
-
-:is(#slide-header-contract, header, .slide-header) :is(.slide-title, h1) * {
-  color: inherit;
-  font: inherit;
-  letter-spacing: inherit;
-  text-decoration: inherit;
-  text-transform: inherit;
-  opacity: inherit;
-}
-
-:is(#slide-header-contract, header, .slide-header) :is(.lede, .slide-subtitle, p:first-of-type) {
-  position: absolute;
-  top: 56px;
-  right: 0;
-  left: 0;
-  display: block;
-  width: auto;
-  height: auto;
-  align-self: stretch;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  color: #626967;
-  background: transparent;
-  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  font-style: normal;
-  line-height: 1.65;
-  letter-spacing: normal;
-  text-align: left;
-  text-decoration: none;
-  text-transform: none;
-  white-space: nowrap;
-  overflow: visible;
-  opacity: 1;
-  box-shadow: none;
-  transform: none;
-}
-
-:is(#slide-header-contract, header, .slide-header) .lede em {
-  color: inherit;
-  font: inherit;
-  letter-spacing: inherit;
-  opacity: inherit;
-}
-
-:is(#slide-header-contract, header, .slide-header) :is(.slide-subtitle, .lede) * {
-  color: inherit;
-  font: inherit;
-  letter-spacing: inherit;
-  text-decoration: inherit;
-  text-transform: inherit;
-  opacity: inherit;
-}
-
-:is(#slide-header-contract, header, .slide-header)::before,
-:is(#slide-header-contract, header, .slide-header)::after,
-:is(#slide-header-contract, header, .slide-header) .slide-title::before,
-:is(#slide-header-contract, header, .slide-header) .slide-title::after,
-:is(#slide-header-contract, header, .slide-header) .slide-subtitle::before,
-:is(#slide-header-contract, header, .slide-header) .slide-subtitle::after,
-:is(#slide-header-contract, header, .slide-header) h1::before,
-:is(#slide-header-contract, header, .slide-header) h1::after,
-:is(#slide-header-contract, header, .slide-header) p::before,
-:is(#slide-header-contract, header, .slide-header) p::after {
-  content: none;
-}
-
-.bottom,
-.slide-footer,
-footer.slide-meta,
-footer.meta {
-  display: grid;
-  grid-template-columns: 1.35fr 1fr;
-  gap: 35px;
-  height: auto;
-  flex: 0 0 auto;
-  min-height: 0;
-  margin: 0;
-  border-top: 0;
-  padding-top: 10px;
-  color: var(--muted);
-  font-family: system-ui, sans-serif;
-  font-size: 10px;
-  line-height: 1.45;
-}
-
-.bottom strong,
-.slide-footer strong,
-footer.slide-meta strong { color: var(--ink); }
-
-.warning,
-.slide-footer .warning {
-  padding-left: 10px;
-  border-left: 3px solid var(--accent);
-}
-
-.sequence,
-.slide-footer .sequence { text-align: right; }
-
-@media (max-width: 700px) {
-  .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
-}
-</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 </head>
 <body>
 <div class="slide-viewport">
