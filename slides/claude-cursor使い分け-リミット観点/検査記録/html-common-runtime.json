@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/claude-cursor使い分け-リミット観点/解説スライド.html",
-      "artifactSha256": "a4ec6f8f8c35f4ac4f3fcf0b20be6ed89816fb778ef9b73b5b6222d97ebfaef5",
+      "artifactSha256": "9ad1957fc9e54ee8b269df0e48ca65396fdc3c8e849aa76b01eb2376dbd640c6",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/claude-cursor使い分け-リミット観点/evidence/html-runtime/解説スライド-wide-a4ec6f8f8c35.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/claude-cursor使い分け-リミット観点/evidence/html-runtime/解説スライド-narrow-a4ec6f8f8c35.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/claude-cursor使い分け-リミット観点/evidence/html-runtime/解説スライド-wide-9ad1957fc9e5.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/claude-cursor使い分け-リミット観点/evidence/html-runtime/解説スライド-narrow-9ad1957fc9e5.png"
           ]
         }
       ]

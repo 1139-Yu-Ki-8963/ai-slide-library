@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/規約カバレッジ-可視化/解説スライド.html",
-      "artifactSha256": "7085315a510eec2003386827fb561520d418ee9d423e614180761c783bad561c",
+      "artifactSha256": "ff699616874201eecbe2707a782b072adb7773c48c5579730d6f966f4cbf046e",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/規約カバレッジ-可視化/evidence/html-runtime/解説スライド-wide-7085315a510e.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/規約カバレッジ-可視化/evidence/html-runtime/解説スライド-narrow-7085315a510e.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/規約カバレッジ-可視化/evidence/html-runtime/解説スライド-wide-ff6996168742.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/規約カバレッジ-可視化/evidence/html-runtime/解説スライド-narrow-ff6996168742.png"
           ]
         }
       ]

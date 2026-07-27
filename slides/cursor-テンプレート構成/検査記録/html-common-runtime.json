@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/cursor-テンプレート構成/解説スライド.html",
-      "artifactSha256": "25ecde351e4ba962a17d9787cbe5faeaf8a720dd4d211cf918cb22acbe16de1f",
+      "artifactSha256": "1b81dc44e2a54d380652f029e3b5c2a1fe0b0927b4a3e494116dda172c51a1a8",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/cursor-テンプレート構成/evidence/html-runtime/解説スライド-wide-25ecde351e4b.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/cursor-テンプレート構成/evidence/html-runtime/解説スライド-narrow-25ecde351e4b.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/cursor-テンプレート構成/evidence/html-runtime/解説スライド-wide-1b81dc44e2a5.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/cursor-テンプレート構成/evidence/html-runtime/解説スライド-narrow-1b81dc44e2a5.png"
           ]
         }
       ]

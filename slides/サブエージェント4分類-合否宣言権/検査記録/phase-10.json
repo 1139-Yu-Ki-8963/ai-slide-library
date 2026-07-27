@@ -31,14 +31,14 @@
     }
   ],
   "checkedAt": "2026-07-27T23:25:00+09:00",
-  "artifactSha256": "c76ff1e3e52e6f6ba435ef95c234fec8329efe5e56fed9eb72eca2b2ba811318",
+  "artifactSha256": "794d4a1b4db88a8ad8e57988071368fce86a64ef2037f0d0d2d22666a15b6312",
   "scopeCarryForward": {
     "fromArtifactSha256": "c76ff1e3e52e6f6ba435ef95c234fec8329efe5e56fed9eb72eca2b2ba811318",
-    "toArtifactSha256": "c76ff1e3e52e6f6ba435ef95c234fec8329efe5e56fed9eb72eca2b2ba811318",
-    "validatedAt": "2026-07-28T00:35:00+09:00",
-    "unchangedScope": "entire HTML artifact",
-    "nonHeaderFingerprintSha256": "c76ff1e3e52e6f6ba435ef95c234fec8329efe5e56fed9eb72eca2b2ba811318",
-    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
-    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+    "toArtifactSha256": "794d4a1b4db88a8ad8e57988071368fce86a64ef2037f0d0d2d22666a15b6312",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "b1d1d0f2ef442c3a8c85302fbc1b718aa719d5bef62ae47f71f3e8ca356e4590",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
   }
 }

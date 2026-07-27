@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/機密情報検査-コミット前ブロック/解説スライド.html",
-      "artifactSha256": "a3a46404211f8d6c251c24d6b062a225d23c02c266f586a24ebb2a5a6564deb8",
+      "artifactSha256": "0841059b214ef89e7895bdb04feb5c3653afede45bc8a34c64b8aba83730b6d1",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/機密情報検査-コミット前ブロック/evidence/html-runtime/解説スライド-wide-a3a46404211f.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/機密情報検査-コミット前ブロック/evidence/html-runtime/解説スライド-narrow-a3a46404211f.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/機密情報検査-コミット前ブロック/evidence/html-runtime/解説スライド-wide-0841059b214e.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/機密情報検査-コミット前ブロック/evidence/html-runtime/解説スライド-narrow-0841059b214e.png"
           ]
         }
       ]

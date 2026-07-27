@@ -147,15 +147,15 @@
       "fix": "更新時は優先度順に適用し、Phase 11を再実行する。"
     }
   ],
-  "artifactSha256": "33b49c7007e11dfe9eb796f90291fcb558e81afef8654f67fcef2bebc05d94eb",
+  "artifactSha256": "df62346a3f386bc15bb04e0e75d6b212ae9d2282c38e134bc8d6883c1118e9c2",
   "checkedAt": "2026-07-27T23:25:00+09:00",
   "scopeCarryForward": {
     "fromArtifactSha256": "33b49c7007e11dfe9eb796f90291fcb558e81afef8654f67fcef2bebc05d94eb",
-    "toArtifactSha256": "33b49c7007e11dfe9eb796f90291fcb558e81afef8654f67fcef2bebc05d94eb",
-    "validatedAt": "2026-07-28T00:35:00+09:00",
-    "unchangedScope": "entire HTML artifact",
-    "nonHeaderFingerprintSha256": "33b49c7007e11dfe9eb796f90291fcb558e81afef8654f67fcef2bebc05d94eb",
-    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
-    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+    "toArtifactSha256": "df62346a3f386bc15bb04e0e75d6b212ae9d2282c38e134bc8d6883c1118e9c2",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "0827fec387d1c2f055ded18aaf0dc42c4cc89c7826b063c3f4abd02daf9609f2",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
   }
 }

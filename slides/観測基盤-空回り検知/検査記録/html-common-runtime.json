@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/観測基盤-空回り検知/解説スライド.html",
-      "artifactSha256": "6ddd8336d1ae3f2cf3c62aa888128d7433ed05005f6913a9ca0d0fd11d21ea02",
+      "artifactSha256": "8686988f60eadc14e4e9e4d391e190dd336a416b7715a828d14b8cc1e2c6130a",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/観測基盤-空回り検知/evidence/html-runtime/解説スライド-wide-6ddd8336d1ae.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/観測基盤-空回り検知/evidence/html-runtime/解説スライド-narrow-6ddd8336d1ae.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/観測基盤-空回り検知/evidence/html-runtime/解説スライド-wide-8686988f60ea.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/観測基盤-空回り検知/evidence/html-runtime/解説スライド-narrow-8686988f60ea.png"
           ]
         }
       ]

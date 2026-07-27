@@ -8,7 +8,7 @@
     {
       "id": "slide-ai-thumbnail-legibility",
       "status": "pass",
-      "evidence": "最終HTMLから再生成した640×360サムネイルで、先頭ページの主張「AIの導入は編集権限を与えることから始めない」と主要な図表構造を識別できる。さらに全2ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。 現SHAから640×360サムネイルと1280×720検証画像を再生成した。ヘッダー限定再検証で全90論理ページ状態に29件の機械規約を適用し、失敗0件を確認した。"
+      "evidence": "最終HTMLから再生成した640×360サムネイルで、先頭ページの主張「AIの導入は編集権限を与えることから始めない」と主要な図表構造を識別できる。さらに全2ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。 現SHAから640×360サムネイルと1280×720検証画像を再生成した。ヘッダー限定再検証で全90論理ページ状態に32件の機械規約を適用し、失敗0件を確認した。"
     },
     {
       "id": "slide-ai-one-message",
@@ -23,19 +23,19 @@
     {
       "id": "slide-ai-subtitle-support",
       "status": "pass",
-      "evidence": "全2ページの副題「読むだけで価値を出し、人が適用する提案を経て、検証できる範囲だけ書き込みへ進める。」、「運用上の3条件とツールの権限設定を分け、検証可能な変更だけを許可する。」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。 ヘッダー限定AI再レビューでslide-ai-subtitle-supportを87件PASS、3件N/A、FAIL 0件と判定した。"
+      "evidence": "全2ページの副題「読むだけで価値を出し、人が適用する提案を経て、検証できる範囲だけ書き込みへ進める。」、「運用上の3条件とツールの権限設定を分け、検証可能な変更だけを許可する。」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。 ヘッダー限定AI再レビューでslide-ai-subtitle-supportを90件PASS、0件N/A、FAIL 0件と判定した。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-28T00:35:00+09:00",
-  "artifactSha256": "9591ab5924869e0286b33c60aa244a19b0c532f9eab25f322617022bc2d4bf2d",
+  "checkedAt": "2026-07-27T18:19:38.680Z",
+  "artifactSha256": "ea6ada571917e6e11405aafd3fdc5805e468ad095d6812fe2385d161161f4e52",
   "scopeCarryForward": {
     "fromArtifactSha256": "9591ab5924869e0286b33c60aa244a19b0c532f9eab25f322617022bc2d4bf2d",
-    "toArtifactSha256": "9591ab5924869e0286b33c60aa244a19b0c532f9eab25f322617022bc2d4bf2d",
-    "validatedAt": "2026-07-28T00:35:00+09:00",
-    "unchangedScope": "entire HTML artifact",
-    "nonHeaderFingerprintSha256": "9591ab5924869e0286b33c60aa244a19b0c532f9eab25f322617022bc2d4bf2d",
-    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
-    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+    "toArtifactSha256": "ea6ada571917e6e11405aafd3fdc5805e468ad095d6812fe2385d161161f4e52",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "ae7b00ee38e6d0b6682c99ae90688642906c2939b0f60763f494af0391028222",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
   }
 }

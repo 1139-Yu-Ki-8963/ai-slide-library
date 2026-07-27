@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/ai開発課題-課題比較影響型/解説スライド.html",
-      "artifactSha256": "69e8286fe9283f8980a9129e9f9805d7f1db7de56f21b0ce55d01a42b316f0a1",
+      "artifactSha256": "a529008f577d9c145389677806117b45f2b37335a3c3662d05f6bddbc30379a0",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/ai開発課題-課題比較影響型/evidence/html-runtime/解説スライド-wide-69e8286fe928.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/ai開発課題-課題比較影響型/evidence/html-runtime/解説スライド-narrow-69e8286fe928.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/ai開発課題-課題比較影響型/evidence/html-runtime/解説スライド-wide-a529008f577d.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/ai開発課題-課題比較影響型/evidence/html-runtime/解説スライド-narrow-a529008f577d.png"
           ]
         }
       ]

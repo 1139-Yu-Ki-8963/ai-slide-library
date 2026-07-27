@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/設計文書逆生成-整備自走ループ/解説スライド.html",
-      "artifactSha256": "30c8312dd11150b05d2ca1ad63891e5f58bbee85cb07b6a14fba265a99b68eee",
+      "artifactSha256": "8f2310f2ef2f5b1741ed2666a60cc28820064a99a39b40cddc019d2478a05f9f",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/設計文書逆生成-整備自走ループ/evidence/html-runtime/解説スライド-wide-30c8312dd111.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/設計文書逆生成-整備自走ループ/evidence/html-runtime/解説スライド-narrow-30c8312dd111.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/設計文書逆生成-整備自走ループ/evidence/html-runtime/解説スライド-wide-8f2310f2ef2f.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/設計文書逆生成-整備自走ループ/evidence/html-runtime/解説スライド-narrow-8f2310f2ef2f.png"
           ]
         }
       ]

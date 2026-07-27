@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/判断反映分離-委任設計/解説スライド.html",
-      "artifactSha256": "1ac2e5cf8943100212c5d7b8acfd07a37eaf10ce40856a271d45102e81dc65b3",
+      "artifactSha256": "79c51fab326d42e83a39855126f06d22fff6650c37ef9426b613a5acdd6502e8",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/判断反映分離-委任設計/evidence/html-runtime/解説スライド-wide-1ac2e5cf8943.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/判断反映分離-委任設計/evidence/html-runtime/解説スライド-narrow-1ac2e5cf8943.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/判断反映分離-委任設計/evidence/html-runtime/解説スライド-wide-79c51fab326d.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/判断反映分離-委任設計/evidence/html-runtime/解説スライド-narrow-79c51fab326d.png"
           ]
         }
       ]

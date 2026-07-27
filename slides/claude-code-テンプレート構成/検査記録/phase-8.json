@@ -8,7 +8,7 @@
     {
       "id": "slide-ai-thumbnail-legibility",
       "status": "pass",
-      "evidence": "現行640×360サムネイルで、先頭ページの主張「5つの設定資産は役割で置き分ける」と主要な図表構造を識別できる。さらに現行HTML SHAの全4ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。 現SHAから640×360サムネイルと1280×720検証画像を再生成した。ヘッダー限定再検証で全90論理ページ状態に29件の機械規約を適用し、失敗0件を確認した。"
+      "evidence": "現行640×360サムネイルで、先頭ページの主張「5つの設定資産は役割で置き分ける」と主要な図表構造を識別できる。さらに現行HTML SHAの全4ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。 現SHAから640×360サムネイルと1280×720検証画像を再生成した。ヘッダー限定再検証で全90論理ページ状態に32件の機械規約を適用し、失敗0件を確認した。"
     },
     {
       "id": "slide-ai-one-message",
@@ -23,19 +23,19 @@
     {
       "id": "slide-ai-subtitle-support",
       "status": "pass",
-      "evidence": "全4ページの副題「概要・規約・手順・役割・実行制御を、読み込まれ方に合わせて分離する」、「CLAUDE.mdは平文、パス限定ruleはYAML frontmatterで対象を宣言する」、「再現したいワークフローと、委任したい判断主体を別の資産として管理する」、「生成指示とは分離し、許可・自動処理・外部接続の境界を明示する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。 ヘッダー限定AI再レビューでslide-ai-subtitle-supportを87件PASS、3件N/A、FAIL 0件と判定した。"
+      "evidence": "全4ページの副題「概要・規約・手順・役割・実行制御を、読み込まれ方に合わせて分離する」、「CLAUDE.mdは平文、パス限定ruleはYAML frontmatterで対象を宣言する」、「再現したいワークフローと、委任したい判断主体を別の資産として管理する」、「生成指示とは分離し、許可・自動処理・外部接続の境界を明示する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。 ヘッダー限定AI再レビューでslide-ai-subtitle-supportを90件PASS、0件N/A、FAIL 0件と判定した。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-28T00:35:00+09:00",
-  "artifactSha256": "b66fcb8c969ba5c8793d9c7cc8f2f8b7da30197f2cae0ed6f981d2a09ab22a4a",
+  "checkedAt": "2026-07-27T18:19:38.680Z",
+  "artifactSha256": "3a9cd7ee3916780ed6b6146e26651505234b6e6fe9cc0e0361a1d6862a6b99d5",
   "scopeCarryForward": {
     "fromArtifactSha256": "b66fcb8c969ba5c8793d9c7cc8f2f8b7da30197f2cae0ed6f981d2a09ab22a4a",
-    "toArtifactSha256": "b66fcb8c969ba5c8793d9c7cc8f2f8b7da30197f2cae0ed6f981d2a09ab22a4a",
-    "validatedAt": "2026-07-28T00:35:00+09:00",
-    "unchangedScope": "entire HTML artifact",
-    "nonHeaderFingerprintSha256": "b66fcb8c969ba5c8793d9c7cc8f2f8b7da30197f2cae0ed6f981d2a09ab22a4a",
-    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
-    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+    "toArtifactSha256": "3a9cd7ee3916780ed6b6146e26651505234b6e6fe9cc0e0361a1d6862a6b99d5",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "64e0d24c6599fca99ee8b650e16696b25c5fb929fdd0ac514f225c41e853326f",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
   }
 }

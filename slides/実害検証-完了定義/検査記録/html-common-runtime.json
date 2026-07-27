@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/実害検証-完了定義/解説スライド.html",
-      "artifactSha256": "66d453ca222b404a5028aa08662a6ebd73ed2dfeb9f7ed4eade81c0fce6d3ec0",
+      "artifactSha256": "61e5ef01ddeaf8ce79bbf264944c1dbb181a699f15f5acfbd4a85cfc42d1d75f",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/実害検証-完了定義/evidence/html-runtime/解説スライド-wide-66d453ca222b.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/実害検証-完了定義/evidence/html-runtime/解説スライド-narrow-66d453ca222b.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/実害検証-完了定義/evidence/html-runtime/解説スライド-wide-61e5ef01ddea.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/実害検証-完了定義/evidence/html-runtime/解説スライド-narrow-61e5ef01ddea.png"
           ]
         }
       ]

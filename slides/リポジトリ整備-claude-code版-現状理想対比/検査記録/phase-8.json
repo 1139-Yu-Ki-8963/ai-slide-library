@@ -8,7 +8,7 @@
     {
       "id": "slide-ai-thumbnail-legibility",
       "status": "pass",
-      "evidence": "最終HTMLから再生成した640×360サムネイルで、先頭ページの主張「Claude Code導入前の5つの欠落を診断する」と主要な図表構造を識別できる。さらに全2ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。 現SHAから640×360サムネイルと1280×720検証画像を再生成した。ヘッダー限定再検証で全90論理ページ状態に29件の機械規約を適用し、失敗0件を確認した。"
+      "evidence": "最終HTMLから再生成した640×360サムネイルで、先頭ページの主張「Claude Code導入前の5つの欠落を診断する」と主要な図表構造を識別できる。さらに全2ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。 現SHAから640×360サムネイルと1280×720検証画像を再生成した。ヘッダー限定再検証で全90論理ページ状態に32件の機械規約を適用し、失敗0件を確認した。"
     },
     {
       "id": "slide-ai-one-message",
@@ -23,19 +23,19 @@
     {
       "id": "slide-ai-subtitle-support",
       "status": "pass",
-      "evidence": "全2ページの副題「説明書・設計書・規約・手順書・可視化サイトの不足が、AIの推測と属人運用を生む」、「CLAUDE.mdを入口に、設計書・規約・Skill・可視化を上流から順に接続する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。 ヘッダー限定AI再レビューでslide-ai-subtitle-supportを87件PASS、3件N/A、FAIL 0件と判定した。"
+      "evidence": "全2ページの副題「説明書・設計書・規約・手順書・可視化サイトの不足が、AIの推測と属人運用を生む」、「CLAUDE.mdを入口に、設計書・規約・Skill・可視化を上流から順に接続する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。 ヘッダー限定AI再レビューでslide-ai-subtitle-supportを90件PASS、0件N/A、FAIL 0件と判定した。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-28T00:35:00+09:00",
-  "artifactSha256": "1e6b9232c5d09442de1ec933bff361fa90987db6f0d8ef09c8ef107a5e5c04a9",
+  "checkedAt": "2026-07-27T18:19:38.680Z",
+  "artifactSha256": "05a7f4ef9e34fdbbcd8316578cab8e0eb1710ad8535007204d1bf54753a1a480",
   "scopeCarryForward": {
     "fromArtifactSha256": "1e6b9232c5d09442de1ec933bff361fa90987db6f0d8ef09c8ef107a5e5c04a9",
-    "toArtifactSha256": "1e6b9232c5d09442de1ec933bff361fa90987db6f0d8ef09c8ef107a5e5c04a9",
-    "validatedAt": "2026-07-28T00:35:00+09:00",
-    "unchangedScope": "entire HTML artifact",
-    "nonHeaderFingerprintSha256": "1e6b9232c5d09442de1ec933bff361fa90987db6f0d8ef09c8ef107a5e5c04a9",
-    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
-    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+    "toArtifactSha256": "05a7f4ef9e34fdbbcd8316578cab8e0eb1710ad8535007204d1bf54753a1a480",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "093a07effae8941c589234e1dd6c5bbb68bda54f529b1d8cca3077053d6a1360",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
   }
 }

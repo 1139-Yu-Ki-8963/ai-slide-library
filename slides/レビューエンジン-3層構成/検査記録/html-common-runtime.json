@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/解説スライド.html",
-      "artifactSha256": "7dab648e559f33c30045e253040bd0b67354e107b3c71780d294eb52b3fe6da3",
+      "artifactSha256": "67609f36992d2432b29b7f0c8d033de109daed486f86dd1c9fa4fe7c60f20b6e",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/解説スライド-wide-7dab648e559f.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/解説スライド-narrow-7dab648e559f.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/解説スライド-wide-67609f36992d.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/解説スライド-narrow-67609f36992d.png"
           ]
         }
       ]

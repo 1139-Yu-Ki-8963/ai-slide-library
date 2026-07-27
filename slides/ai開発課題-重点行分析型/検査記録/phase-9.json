@@ -22,21 +22,21 @@
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-28T00:35:00+09:00",
-  "artifactSha256": "d45e7d536f9b0a67952614b9f949498c55f4d78eb5263a2ad17709ac9367447c",
+  "checkedAt": "2026-07-27T18:19:38.680Z",
+  "artifactSha256": "87c568de929a21a15268d9e655897fabef998d54793b01df09f8cd4bee587d75",
   "scopeCarryForward": {
     "fromArtifactSha256": "d45e7d536f9b0a67952614b9f949498c55f4d78eb5263a2ad17709ac9367447c",
-    "toArtifactSha256": "d45e7d536f9b0a67952614b9f949498c55f4d78eb5263a2ad17709ac9367447c",
-    "validatedAt": "2026-07-28T00:35:00+09:00",
-    "unchangedScope": "entire HTML artifact",
-    "nonHeaderFingerprintSha256": "d45e7d536f9b0a67952614b9f949498c55f4d78eb5263a2ad17709ac9367447c",
-    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
-    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+    "toArtifactSha256": "87c568de929a21a15268d9e655897fabef998d54793b01df09f8cd4bee587d75",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "051a92442191a0b0665f4c802341116828ed20ae498aaa387782ffd334b4f4a6",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
   },
   "impactReview": {
     "status": "pass",
     "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
-    "screenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d",
-    "evidence": "現HTMLから生成した一覧画像（SHA c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
+    "screenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4",
+    "evidence": "現HTMLから生成した一覧画像（SHA 1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
   }
 }

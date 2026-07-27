@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/claude-code-マルチアカウント-ディレクトリ隔離/解説スライド.html",
-      "artifactSha256": "09323f171b3e37e56a03d5fa24e860acba80bedd11009b9e7fe7053b624e9d51",
+      "artifactSha256": "d0d553a5833acd16f0224ed5c77af91b1665a6b45dcced86bc16cfb802649ce6",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/claude-code-マルチアカウント-ディレクトリ隔離/evidence/html-runtime/解説スライド-wide-09323f171b3e.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/claude-code-マルチアカウント-ディレクトリ隔離/evidence/html-runtime/解説スライド-narrow-09323f171b3e.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/claude-code-マルチアカウント-ディレクトリ隔離/evidence/html-runtime/解説スライド-wide-d0d553a5833a.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/claude-code-マルチアカウント-ディレクトリ隔離/evidence/html-runtime/解説スライド-narrow-d0d553a5833a.png"
           ]
         }
       ]

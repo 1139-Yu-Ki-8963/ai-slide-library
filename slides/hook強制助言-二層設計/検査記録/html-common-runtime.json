@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/hook強制助言-二層設計/解説スライド.html",
-      "artifactSha256": "4fd264a910b17b8049c82780c966aba14b5729a34f0c906b0beed0dad764c7ee",
+      "artifactSha256": "7106364117e531dc7fca9efd5d5b650171c47c706226f97d00f5e1a5cabc2484",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/hook強制助言-二層設計/evidence/html-runtime/解説スライド-wide-4fd264a910b1.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/hook強制助言-二層設計/evidence/html-runtime/解説スライド-narrow-4fd264a910b1.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/hook強制助言-二層設計/evidence/html-runtime/解説スライド-wide-7106364117e5.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/hook強制助言-二層設計/evidence/html-runtime/解説スライド-narrow-7106364117e5.png"
           ]
         }
       ]
