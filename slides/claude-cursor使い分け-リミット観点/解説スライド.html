@@ -142,81 +142,185 @@ body {
   transform-origin: center center;
 }
 
-header,
-.slide-header {
-  position: static;
+.slide[data-page]:not(.is-active) {
+  display: none;
+}
+
+.slide[data-page].is-active {
+  display: flex;
+}
+
+:is(#slide-header-contract, header, .slide-header) {
+  position: relative;
   inset: auto;
   width: auto;
-  height: auto;
-  display: flex;
+  height: 99px;
+  min-height: 99px;
+  flex: 0 0 99px;
+  display: block;
   flex-direction: column;
   align-items: stretch;
+  justify-content: flex-start;
   gap: 0;
+  margin: 0;
+  padding: 0;
   padding-bottom: 17px;
+  overflow: visible;
+  color: #202426;
+  background: transparent;
+  box-shadow: none;
+  opacity: 1;
+  transform: none;
+  border: 0;
   border-bottom: 1px solid var(--ink);
 }
 
-.header-split {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  gap: 55px;
+:is(#slide-header-contract, header, .slide-header) .header-split {
+  display: contents;
 }
 
-.kicker {
-  color: var(--accent);
+:is(#slide-header-contract, header, .slide-header) > :is(div, section):has(.slide-title) {
+  display: contents;
+}
+
+:is(#slide-header-contract, header, .slide-header) :is(.kicker, .slide-eyebrow, .eyebrow, .section-no) {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: auto;
+  display: block;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #a15d32;
+  background: transparent;
   font-family: system-ui, sans-serif;
   font-size: 11px;
   font-weight: 700;
+  font-style: normal;
+  line-height: 1.2;
   letter-spacing: .16em;
+  text-align: right;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+  opacity: 1;
+  box-shadow: none;
+  transform: none;
 }
 
-.title,
-.slide-title,
-.slide-header .slide-title,
-.slide-header h1,
-header h1 {
+:is(#slide-header-contract, header, .slide-header) :is(.title, .slide-title, h1) {
+  position: absolute;
+  top: 16px;
+  right: 0;
+  left: 0;
   display: block;
+  width: auto;
+  height: auto;
   max-width: none;
   margin: 0;
+  padding: 0;
+  border: 0;
+  color: #202426;
+  background: transparent;
+  font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
   font-size: 33px;
   font-weight: 600;
+  font-style: normal;
   line-height: 1.15;
   letter-spacing: .01em;
+  text-align: left;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+  overflow: visible;
+  opacity: 1;
+  box-shadow: none;
+  transform: none;
+}
+
+:is(#slide-header-contract, header, .slide-header) .single-line-title {
   white-space: nowrap;
   overflow: visible;
 }
 
-.single-line-title {
-  white-space: nowrap;
-  overflow: visible;
+:is(#slide-header-contract, header, .slide-header) .title-num {
+  display: inline;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  opacity: inherit;
+  transform: none;
 }
 
-.title-num {
-  display: inline-block;
-  font-family: "Noto Serif CJK JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
-  line-height: 1;
-  transform: translateY(-1px);
+:is(#slide-header-contract, header, .slide-header) :is(.slide-title, h1) * {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-decoration: inherit;
+  text-transform: inherit;
+  opacity: inherit;
 }
 
-.lede,
-.slide-subtitle,
-header .slide-subtitle,
-.slide-header .slide-subtitle,
-:is(header, .slide-header) > p,
-:is(header, .slide-header) p:first-of-type {
-  align-self: end;
+:is(#slide-header-contract, header, .slide-header) :is(.lede, .slide-subtitle, p:first-of-type) {
+  position: absolute;
+  top: 56px;
+  right: 0;
+  left: 0;
+  display: block;
+  width: auto;
+  height: auto;
+  align-self: stretch;
   margin: 0;
-  color: var(--muted);
+  padding: 0;
+  border: 0;
+  color: #626967;
+  background: transparent;
+  font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
   font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
   line-height: 1.65;
+  letter-spacing: normal;
+  text-align: left;
+  text-decoration: none;
+  text-transform: none;
   white-space: nowrap;
   overflow: visible;
+  opacity: 1;
+  box-shadow: none;
+  transform: none;
 }
 
-.lede em {
-  color: var(--ink);
-  font-style: normal;
-  font-weight: 700;
+:is(#slide-header-contract, header, .slide-header) .lede em {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  opacity: inherit;
+}
+
+:is(#slide-header-contract, header, .slide-header) :is(.slide-subtitle, .lede) * {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-decoration: inherit;
+  text-transform: inherit;
+  opacity: inherit;
+}
+
+:is(#slide-header-contract, header, .slide-header)::before,
+:is(#slide-header-contract, header, .slide-header)::after,
+:is(#slide-header-contract, header, .slide-header) .slide-title::before,
+:is(#slide-header-contract, header, .slide-header) .slide-title::after,
+:is(#slide-header-contract, header, .slide-header) .slide-subtitle::before,
+:is(#slide-header-contract, header, .slide-header) .slide-subtitle::after,
+:is(#slide-header-contract, header, .slide-header) h1::before,
+:is(#slide-header-contract, header, .slide-header) h1::after,
+:is(#slide-header-contract, header, .slide-header) p::before,
+:is(#slide-header-contract, header, .slide-header) p::after {
+  content: none;
 }
 
 .bottom,

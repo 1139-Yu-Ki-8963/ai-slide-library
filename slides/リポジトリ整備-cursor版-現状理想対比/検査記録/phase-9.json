@@ -8,20 +8,35 @@
     {
       "id": "deck-ai-role-sequence",
       "status": "pass",
-      "evidence": "現SHAのHTML全2ページをPlaywright 1280×720で実描画して確認した。P1はプロジェクト説明書・設計書・規約・手順・可視化の欠落と実害を診断し、P2は同じ5カテゴリをCursor固有の配置と整備アクションへ対応させる。現状診断から理想配置へ進む役割順が、ページ送りと表の行対応の双方で明確である。"
+      "evidence": "現SHAのHTML全2ページをPlaywright 1280×720で実描画して確認した。P1はプロジェクト説明書・設計書・規約・手順・可視化の欠落と実害を診断し、P2は同じ5カテゴリをCursor固有の配置と整備アクションへ対応させる。現状診断から理想配置へ進む役割順が、ページ送りと表の行対応の双方で明確である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
     },
     {
       "id": "deck-ai-strength-rhythm",
       "status": "pass",
-      "evidence": "現SHAのP1・P2をPlaywright 1280×720で実描画した。P1は欠落状態と実害を赤字と黒帯で中強度に提示し、P2はAGENTS.md、.cursor/rules、.cursor/skillsの理想配置と整備アクションを表で静かに読ませる。問題提示から実行案へ強度を下げる2ページのリズムが成立し、強調の連続や競合もない。"
+      "evidence": "現SHAのP1・P2をPlaywright 1280×720で実描画した。P1は欠落状態と実害を赤字と黒帯で中強度に提示し、P2はAGENTS.md、.cursor/rules、.cursor/skillsの理想配置と整備アクションを表で静かに読ませる。問題提示から実行案へ強度を下げる2ページのリズムが成立し、強調の連続や競合もない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
     },
     {
       "id": "deck-ai-layout-repetition",
       "status": "pass",
-      "evidence": "現SHAの両ページをPlaywright 1280×720で確認した。P1とP2が同じ5カテゴリと表骨格を保持するのは、欠落・実害とCursor固有配置・整備アクションを行単位で対応させるためである。列の役割と強調色はページ目的に応じて変わり、理由のないレイアウト反復ではない。両ページとも余白、可読性、読み順、共通フレームに問題はない。"
+      "evidence": "現SHAの両ページをPlaywright 1280×720で確認した。P1とP2が同じ5カテゴリと表骨格を保持するのは、欠落・実害とCursor固有配置・整備アクションを行単位で対応させるためである。列の役割と強調色はページ目的に応じて変わり、理由のないレイアウト反復ではない。両ページとも余白、可読性、読み順、共通フレームに問題はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T10:58:22.000Z",
-  "artifactSha256": "9ff29c7f2a254fa1e5485dfe06f81f4593bfda84c30590959d41aeffe6b92566"
+  "checkedAt": "2026-07-28T00:35:00+09:00",
+  "artifactSha256": "18cd877aaddf8aea47506cf53d2085884004aaceecd81f028f21bee6bb7ab3d4",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "18cd877aaddf8aea47506cf53d2085884004aaceecd81f028f21bee6bb7ab3d4",
+    "toArtifactSha256": "18cd877aaddf8aea47506cf53d2085884004aaceecd81f028f21bee6bb7ab3d4",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "18cd877aaddf8aea47506cf53d2085884004aaceecd81f028f21bee6bb7ab3d4",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  },
+  "impactReview": {
+    "status": "pass",
+    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
+    "screenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d",
+    "evidence": "現HTMLから生成した一覧画像（SHA c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
+  }
 }

@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/rules階層構造-三層読み分け/解説スライド.html",
-      "artifactSha256": "d1c320b90df910b87e3744a0c4149c8d8a99848f30124efb050560206dc60933",
+      "artifactSha256": "a2954a80ef34b1bb12fec93703290466cb67c1acb21253cffad18649e9d5a6df",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/rules階層構造-三層読み分け/evidence/html-runtime/解説スライド-wide-d1c320b90df9.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/rules階層構造-三層読み分け/evidence/html-runtime/解説スライド-narrow-d1c320b90df9.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/rules階層構造-三層読み分け/evidence/html-runtime/解説スライド-wide-a2954a80ef34.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/rules階層構造-三層読み分け/evidence/html-runtime/解説スライド-narrow-a2954a80ef34.png"
           ]
         }
       ]

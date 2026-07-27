@@ -10,108 +10,117 @@
       "severity": "low",
       "decision": "suggestion",
       "target": "cursor-claude共存-フォルダ分離構成 / 最終チェック1「3カード構成でない」",
-      "evidence": "右側に3領域カードはあるが、左のリポジトリツリーと非対称に組み合わせ、単純な均等3カードではない。",
+      "evidence": "右側に3領域カードはあるが、左のリポジトリツリーと非対称に組み合わせ、単純な均等3カードではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "左ツリーを主役に保ち、右3領域は補足として高さを内容量に合わせて維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "cursor-claude共存-フォルダ分離構成 / 最終チェック2「項目ごとの丸アイコンに依存しない」",
-      "evidence": "丸数字1〜3は右側3領域とツリー内の配置を対応付けるために使われ、全項目へは付けていない。",
+      "evidence": "丸数字1〜3は右側3領域とツリー内の配置を対応付けるために使われ、全項目へは付けていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "丸数字はツリーとの対応用途だけに限定する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "cursor-claude共存-フォルダ分離構成 / 最終チェック3「写真を装飾使用しない」",
-      "evidence": "サムネイル・wide・narrowに写真はない。",
+      "evidence": "サムネイル・wide・narrowに写真はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "写真を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "cursor-claude共存-フォルダ分離構成 / 最終チェック4「多角形装飾を使用しない」",
-      "evidence": "矩形・円・罫線のみで、装飾多角形はない。",
+      "evidence": "矩形・円・罫線のみで、装飾多角形はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "多角形装飾を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "cursor-claude共存-フォルダ分離構成 / 最終チェック5「濃紺フッターを追加しない」",
-      "evidence": "タイトル直下に濃色の結論帯はあるがフッターではなく、下端に濃紺フッターはない。",
+      "evidence": "タイトル直下に濃色の結論帯はあるがフッターではなく、下端に濃紺フッターはない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "濃色帯は結論帯に限定し、フッター化しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "cursor-claude共存-フォルダ分離構成 / 最終チェック6「架空情報を追加しない」",
-      "evidence": "実際のパス例と製品名に限定され、会社名・日付・効果値・費用は追加していない。",
+      "evidence": "実際のパス例と製品名に限定され、会社名・日付・効果値・費用は追加していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "未確認の読込仕様・会社名・効果値を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "cursor-claude共存-フォルダ分離構成 / 最終チェック7「情報の強弱がある」",
-      "evidence": "タイトル、濃色結論帯、左ツリー、右3領域の順に情報の強弱がある。",
+      "evidence": "タイトル、濃色結論帯、左ツリー、右3領域の順に情報の強弱がある。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "ツリーと結論帯を主、右カードを従に保つ。"
     },
     {
       "severity": "low",
       "decision": "suggestion",
       "target": "cursor-claude共存-フォルダ分離構成 / 最終チェック8「情報を詰め込みすぎない」",
-      "evidence": "wideではツリーと3領域が収まるが、サムネイルでは右カードの詳細文字がかなり小さい。",
+      "evidence": "wideではツリーと3領域が収まるが、サムネイルでは右カードの詳細文字がかなり小さい。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "右カードの対象パス行を短縮し、サムネイルでの最小文字を改善する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "cursor-claude共存-フォルダ分離構成 / 最終チェック9「青を安易な企業資料色にしない」",
-      "evidence": "Claude Codeを橙、Cursorを黒、共有資産を緑で対応付け、青一色に依存しない。",
+      "evidence": "Claude Codeを橙、Cursorを黒、共有資産を緑で対応付け、青一色に依存しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "橙・黒・緑の役割対応を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "cursor-claude共存-フォルダ分離構成 / 最終チェック10「不要なアイコンを使用しない」",
-      "evidence": "丸数字と小さな製品記号は対応関係に必要だが、本文内の装飾アイコンはない。",
+      "evidence": "丸数字と小さな製品記号は対応関係に必要だが、本文内の装飾アイコンはない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "対応用の番号以外のアイコンを増やさない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "cursor-claude共存-フォルダ分離構成 / 最終チェック11「余白を装飾で埋めない」",
-      "evidence": "上段説明と左右構成の間に余白があり、背景装飾で埋めていない。",
+      "evidence": "上段説明と左右構成の間に余白があり、背景装飾で埋めていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "白地余白を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "cursor-claude共存-フォルダ分離構成 / 最終チェック12「読み順が明確」",
-      "evidence": "結論帯→2点説明→左ツリー→右のClaude／Cursor／共有資産の順に追える。",
+      "evidence": "結論帯→2点説明→左ツリー→右のClaude／Cursor／共有資産の順に追える。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "左ツリーと右カードの番号位置を揃え、対応関係をさらに明確にする。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "cursor-claude共存-フォルダ分離構成 / 最終チェック13「1スライド1メッセージ」",
-      "evidence": "「専用設定を分け、共有資料の参照経路を確認する」という1メッセージに収束する。",
+      "evidence": "「専用設定を分け、共有資料の参照経路を確認する」という1メッセージに収束する。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "共存方針以外の製品比較や優劣を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "cursor-claude共存-フォルダ分離構成 / 最終チェック14「人間が編集したように見える」",
-      "evidence": "実フォルダツリーと3つの運用領域を対応させた対象固有編集で、汎用カードだけには見えない。",
+      "evidence": "実フォルダツリーと3つの運用領域を対応させた対象固有編集で、汎用カードだけには見えない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "対象固有の非対称構成を維持し、右側を同一高カードへ均等化しない。"
     },
     {
       "severity": "medium",
       "decision": "suggestion",
       "target": "cursor-claude共存-フォルダ分離構成 / 情報設計の再編集案",
-      "evidence": "主役: 「専用設定は.cursor/と.claude/へ分離し、共有資産は両方の参照経路を確認する」。支える情報: リポジトリツリー、Claude Code領域、Cursor領域、project-portal共有領域。後景化: 対象パスの列挙、製品別の細かな読込注記。レイアウト: 左55%をツリー、右45%を内容量に応じた3領域として維持し、共有資産をやや強調。読み順: タイトル→結論帯→2点説明→ツリー→番号対応する右領域。削除・統合・短縮候補: 右カード末尾の対象パスを短縮し、上段2点説明の重複を統合。追加禁止情報: 未確認の自動読込保証、架空の互換性、会社名、効果値、写真、ロゴ。",
+      "evidence": "主役: 「専用設定は.cursor/と.claude/へ分離し、共有資産は両方の参照経路を確認する」。支える情報: リポジトリツリー、Claude Code領域、Cursor領域、project-portal共有領域。後景化: 対象パスの列挙、製品別の細かな読込注記。レイアウト: 左55%をツリー、右45%を内容量に応じた3領域として維持し、共有資産をやや強調。読み順: タイトル→結論帯→2点説明→ツリー→番号対応する右領域。削除・統合・短縮候補: 右カード末尾の対象パスを短縮し、上段2点説明の重複を統合。追加禁止情報: 未確認の自動読込保証、架空の互換性、会社名、効果値、写真、ロゴ。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "修正を行う場合は、記載した主役・支える情報・後景化・レイアウト・読み順・削除／統合／短縮候補・追加禁止情報を一体の編集条件として適用し、wide・narrow・サムネイルで再確認する。"
     }
   ],
-  "checkedAt": "2026-07-27T08:57:47.872Z",
-  "artifactSha256": "e8b5520dc1c12381bbb70d99eec8f9771a69475b490ee89b493dbc46dc8ef0c1"
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "8a08b9600f9d6fc71c3b9c90cc4604b63bc015fd7c8818c4e1c09bb959394afe",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "8a08b9600f9d6fc71c3b9c90cc4604b63bc015fd7c8818c4e1c09bb959394afe",
+    "toArtifactSha256": "8a08b9600f9d6fc71c3b9c90cc4604b63bc015fd7c8818c4e1c09bb959394afe",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "8a08b9600f9d6fc71c3b9c90cc4604b63bc015fd7c8818c4e1c09bb959394afe",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

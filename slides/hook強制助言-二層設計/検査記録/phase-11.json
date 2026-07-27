@@ -10,108 +10,117 @@
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック1: 3カード構成",
-      "evidence": "上段の発火条件は横長の前提帯、下段はblockとadvisoryの2面比較であり、同寸3カード構成ではない。",
+      "evidence": "上段の発火条件は横長の前提帯、下段はblockとadvisoryの2面比較であり、同寸3カード構成ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "前提1帯＋判断2面の役割差を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック2: 項目ごとの丸アイコン依存",
-      "evidence": "丸番号は検査・block・advisoryの読み順だけを示し、例示タグや結果文はアイコンなしでも理解できる。",
+      "evidence": "丸番号は検査・block・advisoryの読み順だけを示し、例示タグや結果文はアイコンなしでも理解できる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "番号を工程標識に限定し、違反例ごとの丸アイコンは追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック3: 写真の装飾使用",
-      "evidence": "サムネイル、wide、narrow画像に写真はなく、hookの役割差は文字と枠線で説明されている。",
+      "evidence": "サムネイル、wide、narrow画像に写真はなく、hookの役割差は文字と枠線で説明されている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "人物写真や抽象写真を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック4: 多角形装飾",
-      "evidence": "背景や見出し周辺に多角形装飾はなく、矩形の情報領域だけで構成されている。",
+      "evidence": "背景や見出し周辺に多角形装飾はなく、矩形の情報領域だけで構成されている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "blockとadvisoryの差を装飾図形ではなく見出しと説明で保つ。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック5: 濃紺フッター",
-      "evidence": "最下部は白地の3点要約で、濃紺帯のフッターを追加していない。",
+      "evidence": "最下部は白地の3点要約で、濃紺帯のフッターを追加していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "白地要約を維持し、濃色フッターは使わない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック6: 架空情報",
-      "evidence": "イベント、matcher、PreToolUse、PostToolUse、Stop、終了コード2という説明に限定され、会社名、日付、ロゴ、費用、効果数値を追加していない。",
+      "evidence": "イベント、matcher、PreToolUse、PostToolUse、Stop、終了コード2という説明に限定され、会社名、日付、ロゴ、費用、効果数値を追加していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "hook事例を増やす場合も元資料で確認できるイベント名と挙動だけを使う。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック7: 情報の強弱",
-      "evidence": "上段で発火条件を前提化し、赤枠のblockと緑枠のadvisoryを同列比較し、結果帯を各面の下端に固定している。",
+      "evidence": "上段で発火条件を前提化し、赤枠のblockと緑枠のadvisoryを同列比較し、結果帯を各面の下端に固定している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "発火条件を補助、二層の選択を主役とする強弱を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック8: 情報の詰め込み",
-      "evidence": "wide画像では前提、説明、適用例、効果、注意が分離され、narrowでも欠落せず、会議で二層の違いを追える。",
+      "evidence": "wide画像では前提、説明、適用例、効果、注意が分離され、narrowでも欠落せず、会議で二層の違いを追える。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "適用例を増やさず、必要時は既存例の言い換えで収める。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック9: 安易な青の企業資料色",
-      "evidence": "青灰は発火条件の前提帯にだけ使われ、赤は停止、緑は継続という機能差に対応している。",
+      "evidence": "青灰は発火条件の前提帯にだけ使われ、赤は停止、緑は継続という機能差に対応している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "青を第三の判断カテゴリとして増やさず、前提情報に限定する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック10: 不要なアイコン",
-      "evidence": "丸番号と✓・×以外の装飾アイコンはなく、すべて順序または効果・注意を示している。",
+      "evidence": "丸番号と✓・×以外の装飾アイコンはなく、すべて順序または効果・注意を示している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "鍵、盾、電球などの比喩アイコンを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック11: 余白を装飾で埋めない",
-      "evidence": "blockとadvisory面の中段に余白が残るが、装飾で埋めず、下端の効果・注意を揃えるために利用している。",
+      "evidence": "blockとadvisory面の中段に余白が残るが、装飾で埋めず、下端の効果・注意を揃えるために利用している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "余白を図形で埋めず、必要なら面高を詰めて密度を調整する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック12: 読み順",
-      "evidence": "タイトル→発火条件→block/advisory比較→下部3点要約の順が明確で、番号1・2・3も対応している。",
+      "evidence": "タイトル→発火条件→block/advisory比較→下部3点要約の順が明確で、番号1・2・3も対応している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "前提を読んでから二層を比較する順序を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック13: 1スライド1メッセージ",
-      "evidence": "全要素が「違反の重大さに応じてhookをblockとadvisoryへ分ける」という単一の判断基準に収束する。",
+      "evidence": "全要素が「違反の重大さに応じてhookをblockとadvisoryへ分ける」という単一の判断基準に収束する。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "hookの配置規約や実装手順を別メッセージとして追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック14: 人間が編集したように見える",
-      "evidence": "発火点を前提帯へ抜き、二層を比較し、各面に適用例とトレードオフを対応させた編集判断が見える。",
+      "evidence": "発火点を前提帯へ抜き、二層を比較し、各面に適用例とトレードオフを対応させた編集判断が見える。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "一律カード化を避け、前提・選択肢・注意の役割差を保つ。"
     },
     {
       "severity": "low",
       "decision": "suggestion",
       "target": "情報設計の再編集案",
-      "evidence": "主役は下段のblockとadvisoryの選択基準。支える情報は上段のイベント・matcher・発火点、各面の適用例と結果帯。後景化する情報は最下部の3点復唱と自動解除の補足。レイアウトは上段をさらに薄い前提帯にし、下段2面の見出しとトレードオフへ高さを寄せる。読み順はタイトル→発火条件→block→advisory→昇格条件。削除・統合・短縮候補は下部要約の「検査」と上段見出しの重複、各面の「適用する違反／規約の例」のラベル。追加禁止情報は架空のhook名、未確認のイベント、会社名、日付、効果数値、費用、期間、ロゴ。",
+      "evidence": "主役は下段のblockとadvisoryの選択基準。支える情報は上段のイベント・matcher・発火点、各面の適用例と結果帯。後景化する情報は最下部の3点復唱と自動解除の補足。レイアウトは上段をさらに薄い前提帯にし、下段2面の見出しとトレードオフへ高さを寄せる。読み順はタイトル→発火条件→block→advisory→昇格条件。削除・統合・短縮候補は下部要約の「検査」と上段見出しの重複、各面の「適用する違反／規約の例」のラベル。追加禁止情報は架空のhook名、未確認のイベント、会社名、日付、効果数値、費用、期間、ロゴ。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "上段と下部要約の重複を短縮し、二層の判断と昇格条件を会議で即読できる比重へ寄せる。"
     }
   ],
-  "artifactSha256": "12e250d9102d7a2cf2de4d4bbc5a9f146e5891be851e349c9c1a96f2e0c446a2",
-  "checkedAt": "2026-07-27T08:57:47.872Z"
+  "artifactSha256": "4fd264a910b17b8049c82780c966aba14b5729a34f0c906b0beed0dad764c7ee",
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "4fd264a910b17b8049c82780c966aba14b5729a34f0c906b0beed0dad764c7ee",
+    "toArtifactSha256": "4fd264a910b17b8049c82780c966aba14b5729a34f0c906b0beed0dad764c7ee",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "4fd264a910b17b8049c82780c966aba14b5729a34f0c906b0beed0dad764c7ee",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

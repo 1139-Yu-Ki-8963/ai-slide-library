@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/claude-md分割戦略/解説スライド.html",
-      "artifactSha256": "6de77578b864909a65abe6fa54e8825303b3e8e68300f9fd4191c67389e303ff",
+      "artifactSha256": "0b5804713a18a8ddaa8e18ac3d623b3eb1ecbdac71bce6ff641604c9a8395096",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/claude-md分割戦略/evidence/html-runtime/解説スライド-wide-6de77578b864.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/claude-md分割戦略/evidence/html-runtime/解説スライド-narrow-6de77578b864.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/claude-md分割戦略/evidence/html-runtime/解説スライド-wide-0b5804713a18.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/claude-md分割戦略/evidence/html-runtime/解説スライド-narrow-0b5804713a18.png"
           ]
         }
       ]

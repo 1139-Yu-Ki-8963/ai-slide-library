@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/cursor-claude共存-フォルダ分離構成/解説スライド.html",
-      "artifactSha256": "e8b5520dc1c12381bbb70d99eec8f9771a69475b490ee89b493dbc46dc8ef0c1",
+      "artifactSha256": "8a08b9600f9d6fc71c3b9c90cc4604b63bc015fd7c8818c4e1c09bb959394afe",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/cursor-claude共存-フォルダ分離構成/evidence/html-runtime/解説スライド-wide-e8b5520dc1c1.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/cursor-claude共存-フォルダ分離構成/evidence/html-runtime/解説スライド-narrow-e8b5520dc1c1.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/cursor-claude共存-フォルダ分離構成/evidence/html-runtime/解説スライド-wide-8a08b9600f9d.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/cursor-claude共存-フォルダ分離構成/evidence/html-runtime/解説スライド-narrow-8a08b9600f9d.png"
           ]
         }
       ]

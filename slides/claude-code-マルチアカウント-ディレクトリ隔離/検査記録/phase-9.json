@@ -8,20 +8,35 @@
     {
       "id": "deck-ai-role-sequence",
       "status": "pass",
-      "evidence": "現SHAの全4ページをHTMLとwide/narrowで確認した。P1で設定ディレクトリ隔離の原理、P2でCLI起動とalias運用、P3でBedrock認証方式、P4でリージョン別モデルIDと制約を扱い、基本構造から操作、認証、制約へ進む役割順が明確である。"
+      "evidence": "現SHAの全4ページをHTMLとwide/narrowで確認した。P1で設定ディレクトリ隔離の原理、P2でCLI起動とalias運用、P3でBedrock認証方式、P4でリージョン別モデルIDと制約を扱い、基本構造から操作、認証、制約へ進む役割順が明確である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
     },
     {
       "id": "deck-ai-strength-rhythm",
       "status": "pass",
-      "evidence": "P1は2アカウント対比を中強度の入口とし、P2はコマンド、P3は認証表を静かに読ませ、P4だけを制約注意の色面で再度強める。高強度が連続せず、警告色も対象箇所に限定されている。"
+      "evidence": "P1は2アカウント対比を中強度の入口とし、P2はコマンド、P3は認証表を静かに読ませ、P4だけを制約注意の色面で再度強める。高強度が連続せず、警告色も対象箇所に限定されている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
     },
     {
       "id": "deck-ai-layout-repetition",
       "status": "pass",
-      "evidence": "P1は2環境の対比、P2はコマンドと対応範囲、P3は3認証方式の表、P4はモデル設定とリージョン対応の二分構成である。共通ヘッダーとページャは統一され、各ページの読み順に応じて表・コード・対比を使い分けている。"
+      "evidence": "P1は2環境の対比、P2はコマンドと対応範囲、P3は3認証方式の表、P4はモデル設定とリージョン対応の二分構成である。共通ヘッダーとページャは統一され、各ページの読み順に応じて表・コード・対比を使い分けている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T10:44:38.117Z",
-  "artifactSha256": "020f2da7b73539d1c2117554ef3805b4d8b9bb3a077b57d3b60e3f091558c35a"
+  "checkedAt": "2026-07-28T00:35:00+09:00",
+  "artifactSha256": "09323f171b3e37e56a03d5fa24e860acba80bedd11009b9e7fe7053b624e9d51",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "09323f171b3e37e56a03d5fa24e860acba80bedd11009b9e7fe7053b624e9d51",
+    "toArtifactSha256": "09323f171b3e37e56a03d5fa24e860acba80bedd11009b9e7fe7053b624e9d51",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "09323f171b3e37e56a03d5fa24e860acba80bedd11009b9e7fe7053b624e9d51",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  },
+  "impactReview": {
+    "status": "pass",
+    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
+    "screenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d",
+    "evidence": "現HTMLから生成した一覧画像（SHA c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
+  }
 }

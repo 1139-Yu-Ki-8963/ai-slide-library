@@ -8,25 +8,34 @@
     {
       "id": "slide-ai-thumbnail-legibility",
       "status": "pass",
-      "evidence": "現行640×360サムネイルで、先頭ページの主張「複数アカウントを設定ディレクトリで隔離する」と主要な図表構造を識別できる。さらに現行HTML SHAの全4ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。"
+      "evidence": "現行640×360サムネイルで、先頭ページの主張「複数アカウントを設定ディレクトリで隔離する」と主要な図表構造を識別できる。さらに現行HTML SHAの全4ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。 現SHAから640×360サムネイルと1280×720検証画像を再生成した。ヘッダー限定再検証で全90論理ページ状態に29件の機械規約を適用し、失敗0件を確認した。"
     },
     {
       "id": "slide-ai-one-message",
       "status": "pass",
-      "evidence": "全4ページをページ単位で確認した。各ページは「設定ディレクトリ分離の原理」、「CLI起動時の切替」、「Bedrock認証方式ごとのenv選択」、「リージョン別モデルIDと利用制約」という一つずつの判断へ収束し、無関係な主張を競合させていない。"
+      "evidence": "全4ページをページ単位で確認した。各ページは「設定ディレクトリ分離の原理」、「CLI起動時の切替」、「Bedrock認証方式ごとのenv選択」、「リージョン別モデルIDと利用制約」という一つずつの判断へ収束し、無関係な主張を競合させていない。 ヘッダー限定AI再レビューでslide-ai-one-messageを90/90件PASSと判定した。"
     },
     {
       "id": "slide-ai-title-claim",
       "status": "pass",
-      "evidence": "全4ページのタイトル「複数アカウントを設定ディレクトリで隔離する」、「複数アカウントを設定ディレクトリで隔離する」、「複数アカウントを設定ディレクトリで隔離する」、「複数アカウントを設定ディレクトリで隔離する」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。"
+      "evidence": "全4ページのタイトル「複数アカウントを設定ディレクトリで隔離する」、「複数アカウントを設定ディレクトリで隔離する」、「複数アカウントを設定ディレクトリで隔離する」、「複数アカウントを設定ディレクトリで隔離する」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。 ヘッダー限定AI再レビューでslide-ai-title-claimを90/90件PASSと判定した。"
     },
     {
       "id": "slide-ai-subtitle-support",
       "status": "pass",
-      "evidence": "全4ページの副題「CLAUDE_CONFIG_DIRで構成・起動・Bedrock認証・モデル制約を分けて確認する」、「CLAUDE_CONFIG_DIRで構成・起動・Bedrock認証・モデル制約を分けて確認する」、「CLAUDE_CONFIG_DIRで構成・起動・Bedrock認証・モデル制約を分けて確認する」、「CLAUDE_CONFIG_DIRで構成・起動・Bedrock認証・モデル制約を分けて確認する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。"
+      "evidence": "全4ページの副題「CLAUDE_CONFIG_DIRで構成・起動・Bedrock認証・モデル制約を分けて確認する」、「CLAUDE_CONFIG_DIRで構成・起動・Bedrock認証・モデル制約を分けて確認する」、「CLAUDE_CONFIG_DIRで構成・起動・Bedrock認証・モデル制約を分けて確認する」、「CLAUDE_CONFIG_DIRで構成・起動・Bedrock認証・モデル制約を分けて確認する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。 ヘッダー限定AI再レビューでslide-ai-subtitle-supportを87件PASS、3件N/A、FAIL 0件と判定した。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T10:40:54.000Z",
-  "artifactSha256": "020f2da7b73539d1c2117554ef3805b4d8b9bb3a077b57d3b60e3f091558c35a"
+  "checkedAt": "2026-07-28T00:35:00+09:00",
+  "artifactSha256": "09323f171b3e37e56a03d5fa24e860acba80bedd11009b9e7fe7053b624e9d51",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "09323f171b3e37e56a03d5fa24e860acba80bedd11009b9e7fe7053b624e9d51",
+    "toArtifactSha256": "09323f171b3e37e56a03d5fa24e860acba80bedd11009b9e7fe7053b624e9d51",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "09323f171b3e37e56a03d5fa24e860acba80bedd11009b9e7fe7053b624e9d51",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

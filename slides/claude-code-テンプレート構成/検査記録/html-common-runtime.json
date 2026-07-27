@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/claude-code-テンプレート構成/解説スライド.html",
-      "artifactSha256": "70f4cd0acbd3db90ff01556cb6de09ca05268f649e4393fc7f6ddb7acece3b72",
+      "artifactSha256": "b66fcb8c969ba5c8793d9c7cc8f2f8b7da30197f2cae0ed6f981d2a09ab22a4a",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/claude-code-テンプレート構成/evidence/html-runtime/解説スライド-wide-70f4cd0acbd3.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/claude-code-テンプレート構成/evidence/html-runtime/解説スライド-narrow-70f4cd0acbd3.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/claude-code-テンプレート構成/evidence/html-runtime/解説スライド-wide-b66fcb8c969b.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/claude-code-テンプレート構成/evidence/html-runtime/解説スライド-narrow-b66fcb8c969b.png"
           ]
         }
       ]

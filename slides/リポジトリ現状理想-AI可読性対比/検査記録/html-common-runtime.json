@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/リポジトリ現状理想-AI可読性対比/解説スライド.html",
-      "artifactSha256": "412e1c084beca81e57e463815b4cdb60d8219a9c09b5f8685cba86ea0dee8f1f",
+      "artifactSha256": "31110783aabdd732a080651f79def9c04c046cf77ab86afe4820a057396e4885",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/リポジトリ現状理想-AI可読性対比/evidence/html-runtime/解説スライド-wide-412e1c084bec.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/リポジトリ現状理想-AI可読性対比/evidence/html-runtime/解説スライド-narrow-412e1c084bec.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/リポジトリ現状理想-AI可読性対比/evidence/html-runtime/解説スライド-wide-31110783aabd.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/リポジトリ現状理想-AI可読性対比/evidence/html-runtime/解説スライド-narrow-31110783aabd.png"
           ]
         }
       ]

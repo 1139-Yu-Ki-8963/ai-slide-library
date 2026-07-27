@@ -10,143 +10,152 @@
       "severity": "low",
       "decision": "pass",
       "target": "1. 対象",
-      "evidence": "リポジトリ整備-cursor版-現状理想対比の全2ページ。現行HTML SHA-256 9ff29c7f2a254fa1e5485dfe06f81f4593bfda84c30590959d41aeffe6b92566から1280×720と390×844でPlaywright再描画し、全ページ、最新runtime、タイトル・副題、余白、共有シェル、footerを確認した。",
+      "evidence": "リポジトリ整備-cursor版-現状理想対比の全2ページ。現行HTML SHA-256 1f849d19b9963cedae6f2bbce8b2aacfe15e66edbf193482f07ea02c46d9ff40から1280×720と390×844でPlaywright再描画し、全ページ、最新runtime、タイトル・副題、余白、共有シェル、footerを確認した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現行SHAと全ページの表示対応を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "2. 要約",
-      "evidence": "Cursor導入前の欠落と実害を診断し、AGENTS.md、MDC rules、skillsへつなぐ理想配置と整備アクションを示す。",
+      "evidence": "Cursor導入前の欠落と実害を診断し、AGENTS.md、MDC rules、skillsへつなぐ理想配置と整備アクションを示す。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現行の実務判断とページ役割を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "3. 良い点",
-      "evidence": "現状診断と整備計画を2ページへ分け、同じ5カテゴリの欠落、理想配置、実施内容を一貫した順序で読める。 共有CSS修正後も全ページの外枠、ヘッダー、本文、ページ送り、footerが同じ基準線で揃い、wideのfooter computed heightは10pxである。",
+      "evidence": "現状診断と整備計画を2ページへ分け、同じ5カテゴリの欠落、理想配置、実施内容を一貫した順序で読める。 共有CSS修正後も全ページの外枠、ヘッダー、本文、ページ送り、footerが同じ基準線で揃い、wideのfooter computed heightは10pxである。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "共有シェルを独自上書きせず、現行の主従と整列を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "4. 指摘事項",
-      "evidence": "公開を妨げる実務性・非テンプレ感の問題はない。wide／narrowともoverflow・枠外表示・ブラウザエラーは0件で、footer／共有CSS修正後の不整合も認められない。",
+      "evidence": "公開を妨げる実務性・非テンプレ感の問題はない。wide／narrowともoverflow・枠外表示・ブラウザエラーは0件で、footer／共有CSS修正後の不整合も認められない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "必須修正なし。内容または共有CSSを変更した場合だけ全ページを再レビューする。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "5. 情報設計の再編集案",
-      "evidence": "主役はCursorが参照できない5つの欠落と、AGENTS.md／MDC／skills起点の整備順。 支える情報は現状値、実害、理想配置、整備アクション、調査時点注記。 後景化する情報は英字eyebrow、対象範囲ラベル、出典注記、ページナビゲーション。 レイアウトは現状／実害の診断表と、理想配置／整備アクションの計画表を分けた2ページ。 読み順は欠落の実害を1〜5で確認し、次ページで同じ順序のCursor固有配置と行動へ進む。 削除・統合・短縮候補は現時点で削除・統合・短縮は不要。カテゴリ追加時は文字を縮小せずページ分割を検討する。 追加禁止情報は他製品固有パス、未確認のCursor仕様、架空の件数・効果・費用を追加しない。",
+      "evidence": "主役はCursorが参照できない5つの欠落と、AGENTS.md／MDC／skills起点の整備順。 支える情報は現状値、実害、理想配置、整備アクション、調査時点注記。 後景化する情報は英字eyebrow、対象範囲ラベル、出典注記、ページナビゲーション。 レイアウトは現状／実害の診断表と、理想配置／整備アクションの計画表を分けた2ページ。 読み順は欠落の実害を1〜5で確認し、次ページで同じ順序のCursor固有配置と行動へ進む。 削除・統合・短縮候補は現時点で削除・統合・短縮は不要。カテゴリ追加時は文字を縮小せずページ分割を検討する。 追加禁止情報は他製品固有パス、未確認のCursor仕様、架空の件数・効果・費用を追加しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "将来修正時も主役・支える情報・後景の順を崩さず、追加禁止情報を持ち込まない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック1: 3カード構成でない",
-      "evidence": "3カードではなく、5カテゴリを同一基準線で比較するHTML tableを使う。",
+      "evidence": "3カードではなく、5カテゴリを同一基準線で比較するHTML tableを使う。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "意味関係のない均等3カードへ置き換えない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック2: 項目ごとの丸アイコンに依存しない",
-      "evidence": "項目ごとの丸アイコンはなく、文字、表、罫線、位置関係で意味を示している。",
+      "evidence": "項目ごとの丸アイコンはなく、文字、表、罫線、位置関係で意味を示している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "単語置換型の丸アイコンを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック3: 写真を装飾使用しない",
-      "evidence": "全ページのwide／narrow実描画に写真、人物、会議室、端末の装飾素材はない。",
+      "evidence": "全ページのwide／narrow実描画に写真、人物、会議室、端末の装飾素材はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "説明に不要なストックフォトを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック4: 多角形装飾を使用しない",
-      "evidence": "多角形、立体、グラデーションの装飾はなく、線と矢印は具体的な比較・遷移・依存に限定される。",
+      "evidence": "多角形、立体、グラデーションの装飾はなく、線と矢印は具体的な比較・遷移・依存に限定される。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "余白を埋める図形や大きな装飾矢印を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック5: 濃紺フッターを追加しない",
-      "evidence": "濃紺の帯フッターはなく、共有CSS修正後のfooterはwide全ページでborder 0、padding-top 10px、font-size 10px、height 10pxとして本文内に収まる。",
+      "evidence": "濃紺の帯フッターはなく、共有CSS修正後のfooterはwide全ページでborder 0、padding-top 10px、font-size 10px、height 10pxとして本文内に収まる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "footerの共通契約を独自CSSで上書きしない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック6: 架空情報を追加しない",
-      "evidence": "会社名、ロゴ、費用、根拠のない効果値を追加していない。他製品固有パス、未確認のCursor仕様、架空の件数・効果・費用を追加しない。",
+      "evidence": "会社名、ロゴ、費用、根拠のない効果値を追加していない。他製品固有パス、未確認のCursor仕様、架空の件数・効果・費用を追加しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "一次情報または元資料で確認できない情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック7: 情報の強弱がある",
-      "evidence": "黒い結論帯、赤い欠落値、緑のCursor固有配置で現状と理想を明確に分ける。",
+      "evidence": "黒い結論帯、赤い欠落値、緑のCursor固有配置で現状と理想を明確に分ける。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "タイトル、主役、根拠、補足の強度順を維持する。"
     },
     {
       "severity": "medium",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック8: 情報を詰め込みすぎない",
-      "evidence": "診断と整備を2ページへ分け、5行を会議で追える行間と文字量に保つ。",
+      "evidence": "診断と整備を2ページへ分け、5行を会議で追える行間と文字量に保つ。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "情報追加時は文字縮小より先に統合・短縮・分割を検討する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック9: 青を安易な企業資料色にしない",
-      "evidence": "赤と緑は欠落と整備先に対応し、青を安易な企業資料色として使っていない。",
+      "evidence": "赤と緑は欠落と整備先に対応し、青を安易な企業資料色として使っていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "色を意味と強調に限定し、既定の青で全面を均質化しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック10: 不要なアイコンを使用しない",
-      "evidence": "装飾アイコンを使わず、順序、文字、表、色だけで判断できる。",
+      "evidence": "装飾アイコンを使わず、順序、文字、表、色だけで判断できる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "情報関係を説明しないアイコンを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック11: 余白を装飾で埋めない",
-      "evidence": "表下の余白は出典・ページ送りと本文を分け、装飾で埋めていない。",
+      "evidence": "表下の余白は出典・ページ送りと本文を分け、装飾で埋めていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "余白を区切りと強弱に使い、写真・図形・模様で埋めない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック12: 読み順が明確",
-      "evidence": "欠落の実害を1〜5で確認し、次ページで同じ順序のCursor固有配置と行動へ進む。",
+      "evidence": "欠落の実害を1〜5で確認し、次ページで同じ順序のCursor固有配置と行動へ進む。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現行の基準線と視線順を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック13: 1スライド1メッセージ",
-      "evidence": "1ページ目は欠落診断、2ページ目はCursor固有配置の整備という1メッセージずつに分かれる。",
+      "evidence": "1ページ目は欠落診断、2ページ目はCursor固有配置の整備という1メッセージずつに分かれる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "別の判断軸を追加する場合は同一ページへ押し込まない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック14: 人間が編集したように見える",
-      "evidence": "MDC rules、Cursor skills、MCP／CLIの文脈へ編集され、他製品版の単純転用ではない。",
+      "evidence": "MDC rules、Cursor skills、MCP／CLIの文脈へ編集され、他製品版の単純転用ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "具体的な判断条件と情報関係を維持し、均等テンプレートへ戻さない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "7. 実装者がそのまま作業できる優先順位付き修正方針",
-      "evidence": "優先度1: 現状維持。必須修正なし。優先度2: 内容・共有CSS・footer変更時は現行HTML SHAから全ページをwide／narrowで再描画し、14項目を再判定する。優先度3: 元にない会社名、日付、ロゴ、数値、効果、費用、期間、写真、根拠のない図解を追加しない。",
+      "evidence": "優先度1: 現状維持。必須修正なし。優先度2: 内容・共有CSS・footer変更時は現行HTML SHAから全ページをwide／narrowで再描画し、14項目を再判定する。優先度3: 元にない会社名、日付、ロゴ、数値、効果、費用、期間、写真、根拠のない図解を追加しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "更新時は優先度順に適用し、Phase 11記録を新SHAへ更新する。"
     }
   ],
-  "checkedAt": "2026-07-27T10:46:58.729Z",
-  "artifactSha256": "9ff29c7f2a254fa1e5485dfe06f81f4593bfda84c30590959d41aeffe6b92566"
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "18cd877aaddf8aea47506cf53d2085884004aaceecd81f028f21bee6bb7ab3d4",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "18cd877aaddf8aea47506cf53d2085884004aaceecd81f028f21bee6bb7ab3d4",
+    "toArtifactSha256": "18cd877aaddf8aea47506cf53d2085884004aaceecd81f028f21bee6bb7ab3d4",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "18cd877aaddf8aea47506cf53d2085884004aaceecd81f028f21bee6bb7ab3d4",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

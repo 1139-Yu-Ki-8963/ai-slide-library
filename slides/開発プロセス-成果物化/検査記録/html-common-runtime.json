@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/開発プロセス-成果物化/解説スライド.html",
-      "artifactSha256": "c2678a7d667234d1e54626d80c7ceda7c5586032239cd2e49c78774671708f78",
+      "artifactSha256": "33b49c7007e11dfe9eb796f90291fcb558e81afef8654f67fcef2bebc05d94eb",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/開発プロセス-成果物化/evidence/html-runtime/解説スライド-wide-c2678a7d6672.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/開発プロセス-成果物化/evidence/html-runtime/解説スライド-narrow-c2678a7d6672.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/開発プロセス-成果物化/evidence/html-runtime/解説スライド-wide-33b49c7007e1.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/開発プロセス-成果物化/evidence/html-runtime/解説スライド-narrow-33b49c7007e1.png"
           ]
         }
       ]

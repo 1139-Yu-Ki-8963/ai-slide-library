@@ -49,6 +49,8 @@ SLIDE_VERIFY_REGISTRY=0 SLIDE_VERIFY_CATALOG=0 npm test
 
 検査内容:
 
+- `verify-slide-rule-enforcement.mjs`で、ヘッダー規約1件・criterion 1件・checker・正常/違反fixture・証跡・公開ゲートの完全対応を検査する
+- `verify-slide-header-contract.mjs`で、HTMLファイル数・DOMヘッダー数とは独立に全論理ページ状態を検出して母数にし、共有ヘッダーも各状態で再検査する。DOM、文字数、改行、実描画行数、文字列内包、座標、computed style、子要素、疑似要素、inline style、`!important`、指定フォントとFontFaceの利用可能性を正本と比較する
 - 全スライドの共有CSS内包ブロックが1つで、正本と完全一致すること
 - タイトル40文字以内、副題70文字以内、両方に強制改行がなく、実描画1行かつ文字列描画矩形がスライド内に収まること
 - タイトル・副題・フッターのcomputed値が共通契約と一致すること
@@ -63,7 +65,7 @@ Phase 7の検査項目には、グローバルSkillの`verify-slide-static-contr
 - 保存済み`サムネイル.png`の640×360寸法
 - 既存登録時のスライドキーと蓄積簿・主題一覧の集合一致
 
-完了条件: 追加前は`SLIDE_VERIFY_REGISTRY=0 SLIDE_VERIFY_CATALOG=0 npm test`でスライド本体3系統を通過し、Phase 14後のPhase 15では環境変数なしの`npm test`で台帳・主題一覧・カタログを含む全件を通過すること。
+完了条件: 追加前は`SLIDE_VERIFY_REGISTRY=0 SLIDE_VERIFY_CATALOG=0 npm test`でスライド本体3系統と全論理ページ状態のヘッダー契約を通過し、Phase 14後のPhase 15では環境変数なしの`npm test`で台帳・主題一覧・カタログを含む全件を通過すること。ヘッダー契約は、独立検出した論理ページ状態数と検査済みページ状態数の一致、各状態に対応するヘッダーの存在を必須とする。
 
 ## Phase 8: 公開成果物の観点レビュー
 
@@ -154,6 +156,8 @@ Phase 7 機械検証
 
 Phase 8〜11は同一のHTML、実描画、サムネイルを読み取り専用で入力し、各枝は他枝の検査記録を書き換えない。各枝は次のJSON契約で`検査記録/phase-<N>.json`を1つだけ返す。
 
+ヘッダー共有領域だけの一括変更では、Phase番号と4枝の責務を維持したまま、グローバルSkillの`refresh-header-only-review-evidence.mjs`で影響限定再検証を実行できる。必須入力は、現SHAに対するHTML共通static/runtime全件PASS、全論理ページ状態のヘッダーlinter全件PASS、ヘッダーAI 3 criteria全件PASSまたは根拠付きN/A、HEAD比較による非ヘッダーmarkup・型固有CSS不変、再生成済みサムネイル・1280×720証跡、カタログ一覧画像によるヘッダー・本文境界のAI影響レビューである。AIレビューはheader report SHA、全HTML SHA、一覧画像SHAへ固定する。スクリプトはHEADのPhase 8〜11を正本として差分影響だけを現SHAへ再発行し、各PhaseのschemaとHTML共通aggregateを再検証する。本文差分、母数不一致、旧SHA、FAIL、証跡未生成を1件でも検出したら停止し、通常のPhase 8〜11レビューへ戻る。この経路でも4つのPhaseを統合・省略してはならない。
+
 ```json
 {
   "phase": 8,
@@ -220,7 +224,9 @@ Phase 8、Phase 9、Phase 10、またはPhase 11で`status=fail`または`status
 3. 枚数、対象キー、タイトル、タグ、主題の埋め込みを確認する。
 4. ローカル一覧をPlaywrightで開き、「もっと見る」を全展開して全画像を検証する。
 
-完了条件: サムネイル・カタログ生成成功、全画像ロード成功、一覧表示の機械検証PASS。ここではcommitしない。
+`node .claude/skills/adding-catalog-slides/scripts/verify-catalog-preview.mjs`を実行し、表示件数とカード件数の一致、全展開後の画像件数一致、`naturalWidth > 0`、ブラウザエラー0、一覧スクリーンショット生成をblocking判定する。URL文字列の存在確認だけで画像ロードPASSにしてはならない。
+
+完了条件: サムネイル・カタログ生成成功、`verify-catalog-preview.mjs`で全画像ロード成功・全件展開・一覧表示の機械検証PASS。ここではcommitしない。
 
 ## Phase 15: コミットゲート
 

@@ -1,13 +1,42 @@
 {
   "phase": 9,
-  "targetKeys": ["AI採用成熟度-機能整備対応表"],
+  "targetKeys": [
+    "AI採用成熟度-機能整備対応表"
+  ],
   "status": "pass",
   "criteria": [
-    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全3ページを確認。1ページ目でLevel 1〜5とLevel 3への移行条件を俯瞰し、2ページ目でLevel 1〜3、3ページ目でLevel 4〜5の機能・整備条件を具体化する。全体から導入焦点、その先の自律へ進む順序が自然である。"},
-    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "1ページ目でLevel 3を主役化し、2ページ目で導入条件を詳細化、3ページ目でLevel 4〜5を静かな対比として置く。強調は移行点と到達点に限定され、3ページ連続の過剰な強調がない。"},
-    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "1ページ目の全体表、2ページ目の3段階表、3ページ目の非対称な2段階比較へ情報量に応じて変化する。旧記録で指摘された3ページ目の過大な空白は解消され、監督から安全な拡張への読み順が成立している。"}
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "pass",
+      "evidence": "全3ページを確認。1ページ目でLevel 1〜5とLevel 3への移行条件を俯瞰し、2ページ目でLevel 1〜3、3ページ目でLevel 4〜5の機能・整備条件を具体化する。全体から導入焦点、その先の自律へ進む順序が自然である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "pass",
+      "evidence": "1ページ目でLevel 3を主役化し、2ページ目で導入条件を詳細化、3ページ目でLevel 4〜5を静かな対比として置く。強調は移行点と到達点に限定され、3ページ連続の過剰な強調がない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "pass",
+      "evidence": "1ページ目の全体表、2ページ目の3段階表、3ページ目の非対称な2段階比較へ情報量に応じて変化する。旧記録で指摘された3ページ目の過大な空白は解消され、監督から安全な拡張への読み順が成立している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T08:31:00Z",
-  "artifactSha256": "7f9a21aeeb4bc066ca10df943689985da1e2db7845ba613db583f6a84646a4e9"
+  "checkedAt": "2026-07-28T00:35:00+09:00",
+  "artifactSha256": "86d7685cbefe99b3d2c8e13a6a7aba30fd58cb37f510db5820b31e887b62af81",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "86d7685cbefe99b3d2c8e13a6a7aba30fd58cb37f510db5820b31e887b62af81",
+    "toArtifactSha256": "86d7685cbefe99b3d2c8e13a6a7aba30fd58cb37f510db5820b31e887b62af81",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "86d7685cbefe99b3d2c8e13a6a7aba30fd58cb37f510db5820b31e887b62af81",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  },
+  "impactReview": {
+    "status": "pass",
+    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
+    "screenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d",
+    "evidence": "現HTMLから生成した一覧画像（SHA c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
+  }
 }

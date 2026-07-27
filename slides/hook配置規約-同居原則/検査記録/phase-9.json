@@ -1,13 +1,50 @@
 {
   "phase": 9,
-  "targetKeys": ["hook配置規約-同居原則"],
+  "targetKeys": [
+    "hook配置規約-同居原則"
+  ],
   "status": "pass",
   "criteria": [
-    {"id": "deck-ai-role-sequence", "status": "not-applicable", "evidence": "「hook は規約の定義ファイルと同じフォルダに置く」単一ページで、デッキの前後関係は指定されていない。左のflatバケットによる問題、右の規約同居構造、下部の運用結論という比較順序がページ内で完結している。"},
-    {"id": "deck-ai-strength-rhythm", "status": "not-applicable", "evidence": "複数ページの強弱を評価する文脈がない。単ページでは左の失敗を赤、右の推奨構造を緑とし、同居構造を主役にしつつ下部の3要点で結論を補強している。"},
-    {"id": "deck-ai-layout-repetition", "status": "not-applicable", "evidence": "前後ページとの比較対象がない。左右のファイルツリーはflat配置と規約同居配置を同一粒度で比較するための必要な反復で、同じカードを無意味に並べたものではない。"}
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "「hook は規約の定義ファイルと同じフォルダに置く」単一ページで、デッキの前後関係は指定されていない。左のflatバケットによる問題、右の規約同居構造、下部の運用結論という比較順序がページ内で完結している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "複数ページの強弱を評価する文脈がない。単ページでは左の失敗を赤、右の推奨構造を緑とし、同居構造を主役にしつつ下部の3要点で結論を補強している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "前後ページとの比較対象がない。左右のファイルツリーはflat配置と規約同居配置を同一粒度で比較するための必要な反復で、同じカードを無意味に並べたものではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
   ],
-  "findings": [{"severity": "low", "decision": "pass", "target": "flat配置と規約同居配置の対比", "evidence": "現在SHA eb1fe2312b47…のwide/narrow実描画とサムネイルで、左の所属不明なhook群と右のrule・hook・テスト・設計記録の同居が明確に対比される。静的・実描画JSONはpassでSHA一致している。", "fix": "修正不要。"}],
-  "checkedAt": "2026-07-27T08:19:55Z",
-  "artifactSha256": "eb1fe2312b478aaade25379af6dc75727db356b27bc7ec220c93b21dc2150f85"
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "flat配置と規約同居配置の対比",
+      "evidence": "現在SHA 69b6152c9bca…のwide/narrow実描画とサムネイルで、左の所属不明なhook群と右のrule・hook・テスト・設計記録の同居が明確に対比される。静的・実描画JSONはpassでSHA一致している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "修正不要。"
+    }
+  ],
+  "checkedAt": "2026-07-28T00:35:00+09:00",
+  "artifactSha256": "75145fa026a2bf717cb4051f8d939e8ab26bb9c8b812de81401524d3ef13b847",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "75145fa026a2bf717cb4051f8d939e8ab26bb9c8b812de81401524d3ef13b847",
+    "toArtifactSha256": "75145fa026a2bf717cb4051f8d939e8ab26bb9c8b812de81401524d3ef13b847",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "75145fa026a2bf717cb4051f8d939e8ab26bb9c8b812de81401524d3ef13b847",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  },
+  "impactReview": {
+    "status": "pass",
+    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
+    "screenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d",
+    "evidence": "現HTMLから生成した一覧画像（SHA c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
+  }
 }

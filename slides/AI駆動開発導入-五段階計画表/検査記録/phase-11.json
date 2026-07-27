@@ -10,108 +10,117 @@
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック1: 3カード構成",
-      "evidence": "導入手順に必要な5段階を5列で示し、安易な3カードではない。上部と下部の3区分は5段階を導入局面へ束ねるための要約。",
+      "evidence": "導入手順に必要な5段階を5列で示し、安易な3カードではない。上部と下部の3区分は5段階を導入局面へ束ねるための要約。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "5段階と3局面の対応を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック2: 項目ごとの丸アイコン",
-      "evidence": "丸印は局面番号と警告だけで、各作業を単語置換アイコンへ変換していない。",
+      "evidence": "丸印は局面番号と警告だけで、各作業を単語置換アイコンへ変換していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "作業項目へ装飾アイコンを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック3: 写真の装飾使用",
-      "evidence": "写真・人物・ストック素材を使用していない。",
+      "evidence": "写真・人物・ストック素材を使用していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "写真は追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック4: 多角形装飾",
-      "evidence": "多角形や立体装飾はなく、小矢印は段階間の遷移を示す機能要素。",
+      "evidence": "多角形や立体装飾はなく、小矢印は段階間の遷移を示す機能要素。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "工程を大きなブロック矢印へ変更しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック5: 濃紺フッター",
-      "evidence": "下部は白地の3局面要約で、濃紺の大面積フッターを置いていない。",
+      "evidence": "下部は白地の3局面要約で、濃紺の大面積フッターを置いていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "要約を濃色帯にしない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック6: 架空情報",
-      "evidence": "会社名・ロゴ・効果値・費用・期間を追加せず、導入作業・成果物・失敗条件だけを記載する。",
+      "evidence": "会社名・ロゴ・効果値・費用・期間を追加せず、導入作業・成果物・失敗条件だけを記載する。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "根拠のない導入期間や改善率を追加しない。"
     },
     {
       "severity": "medium",
       "decision": "pass",
       "target": "最終チェック7: 情報の強弱",
-      "evidence": "タイトル、3局面、5段階、段階説明、成果物、失敗警告、下部要約の階層があり、段階3から始めない警告が明確。",
+      "evidence": "タイトル、3局面、5段階、段階説明、成果物、失敗警告、下部要約の階層があり、段階3から始めない警告が明確。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "全段階を同時に強調せず、失敗警告と順序を主役に保つ。"
     },
     {
       "severity": "medium",
       "decision": "suggestion",
       "target": "最終チェック8: 情報量",
-      "evidence": "現SHAのwide画像では各STEPの目的、2〜3作業、成果物と失敗警告を判読できる。サムネイルでは作業詳細が細かく、上部3局面と各列の情報を同時に読むには密度が高い。",
+      "evidence": "現SHAのwide画像では各STEPの目的、2〜3作業、成果物と失敗警告を判読できる。サムネイルでは作業詳細が細かく、上部3局面と各列の情報を同時に読むには密度が高い。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "次回編集時は各STEPの作業を最大2点へ短縮し、上部3局面と各列上端の重複を統合する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック9: 青の安易な企業資料色",
-      "evidence": "青灰・橙・緑は土台、安全導入、拡大の3局面に対応し、青一色へ依存していない。",
+      "evidence": "青灰・橙・緑は土台、安全導入、拡大の3局面に対応し、青一色へ依存していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "色の意味を3局面に限定する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック10: 不要なアイコン",
-      "evidence": "番号と警告記号以外の装飾アイコンを使っていない。",
+      "evidence": "番号と警告記号以外の装飾アイコンを使っていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "各段階へ人物・歯車・盾等を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック11: 余白を装飾で埋めない",
-      "evidence": "各段階カード内に意図した余白があり、背景装飾で埋めていない。",
+      "evidence": "各段階カード内に意図した余白があり、背景装飾で埋めていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "情報削減後の余白を維持する。"
     },
     {
       "severity": "medium",
       "decision": "pass",
       "target": "最終チェック12: 読み順",
-      "evidence": "左からSTEP 1→5へ進み、上部の3局面と矢印、下部要約が順序を補助する。",
+      "evidence": "左からSTEP 1→5へ進み、上部の3局面と矢印、下部要約が順序を補助する。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "重複要約を整理しても5段階の左→右順を保つ。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック13: 1スライド1メッセージ",
-      "evidence": "ツール導入から始めず、診断と土台整備を先にして5段階で進める、という一つの導入主張に統一される。",
+      "evidence": "ツール導入から始めず、診断と土台整備を先にして5段階で進める、という一つの導入主張に統一される。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "成熟度比較や製品一覧を追加しない。"
     },
     {
       "severity": "medium",
       "decision": "suggestion",
       "target": "最終チェック14: 人間が編集したように見える",
-      "evidence": "5段階を土台・安全導入・拡大の3局面へ束ね、各段階に成果物を置き、下部で段階3開始の失敗を明示する編集判断がある。一方、5枚の同形カードは工程テンプレ感を少し残す。",
+      "evidence": "5段階を土台・安全導入・拡大の3局面へ束ね、各段階に成果物を置き、下部で段階3開始の失敗を明示する編集判断がある。一方、5枚の同形カードは工程テンプレ感を少し残す。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "次回編集時はSTEP 1〜2、3、4〜5の局面差をカード幅または余白で強め、作業詳細を後景化する。"
     },
     {
       "severity": "medium",
       "decision": "suggestion",
       "target": "情報設計の再編集案",
-      "evidence": "主役は「ツール導入から始めず、診断と土台整備を先にする」という順序と失敗回避、支える情報は5段階の目的と各成果物、後景化は各STEPの作業詳細。レイアウトは5列を維持しつつSTEP 1〜2を土台群、STEP 3を転換点、STEP 4〜5を展開群として群間余白を広げ、失敗帯をSTEP 3直下へ結び付ける。読み順は副題→3局面→STEP 1から5→失敗警告。削除・統合・短縮候補は上部3局面と列上端の重複、各作業の括弧説明、成果物文の冗長部。追加禁止情報は架空の導入期間、効果率、費用、人員数、会社名、製品ロゴ、根拠のない成功条件。",
+      "evidence": "主役は「ツール導入から始めず、診断と土台整備を先にする」という順序と失敗回避、支える情報は5段階の目的と各成果物、後景化は各STEPの作業詳細。レイアウトは5列を維持しつつSTEP 1〜2を土台群、STEP 3を転換点、STEP 4〜5を展開群として群間余白を広げ、失敗帯をSTEP 3直下へ結び付ける。読み順は副題→3局面→STEP 1から5→失敗警告。削除・統合・短縮候補は上部3局面と列上端の重複、各作業の括弧説明、成果物文の冗長部。追加禁止情報は架空の導入期間、効果率、費用、人員数、会社名、製品ロゴ、根拠のない成功条件。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "修正する場合は5段階の順序と失敗警告を保持し、重複説明を削って転換点のSTEP 3を前景化する。"
     }
   ],
-  "checkedAt": "2026-07-27T08:57:47.872Z",
-  "artifactSha256": "9fc866e5ceae44c1003750f58b4b82633f7a966ca09bde616ba54523d6c28b18"
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "a153087d3edc6818d0c17924a0a4abbbc797ad6fadeee87b9a24ea5f84ba12ab",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "a153087d3edc6818d0c17924a0a4abbbc797ad6fadeee87b9a24ea5f84ba12ab",
+    "toArtifactSha256": "a153087d3edc6818d0c17924a0a4abbbc797ad6fadeee87b9a24ea5f84ba12ab",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "a153087d3edc6818d0c17924a0a4abbbc797ad6fadeee87b9a24ea5f84ba12ab",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

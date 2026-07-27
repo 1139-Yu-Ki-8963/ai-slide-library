@@ -1,13 +1,42 @@
 {
   "phase": 9,
-  "targetKeys": ["読み取り専用先行導入-権限段階解禁"],
+  "targetKeys": [
+    "読み取り専用先行導入-権限段階解禁"
+  ],
   "status": "pass",
   "criteria": [
-    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全2ページを確認。1ページ目で読み取り専用・提案・ガード付き書き込みの3段階を定義し、2ページ目で書き込み解禁前の特性テスト・機密検査・レビュー条件と権限設定を示す。段階設計から関所へ進む。"},
-    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "1ページ目は権限段階を主役にし、2ページ目は解禁条件を静かに確認する。危険側の色は限定的で、読み取り専用の価値と安全網の条件を競合させずに強弱を付けている。"},
-    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "1ページ目の3段階非対称配置と2ページ目の安全網・価値・設定の関係配置で構造が変わる。共通する『読む→提案→書く』はページ接続のためで、理由なき反復ではない。"}
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "pass",
+      "evidence": "全2ページを確認。1ページ目で読み取り専用・提案・ガード付き書き込みの3段階を定義し、2ページ目で書き込み解禁前の特性テスト・機密検査・レビュー条件と権限設定を示す。段階設計から関所へ進む。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "pass",
+      "evidence": "1ページ目は権限段階を主役にし、2ページ目は解禁条件を静かに確認する。危険側の色は限定的で、読み取り専用の価値と安全網の条件を競合させずに強弱を付けている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "pass",
+      "evidence": "1ページ目の3段階非対称配置と2ページ目の安全網・価値・設定の関係配置で構造が変わる。共通する『読む→提案→書く』はページ接続のためで、理由なき反復ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T08:31:00Z",
-  "artifactSha256": "39cb33292769d2e207c329b3deba8425979fdb0b0734bd12bbbef724d91a36e7"
+  "checkedAt": "2026-07-28T00:35:00+09:00",
+  "artifactSha256": "9591ab5924869e0286b33c60aa244a19b0c532f9eab25f322617022bc2d4bf2d",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "9591ab5924869e0286b33c60aa244a19b0c532f9eab25f322617022bc2d4bf2d",
+    "toArtifactSha256": "9591ab5924869e0286b33c60aa244a19b0c532f9eab25f322617022bc2d4bf2d",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "9591ab5924869e0286b33c60aa244a19b0c532f9eab25f322617022bc2d4bf2d",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  },
+  "impactReview": {
+    "status": "pass",
+    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
+    "screenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d",
+    "evidence": "現HTMLから生成した一覧画像（SHA c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
+  }
 }

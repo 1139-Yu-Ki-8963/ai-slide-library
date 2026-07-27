@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/リポジトリ整備-cursor版-現状理想対比/解説スライド.html",
-      "artifactSha256": "9ff29c7f2a254fa1e5485dfe06f81f4593bfda84c30590959d41aeffe6b92566",
+      "artifactSha256": "18cd877aaddf8aea47506cf53d2085884004aaceecd81f028f21bee6bb7ab3d4",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/リポジトリ整備-cursor版-現状理想対比/evidence/html-runtime/解説スライド-wide-9ff29c7f2a25.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/リポジトリ整備-cursor版-現状理想対比/evidence/html-runtime/解説スライド-narrow-9ff29c7f2a25.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/リポジトリ整備-cursor版-現状理想対比/evidence/html-runtime/解説スライド-wide-18cd877aaddf.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/リポジトリ整備-cursor版-現状理想対比/evidence/html-runtime/解説スライド-narrow-18cd877aaddf.png"
           ]
         }
       ]

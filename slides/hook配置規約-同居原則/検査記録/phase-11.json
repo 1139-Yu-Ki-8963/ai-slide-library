@@ -10,108 +10,117 @@
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック1: 3カード構成",
-      "evidence": "主領域はflatバケットと規約同居の2面比較で、同寸3カードへの分配ではない。",
+      "evidence": "主領域はflatバケットと規約同居の2面比較で、同寸3カードへの分配ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "悪い配置と推奨配置の2面比較を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック2: 項目ごとの丸アイコン依存",
-      "evidence": "丸番号は左右2面と下部結論の順序標識だけで、ディレクトリ木と説明文が主たる意味を担う。",
+      "evidence": "丸番号は左右2面と下部結論の順序標識だけで、ディレクトリ木と説明文が主たる意味を担う。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "ファイル項目ごとの丸アイコンを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック3: 写真の装飾使用",
-      "evidence": "3画像とも写真はなく、配置規約はディレクトリ木で直接説明されている。",
+      "evidence": "3画像とも写真はなく、配置規約はディレクトリ木で直接説明されている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "サーバーや開発者の装飾写真を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック4: 多角形装飾",
-      "evidence": "情報面とディレクトリ木以外の多角形装飾は使用していない。",
+      "evidence": "情報面とディレクトリ木以外の多角形装飾は使用していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "同居関係を囲みや多角形ではなく、木構造と同一枠内配置で示し続ける。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック5: 濃紺フッター",
-      "evidence": "最下部は白地の要点列で、濃紺フッターは存在しない。",
+      "evidence": "最下部は白地の要点列で、濃紺フッターは存在しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "要点列を白地のまま維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック6: 架空情報",
-      "evidence": "公開画像は一般化したパス、check-xxx.sh、rule.md等の例に限定され、会社名、ユーザー名、絶対パス、日付、効果数値を含まない。",
+      "evidence": "公開画像は一般化したパス、check-xxx.sh、rule.md等の例に限定され、会社名、ユーザー名、絶対パス、日付、効果数値を含まない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "実在プロジェクト名や端末固有パスを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック7: 情報の強弱",
-      "evidence": "赤いflat面と緑の同居面、面内の木構造、下端の失敗・効果帯の順に強弱が付いている。",
+      "evidence": "赤いflat面と緑の同居面、面内の木構造、下端の失敗・効果帯の順に強弱が付いている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "推奨側の緑とcheck-xxx.shの強調を主役として維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック8: 情報の詰め込み",
-      "evidence": "wide画像で左右の木構造と3行の結果が分離され、サムネイルでも赤対緑の比較構造を認識できる。",
+      "evidence": "wide画像で左右の木構造と3行の結果が分離され、サムネイルでも赤対緑の比較構造を認識できる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "ファイル例を増やさず、所属原則の判断に必要な例だけを残す。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック9: 安易な青の企業資料色",
-      "evidence": "主たる意味色は失敗の赤と推奨の緑で、青灰はコード文字と補助線に限定されている。",
+      "evidence": "主たる意味色は失敗の赤と推奨の緑で、青灰はコード文字と補助線に限定されている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "青を追加カテゴリ色に使わない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック10: 不要なアイコン",
-      "evidence": "順序番号と✓・×以外に装飾アイコンはなく、ディレクトリ木自体が内容を説明する。",
+      "evidence": "順序番号と✓・×以外に装飾アイコンはなく、ディレクトリ木自体が内容を説明する。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "フォルダやフックを示す絵文字アイコンを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック11: 余白を装飾で埋めない",
-      "evidence": "木構造の下に残る余白は比較面の呼吸として保持され、模様や図形で埋められていない。",
+      "evidence": "木構造の下に残る余白は比較面の呼吸として保持され、模様や図形で埋められていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "木の項目数を水増しせず、余白を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック12: 読み順",
-      "evidence": "タイトル→左のflat問題→右の同居解決→下部のblock結論という読み順が明確である。",
+      "evidence": "タイトル→左のflat問題→右の同居解決→下部のblock結論という読み順が明確である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "左右比較から結論へ降りる順序を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック13: 1スライド1メッセージ",
-      "evidence": "全要素が「hookを規約定義と同じフォルダに置く」という単一原則を説明している。",
+      "evidence": "全要素が「hookを規約定義と同じフォルダに置く」という単一原則を説明している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "hookの強制・助言分類や実装手順を別主張として追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック14: 人間が編集したように見える",
-      "evidence": "抽象論ではなく左右の具体的な木構造、残留リスク、レビュー容易性まで対応付けた編集判断が見える。",
+      "evidence": "抽象論ではなく左右の具体的な木構造、残留リスク、レビュー容易性まで対応付けた編集判断が見える。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "汎用カードへ置き換えず、パス構造を主役にする。"
     },
     {
       "severity": "low",
       "decision": "suggestion",
       "target": "情報設計の再編集案",
-      "evidence": "主役は右面の「1規約=1フォルダ」とrule.md・check・test・notesの同居木。支える情報は左面の50本超flat例と双方の3行評価、後景化する情報はskills側の補足木と最下部3点復唱。レイアウトは右面の規約木をやや拡大し、skills補足を短い追記へ圧縮する。読み順はタイトル→flatの問題→同居木→運用効果→禁止パスblock。削除・統合・短縮候補は最下部「flatは判別不能／同居で完結」と左右見出しの重複、左木の類似check名。追加禁止情報は実在リポジトリ名、ユーザー名、絶対パス、未確認の本数、会社名、効果数値、費用、期間、ロゴ。",
+      "evidence": "主役は右面の「1規約=1フォルダ」とrule.md・check・test・notesの同居木。支える情報は左面の50本超flat例と双方の3行評価、後景化する情報はskills側の補足木と最下部3点復唱。レイアウトは右面の規約木をやや拡大し、skills補足を短い追記へ圧縮する。読み順はタイトル→flatの問題→同居木→運用効果→禁止パスblock。削除・統合・短縮候補は最下部「flatは判別不能／同居で完結」と左右見出しの重複、左木の類似check名。追加禁止情報は実在リポジトリ名、ユーザー名、絶対パス、未確認の本数、会社名、効果数値、費用、期間、ロゴ。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "左の例示行と下部復唱を短縮し、右の同居木と運用効果へ視覚的比重を移す。"
     }
   ],
-  "artifactSha256": "eb1fe2312b478aaade25379af6dc75727db356b27bc7ec220c93b21dc2150f85",
-  "checkedAt": "2026-07-27T08:57:47.872Z"
+  "artifactSha256": "75145fa026a2bf717cb4051f8d939e8ab26bb9c8b812de81401524d3ef13b847",
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "75145fa026a2bf717cb4051f8d939e8ab26bb9c8b812de81401524d3ef13b847",
+    "toArtifactSha256": "75145fa026a2bf717cb4051f8d939e8ab26bb9c8b812de81401524d3ef13b847",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "75145fa026a2bf717cb4051f8d939e8ab26bb9c8b812de81401524d3ef13b847",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

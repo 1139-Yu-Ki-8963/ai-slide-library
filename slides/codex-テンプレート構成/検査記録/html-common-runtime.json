@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/codex-テンプレート構成/解説スライド.html",
-      "artifactSha256": "cacf5b6e931b33b5bb4170b40287ad14fe42a5ceb697afd18a1a3d062a0b13b9",
+      "artifactSha256": "0aca9f92bb232ec3bad93e793fe22cd67867f683882f37d50d2354a9c92e47c2",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/codex-テンプレート構成/evidence/html-runtime/解説スライド-wide-cacf5b6e931b.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/codex-テンプレート構成/evidence/html-runtime/解説スライド-narrow-cacf5b6e931b.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/codex-テンプレート構成/evidence/html-runtime/解説スライド-wide-0aca9f92bb23.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/codex-テンプレート構成/evidence/html-runtime/解説スライド-narrow-0aca9f92bb23.png"
           ]
         }
       ]

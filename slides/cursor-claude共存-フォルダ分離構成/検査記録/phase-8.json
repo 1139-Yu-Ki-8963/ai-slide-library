@@ -8,25 +8,34 @@
     {
       "id": "slide-ai-thumbnail-legibility",
       "status": "pass",
-      "evidence": "最終HTMLから再生成した640×360サムネイルで、先頭ページの主張「CursorとClaude Codeの専用設定を分離する」と主要な図表構造を識別できる。さらに全2ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。"
+      "evidence": "最終HTMLから再生成した640×360サムネイルで、先頭ページの主張「CursorとClaude Codeの専用設定を分離する」と主要な図表構造を識別できる。さらに全2ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。 現SHAから640×360サムネイルと1280×720検証画像を再生成した。ヘッダー限定再検証で全90論理ページ状態に29件の機械規約を適用し、失敗0件を確認した。"
     },
     {
       "id": "slide-ai-one-message",
       "status": "pass",
-      "evidence": "全2ページをページ単位で確認した。各ページは「CursorとClaude Codeの専用設定を分離する」、「共有資料はproject-portalに集約する」という個別の主張へ収束し、1ページ内で複数の無関係な主張を競合させていない。"
+      "evidence": "全2ページをページ単位で確認した。各ページは「CursorとClaude Codeの専用設定を分離する」、「共有資料はproject-portalに集約する」という個別の主張へ収束し、1ページ内で複数の無関係な主張を競合させていない。 ヘッダー限定AI再レビューでslide-ai-one-messageを90/90件PASSと判定した。"
     },
     {
       "id": "slide-ai-title-claim",
       "status": "pass",
-      "evidence": "全2ページのタイトル「CursorとClaude Codeの専用設定を分離する」、「共有資料はproject-portalに集約する」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。"
+      "evidence": "全2ページのタイトル「CursorとClaude Codeの専用設定を分離する」、「共有資料はproject-portalに集約する」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。 ヘッダー限定AI再レビューでslide-ai-title-claimを90/90件PASSと判定した。"
     },
     {
       "id": "slide-ai-subtitle-support",
       "status": "pass",
-      "evidence": "全2ページの副題「.cursor/と.claude/を主配置にし、ルート文書の読込対象も製品ごとに確認する」、「両AIが同じ設計情報を参照できるよう、共有資産と各製品の参照経路を分けて管理する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。"
+      "evidence": "全2ページの副題「.cursor/と.claude/を主配置にし、ルート文書の読込対象も製品ごとに確認する」、「両AIが同じ設計情報を参照できるよう、共有資産と各製品の参照経路を分けて管理する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。 ヘッダー限定AI再レビューでslide-ai-subtitle-supportを87件PASS、3件N/A、FAIL 0件と判定した。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T08:33:55.465Z",
-  "artifactSha256": "e8b5520dc1c12381bbb70d99eec8f9771a69475b490ee89b493dbc46dc8ef0c1"
+  "checkedAt": "2026-07-28T00:35:00+09:00",
+  "artifactSha256": "8a08b9600f9d6fc71c3b9c90cc4604b63bc015fd7c8818c4e1c09bb959394afe",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "8a08b9600f9d6fc71c3b9c90cc4604b63bc015fd7c8818c4e1c09bb959394afe",
+    "toArtifactSha256": "8a08b9600f9d6fc71c3b9c90cc4604b63bc015fd7c8818c4e1c09bb959394afe",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "8a08b9600f9d6fc71c3b9c90cc4604b63bc015fd7c8818c4e1c09bb959394afe",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

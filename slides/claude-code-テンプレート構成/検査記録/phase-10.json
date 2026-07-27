@@ -8,7 +8,7 @@
     {
       "id": "deck-ai-split-plan",
       "status": "pass",
-      "evidence": "最終HTML SHA 70f4cd0acbd3の全4ページを独立確認した。p1「設定資産の全体像」、p2「CLAUDE.mdとrules」、p3「skillsとagents」、p4「settingsとMCP」の役割分担で、各ページは1メッセージに収束している。全体表と3つの詳細論点を4ページへ分離し、各ページは役割の異なる資産対だけを説明する。保存済み最新runtime画像はwide 4/4ページ、narrow 4/4ページを現SHAで確認した。文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。"
+      "evidence": "最終HTML SHA 957d69c09327の全4ページを独立確認した。p1「設定資産の全体像」、p2「CLAUDE.mdとrules」、p3「skillsとagents」、p4「settingsとMCP」の役割分担で、各ページは1メッセージに収束している。全体表と3つの詳細論点を4ページへ分離し、各ページは役割の異なる資産対だけを説明する。保存済み最新runtime画像はwide 4/4ページ、narrow 4/4ページを現SHAで確認した。文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
     }
   ],
   "findings": [
@@ -16,7 +16,7 @@
       "severity": "low",
       "decision": "pass",
       "target": "slides/claude-code-テンプレート構成/解説スライド.html の全4ページ、現SHAのwide/narrow実描画、更新後サムネイル",
-      "evidence": "p1「設定資産の全体像」、p2「CLAUDE.mdとrules」、p3「skillsとagents」、p4「settingsとMCP」として読める。全体表と3つの詳細論点を4ページへ分離し、各ページは役割の異なる資産対だけを説明する。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。",
+      "evidence": "p1「設定資産の全体像」、p2「CLAUDE.mdとrules」、p3「skillsとagents」、p4「settingsとMCP」として読める。全体表と3つの詳細論点を4ページへ分離し、各ページは役割の異なる資産対だけを説明する。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "impact": "これ以上分割すると、すでに分離済みの各ページ内で主張と根拠が離れ、前後ページを往復しないと判断できなくなる。",
       "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
       "preservedInformation": [
@@ -27,9 +27,18 @@
         "settings・hooks・MCP"
       ],
       "splitPlan": "分割なし。全体表と3つの詳細論点を4ページへ分離し、各ページは役割の異なる資産対だけを説明する。",
-      "verification": "HTML SHA-256が70f4cd0acbd3db90ff01556cb6de09ca05268f649e4393fc7f6ddb7acece3b72であること、保存済み最新runtime画像はwide 4/4ページ、narrow 4/4ページを現SHAで確認し、全4ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
+      "verification": "HTML SHA-256が957d69c09327a782f25a79309ea06c626efe1fa0c7601369707a452a121582abであること、保存済み最新runtime画像はwide 4/4ページ、narrow 4/4ページを現SHAで確認し、全4ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
     }
   ],
-  "checkedAt": "2026-07-27T10:55:49Z",
-  "artifactSha256": "70f4cd0acbd3db90ff01556cb6de09ca05268f649e4393fc7f6ddb7acece3b72"
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "b66fcb8c969ba5c8793d9c7cc8f2f8b7da30197f2cae0ed6f981d2a09ab22a4a",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "b66fcb8c969ba5c8793d9c7cc8f2f8b7da30197f2cae0ed6f981d2a09ab22a4a",
+    "toArtifactSha256": "b66fcb8c969ba5c8793d9c7cc8f2f8b7da30197f2cae0ed6f981d2a09ab22a4a",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "b66fcb8c969ba5c8793d9c7cc8f2f8b7da30197f2cae0ed6f981d2a09ab22a4a",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

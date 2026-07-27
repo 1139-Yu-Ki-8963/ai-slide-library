@@ -10,108 +10,117 @@
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック1（3カード構成）",
-      "evidence": "4工程を四半期軸へ置くガント表で、主張を同格3カードへ分配していない。",
+      "evidence": "4工程を四半期軸へ置くガント表で、主張を同格3カードへ分配していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "四半期軸と期間バーの表現を維持し、工程を説明カードへ置き換えない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック2（項目ごとの丸アイコン）",
-      "evidence": "工程名と期間バーだけで構成され、項目ごとの丸アイコンはない。",
+      "evidence": "工程名と期間バーだけで構成され、項目ごとの丸アイコンはない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "4工程へ個別アイコンを追加せず、行名と期間の対応で読ませる。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック3（写真の装飾使用）",
-      "evidence": "年間計画を表と文字だけで示し、装飾写真を使用していない。",
+      "evidence": "年間計画を表と文字だけで示し、装飾写真を使用していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "会議風景やAI画像を余白へ追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック4（多角形装飾）",
-      "evidence": "矩形の期間バーと罫線のみで、多角形装飾はない。",
+      "evidence": "矩形の期間バーと罫線のみで、多角形装飾はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "期間端を装飾的な矢羽根や六角形へ変更しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック5（濃紺フッター）",
-      "evidence": "フッターは空で、下端を濃紺帯で閉じていない。",
+      "evidence": "フッターは空で、下端を濃紺帯で閉じていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "表の下余白を維持し、濃色フッターを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック6（架空情報）",
-      "evidence": "1Q〜4Qと4工程の計画範囲だけを示し、会社名、ロゴ、費用、効果数値、担当部署を追加していない。",
+      "evidence": "1Q〜4Qと4工程の計画範囲だけを示し、会社名、ロゴ、費用、効果数値、担当部署を追加していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "根拠のない担当者、予算、KPI、完了日を追記しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック7（情報の強弱）",
-      "evidence": "タイトルが最上位、四半期が軸、茶色の期間バーが実行範囲、左の工程名が補助という階層になっている。",
+      "evidence": "タイトルが最上位、四半期が軸、茶色の期間バーが実行範囲、左の工程名が補助という階層になっている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "期間バーを主役に保ち、罫線や月表示を濃くして競合させない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック8（情報量）",
-      "evidence": "4工程と期間だけに絞り、広い余白を残して年間の重なりを一目で比較できる。",
+      "evidence": "4工程と期間だけに絞り、広い余白を残して年間の重なりを一目で比較できる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "各工程の作業一覧をバー内へ追加せず、詳細は別資料へ分離する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック9（安易な青）",
-      "evidence": "青は小さな年間計画ラベルとバー起点の細線に限定し、主役は茶色の期間バーである。",
+      "evidence": "青は小さな年間計画ラベルとバー起点の細線に限定し、主役は茶色の期間バーである。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "全バーを青へ統一せず、現在の限定的な補助色運用を保つ。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック10（不要なアイコン）",
-      "evidence": "アイコンを使わず、軸・行名・バーで計画を伝えている。",
+      "evidence": "アイコンを使わず、軸・行名・バーで計画を伝えている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "工程ごとの装飾アイコンを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック11（余白を装飾で埋めない）",
-      "evidence": "工程のない期間は白場として残し、背景模様や補助図形で埋めていない。",
+      "evidence": "工程のない期間は白場として残し、背景模様や補助図形で埋めていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "空白期間を意味のない装飾で埋めず、計画の非稼働域として保持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック12（読み順）",
-      "evidence": "上の1Q〜4Qを左から右へ読み、各行を上から下へ追う標準的な計画表の読み順が明確である。",
+      "evidence": "上の1Q〜4Qを左から右へ読み、各行を上から下へ追う標準的な計画表の読み順が明確である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "四半期軸を固定し、バー内ラベルを異なる位置へ散らさない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "最終チェック13（1スライド1メッセージ）",
-      "evidence": "AI整備を基盤から運用まで4段階で進める年間順序と重なりだけを示している。",
+      "evidence": "AI整備を基盤から運用まで4段階で進める年間順序と重なりだけを示している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "成果指標や体制図など別論点を同居させない。"
     },
     {
       "severity": "medium",
       "decision": "suggestion",
       "target": "最終チェック14（人間が編集したように見える）",
-      "evidence": "工程ごとに開始・終了位置を変えた計画表は対象固有だが、1行目と4行目のバー内・開始端・終了端が同じ『1Q』『4Q』で三重に重複し、自動配置の印象が残る。",
+      "evidence": "工程ごとに開始・終了位置を変えた計画表は対象固有だが、1行目と4行目のバー内・開始端・終了端が同じ『1Q』『4Q』で三重に重複し、自動配置の印象が残る。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "改訂時は単一四半期内で完結する行の開始端・終了端ラベルを省き、バー内ラベルだけを残す。"
     },
     {
       "severity": "medium",
       "decision": "suggestion",
       "target": "情報設計の再編集案",
-      "evidence": "主役は4工程の開始・終了・重なりを示す期間バー。支える情報は1Q〜4Qの軸と工程名。後景化は月範囲とバー端の補助ラベル。レイアウトは現行の左工程名＋右四半期軸。読み順は四半期軸→各工程→重なり。削除・統合・短縮候補は単一Q工程の重複した開始／終了ラベル。追加禁止情報は未確認の担当部署、予算、KPI、マイルストーン日、効果数値。",
+      "evidence": "主役は4工程の開始・終了・重なりを示す期間バー。支える情報は1Q〜4Qの軸と工程名。後景化は月範囲とバー端の補助ラベル。レイアウトは現行の左工程名＋右四半期軸。読み順は四半期軸→各工程→重なり。削除・統合・短縮候補は単一Q工程の重複した開始／終了ラベル。追加禁止情報は未確認の担当部署、予算、KPI、マイルストーン日、効果数値。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "期間バーを中心に保ち、重複端ラベルだけを整理して、4工程の重なりを最短で読める表にする。"
     }
   ],
-  "checkedAt": "2026-07-27T08:59:43.865Z",
-  "artifactSha256": "bd295b062920fed96a6ccef4fdfddbdda106c5ccf7df48ed10acd590cd4fab0c"
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "cc5c34a2610507e3336c89ba6222f4752e3753ed760f3d4f35cdca2e9837cba2",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "cc5c34a2610507e3336c89ba6222f4752e3753ed760f3d4f35cdca2e9837cba2",
+    "toArtifactSha256": "cc5c34a2610507e3336c89ba6222f4752e3753ed760f3d4f35cdca2e9837cba2",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "cc5c34a2610507e3336c89ba6222f4752e3753ed760f3d4f35cdca2e9837cba2",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

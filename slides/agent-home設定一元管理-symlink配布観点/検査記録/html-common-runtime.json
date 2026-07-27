@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/agent-home設定一元管理-symlink配布観点/解説スライド.html",
-      "artifactSha256": "a38c869716c890a7332c28e1df3fafa968771b347bbc1c5de4f8a3c6bcc52f3f",
+      "artifactSha256": "476bcd2266ca62cd6e7d9439c54e4178183e319aed3d5434d85eb9e378ef6c4d",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/agent-home設定一元管理-symlink配布観点/evidence/html-runtime/解説スライド-wide-a38c869716c8.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/agent-home設定一元管理-symlink配布観点/evidence/html-runtime/解説スライド-narrow-a38c869716c8.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/agent-home設定一元管理-symlink配布観点/evidence/html-runtime/解説スライド-wide-476bcd2266ca.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/agent-home設定一元管理-symlink配布観点/evidence/html-runtime/解説スライド-narrow-476bcd2266ca.png"
           ]
         }
       ]

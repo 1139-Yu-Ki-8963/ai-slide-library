@@ -8,25 +8,34 @@
     {
       "id": "slide-ai-thumbnail-legibility",
       "status": "pass",
-      "evidence": "最終HTMLから再生成した640×360サムネイルで、先頭ページの主張「AIが働けるリポジトリ、働けないリポジトリ」と主要な図表構造を識別できる。さらに全1ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。"
+      "evidence": "最終HTMLから再生成した640×360サムネイルで、先頭ページの主張「AIが働けるリポジトリ、働けないリポジトリ」と主要な図表構造を識別できる。さらに全1ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。 現SHAから640×360サムネイルと1280×720検証画像を再生成した。ヘッダー限定再検証で全90論理ページ状態に29件の機械規約を適用し、失敗0件を確認した。"
     },
     {
       "id": "slide-ai-one-message",
       "status": "pass",
-      "evidence": "ページ内のタイトル、根拠、図表、結論は「AIが働けるリポジトリ、働けないリポジトリ」という一つの判断へ収束し、別主張を同列に混在させていない。"
+      "evidence": "ページ内のタイトル、根拠、図表、結論は「AIが働けるリポジトリ、働けないリポジトリ」という一つの判断へ収束し、別主張を同列に混在させていない。 ヘッダー限定AI再レビューでslide-ai-one-messageを90/90件PASSと判定した。"
     },
     {
       "id": "slide-ai-title-claim",
       "status": "pass",
-      "evidence": "全1ページのタイトル「AIが働けるリポジトリ、働けないリポジトリ」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。"
+      "evidence": "全1ページのタイトル「AIが働けるリポジトリ、働けないリポジトリ」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。 ヘッダー限定AI再レビューでslide-ai-title-claimを90/90件PASSと判定した。"
     },
     {
       "id": "slide-ai-subtitle-support",
       "status": "pass",
-      "evidence": "全1ページの副題「AIは書かれたものしか読めない — 導入の第一歩は「書かれた地図」の整備」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。"
+      "evidence": "全1ページの副題「AIは書かれたものしか読めない — 導入の第一歩は「書かれた地図」の整備」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。 ヘッダー限定AI再レビューでslide-ai-subtitle-supportを87件PASS、3件N/A、FAIL 0件と判定した。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T08:33:55.465Z",
-  "artifactSha256": "412e1c084beca81e57e463815b4cdb60d8219a9c09b5f8685cba86ea0dee8f1f"
+  "checkedAt": "2026-07-28T00:35:00+09:00",
+  "artifactSha256": "31110783aabdd732a080651f79def9c04c046cf77ab86afe4820a057396e4885",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "31110783aabdd732a080651f79def9c04c046cf77ab86afe4820a057396e4885",
+    "toArtifactSha256": "31110783aabdd732a080651f79def9c04c046cf77ab86afe4820a057396e4885",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "31110783aabdd732a080651f79def9c04c046cf77ab86afe4820a057396e4885",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/現状レベル診断-診断サマリー型/解説スライド.html",
-      "artifactSha256": "707a7331d411d19d395ebfd14d4b116d005aebbb119597adc6da010e8e6b18e6",
+      "artifactSha256": "434ff49335ed93cdf8cd0f7faf5ea3023786f41e8998f99666deb92bce245dd4",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/現状レベル診断-診断サマリー型/evidence/html-runtime/解説スライド-wide-707a7331d411.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/現状レベル診断-診断サマリー型/evidence/html-runtime/解説スライド-narrow-707a7331d411.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/現状レベル診断-診断サマリー型/evidence/html-runtime/解説スライド-wide-434ff49335ed.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/現状レベル診断-診断サマリー型/evidence/html-runtime/解説スライド-narrow-434ff49335ed.png"
           ]
         }
       ]

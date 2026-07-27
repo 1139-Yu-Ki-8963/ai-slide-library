@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/四半期計画-AI整備計画表/解説スライド.html",
-      "artifactSha256": "bd295b062920fed96a6ccef4fdfddbdda106c5ccf7df48ed10acd590cd4fab0c",
+      "artifactSha256": "cc5c34a2610507e3336c89ba6222f4752e3753ed760f3d4f35cdca2e9837cba2",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/四半期計画-AI整備計画表/evidence/html-runtime/解説スライド-wide-bd295b062920.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/四半期計画-AI整備計画表/evidence/html-runtime/解説スライド-narrow-bd295b062920.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/四半期計画-AI整備計画表/evidence/html-runtime/解説スライド-wide-cc5c34a26105.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/四半期計画-AI整備計画表/evidence/html-runtime/解説スライド-narrow-cc5c34a26105.png"
           ]
         }
       ]

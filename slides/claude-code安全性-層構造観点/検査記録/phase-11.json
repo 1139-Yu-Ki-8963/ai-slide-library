@@ -10,108 +10,117 @@
       "severity": "low",
       "decision": "pass",
       "target": "claude-code安全性-層構造観点 / 最終チェック1「3カード構成でない」",
-      "evidence": "PermissionとSandboxの2層を縦に積む構成で、均等3カードではない。",
+      "evidence": "PermissionとSandboxの2層を縦に積む構成で、均等3カードではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現状の2層構造と対象固有の編集を維持し、3カード構成でないの条件を崩す装飾や情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "claude-code安全性-層構造観点 / 最終チェック2「項目ごとの丸アイコンに依存しない」",
-      "evidence": "丸数字は2層の対応付けだけに限定され、全項目へ反復していない。",
+      "evidence": "丸数字は2層の対応付けだけに限定され、全項目へ反復していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現状の2層構造と対象固有の編集を維持し、項目ごとの丸アイコンに依存しないの条件を崩す装飾や情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "claude-code安全性-層構造観点 / 最終チェック3「写真を装飾使用しない」",
-      "evidence": "サムネイル・wide・narrowに写真はない。",
+      "evidence": "サムネイル・wide・narrowに写真はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現状の2層構造と対象固有の編集を維持し、写真を装飾使用しないの条件を崩す装飾や情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "claude-code安全性-層構造観点 / 最終チェック4「多角形装飾を使用しない」",
-      "evidence": "帯・角丸矩形・円のみで、装飾多角形はない。",
+      "evidence": "帯・角丸矩形・円のみで、装飾多角形はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現状の2層構造と対象固有の編集を維持し、多角形装飾を使用しないの条件を崩す装飾や情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "claude-code安全性-層構造観点 / 最終チェック5「濃紺フッターを追加しない」",
-      "evidence": "下端は白地の要約と出典注記で、濃紺フッターはない。",
+      "evidence": "下端は白地の要約と出典注記で、濃紺フッターはない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現状の2層構造と対象固有の編集を維持し、濃紺フッターを追加しないの条件を崩す装飾や情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "claude-code安全性-層構造観点 / 最終チェック6「架空情報を追加しない」",
-      "evidence": "具体例はallow／ask／deny、macOS Seatbelt、Linux bubblewrapに限定され、会社名・ロゴ・効果値はない。",
+      "evidence": "具体例はallow／ask／deny、macOS Seatbelt、Linux bubblewrapに限定され、会社名・ロゴ・効果値はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現状の2層構造と対象固有の編集を維持し、架空情報を追加しないの条件を崩す装飾や情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "claude-code安全性-層構造観点 / 最終チェック7「情報の強弱がある」",
-      "evidence": "タイトル、青のPermission、緑のSandbox、下段要約の順に明確な強弱がある。",
+      "evidence": "タイトル、青のPermission、緑のSandbox、下段要約の順に明確な強弱がある。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現状の2層構造と対象固有の編集を維持し、情報の強弱があるの条件を崩す装飾や情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "claude-code安全性-層構造観点 / 最終チェック8「情報を詰め込みすぎない」",
-      "evidence": "2層それぞれの説明量は収まり、wideで衝突がなく、サムネイルでも層構造を識別できる。",
+      "evidence": "2層それぞれの説明量は収まり、wideで衝突がなく、サムネイルでも層構造を識別できる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現状の2層構造と対象固有の編集を維持し、情報を詰め込みすぎないの条件を崩す装飾や情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "claude-code安全性-層構造観点 / 最終チェック9「青を安易な企業資料色にしない」",
-      "evidence": "青はPermission、緑はSandboxという意味対応があり、青一色に依存しない。",
+      "evidence": "青はPermission、緑はSandboxという意味対応があり、青一色に依存しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現状の2層構造と対象固有の編集を維持し、青を安易な企業資料色にしないの条件を崩す装飾や情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "claude-code安全性-層構造観点 / 最終チェック10「不要なアイコンを使用しない」",
-      "evidence": "アイコンは層番号と鍵／OSラベルに限定され、本文項目を飾るための反復ではない。",
+      "evidence": "アイコンは層番号と鍵／OSラベルに限定され、本文項目を飾るための反復ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現状の2層構造と対象固有の編集を維持し、不要なアイコンを使用しないの条件を崩す装飾や情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "claude-code安全性-層構造観点 / 最終チェック11「余白を装飾で埋めない」",
-      "evidence": "2層間と下段要約に十分な白地があり、装飾で埋めていない。",
+      "evidence": "2層間と下段要約に十分な白地があり、装飾で埋めていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現状の2層構造と対象固有の編集を維持し、余白を装飾で埋めないの条件を崩す装飾や情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "claude-code安全性-層構造観点 / 最終チェック12「読み順が明確」",
-      "evidence": "タイトル→Permission→適用矢印→Sandbox→2点要約の読み順が明確である。",
+      "evidence": "タイトル→Permission→適用矢印→Sandbox→2点要約の読み順が明確である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現状の2層構造と対象固有の編集を維持し、読み順が明確の条件を崩す装飾や情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "claude-code安全性-層構造観点 / 最終チェック13「1スライド1メッセージ」",
-      "evidence": "「安全性はPermissionとSandboxの2層」という1メッセージに集約されている。",
+      "evidence": "「安全性はPermissionとSandboxの2層」という1メッセージに集約されている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現状の2層構造と対象固有の編集を維持し、1スライド1メッセージの条件を崩す装飾や情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "claude-code安全性-層構造観点 / 最終チェック14「人間が編集したように見える」",
-      "evidence": "2層の適用順を情報に合わせて縦構成に編集しており、汎用カード貼付けに見えない。",
+      "evidence": "2層の適用順を情報に合わせて縦構成に編集しており、汎用カード貼付けに見えない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現状の2層構造と対象固有の編集を維持し、人間が編集したように見えるの条件を崩す装飾や情報を追加しない。"
     },
     {
       "severity": "medium",
       "decision": "suggestion",
       "target": "claude-code安全性-層構造観点 / 情報設計の再編集案",
-      "evidence": "主役: 「Claude Codeの安全性はPermissionとSandboxの2層で成立する」。支える情報: allow／ask／denyの制御、Permission通過後にSandboxが適用される順序、OSレベルの書込先・接続先制限。後景化: OS実装名と2026年7月時点注記。レイアウト: 現在の上下2層を維持し、中央の適用矢印を接続点にする。読み順: タイトル→Permission→適用関係→Sandbox→下段要約。削除・統合・短縮候補: 下段要約は本文との重複を避けて各1文に保つ。追加禁止情報: 未確認の安全保証、架空の攻撃防止率、会社ロゴ、写真、追加ツール名。",
+      "evidence": "主役: 「Claude Codeの安全性はPermissionとSandboxの2層で成立する」。支える情報: allow／ask／denyの制御、Permission通過後にSandboxが適用される順序、OSレベルの書込先・接続先制限。後景化: OS実装名と2026年7月時点注記。レイアウト: 現在の上下2層を維持し、中央の適用矢印を接続点にする。読み順: タイトル→Permission→適用関係→Sandbox→下段要約。削除・統合・短縮候補: 下段要約は本文との重複を避けて各1文に保つ。追加禁止情報: 未確認の安全保証、架空の攻撃防止率、会社ロゴ、写真、追加ツール名。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "修正を行う場合は、記載した主役・支える情報・後景化・レイアウト・読み順・削除／統合／短縮候補・追加禁止情報を一体の編集条件として適用し、wide・narrow・サムネイルで再確認する。"
     }
   ],
-  "checkedAt": "2026-07-27T08:57:47.872Z",
-  "artifactSha256": "c08da15d7310710fb2e0216889586fe64a7f70ec627c34ac7d6bd0023a56de49"
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "6a24a2317f17b43fa47d5e3be3a000e0afc0521572d343e40c6b536f582432db",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "6a24a2317f17b43fa47d5e3be3a000e0afc0521572d343e40c6b536f582432db",
+    "toArtifactSha256": "6a24a2317f17b43fa47d5e3be3a000e0afc0521572d343e40c6b536f582432db",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "6a24a2317f17b43fa47d5e3be3a000e0afc0521572d343e40c6b536f582432db",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

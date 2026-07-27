@@ -8,7 +8,7 @@
     {
       "id": "deck-ai-split-plan",
       "status": "pass",
-      "evidence": "最終HTML SHA 53b13ec845e3の全2ページを独立確認した。p1「4スタイルの選択表」、p2「Proactiveの5指示と確認境界」の役割分担で、各ページは1メッセージに収束している。スタイル選択とProactive詳細を2ページへ分離済み。2ページ目のコード例と対比欄は「即時実行するが破壊的変更は確認する」という同一境界を説明する根拠である。保存済み最新runtime画像は現SHAのwide 1/2ページ、narrow 1/2ページを確認し、保存対象外の追加ページは同一SHAをPlaywrightでwide/narrow一時描画して補完確認した。更新後の640×360サムネイルも再確認し、文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。"
+      "evidence": "最終HTML SHA 14b375116057の全2ページを独立確認した。p1「4スタイルの選択表」、p2「Proactiveの5指示と確認境界」の役割分担で、各ページは1メッセージに収束している。スタイル選択とProactive詳細を2ページへ分離済み。2ページ目のコード例と対比欄は「即時実行するが破壊的変更は確認する」という同一境界を説明する根拠である。保存済み最新runtime画像は現SHAのwide 1/2ページ、narrow 1/2ページを確認し、保存対象外の追加ページは同一SHAをPlaywrightでwide/narrow一時描画して補完確認した。更新後の640×360サムネイルも再確認し、文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
     }
   ],
   "findings": [
@@ -16,7 +16,7 @@
       "severity": "low",
       "decision": "pass",
       "target": "slides/output-style-応答態度切替/解説スライド.html の全2ページ、現SHAのwide/narrow実描画、更新後サムネイル",
-      "evidence": "p1「4スタイルの選択表」、p2「Proactiveの5指示と確認境界」として読める。スタイル選択とProactive詳細を2ページへ分離済み。2ページ目のコード例と対比欄は「即時実行するが破壊的変更は確認する」という同一境界を説明する根拠である。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。",
+      "evidence": "p1「4スタイルの選択表」、p2「Proactiveの5指示と確認境界」として読める。スタイル選択とProactive詳細を2ページへ分離済み。2ページ目のコード例と対比欄は「即時実行するが破壊的変更は確認する」という同一境界を説明する根拠である。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "impact": "これ以上分割すると、すでに分離済みの各ページ内で主張と根拠が離れ、前後ページを往復しないと判断できなくなる。",
       "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
       "preservedInformation": [
@@ -25,9 +25,18 @@
         "削除・共有システム変更の確認境界"
       ],
       "splitPlan": "分割なし。スタイル選択とProactive詳細を2ページへ分離済み。2ページ目のコード例と対比欄は「即時実行するが破壊的変更は確認する」という同一境界を説明する根拠である。",
-      "verification": "HTML SHA-256が53b13ec845e3defbb09bb07b38f2e8edd44d257d4deac04620c17f6a6e765d8fであること、保存済み最新runtime画像は現SHAのwide 1/2ページ、narrow 1/2ページを確認し、保存対象外の追加ページは同一SHAをPlaywrightでwide/narrow一時描画して補完確認した。更新後サムネイルが640×360であること、全2ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
+      "verification": "HTML SHA-256が14b375116057c8ca5af520a784115c7f7c05dfcb3c845b867654490bbedce70cであること、保存済み最新runtime画像は現SHAのwide 1/2ページ、narrow 1/2ページを確認し、保存対象外の追加ページは同一SHAをPlaywrightでwide/narrow一時描画して補完確認した。更新後サムネイルが640×360であること、全2ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
     }
   ],
-  "checkedAt": "2026-07-27T08:28:25.508Z",
-  "artifactSha256": "53b13ec845e3defbb09bb07b38f2e8edd44d257d4deac04620c17f6a6e765d8f"
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "46f0ac8c5e1e9646ee81dae87ab78b1c70e7205b84abfae93a4ce6d6edc9a3d3",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "46f0ac8c5e1e9646ee81dae87ab78b1c70e7205b84abfae93a4ce6d6edc9a3d3",
+    "toArtifactSha256": "46f0ac8c5e1e9646ee81dae87ab78b1c70e7205b84abfae93a4ce6d6edc9a3d3",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "46f0ac8c5e1e9646ee81dae87ab78b1c70e7205b84abfae93a4ce6d6edc9a3d3",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

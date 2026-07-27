@@ -8,7 +8,7 @@
     {
       "id": "deck-ai-split-plan",
       "status": "pass",
-      "evidence": "最終HTML SHA cacf5b6e931bの全4ページを独立確認した。p1「設定資産の全体像」、p2「AGENTS.md階層」、p3「skillsとagents」、p4「config.toml実行境界」の役割分担で、各ページは1メッセージに収束している。全体像と資産別の詳細を4ページへ分離し、各ページの役割・配置・読込条件が重複しない。保存済み最新runtime画像はwide 4/4ページ、narrow 4/4ページを現SHAで確認した。文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。"
+      "evidence": "最終HTML SHA 1bee52ee51b6の全4ページを独立確認した。p1「設定資産の全体像」、p2「AGENTS.md階層」、p3「skillsとagents」、p4「config.toml実行境界」の役割分担で、各ページは1メッセージに収束している。全体像と資産別の詳細を4ページへ分離し、各ページの役割・配置・読込条件が重複しない。保存済み最新runtime画像はwide 4/4ページ、narrow 4/4ページを現SHAで確認した。文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
     }
   ],
   "findings": [
@@ -16,7 +16,7 @@
       "severity": "low",
       "decision": "pass",
       "target": "slides/codex-テンプレート構成/解説スライド.html の全4ページ、現SHAのwide/narrow実描画、更新後サムネイル",
-      "evidence": "p1「設定資産の全体像」、p2「AGENTS.md階層」、p3「skillsとagents」、p4「config.toml実行境界」として読める。全体像と資産別の詳細を4ページへ分離し、各ページの役割・配置・読込条件が重複しない。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。",
+      "evidence": "p1「設定資産の全体像」、p2「AGENTS.md階層」、p3「skillsとagents」、p4「config.toml実行境界」として読める。全体像と資産別の詳細を4ページへ分離し、各ページの役割・配置・読込条件が重複しない。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "impact": "これ以上分割すると、すでに分離済みの各ページ内で主張と根拠が離れ、前後ページを往復しないと判断できなくなる。",
       "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
       "preservedInformation": [
@@ -26,9 +26,18 @@
         "config.tomlのagents・sandbox・approval・MCP"
       ],
       "splitPlan": "分割なし。全体像と資産別の詳細を4ページへ分離し、各ページの役割・配置・読込条件が重複しない。",
-      "verification": "HTML SHA-256がcacf5b6e931b33b5bb4170b40287ad14fe42a5ceb697afd18a1a3d062a0b13b9であること、保存済み最新runtime画像はwide 4/4ページ、narrow 4/4ページを現SHAで確認し、全4ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
+      "verification": "HTML SHA-256が1bee52ee51b65f06c1d65b4defa99c52b61381631705c91e5b24173b8fd0c480であること、保存済み最新runtime画像はwide 4/4ページ、narrow 4/4ページを現SHAで確認し、全4ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
     }
   ],
-  "checkedAt": "2026-07-27T10:55:49Z",
-  "artifactSha256": "cacf5b6e931b33b5bb4170b40287ad14fe42a5ceb697afd18a1a3d062a0b13b9"
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "0aca9f92bb232ec3bad93e793fe22cd67867f683882f37d50d2354a9c92e47c2",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "0aca9f92bb232ec3bad93e793fe22cd67867f683882f37d50d2354a9c92e47c2",
+    "toArtifactSha256": "0aca9f92bb232ec3bad93e793fe22cd67867f683882f37d50d2354a9c92e47c2",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "0aca9f92bb232ec3bad93e793fe22cd67867f683882f37d50d2354a9c92e47c2",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/claude-code安全性-層構造観点/解説スライド.html",
-      "artifactSha256": "c08da15d7310710fb2e0216889586fe64a7f70ec627c34ac7d6bd0023a56de49",
+      "artifactSha256": "6a24a2317f17b43fa47d5e3be3a000e0afc0521572d343e40c6b536f582432db",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/claude-code安全性-層構造観点/evidence/html-runtime/解説スライド-wide-c08da15d7310.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/claude-code安全性-層構造観点/evidence/html-runtime/解説スライド-narrow-c08da15d7310.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/claude-code安全性-層構造観点/evidence/html-runtime/解説スライド-wide-6a24a2317f17.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/claude-code安全性-層構造観点/evidence/html-runtime/解説スライド-narrow-6a24a2317f17.png"
           ]
         }
       ]

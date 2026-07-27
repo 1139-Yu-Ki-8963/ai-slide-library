@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動整備-コンテキスト文書対応表/解説スライド.html",
-      "artifactSha256": "fbcee29e894af24d60235e5fa11756ac07eec88299f6f165041ddd9578c195ff",
+      "artifactSha256": "60c72eb757b1383cb31670b9289dd0af2b00c5332676344f5da1e6148b77f7d3",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動整備-コンテキスト文書対応表/evidence/html-runtime/解説スライド-wide-fbcee29e894a.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動整備-コンテキスト文書対応表/evidence/html-runtime/解説スライド-narrow-fbcee29e894a.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動整備-コンテキスト文書対応表/evidence/html-runtime/解説スライド-wide-60c72eb757b1.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動整備-コンテキスト文書対応表/evidence/html-runtime/解説スライド-narrow-60c72eb757b1.png"
           ]
         }
       ]

@@ -4,7 +4,58 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>導入段階別の達成指標表を確認する</title>
+<style>
+  .slide-header { margin-bottom: 23px; }
+  .kicker { margin-bottom: 7px; }
+  .table-lead {
+    display: grid;
+    grid-template-columns: 175px 1fr;
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 13px;
+    font-family: system-ui, sans-serif;
+  }
+  .table-lead strong { color: var(--accent); font-size: 13px; letter-spacing: .08em; }
+  .table-lead p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+  .trend { width: 100%; border-collapse: collapse; table-layout: fixed; font-family: system-ui, sans-serif; font-size: 15px; }
+  .trend col:first-child { width: 24%; }
+  .trend col:not(:first-child) { width: 19%; }
+  .trend th {
+    padding: 10px 14px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-align: right;
+  }
+  .trend th:first-child { text-align: left; }
+  .trend td { padding: 17px 14px; border-bottom: 1px solid var(--faint); text-align: right; font-variant-numeric: tabular-nums; }
+  .trend tbody th { padding: 17px 14px; border-bottom: 1px solid var(--faint); text-align: left; font-size: 14px; }
+  .trend .reading-row { background: color-mix(in srgb, var(--accent) 7%, white); }
+  .trend .reading-row th { position: relative; padding-left: 25px; font-weight: 700; }
+  .trend .reading-row th::before { content: ""; position: absolute; left: 9px; top: 18px; width: 3px; height: 17px; background: var(--accent); }
+  .read-tag { margin-left: 9px; color: var(--accent); font-size: 10px; font-weight: 700; white-space: nowrap; }
+  .reading-guide {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 46px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--ink);
+    font-family: system-ui, sans-serif;
+  }
+  .reading-guide h2 { margin: 0 0 8px; color: var(--accent); font-size: 13px; letter-spacing: .08em; }
+  .reading-guide p { margin: 0; color: var(--ink); font-size: 14px; line-height: 1.65; }
+  .summary-lines { display: grid; gap: 8px; }
+  .summary-lines p { color: var(--muted); font-size: 12px; }
+  .summary-lines strong { color: var(--ink); font-variant-numeric: tabular-nums; }
+  .example-note { margin-top: 15px; color: var(--muted); font: 10px/1.5 system-ui, sans-serif; }
+  .slide-meta { border-top: 1px solid var(--faint); }
+</style>
 <style data-shared-slide-shell>
+/* GENERATED FROM: slide-design-system / shared-slide-shell.css */
 /*
  * Shared slide shell
  * 正本: generating-explanation-html-slides/references/shared-slide-shell.css
@@ -62,81 +113,185 @@ body {
   transform-origin: center center;
 }
 
-header,
-.slide-header {
-  position: static;
+.slide[data-page]:not(.is-active) {
+  display: none;
+}
+
+.slide[data-page].is-active {
+  display: flex;
+}
+
+:is(#slide-header-contract, header, .slide-header) {
+  position: relative;
   inset: auto;
   width: auto;
-  height: auto;
-  display: flex;
+  height: 99px;
+  min-height: 99px;
+  flex: 0 0 99px;
+  display: block;
   flex-direction: column;
   align-items: stretch;
+  justify-content: flex-start;
   gap: 0;
+  margin: 0;
+  padding: 0;
   padding-bottom: 17px;
+  overflow: visible;
+  color: #202426;
+  background: transparent;
+  box-shadow: none;
+  opacity: 1;
+  transform: none;
+  border: 0;
   border-bottom: 1px solid var(--ink);
 }
 
-.header-split {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  gap: 55px;
+:is(#slide-header-contract, header, .slide-header) .header-split {
+  display: contents;
 }
 
-.kicker {
-  color: var(--accent);
+:is(#slide-header-contract, header, .slide-header) > :is(div, section):has(.slide-title) {
+  display: contents;
+}
+
+:is(#slide-header-contract, header, .slide-header) :is(.kicker, .slide-eyebrow, .eyebrow, .section-no) {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: auto;
+  display: block;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #a15d32;
+  background: transparent;
   font-family: system-ui, sans-serif;
   font-size: 11px;
   font-weight: 700;
+  font-style: normal;
+  line-height: 1.2;
   letter-spacing: .16em;
+  text-align: right;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+  opacity: 1;
+  box-shadow: none;
+  transform: none;
 }
 
-.title,
-.slide-title,
-.slide-header .slide-title,
-.slide-header h1,
-header h1 {
+:is(#slide-header-contract, header, .slide-header) :is(.title, .slide-title, h1) {
+  position: absolute;
+  top: 16px;
+  right: 0;
+  left: 0;
   display: block;
+  width: auto;
+  height: auto;
   max-width: none;
   margin: 0;
+  padding: 0;
+  border: 0;
+  color: #202426;
+  background: transparent;
+  font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
   font-size: 33px;
   font-weight: 600;
+  font-style: normal;
   line-height: 1.15;
   letter-spacing: .01em;
+  text-align: left;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+  overflow: visible;
+  opacity: 1;
+  box-shadow: none;
+  transform: none;
+}
+
+:is(#slide-header-contract, header, .slide-header) .single-line-title {
   white-space: nowrap;
   overflow: visible;
 }
 
-.single-line-title {
-  white-space: nowrap;
-  overflow: visible;
+:is(#slide-header-contract, header, .slide-header) .title-num {
+  display: inline;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  opacity: inherit;
+  transform: none;
 }
 
-.title-num {
-  display: inline-block;
-  font-family: "Noto Serif CJK JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
-  line-height: 1;
-  transform: translateY(-1px);
+:is(#slide-header-contract, header, .slide-header) :is(.slide-title, h1) * {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-decoration: inherit;
+  text-transform: inherit;
+  opacity: inherit;
 }
 
-.lede,
-.slide-subtitle,
-header .slide-subtitle,
-.slide-header .slide-subtitle,
-:is(header, .slide-header) > p,
-:is(header, .slide-header) p:first-of-type {
-  align-self: end;
+:is(#slide-header-contract, header, .slide-header) :is(.lede, .slide-subtitle, p:first-of-type) {
+  position: absolute;
+  top: 56px;
+  right: 0;
+  left: 0;
+  display: block;
+  width: auto;
+  height: auto;
+  align-self: stretch;
   margin: 0;
-  color: var(--muted);
+  padding: 0;
+  border: 0;
+  color: #626967;
+  background: transparent;
+  font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
   font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
   line-height: 1.65;
+  letter-spacing: normal;
+  text-align: left;
+  text-decoration: none;
+  text-transform: none;
   white-space: nowrap;
   overflow: visible;
+  opacity: 1;
+  box-shadow: none;
+  transform: none;
 }
 
-.lede em {
-  color: var(--ink);
-  font-style: normal;
-  font-weight: 700;
+:is(#slide-header-contract, header, .slide-header) .lede em {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  opacity: inherit;
+}
+
+:is(#slide-header-contract, header, .slide-header) :is(.slide-subtitle, .lede) * {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-decoration: inherit;
+  text-transform: inherit;
+  opacity: inherit;
+}
+
+:is(#slide-header-contract, header, .slide-header)::before,
+:is(#slide-header-contract, header, .slide-header)::after,
+:is(#slide-header-contract, header, .slide-header) .slide-title::before,
+:is(#slide-header-contract, header, .slide-header) .slide-title::after,
+:is(#slide-header-contract, header, .slide-header) .slide-subtitle::before,
+:is(#slide-header-contract, header, .slide-header) .slide-subtitle::after,
+:is(#slide-header-contract, header, .slide-header) h1::before,
+:is(#slide-header-contract, header, .slide-header) h1::after,
+:is(#slide-header-contract, header, .slide-header) p::before,
+:is(#slide-header-contract, header, .slide-header) p::after {
+  content: none;
 }
 
 .bottom,
@@ -174,56 +329,6 @@ footer.slide-meta strong { color: var(--ink); }
 @media (max-width: 700px) {
   .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
 }
-</style>
-<style>
-  .slide-header { margin-bottom: 23px; }
-  .kicker { margin-bottom: 7px; }
-  .table-lead {
-    display: grid;
-    grid-template-columns: 175px 1fr;
-    gap: 24px;
-    align-items: center;
-    margin-bottom: 13px;
-    font-family: system-ui, sans-serif;
-  }
-  .table-lead strong { color: var(--accent); font-size: 13px; letter-spacing: .08em; }
-  .table-lead p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
-  .trend { width: 100%; border-collapse: collapse; table-layout: fixed; font-family: system-ui, sans-serif; font-size: 15px; }
-  .trend col:first-child { width: 24%; }
-  .trend col:not(:first-child) { width: 19%; }
-  .trend th {
-    padding: 10px 14px;
-    border-top: 1px solid var(--ink);
-    border-bottom: 1px solid var(--ink);
-    color: var(--muted);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .04em;
-    text-align: right;
-  }
-  .trend th:first-child { text-align: left; }
-  .trend td { padding: 17px 14px; border-bottom: 1px solid var(--faint); text-align: right; font-variant-numeric: tabular-nums; }
-  .trend tbody th { padding: 17px 14px; border-bottom: 1px solid var(--faint); text-align: left; font-size: 14px; }
-  .trend .reading-row { background: color-mix(in srgb, var(--accent) 7%, white); }
-  .trend .reading-row th { position: relative; padding-left: 25px; font-weight: 700; }
-  .trend .reading-row th::before { content: ""; position: absolute; left: 9px; top: 18px; width: 3px; height: 17px; background: var(--accent); }
-  .read-tag { margin-left: 9px; color: var(--accent); font-size: 10px; font-weight: 700; white-space: nowrap; }
-  .reading-guide {
-    display: grid;
-    grid-template-columns: 1.1fr .9fr;
-    gap: 46px;
-    margin-top: 24px;
-    padding-top: 16px;
-    border-top: 1px solid var(--ink);
-    font-family: system-ui, sans-serif;
-  }
-  .reading-guide h2 { margin: 0 0 8px; color: var(--accent); font-size: 13px; letter-spacing: .08em; }
-  .reading-guide p { margin: 0; color: var(--ink); font-size: 14px; line-height: 1.65; }
-  .summary-lines { display: grid; gap: 8px; }
-  .summary-lines p { color: var(--muted); font-size: 12px; }
-  .summary-lines strong { color: var(--ink); font-variant-numeric: tabular-nums; }
-  .example-note { margin-top: 15px; color: var(--muted); font: 10px/1.5 system-ui, sans-serif; }
-  .slide-meta { border-top: 1px solid var(--faint); }
 </style>
 </head>
 <body>

@@ -8,25 +8,34 @@
     {
       "id": "slide-ai-thumbnail-legibility",
       "status": "pass",
-      "evidence": "現行640×360サムネイルで、先頭ページの主張「Cursor導入前の欠落と実害を診断する」と主要な図表構造を識別できる。さらに現行HTML SHAの全2ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。"
+      "evidence": "現行640×360サムネイルで、先頭ページの主張「Cursor導入前の欠落と実害を診断する」と主要な図表構造を識別できる。さらに現行HTML SHAの全2ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。 現SHAから640×360サムネイルと1280×720検証画像を再生成した。ヘッダー限定再検証で全90論理ページ状態に29件の機械規約を適用し、失敗0件を確認した。"
     },
     {
       "id": "slide-ai-one-message",
       "status": "pass",
-      "evidence": "全2ページをページ単位で確認した。各ページは「Cursor導入前の欠落と実害を診断する」、「Cursorが参照する配置へ順に整備する」という個別の主張へ収束し、1ページ内で複数の無関係な主張を競合させていない。"
+      "evidence": "全2ページをページ単位で確認した。各ページは「Cursor導入前の欠落と実害を診断する」、「Cursorが参照する配置へ順に整備する」という個別の主張へ収束し、1ページ内で複数の無関係な主張を競合させていない。 ヘッダー限定AI再レビューでslide-ai-one-messageを90/90件PASSと判定した。"
     },
     {
       "id": "slide-ai-title-claim",
       "status": "pass",
-      "evidence": "全2ページのタイトル「Cursor導入前の欠落と実害を診断する」、「Cursorが参照する配置へ順に整備する」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。"
+      "evidence": "全2ページのタイトル「Cursor導入前の欠落と実害を診断する」、「Cursorが参照する配置へ順に整備する」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。 ヘッダー限定AI再レビューでslide-ai-title-claimを90/90件PASSと判定した。"
     },
     {
       "id": "slide-ai-subtitle-support",
       "status": "pass",
-      "evidence": "全2ページの副題「説明書から可視化まで、AIエディタが推測を強いられる原因を依存順に確認する」、「AGENTS.mdを入口に、設計書・MDC規約・Skill・可視化を同じ依存順で接続する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。"
+      "evidence": "全2ページの副題「説明書から可視化まで、AIエディタが推測を強いられる原因を依存順に確認する」、「AGENTS.mdを入口に、設計書・MDC規約・Skill・可視化を同じ依存順で接続する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。 ヘッダー限定AI再レビューでslide-ai-subtitle-supportを87件PASS、3件N/A、FAIL 0件と判定した。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T10:40:54.000Z",
-  "artifactSha256": "9ff29c7f2a254fa1e5485dfe06f81f4593bfda84c30590959d41aeffe6b92566"
+  "checkedAt": "2026-07-28T00:35:00+09:00",
+  "artifactSha256": "18cd877aaddf8aea47506cf53d2085884004aaceecd81f028f21bee6bb7ab3d4",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "18cd877aaddf8aea47506cf53d2085884004aaceecd81f028f21bee6bb7ab3d4",
+    "toArtifactSha256": "18cd877aaddf8aea47506cf53d2085884004aaceecd81f028f21bee6bb7ab3d4",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "18cd877aaddf8aea47506cf53d2085884004aaceecd81f028f21bee6bb7ab3d4",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

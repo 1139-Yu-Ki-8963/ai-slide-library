@@ -10,143 +10,152 @@
       "severity": "low",
       "decision": "pass",
       "target": "1. 対象",
-      "evidence": "codex-テンプレート構成の全4ページ。現行HTML SHA-256 cacf5b6e931b33b5bb4170b40287ad14fe42a5ceb697afd18a1a3d062a0b13b9から1280×720と390×844でPlaywright再描画し、全ページ、最新runtime、タイトル・副題、余白、共有シェル、footerを確認した。",
+      "evidence": "codex-テンプレート構成の全4ページ。現行HTML SHA-256 1bee52ee51b65f06c1d65b4defa99c52b61381631705c91e5b24173b8fd0c480から1280×720と390×844でPlaywright再描画し、全ページ、最新runtime、タイトル・副題、余白、共有シェル、footerを確認した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現行SHAと全ページの表示対応を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "2. 要約",
-      "evidence": "Codexの設定資産を、階層指示、中央設定、skills、agents、実行境界の関係として4ページで整理している。",
+      "evidence": "Codexの設定資産を、階層指示、中央設定、skills、agents、実行境界の関係として4ページで整理している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現行の実務判断とページ役割を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "3. 良い点",
-      "evidence": "AGENTS.mdの階層優先、config.tomlの[agents]、sandbox・approval・MCP・inline hooksをCodex固有の参照契約として説明する。 共有CSS修正後も全ページの外枠、ヘッダー、本文、ページ送り、footerが同じ基準線で揃い、wideのfooter computed heightは10pxである。",
+      "evidence": "AGENTS.mdの階層優先、config.tomlの[agents]、sandbox・approval・MCP・inline hooksをCodex固有の参照契約として説明する。 共有CSS修正後も全ページの外枠、ヘッダー、本文、ページ送り、footerが同じ基準線で揃い、wideのfooter computed heightは10pxである。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "共有シェルを独自上書きせず、現行の主従と整列を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "4. 指摘事項",
-      "evidence": "公開を妨げる実務性・非テンプレ感の問題はない。wide／narrowともoverflow・枠外表示・ブラウザエラーは0件で、footer／共有CSS修正後の不整合も認められない。",
+      "evidence": "公開を妨げる実務性・非テンプレ感の問題はない。wide／narrowともoverflow・枠外表示・ブラウザエラーは0件で、footer／共有CSS修正後の不整合も認められない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "必須修正なし。内容または共有CSSを変更した場合だけ全ページを再レビューする。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "5. 情報設計の再編集案",
-      "evidence": "主役はAGENTS.mdとconfig.tomlの責務分離、およびCodex固有の正規配置。 支える情報は階層探索、override、repository skill、agent宣言、実行制御キー。 後景化する情報は英字kicker、コード例、ページナビゲーション。 レイアウトは全体表、階層図、skill／agent対比、設定一覧へ情報形式を切り替える4ページ構成。 読み順は全体像→階層指示→skills／agents→config.tomlの実行境界。 削除・統合・短縮候補は現時点で削除・統合・短縮は不要。設定キー追加時は役割別に別ページを検討する。 追加禁止情報は未確認のCodex設定キー、固定並列数、権限効果、費用、期間を追加しない。",
+      "evidence": "主役はAGENTS.mdとconfig.tomlの責務分離、およびCodex固有の正規配置。 支える情報は階層探索、override、repository skill、agent宣言、実行制御キー。 後景化する情報は英字kicker、コード例、ページナビゲーション。 レイアウトは全体表、階層図、skill／agent対比、設定一覧へ情報形式を切り替える4ページ構成。 読み順は全体像→階層指示→skills／agents→config.tomlの実行境界。 削除・統合・短縮候補は現時点で削除・統合・短縮は不要。設定キー追加時は役割別に別ページを検討する。 追加禁止情報は未確認のCodex設定キー、固定並列数、権限効果、費用、期間を追加しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "将来修正時も主役・支える情報・後景の順を崩さず、追加禁止情報を持ち込まない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック1: 3カード構成でない",
-      "evidence": "3カード構成ではなく、階層図・対比・表を意味関係に応じて選んでいる。",
+      "evidence": "3カード構成ではなく、階層図・対比・表を意味関係に応じて選んでいる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "意味関係のない均等3カードへ置き換えない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック2: 項目ごとの丸アイコンに依存しない",
-      "evidence": "項目ごとの丸アイコンはなく、文字、表、罫線、位置関係で意味を示している。",
+      "evidence": "項目ごとの丸アイコンはなく、文字、表、罫線、位置関係で意味を示している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "単語置換型の丸アイコンを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック3: 写真を装飾使用しない",
-      "evidence": "全ページのwide／narrow実描画に写真、人物、会議室、端末の装飾素材はない。",
+      "evidence": "全ページのwide／narrow実描画に写真、人物、会議室、端末の装飾素材はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "説明に不要なストックフォトを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック4: 多角形装飾を使用しない",
-      "evidence": "多角形、立体、グラデーションの装飾はなく、線と矢印は具体的な比較・遷移・依存に限定される。",
+      "evidence": "多角形、立体、グラデーションの装飾はなく、線と矢印は具体的な比較・遷移・依存に限定される。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "余白を埋める図形や大きな装飾矢印を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック5: 濃紺フッターを追加しない",
-      "evidence": "濃紺の帯フッターはなく、共有CSS修正後のfooterはwide全ページでborder 0、padding-top 10px、font-size 10px、height 10pxとして本文内に収まる。",
+      "evidence": "濃紺の帯フッターはなく、共有CSS修正後のfooterはwide全ページでborder 0、padding-top 10px、font-size 10px、height 10pxとして本文内に収まる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "footerの共通契約を独自CSSで上書きしない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック6: 架空情報を追加しない",
-      "evidence": "会社名、ロゴ、費用、根拠のない効果値を追加していない。未確認のCodex設定キー、固定並列数、権限効果、費用、期間を追加しない。",
+      "evidence": "会社名、ロゴ、費用、根拠のない効果値を追加していない。未確認のCodex設定キー、固定並列数、権限効果、費用、期間を追加しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "一次情報または元資料で確認できない情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック7: 情報の強弱がある",
-      "evidence": "緑の小面積アクセント、番号、黒い見出しで階層指示と実行境界の主従を明示する。",
+      "evidence": "緑の小面積アクセント、番号、黒い見出しで階層指示と実行境界の主従を明示する。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "タイトル、主役、根拠、補足の強度順を維持する。"
     },
     {
       "severity": "medium",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック8: 情報を詰め込みすぎない",
-      "evidence": "全体像と3種類の詳細を4ページへ分離し、設定値を小さな文字へ押し込まない。",
+      "evidence": "全体像と3種類の詳細を4ページへ分離し、設定値を小さな文字へ押し込まない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "情報追加時は文字縮小より先に統合・短縮・分割を検討する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック9: 青を安易な企業資料色にしない",
-      "evidence": "緑はCodex識別と重要箇所に限定し、青一色の企業資料表現へ依存しない。",
+      "evidence": "緑はCodex識別と重要箇所に限定し、青一色の企業資料表現へ依存しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "色を意味と強調に限定し、既定の青で全面を均質化しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック10: 不要なアイコンを使用しない",
-      "evidence": "装飾アイコンを使わず、階層線、番号、コード表記で意味を示す。",
+      "evidence": "装飾アイコンを使わず、階層線、番号、コード表記で意味を示す。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "情報関係を説明しないアイコンを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック11: 余白を装飾で埋めない",
-      "evidence": "階層図と設定一覧の周囲に判断用の余白を残し、装飾で埋めていない。",
+      "evidence": "階層図と設定一覧の周囲に判断用の余白を残し、装飾で埋めていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "余白を区切りと強弱に使い、写真・図形・模様で埋めない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック12: 読み順が明確",
-      "evidence": "全体像→階層指示→skills／agents→config.tomlの実行境界。",
+      "evidence": "全体像→階層指示→skills／agents→config.tomlの実行境界。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現行の基準線と視線順を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック13: 1スライド1メッセージ",
-      "evidence": "各ページが資産配置、階層優先、委任、実行境界の1メッセージに分かれる。",
+      "evidence": "各ページが資産配置、階層優先、委任、実行境界の1メッセージに分かれる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "別の判断軸を追加する場合は同一ページへ押し込まない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "6. 観点別チェック / 最終チェック14: 人間が編集したように見える",
-      "evidence": "Codex固有のAGENTS.md／config.toml契約へ編集され、他製品版の単純な差し替えではない。",
+      "evidence": "Codex固有のAGENTS.md／config.toml契約へ編集され、他製品版の単純な差し替えではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "具体的な判断条件と情報関係を維持し、均等テンプレートへ戻さない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "7. 実装者がそのまま作業できる優先順位付き修正方針",
-      "evidence": "優先度1: 現状維持。必須修正なし。優先度2: 内容・共有CSS・footer変更時は現行HTML SHAから全ページをwide／narrowで再描画し、14項目を再判定する。優先度3: 元にない会社名、日付、ロゴ、数値、効果、費用、期間、写真、根拠のない図解を追加しない。",
+      "evidence": "優先度1: 現状維持。必須修正なし。優先度2: 内容・共有CSS・footer変更時は現行HTML SHAから全ページをwide／narrowで再描画し、14項目を再判定する。優先度3: 元にない会社名、日付、ロゴ、数値、効果、費用、期間、写真、根拠のない図解を追加しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "更新時は優先度順に適用し、Phase 11記録を新SHAへ更新する。"
     }
   ],
-  "checkedAt": "2026-07-27T10:46:58.729Z",
-  "artifactSha256": "cacf5b6e931b33b5bb4170b40287ad14fe42a5ceb697afd18a1a3d062a0b13b9"
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "0aca9f92bb232ec3bad93e793fe22cd67867f683882f37d50d2354a9c92e47c2",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "0aca9f92bb232ec3bad93e793fe22cd67867f683882f37d50d2354a9c92e47c2",
+    "toArtifactSha256": "0aca9f92bb232ec3bad93e793fe22cd67867f683882f37d50d2354a9c92e47c2",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "0aca9f92bb232ec3bad93e793fe22cd67867f683882f37d50d2354a9c92e47c2",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

@@ -10,45 +10,54 @@
       "severity": "low",
       "decision": "pass",
       "target": "対象・要約",
-      "evidence": "4スタイルの選択表とProactiveの確認境界を2ページに分け、場面選択と実行前確認を実務で使える形にした。",
+      "evidence": "4スタイルの選択表とProactiveの確認境界を2ページに分け、場面選択と実行前確認を実務で使える形にした。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "変更不要。現行のページ役割と主張を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "良い点",
-      "evidence": "一覧表とコード＋比較パネルでページの役割を変え、色・カード・アイコンを機械的に反復せず、利用判断を主役にしている。",
+      "evidence": "一覧表とコード＋比較パネルでページの役割を変え、色・カード・アイコンを機械的に反復せず、利用判断を主役にしている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "情報上の理由がない装飾や均等化を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "指摘事項",
-      "evidence": "wide／narrowの全ページと640×360サムネイルを確認し、会議利用を妨げる重大な問題、表示欠陥、テンプレート依存は認められない。",
+      "evidence": "wide／narrowの全ページと640×360サムネイルを確認し、会議利用を妨げる重大な問題、表示欠陥、テンプレート依存は認められない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現時点で必須修正なし。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "観点別チェック（14項目）",
-      "evidence": "1=PASS（3カードでない）、2=PASS（丸アイコン非依存）、3=PASS（写真なし）、4=PASS（多角形なし）、5=PASS（濃紺フッターなし）、6=PASS（設定名と確認境界に限定）、7=PASS（表とProactiveの強弱あり）、8=PASS（2ページへ適切に分割）、9=PASS（色はスタイル識別に限定）、10=PASS（不要アイコンなし）、11=PASS（余白を比較境界に使用）、12=PASS（選択表→Proactive詳細）、13=PASS（各ページ1メッセージ）、14=PASS（選択条件の編集判断が見える）。",
+      "evidence": "1=PASS（3カードでない）、2=PASS（丸アイコン非依存）、3=PASS（写真なし）、4=PASS（多角形なし）、5=PASS（濃紺フッターなし）、6=PASS（設定名と確認境界に限定）、7=PASS（表とProactiveの強弱あり）、8=PASS（2ページへ適切に分割）、9=PASS（色はスタイル識別に限定）、10=PASS（不要アイコンなし）、11=PASS（余白を比較境界に使用）、12=PASS（選択表→Proactive詳細）、13=PASS（各ページ1メッセージ）、14=PASS（選択条件の編集判断が見える）。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "14項目のPASS状態を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "情報設計の再編集案",
-      "evidence": "主役はスタイル選択条件とProactiveの5指示、支える情報は他3スタイルとの境界、後景化は設定注記。実際の設定名を保持し、架空の動作保証や効果を加えない。",
+      "evidence": "主役はスタイル選択条件とProactiveの5指示、支える情報は他3スタイルとの境界、後景化は設定注記。実際の設定名を保持し、架空の動作保証や効果を加えない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "将来修正時は主役・支え・後景の順に調整し、保持情報を削らない。"
     },
     {
       "severity": "low",
       "decision": "pass",
       "target": "優先順位付き修正方針",
-      "evidence": "P0/P1の修正なし。将来変更時のP2は、現行の読み順・数値・条件・出典・ページ役割を保持したまま文言を短縮すること。",
+      "evidence": "P0/P1の修正なし。将来変更時のP2は、現行の読み順・数値・条件・出典・ページ役割を保持したまま文言を短縮すること。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
       "fix": "現行を公開候補として維持する。"
     }
   ],
-  "checkedAt": "2026-07-27T08:57:47.872Z",
-  "artifactSha256": "53b13ec845e3defbb09bb07b38f2e8edd44d257d4deac04620c17f6a6e765d8f"
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "46f0ac8c5e1e9646ee81dae87ab78b1c70e7205b84abfae93a4ce6d6edc9a3d3",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "46f0ac8c5e1e9646ee81dae87ab78b1c70e7205b84abfae93a4ce6d6edc9a3d3",
+    "toArtifactSha256": "46f0ac8c5e1e9646ee81dae87ab78b1c70e7205b84abfae93a4ce6d6edc9a3d3",
+    "validatedAt": "2026-07-28T00:35:00+09:00",
+    "unchangedScope": "entire HTML artifact",
+    "nonHeaderFingerprintSha256": "46f0ac8c5e1e9646ee81dae87ab78b1c70e7205b84abfae93a4ce6d6edc9a3d3",
+    "headerReportSha256": "645f9e3022d7c9b0b730cab2811c200a34ea228f544ee1cc67d76d83ea29a134",
+    "impactScreenshotSha256": "c710bc4d9b2701cc138a6799d8cc83dcc077043d6a9d36fe35a68d263ebf1f1d"
+  }
 }

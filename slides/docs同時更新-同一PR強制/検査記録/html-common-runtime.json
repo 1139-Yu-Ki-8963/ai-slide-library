@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/docs同時更新-同一PR強制/解説スライド.html",
-      "artifactSha256": "d4cdfb3b0aba18cd23bd513b59ad18a4ad39772b52e0271dcbcec57583288d49",
+      "artifactSha256": "62cffd32640be9731f2894efb6d3ee0a32d348d109b3200f1a6bf6c305b175c8",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/docs同時更新-同一PR強制/evidence/html-runtime/解説スライド-wide-d4cdfb3b0aba.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/docs同時更新-同一PR強制/evidence/html-runtime/解説スライド-narrow-d4cdfb3b0aba.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/docs同時更新-同一PR強制/evidence/html-runtime/解説スライド-wide-62cffd32640b.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/docs同時更新-同一PR強制/evidence/html-runtime/解説スライド-narrow-62cffd32640b.png"
           ]
         }
       ]
