@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/リポジトリ整備-claude-code版-現状理想対比/解説スライド.html",
-      "artifactSha256": "05a7f4ef9e34fdbbcd8316578cab8e0eb1710ad8535007204d1bf54753a1a480",
+      "file": "/Users/MacPro/Projects/worktrees/ai-slide-library/fix/restore-three-slide-decks/slides/リポジトリ整備-claude-code版-現状理想対比/解説スライド.html",
+      "artifactSha256": "acc6b216a862f439bb119919049fd9703af59e90c2293cbab5a9cbdb229afd73",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/リポジトリ整備-claude-code版-現状理想対比/evidence/html-runtime/解説スライド-wide-05a7f4ef9e34.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/リポジトリ整備-claude-code版-現状理想対比/evidence/html-runtime/解説スライド-narrow-05a7f4ef9e34.png"
+            "/tmp/html-runtime-evidence/リポジトリ整備-claude-code版-現状理想対比/acc6b216a862/解説スライド-wide-page-1-acc6b216a862.png",
+            "/tmp/html-runtime-evidence/リポジトリ整備-claude-code版-現状理想対比/acc6b216a862/解説スライド-narrow-page-1-acc6b216a862.png"
           ]
         }
       ]

@@ -1,90 +1,77 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Codex CLI導入 — リポジトリ整備の現状と理想</title>
-<style>
-:root{
-  --codex: #08745c;
-  --codex-soft: #e9f3ef;
-  --critical: #a33f31;
-  --critical-soft: #f8ebe7;
-}
-.lead{
-  margin: 16px 0 13px;
-  padding: 11px 16px;
-  background: var(--ink);
-  color: #fff;
-  font-size: 15px;
-  font-weight: 650;
-  line-height: 1.45;
-}
-.analysis-table{ width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 14px; line-height: 1.45; }
-.analysis-table caption{ padding-bottom: 8px; color: var(--muted); font-size: 12px; text-align: left; }
-.analysis-table th{ padding: 9px 12px; border-bottom: 2px solid var(--ink); color: var(--muted); font-size: 12px; text-align: left; }
-.analysis-table td{ padding: 12px; border-bottom: 1px solid var(--faint); vertical-align: top; }
-.analysis-table th:first-child, .analysis-table td:first-child{ width: 7%; text-align: center; }
-.analysis-table th:nth-child(2), .analysis-table td:nth-child(2){ width: 20%; }
-.analysis-table td:nth-child(2){ font-weight: 700; }
-.order{ color: var(--codex); font-weight: 800; }
-.state{ color: var(--critical); font-weight: 800; }
-.path{ color: var(--codex); font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-weight: 800; }
-.impact{ color: var(--muted); }
-.source{ margin: auto 100px 0 0; padding-top: 9px; border-top: 1px solid var(--faint); color: var(--muted); font-size: 11px; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codex CLI｜リポジトリ整備の現状・理想・差分</title>
+  <style>
+    .content{display:flex;min-height:0;flex:1 1 auto;flex-direction:column;gap:12px;padding-top:17px}
+    .lead{margin:0;padding:9px 15px;color:#fff;background:var(--ink);font-size:14px;font-weight:700;line-height:1.35;letter-spacing:.02em}
+    .comparison{width:100%;border-collapse:collapse;table-layout:fixed}
+    .comparison th{padding:8px 13px;border-right:1px solid #fff;color:var(--ink);background:#eceae5;font-size:12px;line-height:1.25;letter-spacing:.08em;text-align:left}
+    .comparison th:nth-child(1){width:35%}.comparison th:nth-child(2){width:39%}
+    .comparison th:nth-child(3){width:26%;color:#fff;background:var(--ink)}
+    .comparison td{height:65px;padding:8px 13px;border-right:1px solid var(--faint);border-bottom:1px solid var(--faint);font-size:11.5px;line-height:1.4;vertical-align:top}
+    .comparison td:last-child{border-right:0;background:#f2eee9}
+    .row-label{display:block;margin-bottom:2px;color:var(--muted);font-size:9.5px;font-weight:700;line-height:1.25;letter-spacing:.08em}
+    .current-key{color:#9b3e35;font-weight:800}.ideal-key{color:#2f6f58;font-weight:800}
+    .gap-key{display:block;margin-bottom:2px;color:var(--accent);font-size:12.5px;font-weight:800}
+    .gap-key::before{content:"→";margin-right:6px}
+    .summary{display:grid;grid-template-columns:1fr 1fr 1fr;padding-top:8px;border-top:1px solid var(--ink);font-size:10.5px;line-height:1.4}
+    .summary p{margin:0;padding-right:22px}.summary strong{display:block;margin-bottom:1px;color:var(--ink)}
+  </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
-<main class="slide-viewport">
-  <article class="slide">
-    <section class="slide-page is-active" aria-label="現状と実害" data-slide-page="1">
-      <header class="slide-header">
-        <span class="slide-eyebrow">GAP ANALYSIS — CODEX CLI</span>
-        <h1 class="slide-title">Codex CLI導入前の欠落と実害を診断する</h1>
-        <p class="slide-subtitle">説明書から可視化まで、AIが推測を強いられる原因を依存順に確認する</p>
-      </header>
-      <p class="lead">設定ファイルが少ない分、AGENTS.mdと設計書の欠落がCodex CLIの自走精度を直接下げる。</p>
-      <table class="analysis-table">
-        <caption>対象リポジトリのAI可読性・運用可視性診断</caption>
-        <thead><tr><th scope="col">順序</th><th scope="col">カテゴリ</th><th scope="col">現状</th><th scope="col">実害</th></tr></thead>
-        <tbody>
-          <tr><td class="order">1</td><td>プロジェクト説明書</td><td><span class="state">未作成</span></td><td class="impact">技術構成・コマンド・守るべき原則をAIへ伝えられない。</td></tr>
-          <tr><td class="order">2</td><td>設計書</td><td><span class="state">0件</span></td><td class="impact">機能仕様が口頭やSlackに散在し、AIが実装意図を推測する。</td></tr>
-          <tr><td class="order">3</td><td>規約ファイル</td><td><span class="state">0件</span></td><td class="impact">命名・コーディング規約が暗黙知で、AIの書き方が揺れる。</td></tr>
-          <tr><td class="order">4</td><td>作業手順書</td><td><span class="state">未整備</span></td><td class="impact">繰り返し作業が属人化し、人が毎回口頭で指示する。</td></tr>
-          <tr><td class="order">5</td><td>可視化サイト</td><td><span class="state">なし</span></td><td class="impact">規約・画面・APIを人が全体で俯瞰する手段がない。</td></tr>
-        </tbody>
-      </table>
-      <p class="source">出典：対象リポジトリの実地調査に基づく（調査時点の構成）。</p>
-    </section>
-
-    <section class="slide-page" aria-label="理想配置と整備アクション" data-slide-page="2">
-      <header class="slide-header">
-        <span class="slide-eyebrow">GAP ANALYSIS — CODEX CLI</span>
-        <h1 class="slide-title">Codex CLIが参照する配置へ順に整備する</h1>
-        <p class="slide-subtitle">AGENTS.mdを入口に、設計書・規約・手順・可視化を同じ依存順で接続する</p>
-      </header>
-      <p class="lead">「読める文書」と「見える仕組み」を揃え、人とAIが同じ根拠から判断できる状態へ移す。</p>
-      <table class="analysis-table">
-        <caption>理想の配置先・役割・整備アクション</caption>
-        <thead><tr><th scope="col">順序</th><th scope="col">カテゴリ</th><th scope="col">理想の配置と役割</th><th scope="col">整備アクション</th></tr></thead>
-        <tbody>
-          <tr><td class="order">1</td><td>プロジェクト説明書</td><td><span class="path">AGENTS.md</span><br><span class="impact">行動原則と主要手順を実行開始時に読む。</span></td><td>技術構成・コマンド・原則・主要手順を1ファイルへ集約する。</td></tr>
-          <tr><td class="order">2</td><td>設計書</td><td><span class="path">docs/</span><br><span class="impact">機能・画面の設計書を参照する。</span></td><td>主要機能の設計書を作成し、体系的に配置する。</td></tr>
-          <tr><td class="order">3</td><td>規約ファイル</td><td><span class="path">AGENTS.mdの規約節</span><br><span class="impact">規約をプロジェクト説明書に一元管理する。</span></td><td>命名・コーディング規約を説明書の節として整理する。</td></tr>
-          <tr><td class="order">4</td><td>作業手順書</td><td><span class="path">AGENTS.mdの手順節</span><br><span class="impact">頻出作業を再現可能な手順として定型化する。</span></td><td>頻出パターンを洗い出し、説明書内の手順へ整理する。</td></tr>
-          <tr><td class="order">5</td><td>可視化サイト</td><td><span class="path">project-portal/</span><br><span class="impact">規約・画面・マスタ表をブラウザで読む。</span></td><td>規約・画面・APIの索引をHTML化し、人とAIの共通参照点にする。</td></tr>
-        </tbody>
-      </table>
-      <p class="source">出典：対象リポジトリの実地調査に基づく（調査時点の構成）。</p>
-    </section>
-
-
-
-  </article>
-</main>
-
+  <main class="slide-viewport">
+    <article class="slide">
+      <section class="slide-page" data-slide-page="1" aria-label="Codex CLI向けリポジトリ整備の現状・理想・差分">
+        <header class="slide-header">
+          <span class="slide-eyebrow">CURRENT → TARGET — CODEX CLI</span>
+          <h1 class="slide-title">Codex CLI｜リポジトリ整備の現状・理想・差分</h1>
+          <p class="slide-subtitle">説明書・設計書・規約・手順書・可視化サイトの不足と、整備すべき配置を対比する</p>
+        </header>
+        <div class="content">
+          <p class="lead">設定ファイルが少ない分、AGENTS.mdと設計書の欠落がCodex CLIの自走精度を直接下げる</p>
+          <table class="comparison" aria-label="Codex CLI向けリポジトリ整備の現状・理想・差分">
+            <thead><tr><th scope="col">現状</th><th scope="col">理想</th><th scope="col">差分</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><span class="row-label">01｜プロジェクト説明書</span><span class="current-key">未作成</span>　技術構成・コマンド・守るべき原則をAIに伝えられない。</td>
+                <td><span class="row-label">01｜プロジェクト説明書</span><span class="ideal-key">AGENTS.md</span>　プロジェクトの行動原則と作業手順。実行開始時に自動で読み込まれる。</td>
+                <td><span class="gap-key">説明書を配置</span>技術構成・コマンド一覧・行動原則・主要手順を1ファイルに集約する。</td>
+              </tr>
+              <tr>
+                <td><span class="row-label">02｜設計書</span><span class="current-key">0件</span>　機能仕様が口頭やSlackに散在し、AIは実装意図を推測する。</td>
+                <td><span class="row-label">02｜設計書</span><span class="ideal-key">docs/</span>　機能・画面の設計書を格納し、AIが仕様を参照できる。</td>
+                <td><span class="gap-key">設計書を配置</span>主要機能の設計書を作成し、体系的に配置する。</td>
+              </tr>
+              <tr>
+                <td><span class="row-label">03｜規約ファイル</span><span class="current-key">0件</span>　命名・コーディング規約が暗黙知で、AIの書き方が揺れる。</td>
+                <td><span class="row-label">03｜規約ファイル</span><span class="ideal-key">AGENTS.mdに集約</span>　説明書に規約セクションを設け、一元管理する。</td>
+                <td><span class="gap-key">規約を文書化</span>命名規則・コーディング規約を説明書内のセクションとして整理する。</td>
+              </tr>
+              <tr>
+                <td><span class="row-label">04｜作業手順書</span><span class="current-key">未整備</span>　繰り返し作業が属人化し、人が毎回口頭で指示している。</td>
+                <td><span class="row-label">04｜作業手順書</span><span class="ideal-key">AGENTS.mdに集約</span>　説明書に手順セクションを設け、頻出作業を再現可能な手順として定型化する。</td>
+                <td><span class="gap-key">手順書を定型化</span>頻出の作業パターンを洗い出し、説明書内のセクションに整理する。</td>
+              </tr>
+              <tr>
+                <td><span class="row-label">05｜可視化サイト</span><span class="current-key">なし</span>　規約・画面・APIを人が全体で俯瞰する手段がない。</td>
+                <td><span class="row-label">05｜可視化サイト</span><span class="ideal-key">project-portal/</span>　規約・画面・マスタ表をブラウザで読めるサイトとして構築する。</td>
+                <td><span class="gap-key">索引をHTML化</span>規約・画面・APIの索引を、人とAIの共通参照点にする。</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="summary" aria-label="整備方針の要約">
+            <p><strong>現状の問題</strong>AIが参照できる文書も、人が俯瞰できる基盤もない。</p>
+            <p><strong>理想の状態</strong>5資産を依存関係の上流から順に接続する。</p>
+            <p><strong>整備順</strong>説明書 → 設計書 → 規約 → 手順書 → 可視化。</p>
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
 </body>
 </html>

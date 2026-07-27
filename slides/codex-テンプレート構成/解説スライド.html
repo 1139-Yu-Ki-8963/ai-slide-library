@@ -3,241 +3,170 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Codexの設定資産を4層で整理する</title>
-<style data-slide-specific>
-  :root{
-    --accent: #286854;
-    --accent-soft: #e5efeb;
-    --surface-soft: #f7f7f4;
-  }
-  .content{
-    flex: 1;
-    min-height: 0;
-    padding-top: 24px;
-    font-family: system-ui, -apple-system, "Hiragino Sans", sans-serif;
-  }
-  .overview-content{ display: flex; align-items: stretch; padding-bottom: 8px; }
-  .overview{ flex: 1; width: 100%; height: 100%; border-collapse: collapse; table-layout: fixed; }
-  .overview th{
-    padding: 0 12px 9px;
-    border-bottom: 1px solid var(--ink);
-    color: var(--muted);
-    font-size: 11px;
-    text-align: left;
-    letter-spacing: .08em;
-  }
-  .overview td{
-    padding: 14px;
-    border-bottom: 1px solid var(--faint);
-    vertical-align: middle;
-    font-size: 14px;
-    line-height: 1.55;
-  }
-  .overview tbody{ height: calc(100% - 36px); }
-  .overview tbody tr{ height: 20%; }
-  .overview tbody tr:last-child td{ border-bottom: 0; }
-  .asset-name{ display: block; color: var(--ink); font-size: 15px; font-weight: 750; }
-  .path{ color: var(--accent); font: 700 13px/1.4 "SFMono-Regular", Consolas, monospace; }
-  .effect{ color: var(--muted); }
-  .section-label{
-    margin: 0 0 10px;
-    color: var(--accent);
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: .08em;
-  }
-  .instruction-map{ display: grid; grid-template-columns: .82fr 1.18fr; gap: 34px; height: 100%; }
-  .search-column{ padding-right: 28px; border-right: 1px solid var(--faint); }
-  .search-column h2, .scope-column h2, .role-column h2, .control-stack h2{
-    margin: 0 0 7px;
-    font-family: Georgia, "Yu Mincho", serif;
-    font-size: 23px;
-    font-weight: 600;
-  }
-  .search-column p, .scope-column p, .role-column p{
-    margin: 0;
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.65;
-  }
-  .scope-step{ display: grid; grid-template-columns: 36px 1fr; gap: 14px; margin-top: 20px; align-items: start; }
-  .scope-step b{
-    display: grid;
-    place-items: center;
-    width: 30px;
-    height: 30px;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    font-size: 12px;
-  }
-  .scope-step strong{ display: block; margin-bottom: 3px; font-size: 14px; }
-  .scope-step span{ color: var(--muted); font-size: 13px; line-height: 1.5; }
-  .override-note{
-    margin-top: 22px;
-    padding: 16px 18px;
-    background: var(--accent-soft);
-    border-left: 4px solid var(--accent);
-    font-size: 13px;
-    line-height: 1.55;
-  }
-  .roles{ display: grid; grid-template-columns: 1.03fr 1px .97fr; gap: 30px; height: 100%; }
-  .role-divider{ background: var(--faint); }
-  .role-column{ padding-top: 6px; }
-  .role-column--agent{ padding: 26px 28px 18px; background: var(--surface-soft); }
-  .tree, .config-sample{
-    margin: 16px 0 12px;
-    color: var(--ink);
-    font: 12px/1.7 "SFMono-Regular", Consolas, monospace;
-  }
-  .tree .muted{ color: var(--muted); }
-  .config-sample{
-    padding: 14px 16px;
-    border-top: 1px solid var(--ink);
-    border-bottom: 1px solid var(--faint);
-    white-space: pre-wrap;
-  }
-  .role-column ul, .control-stack ul{
-    margin: 10px 0 0;
-    padding-left: 18px;
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.7;
-  }
-  .handoff{
-    margin-top: 16px;
-    padding-top: 13px;
-    border-top: 1px solid var(--ink);
-    color: var(--ink);
-    font-size: 14px;
-    line-height: 1.55;
-  }
-  .controls{ display: grid; grid-template-columns: 1.18fr .82fr; gap: 38px; height: 100%; }
-  .control-stack{ display: flex; flex-direction: column; gap: 11px; }
-  .control-band{
-    display: grid;
-    grid-template-columns: 170px 1fr;
-    gap: 18px;
-    padding: 13px 0;
-    border-top: 1px solid var(--faint);
-  }
-  .control-band:first-of-type{ border-top-color: var(--ink); }
-  .control-band strong{ font: 700 12px/1.4 "SFMono-Regular", Consolas, monospace; }
-  .control-band p{ margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
-  .boundary{
-    align-self: end;
-    margin-bottom: 16px;
-    padding: 24px;
-    background: var(--accent-soft);
-    border-left: 4px solid var(--accent);
-  }
-  .boundary strong{ display: block; margin-bottom: 8px; font-size: 18px; }
-  .boundary p{ margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
-  @media (prefers-reduced-motion: reduce){
-  }
-</style>
+  <title>Codex CLI｜docs配置ガイド</title>
+  <style data-slide-specific>
+    :root {
+      --accent: #315f68;
+    }
+    .docs-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.52fr) minmax(0, .78fr);
+      gap: 38px;
+      flex: 1 1 auto;
+      min-height: 0;
+      padding-top: 22px;
+    }
+    .guide {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .guide th {
+      padding: 7px 10px 9px;
+      border-bottom: 1px solid var(--ink);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-align: left;
+    }
+    .guide th:nth-child(1) { width: 22%; }
+    .guide th:nth-child(2) { width: 43%; }
+    .guide tbody { height: calc(100% - 35px); }
+    .guide tbody tr { height: 20%; }
+    .guide td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--faint);
+      font-size: 12px;
+      line-height: 1.4;
+      vertical-align: top;
+    }
+    .guide tbody tr:last-child td { border-bottom: 0; }
+    .guide td:first-child {
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .guide code {
+      color: var(--accent);
+      font: 700 11px/1.45 "SFMono-Regular", Consolas, monospace;
+    }
+    .guide small {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 1.4;
+    }
+    .project-tree {
+      min-width: 0;
+      padding-left: 30px;
+      border-left: 1px solid var(--faint);
+    }
+    .tree-label {
+      display: block;
+      margin: 1px 0 6px;
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .14em;
+    }
+    .project-tree h2 {
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 650;
+      line-height: 1.35;
+    }
+    .project-tree pre {
+      margin: 0;
+      color: var(--ink);
+      font: 12px/1.58 "SFMono-Regular", Consolas, monospace;
+      white-space: pre;
+    }
+    .project-tree .hot {
+      color: var(--accent);
+      font-weight: 800;
+    }
+    .project-tree .outside { color: var(--muted); }
+    .tree-note {
+      margin: 15px 0 0;
+      padding-top: 12px;
+      border-top: 1px solid var(--ink);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .tree-note strong { color: var(--ink); }
+  </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
-  <main class="slide-viewport" aria-label="Codex設定資産ガイド">
-    <section class="slide is-active" data-page="0" aria-label="設定資産5種の全体像" data-slide-page="1">
+  <main class="slide-viewport" aria-label="Codex CLIのdocs配置ガイド">
+    <section class="slide is-active" data-page="0" data-slide-page="1" aria-label="Codex CLIの配置像">
       <header class="slide-header">
-        <div><span class="kicker">CODEX · 01</span><h1 class="slide-title">5つの設定資産は役割で置き分ける</h1></div>
-        <p class="slide-subtitle">階層指示・中央設定・手順・役割・実行制御を、それぞれの正規配置へ分ける</p>
+        <span class="kicker">CODEX CLI</span>
+        <h1 class="slide-title">Codex CLI｜docs配置ガイド</h1>
+        <p class="slide-subtitle">階層化したAGENTS.mdと共有Skillsをリポジトリに置き、実行設定はconfig.tomlへ分離する</p>
       </header>
-      <div class="content overview-content">
-        <table class="overview">
-          <thead><tr><th style="width:21%">資産</th><th style="width:34%">正規配置</th><th style="width:45%">AIへの効果</th></tr></thead>
+      <div class="docs-layout">
+        <table class="guide" aria-label="Codex CLIの文書配置">
+          <thead>
+            <tr><th>書く内容</th><th>置く場所</th><th>AIへの効果</th></tr>
+          </thead>
           <tbody>
-            <tr><td><span class="asset-name">階層指示</span></td><td><span class="path">AGENTS.md</span> / <span class="path">AGENTS.override.md</span></td><td class="effect">ディレクトリ範囲に応じた作業指示を与える</td></tr>
-            <tr><td><span class="asset-name">中央設定</span></td><td><span class="path">config.toml</span></td><td class="effect">モデル、権限、MCPなどの実行方針を集約する</td></tr>
-            <tr><td><span class="asset-name">再利用手順</span></td><td><span class="path">.agents/skills/&lt;name&gt;/SKILL.md</span></td><td class="effect">繰り返す作業を同じ条件と手順で実行する</td></tr>
-            <tr><td><span class="asset-name">専門エージェント</span></td><td><span class="path">config.toml</span> の <span class="path">[agents]</span></td><td class="effect">descriptionとconfig_fileで委任先を宣言する</td></tr>
-            <tr><td><span class="asset-name">実行境界</span></td><td><span class="path">config.toml</span></td><td class="effect">sandbox、承認、MCP、inline hooksを制御する</td></tr>
+            <tr>
+              <td>全体の指示</td>
+              <td><code>AGENTS.md</code><small>目的・構成・実行コマンド・参照先</small></td>
+              <td>リポジトリ全体の入口を固定する</td>
+            </tr>
+            <tr>
+              <td>階層別の指示</td>
+              <td><code>packages/*/AGENTS.md</code><small>優先指示は <code>AGENTS.override.md</code></small></td>
+              <td>ディレクトリ単位で文脈を狭める</td>
+            </tr>
+            <tr>
+              <td>再利用する手順</td>
+              <td><code>.agents/skills/&lt;name&gt;/SKILL.md</code><small>入力・手順・検証・完了条件</small></td>
+              <td>繰り返す作業を共有可能な手順にする</td>
+            </tr>
+            <tr>
+              <td>専門エージェント</td>
+              <td><code>config.toml [agents]</code><small>委任先と役割を宣言</small></td>
+              <td>担当領域ごとに作業を委任する</td>
+            </tr>
+            <tr>
+              <td>実行・承認設定</td>
+              <td><code>~/.codex/config.toml</code><small>CLI・MCP・承認・sandbox設定</small></td>
+              <td>端末固有の実行境界をrepoから分離する</td>
+            </tr>
           </tbody>
         </table>
-      </div>
+        <aside class="project-tree" aria-label="Codex CLI用のプロジェクト構成">
+          <span class="tree-label">PROJECT TREE</span>
+          <h2>Codex CLI用の配置像</h2>
+          <pre>project/
+├── <span class="hot">AGENTS.md</span>
+├── docs/
+│   ├── architecture.md
+│   └── operations.md
+├── packages/
+│   └── api/
+│       ├── <span class="hot">AGENTS.md</span>
+│       └── src/
+├── <span class="hot">.agents/</span>
+│   └── skills/
+│       └── release/
+│           └── SKILL.md
+└── src/
 
-    </section>
-
-    <section class="slide" data-page="1" aria-label="階層指示の読み込み" data-slide-page="2">
-      <header class="slide-header">
-        <div><span class="kicker">CODEX · 02</span><h1 class="slide-title">AGENTS.mdは階層ごとに作用する</h1></div>
-        <p class="slide-subtitle">リポジトリ上位から作業ディレクトリへ読み進み、近い階層の指示を優先する</p>
-      </header>
-      <div class="content instruction-map">
-        <div class="search-column">
-          <p class="section-label">LAYERED INSTRUCTIONS</p>
-          <h2>探索は上位から現在地へ</h2>
-          <p>作業対象へ至るディレクトリ階層の指示を順に読み、スコープを狭めながら具体化する。</p>
-          <div class="tree">repo/AGENTS.md<br><span class="muted">└─ packages/AGENTS.md<br>&nbsp;&nbsp;└─ api/AGENTS.md</span></div>
-        </div>
-        <div class="scope-column">
-          <p class="section-label">PRECEDENCE</p>
-          <h2>近い指示が具体化する</h2>
-          <div class="scope-step"><b>1</b><div><strong>ルートのAGENTS.md</strong><span>全体の規約、共通コマンド、公開安全などを共有する。</span></div></div>
-          <div class="scope-step"><b>2</b><div><strong>下位のAGENTS.md</strong><span>対象領域だけのテスト、命名、配置ルールを追加する。</span></div></div>
-          <div class="scope-step"><b>3</b><div><strong>AGENTS.override.md</strong><span>同じ階層のAGENTS.mdより優先する上書き指示として使う。</span></div></div>
-          <div class="override-note"><strong>平文Markdown：</strong>指示本文はMarkdownで記述し、ファイル階層そのものを適用範囲にする。</div>
-        </div>
-      </div>
-
-    </section>
-
-    <section class="slide" data-page="2" aria-label="skillsとagents" data-slide-page="3">
-      <header class="slide-header">
-        <div><span class="kicker">CODEX · 03</span><h1 class="slide-title">skillsは手順、agentsは委任先</h1></div>
-        <p class="slide-subtitle">再利用ワークフローはファイル、複数エージェントの役割はconfig.tomlで宣言する</p>
-      </header>
-      <div class="content roles">
-        <div class="role-column">
-          <p class="section-label">REPOSITORY SKILL</p>
-          <h2>.agents/skills/</h2>
-          <div class="tree">.agents/skills/release/<br>├─ SKILL.md<br><span class="muted">├─ scripts/<br>└─ references/</span></div>
-          <p>SKILL.mdに起動条件、手順、完了条件をまとめ、必要なタスクで再利用する。</p>
-          <div class="handoff">Skillは「仕事の進め方」を一つの配布単位にする。</div>
-        </div>
-        <div class="role-divider" aria-hidden="true"></div>
-        <div class="role-column role-column--agent">
-          <p class="section-label">MULTI-AGENT ROLE</p>
-          <h2>config.tomlの[agents]</h2>
-          <pre class="config-sample" aria-label="agent宣言の例">[agents.reviewer]
-description = "変更をレビューする"
-config_file = "agents/reviewer.toml"</pre>
-          <ul>
-            <li>役割はdescription、個別設定はconfig_fileで結び付ける。</li>
-            <li>同時実行上限はmax_concurrent_threads_per_sessionで設定する。</li>
-            <li>固定の並列数は前提にせず、環境と作業に合わせて決める。</li>
-          </ul>
-        </div>
-      </div>
-
-    </section>
-
-    <section class="slide" data-page="3" aria-label="実行制御" data-slide-page="4">
-      <header class="slide-header">
-        <div><span class="kicker">CODEX · 04</span><h1 class="slide-title">実行境界はconfig.tomlで定める</h1></div>
-        <p class="slide-subtitle">サンドボックス・承認・MCP・inline hooksを、指示文書から切り離して管理する</p>
-      </header>
-      <div class="content controls">
-        <div class="control-stack">
-          <p class="section-label">CONFIGURATION SURFACE</p>
-          <div class="control-band"><strong>sandbox_mode</strong><p>ファイルやコマンドが触れられる範囲を指定する。</p></div>
-          <div class="control-band"><strong>approval_policy</strong><p>操作前に承認を求める条件を定める。</p></div>
-          <div class="control-band"><strong>mcp_servers</strong><p>外部ツールやデータソースへの接続を設定する。</p></div>
-          <div class="control-band"><strong>inline hooks</strong><p>実行フローへ組み込む自動処理をconfig.toml内で定義する。</p></div>
-          <div class="control-band"><strong>[agents]</strong><p>エージェント役割と個別設定ファイルの対応を宣言する。</p></div>
-        </div>
-        <aside class="boundary">
-          <strong>AGENTS.mdは権限設定ではない</strong>
-          <p>AGENTS.mdは作業指示を伝える。実行可能範囲と承認条件はconfig.tomlの制御キーで決める。</p>
+<span class="outside">outside repo/</span>
+└── <span class="hot">~/.codex/config.toml</span></pre>
+          <p class="tree-note"><strong>配置の原則：</strong>共有すべき文脈と手順はrepoへ、端末固有の実行・承認・接続設定はconfig.tomlへ分離する。</p>
         </aside>
       </div>
-
     </section>
   </main>
-
-
-
 </body>
 </html>

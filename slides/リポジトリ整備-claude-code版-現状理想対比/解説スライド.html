@@ -1,605 +1,164 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Claude Code 導入 リポジトリ整備の現状と理想</title>
-<style>
-  :root{
-    --page: #EDF0F4;
-    --surface: #FFFFFF;
-    --ink: #1C2B3A;
-    --ink-2: #55667A;
-    --ink-3: #63758A;
-    --border: #D9E0E8;
-    --grid: #E9EDF2;
-    --critical: #C0392B;
-    --critical-soft: #FAECEA;
-    --good: #1F7A46;
-    --good-soft: #EAF4EE;
-    --tag-bg: #EDF1F6;
-    --claude: #A54832;
-    --claude-deep: #BC5B3B;
-    --claude-soft: #FBF0EA;
-    --cursor: #23282E;
-    --cursor-soft: #EFF1F4;
-  }
-
-  #variant-tabs{
-    position: fixed;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    display: flex;
-    gap: 8px;
-    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
-  }
-  #variant-tabs button{
-    appearance: none;
-    -webkit-appearance: none;
-    border: 1px solid var(--border);
-    background: #fff;
-    color: var(--ink-2);
-    font-size: 12px;
-    font-weight: 700;
-    padding: 6px 16px;
-    border-radius: 999px;
-    cursor: pointer;
-  }
-  #variant-tabs button.active{
-    background: var(--claude);
-    border-color: var(--claude);
-    color: #fff;
-  }
-  #variant-tabs .save-pill{
-    appearance: none;
-    -webkit-appearance: none;
-    border: 1px solid var(--border);
-    background: #fff;
-    color: var(--ink-2);
-    font-size: 12px;
-    font-weight: 700;
-    padding: 6px 16px;
-    border-radius: 999px;
-    cursor: pointer;
-    text-decoration: none;
-    line-height: 1;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  #related-links{
-    position: fixed;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
-    font-size: 12px;
-  }
-  #related-links .related-label{
-    color: var(--ink-3);
-    font-weight: 700;
-  }
-  #related-links a{
-    background: #fff;
-    border: 1px solid var(--border);
-    color: var(--ink-2);
-    padding: 6px 14px;
-    border-radius: 999px;
-    text-decoration: none;
-  }
-  #related-links a:hover{
-    border-color: var(--claude);
-    color: var(--claude);
-  }
-
-  .lead-band{
-    background: var(--ink);
-    color: var(--surface);
-    border-radius: 6px;
-    padding: 12px 20px;
-    font-size: 19px;
-    font-weight: 700;
-    text-align: center;
-    letter-spacing: 0.02em;
-  }
-
-  .head-message{ display: flex; flex-direction: column; gap: 5px; }
-  .head-message p{
-    display: flex; gap: 7px;
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.55;
-    color: var(--ink);
-  }
-  .head-message .mark{ color: var(--claude-deep); flex-shrink: 0; }
-
-  .argument-table{
-    width: 100%;
-    flex: 1;
-    border-collapse: collapse;
-    table-layout: fixed;
-  }
-  .argument-table caption{
-    text-align: left;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--ink-3);
-    padding-bottom: 6px;
-  }
-  .argument-table th{
-    background: var(--ink);
-    color: var(--surface);
-    font-size: 13px;
-    font-weight: 700;
-    text-align: left;
-    padding: 7px 12px;
-  }
-  .argument-table th:first-child{ border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
-  .argument-table th:last-child{ border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
-
-  .col-step{ width: 5%; }
-  .col-category{ width: 11%; }
-  .col-current{ width: 28%; }
-  .col-ideal{ width: 29%; }
-  .col-gap{ width: 27%; }
-
-  .argument-table td{
-    vertical-align: top;
-    border-bottom: 1px solid var(--border);
-    padding: 7px 12px;
-    font-size: 12.5px;
-    color: var(--ink-2);
-    line-height: 1.5;
-  }
-  .argument-table tbody tr:nth-child(even) td{ background: var(--tag-bg); }
-
-  .cell-issue{ font-weight: 700; color: var(--ink); }
-
-  .step-chip{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    background: var(--claude);
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
-    margin: 0 auto;
-  }
-
-  .badge-critical{
-    display: inline-block;
-    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 4px;
-    background: var(--critical-soft);
-    color: var(--critical);
-    line-height: 1.5;
-    white-space: nowrap;
-  }
-
-  .badge-path{
-    display: inline-block;
-    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 4px;
-    background: var(--surface);
-    color: var(--ink);
-    border: 1px solid var(--border);
-    line-height: 1.5;
-    white-space: nowrap;
-  }
-
-  .cell-note{
-    display: block;
-    margin-top: 4px;
-    font-size: 12px;
-    color: var(--ink-2);
-    line-height: 1.45;
-  }
-  .cell-note strong{ color: var(--ink); font-weight: 600; }
-
-  .gap-action{
-    position: relative;
-    padding-left: 14px;
-    font-size: 12px;
-    color: var(--ink-2);
-    line-height: 1.5;
-  }
-  .gap-action::before{
-    content: '\2192';
-    position: absolute; left: 0; top: 0;
-    color: var(--claude);
-    font-weight: 700;
-  }
-
-  .source-line{
-    font-size: 11px;
-    color: var(--ink-3);
-    border-top: 1px solid var(--border);
-    padding-top: 6px;
-  }
-  .slide-page.diagnosis-page .lead-band{ padding: 8px 14px; font-size: 18px; }
-  .slide-page.diagnosis-page .head-message p{ line-height: 1.3; }
-  .slide-page.diagnosis-page .argument-table th{ padding-top: 5px; padding-bottom: 5px; }
-  .slide-page.diagnosis-page .argument-table td{ padding: 5px 10px; line-height: 1.3; }
-  .slide-page.diagnosis-page .cell-note{ margin-top: 2px; line-height: 1.25; }
-  .slide-page.diagnosis-page .gap-action{ padding-top: 2px; padding-bottom: 2px; line-height: 1.25; }
-  .slide-page.diagnosis-page .source-line{ padding-top: 2px; line-height: 1.1; }
-  .diagnosis-page .argument-table th:nth-child(4), .diagnosis-page .argument-table th:nth-child(5), .diagnosis-page .argument-table td:nth-child(4), .diagnosis-page .argument-table td:nth-child(5){ display: none; }
-  .diagnosis-page .argument-table .col-step{ width: 6%; }
-  .diagnosis-page .argument-table .col-category{ width: 19%; }
-  .diagnosis-page .argument-table .col-current{ width: 75%; }
-  .diagnosis-page .argument-table td{ padding: 13px 16px; }
-  .diagnosis-page .cell-note{ font-size: 13px; }
-  .ideal-table{
-    width: 100%; border-collapse: separate; border-spacing: 0 2px;
-    table-layout: fixed; font-family: system-ui, sans-serif;
-  }
-  .ideal-table caption{ padding: 0 0 5px; color: var(--ink-3); font-size: 11px; text-align: left; }
-  .ideal-table th{
-    padding: 8px 12px; background: var(--ink); color: #fff;
-    font-size: 11px; letter-spacing: .05em; text-align: left;
-  }
-  .ideal-table td{
-    padding: 7px 10px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-    font-size: 12px; line-height: 1.35; color: var(--ink-2); vertical-align: middle; background: #fff;
-  }
-  .ideal-table tbody tr:nth-child(even) td{ background: var(--tag-bg); }
-  .ideal-table td:first-child{ border-left: 4px solid var(--claude); font-weight: 700; color: var(--ink); }
-  .ideal-table .order{ width: 5%; text-align: center; color: var(--claude-deep); }
-  .ideal-table .asset{ width: 17%; }
-  .ideal-table .placement{ width: 30%; }
-  .ideal-table .action{ width: 48%; }
-  .ideal-table .path{
-    display: inline-block; padding: 2px 8px; margin-bottom: 3px; border-radius: 4px;
-    background: var(--claude-soft); color: var(--claude-deep); font: 700 12px/1.4 ui-monospace, monospace;
-  }
-  .slide-page:not(.diagnosis-page) .lead-band{ padding: 7px 14px; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Code｜リポジトリ整備の現状・理想・差分</title>
+  <style>
+    .content {
+      display: flex;
+      min-height: 0;
+      flex: 1 1 auto;
+      flex-direction: column;
+      gap: 12px;
+      padding-top: 17px;
+    }
+    .lead {
+      margin: 0;
+      padding: 9px 15px;
+      color: #fff;
+      background: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.35;
+      letter-spacing: .02em;
+    }
+    .comparison {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .comparison th {
+      padding: 8px 13px;
+      border-right: 1px solid #fff;
+      color: var(--ink);
+      background: #eceae5;
+      font-size: 12px;
+      line-height: 1.25;
+      letter-spacing: .08em;
+      text-align: left;
+    }
+    .comparison th:nth-child(1) { width: 35%; }
+    .comparison th:nth-child(2) { width: 39%; }
+    .comparison th:nth-child(3) {
+      width: 26%;
+      color: #fff;
+      background: var(--ink);
+    }
+    .comparison td {
+      height: 65px;
+      padding: 8px 13px;
+      border-right: 1px solid var(--faint);
+      border-bottom: 1px solid var(--faint);
+      font-size: 11.5px;
+      line-height: 1.4;
+      vertical-align: top;
+    }
+    .comparison td:last-child {
+      border-right: 0;
+      background: #f2eee9;
+    }
+    .row-label {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--muted);
+      font-size: 9.5px;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: .08em;
+    }
+    .current-key {
+      color: #9b3e35;
+      font-weight: 800;
+    }
+    .ideal-key {
+      color: #2f6f58;
+      font-weight: 800;
+    }
+    .gap-key {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--accent);
+      font-size: 12.5px;
+      font-weight: 800;
+    }
+    .gap-key::before {
+      content: "→";
+      margin-right: 6px;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      padding-top: 8px;
+      border-top: 1px solid var(--ink);
+      font-size: 10.5px;
+      line-height: 1.4;
+    }
+    .summary p {
+      margin: 0;
+      padding-right: 22px;
+    }
+    .summary strong {
+      display: block;
+      margin-bottom: 1px;
+      color: var(--ink);
+    }
+  </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
-<div class="slide-viewport">
-  <div class="slide">
+  <main class="slide-viewport">
+    <article class="slide">
+      <section class="slide-page" data-slide-page="1" aria-label="Claude Code向けリポジトリ整備の現状・理想・差分">
+        <header class="slide-header">
+          <span class="slide-eyebrow">CURRENT → TARGET — CLAUDE CODE</span>
+          <h1 class="slide-title">Claude Code｜リポジトリ整備の現状・理想・差分</h1>
+          <p class="slide-subtitle">説明書・設計書・規約・手順書・可視化サイトの不足と、整備すべき配置を対比する</p>
+        </header>
 
-    <section class="slide-page diagnosis-page is-active" aria-label="現状診断" data-slide-page="1">
-    <header class="slide-header">
-      <span class="slide-eyebrow">GAP ANALYSIS — CLAUDE CODE</span>
-      <h1 class="slide-title">Claude Code導入前の5つの欠落を診断する</h1>
-      <p class="slide-subtitle">説明書・設計書・規約・手順書・可視化サイトの不足が、AIの推測と属人運用を生む</p>
-    </header>
-
-    <div class="lead-band">AIが自走するには「読める文書」と「見える仕組み」をリポジトリに揃える</div>
-
-    <section class="head-message" aria-label="診断の読み方">
-      <p><span class="mark">■</span><span>現状の欠落・理想の配置先・整備アクションを、依存関係の上流から下流へ読む</span></p>
-    </section>
-
-    <table class="argument-table">
-      <caption>対象リポジトリの現状診断（上流から下流の依存順）</caption>
-      <colgroup>
-        <col class="col-step"><col class="col-category"><col class="col-current"><col class="col-ideal"><col class="col-gap">
-      </colgroup>
-      <thead>
-        <tr>
-          <th scope="col"></th>
-          <th scope="col">カテゴリ</th>
-          <th scope="col">現状</th>
-          <th scope="col">理想</th>
-          <th scope="col">ギャップ</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span class="step-chip">1</span></td>
-          <td class="cell-issue">プロジェクト<br>説明書</td>
-          <td>
-            <span class="badge-critical">未作成</span>
-            <span class="cell-note">技術構成・コマンド・守るべき原則を AI に伝えられない</span>
-          </td>
-          <td>
-            <span class="badge-path" data-v="project-doc-path">CLAUDE.md</span>
-            <span class="cell-note" data-v="project-doc-note">プロジェクトの<strong>索引兼行動原則</strong>。AI が開始時に読む</span>
-          </td>
-          <td>
-            <span class="gap-action" data-v="project-doc-gap">技術構成・コマンド・原則を 1 ファイルに整理</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="step-chip">2</span></td>
-          <td class="cell-issue">設計書</td>
-          <td>
-            <span class="badge-critical">0件</span>
-            <span class="cell-note">機能仕様が口頭や Slack に散在し、AI は実装意図を推測する</span>
-          </td>
-          <td>
-            <span class="badge-path">docs/</span>
-            <span class="cell-note"><strong>機能・画面の設計書</strong>を格納し、AI が仕様を参照できる</span>
-          </td>
-          <td>
-            <span class="gap-action">主要機能の設計書を作成し、体系的に配置</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="step-chip">3</span></td>
-          <td class="cell-issue">規約<br>ファイル</td>
-          <td>
-            <span class="badge-critical">0件</span>
-            <span class="cell-note">命名・コーディング規約が暗黙知で、AI の書き方が揺れる</span>
-          </td>
-          <td>
-            <span class="badge-path" data-v="rule-file-path">rules/</span>
-            <span class="cell-note" data-v="rule-file-note">規約を Markdown 化し、<strong>編集対象に必要な規約だけ</strong>を AI へ渡す</span>
-          </td>
-          <td>
-            <span class="gap-action" data-v="rule-file-gap">命名・コーディング規約をファイル種別ごとに文書化</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="step-chip">4</span></td>
-          <td class="cell-issue">作業<br>手順書</td>
-          <td>
-            <span class="badge-critical">未整備</span>
-            <span class="cell-note">繰り返し作業が属人化し、人が毎回口頭で指示している</span>
-          </td>
-          <td>
-            <span class="badge-path" data-v="work-manual-path">skills/</span>
-            <span class="cell-note" data-v="work-manual-note">定型作業を構造化し、<strong>名前で呼ぶだけ</strong>で AI が手順どおりに動く</span>
-          </td>
-          <td>
-            <span class="gap-action" data-v="work-manual-gap">頻出作業を洗い出し、再利用可能な手順書に整理</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="step-chip">5</span></td>
-          <td class="cell-issue">可視化<br>サイト</td>
-          <td>
-            <span class="badge-critical">なし</span>
-            <span class="cell-note">規約・画面・API を人が全体で俯瞰する手段がない</span>
-          </td>
-          <td>
-            <span class="badge-path">project-portal/</span>
-            <span class="cell-note">規約・画面・マスタ表を<strong>ブラウザで読めるサイト</strong>として構築</span>
-          </td>
-          <td>
-            <span class="gap-action">規約・画面・API の索引を HTML 化し、人と AI の共通参照点にする</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-      <p class="source-line">出典：Claude Code 導入前の対象リポジトリ診断スナップショット（2026年7月作成。現状値はこの時点の記録）</p>
-
-    </section>
-
-    <section class="slide-page" aria-label="理想配置と整備アクション" data-slide-page="2">
-      <header class="slide-header">
-        <span class="slide-eyebrow">TARGET STRUCTURE — CLAUDE CODE</span>
-        <h1 class="slide-title">Claude Codeの参照順に5資産を整備する</h1>
-        <p class="slide-subtitle">CLAUDE.mdを入口に、設計書・規約・Skill・可視化を上流から順に接続する</p>
-      </header>
-
-      <div class="lead-band">現状の欠落を埋めるだけでなく、各資産の役割と参照経路を明示する</div>
-
-      <table class="ideal-table">
-        <caption>Claude Code向けの理想配置と整備アクション</caption>
-        <colgroup><col class="order"><col class="asset"><col class="placement"><col class="action"></colgroup>
-        <thead><tr><th scope="col">順</th><th scope="col">資産</th><th scope="col">理想配置と役割</th><th scope="col">整備アクション</th></tr></thead>
-        <tbody>
-          <tr><td>1</td><td>プロジェクト説明書</td><td><span class="path">CLAUDE.md</span><br>索引兼行動原則。AIが毎回のセッション開始時に読む。</td><td>技術構成・コマンド一覧・行動原則を1ファイルに整理して配置する。</td></tr>
-          <tr><td>2</td><td>設計書</td><td><span class="path">docs/</span><br>機能・画面の設計書を格納し、AIが仕様を参照できるようにする。</td><td>主要機能の設計書を作成し、体系的に配置する。</td></tr>
-          <tr><td>3</td><td>規約ファイル</td><td><span class="path">rules/</span><br>規約をMarkdown化し、編集対象に必要な規約だけをAIへ渡す。</td><td>命名規則・コーディング規約をファイル種別ごとに文書化する。</td></tr>
-          <tr><td>4</td><td>作業手順書</td><td><span class="path">skills/</span><br>定型作業を構造化し、名前で呼ぶだけでAIが手順どおりに動く。</td><td>頻出作業を洗い出し、再利用可能な手順書に整理する。</td></tr>
-          <tr><td>5</td><td>可視化サイト</td><td><span class="path">project-portal/</span><br>規約・画面・マスタ表をブラウザで読めるサイトとして構築する。</td><td>規約・画面・APIの索引をHTML化し、人とAIの共通参照点にする。</td></tr>
-        </tbody>
-      </table>
-
-      <p class="source-line">出典：Claude Code 導入前の対象リポジトリ診断スナップショット（2026年7月作成。現状値はこの時点の記録）</p>
-
-    </section>
-
-  </div>
-
-</div>
-
-
-
-<script type="text/plain" data-export-strip>
-(function(){
-  const VARIANTS = {
-    "claude-code": {
-      docTitle: "Claude Code 導入 リポジトリ整備の現状と理想",
-      eyebrow: "GAP ANALYSIS — CLAUDE CODE",
-      leadBand: "AI が自走するには「読める文書」と「見える仕組み」をリポジトリに揃える",
-      headMsg1: "現在のリポジトリには AI が参照できる文書も、人が俯瞰できる可視化基盤もない",
-      headMsg2: "依存関係の上流から順に 5 種類の文書・仕組みを整備し、AI と人の両方に情報を届ける",
-      tableCaption: "対象リポジトリの AI 可読性・運用可視性診断（上流から下流の依存順）",
-      projectDoc: {
-        path: "CLAUDE.md",
-        note: "プロジェクトの<strong>索引兼行動原則</strong>。AI が毎回のセッション開始時に自動で読み込む",
-        gap: "技術構成・コマンド一覧・行動原則を 1 ファイルに整理して配置"
-      },
-      ruleFile: {
-        path: "rules/",
-        note: "規約を Markdown で記述。<strong>編集対象に応じて必要な規約だけ</strong>が AI に自動で届く",
-        gap: "命名規則・コーディング規約をファイル種別ごとに文書化"
-      },
-      workManual: {
-        path: "skills/",
-        note: "定型作業を手順書として構造化。<strong>名前で呼ぶだけ</strong>で AI が手順どおりに動く",
-        gap: "頻出の作業パターンを洗い出し、再利用可能な手順書に整理"
-      },
-      sourceLine: "出典：対象リポジトリの実地調査に基づく（調査時点の構成）"
-    },
-    "cursor": {
-      docTitle: "Cursor 導入 リポジトリ整備の現状と理想",
-      eyebrow: "GAP ANALYSIS — CURSOR",
-      leadBand: "AI エディタが自走するには「読める文書」と「見える仕組み」をプロジェクトに揃える",
-      headMsg1: "現在のプロジェクトには AI エディタが参照できる文書も、人が俯瞰できる可視化基盤もない",
-      headMsg2: "依存関係の上流から順に 5 種類の文書・仕組みを整備し、AI と人の両方に情報を届ける",
-      tableCaption: "対象プロジェクトの AI 可読性・運用可視性診断（上流から下流の依存順）",
-      projectDoc: {
-        path: "AGENTS.md",
-        note: "プロジェクトの<strong>技術構成・行動原則</strong>を記述。エージェントがコンテキストとして自動参照する",
-        gap: "技術構成・コマンド一覧・行動原則を AGENTS.md に整理して配置"
-      },
-      ruleFile: {
-        path: ".cursor/rules/",
-        note: "MDC 形式の規約ファイル。<strong>ファイル条件で該当ファイル編集時のみ</strong>自動で届く",
-        gap: "命名規則・コーディング規約をファイル種別ごとに文書化"
-      },
-      workManual: {
-        path: "SKILL.md",
-        note: "Agent Skills で<strong>再利用可能な作業手順を定義</strong>し、必要時にエージェントへ読み込ませる",
-        gap: "頻出の作業パターンを洗い出し、SKILL.md として定型化"
-      },
-      sourceLine: "出典：対象プロジェクトの実地調査に基づく（調査時点の構成）"
-    },
-    "codex": {
-      docTitle: "Codex CLI 導入 リポジトリ整備の現状と理想",
-      eyebrow: "GAP ANALYSIS — CODEX CLI",
-      leadBand: "AI エージェントが自走するには「読める文書」と「見える仕組み」をリポジトリに揃える",
-      headMsg1: "現在のリポジトリには AI エージェントが参照できる文書も、人が俯瞰できる可視化基盤もない",
-      headMsg2: "Codex CLI は設定ファイルが少ない分、説明書と設計書の質が自走精度を直接左右する",
-      tableCaption: "対象リポジトリの AI 可読性・運用可視性診断（上流から下流の依存順）",
-      projectDoc: {
-        path: "AGENTS.md",
-        note: "プロジェクトの<strong>行動原則と作業手順</strong>。実行開始時に自動で読み込まれる",
-        gap: "技術構成・コマンド一覧・行動原則・主要手順を 1 ファイルに集約"
-      },
-      ruleFile: {
-        path: "AGENTS.md に集約",
-        note: "規約の分離機構がないため、<strong>説明書に規約セクションを設けて</strong>一元管理する",
-        gap: "命名規則・コーディング規約を説明書内のセクションとして整理"
-      },
-      workManual: {
-        path: "AGENTS.md に集約",
-        note: "手順の分離機構がないため、<strong>説明書に手順セクションを設けて</strong>定型化する",
-        gap: "頻出の作業パターンを洗い出し、説明書内のセクションに整理"
-      },
-      sourceLine: "出典：対象リポジトリの実地調査に基づく（調査時点の構成）"
-    }
-  };
-
-  var ROW_KEYS = ["projectDoc", "ruleFile", "workManual"];
-  var ROW_DATA_V = { projectDoc: "project-doc", ruleFile: "rule-file", workManual: "work-manual" };
-  var SAVE_BASENAME = "リポジトリ整備の現状と理想";
-  var saveLink = document.getElementById('save-current');
-  if (saveLink) saveLink.setAttribute('href', location.pathname);
-
-  function resolveInitialSlug(){
-    var hashSlug = (location.hash || "").replace("#", "");
-    if (VARIANTS[hashSlug]) return hashSlug;
-
-    var path = "";
-    try { path = decodeURIComponent(location.pathname); } catch (e) { path = location.pathname; }
-    var m = path.match(/[（(](Claude Code|Cursor|Codex(?: CLI)?)版[）)]/);
-    if (m) {
-      var name = m[1];
-      if (name === "Claude Code") return "claude-code";
-      if (name === "Cursor") return "cursor";
-      if (name.indexOf("Codex") === 0) return "codex";
-    }
-    return "claude-code";
-  }
-
-  function applyVariant(slug){
-    var actual = VARIANTS[slug] ? slug : "claude-code";
-    var v = VARIANTS[actual];
-
-    document.title = v.docTitle;
-    document.querySelector('[data-v="eyebrow"]').textContent = v.eyebrow;
-    document.querySelector('[data-v="lead-band"]').textContent = v.leadBand;
-    document.querySelector('[data-v="head-msg-1"]').textContent = v.headMsg1;
-    document.querySelector('[data-v="head-msg-2"]').textContent = v.headMsg2;
-    document.querySelector('[data-v="table-caption"]').textContent = v.tableCaption;
-    document.querySelector('[data-v="source-line"]').textContent = v.sourceLine;
-
-    for (var i = 0; i < ROW_KEYS.length; i++) {
-      var key = ROW_KEYS[i];
-      var dv = ROW_DATA_V[key];
-      var row = v[key];
-      document.querySelector('[data-v="' + dv + '-path"]').textContent = row.path;
-      document.querySelector('[data-v="' + dv + '-note"]').innerHTML = row.note;
-      document.querySelector('[data-v="' + dv + '-gap"]').textContent = row.gap;
-    }
-
-    var buttons = document.querySelectorAll('#variant-tabs button');
-    var activeLabel = actual;
-    for (var j = 0; j < buttons.length; j++) {
-      var btn = buttons[j];
-      if (btn.dataset.slug === actual) {
-        btn.classList.add('active');
-        activeLabel = btn.textContent;
-      } else {
-        btn.classList.remove('active');
-      }
-    }
-    if (saveLink) saveLink.setAttribute('download', SAVE_BASENAME + '（' + activeLabel + '版）.html');
-
-    return actual;
-  }
-
-  function switchVariant(slug, updateHash){
-    var actual = applyVariant(slug);
-    if (updateHash) {
-      history.replaceState(null, "", "#" + actual);
-    }
-    return actual;
-  }
-
-  var initial = resolveInitialSlug();
-  var actualInitial = switchVariant(initial, false);
-  if (!location.hash) {
-    history.replaceState(null, "", "#" + actualInitial);
-  }
-
-  var tabButtons = document.querySelectorAll('#variant-tabs button');
-  for (var k = 0; k < tabButtons.length; k++) {
-    tabButtons[k].addEventListener('click', (function(btn){
-      return function(){ switchVariant(btn.dataset.slug, true); };
-    })(tabButtons[k]));
-  }
-
-  window.addEventListener('hashchange', function(){
-    var slug = (location.hash || "").replace("#", "");
-    if (!VARIANTS[slug]) return;
-    var activeBtn = document.querySelector('#variant-tabs button.active');
-    if (activeBtn && activeBtn.dataset.slug === slug) return;
-    switchVariant(slug, false);
-  });
-
-  if (saveLink) {
-    saveLink.addEventListener('click', function(e){
-      e.preventDefault();
-      var root = document.documentElement.cloneNode(true);
-      root.querySelectorAll('[data-export-strip]').forEach(function(el){ el.remove(); });
-      var html = "<!DOCTYPE html>\n" + root.outerHTML;
-      var blob = new Blob([html], { type: "text/html" });
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = saveLink.getAttribute('download') || (SAVE_BASENAME + '.html');
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    });
-  }
-})();
-</script>
+        <div class="content">
+          <p class="lead">AIが自走するには「読める文書」と「見える仕組み」をリポジトリに揃える</p>
+          <table class="comparison" aria-label="Claude Code向けリポジトリ整備の現状・理想・差分">
+            <thead>
+              <tr><th scope="col">現状</th><th scope="col">理想</th><th scope="col">差分</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="row-label">01｜プロジェクト説明書</span><span class="current-key">未作成</span>　技術構成・コマンド・守るべき原則をAIに伝えられない。</td>
+                <td><span class="row-label">01｜プロジェクト説明書</span><span class="ideal-key">CLAUDE.md</span>　プロジェクトの索引兼行動原則。AIが毎回のセッション開始時に自動で読み込む。</td>
+                <td><span class="gap-key">説明書を配置</span>技術構成・コマンド一覧・行動原則を1ファイルに整理する。</td>
+              </tr>
+              <tr>
+                <td><span class="row-label">02｜設計書</span><span class="current-key">0件</span>　機能仕様が口頭やSlackに散在し、AIは実装意図を推測する。</td>
+                <td><span class="row-label">02｜設計書</span><span class="ideal-key">docs/</span>　機能・画面の設計書を格納し、AIが仕様を参照できる。</td>
+                <td><span class="gap-key">設計書を配置</span>主要機能の設計書を作成し、体系的に配置する。</td>
+              </tr>
+              <tr>
+                <td><span class="row-label">03｜規約ファイル</span><span class="current-key">0件</span>　命名・コーディング規約が暗黙知で、AIの書き方が揺れる。</td>
+                <td><span class="row-label">03｜規約ファイル</span><span class="ideal-key">rules/</span>　規約をMarkdownで記述し、編集対象に必要な規約だけをAIへ渡す。</td>
+                <td><span class="gap-key">規約を文書化</span>命名規則・コーディング規約をファイル種別ごとに整理する。</td>
+              </tr>
+              <tr>
+                <td><span class="row-label">04｜作業手順書</span><span class="current-key">未整備</span>　繰り返し作業が属人化し、人が毎回口頭で指示している。</td>
+                <td><span class="row-label">04｜作業手順書</span><span class="ideal-key">skills/</span>　定型作業を構造化し、名前で呼ぶだけでAIが手順どおりに動く。</td>
+                <td><span class="gap-key">手順書を定型化</span>頻出の作業パターンを洗い出し、再利用可能な手順書に整理する。</td>
+              </tr>
+              <tr>
+                <td><span class="row-label">05｜可視化サイト</span><span class="current-key">なし</span>　規約・画面・APIを人が全体で俯瞰する手段がない。</td>
+                <td><span class="row-label">05｜可視化サイト</span><span class="ideal-key">project-portal/</span>　規約・画面・マスタ表をブラウザで読めるサイトとして構築する。</td>
+                <td><span class="gap-key">索引をHTML化</span>規約・画面・APIの索引を、人とAIの共通参照点にする。</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="summary" aria-label="整備方針の要約">
+            <p><strong>現状の問題</strong>AIが参照できる文書も、人が俯瞰できる基盤もない。</p>
+            <p><strong>理想の状態</strong>5資産を依存関係の上流から順に接続する。</p>
+            <p><strong>整備順</strong>説明書 → 設計書 → 規約 → 手順書 → 可視化。</p>
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
 </body>
 </html>

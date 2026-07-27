@@ -8,34 +8,25 @@
     {
       "id": "slide-ai-thumbnail-legibility",
       "status": "pass",
-      "evidence": "現行640×360サムネイルで、先頭ページの主張「5つの設定資産は役割で置き分ける」と主要な図表構造を識別できる。さらに現行HTML SHAの全4ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。 現SHAから640×360サムネイルと1280×720検証画像を再生成した。ヘッダー限定再検証で全90論理ページ状態に32件の機械規約を適用し、失敗0件を確認した。"
+      "evidence": "640×360サムネイルでタイトルと主図の構造を識別できる。ツール固有の5種類の設定資産と配置先を左の説明表、右のプロジェクトツリーで同時に確認できる。"
     },
     {
       "id": "slide-ai-one-message",
       "status": "pass",
-      "evidence": "全4ページをページ単位で確認した。各ページは「5つの設定資産は役割で置き分ける」、「AGENTS.mdは階層ごとに作用する」、「skillsは手順、agentsは委任先」、「実行境界はconfig.tomlで定める」という個別の主張へ収束し、1ページ内で複数の無関係な主張を競合させていない。 ヘッダー限定AI再レビューでslide-ai-one-messageを90/90件PASSと判定した。"
+      "evidence": "1論理ページは単一の利用判断へ収束している。ツール固有の5種類の設定資産と配置先を左の説明表、右のプロジェクトツリーで同時に確認できる。"
     },
     {
       "id": "slide-ai-title-claim",
       "status": "pass",
-      "evidence": "全4ページのタイトル「5つの設定資産は役割で置き分ける」、「AGENTS.mdは階層ごとに作用する」、「skillsは手順、agentsは委任先」、「実行境界はconfig.tomlで定める」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。 ヘッダー限定AI再レビューでslide-ai-title-claimを90/90件PASSと判定した。"
+      "evidence": "タイトルは対象ツールと判断対象を明示し、本文の中心構造と一致する。"
     },
     {
       "id": "slide-ai-subtitle-support",
       "status": "pass",
-      "evidence": "全4ページの副題「階層指示・中央設定・手順・役割・実行制御を、それぞれの正規配置へ分ける」、「リポジトリ上位から作業ディレクトリへ読み進み、近い階層の指示を優先する」、「再利用ワークフローはファイル、複数エージェントの役割はconfig.tomlで宣言する」、「サンドボックス・承認・MCP・inline hooksを、指示文書から切り離して管理する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。 ヘッダー限定AI再レビューでslide-ai-subtitle-supportを90件PASS、0件N/A、FAIL 0件と判定した。"
+      "evidence": "副題は対象範囲と読み方を補い、タイトルの言い換えや本文の押し込みになっていない。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T18:19:38.680Z",
-  "artifactSha256": "923d74ce11ce15d6ce7273556b0c37119206786dcbdbcd078dbe0e15dd6d2bf6",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "0aca9f92bb232ec3bad93e793fe22cd67867f683882f37d50d2354a9c92e47c2",
-    "toArtifactSha256": "923d74ce11ce15d6ce7273556b0c37119206786dcbdbcd078dbe0e15dd6d2bf6",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "4ec6727baeba8f1d0d60b4c98441cfa510c8ab7c5874ebea719f926be65bd61f",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  }
+  "checkedAt": "2026-07-27T23:20:14.014Z",
+  "artifactSha256": "45aa37f0bd9a0f8c89ee42755295b72f971693055e3b560e8bf0805590e5f0ba"
 }

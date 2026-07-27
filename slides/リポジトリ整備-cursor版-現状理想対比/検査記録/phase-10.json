@@ -8,37 +8,10 @@
     {
       "id": "deck-ai-split-plan",
       "status": "pass",
-      "evidence": "最終HTML SHA 1f849d19b996の全2ページを独立確認した。p1「欠落と実害」、p2「Cursor参照順の整備」の役割分担で、各ページは1メッセージに収束している。現状診断と理想配置を2ページへ分け、AGENTS.md・MDC rules・skills等の役割を依存順で示す。保存済み最新runtime画像はwide 2/2ページと現SHAのnarrow実描画を確認した。文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "分割不要。ユーザー指定の5項目について、現状・ツール別の理想・埋める差分を同一画面の3列で比較できる。 分割すると対応関係または同時比較を損なう。1280×720で押し込み・切れ・重なりはない。"
     }
   ],
-  "findings": [
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "slides/リポジトリ整備-cursor版-現状理想対比/解説スライド.html の全2ページ、現SHAのwide/narrow実描画、更新後サムネイル",
-      "evidence": "p1「欠落と実害」、p2「Cursor参照順の整備」として読める。現状診断と理想配置を2ページへ分け、AGENTS.md・MDC rules・skills等の役割を依存順で示す。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "impact": "これ以上分割すると、すでに分離済みの各ページ内で主張と根拠が離れ、前後ページを往復しないと判断できなくなる。",
-      "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
-      "preservedInformation": [
-        "AGENTS.md",
-        "docs",
-        ".cursor/rules",
-        ".cursor/skills",
-        "project-portal"
-      ],
-      "splitPlan": "分割なし。現状診断と理想配置を2ページへ分け、AGENTS.md・MDC rules・skills等の役割を依存順で示す。",
-      "verification": "HTML SHA-256が1f849d19b9963cedae6f2bbce8b2aacfe15e66edbf193482f07ea02c46d9ff40であること、保存済み最新runtime画像はwide 2/2ページと現SHAのnarrow実描画を確認し、全2ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
-    }
-  ],
-  "checkedAt": "2026-07-27T23:25:00+09:00",
-  "artifactSha256": "a07699dc71a569cff90c66fdbb13082dfd695bcdecc34b4aa28b8a84b7a0cb5c",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "18cd877aaddf8aea47506cf53d2085884004aaceecd81f028f21bee6bb7ab3d4",
-    "toArtifactSha256": "a07699dc71a569cff90c66fdbb13082dfd695bcdecc34b4aa28b8a84b7a0cb5c",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "bb652430d8bf14b5aec4d9d14a5a3616e3ceb93ef3cfb24261a7652105a4cca1",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  }
+  "findings": [],
+  "checkedAt": "2026-07-27T23:20:14.014Z",
+  "artifactSha256": "8a0e9b71b4c3559709c4e75410d101a4a536fd749fe1773eae306fbacc5f4ce5"
 }

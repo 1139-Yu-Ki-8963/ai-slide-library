@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/claude-code-テンプレート構成/解説スライド.html",
-      "artifactSha256": "3a9cd7ee3916780ed6b6146e26651505234b6e6fe9cc0e0361a1d6862a6b99d5",
+      "file": "/Users/MacPro/Projects/worktrees/ai-slide-library/fix/restore-three-slide-decks/slides/claude-code-テンプレート構成/解説スライド.html",
+      "artifactSha256": "633289710d823acc7f166a1ae79849f1f81fad4772a8dce1371d5576faa064c0",
       "status": "pass",
       "checks": [
         {
