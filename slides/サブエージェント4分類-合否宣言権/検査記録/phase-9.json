@@ -1,0 +1,25 @@
+{
+  "phase": 9,
+  "targetKeys": ["サブエージェント4分類-合否宣言権"],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。『AI の分業は4分類に固定し、合否の宣言は判定役だけに許す』を、計画・実行・調査・判定の4役割と権限境界として同時に示す定義ページであり、ページ間の役割・順序は判定対象外である。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。4分類は均等に比較しつつ、判定系のみを緑の枠と『唯一 PASS / FAIL を宣言できる』で強調しており、デッキ内の強弱配分は適用しない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。4列の反復は役割・担当例・許可／禁止を横断比較するための等幅構造であり、直前ページとの無理由なレイアウト反復を評価する対象ではない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "27387c9c47232d59262ef62f7af873d6df3e5f1f6b8114e399ee4852c6ffc92b"
+}

@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["観測基盤-空回り検知"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "not-applicable", "evidence": "「観測ログから空回りと文脈肥大を検知する」の単一ページで、前後ページ・デッキ文脈は指定されていない。観測ログ、失敗継続判定、文脈増加判定の関係は一枚で完結している。"},
+    {"id": "deck-ai-strength-rhythm", "status": "not-applicable", "evidence": "複数ページの強度配分を比較する対象がない。ページ内の入口・検知対象・対応の主従はwide/narrow実描画と更新後サムネイルで確認した。"},
+    {"id": "deck-ai-layout-repetition", "status": "not-applicable", "evidence": "前後ページとの理由なき反復を評価する対象がない。ページ内の配置は観測起点と2種類の検知を関係付けるための構造で、ページ間反復の判定対象外である。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "a57a277c828924d35ff75d6de01d9ad3866d8caeb65f3224ad076b84b927311e"
+}

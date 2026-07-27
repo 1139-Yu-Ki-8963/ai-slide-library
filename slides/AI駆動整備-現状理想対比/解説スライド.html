@@ -1,4 +1,8 @@
+<!doctype html>
+<html lang="ja">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>自動検証基盤整備の現状と理想</title>
 <style>
   :root {
@@ -6,7 +10,7 @@
     --surface: #FFFFFF;
     --ink: #1C2B3A;
     --ink-2: #55667A;
-    --ink-3: #8494A6;
+    --ink-3: #55667A;
     --border: #D9E0E8;
     --grid: #E9EDF2;
     --critical: #C0392B;
@@ -42,13 +46,13 @@
   }
 
   .slide-header { display: flex; flex-direction: column; gap: 4px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
-  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-2); }
   .slide-title { font-size: 32px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
 
   .lead-band {
-    background: var(--ink); color: var(--surface); border-radius: 6px;
-    padding: 12px 20px; font-size: 19px; font-weight: 700;
-    text-align: center; letter-spacing: 0.02em;
+    background: var(--tag-bg); color: var(--ink); border-left: 4px solid var(--accent);
+    padding: 12px 16px; font-size: 19px; font-weight: 700;
+    text-align: left; letter-spacing: 0.02em;
   }
 
   .head-message { display: flex; flex-direction: column; gap: 5px; }
@@ -66,9 +70,9 @@
 
   .col-step     { width: 5%; }
   .col-category { width: 12%; }
-  .col-current  { width: 27%; }
-  .col-ideal    { width: 29%; }
-  .col-gap      { width: 27%; }
+  .col-current  { width: 23%; }
+  .col-ideal    { width: 25%; }
+  .col-gap      { width: 35%; }
 
   .argument-table td {
     vertical-align: top; border-bottom: 1px solid var(--border);
@@ -81,7 +85,7 @@
   .step-chip {
     display: flex; align-items: center; justify-content: center;
     width: 22px; height: 22px; border-radius: 50%;
-    background: var(--claude); color: #fff;
+    background: #9B4329; color: #fff;
     font-size: 12px; font-weight: 700; margin: 0 auto;
   }
 
@@ -107,8 +111,10 @@
   .cell-note strong { color: var(--ink); font-weight: 600; }
 
   .gap-action {
-    position: relative; padding-left: 14px;
-    font-size: 12px; color: var(--ink-2); line-height: 1.5;
+    position: relative; display: block;
+    padding: 4px 6px 4px 18px;
+    border-left: 3px solid var(--accent);
+    font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.45;
   }
   .gap-action::before {
     content: '\2192'; position: absolute; left: 0; top: 0;
@@ -119,6 +125,14 @@
 
   .slide-page { display: none; flex-direction: column; flex: 1; min-height: 0; gap: 18px; }
   .slide-page.is-active { display: flex; }
+  .slide-page.test-page { gap: 8px; }
+  .slide-page.test-page .lead-band { padding: 8px 14px; font-size: 18px; }
+  .slide-page.test-page .head-message p { line-height: 1.35; }
+  .slide-page.test-page .argument-table th { padding-top: 5px; padding-bottom: 5px; }
+  .slide-page.test-page .argument-table td { padding: 5px 10px; line-height: 1.38; }
+  .slide-page.test-page .cell-note { margin-top: 2px; line-height: 1.35; }
+  .slide-page.test-page .gap-action { padding-top: 2px; padding-bottom: 2px; line-height: 1.35; }
+  .slide-page.test-page .source-line { padding-top: 4px; line-height: 1.2; }
   .pager { position: fixed; bottom: 14px; right: 20px; display: flex; align-items: center; gap: 10px; }
   .pager button {
     width: 30px; height: 30px; border-radius: 50%;
@@ -126,7 +140,7 @@
     font-size: 14px; cursor: pointer;
   }
   .pager button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-  .pager button:disabled { opacity: 0.35; cursor: default; }
+  .pager button[aria-disabled="true"] { opacity: 0.35; cursor: default; }
   .pager-count { font-size: 11px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
   .slide-meta { height: 24px; padding-top: 6px; border-top: 1px solid var(--border); }
@@ -230,6 +244,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -245,12 +261,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -295,14 +317,16 @@ footer.slide-meta strong { color: var(--ink); }
   .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
 }
 </style>
-
+</head>
+<body>
 <div class="slide-viewport">
   <div class="slide">
 
-    <section class="slide-page is-active">
+    <section class="slide-page test-page is-active">
       <header class="slide-header">
         <span class="slide-eyebrow">GAP ANALYSIS — テスト系</span>
-        <h1 class="slide-title">自動検証基盤整備の現状と理想</h1>
+        <h1 class="slide-title">人手確認から、成果物を機械で証明する基盤へ移行する</h1>
+        <p class="slide-subtitle">現状と理想の差を、次に実行する整備作業へ変換する</p>
       </header>
       <div class="lead-band">AI がコード変更後に「壊れていない」と機械的に証明できる状態を目指す</div>
       <section class="head-message">
@@ -317,7 +341,7 @@ footer.slide-meta strong { color: var(--ink); }
           <th scope="col">カテゴリ</th>
           <th scope="col">現状</th>
           <th scope="col">理想</th>
-          <th scope="col">ギャップ</th>
+          <th scope="col">次に行うこと</th>
         </tr></thead>
         <tbody>
           <tr>
@@ -344,7 +368,7 @@ footer.slide-meta strong { color: var(--ink); }
               <span class="badge-path">テストコード</span>
               <span class="cell-note">前提: <strong>観点表</strong>（関数の引数・戻り値・例外条件の一覧）</span>
             </td>
-            <td><span class="gap-action">観点表を整理し、単体テストコードを実装する</span></td>
+            <td><span class="gap-action">観点表を整理 → 単体テストを実装</span></td>
           </tr>
           <tr>
             <td><span class="step-chip">3</span></td>
@@ -357,7 +381,7 @@ footer.slide-meta strong { color: var(--ink); }
               <span class="badge-path">テストコード</span>
               <span class="cell-note">前提: <strong>API 設計書 / データフロー定義</strong></span>
             </td>
-            <td><span class="gap-action">API 設計書を整備し、結合テストコードを実装する</span></td>
+            <td><span class="gap-action">API 設計書を整備 → 結合テストを実装</span></td>
           </tr>
           <tr>
             <td><span class="step-chip">4</span></td>
@@ -370,7 +394,7 @@ footer.slide-meta strong { color: var(--ink); }
               <span class="badge-path">テストコード</span>
               <span class="cell-note">前提: <strong>画面設計書</strong>（操作手順・画面遷移の期待動作）</span>
             </td>
-            <td><span class="gap-action">画面設計書を整備し、E2E テストコードを実装する</span></td>
+            <td><span class="gap-action">画面設計書を整備 → E2E テストを実装</span></td>
           </tr>
           <tr>
             <td><span class="step-chip">5</span></td>
@@ -387,13 +411,14 @@ footer.slide-meta strong { color: var(--ink); }
           </tr>
         </tbody>
       </table>
-      <p class="source-line">出典：対象プロジェクトの実地調査に基づく（調査時点の構成）</p>
+      <p class="source-line">出典条件：汎用例。個別案件では対象版と調査年月を記録する</p>
     </section>
 
     <section class="slide-page">
       <header class="slide-header">
         <span class="slide-eyebrow">GAP ANALYSIS — 静的検査系</span>
-        <h1 class="slide-title">自動検証基盤整備の現状と理想</h1>
+        <h1 class="slide-title">人手確認から、成果物を機械で証明する基盤へ移行する</h1>
+        <p class="slide-subtitle">規約の言語化から静的検査の導入までを、行動順に読む</p>
       </header>
       <div class="lead-band">規約がなければ linter は意味を持たない — 言語化が先、自動化が後</div>
       <section class="head-message">
@@ -408,7 +433,7 @@ footer.slide-meta strong { color: var(--ink); }
           <th scope="col">カテゴリ</th>
           <th scope="col">現状</th>
           <th scope="col">理想</th>
-          <th scope="col">ギャップ</th>
+          <th scope="col">次に行うこと</th>
         </tr></thead>
         <tbody>
           <tr>
@@ -422,7 +447,7 @@ footer.slide-meta strong { color: var(--ink); }
               <span class="badge-path">linter 設定</span>
               <span class="cell-note">前提: <strong>コーディング規約</strong>（rules/ に命名規則・禁止パターンを定義）</span>
             </td>
-            <td><span class="gap-action">規約を rules/ に文書化し、linter 設定に落とし込む</span></td>
+            <td><span class="gap-action">規約を rules/ に文書化 → linter 設定へ変換</span></td>
           </tr>
           <tr>
             <td><span class="step-chip">2</span></td>
@@ -435,7 +460,7 @@ footer.slide-meta strong { color: var(--ink); }
               <span class="badge-path">textlint 設定</span>
               <span class="cell-note">前提: <strong>文体規約</strong>（文長・読点数・冗長表現等）+ <strong>用語辞書</strong>（prh.yml）</span>
             </td>
-            <td><span class="gap-action">文体規約と用語辞書を整備し、textlint を導入する</span></td>
+            <td><span class="gap-action">文体規約・用語辞書を整備 → textlint を導入</span></td>
           </tr>
           <tr>
             <td><span class="step-chip">3</span></td>
@@ -448,7 +473,7 @@ footer.slide-meta strong { color: var(--ink); }
               <span class="badge-path">linkcheck 設定</span>
               <span class="cell-note">前提: <strong>検査対象範囲と除外パターン</strong>の定義</span>
             </td>
-            <td><span class="gap-action">検査範囲を定義し、リンク検査を導入する</span></td>
+            <td><span class="gap-action">検査範囲・除外条件を定義 → リンク検査を導入</span></td>
           </tr>
           <tr>
             <td><span class="step-chip">4</span></td>
@@ -461,11 +486,11 @@ footer.slide-meta strong { color: var(--ink); }
               <span class="badge-path">linter 設定</span>
               <span class="cell-note">前提: <strong>検査観点</strong>（rules/ に必須属性・アクセシビリティ等を定義）</span>
             </td>
-            <td><span class="gap-action">検査観点を rules/ に定義し、linter 設定に変換する</span></td>
+            <td><span class="gap-action">検査観点を rules/ に定義 → linter 設定へ変換</span></td>
           </tr>
         </tbody>
       </table>
-      <p class="source-line">linter の設定は規約文書から導出する — 規約がなければ linter は意味を持たない</p>
+      <p class="source-line">出典条件：汎用例。個別案件では対象版と調査年月を記録する</p>
     </section>
 
     <footer class="slide-meta"></footer>
@@ -504,8 +529,8 @@ footer.slide-meta strong { color: var(--ink); }
   function render() {
     pages.forEach(function (p, i) { p.classList.toggle('is-active', i === idx); });
     current.textContent = idx + 1;
-    prev.disabled = idx === 0;
-    next.disabled = idx === pages.length - 1;
+    prev.setAttribute('aria-disabled', String(idx === 0));
+    next.setAttribute('aria-disabled', String(idx === pages.length - 1));
   }
   prev.addEventListener('click', function () { if (idx > 0) { idx--; render(); } });
   next.addEventListener('click', function () { if (idx < pages.length - 1) { idx++; render(); } });
@@ -516,3 +541,5 @@ footer.slide-meta strong { color: var(--ink); }
   render();
 })();
 </script>
+</body>
+</html>

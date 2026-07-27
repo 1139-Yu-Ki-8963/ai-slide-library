@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["機密情報検査-コミット前ブロック"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "not-applicable", "evidence": "単一ページで明示されたデッキ文脈はない。タイトル「機密情報を三重に検査し、公開は承認で守る」に対し、コミット時→push時→公開前の3関門を上から下へ並べ、一枚で順序を完結させているため、ページ間の役割・順序を判定する対象がない。"},
+    {"id": "deck-ai-strength-rhythm", "status": "not-applicable", "evidence": "単一ページで明示されたデッキ文脈はない。第一関門を赤、再検査を中立色、最終防衛線を緑で置き、停止・再検査・承認という役割差を明確にするが、複数ページの強度配分は存在しない。"},
+    {"id": "deck-ai-layout-repetition", "status": "not-applicable", "evidence": "単一ページで明示されたデッキ文脈はない。3つの横長関門は同じ検査対象が時点ごとに強化される順序を読ませるための反復であり、別ページとの理由なき同型反復は評価対象外。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "f98b56b5992d42d9efa9c37677da272fabc602c92fc310b79c42b0a308588ec4"
+}

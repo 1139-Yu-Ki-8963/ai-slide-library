@@ -1,0 +1,25 @@
+{
+  "phase": 9,
+  "targetKeys": ["claude-code安全性-層構造観点"],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈がない。『Claude Code は 2 層で安全性を確保する』という結論を、上段Permissionから下段Sandboxへ向かう一方向の層構造として説明しており、ページ間の役割・順序は存在しない。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "単一ページのためデッキ全体の強弱リズムは対象外である。大きなタイトルを入口にし、PermissionとSandboxの2層は同じ安全性結論を補完する情報提示として扱われ、複数ページでの強調連続や静ページの有無を評価できない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "単一ページで直前2ページとのレイアウト反復は存在しない。上下2層と中央の接続矢印は、Permission通過後のBashにSandboxが適用される関係を示すための構造であり、ページ横断の反復判定は不要である。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "c08da15d7310710fb2e0216889586fe64a7f70ec627c34ac7d6bd0023a56de49"
+}

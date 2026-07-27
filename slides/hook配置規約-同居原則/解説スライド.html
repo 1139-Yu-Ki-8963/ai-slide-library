@@ -1,4 +1,8 @@
+<!doctype html>
+<html lang="ja">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>hook は規約の定義ファイルと同じフォルダに置く</title>
 <style>
   :root {
@@ -58,7 +62,7 @@
   .step-chip { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
   .step-chip--critical { background: var(--critical); }
   .step-chip--good { background: var(--good); }
-  .step-chip--main { background: var(--claude); }
+  .step-chip--main { background: #B65335; }
   .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
   .step { display: flex; gap: 8px; align-items: center; }
   .step-text { font-size: 13px; line-height: 1.4; color: var(--ink-2); }
@@ -164,6 +168,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -179,12 +185,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -229,6 +241,8 @@ footer.slide-meta strong { color: var(--ink); }
   .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
 }
 </style>
+</head>
+<body>
 <div class="slide-viewport"><div class="slide">
 <header class="slide-header"><span class="slide-eyebrow">HOOKS-ARCHITECTURE</span><h1 class="slide-title">hook は規約の定義ファイルと同じフォルダに置く</h1><p class="slide-subtitle">flat な hooks/ ディレクトリに全 hook を投げ込む構造では、どの規約のための hook か判別できなくなる</p></header>
 <div class="compare-row">
@@ -243,3 +257,4 @@ footer.slide-meta strong { color: var(--ink); }
 <footer class="slide-meta"></footer>
 </div></div>
 <script>(function(){function f(){document.documentElement.style.setProperty('--slide-scale',Math.min(innerWidth/1280,innerHeight/720));}addEventListener('resize',f);f();})();</script>
+</body></html>

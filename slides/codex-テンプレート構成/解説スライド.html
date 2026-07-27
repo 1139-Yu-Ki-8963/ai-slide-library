@@ -1,16 +1,476 @@
-<meta charset="utf-8">
-<title>Codex CLI — AI駆動開発の docs 配置ガイド</title>
-<meta http-equiv="refresh" content="0; url=../claude-code-テンプレート構成/解説スライド.html#codex">
-<style>
-  body {
-    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
-    color: #1C2B3A;
-    padding: 40px;
-  }
-  a { color: #D97757; }
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codexの設定資産を4層で整理する</title>
+<style data-shared-slide-shell>
+/* GENERATED FROM: slide-design-system / shared-slide-shell.css */
+/*
+ * Shared slide shell
+ * 正本: generating-explanation-html-slides/references/shared-slide-shell.css
+ * 最終HTMLは単体配布できるよう、このCSSを生成時に内包する。
+ * 型固有の表・図表・本文レイアウトはこのファイルへ追加しない。
+ */
+:root {
+  --paper: #f5f4f1;
+  --ink: #202426;
+  --muted: #626967;
+  --faint: #d7d9d5;
+  --accent: #a15d32;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
+}
+
+.viewport,
+.slide-viewport {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1280px;
+  height: 720px;
+  padding: 46px 58px 30px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  gap: 0;
+  transform: translate(-50%, -50%) scale(var(--slide-scale, var(--scale, 1)));
+  transform-origin: center center;
+}
+
+header,
+.slide-header {
+  position: static;
+  inset: auto;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding-bottom: 17px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.header-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 55px;
+}
+
+.kicker {
+  color: var(--accent);
+  font-family: system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+.title,
+.slide-title,
+.slide-header .slide-title,
+.slide-header h1,
+header h1 {
+  display: block;
+  max-width: none;
+  margin: 0;
+  font-size: 33px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.single-line-title {
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.title-num {
+  display: inline-block;
+  font-family: "Noto Serif CJK JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.lede,
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
+  align-self: end;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.lede em {
+  color: var(--ink);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.bottom,
+.slide-footer,
+footer.slide-meta,
+footer.meta {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 35px;
+  height: auto;
+  flex: 0 0 auto;
+  min-height: 0;
+  margin: 0;
+  border-top: 0;
+  padding-top: 10px;
+  color: var(--muted);
+  font-family: system-ui, sans-serif;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.bottom strong,
+.slide-footer strong,
+footer.slide-meta strong { color: var(--ink); }
+
+.warning,
+.slide-footer .warning {
+  padding-left: 10px;
+  border-left: 3px solid var(--accent);
+}
+
+.sequence,
+.slide-footer .sequence { text-align: right; }
+
+@media (max-width: 700px) {
+  .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
+}
 </style>
-<script>
-  location.replace("../claude-code-テンプレート構成/解説スライド.html#codex");
-</script>
-<p>このスライドは統合版に移動しました。</p>
-<p>自動で移動しない場合は<a href="../claude-code-テンプレート構成/解説スライド.html#codex">こちら</a>。</p>
+<style data-slide-specific>
+  :root {
+    --accent: #286854;
+    --accent-soft: #e5efeb;
+    --surface-soft: #f7f7f4;
+  }
+  .slide { display: none; }
+  .slide.is-active { display: flex; }
+  .slide-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: end;
+  }
+  .slide-title { margin-top: 4px; }
+  .slide-subtitle { text-align: right; }
+  .content {
+    flex: 1;
+    min-height: 0;
+    padding-top: 24px;
+    font-family: system-ui, -apple-system, "Hiragino Sans", sans-serif;
+  }
+  .overview-content { display: flex; align-items: stretch; padding-bottom: 8px; }
+  .overview { flex: 1; width: 100%; height: 100%; border-collapse: collapse; table-layout: fixed; }
+  .overview th {
+    padding: 0 12px 9px;
+    border-bottom: 1px solid var(--ink);
+    color: var(--muted);
+    font-size: 11px;
+    text-align: left;
+    letter-spacing: .08em;
+  }
+  .overview td {
+    padding: 14px;
+    border-bottom: 1px solid var(--faint);
+    vertical-align: middle;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .overview tbody { height: calc(100% - 36px); }
+  .overview tbody tr { height: 20%; }
+  .overview tbody tr:last-child td { border-bottom: 0; }
+  .asset-name { display: block; color: var(--ink); font-size: 15px; font-weight: 750; }
+  .path { color: var(--accent); font: 700 13px/1.4 "SFMono-Regular", Consolas, monospace; }
+  .effect { color: var(--muted); }
+  .section-label {
+    margin: 0 0 10px;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .08em;
+  }
+  .instruction-map { display: grid; grid-template-columns: .82fr 1.18fr; gap: 34px; height: 100%; }
+  .search-column { padding-right: 28px; border-right: 1px solid var(--faint); }
+  .search-column h2, .scope-column h2, .role-column h2, .control-stack h2 {
+    margin: 0 0 7px;
+    font-family: Georgia, "Yu Mincho", serif;
+    font-size: 23px;
+    font-weight: 600;
+  }
+  .search-column p, .scope-column p, .role-column p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .scope-step { display: grid; grid-template-columns: 36px 1fr; gap: 14px; margin-top: 20px; align-items: start; }
+  .scope-step b {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 12px;
+  }
+  .scope-step strong { display: block; margin-bottom: 3px; font-size: 14px; }
+  .scope-step span { color: var(--muted); font-size: 13px; line-height: 1.5; }
+  .override-note {
+    margin-top: 22px;
+    padding: 16px 18px;
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .roles { display: grid; grid-template-columns: 1.03fr 1px .97fr; gap: 30px; height: 100%; }
+  .role-divider { background: var(--faint); }
+  .role-column { padding-top: 6px; }
+  .role-column--agent { padding: 26px 28px 18px; background: var(--surface-soft); }
+  .tree, .config-sample {
+    margin: 16px 0 12px;
+    color: var(--ink);
+    font: 12px/1.7 "SFMono-Regular", Consolas, monospace;
+  }
+  .tree .muted { color: var(--muted); }
+  .config-sample {
+    padding: 14px 16px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--faint);
+    white-space: pre-wrap;
+  }
+  .role-column ul, .control-stack ul {
+    margin: 10px 0 0;
+    padding-left: 18px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .handoff {
+    margin-top: 16px;
+    padding-top: 13px;
+    border-top: 1px solid var(--ink);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .controls { display: grid; grid-template-columns: 1.18fr .82fr; gap: 38px; height: 100%; }
+  .control-stack { display: flex; flex-direction: column; gap: 11px; }
+  .control-band {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 18px;
+    padding: 13px 0;
+    border-top: 1px solid var(--faint);
+  }
+  .control-band:first-of-type { border-top-color: var(--ink); }
+  .control-band strong { font: 700 12px/1.4 "SFMono-Regular", Consolas, monospace; }
+  .control-band p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+  .boundary {
+    align-self: end;
+    margin-bottom: 16px;
+    padding: 24px;
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+  }
+  .boundary strong { display: block; margin-bottom: 8px; font-size: 18px; }
+  .boundary p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+  .pager {
+    position: fixed;
+    left: 50%;
+    bottom: 14px;
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    transform: translateX(-50%);
+    font-family: system-ui, sans-serif;
+  }
+  .pager button {
+    width: 32px;
+    height: 28px;
+    border: 1px solid var(--faint);
+    background: #fff;
+    color: var(--muted);
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .pager button[aria-current="page"] {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+  }
+  .pager button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+  <main class="slide-viewport" aria-label="Codex設定資産ガイド">
+    <section class="slide is-active" data-page="0" aria-label="設定資産5種の全体像">
+      <header class="slide-header">
+        <div><span class="kicker">CODEX · 01</span><h1 class="slide-title">5つの設定資産は役割で置き分ける</h1></div>
+        <p class="slide-subtitle">階層指示・中央設定・手順・役割・実行制御を、それぞれの正規配置へ分ける</p>
+      </header>
+      <div class="content overview-content">
+        <table class="overview">
+          <thead><tr><th style="width:21%">資産</th><th style="width:34%">正規配置</th><th style="width:45%">AIへの効果</th></tr></thead>
+          <tbody>
+            <tr><td><span class="asset-name">階層指示</span></td><td><span class="path">AGENTS.md</span> / <span class="path">AGENTS.override.md</span></td><td class="effect">ディレクトリ範囲に応じた作業指示を与える</td></tr>
+            <tr><td><span class="asset-name">中央設定</span></td><td><span class="path">config.toml</span></td><td class="effect">モデル、権限、MCPなどの実行方針を集約する</td></tr>
+            <tr><td><span class="asset-name">再利用手順</span></td><td><span class="path">.agents/skills/&lt;name&gt;/SKILL.md</span></td><td class="effect">繰り返す作業を同じ条件と手順で実行する</td></tr>
+            <tr><td><span class="asset-name">専門エージェント</span></td><td><span class="path">config.toml</span> の <span class="path">[agents]</span></td><td class="effect">descriptionとconfig_fileで委任先を宣言する</td></tr>
+            <tr><td><span class="asset-name">実行境界</span></td><td><span class="path">config.toml</span></td><td class="effect">sandbox、承認、MCP、inline hooksを制御する</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <footer class="slide-meta"></footer>
+    </section>
+
+    <section class="slide" data-page="1" aria-label="階層指示の読み込み">
+      <header class="slide-header">
+        <div><span class="kicker">CODEX · 02</span><h1 class="slide-title">AGENTS.mdは階層ごとに作用する</h1></div>
+        <p class="slide-subtitle">リポジトリ上位から作業ディレクトリへ読み進み、近い階層の指示を優先する</p>
+      </header>
+      <div class="content instruction-map">
+        <div class="search-column">
+          <p class="section-label">LAYERED INSTRUCTIONS</p>
+          <h2>探索は上位から現在地へ</h2>
+          <p>作業対象へ至るディレクトリ階層の指示を順に読み、スコープを狭めながら具体化する。</p>
+          <div class="tree">repo/AGENTS.md<br><span class="muted">└─ packages/AGENTS.md<br>&nbsp;&nbsp;└─ api/AGENTS.md</span></div>
+        </div>
+        <div class="scope-column">
+          <p class="section-label">PRECEDENCE</p>
+          <h2>近い指示が具体化する</h2>
+          <div class="scope-step"><b>1</b><div><strong>ルートのAGENTS.md</strong><span>全体の規約、共通コマンド、公開安全などを共有する。</span></div></div>
+          <div class="scope-step"><b>2</b><div><strong>下位のAGENTS.md</strong><span>対象領域だけのテスト、命名、配置ルールを追加する。</span></div></div>
+          <div class="scope-step"><b>3</b><div><strong>AGENTS.override.md</strong><span>同じ階層のAGENTS.mdより優先する上書き指示として使う。</span></div></div>
+          <div class="override-note"><strong>平文Markdown：</strong>指示本文はMarkdownで記述し、ファイル階層そのものを適用範囲にする。</div>
+        </div>
+      </div>
+      <footer class="slide-meta"></footer>
+    </section>
+
+    <section class="slide" data-page="2" aria-label="skillsとagents">
+      <header class="slide-header">
+        <div><span class="kicker">CODEX · 03</span><h1 class="slide-title">skillsは手順、agentsは委任先</h1></div>
+        <p class="slide-subtitle">再利用ワークフローはファイル、複数エージェントの役割はconfig.tomlで宣言する</p>
+      </header>
+      <div class="content roles">
+        <div class="role-column">
+          <p class="section-label">REPOSITORY SKILL</p>
+          <h2>.agents/skills/</h2>
+          <div class="tree">.agents/skills/release/<br>├─ SKILL.md<br><span class="muted">├─ scripts/<br>└─ references/</span></div>
+          <p>SKILL.mdに起動条件、手順、完了条件をまとめ、必要なタスクで再利用する。</p>
+          <div class="handoff">Skillは「仕事の進め方」を一つの配布単位にする。</div>
+        </div>
+        <div class="role-divider" aria-hidden="true"></div>
+        <div class="role-column role-column--agent">
+          <p class="section-label">MULTI-AGENT ROLE</p>
+          <h2>config.tomlの[agents]</h2>
+          <pre class="config-sample" aria-label="agent宣言の例">[agents.reviewer]
+description = "変更をレビューする"
+config_file = "agents/reviewer.toml"</pre>
+          <ul>
+            <li>役割はdescription、個別設定はconfig_fileで結び付ける。</li>
+            <li>同時実行上限はmax_concurrent_threads_per_sessionで設定する。</li>
+            <li>固定の並列数は前提にせず、環境と作業に合わせて決める。</li>
+          </ul>
+        </div>
+      </div>
+      <footer class="slide-meta"></footer>
+    </section>
+
+    <section class="slide" data-page="3" aria-label="実行制御">
+      <header class="slide-header">
+        <div><span class="kicker">CODEX · 04</span><h1 class="slide-title">実行境界はconfig.tomlで定める</h1></div>
+        <p class="slide-subtitle">サンドボックス・承認・MCP・inline hooksを、指示文書から切り離して管理する</p>
+      </header>
+      <div class="content controls">
+        <div class="control-stack">
+          <p class="section-label">CONFIGURATION SURFACE</p>
+          <div class="control-band"><strong>sandbox_mode</strong><p>ファイルやコマンドが触れられる範囲を指定する。</p></div>
+          <div class="control-band"><strong>approval_policy</strong><p>操作前に承認を求める条件を定める。</p></div>
+          <div class="control-band"><strong>mcp_servers</strong><p>外部ツールやデータソースへの接続を設定する。</p></div>
+          <div class="control-band"><strong>inline hooks</strong><p>実行フローへ組み込む自動処理をconfig.toml内で定義する。</p></div>
+          <div class="control-band"><strong>[agents]</strong><p>エージェント役割と個別設定ファイルの対応を宣言する。</p></div>
+        </div>
+        <aside class="boundary">
+          <strong>AGENTS.mdは権限設定ではない</strong>
+          <p>AGENTS.mdは作業指示を伝える。実行可能範囲と承認条件はconfig.tomlの制御キーで決める。</p>
+        </aside>
+      </div>
+      <footer class="slide-meta"></footer>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="ページ移動">
+    <button type="button" data-go="0" aria-label="1ページ目" aria-current="page">1</button>
+    <button type="button" data-go="1" aria-label="2ページ目">2</button>
+    <button type="button" data-go="2" aria-label="3ページ目">3</button>
+    <button type="button" data-go="3" aria-label="4ページ目">4</button>
+  </nav>
+  <script>
+    (() => {
+      const slides = [...document.querySelectorAll(".slide")];
+      const buttons = [...document.querySelectorAll("[data-go]")];
+      let current = 0;
+      const scale = () => document.documentElement.style.setProperty("--slide-scale", Math.min(innerWidth / 1280, innerHeight / 720));
+      const show = index => {
+        current = Math.max(0, Math.min(slides.length - 1, index));
+        slides.forEach((slide, i) => slide.classList.toggle("is-active", i === current));
+        buttons.forEach((button, i) => i === current ? button.setAttribute("aria-current", "page") : button.removeAttribute("aria-current"));
+      };
+      buttons.forEach(button => button.addEventListener("click", () => show(Number(button.dataset.go))));
+      addEventListener("keydown", event => {
+        if (event.key === "ArrowRight" || event.key === "PageDown") show(current + 1);
+        if (event.key === "ArrowLeft" || event.key === "PageUp") show(current - 1);
+        if (event.key === "Home") show(0);
+        if (event.key === "End") show(slides.length - 1);
+      });
+      addEventListener("resize", scale);
+      scale();
+      show(0);
+    })();
+  </script>
+</body>
+</html>

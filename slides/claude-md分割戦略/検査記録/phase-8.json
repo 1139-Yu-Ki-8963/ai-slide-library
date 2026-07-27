@@ -1,0 +1,32 @@
+{
+  "phase": 8,
+  "targetKeys": [
+    "claude-md分割戦略"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "slide-ai-thumbnail-legibility",
+      "status": "pass",
+      "evidence": "現行640×360サムネイルで、先頭ページの主張「パス条件のrules分割で遵守率とコストを両立する」と主要な図表構造を識別できる。さらに現行HTML SHAの全1ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。"
+    },
+    {
+      "id": "slide-ai-one-message",
+      "status": "pass",
+      "evidence": "ページ内のタイトル、根拠、図表、結論は「パス条件のrules分割で遵守率とコストを両立する」という一つの判断へ収束し、別主張を同列に混在させていない。"
+    },
+    {
+      "id": "slide-ai-title-claim",
+      "status": "pass",
+      "evidence": "全1ページのタイトル「パス条件のrules分割で遵守率とコストを両立する」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。"
+    },
+    {
+      "id": "slide-ai-subtitle-support",
+      "status": "pass",
+      "evidence": "全1ページの副題「全部入りの問題と種類別分離の限界を踏まえ、必要な規約だけを読み込む構造を推奨する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T10:40:54.000Z",
+  "artifactSha256": "6de77578b864909a65abe6fa54e8825303b3e8e68300f9fd4191c67389e303ff"
+}

@@ -1,0 +1,32 @@
+{
+  "phase": 8,
+  "targetKeys": [
+    "output-style-応答態度切替"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "slide-ai-thumbnail-legibility",
+      "status": "pass",
+      "evidence": "最終HTMLから再生成した640×360サムネイルで、先頭ページの主張「Output Styleを場面に合わせて切り替える」と主要な図表構造を識別できる。さらに全2ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。"
+    },
+    {
+      "id": "slide-ai-one-message",
+      "status": "pass",
+      "evidence": "全2ページをページ単位で確認した。各ページは「Output Styleを場面に合わせて切り替える」、「Proactiveの5指示と確認境界を読む」という個別の主張へ収束し、1ページ内で複数の無関係な主張を競合させていない。"
+    },
+    {
+      "id": "slide-ai-title-claim",
+      "status": "pass",
+      "evidence": "全2ページのタイトル「Output Styleを場面に合わせて切り替える」、「Proactiveの5指示と確認境界を読む」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。"
+    },
+    {
+      "id": "slide-ai-subtitle-support",
+      "status": "pass",
+      "evidence": "全2ページの副題「Default・Proactive・Explanatory・Learningを、確認頻度と説明量で選ぶ」、「即時実行と割込み最小化を優先しつつ、削除と共有システム変更は確認する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:33:55.465Z",
+  "artifactSha256": "53b13ec845e3defbb09bb07b38f2e8edd44d257d4deac04620c17f6a6e765d8f"
+}

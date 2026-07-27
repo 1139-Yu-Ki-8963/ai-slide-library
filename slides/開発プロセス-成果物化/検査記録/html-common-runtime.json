@@ -1,0 +1,76 @@
+{
+  "kind": "html-runtime",
+  "status": "pass",
+  "files": [
+    {
+      "file": "/Users/MacPro/Projects/ai-slide-library/slides/開発プロセス-成果物化/解説スライド.html",
+      "artifactSha256": "c2678a7d667234d1e54626d80c7ceda7c5586032239cd2e49c78774671708f78",
+      "status": "pass",
+      "checks": [
+        {
+          "id": "html-runtime-load",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-console-errors",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-page-errors",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-missing-resources",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-horizontal-overflow",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-clipped-text",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-critical-overlap",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-keyboard-reachability",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-visible-focus",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-contrast",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-reduced-motion",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-screenshot",
+          "status": "pass",
+          "evidence": [
+            "/Users/MacPro/Projects/ai-slide-library/slides/開発プロセス-成果物化/evidence/html-runtime/解説スライド-wide-c2678a7d6672.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/開発プロセス-成果物化/evidence/html-runtime/解説スライド-narrow-c2678a7d6672.png"
+          ]
+        }
+      ]
+    }
+  ]
+}

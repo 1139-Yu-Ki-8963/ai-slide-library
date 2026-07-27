@@ -1,0 +1,27 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "ai開発課題-重点行分析型"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。タイトル「導入段階別の達成指標表を確認する」は、期間比較・重点行・全体サマリーの読み方を一枚で完結させており、ページ間の役割・順序を判定する対象がない。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。新規導入チームと拡大フェーズの重点2行だけを青枠で強調し、定着フェーズ・全社平均は比較の基準として静かに置く設計だが、デッキ内の強弱リズムを比較する対象がない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。4行×5列の反復は年度上期・下期、増減、改善率を同一軸で読む表の必然であり、別ページとの理由なき同型反復は評価対象外。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T11:37:12.828Z",
+  "artifactSha256": "34c20097cc66e0876ade51fa9e6ecd3e951e535c0c6fc62aa00cd78794cb1659"
+}

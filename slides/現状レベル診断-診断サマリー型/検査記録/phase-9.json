@@ -1,0 +1,25 @@
+{
+  "phase": 9,
+  "targetKeys": ["現状レベル診断-診断サマリー型"],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。『AI開発の整備レベルは65点。AGENTS.mdとSkills整備が次の課題』に対し、総合点、5軸レーダー、項目別スコア表を同じ診断結果の根拠としてまとめた診断サマリーであり、ページ間の役割・順序は判定対象外である。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。65点の総合点を入口にし、46点のAGENTS.md整備と52点のSkills整備を次の課題として反復表示し、他の3項目を比較根拠に置く構造のため、デッキ内の強弱配分は適用しない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。総合点・レーダー・表は同じ5評価項目を別の読み方で照合するための反復であり、同一デッキ内の直前ページとの無理由な配置反復を評価する対象ではない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "707a7331d411d19d395ebfd14d4b116d005aebbb119597adc6da010e8e6b18e6"
+}

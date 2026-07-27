@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["hook配置規約-同居原則"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "not-applicable", "evidence": "「hook は規約の定義ファイルと同じフォルダに置く」単一ページで、デッキの前後関係は指定されていない。左のflatバケットによる問題、右の規約同居構造、下部の運用結論という比較順序がページ内で完結している。"},
+    {"id": "deck-ai-strength-rhythm", "status": "not-applicable", "evidence": "複数ページの強弱を評価する文脈がない。単ページでは左の失敗を赤、右の推奨構造を緑とし、同居構造を主役にしつつ下部の3要点で結論を補強している。"},
+    {"id": "deck-ai-layout-repetition", "status": "not-applicable", "evidence": "前後ページとの比較対象がない。左右のファイルツリーはflat配置と規約同居配置を同一粒度で比較するための必要な反復で、同じカードを無意味に並べたものではない。"}
+  ],
+  "findings": [{"severity": "low", "decision": "pass", "target": "flat配置と規約同居配置の対比", "evidence": "現在SHA eb1fe2312b47…のwide/narrow実描画とサムネイルで、左の所属不明なhook群と右のrule・hook・テスト・設計記録の同居が明確に対比される。静的・実描画JSONはpassでSHA一致している。", "fix": "修正不要。"}],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "eb1fe2312b478aaade25379af6dc75727db356b27bc7ec220c93b21dc2150f85"
+}

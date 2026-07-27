@@ -1,0 +1,27 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "AI採用成熟度-5段階比較"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "最終HTMLは「AI採用の5段階を、状態と進行条件で比較する」の単一ページで、HTML内にページ送りや同一デッキの前後ページがないため、ページ役割と順序の比較対象がない。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "最終HTMLは単一ページであり、複数ページにまたがる強・中・静の配分や連続を判定するデッキ文脈がない。ページ内のLevel 1〜5比較は確認したが、Phase 9のページ間リズム評価には用いない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "最終HTMLは単一ページで、比較する直前・直後ページがない。5段階の列反復は同一ページ内で成熟度を共通軸比較するための構造であり、ページ間の理由なきレイアウト反復は評価対象外である。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "3d5b45e6e7bd2035a53372f1f2ae9a9fa59f5765bf7b70bf2ff88c87627c0932"
+}

@@ -1,4 +1,8 @@
+<!doctype html>
+<html lang="ja">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI エージェントの振る舞い統制 ── hooks 強制とサブエージェント権限分離</title>
 <style>
   :root {
@@ -6,7 +10,7 @@
     --surface: #FFFFFF;
     --ink: #1C2B3A;
     --ink-2: #55667A;
-    --ink-3: #8494A6;
+    --ink-3: #46596D;
     --border: #D9E0E8;
     --grid: #E9EDF2;
     --critical: #C0392B;
@@ -15,10 +19,10 @@
     --good-soft: #EAF4EE;
     --tag-bg: #EDF1F6;
     --claude: #D97757;
-    --claude-deep: #BC5B3B;
+    --claude-deep: #9F432C;
     --claude-soft: #FBF0EA;
-    --cat-plan: #4A6FA5;
-    --cat-research: #6B8E6B;
+    --cat-plan: #345D8D;
+    --cat-research: #4E704E;
   }
 
   html, body { height: 100%; overflow: hidden; }
@@ -246,6 +250,54 @@
     border-top: 1px solid var(--border);
     margin-top: 12px; padding-top: 8px; height: 4px;
   }
+  .slide > .slide-header,
+  .slide > .content,
+  .slide > .steps { display: none; }
+  .slide-page { display: none; flex: 1; min-height: 0; flex-direction: column; gap: 18px; }
+  .slide-page.is-active { display: flex; }
+  .slide-page .slide-subtitle { align-self: start !important; margin-top: 6px !important; }
+
+  .control-thesis {
+    display: grid; grid-template-columns: 1fr 80px 1.25fr; gap: 20px;
+    align-items: stretch; flex: 1; min-height: 0;
+  }
+  .control-side { padding: 30px; border-top: 5px solid var(--critical); background: var(--critical-soft); }
+  .control-side--role { border-color: var(--ink); background: var(--tag-bg); }
+  .control-side .layer-label { font-size: 12px; font-weight: 800; color: var(--ink-3); letter-spacing: .1em; }
+  .control-side h2 { margin: 12px 0 18px; font-size: 28px; line-height: 1.35; }
+  .control-side p { font-size: 16px; line-height: 1.65; color: var(--ink-2); }
+  .control-side strong { color: var(--ink); }
+  .control-link { display: grid; place-items: center; color: var(--claude-deep); font-size: 38px; }
+  .effects {
+    display: grid; grid-template-columns: 90px 1fr; row-gap: 9px;
+    padding: 16px 20px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--border);
+  }
+  .effects dt { color: var(--claude-deep); font-size: 12px; font-weight: 800; letter-spacing: .08em; }
+  .effects dd { font-size: 15px; line-height: 1.45; color: var(--ink); }
+
+  .hook-table, .agent-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .hook-page .hook-table, .agent-page .agent-table { flex: 1; }
+  .hook-table caption, .agent-table caption { text-align: left; padding-bottom: 8px; color: var(--ink-3); font-size: 13px; font-weight: 700; }
+  .hook-table th, .agent-table th { padding: 9px 12px; background: var(--ink); color: var(--surface); font-size: 13px; text-align: left; }
+  .hook-table td, .agent-table td { padding: 14px 12px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--ink-2); font-size: 14px; line-height: 1.45; }
+  .hook-page .hook-table td, .agent-page .agent-table td { vertical-align: middle; }
+  .hook-table tbody tr:nth-child(even) td, .agent-table tbody tr:nth-child(even) td { background: var(--tag-bg); }
+  .hook-table .timing { font-family: 'SF Mono', 'Fira Code', Consolas, monospace; color: var(--ink); font-weight: 800; }
+  .outcome { color: var(--claude-deep); font-weight: 800; }
+  .safety-valve { padding: 15px 18px; border-left: 5px solid var(--good); background: var(--good-soft); color: var(--ink-2); font-size: 14px; line-height: 1.55; }
+  .safety-valve strong { color: var(--ink); }
+
+  .agent-table td:first-child { font-weight: 800; color: var(--ink); }
+  .agent-table .names { font-family: 'SF Mono', 'Fira Code', Consolas, monospace; color: var(--ink); font-size: 13px; }
+  .verdict-no { color: var(--ink-3); font-weight: 800; }
+  .verdict-yes { color: var(--claude-deep); font-weight: 900; }
+  .verdict-rule { padding: 13px 18px; border-left: 5px solid var(--claude-deep); background: var(--claude-soft); color: var(--ink); font-size: 15px; font-weight: 700; }
+
+  .pager { position: fixed; right: 22px; bottom: 13px; display: flex; align-items: center; gap: 9px; }
+  .pager button { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 50%; background: var(--surface); color: var(--ink); }
+  .pager button[aria-disabled="true"] { opacity: .35; }
+  .pager-count { color: var(--ink-3); font-size: 11px; font-variant-numeric: tabular-nums; }
+  :focus-visible { outline: 3px solid var(--critical); outline-offset: 3px; }
 </style>
 <style data-shared-slide-shell>
 /* GENERATED FROM: slide-design-system / shared-slide-shell.css */
@@ -346,6 +398,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -361,12 +415,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -411,13 +471,118 @@ footer.slide-meta strong { color: var(--ink); }
   .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
 }
 </style>
+</head>
 
+<body>
 <div class="slide-viewport">
   <div class="slide">
+    <section class="slide-page is-active">
+      <header class="slide-header">
+        <span class="slide-eyebrow">設定・規約遵守 — 統制の全体像</span>
+        <h1 class="slide-title">品質保証は、機械強制と権限分離の2層で成立する</h1>
+        <p class="slide-subtitle">hooksが操作を止め、役割定義が越権を防ぐ</p>
+      </header>
+      <div class="control-thesis">
+        <article class="control-side">
+          <span class="layer-label">操作時の境界</span>
+          <h2>hooksによる<wbr>機械的強制</h2>
+          <p>ルール違反をシェルスクリプトで検知し、操作を<strong>ブロック</strong>、助言を注入、または応答を書き直させる。</p>
+        </article>
+        <div class="control-link" aria-hidden="true">＋</div>
+        <article class="control-side control-side--role">
+          <span class="layer-label">役割時の境界</span>
+          <h2>サブエージェントの<wbr>権限分離</h2>
+          <p>役割ごとに使えるツールと判断権を制限し、計画・実行・調査・判定の<strong>越権操作</strong>を定義レベルで防ぐ。</p>
+        </article>
+      </div>
+      <dl class="effects">
+        <dt>効果 1</dt><dd>違反を構造的にブロックし、プロンプトの「お願い」へ依存しない</dd>
+        <dt>効果 2</dt><dd>ツール制約と判断権の分離で、誤操作と自己採点を防ぐ</dd>
+        <dt>効果 3</dt><dd>証跡コミットと外部送信などの重要ゲートは、原因を直すまで解除しない</dd>
+      </dl>
+    </section>
+
+    <section class="slide-page hook-page">
+      <header class="slide-header">
+        <span class="slide-eyebrow">設定・規約遵守 — hooks</span>
+        <h1 class="slide-title">操作の前後と終了時に検査し、違反を次工程へ流さない</h1>
+        <p class="slide-subtitle">PreToolUse・PostToolUse・Stopで、ブロック・助言・書き直しを使い分ける</p>
+      </header>
+      <table class="hook-table">
+        <caption>3つの発火時点と機械強制の役割</caption>
+        <colgroup><col style="width:18%"><col style="width:18%"><col style="width:44%"><col style="width:20%"></colgroup>
+        <thead><tr><th scope="col">hook</th><th scope="col">発火時点</th><th scope="col">検査対象</th><th scope="col">結果</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="timing">PreToolUse</td>
+            <td>コマンド実行前</td>
+            <td>秘密鍵の混入、命名規則違反</td>
+            <td class="outcome">操作をブロック</td>
+          </tr>
+          <tr>
+            <td class="timing">PostToolUse</td>
+            <td>ツール実行後</td>
+            <td>先送り表現、依頼文</td>
+            <td class="outcome">助言を注入</td>
+          </tr>
+          <tr>
+            <td class="timing">Stop</td>
+            <td>最終応答の直前</td>
+            <td>最終応答のルール違反</td>
+            <td class="outcome">書き直しを強制</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="safety-valve"><strong>安全弁：</strong>hookごとに解除可否を定義する。証跡コミットと外部送信は自動解除せず、原因を修正してから再実行する。</p>
+    </section>
+
+    <section class="slide-page agent-page">
+      <header class="slide-header">
+        <span class="slide-eyebrow">設定・規約遵守 — サブエージェント</span>
+        <h1 class="slide-title">実行する役割と、合否を宣言する役割を分離する</h1>
+        <p class="slide-subtitle">4分類ごとに名前・役割・ツール制約・合否宣言権を固定する</p>
+      </header>
+      <table class="agent-table">
+        <caption>サブエージェント4分類の権限表</caption>
+        <colgroup><col style="width:11%"><col style="width:25%"><col style="width:27%"><col style="width:25%"><col style="width:12%"></colgroup>
+        <thead><tr><th scope="col">分類</th><th scope="col">名前</th><th scope="col">役割</th><th scope="col">ツール制約</th><th scope="col">合否宣言</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>計画系</td>
+            <td class="names">brain</td>
+            <td>計画立案・タスク分解</td>
+            <td>計画のみ。実装は行わない</td>
+            <td class="verdict-no">不可</td>
+          </tr>
+          <tr>
+            <td>実行系</td>
+            <td class="names">worker-sonnet<br>worker-haiku</td>
+            <td>確定済み方針を成果物へ反映</td>
+            <td>haikuには編集ツールがない</td>
+            <td class="verdict-no">不可</td>
+          </tr>
+          <tr>
+            <td>調査系</td>
+            <td class="names">investigator<br>researcher</td>
+            <td>事実収集と証拠付き報告</td>
+            <td>読み取り専用</td>
+            <td class="verdict-no">不可</td>
+          </tr>
+          <tr>
+            <td>判定系</td>
+            <td class="names">code-reviewer<br>document-reviewer</td>
+            <td>成果物をルールへ照合して判定</td>
+            <td>判定を担当し、実装と分離する</td>
+            <td class="verdict-yes">可</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="verdict-rule">PASS / FAILを宣言できるのは判定系のみ。計画系・実行系・調査系が合否を出すことは禁止する。</p>
+    </section>
 
     <header class="slide-header">
       <span class="slide-eyebrow">設定・規約遵守</span>
-      <h1 class="slide-title">ルールはプロンプトではなく hooks で機械的に強制し、<br>権限はサブエージェント定義で分離する</h1>
+      <h1 class="slide-title">ルールはhooksで<wbr>強制し、権限は定義で分離する</h1>
       <p class="slide-subtitle">「お願い」ではなく「構造」で AI エージェントの品質を保証する方式</p>
     </header>
 
@@ -446,7 +611,7 @@ footer.slide-meta strong { color: var(--ink); }
           </div>
 
           <div class="hook-note">
-            安全弁: 同じ違反で 3 回連続ブロックすると自動解除（無限ループ防止）
+            安全弁: hookごとに解除可否を定義する。証跡コミットと外部送信は自動解除せず、修正後に再実行する。
           </div>
         </div>
       </div>
@@ -516,8 +681,8 @@ footer.slide-meta strong { color: var(--ink); }
       <div class="step">
         <span class="step-chip">3</span>
         <div class="step-text">
-          <span class="step-head">自動解除でライブロック防止</span>
-          <span class="step-body">連続ブロック時の安全弁でエージェントの停止を回避</span>
+          <span class="step-head">重要ゲートは修正まで解除しない</span>
+          <span class="step-body">証跡コミットと外部送信は、原因を直してから再実行する</span>
         </div>
       </div>
     </footer>
@@ -525,6 +690,11 @@ footer.slide-meta strong { color: var(--ink); }
     <footer class="slide-meta"></footer>
 
   </div>
+  <nav class="pager">
+    <button type="button" data-pager-prev aria-label="前のページ">←</button>
+    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>3</span></span>
+    <button type="button" data-pager-next aria-label="次のページ">→</button>
+  </nav>
 </div>
 
 <script>
@@ -538,3 +708,29 @@ footer.slide-meta strong { color: var(--ink); }
   f();
 })();
 </script>
+<script>
+(function () {
+  var pages = Array.prototype.slice.call(document.querySelectorAll('.slide-page'));
+  var pager = document.querySelector('.pager');
+  var idx = 0;
+  var prev = pager.querySelector('[data-pager-prev]');
+  var next = pager.querySelector('[data-pager-next]');
+  var current = pager.querySelector('[data-pager-current]');
+  pager.querySelector('[data-pager-total]').textContent = pages.length;
+  function render() {
+    pages.forEach(function (page, i) { page.classList.toggle('is-active', i === idx); });
+    current.textContent = idx + 1;
+    prev.setAttribute('aria-disabled', String(idx === 0));
+    next.setAttribute('aria-disabled', String(idx === pages.length - 1));
+  }
+  prev.addEventListener('click', function () { if (idx > 0) { idx -= 1; render(); } });
+  next.addEventListener('click', function () { if (idx < pages.length - 1) { idx += 1; render(); } });
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'ArrowLeft' && idx > 0) { idx -= 1; render(); }
+    if (event.key === 'ArrowRight' && idx < pages.length - 1) { idx += 1; render(); }
+  });
+  render();
+})();
+</script>
+</body>
+</html>

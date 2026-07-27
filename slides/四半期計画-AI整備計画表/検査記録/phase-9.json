@@ -1,0 +1,25 @@
+{
+  "phase": 9,
+  "targetKeys": ["四半期計画-AI整備計画表"],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈がない。『AI整備は、基盤から運用まで4段階で進める』という結論を、1Qから4Qへ進む時系列表と4本の工程バーで一枚に完結させており、ページ間の役割・順序は存在しない。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "単一ページのためデッキ全体の強弱配分は対象外である。タイトルを入口とし、現状診断・ツール導入・開発フロー・拡大の4工程は時間軸上で同じ重みの計画要素として反復されているため、複数ページの強弱リズムを評価できない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "単一ページで直前2ページとのレイアウト反復は存在しない。4列の四半期グリッドと工程ごとの横棒は期間・重なり・開始終点を比較するための必然的な時系列レイアウトであり、ページ横断の反復判定は不要である。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "bd295b062920fed96a6ccef4fdfddbdda106c5ccf7df48ed10acd590cd4fab0c"
+}

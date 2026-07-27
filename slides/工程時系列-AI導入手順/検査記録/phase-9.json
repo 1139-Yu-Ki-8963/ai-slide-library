@@ -1,0 +1,35 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "工程時系列-AI導入手順"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "ページ送り要素のない単一ページで、他ページとの役割分担は指定されていない。実画像では1月の現状診断から土台整備、ツール導入、6月の運用定着までが月軸上で左から右へ完結しているため、デッキ内順序は評価対象外。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "複数ページ間の強弱配分を持たない単一ページである。ページ内では4工程を同じ茶色の期間バーで扱い、開始位置と期間長の違いを主役にしており、特定工程を根拠なく過剰強調していない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "前後ページとの理由なき反復を比較するデッキ文脈がない。4行の反復は同じ6か月軸上で工程の重なりを比較するガント構造に必要で、ラベル・期間・説明が各行で固有である。"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "単一ページ全体",
+      "evidence": "現HTML SHAのwide/narrow画像とサムネイル、static/runtime PASS記録を確認した。診断から運用定着までの工程時系列は当該ページ内で完結している。",
+      "fix": "修正不要。"
+    }
+  ],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "bed041163d7bd757fb949566bfcdcd62051a6c49183078c2c3dae7e4b65d1dff"
+}

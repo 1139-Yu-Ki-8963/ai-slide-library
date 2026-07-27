@@ -1,0 +1,32 @@
+{
+  "phase": 8,
+  "targetKeys": [
+    "cursor-テンプレート構成"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "slide-ai-thumbnail-legibility",
+      "status": "pass",
+      "evidence": "現行640×360サムネイルで、先頭ページの主張「5つの設定資産は役割で置き分ける」と主要な図表構造を識別できる。さらに現行HTML SHAの全4ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。"
+    },
+    {
+      "id": "slide-ai-one-message",
+      "status": "pass",
+      "evidence": "全4ページをページ単位で確認した。各ページは「5つの設定資産は役割で置き分ける」、「AGENTS.mdとMDC rulesを分ける」、「skillsは手順、agentsは専門役割」、「MCP接続とCLI権限を分けて置く」という個別の主張へ収束し、1ページ内で複数の無関係な主張を競合させていない。"
+    },
+    {
+      "id": "slide-ai-title-claim",
+      "status": "pass",
+      "evidence": "全4ページのタイトル「5つの設定資産は役割で置き分ける」、「AGENTS.mdとMDC rulesを分ける」、「skillsは手順、agentsは専門役割」、「MCP接続とCLI権限を分けて置く」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。"
+    },
+    {
+      "id": "slide-ai-subtitle-support",
+      "status": "pass",
+      "evidence": "全4ページの副題「プロジェクト文脈・rules・skills・agents・実行設定を、Cursor固有の配置へ分ける」、「ルートの共通文脈は平文Markdown、適用条件付き規約は.mdc metadataで管理する」、「繰り返すワークフローと、別コンテキストへ委任する役割を別資産にする」、「プロジェクトMCPはmcp.json、Cursor CLIのpermissionsはcli.jsonで管理する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T10:40:54.000Z",
+  "artifactSha256": "2481177a3302706736087c9fc572437efccc5e581db055a5ddacecad479beba3"
+}

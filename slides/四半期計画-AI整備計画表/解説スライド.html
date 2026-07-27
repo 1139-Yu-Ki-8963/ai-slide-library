@@ -1,4 +1,6 @@
+<!doctype html>
 <html lang="ja">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8">
 <title>AI整備計画表（4段階構成）</title>
 <style>
@@ -108,8 +110,8 @@
     height: 28px;
     display: flex; align-items: center;
     padding: 0 16px 0 12px;
-    background: linear-gradient(90deg, var(--accent-deep), var(--accent));
-    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%);
+    background: var(--accent);
+    border-left: 4px solid var(--accent-deep);
     color: #fff;
     font-size: 11px; font-weight: 600;
     white-space: nowrap;
@@ -231,6 +233,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -246,12 +250,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -302,7 +312,7 @@ footer.slide-meta strong { color: var(--ink); }
 
     <header class="slide-header">
       <span class="slide-section">年間計画</span>
-      <h1 class="slide-title">AI整備計画表（4段階構成）</h1>
+      <h1 class="slide-title">AI整備は、基盤から運用まで4段階で進める</h1>
     </header>
 
     <div class="gantt">

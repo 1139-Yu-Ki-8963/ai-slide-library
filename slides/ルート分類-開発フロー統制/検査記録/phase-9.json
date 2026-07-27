@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["ルート分類-開発フロー統制"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "not-applicable", "evidence": "単一ページで明示されたデッキ文脈はない。タイトル「開発タスクは5ルートに分類し、手順の重さを自動で選ぶ」に対し、5ルートと適用条件、下部の分類→工程選択→ゲート統制を一枚で完結させており、ページ間の役割・順序を判定する対象がない。"},
+    {"id": "deck-ai-strength-rhythm", "status": "not-applicable", "evidence": "単一ページで明示されたデッキ文脈はない。フル計画と障害復旧のみを暖色で高リスク・専用手順として際立たせ、他3ルートを中立色で比較する強弱は一枚内の判断補助であり、デッキ全体のリズムは存在しない。"},
+    {"id": "deck-ai-layout-repetition", "status": "not-applicable", "evidence": "単一ページで明示されたデッキ文脈はない。5本の横長行はタスク分類と手順の重さを同一の左右比較軸で読む一覧であり、網羅性に必要な反復である。別ページとの理由なき同型反復は評価対象外。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "febc3cab1afc1bd12286c380353cf472a80f420f959bcd91d1c25e9cdee9f603"
+}

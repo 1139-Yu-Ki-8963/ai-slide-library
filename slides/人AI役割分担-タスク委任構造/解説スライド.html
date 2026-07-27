@@ -15,7 +15,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--page);
 .slide-subtitle{margin-top:6px;font-size:14px;color:var(--ink-2);font-style:italic}
 .ai-band{position:absolute;top:385px;left:0;right:0;bottom:74px;background:var(--band)}
 .card{position:absolute;padding:18px 22px 14px;z-index:1;display:flex;flex-direction:column;justify-content:center}
-.h{background:var(--ink);color:var(--surface)}
+.h{background:var(--tag-bg);color:var(--ink);border:1.5px solid var(--border);border-left:5px solid var(--ink)}
 .a{background:var(--surface);color:var(--ink);border:1.5px solid var(--border)}
 .cn{font-size:13px;opacity:.5;margin-bottom:8px}
 .ct{font-size:16px;font-weight:600;margin-bottom:5px;line-height:1.35}
@@ -29,8 +29,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--page);
 .l1{top:230px;left:44px}
 .l2{top:485px;left:44px}
 svg.ov{position:absolute;top:0;left:0;width:1280px;height:720px;pointer-events:none;z-index:2}
-.msg{position:absolute;bottom:20px;left:0;right:0;height:54px;background:var(--ink);color:var(--surface);
-  display:flex;align-items:center;justify-content:center;padding:0 64px;font-size:13px;letter-spacing:.02em;z-index:1}
+.msg{position:absolute;bottom:20px;left:64px;right:64px;height:44px;background:var(--tag-bg);color:var(--ink);
+  border-left:4px solid var(--ink);display:flex;align-items:center;justify-content:center;padding:0 18px;font-size:13px;letter-spacing:.02em;z-index:1}
 .slide-meta{position:absolute;bottom:0;left:0;right:0;height:20px;padding-top:4px;border-top:1px solid var(--border);font-size:10px}
 </style>
 <style data-shared-slide-shell>
@@ -132,6 +132,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -147,12 +149,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -217,7 +225,7 @@ footer.slide-meta strong { color: var(--ink); }
   <div class="card a c03"><div class="cn">03</div><div class="ct">変化点を抽出</div><div class="cd">前週比・異常値を検出</div></div>
   <div class="card a c04"><div class="cn">04</div><div class="ct">レポート出力</div><div class="cd">仮説候補つきで自動作成</div></div>
 
-  <svg class="ov" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
+  <svg class="ov" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="人が設計し、AIが取得・分析・出力した結果を、人が定期的に見直す循環の接続線">
     <defs>
       <marker id="bk" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8Z" fill="var(--line-strong)"/></marker>
       <marker id="gr" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8Z" fill="var(--line)"/></marker>

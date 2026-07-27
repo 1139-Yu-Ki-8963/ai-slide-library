@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["既存コード整備優先順位-変更起点"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全2ページを確認。1ページ目で変更頻度×事業重要度から整備対象を選び、2ページ目で履歴集計・案件照合・対象箇所だけの整備へ進む。選定基準から実行手順へ直結している。"},
+    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "1ページ目は最優先領域を示す判断ページ、2ページ目は3手順を静かに追う実行ページである。重要領域の強調を前半に限定し、後半は運用へ強度を落としている。"},
+    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "1ページ目の非対称マトリクスと2ページ目の3段階フローで配置が明確に異なる。共通する優先順位の語彙は前後を接続するためで、理由なき反復ではない。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:31:00Z",
+  "artifactSha256": "8ff675ce34d28f4a5cc401aa3ec3fce84002d117f6d122362f21c9b27814167d"
+}

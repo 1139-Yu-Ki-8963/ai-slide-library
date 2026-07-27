@@ -1,0 +1,152 @@
+{
+  "phase": 11,
+  "targetKeys": [
+    "cursor-テンプレート構成"
+  ],
+  "status": "pass",
+  "criteria": [],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "1. 対象",
+      "evidence": "cursor-テンプレート構成の全4ページ。現行HTML SHA-256 2481177a3302706736087c9fc572437efccc5e581db055a5ddacecad479beba3から1280×720と390×844でPlaywright再描画し、全ページ、最新runtime、タイトル・副題、余白、共有シェル、footerを確認した。",
+      "fix": "現行SHAと全ページの表示対応を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "2. 要約",
+      "evidence": "Cursorの設定資産を、プロジェクト文脈、MDC rules、skills、agents、MCP／CLI権限として4ページで整理している。",
+      "fix": "現行の実務判断とページ役割を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "3. 良い点",
+      "evidence": "AGENTS.md、.cursor/rules/*.mdc、.cursor/skills、.cursor/agents、mcp.json、cli.jsonを製品固有の役割で区別する。 共有CSS修正後も全ページの外枠、ヘッダー、本文、ページ送り、footerが同じ基準線で揃い、wideのfooter computed heightは10pxである。",
+      "fix": "共有シェルを独自上書きせず、現行の主従と整列を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "4. 指摘事項",
+      "evidence": "公開を妨げる実務性・非テンプレ感の問題はない。wide／narrowともoverflow・枠外表示・ブラウザエラーは0件で、footer／共有CSS修正後の不整合も認められない。",
+      "fix": "必須修正なし。内容または共有CSSを変更した場合だけ全ページを再レビューする。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "5. 情報設計の再編集案",
+      "evidence": "主役はCursor固有の資産配置とMDC metadata、MCP接続、CLI権限の責務分離。 支える情報はglobs、alwaysApply、description、skill／agentの役割差。 後景化する情報は英字kicker、コード例、ページナビゲーション。 レイアウトは全体表、文脈／MDC比較、skill／agent対比、実行制御表へ切り替える4ページ構成。 読み順は全体像→AGENTS.md／MDC→skills／agents→MCP／CLI権限。 削除・統合・短縮候補は現時点で削除・統合・短縮は不要。Cursor仕様追加時は同じ役割のページへ限定する。 追加禁止情報は未確認のCursorパス、metadata、権限仕様、効果、費用、期間を追加しない。",
+      "fix": "将来修正時も主役・支える情報・後景の順を崩さず、追加禁止情報を持ち込まない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック1: 3カード構成でない",
+      "evidence": "3カード構成ではなく、表・比較・設定一覧を情報関係に応じて使い分ける。",
+      "fix": "意味関係のない均等3カードへ置き換えない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック2: 項目ごとの丸アイコンに依存しない",
+      "evidence": "項目ごとの丸アイコンはなく、文字、表、罫線、位置関係で意味を示している。",
+      "fix": "単語置換型の丸アイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック3: 写真を装飾使用しない",
+      "evidence": "全ページのwide／narrow実描画に写真、人物、会議室、端末の装飾素材はない。",
+      "fix": "説明に不要なストックフォトを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック4: 多角形装飾を使用しない",
+      "evidence": "多角形、立体、グラデーションの装飾はなく、線と矢印は具体的な比較・遷移・依存に限定される。",
+      "fix": "余白を埋める図形や大きな装飾矢印を追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック5: 濃紺フッターを追加しない",
+      "evidence": "濃紺の帯フッターはなく、共有CSS修正後のfooterはwide全ページでborder 0、padding-top 10px、font-size 10px、height 10pxとして本文内に収まる。",
+      "fix": "footerの共通契約を独自CSSで上書きしない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック6: 架空情報を追加しない",
+      "evidence": "会社名、ロゴ、費用、根拠のない効果値を追加していない。未確認のCursorパス、metadata、権限仕様、効果、費用、期間を追加しない。",
+      "fix": "一次情報または元資料で確認できない情報を追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック7: 情報の強弱がある",
+      "evidence": "濃いグレーと小面積アクセント、左右の面積差で共通文脈と条件付き規約を分ける。",
+      "fix": "タイトル、主役、根拠、補足の強度順を維持する。"
+    },
+    {
+      "severity": "medium",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック8: 情報を詰め込みすぎない",
+      "evidence": "5資産を全体表で示し、詳細を3ページへ分けているため、会議で追える文字量に収まる。",
+      "fix": "情報追加時は文字縮小より先に統合・短縮・分割を検討する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック9: 青を安易な企業資料色にしない",
+      "evidence": "Cursorの中立色を基調に、色を識別と注意に限定し、青を安易な企業色としていない。",
+      "fix": "色を意味と強調に限定し、既定の青で全面を均質化しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック10: 不要なアイコンを使用しない",
+      "evidence": "装飾アイコンを使わず、パス、metadata表、罫線、余白で説明する。",
+      "fix": "情報関係を説明しないアイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック11: 余白を装飾で埋めない",
+      "evidence": "左右比較と設定表の余白が役割境界を示し、空白を装飾で埋めていない。",
+      "fix": "余白を区切りと強弱に使い、写真・図形・模様で埋めない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック12: 読み順が明確",
+      "evidence": "全体像→AGENTS.md／MDC→skills／agents→MCP／CLI権限。",
+      "fix": "現行の基準線と視線順を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック13: 1スライド1メッセージ",
+      "evidence": "各ページが配置、MDC、委任、実行制御の1メッセージに分かれる。",
+      "fix": "別の判断軸を追加する場合は同一ページへ押し込まない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック14: 人間が編集したように見える",
+      "evidence": "Cursor固有のMDC・MCP・CLI権限へ具体化され、製品名だけを置き換えた資料ではない。",
+      "fix": "具体的な判断条件と情報関係を維持し、均等テンプレートへ戻さない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "7. 実装者がそのまま作業できる優先順位付き修正方針",
+      "evidence": "優先度1: 現状維持。必須修正なし。優先度2: 内容・共有CSS・footer変更時は現行HTML SHAから全ページをwide／narrowで再描画し、14項目を再判定する。優先度3: 元にない会社名、日付、ロゴ、数値、効果、費用、期間、写真、根拠のない図解を追加しない。",
+      "fix": "更新時は優先度順に適用し、Phase 11記録を新SHAへ更新する。"
+    }
+  ],
+  "checkedAt": "2026-07-27T10:46:58.729Z",
+  "artifactSha256": "2481177a3302706736087c9fc572437efccc5e581db055a5ddacecad479beba3"
+}

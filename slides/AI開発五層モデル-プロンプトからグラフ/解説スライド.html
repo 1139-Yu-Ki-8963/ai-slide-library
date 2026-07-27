@@ -1,3 +1,7 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--
   generating-explanation-html-slides デザイントークン+部品カタログから生成
   1ページ構成（層構造型・5層）。ページ送り部品なし。
@@ -10,8 +14,8 @@
     --page: #EDF0F4;
     --surface: #FFFFFF;
     --ink: #1C2B3A;
-    --ink-2: #55667A;
-    --ink-3: #8494A6;
+    --ink-2: #485969;
+    --ink-3: #5F6F7F;
     --border: #D9E0E8;
     --grid: #E9EDF2;
     --critical: #C0392B;
@@ -20,14 +24,14 @@
     --good-soft: #EAF4EE;
     --tag-bg: #EDF1F6;
     /* レイヤー識別色（5層モデルの各層を視覚的に区別） */
-    --layer-prompt: #E67E22;
-    --layer-prompt-soft: #FDF2E9;
-    --layer-context: #2E86C1;
-    --layer-context-soft: #EBF5FB;
-    --layer-harness: #7D3C98;
-    --layer-harness-soft: #F4ECF7;
-    --layer-loop: #148F77;
-    --layer-loop-soft: #E8F8F5;
+    --layer-prompt: #66747E;
+    --layer-prompt-soft: #F3F5F6;
+    --layer-context: #5A6A77;
+    --layer-context-soft: #F1F4F5;
+    --layer-harness: #52636F;
+    --layer-harness-soft: #EFF2F3;
+    --layer-loop: #4A5D68;
+    --layer-loop-soft: #EDF1F2;
   }
 
   html, body { height: 100%; overflow: hidden; }
@@ -63,8 +67,8 @@
     padding-bottom: 10px;
     border-bottom: 2px solid var(--ink);
   }
-  .slide-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
-  .slide-title { font-size: 28px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+  .slide-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-2); }
+  .slide-title { font-size: 33px; font-weight: 700; line-height: 1.15; color: var(--ink); white-space: nowrap; }
   .slide-subtitle { font-size: 14px; color: var(--ink-2); }
 
   /* ==== ステップ番号チップ ==== */
@@ -80,25 +84,29 @@
   .step-chip--good { background: var(--good); }
 
   /* ==== 層構造（5層コンパクト） ==== */
-  .layer-stack { display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 0; justify-content: center; }
+  .layer-stack { display: flex; flex-direction: column; gap: 7px; flex: 1; min-height: 0; justify-content: center; }
   .layer-band {
     display: flex; align-items: center; gap: 16px;
     padding: 10px 20px;
+    width: var(--band-width);
+    align-self: center;
     border-radius: 8px;
     background: var(--tag-bg);
     border: 1.5px solid var(--border);
     border-left: 5px solid var(--ink-3);
   }
-  .layer-band--prompt { background: var(--layer-prompt-soft); border-color: var(--layer-prompt); border-left-color: var(--layer-prompt); }
-  .layer-band--context { background: var(--layer-context-soft); border-color: var(--layer-context); border-left-color: var(--layer-context); }
-  .layer-band--harness { background: var(--layer-harness-soft); border-color: var(--layer-harness); border-left-color: var(--layer-harness); }
-  .layer-band--loop { background: var(--layer-loop-soft); border-color: var(--layer-loop); border-left-color: var(--layer-loop); }
-  .layer-band--graph { background: var(--good-soft); border-color: var(--good); border-left-color: var(--good); }
+  .layer-band--prompt { --band-width: 74%; padding-block: 8px; }
+  .layer-band--context { --band-width: 80.5%; padding-block: 9px; }
+  .layer-band--harness { --band-width: 87%; }
+  .layer-band--loop { --band-width: 93.5%; padding-block: 11px; }
+  .layer-band--prompt, .layer-band--context, .layer-band--harness, .layer-band--loop { background: var(--surface); border-color: var(--border); border-left-color: var(--ink-3); }
+  .layer-band--graph { --band-width: 100%; padding-block: 12px; background: var(--good-soft); border-color: var(--good); border-left-color: var(--good); }
   .layer-body { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-  .layer-body h3 { font-size: 15px; font-weight: 700; color: var(--ink); }
+  .layer-body h2 { font-size: 15px; font-weight: 700; color: var(--ink); }
   .layer-desc { font-size: 11px; color: var(--ink-2); line-height: 1.5; }
   .layer-examples { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 2px; }
-  .ex { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
+  .ex { font-size: 10px; font-weight: 600; padding: 0; color: var(--ink-2); white-space: nowrap; }
+  .ex:not(:last-child)::after { content: "・"; margin-left: 5px; color: var(--ink-3); }
 
   /* ==== 結論行 ==== */
   .source-line {
@@ -216,6 +224,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -231,12 +241,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -281,13 +297,14 @@ footer.slide-meta strong { color: var(--ink); }
   .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
 }
 </style>
-
+</head>
+<body>
 <div class="slide-viewport">
   <div class="slide">
 
     <header class="slide-header">
       <span class="slide-eyebrow">AI開発の5層モデル</span>
-      <h1 class="slide-title">AI開発の<wbr>5層モデル —<wbr> プロンプトから<wbr>グラフまで</h1>
+      <h1 class="slide-title">AI開発は5層を積み上げ、実行グラフまでつなぐ</h1>
       <p class="slide-subtitle">各レイヤーは<wbr>前のものの上に<wbr>構築される。<wbr>モデルを中心とした<wbr>システム全体の設計図</p>
     </header>
 
@@ -296,7 +313,7 @@ footer.slide-meta strong { color: var(--ink); }
       <div class="layer-band layer-band--prompt">
         <span class="step-chip step-chip--prompt">1</span>
         <div class="layer-body">
-          <h3>Prompt Engineering —<wbr> 1回の呼び出しを<wbr>制御する</h3>
+          <h2>Prompt Engineering —<wbr> 1回の呼び出しを<wbr>制御する</h2>
           <p class="layer-desc">役割・指示・制約・出力形式を<wbr>設計し、<wbr>モデルの応答を<wbr>方向づける</p>
           <div class="layer-examples">
             <span class="ex">Chain-of-Thought</span>
@@ -310,7 +327,7 @@ footer.slide-meta strong { color: var(--ink); }
       <div class="layer-band layer-band--context">
         <span class="step-chip step-chip--context">2</span>
         <div class="layer-body">
-          <h3>Context Engineering —<wbr> モデルが<wbr>知っていることを<wbr>制御する</h3>
+          <h2>Context Engineering —<wbr> モデルが<wbr>知っていることを<wbr>制御する</h2>
           <p class="layer-desc">有限な<wbr>コンテキスト窓に<wbr>何を入れ、<wbr>何を省き、<wbr>何を要約するかを<wbr>決める</p>
           <div class="layer-examples">
             <span class="ex">取得文書の再順位付け</span>
@@ -324,7 +341,7 @@ footer.slide-meta strong { color: var(--ink); }
       <div class="layer-band layer-band--harness">
         <span class="step-chip step-chip--harness">3</span>
         <div class="layer-body">
-          <h3>Harness Engineering —<wbr> モデルの<wbr>振る舞いを<wbr>制御する</h3>
+          <h2>Harness Engineering —<wbr> モデルの<wbr>振る舞いを<wbr>制御する</h2>
           <p class="layer-desc">モデルを囲むコードが、<wbr>許容される操作・エラー回復・検証・権限を<wbr>統制する</p>
           <div class="layer-examples">
             <span class="ex">ツール呼び出し</span>
@@ -339,7 +356,7 @@ footer.slide-meta strong { color: var(--ink); }
       <div class="layer-band layer-band--loop">
         <span class="step-chip step-chip--loop">4</span>
         <div class="layer-body">
-          <h3>Loop Engineering —<wbr> 人間なしで<wbr>作業が継続する<wbr>方法を制御する</h3>
+          <h2>Loop Engineering —<wbr> 人間なしで<wbr>作業が継続する<wbr>方法を制御する</h2>
           <p class="layer-desc">目標・停止条件・進捗検知を<wbr>設計し、<wbr>メーカーが生成し<wbr>チェッカーが採点する<wbr>循環を回す</p>
           <div class="layer-examples">
             <span class="ex">予算上限</span>
@@ -353,7 +370,7 @@ footer.slide-meta strong { color: var(--ink); }
       <div class="layer-band layer-band--graph">
         <span class="step-chip step-chip--good">5</span>
         <div class="layer-body">
-          <h3>Graph Engineering —<wbr> エージェント組織全体を<wbr>制御する</h3>
+          <h2>Graph Engineering —<wbr> エージェント組織全体を<wbr>制御する</h2>
           <p class="layer-desc">複数エージェントの<wbr>調整・適応・再編成を<wbr>設計し、<wbr>作業と予算に応じて<wbr>構造を書き換える</p>
           <div class="layer-examples">
             <span class="ex">プランナー</span>
@@ -387,3 +404,5 @@ footer.slide-meta strong { color: var(--ink); }
   f();
 })();
 </script>
+</body>
+</html>

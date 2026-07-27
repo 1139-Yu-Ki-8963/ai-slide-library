@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["agent-home振る舞い統制-hooks権限分離観点"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全3ページを確認。1ページ目で機械強制と権限分離の全体像、2ページ目でhooksの発火時点、3ページ目でサブエージェントの合否宣言権を示し、概念から操作時・役割時の統制へ自然に具体化している。"},
+    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "1ページ目を2層統制の主張ページ、2〜3ページ目を表で読む静かな詳細ページとしている。強い主役を連続させず、全体像から実装条件へ強度を下げる配分が成立している。"},
+    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "ヘッダー・フッターは統一しつつ、1ページ目の対比図、2ページ目の発火時点表、3ページ目の権限表へ役割に応じて配置が変化する。後半2表の反復は比較軸が異なり、理由なき複製ではない。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:31:00Z",
+  "artifactSha256": "cb3db4f56b8bc2d38516b005127555def0c411cd72427d7725b3734d5ba85b53"
+}

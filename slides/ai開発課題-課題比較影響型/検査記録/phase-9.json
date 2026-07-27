@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["ai開発課題-課題比較影響型"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全3ページを確認。1ページ目で速度と品質の2課題を定義し、2ページ目で前提探索、3ページ目で品質ばらつきの例示条件と影響を掘り下げるため、概要から2つの論点へ進む順序が明確である。"},
+    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "1ページ目を論点提示の主役とし、2〜3ページ目は例示数値・条件・影響を静かに読む分析ページである。強いページは連続せず、例示値である旨も後半で抑制している。"},
+    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "2〜3ページ目は同じ3指標と影響欄の骨格を使うが、速度と品質を同条件で対比するための意図的反復である。1ページ目の2課題対比とは役割と配置が異なる。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:31:00Z",
+  "artifactSha256": "d64edad3ce67d3bad44d4af125996e02e9aeb84ec92aaf7f875949968d38b89e"
+}

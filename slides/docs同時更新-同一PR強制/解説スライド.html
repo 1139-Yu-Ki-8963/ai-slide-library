@@ -1,4 +1,8 @@
+<!doctype html>
+<html lang="ja">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>設計書はコードと「同じ変更単位」で更新させ、乖離を作らない</title>
 <style>
   :root {
@@ -6,7 +10,7 @@
     --surface: #FFFFFF;
     --ink: #1C2B3A;
     --ink-2: #55667A;
-    --ink-3: #8494A6;
+    --ink-3: #5F7185;
     --border: #D9E0E8;
     --grid: #E9EDF2;
     --critical: #C0392B;
@@ -14,7 +18,7 @@
     --good: #1F7A46;
     --good-soft: #EAF4EE;
     --tag-bg: #EDF1F6;
-    --claude: #D97757;
+    --claude: #A94E32;
     --claude-deep: #BC5B3B;
     --claude-soft: #FBF0EA;
     --cursor: #23282E;
@@ -153,6 +157,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -168,12 +174,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -218,6 +230,8 @@ footer.slide-meta strong { color: var(--ink); }
   .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
 }
 </style>
+</head>
+<body>
 <div class="slide-viewport"><div class="slide">
 <header class="slide-header"><span class="slide-eyebrow">AI開発ガバナンス — ドキュメント鮮度</span><h1 class="slide-title">設計書はコードと「同じ変更単位」で更新させ、乖離を作らない</h1><p class="slide-subtitle">AI 開発では設計書がそのまま AI の入力になるため、乖離は人の混乱だけでなく AI の誤った前提に直結する。同時更新を仕組みで強制する。</p></header>
 <div class="compare-row">
@@ -228,7 +242,7 @@ footer.slide-meta strong { color: var(--ink); }
 <div class="status-row status-ng"><span class="status-icon">✕</span><span>AI が古い設計書を読み、誤った前提で作業する</span></div>
 </article>
 <div class="stage-arrow">
-  <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+<svg width="16" height="28" viewBox="0 0 16 28" fill="none" role="presentation" aria-hidden="true">
     <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 </div>
@@ -252,3 +266,4 @@ footer.slide-meta strong { color: var(--ink); }
 <footer class="slide-meta"></footer>
 </div></div>
 <script>(function(){function f(){document.documentElement.style.setProperty('--slide-scale',Math.min(innerWidth/1280,innerHeight/720));}addEventListener('resize',f);f();})();</script>
+</body></html>

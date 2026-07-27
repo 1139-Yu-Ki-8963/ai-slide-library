@@ -1,4 +1,8 @@
+<!doctype html>
+<html lang="ja">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>並列する AI タスクは「作業場所」と「ポート番号」で物理的に分ける</title>
 <style>
   /* ==== デザイントークン（変更禁止） ==== */
@@ -7,7 +11,7 @@
     --surface: #FFFFFF;       /* スライド面 */
     --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
     --ink-2: #55667A;         /* 本文 */
-    --ink-3: #8494A6;         /* 補足・軸ラベル */
+    --ink-3: #63758A;         /* 補足・軸ラベル */
     --border: #D9E0E8;        /* 罫線 */
     --grid: #E9EDF2;          /* 図中グリッド線 */
     --critical: #C0392B;      /* 警告・上限・停止 */
@@ -16,7 +20,7 @@
     --good-soft: #EAF4EE;
     --tag-bg: #EDF1F6;        /* パネルタグ地 */
     /* ツール識別色（実在ツールを描く時のみここに追記する） */
-    --claude: #D97757;        /* Claude: コーラル */
+    --claude: #A54832;        /* Claude: コーラル */
     --claude-deep: #BC5B3B;
     --claude-soft: #FBF0EA;
     --cursor: #23282E;        /* Cursor: チャコール */
@@ -218,6 +222,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -233,12 +239,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -284,6 +296,8 @@ footer.slide-meta strong { color: var(--ink); }
 }
 </style>
 
+</head>
+<body>
 <div class="slide-viewport">
   <div class="slide">
 
@@ -308,7 +322,7 @@ footer.slide-meta strong { color: var(--ink); }
       </article>
 
       <div class="stage-arrow">
-        <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+        <svg width="16" height="28" viewBox="0 0 16 28" fill="none" role="presentation">
           <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
@@ -376,3 +390,5 @@ footer.slide-meta strong { color: var(--ink); }
   f();
 })();
 </script>
+</body>
+</html>

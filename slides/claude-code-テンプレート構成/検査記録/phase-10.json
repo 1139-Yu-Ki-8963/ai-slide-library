@@ -1,0 +1,35 @@
+{
+  "phase": 10,
+  "targetKeys": [
+    "claude-code-テンプレート構成"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-split-plan",
+      "status": "pass",
+      "evidence": "最終HTML SHA 70f4cd0acbd3の全4ページを独立確認した。p1「設定資産の全体像」、p2「CLAUDE.mdとrules」、p3「skillsとagents」、p4「settingsとMCP」の役割分担で、各ページは1メッセージに収束している。全体表と3つの詳細論点を4ページへ分離し、各ページは役割の異なる資産対だけを説明する。保存済み最新runtime画像はwide 4/4ページ、narrow 4/4ページを現SHAで確認した。文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "slides/claude-code-テンプレート構成/解説スライド.html の全4ページ、現SHAのwide/narrow実描画、更新後サムネイル",
+      "evidence": "p1「設定資産の全体像」、p2「CLAUDE.mdとrules」、p3「skillsとagents」、p4「settingsとMCP」として読める。全体表と3つの詳細論点を4ページへ分離し、各ページは役割の異なる資産対だけを説明する。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。",
+      "impact": "これ以上分割すると、すでに分離済みの各ページ内で主張と根拠が離れ、前後ページを往復しないと判断できなくなる。",
+      "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
+      "preservedInformation": [
+        "CLAUDE.md",
+        "rules",
+        "skills",
+        "agents",
+        "settings・hooks・MCP"
+      ],
+      "splitPlan": "分割なし。全体表と3つの詳細論点を4ページへ分離し、各ページは役割の異なる資産対だけを説明する。",
+      "verification": "HTML SHA-256が70f4cd0acbd3db90ff01556cb6de09ca05268f649e4393fc7f6ddb7acece3b72であること、保存済み最新runtime画像はwide 4/4ページ、narrow 4/4ページを現SHAで確認し、全4ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
+    }
+  ],
+  "checkedAt": "2026-07-27T10:55:49Z",
+  "artifactSha256": "70f4cd0acbd3db90ff01556cb6de09ca05268f649e4393fc7f6ddb7acece3b72"
+}

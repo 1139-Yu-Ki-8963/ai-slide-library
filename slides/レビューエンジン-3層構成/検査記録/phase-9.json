@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["レビューエンジン-3層構成"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全5ページを確認。1ページ目で6工程と3層の全体像、2ページ目で機械検査、3ページ目で判断系専門家、4ページ目で対象別の組合せ、5ページ目で可変規約解決を説明する。全体から各層・運用へ進む順序が明確である。"},
+    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "1ページ目を収束フローの主役とし、2〜5ページ目は各層と組合せを読む中・静強度で展開する。全ページに強い主役を作らず、工程全体から詳細へ自然に落ち着く。"},
+    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "工程図、3段の機械検査、4専門家の比較、対象別3パターン、領域・変更パスの2系統へ情報構造ごとに配置が変わる。共通の色役割は統一されるが、理由なき同型反復はない。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:31:00Z",
+  "artifactSha256": "c4733a0112b0b2bc3184de0e7846f035b864aabefaa52ee8dc8e3739c1a577a1"
+}

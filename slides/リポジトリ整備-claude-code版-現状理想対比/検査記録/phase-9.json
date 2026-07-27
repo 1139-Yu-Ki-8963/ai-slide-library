@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["リポジトリ整備-claude-code版-現状理想対比"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全2ページを確認。1ページ目でClaude Code導入前の5資産の欠落と実害を診断し、2ページ目でCLAUDE.mdを入口とした理想配置と整備アクションを示す。現状診断から解決順へ直結している。"},
+    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "1ページ目は欠落を示す中強度の診断、2ページ目は配置と作業を読む静かな処方ページである。問題提示から実行案へ強度を下げ、両ページを同じ主張強度にしていない。"},
+    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "共通の5カテゴリは現状と理想を行単位で対応させるために維持されるが、1ページ目は欠落・実害、2ページ目は配置・整備アクションを扱う。目的のある表反復である。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:31:00Z",
+  "artifactSha256": "6d7b8f14c1544eff12a73fd062ffc929b230eb46f07ad1ddec4361922babfd5d"
+}

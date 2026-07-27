@@ -1,0 +1,27 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "人AI役割分担-タスク委任構造"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "対象HTMLは単一の<main class=\"slide\">だけで構成され、入力に同一デッキの前後ページや順序情報はない。ページ内では01→05の役割分担と循環を明示しているが、デッキ全体のページ役割・順序は評価対象外である。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "対象は単一ページでデッキ文脈がないため、複数ページ間の強・中・静の配分、連続性、主役の変化を判定できない。対象ページ内の人・AIの役割差はサムネイルおよびSHA一致のwide/narrow実描画で確認したが、デッキの強度リズムには適用しない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "対象HTMLは1ページのみで、比較すべき直前2ページを含むデッキ文脈が入力にない。ページ内の3つのAI処理カードは連続工程を表す並列反復であり、ページ間の理由なきレイアウト反復は評価対象外である。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "a26e4fb582f82b83a164734eb9f653c70d113ac012a87e754f89607285c416ba"
+}

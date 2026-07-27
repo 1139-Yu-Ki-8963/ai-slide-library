@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["AI駆動整備-現状理想対比"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全2ページを確認。1ページ目でテスト系5項目の現状・理想・次の行動を依存順に整理し、2ページ目で静的検査系4項目を規約の言語化から導入まで並べる。機能検証から規約検証へ範囲が自然に広がる。"},
+    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "両ページは網羅性が価値の静かなギャップ分析表であり、過剰な主役を作っていない。1ページ目はテスト基盤、2ページ目は規約先行を見出しと注記で区別し、情報密度も均衡している。"},
+    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "共通の現状・理想・次の行動の表形式は2領域を同じ軸で比較するための意図的反復である。行数、前提文書、出典条件が各ページに合わせて変わり、内容と無関係な配置反復ではない。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:31:00Z",
+  "artifactSha256": "6c2faa4c25098f785d8ad0508476ce2763bab78e7bdebe004cce1fd1b780dc48"
+}

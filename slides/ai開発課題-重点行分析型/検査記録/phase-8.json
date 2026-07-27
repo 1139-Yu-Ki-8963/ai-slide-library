@@ -1,0 +1,32 @@
+{
+  "phase": 8,
+  "targetKeys": [
+    "ai開発課題-重点行分析型"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "slide-ai-thumbnail-legibility",
+      "status": "pass",
+      "evidence": "最終HTMLから再生成した640×360サムネイルで、先頭ページの主張「導入段階別の達成指標表を確認する」と主要な図表構造を識別できる。さらに全1ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。"
+    },
+    {
+      "id": "slide-ai-one-message",
+      "status": "pass",
+      "evidence": "ページ内のタイトル、根拠、図表、結論は「導入段階別の達成指標表を確認する」という一つの判断へ収束し、別主張を同列に混在させていない。"
+    },
+    {
+      "id": "slide-ai-title-claim",
+      "status": "pass",
+      "evidence": "全1ページのタイトル「導入段階別の達成指標表を確認する」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。"
+    },
+    {
+      "id": "slide-ai-subtitle-support",
+      "status": "pass",
+      "evidence": "全1ページの副題「構成確認用の例示値から、期間比較・重点行・全体サマリーを読む手順を示す。」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T11:37:12.828Z",
+  "artifactSha256": "34c20097cc66e0876ade51fa9e6ecd3e951e535c0c6fc62aa00cd78794cb1659"
+}

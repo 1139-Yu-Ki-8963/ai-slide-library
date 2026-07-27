@@ -10,7 +10,7 @@
     --surface: #FFFFFF;       /* スライド面 */
     --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
     --ink-2: #55667A;         /* 本文 */
-    --ink-3: #8494A6;         /* 補足・軸ラベル */
+    --ink-3: #63758A;         /* 補足・軸ラベル */
     --border: #D9E0E8;        /* 罫線 */
     --grid: #E9EDF2;          /* 図中グリッド線 */
     --critical: #C0392B;      /* 警告・上限・停止 */
@@ -19,7 +19,7 @@
     --good-soft: #EAF4EE;
     --tag-bg: #EDF1F6;        /* パネルタグ地 */
     /* ツール識別色（実在ツールを描く時のみここに追記する） */
-    --claude: #D97757;        /* Claude: コーラル */
+    --claude: #A54832;        /* Claude: コーラル */
     --claude-deep: #BC5B3B;
     --claude-soft: #FBF0EA;
     --cursor: #23282E;        /* Cursor: チャコール */
@@ -84,13 +84,13 @@
   .route-main { display: flex; align-items: baseline; gap: 10px; }
   .route-number { font-size: 13px; font-weight: 800; color: var(--ink-3); }
   .route-main h2 { font-size: 18px; line-height: 1.2; color: var(--ink); }
-  .route-main p, .route-detail p { font-size: 12px; line-height: 1.35; color: var(--ink-2); }
+  .route-main p, .route-detail p { font-size: 13px; line-height: 1.4; color: var(--ink-2); }
   .route-main p { margin-left: 30px; }
   .route-detail { display: flex; flex-direction: column; gap: 2px; }
-  .route-detail strong { color: var(--ink); font-size: 12px; }
+  .route-detail strong { color: var(--ink); font-size: 13px; }
   .support-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
   .support-step { display: flex; align-items: flex-start; gap: 8px; }
-  .support-step p { font-size: 11px; line-height: 1.35; color: var(--ink-2); }
+  .support-step p { font-size: 12px; line-height: 1.4; color: var(--ink-2); }
   .support-step strong { color: var(--ink); }
 
   /* ==== 出典行 ==== */
@@ -207,6 +207,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -222,12 +224,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -273,6 +281,8 @@ footer.slide-meta strong { color: var(--ink); }
 }
 </style>
 
+</head>
+<body>
 <div class="slide-viewport">
   <div class="slide">
 
@@ -285,11 +295,11 @@ footer.slide-meta strong { color: var(--ink); }
     <section class="route-panel" aria-label="5つの開発タスクルート">
       <div class="route-heading"><span>タスクの分類（何をするか）</span><span>手順の重さと適用条件</span></div>
       <div class="route-list">
-        <article class="route-row"><div class="route-main"><span class="route-number">01</span><div><h2>フル計画</h2><p>新機能・大きな変更</p></div></div><div class="route-detail"><strong>重い：計画 → 実装 → 検証</strong><p>設計・レビュー・複数ゲートを含む</p></div></article>
-        <article class="route-row"><div class="route-main"><span class="route-number">02</span><div><h2>クイック修正</h2><p>小さなバグ・文言修正</p></div></div><div class="route-detail"><strong>軽い：短縮工程</strong><p>影響範囲が限定され、差分が小さい</p></div></article>
-        <article class="route-row"><div class="route-main"><span class="route-number">03</span><div><h2>設定・ドキュメント</h2><p>設定変更・README・運用文書</p></div></div><div class="route-detail"><strong>中程度：内容に応じた工程</strong><p>正確さとレビューを確認する</p></div></article>
-        <article class="route-row"><div class="route-main"><span class="route-number">04</span><div><h2>リファクタリング</h2><p>挙動を保った内部改善</p></div></div><div class="route-detail"><strong>重い：安全網つき変更</strong><p>テスト・レビューで既存挙動を固定</p></div></article>
-        <article class="route-row"><div class="route-main"><span class="route-number">05</span><div><h2>障害復旧</h2><p>本番影響の緊急対応</p></div></div><div class="route-detail"><strong>専用：復旧優先の手順</strong><p>事後レビューと再発防止まで行う</p></div></article>
+        <article class="route-row"><div class="route-main"><span class="route-number">01</span><div><h2>フル計画</h2><p>対象：新機能・大きな変更</p></div></div><div class="route-detail"><strong>重い — 計画・実装・検証</strong><p>設計・レビュー・複数ゲートを含む</p></div></article>
+        <article class="route-row"><div class="route-main"><span class="route-number">02</span><div><h2>クイック修正</h2><p>対象：小さなバグ・文言修正</p></div></div><div class="route-detail"><strong>軽い — 短縮工程</strong><p>影響範囲と差分が限定される</p></div></article>
+        <article class="route-row"><div class="route-main"><span class="route-number">03</span><div><h2>設定・ドキュメント</h2><p>対象：設定・README・運用文書</p></div></div><div class="route-detail"><strong>中程度 — 内容に応じる</strong><p>正確さとレビューを確認する</p></div></article>
+        <article class="route-row"><div class="route-main"><span class="route-number">04</span><div><h2>リファクタリング</h2><p>対象：挙動を保つ内部改善</p></div></div><div class="route-detail"><strong>重い — 安全網つき変更</strong><p>テスト・レビューで既存挙動を固定</p></div></article>
+        <article class="route-row"><div class="route-main"><span class="route-number">05</span><div><h2>障害復旧</h2><p>対象：本番影響の緊急対応</p></div></div><div class="route-detail"><strong>専用 — 復旧優先の手順</strong><p>事後レビューと再発防止まで行う</p></div></article>
       </div>
     </section>
 
@@ -299,7 +309,7 @@ footer.slide-meta strong { color: var(--ink); }
       <div class="support-step"><span class="step-chip step-chip--good">3</span><p><strong>ゲートで統制</strong> — 計画前の編集を機械的に停止</p></div>
     </section>
 
-    <p class="source-line">導入の最初の一歩：自社の定型タスク（機能追加・バグ修正・文書更新）をどのルートに当てるかを決めることから始める　／　出典：本カタログ運用環境の開発フロー規約（2026年7月時点）</p>
+    <p class="source-line">導入の最初の一歩：自社の定型タスクをどのルートに当てるか決める　／　出典：開発フロー規約（ルート分類・工程選択の正本、2026年7月時点）</p>
 
     <!-- ==== 部品: メタデータフッター（区切り線 + 下端余白） ==== -->
     <footer class="slide-meta"></footer>

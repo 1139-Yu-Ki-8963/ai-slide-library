@@ -1,3 +1,6 @@
+<!doctype html>
+<html lang="ja">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--
   generating-explanation-html-slides デザイントークン+部品カタログから生成
   4ページ構成（全体フロー / 段階比較・対比型 / 判断系レビュー2x2 / 可変レビュー対比型）。ページ送り部品を保持。
@@ -73,7 +76,7 @@
   .step-chip--main { background: var(--claude); }
   .step-chip--critical { background: var(--critical); }
   .step-chip--good { background: var(--good); }
-  .step-chip--partial { background: var(--ink-3); }  /* 中間段階・第2層など「進行中/中立」を表す番号 */
+  .step-chip--partial { background: #66788C; }  /* 中間段階・第2層など「進行中/中立」を表す番号 */
 
   /* ==== ページ2: 層・積層構造（全幅帯。上辺ではなく左辺の色で層の位置づけを示す） ==== */
   .layer-stack { display: flex; flex-direction: column; gap: 16px; flex: 1; min-height: 0; justify-content: center; }
@@ -89,7 +92,7 @@
   .layer-band--partial  { border-left-color: var(--ink-3); }     /* 中間層（背景は既定の --tag-bg のまま） */
   .layer-band--good     { background: var(--good-soft); border-color: var(--good); border-left-color: var(--good); }      /* 最終・保護層 */
   .layer-body { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  .layer-body h3 { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .layer-body h2 { font-size: 16px; font-weight: 700; color: var(--ink); }
   .layer-desc { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
   .layer-examples { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
   .ex { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
@@ -128,11 +131,32 @@
   .step-text { font-size: 13px; line-height: 1.5; color: var(--ink-2); }
   .step-text strong { color: var(--ink); }
 
-  /* ==== ページ1: フロー全体像（inline SVG） ==== */
-  .flow-diagram { display: flex; justify-content: center; flex-shrink: 0; }
-  .flow-num { font-size: 11px; fill: var(--ink-3); font-family: system-ui, sans-serif; }
-  .flow-label { font-size: 13px; font-weight: 700; fill: var(--ink); font-family: system-ui, -apple-system, 'Hiragino Sans', sans-serif; }
-  .flow-loop-text { font-size: 10.5px; fill: var(--critical); font-family: system-ui, sans-serif; font-weight: 600; }
+  /* ==== ページ1: フロー全体像 ==== */
+  .flow-diagram { display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; }
+  .flow-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  .flow-step {
+    min-height: 78px; padding: 12px 10px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;
+    border: 1.5px solid var(--border); border-radius: 8px; background: var(--tag-bg);
+    position: relative; text-align: center;
+  }
+  .flow-step:not(:last-child)::after {
+    content: "→"; position: absolute; right: -12px; top: 27px;
+    width: 12px; color: var(--ink-3); font-family: system-ui, sans-serif; font-weight: 700;
+  }
+  .flow-step--machine { background: var(--critical-soft); }
+  .flow-step--judgment { background: var(--good-soft); }
+  .flow-step--loop { background: var(--surface); border: 2px solid var(--critical); }
+  .flow-step--return { background: var(--good-soft); border-color: var(--good); }
+  .flow-num { font: 600 11px/1 system-ui, sans-serif; color: var(--ink-3); }
+  .flow-label { font: 700 14px/1.3 system-ui, -apple-system, "Hiragino Sans", sans-serif; color: var(--ink); }
+  .flow-loop {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px;
+    padding: 8px 18px; border: 1px solid #f0d0cc; border-radius: 7px;
+    background: var(--critical-soft); color: var(--critical);
+    font: 700 12px/1.4 system-ui, sans-serif;
+  }
+  .flow-loop span:last-child { text-align: right; color: var(--good); }
 
   /* ==== 対比カード（時間構造がない「並べて比べる」型に使う） ==== */
   .compare-row { display: flex; gap: 24px; flex: 1; align-items: stretch; min-height: 0; }
@@ -165,7 +189,7 @@
     font-size: 14px; cursor: pointer;
   }
   .pager button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-  .pager button:disabled { opacity: 0.35; cursor: default; }
+  .pager button:disabled { visibility: hidden; }
   .pager-count { font-size: 11px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
   /* ==== メタデータフッター（区切り線 + 下端余白） ==== */
@@ -274,6 +298,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -289,12 +315,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -348,62 +380,24 @@ footer.slide-meta strong { color: var(--ink); }
 
       <header class="slide-header">
         <span class="slide-eyebrow">レビューエンジン 3層構成</span>
-        <h1 class="slide-title">可変レビュー層と<wbr>全体フロー —<wbr> 対象から規約を<wbr>動的に解決する</h1>
-        <p class="slide-subtitle">3 層を順に通過し、<wbr>指摘が残る限り繰り返す。<wbr>新規指摘ゼロで合格</p>
+        <h1 class="slide-title">3層レビューを収束させて結果を返す</h1>
+        <p class="slide-subtitle">工程2〜4を通し、新規指摘がゼロになるまで工程5から反復する</p>
       </header>
 
-      <div class="flow-diagram">
-        <svg width="1180" height="190" viewBox="0 0 1180 190" aria-label="工程 1 から工程 6 までのレビューフロー図。工程 5 から工程 2 へ戻る収束ループを持つ">
-          <defs>
-            <marker id="arrow-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/>
-            </marker>
-            <marker id="arrow-critical" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M0,0 L10,5 L0,10 z" fill="var(--critical)"/>
-            </marker>
-          </defs>
-
-          <!-- Phase 1: 対象の判定 -->
-          <rect x="0" y="15" width="180" height="70" rx="10" fill="var(--tag-bg)" stroke="var(--border)" stroke-width="1.5"/>
-          <text class="flow-num" x="90" y="35" text-anchor="middle">工程 1</text>
-          <text class="flow-label" x="90" y="58" text-anchor="middle">対象の判定</text>
-
-          <!-- Phase 2: 機械的チェック -->
-          <rect x="228" y="15" width="160" height="70" rx="10" fill="var(--critical-soft)" stroke="var(--border)" stroke-width="1.5"/>
-          <text class="flow-num" x="308" y="35" text-anchor="middle">工程 2</text>
-          <text class="flow-label" x="308" y="58" text-anchor="middle">機械的チェック</text>
-
-          <!-- Phase 3: 可変レビュー -->
-          <rect x="436" y="15" width="150" height="70" rx="10" fill="var(--tag-bg)" stroke="var(--border)" stroke-width="1.5"/>
-          <text class="flow-num" x="511" y="35" text-anchor="middle">工程 3</text>
-          <text class="flow-label" x="511" y="58" text-anchor="middle">可変レビュー</text>
-
-          <!-- Phase 4: 判断系レビュー -->
-          <rect x="634" y="15" width="170" height="70" rx="10" fill="var(--good-soft)" stroke="var(--border)" stroke-width="1.5"/>
-          <text class="flow-num" x="719" y="35" text-anchor="middle">工程 4</text>
-          <text class="flow-label" x="719" y="58" text-anchor="middle">判断系レビュー</text>
-
-          <!-- Phase 5: 収束ループ -->
-          <rect x="852" y="15" width="150" height="70" rx="10" fill="var(--surface)" stroke="var(--critical)" stroke-width="2"/>
-          <text class="flow-num" x="927" y="35" text-anchor="middle">工程 5</text>
-          <text class="flow-label" x="927" y="58" text-anchor="middle">収束ループ</text>
-
-          <!-- Phase 6: 結果返却 -->
-          <rect x="1050" y="15" width="130" height="70" rx="10" fill="var(--good-soft)" stroke="var(--border)" stroke-width="1.5"/>
-          <text class="flow-num" x="1115" y="35" text-anchor="middle">工程 6</text>
-          <text class="flow-label" x="1115" y="58" text-anchor="middle">結果返却</text>
-
-          <!-- 順方向の矢印（Phase 1→2→3→4→5→6） -->
-          <line x1="184" y1="50" x2="224" y2="50" stroke="var(--ink-3)" stroke-width="1.75" marker-end="url(#arrow-ink)"/>
-          <line x1="392" y1="50" x2="432" y2="50" stroke="var(--ink-3)" stroke-width="1.75" marker-end="url(#arrow-ink)"/>
-          <line x1="590" y1="50" x2="630" y2="50" stroke="var(--ink-3)" stroke-width="1.75" marker-end="url(#arrow-ink)"/>
-          <line x1="808" y1="50" x2="848" y2="50" stroke="var(--ink-3)" stroke-width="1.75" marker-end="url(#arrow-ink)"/>
-          <line x1="1006" y1="50" x2="1046" y2="50" stroke="var(--ink-3)" stroke-width="1.75" marker-end="url(#arrow-ink)"/>
-
-          <!-- 収束ループ: Phase 5 → Phase 2 へ戻る曲線矢印 -->
-          <path d="M927,89 C927,158 308,158 308,89" fill="none" stroke="var(--critical)" stroke-width="1.75" stroke-dasharray="5 3" marker-end="url(#arrow-critical)"/>
-          <text class="flow-loop-text" x="617" y="180" text-anchor="middle">新規指摘あり → 再実行</text>
-        </svg>
+      <div class="flow-diagram" role="img" aria-label="工程1から工程6までのレビューフロー。工程5で新規指摘があれば工程2へ戻り、ゼロなら工程6で返却する">
+        <div class="flow-row">
+          <div class="flow-step"><span class="flow-num">工程 1</span><span class="flow-label">対象の判定</span></div>
+          <div class="flow-step flow-step--machine"><span class="flow-num">工程 2</span><span class="flow-label">機械的チェック</span></div>
+          <div class="flow-step"><span class="flow-num">工程 3</span><span class="flow-label">可変レビュー</span></div>
+          <div class="flow-step flow-step--judgment"><span class="flow-num">工程 4</span><span class="flow-label">判断系レビュー</span></div>
+          <div class="flow-step flow-step--loop"><span class="flow-num">工程 5</span><span class="flow-label">収束判定</span></div>
+          <div class="flow-step flow-step--return"><span class="flow-num">工程 6</span><span class="flow-label">結果返却</span></div>
+        </div>
+        <div class="flow-loop">
+          <span>新規指摘あり → 工程2へ戻って再実行</span>
+          <span>工程5</span>
+          <span>新規指摘ゼロ → 工程6へ進む</span>
+        </div>
       </div>
 
       <div class="layer-stack">
@@ -411,7 +405,7 @@ footer.slide-meta strong { color: var(--ink); }
         <div class="layer-band layer-band--critical">
           <span class="step-chip step-chip--critical">2</span>
           <div class="layer-body">
-            <h3>機械的チェック</h3>
+            <h2>機械的チェック</h2>
             <p class="layer-desc">置き換え辞書・textlint・略称照合の<wbr>3 種の自動検査。<wbr>全対象で共通</p>
           </div>
         </div>
@@ -419,7 +413,7 @@ footer.slide-meta strong { color: var(--ink); }
         <div class="layer-band layer-band--partial">
           <span class="step-chip step-chip--partial">3</span>
           <div class="layer-body">
-            <h3>可変レビュー</h3>
+            <h2>可変レビュー</h2>
             <p class="layer-desc">対象の領域・変更パスから<wbr>適用規約を動的に解決。<wbr>計画・成果物・コードで<wbr>方式が異なる</p>
           </div>
         </div>
@@ -427,7 +421,7 @@ footer.slide-meta strong { color: var(--ink); }
         <div class="layer-band layer-band--good">
           <span class="step-chip step-chip--good">4</span>
           <div class="layer-body">
-            <h3>判断系レビュー</h3>
+            <h2>判断系レビュー</h2>
             <p class="layer-desc">4 つの専門家が<wbr>観点別に照合。<wbr>Haiku・Sonnet・Opus の<wbr>3 モデルを使い分ける</p>
           </div>
         </div>
@@ -450,7 +444,7 @@ footer.slide-meta strong { color: var(--ink); }
         <div class="layer-band layer-band--critical">
           <span class="step-chip step-chip--critical">1</span>
           <div class="layer-body">
-            <h3>置き換え辞書による<wbr>語彙チェック</h3>
+            <h2>置き換え辞書による<wbr>語彙チェック</h2>
             <p class="layer-desc">カタカナ語・英語バズワードを<wbr>平易な日本語へ<wbr>自動置換する辞書。<wbr>登録語を検出し、<wbr>推奨語へ置き換える</p>
             <div class="layer-examples">
               <span class="ex">アジェンダ→議題</span>
@@ -462,14 +456,14 @@ footer.slide-meta strong { color: var(--ink); }
         </div>
 
         <div class="arrow-between">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" role="presentation" aria-hidden="true"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span class="arrow-text">語彙の置き換え後に、文の構造を検査する</span>
         </div>
 
         <div class="layer-band layer-band--partial">
           <span class="step-chip step-chip--partial">2</span>
           <div class="layer-body">
-            <h3>textlint 文書品質チェック</h3>
+            <h2>textlint 文書品質チェック</h2>
             <p class="layer-desc">文の長さ・読点の数・漢字連続など、<wbr>読みやすさの定量基準を<wbr>機械検査する</p>
             <div class="layer-examples">
               <span class="ex">1文100字以内</span>
@@ -481,14 +475,14 @@ footer.slide-meta strong { color: var(--ink); }
         </div>
 
         <div class="arrow-between">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" role="presentation" aria-hidden="true"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span class="arrow-text">文体の基準通過後に、略語の定義を検査する</span>
         </div>
 
         <div class="layer-band layer-band--good">
           <span class="step-chip step-chip--good">3</span>
           <div class="layer-body">
-            <h3>略称照合チェック</h3>
+            <h2>略称照合チェック</h2>
             <p class="layer-desc">説明なしの略称・頭字語を<wbr>ブロックリストで検出し、<wbr>初出時に正式名称の<wbr>定義を強制する</p>
             <div class="layer-examples">
               <span class="ex">ref→参照</span>
@@ -507,8 +501,8 @@ footer.slide-meta strong { color: var(--ink); }
 
       <header class="slide-header">
         <span class="slide-eyebrow">レビューエンジン 3層構成</span>
-        <h1 class="slide-title">判断系レビュー層 —<wbr> 4つの専門家が<wbr>観点別に照合する</h1>
-        <p class="slide-subtitle">4 専門家は常に全員が<wbr>動くわけではない。<wbr>何を提示する前のレビューかで<wbr>異なる組み合わせが選ばれる</p>
+        <h1 class="slide-title">判断系レビュー層の4専門家</h1>
+        <p class="slide-subtitle">文書照合・コード照合・反証・初見読解を、責務と合否宣言条件で使い分ける</p>
       </header>
 
       <div class="reviewer-grid">
@@ -555,25 +549,60 @@ footer.slide-meta strong { color: var(--ink); }
 
       </div>
 
-      <p class="steps-label">▼ レビュー対象ごとの組み合わせ</p>
+    </section>
+
+    <!-- ==== ページ4: 対象ごとのレビュー組み合わせ ==== -->
+    <section class="slide-page">
+
+      <header class="slide-header">
+        <span class="slide-eyebrow">レビューエンジン 3層構成</span>
+        <h1 class="slide-title">対象ごとに専門家レビューを組み替える</h1>
+        <p class="slide-subtitle">計画・成果物・実装では失敗の種類が違うため、必要な判断系レビューだけを選ぶ</p>
+      </header>
+
+      <p class="steps-label">レビュー対象ごとの組み合わせ</p>
+      <div class="layer-stack">
+        <div class="layer-band layer-band--critical">
+          <span class="step-chip step-chip--critical">1</span>
+          <div class="layer-body">
+            <h2>計画の提示前</h2>
+            <p class="layer-desc">文書照合 + 3観点反証 + 実行可能性の検証</p>
+          </div>
+        </div>
+        <div class="layer-band layer-band--partial">
+          <span class="step-chip step-chip--partial">2</span>
+          <div class="layer-body">
+            <h2>成果物の提示前</h2>
+            <p class="layer-desc">文書照合 + HTML出力 + 理解可能性の検証</p>
+          </div>
+        </div>
+        <div class="layer-band layer-band--good">
+          <span class="step-chip step-chip--good">3</span>
+          <div class="layer-body">
+            <h2>実装の完了後</h2>
+            <p class="layer-desc">コード照合 + 差分反証</p>
+          </div>
+        </div>
+      </div>
+
       <footer class="steps">
         <div class="step">
           <span class="step-chip step-chip--critical">1</span>
-          <p class="step-text"><strong>計画の提示前</strong><br>文書照合 + 3観点反証 + 実行可能性の検証</p>
+          <p class="step-text"><strong>計画</strong>— 暗黙知と論理の穴を提示前に潰す</p>
         </div>
         <div class="step">
           <span class="step-chip step-chip--partial">2</span>
-          <p class="step-text"><strong>成果物の提示前</strong><br>文書照合 + HTML出力 + 理解可能性の検証</p>
+          <p class="step-text"><strong>成果物</strong>— 表示品質と初見理解を提示前に確認する</p>
         </div>
         <div class="step">
           <span class="step-chip step-chip--good">3</span>
-          <p class="step-text"><strong>実装の完了後</strong><br>コード照合 + 差分反証</p>
+          <p class="step-text"><strong>実装</strong>— 規約違反と破壊的差分を完了後に探す</p>
         </div>
       </footer>
 
     </section>
 
-    <!-- ==== ページ4: 可変レビュー層 ==== -->
+    <!-- ==== ページ5: 可変レビュー層 ==== -->
     <section class="slide-page">
 
       <header class="slide-header">
@@ -623,7 +652,7 @@ footer.slide-meta strong { color: var(--ink); }
   <!-- ==== 部品: ページ送り ==== -->
   <nav class="pager">
     <button type="button" data-pager-prev aria-label="前のページ">←</button>
-    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>4</span></span>
+    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>5</span></span>
     <button type="button" data-pager-next aria-label="次のページ">→</button>
   </nav>
 </div>
@@ -654,6 +683,7 @@ footer.slide-meta strong { color: var(--ink); }
   render();
 })();
 </script>
+</html>
 
 <!-- ==== スケーリング（常時必須・削除禁止） ==== -->
 <script>

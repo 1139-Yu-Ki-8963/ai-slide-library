@@ -1,5 +1,5 @@
-<meta charset="utf-8">
-<title>Claude Code の安全性の仕組み</title>
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Claude Code の安全性の仕組み</title>
 <style>
   :root {
     --page: #EDF0F4;
@@ -103,8 +103,8 @@
     font-size: 13px; font-weight: 600;
     padding: 3px 10px; border-radius: 5px; white-space: nowrap;
   }
-  .ex--perm { background: rgba(21, 101, 192, 0.12); color: var(--perm); border: 1px solid rgba(21, 101, 192, 0.3); }
-  .ex--sandbox { background: rgba(46, 125, 50, 0.12); color: var(--sandbox); border: 1px solid rgba(46, 125, 50, 0.3); }
+  .ex--perm { background: #DCEAF8; color: var(--perm); border: 1px solid #9CC6ED; }
+  .ex--sandbox { background: #DDEEDF; color: #205F25; border: 1px solid #9BCC9E; }
 
   .layer-impl {
     font-size: 10px; color: var(--ink-3); margin-top: auto; font-style: italic;
@@ -242,6 +242,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -257,12 +259,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -307,7 +315,7 @@ footer.slide-meta strong { color: var(--ink); }
   .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
 }
 </style>
-
+</head><body>
 <div class="slide-viewport">
   <div class="slide">
 
@@ -337,7 +345,7 @@ footer.slide-meta strong { color: var(--ink); }
       </div>
 
       <div class="arrow-between">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" role="presentation"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span class="arrow-text">Permission を通過した Bash コマンドに、さらに Sandbox が適用される</span>
       </div>
 
@@ -389,3 +397,4 @@ footer.slide-meta strong { color: var(--ink); }
   f();
 })();
 </script>
+</body></html>

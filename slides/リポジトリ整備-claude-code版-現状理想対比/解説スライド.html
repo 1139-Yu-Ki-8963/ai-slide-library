@@ -1,4 +1,8 @@
+<!doctype html>
+<html lang="ja">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Claude Code 導入 リポジトリ整備の現状と理想</title>
 <style>
   :root {
@@ -6,7 +10,7 @@
     --surface: #FFFFFF;
     --ink: #1C2B3A;
     --ink-2: #55667A;
-    --ink-3: #8494A6;
+    --ink-3: #63758A;
     --border: #D9E0E8;
     --grid: #E9EDF2;
     --critical: #C0392B;
@@ -14,7 +18,7 @@
     --good: #1F7A46;
     --good-soft: #EAF4EE;
     --tag-bg: #EDF1F6;
-    --claude: #D97757;
+    --claude: #A54832;
     --claude-deep: #BC5B3B;
     --claude-soft: #FBF0EA;
     --cursor: #23282E;
@@ -182,8 +186,8 @@
   .argument-table td {
     vertical-align: top;
     border-bottom: 1px solid var(--border);
-    padding: 9px 12px;
-    font-size: 12px;
+    padding: 7px 12px;
+    font-size: 12.5px;
     color: var(--ink-2);
     line-height: 1.5;
   }
@@ -234,7 +238,7 @@
   .cell-note {
     display: block;
     margin-top: 4px;
-    font-size: 11.5px;
+    font-size: 12px;
     color: var(--ink-2);
     line-height: 1.45;
   }
@@ -266,6 +270,49 @@
     padding-top: 6px;
     border-top: 1px solid var(--border);
   }
+  .slide-page { display: none; flex: 1; min-height: 0; flex-direction: column; gap: 10px; }
+  .slide-page.is-active { display: flex; }
+  .diagnosis-page .argument-table th:nth-child(4),
+  .diagnosis-page .argument-table th:nth-child(5),
+  .diagnosis-page .argument-table td:nth-child(4),
+  .diagnosis-page .argument-table td:nth-child(5) { display: none; }
+  .diagnosis-page .argument-table .col-step { width: 6%; }
+  .diagnosis-page .argument-table .col-category { width: 19%; }
+  .diagnosis-page .argument-table .col-current { width: 75%; }
+  .diagnosis-page .argument-table td { padding: 13px 16px; }
+  .diagnosis-page .cell-note { font-size: 13px; }
+  .ideal-table {
+    width: 100%; border-collapse: separate; border-spacing: 0 2px;
+    table-layout: fixed; font-family: system-ui, sans-serif;
+  }
+  .ideal-table caption { padding: 0 0 5px; color: var(--ink-3); font-size: 11px; text-align: left; }
+  .ideal-table th {
+    padding: 8px 12px; background: var(--ink); color: #fff;
+    font-size: 11px; letter-spacing: .05em; text-align: left;
+  }
+  .ideal-table td {
+    padding: 7px 10px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    font-size: 12px; line-height: 1.35; color: var(--ink-2); vertical-align: middle; background: #fff;
+  }
+  .ideal-table tbody tr:nth-child(even) td { background: var(--tag-bg); }
+  .ideal-table td:first-child { border-left: 4px solid var(--claude); font-weight: 700; color: var(--ink); }
+  .ideal-table .order { width: 5%; text-align: center; color: var(--claude-deep); }
+  .ideal-table .asset { width: 17%; }
+  .ideal-table .placement { width: 30%; }
+  .ideal-table .action { width: 48%; }
+  .ideal-table .path {
+    display: inline-block; padding: 2px 8px; margin-bottom: 3px; border-radius: 4px;
+    background: var(--claude-soft); color: var(--claude-deep); font: 700 12px/1.4 ui-monospace, monospace;
+  }
+  .slide-page:not(.diagnosis-page) .lead-band { padding: 7px 14px; }
+  .pager { position: fixed; right: 22px; bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .pager button {
+    width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 50%;
+    background: var(--surface); color: var(--ink); cursor: pointer;
+  }
+  .pager button:disabled { visibility: hidden; }
+  .pager button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .pager-count { font: 11px/1 system-ui, sans-serif; color: var(--ink-3); }
 </style>
 <style data-shared-slide-shell>
 /* GENERATED FROM: slide-design-system / shared-slide-shell.css */
@@ -366,6 +413,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -381,12 +430,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -432,36 +487,26 @@ footer.slide-meta strong { color: var(--ink); }
 }
 </style>
 
-<nav id="variant-tabs" data-export-strip>
-  <button type="button" data-slug="claude-code">Claude Code</button>
-  <button type="button" data-slug="cursor">Cursor</button>
-  <button type="button" data-slug="codex">Codex CLI</button>
-  <a id="save-current" class="save-pill" download>⬇ この表示で保存</a>
-</nav>
-
-<nav id="related-links" data-export-strip>
-  <span class="related-label">関連:</span>
-  <a href="../claude-code-テンプレート構成/解説スライド.html">docs配置ガイド</a>
-  <a href="../四半期計画-AI整備計画表/解説スライド.html">AI導入計画</a>
-</nav>
-
+</head>
+<body>
 <div class="slide-viewport">
   <div class="slide">
 
+    <section class="slide-page diagnosis-page is-active" aria-label="現状診断">
     <header class="slide-header">
-      <span class="slide-eyebrow" data-v="eyebrow">GAP ANALYSIS — CLAUDE CODE</span>
-      <h1 class="slide-title">リポジトリ整備の現状と理想</h1>
+      <span class="slide-eyebrow">GAP ANALYSIS — CLAUDE CODE</span>
+      <h1 class="slide-title">Claude Code導入前の5つの欠落を診断する</h1>
+      <p class="slide-subtitle">説明書・設計書・規約・手順書・可視化サイトの不足が、AIの推測と属人運用を生む</p>
     </header>
 
-    <div class="lead-band" data-v="lead-band">AI が自走するには「読める文書」と「見える仕組み」をリポジトリに揃える</div>
+    <div class="lead-band">AIが自走するには「読める文書」と「見える仕組み」をリポジトリに揃える</div>
 
-    <section class="head-message">
-      <p><span class="mark">■</span><span data-v="head-msg-1">現在のリポジトリには AI が参照できる文書も、人が俯瞰できる可視化基盤もない</span></p>
-      <p><span class="mark">■</span><span data-v="head-msg-2">依存関係の上流から順に 5 種類の文書・仕組みを整備し、AI と人の両方に情報を届ける</span></p>
+    <section class="head-message" aria-label="診断の読み方">
+      <p><span class="mark">■</span><span>現状の欠落・理想の配置先・整備アクションを、依存関係の上流から下流へ読む</span></p>
     </section>
 
     <table class="argument-table">
-      <caption data-v="table-caption">対象リポジトリの AI 可読性・運用可視性診断（上流から下流の依存順）</caption>
+      <caption>対象リポジトリの現状診断（上流から下流の依存順）</caption>
       <colgroup>
         <col class="col-step"><col class="col-category"><col class="col-current"><col class="col-ideal"><col class="col-gap">
       </colgroup>
@@ -480,14 +525,14 @@ footer.slide-meta strong { color: var(--ink); }
           <td class="cell-issue">プロジェクト<br>説明書</td>
           <td>
             <span class="badge-critical">未作成</span>
-            <span class="cell-note">技術構成・使えるコマンド・守るべき原則を AI に伝える手段がない</span>
+            <span class="cell-note">技術構成・コマンド・守るべき原則を AI に伝えられない</span>
           </td>
           <td>
             <span class="badge-path" data-v="project-doc-path">CLAUDE.md</span>
-            <span class="cell-note" data-v="project-doc-note">プロジェクトの<strong>索引兼行動原則</strong>。AI が毎回のセッション開始時に自動で読み込む</span>
+            <span class="cell-note" data-v="project-doc-note">プロジェクトの<strong>索引兼行動原則</strong>。AI が開始時に読む</span>
           </td>
           <td>
-            <span class="gap-action" data-v="project-doc-gap">技術構成・コマンド一覧・行動原則を 1 ファイルに整理して配置</span>
+            <span class="gap-action" data-v="project-doc-gap">技術構成・コマンド・原則を 1 ファイルに整理</span>
           </td>
         </tr>
         <tr>
@@ -495,14 +540,14 @@ footer.slide-meta strong { color: var(--ink); }
           <td class="cell-issue">設計書</td>
           <td>
             <span class="badge-critical">0件</span>
-            <span class="cell-note">機能仕様が口頭や Slack に散在。AI は実装意図を推測するしかない</span>
+            <span class="cell-note">機能仕様が口頭や Slack に散在し、AI は実装意図を推測する</span>
           </td>
           <td>
             <span class="badge-path">docs/</span>
-            <span class="cell-note"><strong>機能設計書・画面設計書</strong>を格納。AI が仕様を参照しながら正確に実装できる</span>
+            <span class="cell-note"><strong>機能・画面の設計書</strong>を格納し、AI が仕様を参照できる</span>
           </td>
           <td>
-            <span class="gap-action">主要機能ごとに設計書を作成し、体系的に配置</span>
+            <span class="gap-action">主要機能の設計書を作成し、体系的に配置</span>
           </td>
         </tr>
         <tr>
@@ -510,14 +555,14 @@ footer.slide-meta strong { color: var(--ink); }
           <td class="cell-issue">規約<br>ファイル</td>
           <td>
             <span class="badge-critical">0件</span>
-            <span class="cell-note">命名規則・コーディング規約が暗黙知。AI は毎回異なる書き方をする</span>
+            <span class="cell-note">命名・コーディング規約が暗黙知で、AI の書き方が揺れる</span>
           </td>
           <td>
             <span class="badge-path" data-v="rule-file-path">rules/</span>
-            <span class="cell-note" data-v="rule-file-note">規約を Markdown で記述。<strong>編集対象に応じて必要な規約だけ</strong>が AI に自動で届く</span>
+            <span class="cell-note" data-v="rule-file-note">規約を Markdown 化し、<strong>編集対象に必要な規約だけ</strong>を AI へ渡す</span>
           </td>
           <td>
-            <span class="gap-action" data-v="rule-file-gap">命名規則・コーディング規約をファイル種別ごとに文書化</span>
+            <span class="gap-action" data-v="rule-file-gap">命名・コーディング規約をファイル種別ごとに文書化</span>
           </td>
         </tr>
         <tr>
@@ -525,14 +570,14 @@ footer.slide-meta strong { color: var(--ink); }
           <td class="cell-issue">作業<br>手順書</td>
           <td>
             <span class="badge-critical">未整備</span>
-            <span class="cell-note">繰り返し作業の手順が属人化。人が毎回口頭で指示している</span>
+            <span class="cell-note">繰り返し作業が属人化し、人が毎回口頭で指示している</span>
           </td>
           <td>
             <span class="badge-path" data-v="work-manual-path">skills/</span>
-            <span class="cell-note" data-v="work-manual-note">定型作業を手順書として構造化。<strong>名前で呼ぶだけ</strong>で AI が手順どおりに動く</span>
+            <span class="cell-note" data-v="work-manual-note">定型作業を構造化し、<strong>名前で呼ぶだけ</strong>で AI が手順どおりに動く</span>
           </td>
           <td>
-            <span class="gap-action" data-v="work-manual-gap">頻出の作業パターンを洗い出し、再利用可能な手順書に整理</span>
+            <span class="gap-action" data-v="work-manual-gap">頻出作業を洗い出し、再利用可能な手順書に整理</span>
           </td>
         </tr>
         <tr>
@@ -540,24 +585,55 @@ footer.slide-meta strong { color: var(--ink); }
           <td class="cell-issue">可視化<br>サイト</td>
           <td>
             <span class="badge-critical">なし</span>
-            <span class="cell-note">規約・画面一覧・API 一覧など、人が全体を俯瞰する手段がない</span>
+            <span class="cell-note">規約・画面・API を人が全体で俯瞰する手段がない</span>
           </td>
           <td>
             <span class="badge-path">project-portal/</span>
-            <span class="cell-note">規約一覧・画面一覧・マスタ表を<strong>ブラウザで閲覧できるサイト</strong>として構築</span>
+            <span class="cell-note">規約・画面・マスタ表を<strong>ブラウザで読めるサイト</strong>として構築</span>
           </td>
           <td>
-            <span class="gap-action">規約・画面・API の索引を HTML で構築し、人と AI の共通参照点にする</span>
+            <span class="gap-action">規約・画面・API の索引を HTML 化し、人と AI の共通参照点にする</span>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <p class="source-line" data-v="source-line">出典：対象リポジトリの実地調査に基づく（調査時点の構成）</p>
+      <p class="source-line">出典：Claude Code 導入前の対象リポジトリ診断スナップショット（2026年7月作成。現状値はこの時点の記録）</p>
+      <footer class="slide-meta"></footer>
+    </section>
 
-    <footer class="slide-meta"></footer>
+    <section class="slide-page" aria-label="理想配置と整備アクション">
+      <header class="slide-header">
+        <span class="slide-eyebrow">TARGET STRUCTURE — CLAUDE CODE</span>
+        <h1 class="slide-title">Claude Codeの参照順に5資産を整備する</h1>
+        <p class="slide-subtitle">CLAUDE.mdを入口に、設計書・規約・Skill・可視化を上流から順に接続する</p>
+      </header>
+
+      <div class="lead-band">現状の欠落を埋めるだけでなく、各資産の役割と参照経路を明示する</div>
+
+      <table class="ideal-table">
+        <caption>Claude Code向けの理想配置と整備アクション</caption>
+        <colgroup><col class="order"><col class="asset"><col class="placement"><col class="action"></colgroup>
+        <thead><tr><th scope="col">順</th><th scope="col">資産</th><th scope="col">理想配置と役割</th><th scope="col">整備アクション</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>プロジェクト説明書</td><td><span class="path">CLAUDE.md</span><br>索引兼行動原則。AIが毎回のセッション開始時に読む。</td><td>技術構成・コマンド一覧・行動原則を1ファイルに整理して配置する。</td></tr>
+          <tr><td>2</td><td>設計書</td><td><span class="path">docs/</span><br>機能・画面の設計書を格納し、AIが仕様を参照できるようにする。</td><td>主要機能の設計書を作成し、体系的に配置する。</td></tr>
+          <tr><td>3</td><td>規約ファイル</td><td><span class="path">rules/</span><br>規約をMarkdown化し、編集対象に必要な規約だけをAIへ渡す。</td><td>命名規則・コーディング規約をファイル種別ごとに文書化する。</td></tr>
+          <tr><td>4</td><td>作業手順書</td><td><span class="path">skills/</span><br>定型作業を構造化し、名前で呼ぶだけでAIが手順どおりに動く。</td><td>頻出作業を洗い出し、再利用可能な手順書に整理する。</td></tr>
+          <tr><td>5</td><td>可視化サイト</td><td><span class="path">project-portal/</span><br>規約・画面・マスタ表をブラウザで読めるサイトとして構築する。</td><td>規約・画面・APIの索引をHTML化し、人とAIの共通参照点にする。</td></tr>
+        </tbody>
+      </table>
+
+      <p class="source-line">出典：Claude Code 導入前の対象リポジトリ診断スナップショット（2026年7月作成。現状値はこの時点の記録）</p>
+      <footer class="slide-meta"></footer>
+    </section>
 
   </div>
+  <nav class="pager" aria-label="スライドページ">
+    <button type="button" data-pager-prev aria-label="前のページ">←</button>
+    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>2</span></span>
+    <button type="button" data-pager-next aria-label="次のページ">→</button>
+  </nav>
 </div>
 
 <script>
@@ -570,10 +646,29 @@ footer.slide-meta strong { color: var(--ink); }
   }
   addEventListener('resize', f);
   f();
+  var pages = Array.prototype.slice.call(document.querySelectorAll('.slide-page'));
+  var index = 0;
+  var prev = document.querySelector('[data-pager-prev]');
+  var next = document.querySelector('[data-pager-next]');
+  var current = document.querySelector('[data-pager-current]');
+  function show(i) {
+    index = Math.max(0, Math.min(i, pages.length - 1));
+    pages.forEach(function(page, n){ page.classList.toggle('is-active', n === index); });
+    current.textContent = index + 1;
+    prev.disabled = index === 0;
+    next.disabled = index === pages.length - 1;
+  }
+  prev.addEventListener('click', function(){ show(index - 1); });
+  next.addEventListener('click', function(){ show(index + 1); });
+  addEventListener('keydown', function(event){
+    if (event.key === 'ArrowLeft') show(index - 1);
+    if (event.key === 'ArrowRight') show(index + 1);
+  });
+  show(0);
 })();
 </script>
 
-<script data-export-strip>
+<script type="text/plain" data-export-strip>
 (function(){
   const VARIANTS = {
     "claude-code": {
@@ -757,3 +852,5 @@ footer.slide-meta strong { color: var(--ink); }
   }
 })();
 </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["特性テスト-変更前安全網"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全2ページを確認。1ページ目で現状入出力の記録と安全網確立、2ページ目で安全網内のAI変更と意図した差の仕様化を示す。変更前の固定から変更後の昇格まで時系列が明確である。"},
+    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "1ページ目は安全網を作る主張を中強度で示し、2ページ目は変更と仕様化を静かに継続する。注意事項と解禁条件だけを限定強調し、両ページを同じ強さにしていない。"},
+    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "前半2手順と後半2手順で共通の工程表現を使うが、4工程を連続して読むための意図的反復である。内容は記録・固定から変更・仕様化へ進み、単なる複製ではない。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:31:00Z",
+  "artifactSha256": "5b2513aa73e6c3efac6814525611c15f1447fcfa889f52cad10276c0c35fc341"
+}

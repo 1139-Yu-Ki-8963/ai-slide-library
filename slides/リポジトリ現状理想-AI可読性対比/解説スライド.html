@@ -1,4 +1,8 @@
+<!doctype html>
+<html lang="ja">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AIが働けるリポジトリ、働けないリポジトリ</title>
 <style>
   /* ==== デザイントークン（変更禁止） ==== */
@@ -7,7 +11,7 @@
     --surface: #FFFFFF;       /* スライド面 */
     --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
     --ink-2: #55667A;         /* 本文 */
-    --ink-3: #8494A6;         /* 補足・軸ラベル */
+    --ink-3: #63758A;         /* 補足・軸ラベル */
     --border: #D9E0E8;        /* 罫線 */
     --grid: #E9EDF2;          /* 図中グリッド線 */
     --critical: #C0392B;      /* 警告・上限・停止 */
@@ -228,6 +232,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -243,12 +249,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -294,6 +306,8 @@ footer.slide-meta strong { color: var(--ink); }
 }
 </style>
 
+</head>
+<body>
 <div class="slide-viewport">
   <div class="slide">
 
@@ -322,7 +336,7 @@ footer.slide-meta strong { color: var(--ink); }
 
       <div class="stage-arrow">
         <span class="step-chip step-chip--partial">2</span>
-        <svg width="30" height="22" viewBox="0 0 30 22" fill="none" aria-hidden="true">
+        <svg width="30" height="22" viewBox="0 0 30 22" fill="none" role="presentation">
           <path d="M2 11 H26 M19 4 L27 11 L19 18" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <span class="arrow-text">整備</span>
@@ -381,3 +395,5 @@ footer.slide-meta strong { color: var(--ink); }
   f();
 })();
 </script>
+</body>
+</html>

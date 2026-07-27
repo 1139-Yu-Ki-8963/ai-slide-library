@@ -1,12 +1,34 @@
 <!doctype html>
-<html lang="ja"><head>
+<html lang="ja">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI採用の5段階 — 状態・機能・ガードレール比較</title>
+<title>AI採用の5段階 — 状態と進行条件</title>
 <style>
-:root{--bg:#edf0f4;--paper:#fff;--ink:#1c2b3a;--muted:#5d6b7b;--line:#d7dfe8;--blue:#176fa3;--blue-soft:#eaf3f8;--green:#24784d;--green-soft:#eaf4ee;--orange:#c8643c;--red:#b43d35;--red-soft:#fbeceb}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}body{background:var(--bg);font-family:system-ui,-apple-system,'Hiragino Sans',sans-serif;color:var(--ink)}.viewport{width:100vw;height:100vh;display:grid;place-items:center}.slide{width:1280px;height:720px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:28px 40px;display:flex;flex-direction:column;gap:12px;transform:scale(var(--s,1));transform-origin:center}.eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--blue)}h1{font-size:25px;line-height:1.2;margin:2px 0 3px}header{border-bottom:2px solid var(--ink);padding-bottom:10px}.sub{font-size:12px;color:var(--muted);margin:0}.thesis{display:flex;align-items:center;gap:14px;background:var(--blue-soft);border-left:5px solid var(--blue);padding:10px 16px}.thesis strong{font-size:16px}.thesis span{font-size:11px;color:var(--muted)}.compare{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;flex:1;min-height:0}.stage{border:1px solid var(--line);border-top:4px solid #aab6c2;border-radius:8px;padding:11px 10px;display:flex;flex-direction:column;min-width:0}.stage:nth-child(2){border-top-color:#8ea5b7}.stage:nth-child(3){border-top-color:var(--orange);background:#fffaf7}.stage:nth-child(4){border-top-color:var(--green)}.stage:nth-child(5){border-top-color:#176a47;background:#f5faf7}.level{font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--muted)}h2{font-size:16px;line-height:1.2;margin:5px 0 8px}h2 small{font-size:10px;font-weight:600;color:var(--muted)}.state{font-size:10px;line-height:1.4;min-height:54px;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:8px}.label{font-size:9px;letter-spacing:.07em;font-weight:800;color:var(--blue);margin-top:9px}.list{margin:4px 0 0;padding-left:14px;font-size:10px;line-height:1.5}.guard{color:var(--muted)}.gate{margin-top:auto;border-top:1px solid var(--line);padding-top:7px;font-size:10px;line-height:1.35;font-weight:700}.route{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;border-top:1px solid var(--line);padding-top:9px}.route div{display:flex;gap:8px;align-items:flex-start;font-size:10.5px;line-height:1.35;color:var(--muted)}.route b{color:var(--ink)}.chip{width:19px;height:19px;border-radius:50%;display:grid;place-items:center;flex:none;color:#fff;font-size:10px;font-weight:800;background:var(--blue)}.warn{font-size:10px;color:var(--red);background:var(--red-soft);padding:7px 12px;border-left:4px solid var(--red)}footer{height:8px;border-top:1px solid var(--line)}
-.slide{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(var(--s,1));}
-.stage:nth-child(3){border-top-color:var(--blue);background:var(--paper)}.stage:nth-child(4){border-top-color:#4c8a70}.stage:nth-child(5){border-top-color:var(--green);background:var(--paper)}.state{font-size:9.5px;line-height:1.35;min-height:48px;padding-bottom:7px}.label{font-size:10px;letter-spacing:.04em;margin-top:8px;padding-left:6px;border-left:3px solid var(--blue)}.list{margin-top:3px;font-size:9.5px;line-height:1.4}.gate{font-size:9.5px;line-height:1.3}.route{display:block;border-top:1px solid var(--line);padding-top:8px;font-size:10.5px;line-height:1.35;color:var(--muted)}
+:root { --paper:#f5f4f1; --ink:#202426; --muted:#52606b; --faint:#d7d9d5; --accent:#a15d32; --good:#286344; --good-soft:#edf5ef; --warn:#9b4c2f; --warn-soft:#fbf0eb; }
+* { box-sizing:border-box; } html,body { width:100%; height:100%; margin:0; overflow:hidden; } body { background:var(--paper); color:var(--ink); font-family:Georgia,"Yu Mincho","Hiragino Mincho ProN",serif; }
+.viewport { width:100vw; height:100vh; display:grid; place-items:center; overflow:hidden; background:var(--paper); }
+.slide { position:absolute; top:50%; left:50%; width:1280px; height:720px; padding:46px 58px 30px; display:flex; flex-direction:column; background:#fff; transform:translate(-50%,-50%) scale(var(--slide-scale,1)); transform-origin:center; }
+header { display:flex; flex-direction:column; padding-bottom:17px; border-bottom:1px solid var(--ink); }
+.kicker { color:var(--accent); font:700 11px/1.2 system-ui,sans-serif; letter-spacing:.16em; }
+h1 { margin:3px 0 0; font-size:33px; font-weight:600; line-height:1.15; letter-spacing:.01em; white-space:nowrap; }
+.slide-subtitle { align-self:flex-start; margin:5px 0 0; color:var(--muted); font:14px/1.65 system-ui,sans-serif; white-space:nowrap; }
+.slide-page { display:none; flex:1; min-height:0; flex-direction:column; gap:16px; } .slide-page.is-active { display:flex; }
+.thesis { padding:11px 15px; border-left:4px solid var(--accent); background:var(--warn-soft); font-size:16px; line-height:1.45; }
+.overview { display:grid; grid-template-columns:repeat(5,1fr); gap:13px; flex:1; min-height:0; }
+.stage { display:flex; flex-direction:column; gap:8px; padding:15px 13px; border-top:4px solid var(--faint); border-bottom:1px solid var(--faint); background:#fff; }
+.stage.focus { border-top-color:var(--accent); background:#fffaf7; } .stage.final { border-top-color:var(--good); background:var(--good-soft); }
+.level { color:var(--muted); font:700 11px/1.2 system-ui,sans-serif; letter-spacing:.11em; } h2 { margin:0; font-size:18px; line-height:1.25; } .english { color:var(--muted); font:12px/1.3 system-ui,sans-serif; }
+.state { margin:0; color:var(--muted); font:13px/1.55 system-ui,sans-serif; } .gate { margin-top:auto; padding-top:9px; border-top:1px solid var(--faint); color:var(--ink); font:700 13px/1.4 system-ui,sans-serif; }
+.detail-intro { display:flex; justify-content:space-between; align-items:end; gap:24px; padding-bottom:10px; border-bottom:1px solid var(--faint); } .detail-intro p { margin:0; color:var(--muted); font:13px/1.5 system-ui,sans-serif; }
+.detail-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; flex:1; min-height:0; } .detail-grid.two { grid-template-columns:repeat(2,1fr); }
+.detail-card { display:flex; flex-direction:column; gap:10px; padding:16px 18px; border-top:4px solid var(--faint); border-bottom:1px solid var(--faint); } .detail-card.focus { border-top-color:var(--accent); background:#fffaf7; } .detail-card.final { border-top-color:var(--good); background:var(--good-soft); }
+.detail-card h2 { font-size:20px; } .detail-card h3 { margin:4px 0 0; color:var(--accent); font:700 12px/1.3 system-ui,sans-serif; letter-spacing:.08em; } .detail-card ul { margin:0; padding-left:18px; color:var(--muted); font:13px/1.52 system-ui,sans-serif; } .detail-card li+li { margin-top:3px; }
+.detail-card .condition { margin-top:auto; padding-top:10px; border-top:1px solid var(--faint); color:var(--ink); font:700 13px/1.45 system-ui,sans-serif; }
+.note { margin:0; padding:9px 12px; border-left:3px solid var(--accent); background:var(--warn-soft); color:var(--ink); font:12px/1.45 system-ui,sans-serif; }
+.slide-meta { flex:0 0 24px; margin-top:12px; border-top:1px solid var(--faint); }
+.pager { position:fixed; right:22px; bottom:16px; display:flex; align-items:center; gap:9px; font:12px/1 system-ui,sans-serif; color:var(--muted); } .pager button { width:30px; height:30px; border:1px solid var(--faint); border-radius:50%; background:#fff; color:var(--ink); font-size:16px; cursor:pointer; } .pager button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; } .pager button[aria-disabled="true"] { opacity:.35; }
+@media (max-width:700px) { .slide { transform:translate(-50%,-50%) scale(min(calc(100vw / 1280),calc(100vh / 720))); } }
 </style>
 <style data-shared-slide-shell>
 /* GENERATED FROM: slide-design-system / shared-slide-shell.css */
@@ -107,6 +129,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -122,12 +146,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -172,19 +202,26 @@ footer.slide-meta strong { color: var(--ink); }
   .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
 }
 </style>
-</head><body>
-<div class="viewport"><main class="slide">
-<header><div class="eyebrow">AI採用成熟度モデル｜5段階比較</div><h1>AI採用の5段階を、状態・機能・ガードレールで比較する</h1><p class="sub">自社の現在地を確認し、次の段階へ進むために何を整備するかを判断するための全体像</p></header>
-<div class="thesis"><strong>このスライドの見方：段階が上がるほど「人が確認する」から「仕組みが検証する」へ移る</strong><span>各カードは 状態 → 使う機能 → 必要なガードレール の順</span></div>
-<section class="compare" aria-label="AI採用成熟度5段階">
-<article class="stage"><div class="level">LEVEL 1</div><h2>利用制限<br><small>Gated</small></h2><p class="state">AI利用が厳しく制限され、承認・権限・予算の枠組みが未整備。</p><div class="label">使う機能</div><ul class="list"><li>まだ本格導入しない</li></ul><div class="label">ガードレール</div><ul class="list guard"><li>SSO/SCIM・役割権限</li><li>組織の予算上限</li><li>承認フロー</li></ul><p class="gate">→ 導入枠組みを作る</p></article>
-<article class="stage"><div class="level">LEVEL 2</div><h2>1対1ペア作業<br><small>Assisted</small></h2><p class="state">1人と1エージェントが同期作業。全出力を人が確認する。</p><div class="label">使う機能</div><ul class="list"><li>Claude Code</li><li>Desktop / CLI / IDE</li><li>Analytics</li></ul><div class="label">ガードレール</div><ul class="list guard"><li>利用上限</li><li>中央モデル設定</li><li>利用状況監視</li></ul><p class="gate">→ 複数運用の準備</p></article>
-<article class="stage"><div class="level">LEVEL 3</div><h2>並列運用<br><small>Parallel</small></h2><p class="state">1人が複数エージェントを同時運用。各作業を分離して進める。</p><div class="label">使う機能</div><ul class="list"><li>Auto mode</li><li>Agent view</li><li>Worktree isolation</li><li>Code / Security Review</li></ul><div class="label">ガードレール</div><ul class="list guard"><li>自動レビュー</li><li>E2E検証</li><li>安全なコマンド</li></ul><p class="gate">→ 出力を仕組みで検証</p></article>
-<article class="stage"><div class="level">LEVEL 4</div><h2>監督付き自律<br><small>Supervised</small></h2><p class="state">AIがコードの大半を書き、人は意図・例外・品質を監督する。</p><div class="label">使う機能</div><ul class="list"><li>Subagents</li><li>Dynamic workflows</li><li>Routines / batch</li></ul><div class="label">ガードレール</div><ul class="list guard"><li>自動レビュー</li><li>Sandbox</li><li>CLAUDE.md</li><li>モデル・トークン制御</li></ul><p class="gate">→ 監督を仕組み化</p></article>
-<article class="stage"><div class="level">LEVEL 5</div><h2>AIネイティブ<br><small>AI-native</small></h2><p class="state">エージェントが起動・管理・停止まで行い、人は意図と例外を扱う。</p><div class="label">使う機能</div><ul class="list"><li>Claude Agent SDK</li><li>自動応答・連携</li></ul><div class="label">ガードレール</div><ul class="list guard"><li>自動化のコスト制御</li><li>用途別モデル選択</li><li>例外時の停止条件</li></ul><p class="gate">→ 安全にスケール</p></article>
-</section>
-<div class="warn"><b>注意：</b> Level 3以降は、分離・自動レビュー・E2E検証がないまま解禁しない。段階ごとのガードレールが次の段階の前提になる。</div>
-<div class="route"><b>読む順序：</b>Level 1–2で利用基盤と人の確認 → Level 3で分離・自動検証 → Level 4–5で監督とコスト制御を仕組み化</div>
-<footer class="slide-meta"></footer></main></div>
-<script>function scale(){document.documentElement.style.setProperty('--s',Math.min(innerWidth/1280,innerHeight/720))}addEventListener('resize',scale);scale()</script>
-</body></html>
+</head>
+<body>
+<div class="viewport">
+  <main class="slide">
+    <section class="slide-page is-active">
+      <header><span class="kicker">AI採用成熟度モデル｜全体像</span><h1>AI採用の5段階を、状態と進行条件で比較する</h1><p class="slide-subtitle">人の全件確認から、仕組みによる検証・監督へ移る道筋</p></header>
+      <p class="thesis">段階を上げる条件は、機能の追加ではなく、前段階の出力を安全に検証・監督できること。</p>
+      <section class="overview" aria-label="AI採用成熟度の全体像">
+        <article class="stage"><span class="level">LEVEL 1</span><h2>利用制限</h2><span class="english">Gated</span><p class="state">AI利用が厳しく制限され、承認・権限・予算の枠組みが未整備。</p><p class="gate">次へ：導入枠組みを作る</p></article>
+        <article class="stage"><span class="level">LEVEL 2</span><h2>1対1ペア作業</h2><span class="english">Assisted</span><p class="state">1人と1エージェントが同期作業し、全出力を人が確認する。</p><p class="gate">次へ：複数運用を準備する</p></article>
+        <article class="stage focus"><span class="level">LEVEL 3</span><h2>並列運用</h2><span class="english">Parallel</span><p class="state">1人が複数エージェントを同時運用し、各作業を分離して進める。</p><p class="gate">次へ：出力を仕組みで検証する</p></article>
+        <article class="stage"><span class="level">LEVEL 4</span><h2>監督付き自律</h2><span class="english">Supervised</span><p class="state">AIがコードの大半を書き、人は意図・例外・品質を監督する。</p><p class="gate">次へ：監督を仕組み化する</p></article>
+        <article class="stage final"><span class="level">LEVEL 5</span><h2>AIネイティブ</h2><span class="english">AI-native</span><p class="state">エージェントが起動・管理・停止まで行い、人は意図と例外を扱う。</p><p class="gate">次へ：安全にスケールする</p></article>
+      </section>
+    </section>
+    <footer class="slide-meta"></footer>
+  </main>
+</div>
+<script>
+(() => { const scale=()=>document.documentElement.style.setProperty('--slide-scale',Math.min(innerWidth/1280,innerHeight/720)); addEventListener('resize',scale); scale(); })();
+</script>
+</body>
+</html>

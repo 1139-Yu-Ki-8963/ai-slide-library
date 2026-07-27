@@ -1,8 +1,27 @@
 {
   "phase": 9,
-  "targetKeys": ["claude-code-マルチアカウント-ディレクトリ隔離"],
+  "targetKeys": [
+    "claude-code-マルチアカウント-ディレクトリ隔離"
+  ],
   "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "pass",
+      "evidence": "現SHAの全4ページをHTMLとwide/narrowで確認した。P1で設定ディレクトリ隔離の原理、P2でCLI起動とalias運用、P3でBedrock認証方式、P4でリージョン別モデルIDと制約を扱い、基本構造から操作、認証、制約へ進む役割順が明確である。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "pass",
+      "evidence": "P1は2アカウント対比を中強度の入口とし、P2はコマンド、P3は認証表を静かに読ませ、P4だけを制約注意の色面で再度強める。高強度が連続せず、警告色も対象箇所に限定されている。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "pass",
+      "evidence": "P1は2環境の対比、P2はコマンドと対応範囲、P3は3認証方式の表、P4はモデル設定とリージョン対応の二分構成である。共通ヘッダーとページャは統一され、各ページの読み順に応じて表・コード・対比を使い分けている。"
+    }
+  ],
   "findings": [],
-  "checkedAt": "2026-07-26T00:00:00+09:00",
-  "artifactSha256": "27a0501b5e1c629bc6ef2fc8ac90ef7ebf606b9f5ebbcf22eae52e2ef8ad5944"
+  "checkedAt": "2026-07-27T10:44:38.117Z",
+  "artifactSha256": "020f2da7b73539d1c2117554ef3805b4d8b9bb3a077b57d3b60e3f091558c35a"
 }

@@ -1,4 +1,8 @@
+<!doctype html>
+<html lang="ja">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AIを縛る規約は「止める」と「気づかせる」の二層に分ける</title>
 <style>
   /* ==== デザイントークン（変更禁止） ==== */
@@ -66,7 +70,7 @@
     width: 20px; height: 20px;
     border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
   }
-  .step-chip--main { background: var(--claude); }
+  .step-chip--main { background: #B65335; }
   .step-chip--critical { background: var(--critical); }
   .step-chip--good { background: var(--good); }
   .step-chip--partial { background: var(--ink-3); }  /* 中間段階・第2層など「進行中/中立」を表す番号 */
@@ -218,6 +222,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -233,12 +239,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -283,7 +295,8 @@ footer.slide-meta strong { color: var(--ink); }
   .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
 }
 </style>
-
+</head>
+<body>
 <div class="slide-viewport">
   <div class="slide">
 
@@ -296,8 +309,8 @@ footer.slide-meta strong { color: var(--ink); }
     <div class="layer-band">
       <span class="step-chip step-chip--main">1</span>
       <div class="layer-body">
-        <h3>AI のすべての操作を、実行直前に hook が自動検査する</h3>
-        <p class="layer-desc">hook（AI ツールの操作に自動で割り込む仕組み）が、ツール実行前・実行後・応答確定前の 3 つの発火点でコマンド実行・ファイル編集・最終応答を全件検査し、違反の重大さで下の二層に振り分ける。</p>
+        <h2>登録済みイベントと matcher に合う操作を、hook が検査する</h2>
+        <p class="layer-desc">hook は設定したイベントと matcher に一致する操作だけで発火する。PreToolUse は実行前、PostToolUse は実行後、Stop は応答確定前に働くため、発火点ごとに防げることと助言できることを分けて設計する。</p>
       </div>
     </div>
 
@@ -308,7 +321,7 @@ footer.slide-meta strong { color: var(--ink); }
           <span class="step-chip step-chip--critical">2</span>
           <h2>block — 実行を止める強制層</h2>
         </div>
-        <p style="font-size: 13px; color: var(--ink-2); line-height: 1.5;">取り返しがつかない操作・確実な規約違反は、実行そのものをエラー終了（終了コード 2）で停止する。AI は指摘内容を直してから再実行する。同じ停止が 3 回連続したら自動解除する安全弁付きで、膠着はしない。</p>
+        <p style="font-size: 13px; color: var(--ink-2); line-height: 1.5;">取り返しがつかない操作・確実な規約違反は、PreToolUse など実行前に判定できる発火点でエラー終了（終了コード 2）にする。自動解除は、膠着回避を明示した block hook にだけ設ける。</p>
         <p style="font-size: 11px; color: var(--ink-3); font-weight: 700; margin-top: 4px;">適用する違反の例</p>
         <div class="layer-examples">
           <span class="ex">機密情報を含むコミット</span>
@@ -344,7 +357,7 @@ footer.slide-meta strong { color: var(--ink); }
     <footer class="steps">
       <div class="step">
         <span class="step-chip step-chip--main">1</span>
-        <p class="step-text"><strong>検査</strong>— AI の操作は実行直前に hook が全件検査する</p>
+        <p class="step-text"><strong>検査</strong>— 登録済みイベントと matcher に合う操作を検査する</p>
       </div>
       <div class="step">
         <span class="step-chip step-chip--critical">2</span>
@@ -375,3 +388,5 @@ footer.slide-meta strong { color: var(--ink); }
   f();
 })();
 </script>
+</body>
+</html>

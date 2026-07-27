@@ -1,0 +1,25 @@
+{
+  "phase": 9,
+  "targetKeys": ["docs同時更新-同一PR強制"],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。タイトルの『同じ変更単位』を、左の乖離、右の同時更新、下段の機械照合という因果順で説明する1枚完結の構造であり、ページ間の役割・順序は判定対象外である。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。赤い乖離と緑の同一変更単位を対比し、結論の『機械照合で強制する』を下段に置く意図的な強弱はあるが、デッキ内の強弱配分は適用しない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。左右のカードは失敗状態と改善状態の対比を担い、下段3ステップは因果の再確認であるため、同一デッキ内の理由なきページ配置反復を評価する対象ではない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "d4cdfb3b0aba18cd23bd513b59ad18a4ad39772b52e0271dcbcec57583288d49"
+}

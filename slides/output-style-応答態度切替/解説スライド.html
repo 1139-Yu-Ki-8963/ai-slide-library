@@ -1,4 +1,8 @@
+<!doctype html>
+<html lang="ja">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Output Style — AI の応答態度を場面に合わせて切り替える機能</title>
 <style>
   :root {
@@ -75,6 +79,16 @@
     flex: 1;
     min-height: 0;
   }
+  .slide-page { display:none; flex:1; min-height:0; flex-direction:column; gap:12px; }
+  .slide-page.is-active { display:flex; }
+  .style-matrix { width:100%; border-collapse:collapse; table-layout:fixed; font-size:13px; }
+  .style-matrix th { background:var(--ink); color:#fff; padding:9px 10px; text-align:left; font-size:12px; }
+  .style-matrix td { padding:12px 10px; vertical-align:top; border-bottom:1px solid var(--border); color:var(--ink-2); line-height:1.45; }
+  .style-matrix td:first-child { font-weight:700; color:var(--ink); width:18%; }
+  .style-matrix tr:nth-child(2) td:first-child { color:var(--claude-deep); }
+  .learning-note { background:var(--good-soft); border-left:4px solid var(--good); padding:12px 16px; color:var(--ink-2); font-size:13px; line-height:1.55; }
+  .pager { position:fixed; right:24px; bottom:16px; display:flex; gap:8px; align-items:center; font-size:11px; color:var(--ink-3); }
+  .pager button { width:28px; height:28px; border:1px solid var(--border); background:#fff; cursor:pointer; }
 
   /* ターミナルモックアップ（縦長） */
   .terminal {
@@ -143,8 +157,8 @@
     min-width: 20px; height: 20px; padding: 0 6px;
     border-radius: 10px; font-size: 10px; font-weight: 700; color: #fff; flex-shrink: 0;
   }
-  .step-chip--active { background: var(--claude); }
-  .step-chip--inactive { background: var(--ink-3); }
+  .step-chip--active { background: #B65335; }
+  .step-chip--inactive { background: #66788C; }
   .step-chip--teach { background: var(--good); }
 
   .anno-desc {
@@ -275,6 +289,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -290,12 +306,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -340,16 +362,36 @@ footer.slide-meta strong { color: var(--ink); }
   .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
 }
 </style>
-
+</head>
+<body>
 <div class="slide-viewport">
 <div class="slide">
 
-  <header class="slide-header">
-    <span class="slide-eyebrow">CLAUDE CODE — OUTPUT STYLE</span>
-    <h1 class="slide-title">Output Style — AI の応答態度を<wbr>場面に合わせて切り替える機能</h1>
-    <p class="slide-subtitle">同じ指示でも Style によって「すぐ動く」か「確認してから動く」かが変わる</p>
-  </header>
+  <section class="slide-page is-active" aria-label="4分類の比較">
+    <header class="slide-header">
+      <span class="slide-eyebrow">CLAUDE CODE — OUTPUT STYLE</span>
+      <h1 class="slide-title">Output Styleを場面に合わせて切り替える</h1>
+      <p class="slide-subtitle">Default・Proactive・Explanatory・Learningを、確認頻度と説明量で選ぶ</p>
+    </header>
+    <div class="learning-note"><strong>4分類は確認頻度・説明量・実装の担い手で選ぶ。</strong> Learning は小さなコード実装を利用者に委ね、実践しながら学ぶための組み込みスタイルである。</div>
+    <table class="style-matrix">
+      <thead><tr><th>Style</th><th>確認頻度</th><th>説明量</th><th>適用場面</th></tr></thead>
+      <tbody>
+        <tr><td>Default</td><td>判断が必要な場面で確認</td><td>必要な概要</td><td>初めての作業、判断の余地が大きいとき</td></tr>
+        <tr><td>Proactive</td><td>低い。ただし破壊的操作・共有変更は確認</td><td>実行優先で最小限</td><td>方針が明確で、大量の作業を一気に進めるとき</td></tr>
+        <tr><td>Explanatory</td><td>判断と選択肢を明示</td><td>理由・比較・背景を補足</td><td>仕組みと設計判断を理解しながら進めるとき</td></tr>
+        <tr><td>Learning</td><td>小さな実装を利用者へ返す</td><td>実践に必要な導き</td><td>利用者が小さなコード実装を担い、実践学習するとき</td></tr>
+      </tbody>
+    </table>
+    <p class="source-line">根拠：インストール済み Claude Code 2.1.219 の組み込み Learning 説明（小さなコード実装を利用者に委ね、実践学習させる）。</p>
+  </section>
 
+  <section class="slide-page" aria-label="Proactiveの5指示">
+  <header class="slide-header">
+    <span class="slide-eyebrow">CLAUDE CODE — PROACTIVE</span>
+    <h1 class="slide-title">Proactiveの5指示と確認境界を読む</h1>
+    <p class="slide-subtitle">即時実行と割込み最小化を優先しつつ、削除と共有システム変更は確認する</p>
+  </header>
   <div class="main-grid">
 
     <!-- 左: ターミナル（実際の注入テキスト） -->
@@ -393,7 +435,7 @@ footer.slide-meta strong { color: var(--ink); }
       <div class="anno-card anno-card--active">
         <div class="anno-head">
           <span class="step-chip step-chip--active">有効</span>
-          <h3>Proactive（自律型）</h3>
+          <h2>Proactive（自律型）</h2>
         </div>
         <p class="anno-desc"><strong>即座に実行を開始</strong>し、妥当な判断ができる場面では確認せずに進む。方向転換は通常の入力として受け止める。ただし<strong>データ削除・共有システムへの操作</strong>は必ず確認する。</p>
         <p class="anno-when">向いている場面: 方針が明確で大量の作業を一気に進めたいとき</p>
@@ -402,7 +444,7 @@ footer.slide-meta strong { color: var(--ink); }
       <div class="anno-card anno-card--inactive">
         <div class="anno-head">
           <span class="step-chip step-chip--inactive">既定</span>
-          <h3>Normal（標準型）</h3>
+          <h2>Default（標準型）</h2>
         </div>
         <p class="anno-desc">低リスクな操作は即実行、<strong>判断が必要な場面で確認</strong>する。大きな変更の前に計画の概要を提示し、不明点があれば事前に質問する。</p>
         <p class="anno-when">向いている場面: 初めての作業や、判断の余地が大きいとき</p>
@@ -411,7 +453,7 @@ footer.slide-meta strong { color: var(--ink); }
       <div class="anno-card anno-card--teach">
         <div class="anno-head">
           <span class="step-chip step-chip--teach">学習</span>
-          <h3>Pedagogical（解説型）</h3>
+          <h2>Explanatory（解説型）</h2>
         </div>
         <p class="anno-desc">各ステップで<strong>「なぜそうするか」を添えて説明</strong>する。複数の方法がある場面で比較を提示し、コードの背景知識や設計判断の根拠を補足する。</p>
         <p class="anno-when">向いている場面: 仕組みを理解しながら進めたいとき</p>
@@ -420,12 +462,16 @@ footer.slide-meta strong { color: var(--ink); }
     </div>
 
   </div>
+  <p class="source-line">Proactive は即時実行・仮定・割込み最小化・計画抑制・方向転換を扱う一方、削除と共有システム変更は確認境界として残す。</p>
+  </section>
 
-  <p class="source-line">出典: Claude Code /output-style コマンド（settings.json の outputStyle で永続設定可能）</p>
+  <p class="source-line">設定: /config の Output style（Default / Proactive / Explanatory / Learning、settings.json の outputStyle で永続設定可能）</p>
   <footer class="slide-meta"></footer>
 
 </div>
 </div>
+
+<nav class="pager" aria-label="ページ送り"><button type="button" id="prev" aria-label="前のページ">←</button><span id="count">1 / 2</span><button type="button" id="next" aria-label="次のページ">→</button></nav>
 
 <script>
 (function(){
@@ -438,4 +484,16 @@ footer.slide-meta strong { color: var(--ink); }
   addEventListener('resize', f);
   f();
 })();
+(function(){
+  var pages=[].slice.call(document.querySelectorAll('.slide-page')), index=0;
+  function show(n){ index=(n+pages.length)%pages.length; pages.forEach(function(p,i){p.classList.toggle('is-active',i===index);}); document.getElementById('count').textContent=(index+1)+' / '+pages.length; }
+  document.getElementById('prev').addEventListener('click',function(){show(index-1);});
+  document.getElementById('next').addEventListener('click',function(){show(index+1);});
+  addEventListener('keydown',function(event){
+    if(event.key==='ArrowLeft')show(index-1);
+    if(event.key==='ArrowRight')show(index+1);
+  });
+})();
 </script>
+</body>
+</html>

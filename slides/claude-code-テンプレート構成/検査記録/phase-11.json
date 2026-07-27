@@ -1,0 +1,152 @@
+{
+  "phase": 11,
+  "targetKeys": [
+    "claude-code-テンプレート構成"
+  ],
+  "status": "pass",
+  "criteria": [],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "1. 対象",
+      "evidence": "claude-code-テンプレート構成の全4ページ。現行HTML SHA-256 70f4cd0acbd3db90ff01556cb6de09ca05268f649e4393fc7f6ddb7acece3b72から1280×720と390×844でPlaywright再描画し、全ページ、最新runtime、タイトル・副題、余白、共有シェル、footerを確認した。",
+      "fix": "現行SHAと全ページの表示対応を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "2. 要約",
+      "evidence": "Claude Codeの設定資産を、全体像、文脈とrules、skillsとagents、実行制御の4段階で実務配置へ落とし込んでいる。",
+      "fix": "現行の実務判断とページ役割を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "3. 良い点",
+      "evidence": "ページごとに表、左右比較、役割対比、設定一覧へ表現を切り替え、CLAUDE.md、rules、skills、agents、settings、MCPの境界を具体パスで示す。 共有CSS修正後も全ページの外枠、ヘッダー、本文、ページ送り、footerが同じ基準線で揃い、wideのfooter computed heightは10pxである。",
+      "fix": "共有シェルを独自上書きせず、現行の主従と整列を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "4. 指摘事項",
+      "evidence": "公開を妨げる実務性・非テンプレ感の問題はない。wide／narrowともoverflow・枠外表示・ブラウザエラーは0件で、footer／共有CSS修正後の不整合も認められない。",
+      "fix": "必須修正なし。内容または共有CSSを変更した場合だけ全ページを再レビューする。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "5. 情報設計の再編集案",
+      "evidence": "主役は5資産の役割分離と、Claude Code固有の正規配置。 支える情報は読込条件、YAML frontmatter、権限、hooks、MCPの具体的な扱い。 後景化する情報は英字kicker、補足例、ページナビゲーション。 レイアウトは全体表から詳細比較へ進み、ページごとに情報形式を変える4ページ構成。 読み順は全体像→文脈／rules→skills／agents→設定／MCP。 削除・統合・短縮候補は現時点で削除・統合・短縮は不要。資産追加時は既存ページへ押し込まない。 追加禁止情報は未確認パス、権限仕様、フック仕様、効果、費用、期間を追加しない。",
+      "fix": "将来修正時も主役・支える情報・後景の順を崩さず、追加禁止情報を持ち込まない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック1: 3カード構成でない",
+      "evidence": "3カード構成ではなく、表・左右比較・設定一覧を内容に応じて使い分ける。",
+      "fix": "意味関係のない均等3カードへ置き換えない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック2: 項目ごとの丸アイコンに依存しない",
+      "evidence": "項目ごとの丸アイコンはなく、文字、表、罫線、位置関係で意味を示している。",
+      "fix": "単語置換型の丸アイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック3: 写真を装飾使用しない",
+      "evidence": "全ページのwide／narrow実描画に写真、人物、会議室、端末の装飾素材はない。",
+      "fix": "説明に不要なストックフォトを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック4: 多角形装飾を使用しない",
+      "evidence": "多角形、立体、グラデーションの装飾はなく、線と矢印は具体的な比較・遷移・依存に限定される。",
+      "fix": "余白を埋める図形や大きな装飾矢印を追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック5: 濃紺フッターを追加しない",
+      "evidence": "濃紺の帯フッターはなく、共有CSS修正後のfooterはwide全ページでborder 0、padding-top 10px、font-size 10px、height 10pxとして本文内に収まる。",
+      "fix": "footerの共通契約を独自CSSで上書きしない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック6: 架空情報を追加しない",
+      "evidence": "会社名、ロゴ、費用、根拠のない効果値を追加していない。未確認パス、権限仕様、フック仕様、効果、費用、期間を追加しない。",
+      "fix": "一次情報または元資料で確認できない情報を追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック7: 情報の強弱がある",
+      "evidence": "タイトル、ページ別主張、具体パス、補足の順に文字サイズと面積が下がり、各ページの判断対象が明確。",
+      "fix": "タイトル、主役、根拠、補足の強度順を維持する。"
+    },
+    {
+      "severity": "medium",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック8: 情報を詰め込みすぎない",
+      "evidence": "5資産を全体表で示し、詳細を3ページへ分けているため、文字の押し込みがない。",
+      "fix": "情報追加時は文字縮小より先に統合・短縮・分割を検討する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック9: 青を安易な企業資料色にしない",
+      "evidence": "Claude Codeの橙を小面積の識別と強調に限定し、青を企業資料の既定色としていない。",
+      "fix": "色を意味と強調に限定し、既定の青で全面を均質化しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック10: 不要なアイコンを使用しない",
+      "evidence": "装飾アイコンを使わず、コード表記、表、罫線、余白で情報を整理する。",
+      "fix": "情報関係を説明しないアイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック11: 余白を装飾で埋めない",
+      "evidence": "表下と左右カラムの余白は、主役・補足・結論の区切りとして機能している。",
+      "fix": "余白を区切りと強弱に使い、写真・図形・模様で埋めない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック12: 読み順が明確",
+      "evidence": "全体像→文脈／rules→skills／agents→設定／MCP。",
+      "fix": "現行の基準線と視線順を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック13: 1スライド1メッセージ",
+      "evidence": "各ページが全体像、読込条件、役割分離、実行境界の1メッセージに分かれる。",
+      "fix": "別の判断軸を追加する場合は同一ページへ押し込まない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック14: 人間が編集したように見える",
+      "evidence": "Claude Code固有の配置と読込条件へ具体化され、汎用テンプレートへの流し込みではない。",
+      "fix": "具体的な判断条件と情報関係を維持し、均等テンプレートへ戻さない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "7. 実装者がそのまま作業できる優先順位付き修正方針",
+      "evidence": "優先度1: 現状維持。必須修正なし。優先度2: 内容・共有CSS・footer変更時は現行HTML SHAから全ページをwide／narrowで再描画し、14項目を再判定する。優先度3: 元にない会社名、日付、ロゴ、数値、効果、費用、期間、写真、根拠のない図解を追加しない。",
+      "fix": "更新時は優先度順に適用し、Phase 11記録を新SHAへ更新する。"
+    }
+  ],
+  "checkedAt": "2026-07-27T10:46:58.729Z",
+  "artifactSha256": "70f4cd0acbd3db90ff01556cb6de09ca05268f649e4393fc7f6ddb7acece3b72"
+}

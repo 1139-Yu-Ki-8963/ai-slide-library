@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["AI採用成熟度-機能整備対応表"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全3ページを確認。1ページ目でLevel 1〜5とLevel 3への移行条件を俯瞰し、2ページ目でLevel 1〜3、3ページ目でLevel 4〜5の機能・整備条件を具体化する。全体から導入焦点、その先の自律へ進む順序が自然である。"},
+    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "1ページ目でLevel 3を主役化し、2ページ目で導入条件を詳細化、3ページ目でLevel 4〜5を静かな対比として置く。強調は移行点と到達点に限定され、3ページ連続の過剰な強調がない。"},
+    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "1ページ目の全体表、2ページ目の3段階表、3ページ目の非対称な2段階比較へ情報量に応じて変化する。旧記録で指摘された3ページ目の過大な空白は解消され、監督から安全な拡張への読み順が成立している。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:31:00Z",
+  "artifactSha256": "7f9a21aeeb4bc066ca10df943689985da1e2db7845ba613db583f6a84646a4e9"
+}

@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["statusline-四行表示の見方"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "not-applicable", "evidence": "単一ページで明示されたデッキ文脈はない。タイトル「statusline — 入力欄の下に任意の情報を常時表示できるカスタマイズ機能」に対し、上段の4行実例から下段4分類の説明へ視線を落とす一枚完結の構造であり、ページ間の役割・順序を判定する対象がない。"},
+    {"id": "deck-ai-strength-rhythm", "status": "not-applicable", "evidence": "単一ページで明示されたデッキ文脈はない。暗いstatusline実例を入口として最も強く置き、モデル・セッション・リソース・進捗の4説明を控えめな色見出しで支えるが、デッキ全体の強弱リズムを比較する対象がない。"},
+    {"id": "deck-ai-layout-repetition", "status": "not-applicable", "evidence": "単一ページで明示されたデッキ文脈はない。下段の2×2説明枠は4行の表示項目を対応させて読むための反復であり、別ページとの理由なき同型反復は評価対象外。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "23911321e50d6c88365880458cb916f1a2494e80c76a0cb1371d433693663f5b"
+}

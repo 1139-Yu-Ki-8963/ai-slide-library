@@ -1,0 +1,25 @@
+{
+  "phase": 9,
+  "targetKeys": ["規約カバレッジ-可視化"],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈がない。規約ごとの担保手段と未担保箇所を表で可視化し、自動化バックログへ送る結論を一枚で完結させており、ページ間の役割・順序は存在しない。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "単一ページのためデッキ全体の強弱リズムは対象外である。ページ内の主張・表・未担保の強調はwide/narrow実描画と更新後サムネイルで確認したが、複数ページ間の強調反復は評価できない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "単一ページで直前・直後ページとのレイアウト反復は存在しない。担保手段を行単位で比較する表構造は当該ページの情報関係から導かれており、ページ横断の理由なき定型反復を判定する対象ではない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "85b318fbe579f7562885068d5ea58d7a50965db8102cc24461f03ace153595e9"
+}

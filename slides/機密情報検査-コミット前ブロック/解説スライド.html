@@ -1,5 +1,9 @@
+<!doctype html>
+<html lang="ja">
+<head>
 <meta charset="utf-8">
-<title>機密情報は「コミット・push・公開」の三重の関門で機械的に止める</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>機密情報を三重に検査し、公開は承認で守る</title>
 <style>
   /* ==== デザイントークン（変更禁止） ==== */
   :root {
@@ -7,7 +11,7 @@
     --surface: #FFFFFF;       /* スライド面 */
     --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
     --ink-2: #55667A;         /* 本文 */
-    --ink-3: #8494A6;         /* 補足・軸ラベル */
+    --ink-3: #52677A;         /* 補足・軸ラベル（白地で判読可能な濃さ） */
     --border: #D9E0E8;        /* 罫線 */
     --grid: #E9EDF2;          /* 図中グリッド線 */
     --critical: #C0392B;      /* 警告・上限・停止 */
@@ -108,6 +112,8 @@
     border-top: 1px solid var(--border);
   }
 </style>
+</head>
+<body>
 <style data-shared-slide-shell>
 /* GENERATED FROM: slide-design-system / shared-slide-shell.css */
 /*
@@ -207,6 +213,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -222,12 +230,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -278,8 +292,8 @@ footer.slide-meta strong { color: var(--ink); }
 
     <header class="slide-header">
       <span class="slide-eyebrow">AI開発ガバナンス — 機密情報保護</span>
-      <h1 class="slide-title">機密情報は「コミット・push・公開」の三重の関門で機械的に止める</h1>
-      <p class="slide-subtitle">AI がうっかり API キーや顧客情報を書き込んでも、履歴に残る前・外に出る前・公開する前の各段階で hook（操作に自動で割り込む仕組み）が検出して停止する。</p>
+      <h1 class="slide-title">機密情報を三重に検査し、公開は承認で守る</h1>
+      <p class="slide-subtitle">機密を検出したときだけcommit・pushをhookで止め、公開前は全体レビューと承認で守る。</p>
     </header>
 
     <div class="layer-stack">
@@ -287,7 +301,7 @@ footer.slide-meta strong { color: var(--ink); }
       <div class="layer-band layer-band--critical">
         <span class="step-chip step-chip--critical">1</span>
         <div class="layer-body">
-          <h3>第一関門: コミット時の検査</h3>
+          <h2>第一関門: コミット時の検査</h2>
           <p class="layer-desc">コミット対象の追加行を既知の機密パターン集と照合し、一致すればコミット自体をエラー終了（終了コード 2）で停止する。検出時は件数とファイル名のみ通知し、機密値そのものは表示しない。</p>
           <div class="layer-examples">
             <span class="ex">クラウドのアクセスキー（AKIA… 形式）</span>
@@ -298,14 +312,14 @@ footer.slide-meta strong { color: var(--ink); }
       </div>
 
       <div class="arrow-between">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg role="img" aria-label="push時の再検査へ" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span class="arrow-text">第一関門を通過した変更も、外部リポジトリへ出る直前に再検査される</span>
       </div>
 
       <div class="layer-band layer-band--partial">
         <span class="step-chip step-chip--partial">2</span>
         <div class="layer-body">
-          <h3>第二関門: push 時の再検査</h3>
+          <h2>第二関門: push 時の再検査</h2>
           <p class="layer-desc">push 対象の未送信コミット全体の追加行を再走査し、すり抜けた機密値をリポジトリの外へ出る直前で止める。検出時は履歴からの除去までを要求する。</p>
           <div class="layer-examples">
             <span class="ex">未 push コミットの全追加行</span>
@@ -315,25 +329,25 @@ footer.slide-meta strong { color: var(--ink); }
       </div>
 
       <div class="arrow-between">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="arrow-text">リポジトリを公開・配布する前には、差分ではなく全体の走査が入る</span>
+        <svg role="img" aria-label="公開前レビューへ" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="arrow-text">公開・配布前は、差分ではなく公開物全体をレビューして承認する</span>
       </div>
 
       <div class="layer-band layer-band--good">
         <span class="step-chip step-chip--good">3</span>
         <div class="layer-body">
-          <h3>最終防衛線: 公開前の機密漏洩走査</h3>
-          <p class="layer-desc">公開の前にスナップショット全体を走査し、機密文字列に加えて特定環境の絶対パス・顧客情報の残存まで最終確認する。</p>
+          <h2>最終防衛線: 公開前レビューと承認</h2>
+          <p class="layer-desc">公開物全体をpublic-readinessレビューで確認し、機密文字列、特定環境の絶対パス、顧客情報の残存を含めて公開承認を判断する。</p>
           <div class="layer-examples">
-            <span class="ex">全ファイルを対象に走査</span>
-            <span class="ex">絶対パス・顧客情報も検出対象</span>
+            <span class="ex">公開物全体をレビュー</span>
+            <span class="ex">承認ゲートで公開可否を判断</span>
           </div>
         </div>
       </div>
 
     </div>
 
-    <p class="source-line">出典：本カタログ運用環境の hook 構成（2026年7月時点）</p>
+    <p class="source-line">出典：本カタログ運用のhook構成・public-readinessレビュー（2026年7月時点）</p>
 
     <footer class="slide-meta"></footer>
 
@@ -353,3 +367,5 @@ footer.slide-meta strong { color: var(--ink); }
   f();
 })();
 </script>
+</body>
+</html>

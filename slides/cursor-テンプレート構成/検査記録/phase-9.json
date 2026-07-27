@@ -1,0 +1,27 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "cursor-テンプレート構成"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "pass",
+      "evidence": "現SHAの全4ページをHTMLとwide/narrowで確認した。P1の5資産一覧（情報提示）から、P2のAGENTS.mdとMDC rules（定義・前提）、P3のskillsとagents（責務対比）、P4のMCP接続とCLI権限（実行境界）へ進み、Cursor固有の配置と役割を順に分解している。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "pass",
+      "evidence": "P1は静かな索引、P2とP3は左右対比で判断点を中強度にし、P4は設定一覧と権限注意へ落ち着かせる。黒と低彩度の面、アクセント線の使い分けが全ページで一貫し、強調の連続や巨大見出しはない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "pass",
+      "evidence": "P1は横罫表、P2は共通文脈とMDC metadataの対比、P3は再利用手順と専門役割の対比、P4は設定ファイル一覧と注意枠である。共通フレームは統一され、各ページの問いに応じた変化があり、同型カードの無意味な反復はない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T10:44:38.117Z",
+  "artifactSha256": "2481177a3302706736087c9fc572437efccc5e581db055a5ddacecad479beba3"
+}

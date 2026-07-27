@@ -1,4 +1,8 @@
+<!doctype html>
+<html lang="ja">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI 駆動開発のための自動検証基盤整備</title>
 <style>
   :root {
@@ -42,13 +46,13 @@
   }
 
   .slide-header { display: flex; flex-direction: column; gap: 4px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
-  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-3); }
+  .slide-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-2); }
   .slide-title { font-size: 32px; font-weight: 700; line-height: 1.25; color: var(--ink); text-wrap: balance; }
 
   .lead-band {
-    background: var(--ink); color: #fff; border-radius: 6px;
-    padding: 12px 20px; font-size: 19px; font-weight: 700;
-    text-align: center; letter-spacing: 0.02em;
+    background: var(--tag-bg); color: var(--ink); border-left: 4px solid var(--accent);
+    padding: 12px 16px; font-size: 19px; font-weight: 700;
+    text-align: left; letter-spacing: 0.02em;
   }
 
   .head-message { display: flex; flex-direction: column; gap: 5px; }
@@ -63,16 +67,22 @@
   }
   .argument-table th:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
   .argument-table th:last-child { border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
-  .col-tool { width: 22%; }
-  .col-ctx { width: 25%; }
-  .col-detail { width: 53%; }
+  .col-tool { width: 23%; }
+  .col-ctx { width: 31%; }
+  .col-detail { width: 46%; }
   .argument-table td {
     vertical-align: top; border-bottom: 1px solid var(--border);
     padding: 10px 12px; font-size: 13px; color: var(--ink-2); line-height: 1.5;
   }
   .argument-table tbody tr:nth-child(even) td { background: var(--tag-bg); }
   .cell-tool { font-weight: 700; color: var(--ink); }
-  .cell-ctx { font-weight: 700; color: var(--good); }
+  .cell-ctx {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--accent) 8%, var(--surface) 92%) !important;
+    border-left: 3px solid var(--accent);
+  }
   .lang-note { font-size: 11px; color: var(--ink-3); margin-top: 4px; display: block; }
 
   .source-line { font-size: 11px; color: var(--ink-3); border-top: 1px solid var(--border); padding-top: 6px; }
@@ -86,7 +96,7 @@
     font-size: 14px; cursor: pointer;
   }
   .pager button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-  .pager button:disabled { opacity: 0.35; cursor: default; }
+  .pager button[aria-disabled="true"] { opacity: 0.35; cursor: default; }
   .pager-count { font-size: 11px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
   .slide-meta { height: 24px; padding-top: 6px; border-top: 1px solid var(--border); }
@@ -190,6 +200,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -205,12 +217,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -255,14 +273,16 @@ footer.slide-meta strong { color: var(--ink); }
   .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
 }
 </style>
-
+</head>
+<body>
 <div class="slide-viewport">
   <div class="slide">
 
     <section class="slide-page is-active">
       <header class="slide-header">
         <span class="slide-eyebrow">AI 駆動開発 — 整備項目</span>
-        <h1 class="slide-title">AI 駆動開発のための自動検証基盤整備</h1>
+        <h1 class="slide-title">AI導入前に、成果物を自動検証できる基盤を整える</h1>
+        <p class="slide-subtitle">自動化対象から、先に整える文書と定義内容を対応付ける</p>
       </header>
       <div class="lead-band">AI を導入するには自動検証できる状態が前提になる</div>
       <section class="head-message">
@@ -286,17 +306,17 @@ footer.slide-meta strong { color: var(--ink); }
           <tr>
             <td class="cell-tool">単体テスト整備</td>
             <td class="cell-ctx">観点表</td>
-            <td>各関数の引数・戻り値・例外条件を一覧化し、テストコードの根拠にする</td>
+            <td>各関数の引数・戻り値・例外条件を一覧化する</td>
           </tr>
           <tr>
             <td class="cell-tool">結合テスト整備</td>
             <td class="cell-ctx">API 設計書 / データフロー定義</td>
-            <td>モジュール間のデータの流れ・形式・制約を定義し、テストコードの根拠にする</td>
+            <td>モジュール間のデータの流れ・形式・制約を定義する</td>
           </tr>
           <tr>
             <td class="cell-tool">E2E テスト整備</td>
             <td class="cell-ctx">画面設計書</td>
-            <td>操作手順・画面遷移・期待表示を定義し、テストコードの根拠にする</td>
+            <td>操作手順・画面遷移・期待表示を定義する</td>
           </tr>
           <tr>
             <td class="cell-tool">カバレッジ計測導入</td>
@@ -311,7 +331,8 @@ footer.slide-meta strong { color: var(--ink); }
     <section class="slide-page">
       <header class="slide-header">
         <span class="slide-eyebrow">AI 駆動開発 — 整備項目</span>
-        <h1 class="slide-title">AI 駆動開発のための自動検証基盤整備</h1>
+        <h1 class="slide-title">AI導入前に、成果物を自動検証できる基盤を整える</h1>
+        <p class="slide-subtitle">規約を言語化し、静的検査の設定へ変換する</p>
       </header>
       <div class="lead-band">AI を導入するには自動検証できる状態が前提になる</div>
       <section class="head-message">
@@ -388,8 +409,8 @@ footer.slide-meta strong { color: var(--ink); }
   function render() {
     pages.forEach(function (p, i) { p.classList.toggle('is-active', i === idx); });
     current.textContent = idx + 1;
-    prev.disabled = idx === 0;
-    next.disabled = idx === pages.length - 1;
+    prev.setAttribute('aria-disabled', String(idx === 0));
+    next.setAttribute('aria-disabled', String(idx === pages.length - 1));
   }
   prev.addEventListener('click', function () { if (idx > 0) { idx--; render(); } });
   next.addEventListener('click', function () { if (idx < pages.length - 1) { idx++; render(); } });
@@ -400,3 +421,5 @@ footer.slide-meta strong { color: var(--ink); }
   render();
 })();
 </script>
+</body>
+</html>

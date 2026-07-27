@@ -1,0 +1,27 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "ai開発課題-領域KPI型"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "pass",
+      "evidence": "全2ページを確認。1ページ目で仕様・知識・検証・運用の診断領域を定義し、2ページ目で各領域を達成指標へ一対一対応させるため、診断から測定設計へ自然に進む。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "pass",
+      "evidence": "1ページ目は4領域の問題構造を中強度で示し、2ページ目は構成サンプルの表を静かに読む。目標・現状値が実測ではないことを明記し、数値だけを過剰に主役化していない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "pass",
+      "evidence": "1ページ目の領域別診断と2ページ目の達成指標表で配置と読み方が変化する。共通の4領域はページ間対応を保つための反復であり、理由なきテンプレート複製ではない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T11:37:12.828Z",
+  "artifactSha256": "89640a56899adaa483c47279f83ffe39bc640d7bc709553748c3ef4f29bdeb7b"
+}

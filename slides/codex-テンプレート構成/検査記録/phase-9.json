@@ -1,0 +1,27 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "codex-テンプレート構成"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "pass",
+      "evidence": "現SHAの全4ページをHTMLとwide/narrowで確認した。P1の5資産一覧（情報提示）から、P2のAGENTS.md階層作用（定義・前提）、P3のskillsとagents（責務対比）、P4のconfig.toml（実行境界）へ進み、Codexの参照順と設定責務を段階的に具体化している。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "pass",
+      "evidence": "P1は静かな全体索引、P2は階層優先順位を中強度、P3は手順と委任先の対比を中強度、P4は設定面と注意を静かに示す。色面は補足枠に限定され、全ページを強くせず、情報提示デッキとして自然な抑揚である。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "pass",
+      "evidence": "P1は横罫表、P2は階層図と番号付き優先順位、P3はskillとagentの左右対比、P4は設定キー一覧と注意枠である。共通フレームの統一性を保ちつつ、関係・順序・対比・一覧という情報構造ごとに配置が変わり、理由なき反復はない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T10:44:38.117Z",
+  "artifactSha256": "cacf5b6e931b33b5bb4170b40287ad14fe42a5ceb697afd18a1a3d062a0b13b9"
+}

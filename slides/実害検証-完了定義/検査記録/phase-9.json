@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["実害検証-完了定義"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全2ページを確認。1ページ目で存在確認・テスト通過と実害検証つき完了を区別し、2ページ目で操作・応答・一連動作と判断理由を変更提案の必須欄へ落とす。定義から運用へ進む。"},
+    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "1ページ目は採用する完了条件を主役にし、2ページ目は証跡3種と必須欄を静かに運用化する。主張と実装を異なる強度で扱い、強いページを連続させていない。"},
+    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "1ページ目は途中条件と採用条件の非対称比較、2ページ目は証跡の流れと必須3節で構成される。用語は継承するが、ページ役割に応じて配置が変わる。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:31:00Z",
+  "artifactSha256": "b0a4f2590b1c3fb6a364ececf855abae54c48ea06ab1a0ec41388d128de08a29"
+}

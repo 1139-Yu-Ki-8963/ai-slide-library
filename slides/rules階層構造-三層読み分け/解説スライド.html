@@ -1,4 +1,8 @@
+<!doctype html>
+<html lang="ja">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>規約は「所有レベル」×「注入タイミング」の 2 軸で整理する</title>
 <style>
   :root {
@@ -113,7 +117,7 @@
     padding: 1px 8px; border-radius: 4px;
   }
   .scope-tag--always { background: var(--always-soft); color: var(--always); }
-  .scope-tag--scoped { background: var(--scoped-soft); color: var(--scoped); }
+  .scope-tag--scoped { background: var(--scoped-soft); color: #8A650F; }
   .scope-when { font-size: 11px; color: var(--ink-3); }
 
   /* ── Tree (reuse original) ── */
@@ -178,6 +182,41 @@
   }
   .footer-axis-desc { font-size: 12px; color: var(--ink-2); line-height: 1.4; }
   .footer-axis-desc strong { color: var(--ink); }
+  .slide-page { display: none; flex: 1; min-height: 0; flex-direction: column; gap: 18px; }
+  .slide-page.is-active { display: flex; }
+  .axis-hero { display: grid; grid-template-columns: 220px 1fr; gap: 20px; flex: 1; min-height: 0; }
+  .axis-labels { display: grid; grid-template-rows: 1fr 1fr; gap: 14px; }
+  .axis-label {
+    display: flex; flex-direction: column; justify-content: center; gap: 7px;
+    padding: 18px; border-radius: 9px; color: #fff;
+  }
+  .axis-label--global { background: var(--global); }
+  .axis-label--project { background: var(--project); }
+  .axis-label strong { font-size: 20px; }
+  .axis-label span { font: 12px/1.5 system-ui, sans-serif; opacity: .9; }
+  .axis-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; }
+  .axis-card {
+    padding: 20px 22px; border: 1.5px solid var(--border); border-radius: 9px;
+    display: flex; flex-direction: column; justify-content: center; gap: 9px;
+  }
+  .axis-card--always { border-top: 5px solid var(--always); }
+  .axis-card--scoped { border-top: 5px solid var(--scoped); }
+  .axis-card h2 { font-size: 18px; color: var(--ink); }
+  .axis-card p { font-size: 13px; line-height: 1.6; color: var(--ink-2); }
+  .contract {
+    display: grid; grid-template-columns: 185px 1fr; align-items: center; gap: 18px;
+    padding: 14px 18px; border: 1px solid var(--border); border-left: 5px solid var(--global); border-radius: 8px;
+  }
+  .contract strong { color: var(--global); font-size: 14px; }
+  .contract p { color: var(--ink-2); font-size: 13px; line-height: 1.5; }
+  .pager { position: fixed; right: 22px; bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .pager button {
+    width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 50%;
+    background: var(--surface); color: var(--ink); cursor: pointer;
+  }
+  .pager button:disabled { visibility: hidden; }
+  .pager button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .pager-count { font: 11px/1 system-ui, sans-serif; color: var(--ink-3); }
 </style>
 <style data-shared-slide-shell>
 /* GENERATED FROM: slide-design-system / shared-slide-shell.css */
@@ -278,6 +317,8 @@ header h1 {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .single-line-title {
@@ -293,12 +334,18 @@ header h1 {
 }
 
 .lede,
-.slide-subtitle {
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
   align-self: end;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .lede em {
@@ -343,119 +390,130 @@ footer.slide-meta strong { color: var(--ink); }
   .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
 }
 </style>
-
+</head>
+<body>
 <div class="slide-viewport">
   <div class="slide">
 
-    <!-- Header -->
-    <header class="slide-header">
-      <span class="slide-eyebrow">CLAUDE CODE 設定管理</span>
-      <h1 class="slide-title">規約は「所有レベル」×「注入タイミング」の 2 軸で整理する</h1>
-      <p class="slide-subtitle">まずグローバルとプロジェクト固有に分け、それぞれの中で always / scoped を使い分ける</p>
-    </header>
+    <section class="slide-page is-active" aria-label="二軸の分類">
+      <header class="slide-header">
+        <span class="slide-eyebrow">CLAUDE CODE 設定管理</span>
+        <h1 class="slide-title">規約は「所有レベル」×「注入タイミング」で整理する</h1>
+        <p class="slide-subtitle">グローバル／プロジェクト固有と、always／scopedを混ぜずに二段階で分類する</p>
+      </header>
 
-    <!-- ===== Global Layer ===== -->
-    <div class="layer layer--global">
-      <div class="layer-head">
-        <span class="layer-chip layer-chip--global">グローバル</span>
-        <span class="layer-path">~/agent-home/rules/</span>
-        <span class="scope-when">— 全プロジェクト共通の規約</span>
-      </div>
-      <div class="scope-grid">
-        <!-- Global always -->
-        <div class="scope-card scope-card--always">
-          <div class="scope-head">
-            <span class="scope-tag scope-tag--always">always/</span>
-            <span class="scope-when">全セッションで常時注入</span>
-          </div>
-          <div class="tree">
-            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">naming/commit-branch/</span> <span class="tree-note">命名規約</span> <span class="tree-tag tree-tag--good">hook 同居</span></div>
-            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">review-checklist/text-dictionary/</span> <span class="tree-note">語彙辞書</span></div>
-            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">agent/subagent-selection/</span> <span class="tree-note">委任規約</span> <span class="tree-tag tree-tag--good">hook 同居</span></div>
-            <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">response/language/</span> <span class="tree-note">応答言語・文体</span></div>
-          </div>
+      <div class="axis-hero">
+        <div class="axis-labels">
+          <div class="axis-label axis-label--global"><strong>グローバル</strong><span>全プロジェクト共通<br>~/agent-home/rules/</span></div>
+          <div class="axis-label axis-label--project"><strong>プロジェクト固有</strong><span>リポジトリ単位<br>&lt;repo&gt;/.claude/rules/</span></div>
         </div>
-        <!-- Global scoped -->
-        <div class="scope-card scope-card--scoped">
-          <div class="scope-head">
-            <span class="scope-tag scope-tag--scoped">scoped/</span>
-            <span class="scope-when">対象パス操作時のみ注入</span>
-          </div>
-          <div class="tree">
-            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">review-checklist/code/</span> <span class="tree-note">paths: <code>**/*.ts</code></span></div>
-            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">dev-flow/gate/</span> <span class="tree-note">paths: <code>src/**</code></span></div>
-            <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">agent-config/hooks/</span> <span class="tree-note">paths: <code>tools/hooks/**</code></span></div>
-          </div>
+        <div class="axis-grid">
+          <article class="axis-card axis-card--always"><h2>global × always</h2><p>全セッションへ常時注入する共通規約。命名・語彙・委任・応答などを置く。</p></article>
+          <article class="axis-card axis-card--scoped"><h2>global × scoped</h2><p>対象パスの操作時だけ注入する共通規約。コード・開発フロー・hook設定などを置く。</p></article>
+          <article class="axis-card axis-card--always"><h2>project × always</h2><p>そのリポジトリ内で常時必要な文脈と、globalから委譲された値を置く。</p></article>
+          <article class="axis-card axis-card--scoped"><h2>project × scoped</h2><p>そのリポジトリ固有の条件付き規約。マージ時・コード編集時・レビュー時などに絞る。</p></article>
         </div>
       </div>
-    </div>
 
-    <!-- Delegation arrow -->
-    <div class="delegation">
-      <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
-        <path d="M8 0 L8 14" stroke="var(--global)" stroke-width="2" stroke-linecap="round"/>
-        <path d="M3 12 L8 18 L13 12" stroke="var(--global)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span class="delegation-label">値の委譲（追加のみ）</span>
-      <span class="delegation-detail">— 語彙・命名値をプロジェクトで追加できる。枠組みの上書きは不可</span>
-    </div>
-
-    <!-- ===== Project Layer ===== -->
-    <div class="layer layer--project">
-      <div class="layer-head">
-        <span class="layer-chip layer-chip--project">プロジェクト固有</span>
-        <span class="layer-path">&lt;repo&gt;/.claude/rules/</span>
-        <span class="scope-when">— リポジトリ単位の規約と値の追加</span>
+      <div class="footer-notes">
+        <div class="footer-axis"><span class="footer-axis-label">第1軸:</span><p class="footer-axis-desc"><strong>所有レベル</strong> — 共通か、リポジトリ固有か</p></div>
+        <div class="footer-axis"><span class="footer-axis-label">第2軸:</span><p class="footer-axis-desc"><strong>注入タイミング</strong> — 常時か、対象条件付きか</p></div>
       </div>
-      <div class="scope-grid">
-        <!-- Project always -->
-        <div class="scope-card scope-card--always">
-          <div class="scope-head">
-            <span class="scope-tag scope-tag--always">always/</span>
-            <span class="scope-when">プロジェクト内で常時注入</span>
-          </div>
-          <div class="tree">
-            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">project-context/rule.md</span> <span class="tree-note">概要・技術スタック</span></div>
-            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">naming-values.txt</span> <span class="tree-tag tree-tag--good">委譲受け口</span></div>
-            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">prh.yml</span> <span class="tree-tag tree-tag--good">委譲受け口</span></div>
-            <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">domain/dictionary/</span> <span class="tree-note">ドメイン用語辞書</span></div>
-          </div>
+      <footer class="slide-meta"></footer>
+    </section>
+
+    <section class="slide-page" aria-label="グローバル規約の詳細">
+      <header class="slide-header">
+        <span class="slide-eyebrow">GLOBAL RULES</span>
+        <h1 class="slide-title">グローバル規約は共通原則と対象別基準を分ける</h1>
+        <p class="slide-subtitle">alwaysは全セッション、scopedは対象パス操作時だけ読み込み、上書き可否はruleごとに宣言する</p>
+      </header>
+
+      <div class="layer layer--global">
+        <div class="layer-head">
+          <span class="layer-chip layer-chip--global">グローバル</span>
+          <span class="layer-path">~/agent-home/rules/</span>
+          <span class="scope-when">— 全プロジェクト共通の規約</span>
         </div>
-        <!-- Project scoped -->
-        <div class="scope-card scope-card--scoped">
-          <div class="scope-head">
-            <span class="scope-tag scope-tag--scoped">scoped/</span>
-            <span class="scope-when">対象パス操作時のみ注入</span>
+        <div class="scope-grid">
+          <div class="scope-card scope-card--always">
+            <div class="scope-head"><span class="scope-tag scope-tag--always">always/</span><span class="scope-when">全セッションで常時注入</span></div>
+            <div class="tree">
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">naming/commit-branch/</span> <span class="tree-note">命名規約</span> <span class="tree-tag tree-tag--good">hook 同居</span></div>
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">review-checklist/text-dictionary/</span> <span class="tree-note">語彙辞書</span></div>
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">agent/subagent-selection/</span> <span class="tree-note">委任規約</span> <span class="tree-tag tree-tag--good">hook 同居</span></div>
+              <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">response/</span> <span class="tree-note">応答規約の代表例</span></div>
+            </div>
           </div>
-          <div class="tree">
-            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">flow/approved-sha/</span> <span class="tree-note">マージ時のみ</span></div>
-            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">project/context-scope/</span> <span class="tree-note">コード編集時</span></div>
-            <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">review-checklist/</span> <span class="tree-note">レビュー観点の追加</span></div>
+          <div class="scope-card scope-card--scoped">
+            <div class="scope-head"><span class="scope-tag scope-tag--scoped">scoped/</span><span class="scope-when">対象パス操作時のみ注入</span></div>
+            <div class="tree">
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">review-checklist/code/</span> <span class="tree-note">paths: <code>**/*.ts</code></span></div>
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">dev-flow/gate/</span> <span class="tree-note">paths: <code>src/**</code></span></div>
+              <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">agent-config/hooks/</span> <span class="tree-note">paths: <code>tools/hooks/**</code></span></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Constraint -->
-    <div class="constraint">
-      <span class="constraint-icon">✕</span>
-      <span class="constraint-text">hook（機械強制）と違反時手順はグローバルが正本。プロジェクトで追加できるのは「値」のみ（語彙・命名・レビュー観点）</span>
-    </div>
+      <div class="contract">
+        <strong>ruleごとの上書き契約</strong>
+        <p>委譲可（値のみ）・一律適用・上書き禁止を各ruleの宣言で確認する。プロジェクト側が変更できる範囲は、この契約を越えない。</p>
+      </div>
+      <footer class="slide-meta"></footer>
+    </section>
 
-    <!-- Footer -->
-    <div class="footer-notes">
-      <div class="footer-axis">
-        <span class="footer-axis-label">第1軸:</span>
-        <p class="footer-axis-desc"><strong>所有レベル</strong> — グローバル（共通）か プロジェクト固有（リポジトリ単位）か</p>
+    <section class="slide-page" aria-label="プロジェクト規約の詳細">
+      <header class="slide-header">
+        <span class="slide-eyebrow">PROJECT RULES</span>
+        <h1 class="slide-title">プロジェクト規約は固有ルールと委譲値を分ける</h1>
+        <p class="slide-subtitle">独自ruleとglobalから委譲された値の受け口を分離し、hookと違反時手順は正本を確認する</p>
+      </header>
+
+      <div class="layer layer--project">
+        <div class="layer-head">
+          <span class="layer-chip layer-chip--project">プロジェクト固有</span>
+          <span class="layer-path">&lt;repo&gt;/.claude/rules/</span>
+          <span class="scope-when">— リポジトリ単位の規約と値の追加</span>
+        </div>
+        <div class="scope-grid">
+          <div class="scope-card scope-card--always">
+            <div class="scope-head"><span class="scope-tag scope-tag--always">always/</span><span class="scope-when">プロジェクト内で常時注入</span></div>
+            <div class="tree">
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">project-context/rule.md</span> <span class="tree-note">概要・技術スタック</span></div>
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">naming-values.txt</span> <span class="tree-tag tree-tag--good">委譲受け口</span></div>
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">prh.yml</span> <span class="tree-tag tree-tag--good">委譲受け口</span></div>
+              <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">domain/dictionary/</span> <span class="tree-note">ドメイン用語辞書</span></div>
+            </div>
+          </div>
+          <div class="scope-card scope-card--scoped">
+            <div class="scope-head"><span class="scope-tag scope-tag--scoped">scoped/</span><span class="scope-when">対象パス操作時のみ注入</span></div>
+            <div class="tree">
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">flow/approved-sha/</span> <span class="tree-note">マージ時のみ</span></div>
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">project/context-scope/</span> <span class="tree-note">コード編集時</span></div>
+              <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">review-checklist/</span> <span class="tree-note">レビュー観点の追加</span></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="footer-axis">
-        <span class="footer-axis-label">第2軸:</span>
-        <p class="footer-axis-desc"><strong>注入タイミング</strong> — always（常時）か scoped（条件付き）か。両レベル共通の考え方</p>
+
+      <div class="constraint">
+        <span class="constraint-icon">✕</span>
+        <span class="constraint-text">hook と違反時手順は正本を確認する。プロジェクト独自 rule と、global から委譲された値の受け口を分ける</span>
       </div>
-    </div>
-    <footer class="slide-meta"></footer>
+      <div class="footer-notes">
+        <div class="footer-axis"><span class="footer-axis-label">独自rule:</span><p class="footer-axis-desc">プロジェクト文脈・条件付きフロー・追加レビュー観点</p></div>
+        <div class="footer-axis"><span class="footer-axis-label">委譲値:</span><p class="footer-axis-desc">命名値・語彙辞書など、global契約が許す値だけ</p></div>
+      </div>
+      <footer class="slide-meta"></footer>
+    </section>
 
   </div>
+  <nav class="pager" aria-label="スライドページ">
+    <button type="button" data-pager-prev aria-label="前のページ">←</button>
+    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>3</span></span>
+    <button type="button" data-pager-next aria-label="次のページ">→</button>
+  </nav>
 </div>
 
 <script>
@@ -468,5 +526,26 @@ footer.slide-meta strong { color: var(--ink); }
   }
   addEventListener('resize', f);
   f();
+  var pages = Array.prototype.slice.call(document.querySelectorAll('.slide-page'));
+  var index = 0;
+  var prev = document.querySelector('[data-pager-prev]');
+  var next = document.querySelector('[data-pager-next]');
+  var current = document.querySelector('[data-pager-current]');
+  function show(i) {
+    index = Math.max(0, Math.min(i, pages.length - 1));
+    pages.forEach(function(page, n){ page.classList.toggle('is-active', n === index); });
+    current.textContent = index + 1;
+    prev.disabled = index === 0;
+    next.disabled = index === pages.length - 1;
+  }
+  prev.addEventListener('click', function(){ show(index - 1); });
+  next.addEventListener('click', function(){ show(index + 1); });
+  addEventListener('keydown', function(event){
+    if (event.key === 'ArrowLeft') show(index - 1);
+    if (event.key === 'ArrowRight') show(index + 1);
+  });
+  show(0);
 })();
 </script>
+</body>
+</html>

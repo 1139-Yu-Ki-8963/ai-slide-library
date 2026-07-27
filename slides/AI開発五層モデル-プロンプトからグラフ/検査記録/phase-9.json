@@ -1,0 +1,25 @@
+{
+  "phase": 9,
+  "targetKeys": ["AI開発五層モデル-プロンプトからグラフ"],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "対象は解説スライド.html 1ページのみで、HTML内にページ送り部品はなく、同一デッキの前後ページも入力対象に存在しないため、ページ役割と順序の比較対象がない。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "対象は単一ページかつデッキ文脈なしのため、複数ページにまたがる強・中・静の配分、連続、変化を判定できない。単ページ内では5層の順序とGraph Engineeringの控えめな緑の強調が確認できるが、デッキ全体のリズム評価には用いない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "対象は解説スライド.htmlの1ページだけで、比較する直前・直後ページがない。5層の帯は同一ページ内の順序構造を示す反復であり、デッキ間の理由なきレイアウト反復は判定対象外である。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "78292fd1659939aa31a5e732aa0606dc93bea3e981b1c681924d289a384bd49c"
+}

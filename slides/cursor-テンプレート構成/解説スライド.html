@@ -1,16 +1,470 @@
-<meta charset="utf-8">
-<title>Cursor — AI駆動開発の docs 配置ガイド</title>
-<meta http-equiv="refresh" content="0; url=../claude-code-テンプレート構成/解説スライド.html#cursor">
-<style>
-  body {
-    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
-    color: #1C2B3A;
-    padding: 40px;
-  }
-  a { color: #D97757; }
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cursorの設定資産を4層で整理する</title>
+<style data-shared-slide-shell>
+/* GENERATED FROM: slide-design-system / shared-slide-shell.css */
+/*
+ * Shared slide shell
+ * 正本: generating-explanation-html-slides/references/shared-slide-shell.css
+ * 最終HTMLは単体配布できるよう、このCSSを生成時に内包する。
+ * 型固有の表・図表・本文レイアウトはこのファイルへ追加しない。
+ */
+:root {
+  --paper: #f5f4f1;
+  --ink: #202426;
+  --muted: #626967;
+  --faint: #d7d9d5;
+  --accent: #a15d32;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
+}
+
+.viewport,
+.slide-viewport {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1280px;
+  height: 720px;
+  padding: 46px 58px 30px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  gap: 0;
+  transform: translate(-50%, -50%) scale(var(--slide-scale, var(--scale, 1)));
+  transform-origin: center center;
+}
+
+header,
+.slide-header {
+  position: static;
+  inset: auto;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding-bottom: 17px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.header-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 55px;
+}
+
+.kicker {
+  color: var(--accent);
+  font-family: system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+.title,
+.slide-title,
+.slide-header .slide-title,
+.slide-header h1,
+header h1 {
+  display: block;
+  max-width: none;
+  margin: 0;
+  font-size: 33px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.single-line-title {
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.title-num {
+  display: inline-block;
+  font-family: "Noto Serif CJK JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.lede,
+.slide-subtitle,
+header .slide-subtitle,
+.slide-header .slide-subtitle,
+:is(header, .slide-header) > p,
+:is(header, .slide-header) p:first-of-type {
+  align-self: end;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.lede em {
+  color: var(--ink);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.bottom,
+.slide-footer,
+footer.slide-meta,
+footer.meta {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 35px;
+  height: auto;
+  flex: 0 0 auto;
+  min-height: 0;
+  margin: 0;
+  border-top: 0;
+  padding-top: 10px;
+  color: var(--muted);
+  font-family: system-ui, sans-serif;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.bottom strong,
+.slide-footer strong,
+footer.slide-meta strong { color: var(--ink); }
+
+.warning,
+.slide-footer .warning {
+  padding-left: 10px;
+  border-left: 3px solid var(--accent);
+}
+
+.sequence,
+.slide-footer .sequence { text-align: right; }
+
+@media (max-width: 700px) {
+  .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
+}
 </style>
-<script>
-  location.replace("../claude-code-テンプレート構成/解説スライド.html#cursor");
-</script>
-<p>このスライドは統合版に移動しました。</p>
-<p>自動で移動しない場合は<a href="../claude-code-テンプレート構成/解説スライド.html#cursor">こちら</a>。</p>
+<style data-slide-specific>
+  :root {
+    --accent: #4f5962;
+    --accent-soft: #e9ecee;
+    --surface-soft: #f7f7f4;
+  }
+  .slide { display: none; }
+  .slide.is-active { display: flex; }
+  .slide-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: end;
+  }
+  .slide-title { margin-top: 4px; }
+  .slide-subtitle { text-align: right; }
+  .content {
+    flex: 1;
+    min-height: 0;
+    padding-top: 24px;
+    font-family: system-ui, -apple-system, "Hiragino Sans", sans-serif;
+  }
+  .overview-content { display: flex; align-items: stretch; padding-bottom: 8px; }
+  .overview { flex: 1; width: 100%; height: 100%; border-collapse: collapse; table-layout: fixed; }
+  .overview th {
+    padding: 0 12px 9px;
+    border-bottom: 1px solid var(--ink);
+    color: var(--muted);
+    font-size: 11px;
+    text-align: left;
+    letter-spacing: .08em;
+  }
+  .overview td {
+    padding: 14px;
+    border-bottom: 1px solid var(--faint);
+    vertical-align: middle;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .overview tbody { height: calc(100% - 36px); }
+  .overview tbody tr { height: 20%; }
+  .overview tbody tr:last-child td { border-bottom: 0; }
+  .asset-name { display: block; color: var(--ink); font-size: 15px; font-weight: 750; }
+  .path { color: var(--accent); font: 700 13px/1.4 "SFMono-Regular", Consolas, monospace; }
+  .effect { color: var(--muted); }
+  .section-label {
+    margin: 0 0 10px;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .08em;
+  }
+  .rule-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 34px; height: 100%; }
+  .agents-file { padding-right: 28px; border-right: 1px solid var(--faint); }
+  .agents-file h2, .rule-file h2, .role-column h2, .control-stack h2 {
+    margin: 0 0 7px;
+    font-family: Georgia, "Yu Mincho", serif;
+    font-size: 23px;
+    font-weight: 600;
+  }
+  .agents-file p, .rule-file p, .role-column p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .plain-note {
+    margin-top: 22px;
+    padding: 17px 18px;
+    border-left: 4px solid var(--accent);
+    background: var(--surface-soft);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .metadata-list {
+    display: grid;
+    grid-template-columns: 118px 1fr;
+    margin-top: 16px;
+    border-top: 1px solid var(--ink);
+  }
+  .metadata-list dt, .metadata-list dd {
+    margin: 0;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--faint);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  .metadata-list dt {
+    color: var(--accent);
+    font: 700 12px/1.45 "SFMono-Regular", Consolas, monospace;
+  }
+  .metadata-list dd { color: var(--muted); }
+  .rule-note { margin-top: 16px; color: var(--muted); font-size: 13px; line-height: 1.55; }
+  .roles { display: grid; grid-template-columns: 1.08fr 1px .92fr; gap: 30px; height: 100%; }
+  .role-divider { background: var(--faint); }
+  .role-column { padding-top: 6px; }
+  .role-column--agent { padding: 26px 28px 18px; background: var(--surface-soft); }
+  .tree { margin: 16px 0 12px; color: var(--ink); font: 12px/1.72 "SFMono-Regular", Consolas, monospace; }
+  .tree .muted { color: var(--muted); }
+  .role-column ul, .control-stack ul {
+    margin: 10px 0 0;
+    padding-left: 18px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .handoff {
+    margin-top: 17px;
+    padding-top: 13px;
+    border-top: 1px solid var(--ink);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .controls { display: grid; grid-template-columns: 1.14fr .86fr; gap: 38px; height: 100%; }
+  .control-stack { display: flex; flex-direction: column; gap: 12px; }
+  .control-band {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 18px;
+    padding: 16px 0;
+    border-top: 1px solid var(--faint);
+  }
+  .control-band:first-of-type { border-top-color: var(--ink); }
+  .control-band strong { font: 700 12px/1.4 "SFMono-Regular", Consolas, monospace; }
+  .control-band p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+  .boundary {
+    align-self: end;
+    margin-bottom: 16px;
+    padding: 24px;
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+  }
+  .boundary strong { display: block; margin-bottom: 8px; font-size: 18px; }
+  .boundary p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+  .pager {
+    position: fixed;
+    left: 50%;
+    bottom: 14px;
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    transform: translateX(-50%);
+    font-family: system-ui, sans-serif;
+  }
+  .pager button {
+    width: 32px;
+    height: 28px;
+    border: 1px solid var(--faint);
+    background: #fff;
+    color: var(--muted);
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .pager button[aria-current="page"] {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+  }
+  .pager button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+  <main class="slide-viewport" aria-label="Cursor設定資産ガイド">
+    <section class="slide is-active" data-page="0" aria-label="設定資産5種の全体像">
+      <header class="slide-header">
+        <div><span class="kicker">CURSOR · 01</span><h1 class="slide-title">5つの設定資産は役割で置き分ける</h1></div>
+        <p class="slide-subtitle">プロジェクト文脈・rules・skills・agents・実行設定を、Cursor固有の配置へ分ける</p>
+      </header>
+      <div class="content overview-content">
+        <table class="overview">
+          <thead><tr><th style="width:21%">資産</th><th style="width:34%">正規配置</th><th style="width:45%">AIへの効果</th></tr></thead>
+          <tbody>
+            <tr><td><span class="asset-name">プロジェクト文脈</span></td><td><span class="path">AGENTS.md</span></td><td class="effect">リポジトリ全体の前提を共有する</td></tr>
+            <tr><td><span class="asset-name">プロジェクトrules</span></td><td><span class="path">.cursor/rules/*.mdc</span></td><td class="effect">metadataに応じて規約を適用する</td></tr>
+            <tr><td><span class="asset-name">再利用手順</span></td><td><span class="path">.cursor/skills/</span> または <span class="path">.agents/skills/</span></td><td class="effect">作業手順を再利用可能な単位にする</td></tr>
+            <tr><td><span class="asset-name">カスタムagents</span></td><td><span class="path">.cursor/agents/*.md</span></td><td class="effect">専門役割へタスクを委任する</td></tr>
+            <tr><td><span class="asset-name">実行境界</span></td><td><span class="path">.cursor/mcp.json</span> / <span class="path">.cursor/cli.json</span></td><td class="effect">MCP接続とCLI権限をそれぞれ制御する</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <footer class="slide-meta"></footer>
+    </section>
+
+    <section class="slide" data-page="1" aria-label="AGENTS.mdとrules">
+      <header class="slide-header">
+        <div><span class="kicker">CURSOR · 02</span><h1 class="slide-title">AGENTS.mdとMDC rulesを分ける</h1></div>
+        <p class="slide-subtitle">ルートの共通文脈は平文Markdown、適用条件付き規約は.mdc metadataで管理する</p>
+      </header>
+      <div class="content rule-layout">
+        <div class="agents-file">
+          <p class="section-label">ROOT CONTEXT</p>
+          <h2>AGENTS.md</h2>
+          <p>リポジトリのルートへ置くプレーンMarkdown。技術構成、用語、共通コマンドなどをまとめる。</p>
+          <div class="plain-note"><strong>frontmatter不要：</strong><br>ファイル自体は平文Markdownとして扱い、プロジェクト全体の入口にする。</div>
+        </div>
+        <div class="rule-file">
+          <p class="section-label">PROJECT RULE</p>
+          <h2>.cursor/rules/*.mdc</h2>
+          <p>rule本文とmetadataを同じ.mdcファイルに持たせる。</p>
+          <dl class="metadata-list">
+            <dt>globs</dt><dd>対象ファイルのパターンを指定する。</dd>
+            <dt>alwaysApply</dt><dd>常時適用するruleかどうかを明示する。</dd>
+            <dt>description</dt><dd>ruleの目的を説明し、適用判断の手掛かりにする。</dd>
+          </dl>
+          <div class="rule-note">色やファイル名ではなく、metadataの条件がruleの読まれ方を決める。</div>
+        </div>
+      </div>
+      <footer class="slide-meta"></footer>
+    </section>
+
+    <section class="slide" data-page="2" aria-label="skillsとagents">
+      <header class="slide-header">
+        <div><span class="kicker">CURSOR · 03</span><h1 class="slide-title">skillsは手順、agentsは専門役割</h1></div>
+        <p class="slide-subtitle">繰り返すワークフローと、別コンテキストへ委任する役割を別資産にする</p>
+      </header>
+      <div class="content roles">
+        <div class="role-column">
+          <p class="section-label">REUSABLE WORKFLOW</p>
+          <h2>Skills</h2>
+          <div class="tree">.cursor/skills/release/<br><span class="muted">└─ SKILL.md</span><br><br>.agents/skills/review/<br><span class="muted">└─ SKILL.md</span></div>
+          <p>プロジェクト事情に合わせ、どちらかのskills配置で起動条件と実行手順を管理する。</p>
+          <div class="handoff">Skillは「同じ作業をどう再現するか」を定義する。</div>
+        </div>
+        <div class="role-divider" aria-hidden="true"></div>
+        <div class="role-column role-column--agent">
+          <p class="section-label">CUSTOM AGENT</p>
+          <h2>.cursor/agents/*.md</h2>
+          <div class="tree">.cursor/agents/reviewer.md<br><span class="muted">役割の説明<br>利用するモデルや設定</span></div>
+          <p>レビュー、調査、実装などの専門役割を定義し、必要なタスクを委任する。</p>
+          <ul><li>固定の並列数は前提にしない。</li><li>Skillの手順とagentの責務を重複させない。</li></ul>
+        </div>
+      </div>
+      <footer class="slide-meta"></footer>
+    </section>
+
+    <section class="slide" data-page="3" aria-label="実行制御">
+      <header class="slide-header">
+        <div><span class="kicker">CURSOR · 04</span><h1 class="slide-title">MCP接続とCLI権限を分けて置く</h1></div>
+        <p class="slide-subtitle">プロジェクトMCPはmcp.json、Cursor CLIのpermissionsはcli.jsonで管理する</p>
+      </header>
+      <div class="content controls">
+        <div class="control-stack">
+          <p class="section-label">EXECUTION CONTROLS</p>
+          <div class="control-band"><strong>.cursor/mcp.json</strong><p>プロジェクトで利用するMCPサーバーと接続情報を定義する。</p></div>
+          <div class="control-band"><strong>.cursor/cli.json</strong><p>Cursor CLIでのコマンド実行permissionsを管理する。</p></div>
+          <div class="control-band"><strong>.cursor/rules/*.mdc</strong><p>実行権限ではなく、AIが守るプロジェクトruleを定義する。</p></div>
+          <div class="control-band"><strong>AGENTS.md</strong><p>実行権限ではなく、リポジトリ全体の文脈と作業指示を伝える。</p></div>
+        </div>
+        <aside class="boundary">
+          <strong>permissions.jsonを万能扱いしない</strong>
+          <p>Cursor CLIの権限制御は.cursor/cli.json。MCP接続は.cursor/mcp.jsonであり、目的ごとに設定面を分ける。</p>
+        </aside>
+      </div>
+      <footer class="slide-meta"></footer>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="ページ移動">
+    <button type="button" data-go="0" aria-label="1ページ目" aria-current="page">1</button>
+    <button type="button" data-go="1" aria-label="2ページ目">2</button>
+    <button type="button" data-go="2" aria-label="3ページ目">3</button>
+    <button type="button" data-go="3" aria-label="4ページ目">4</button>
+  </nav>
+  <script>
+    (() => {
+      const slides = [...document.querySelectorAll(".slide")];
+      const buttons = [...document.querySelectorAll("[data-go]")];
+      let current = 0;
+      const scale = () => document.documentElement.style.setProperty("--slide-scale", Math.min(innerWidth / 1280, innerHeight / 720));
+      const show = index => {
+        current = Math.max(0, Math.min(slides.length - 1, index));
+        slides.forEach((slide, i) => slide.classList.toggle("is-active", i === current));
+        buttons.forEach((button, i) => i === current ? button.setAttribute("aria-current", "page") : button.removeAttribute("aria-current"));
+      };
+      buttons.forEach(button => button.addEventListener("click", () => show(Number(button.dataset.go))));
+      addEventListener("keydown", event => {
+        if (event.key === "ArrowRight" || event.key === "PageDown") show(current + 1);
+        if (event.key === "ArrowLeft" || event.key === "PageUp") show(current - 1);
+        if (event.key === "Home") show(0);
+        if (event.key === "End") show(slides.length - 1);
+      });
+      addEventListener("resize", scale);
+      scale();
+      show(0);
+    })();
+  </script>
+</body>
+</html>

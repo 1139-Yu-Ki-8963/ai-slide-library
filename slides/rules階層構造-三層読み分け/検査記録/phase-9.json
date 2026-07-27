@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["rules階層構造-三層読み分け"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全3ページを確認。1ページ目で所有レベル×注入タイミングの分類軸を定義し、2ページ目でglobal、3ページ目でprojectの配置と上書き契約を具体化する。分類から各所有領域へ進む順序が明確である。"},
+    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "1ページ目を二軸分類の主張ページ、2〜3ページ目を配置例と契約を読む静かな詳細ページにしている。後半で無理な主役を作らず、強度が自然に下がる。"},
+    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "2〜3ページ目のalways/scoped対比はglobalとprojectを同じ軸で比較するための必然的反復である。1ページ目の二軸マトリクスとは配置が異なり、理由なきテンプレート反復ではない。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:31:00Z",
+  "artifactSha256": "d1c320b90df910b87e3744a0c4149c8d8a99848f30124efb050560206dc60933"
+}

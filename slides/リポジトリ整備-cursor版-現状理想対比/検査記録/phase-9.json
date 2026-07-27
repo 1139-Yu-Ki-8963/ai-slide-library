@@ -1,0 +1,27 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "リポジトリ整備-cursor版-現状理想対比"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "pass",
+      "evidence": "現SHAのHTML全2ページをPlaywright 1280×720で実描画して確認した。P1はプロジェクト説明書・設計書・規約・手順・可視化の欠落と実害を診断し、P2は同じ5カテゴリをCursor固有の配置と整備アクションへ対応させる。現状診断から理想配置へ進む役割順が、ページ送りと表の行対応の双方で明確である。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "pass",
+      "evidence": "現SHAのP1・P2をPlaywright 1280×720で実描画した。P1は欠落状態と実害を赤字と黒帯で中強度に提示し、P2はAGENTS.md、.cursor/rules、.cursor/skillsの理想配置と整備アクションを表で静かに読ませる。問題提示から実行案へ強度を下げる2ページのリズムが成立し、強調の連続や競合もない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "pass",
+      "evidence": "現SHAの両ページをPlaywright 1280×720で確認した。P1とP2が同じ5カテゴリと表骨格を保持するのは、欠落・実害とCursor固有配置・整備アクションを行単位で対応させるためである。列の役割と強調色はページ目的に応じて変わり、理由のないレイアウト反復ではない。両ページとも余白、可読性、読み順、共通フレームに問題はない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T10:58:22.000Z",
+  "artifactSha256": "9ff29c7f2a254fa1e5485dfe06f81f4593bfda84c30590959d41aeffe6b92566"
+}

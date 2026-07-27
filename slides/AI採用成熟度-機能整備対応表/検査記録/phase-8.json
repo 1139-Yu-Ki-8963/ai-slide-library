@@ -1,0 +1,32 @@
+{
+  "phase": 8,
+  "targetKeys": [
+    "AI採用成熟度-機能整備対応表"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "slide-ai-thumbnail-legibility",
+      "status": "pass",
+      "evidence": "最終HTMLから再生成した640×360サムネイルで、先頭ページの主張「AI採用はLevel 3の並列運用へ進む」と主要な図表構造を識別できる。さらに全3ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。"
+    },
+    {
+      "id": "slide-ai-one-message",
+      "status": "pass",
+      "evidence": "全3ページをページ単位で確認した。各ページは「AI採用はLevel 3の並列運用へ進む」、「Level 1〜3の機能と整備条件」、「Level 4〜5の機能と整備条件」という個別の主張へ収束し、1ページ内で複数の無関係な主張を競合させていない。"
+    },
+    {
+      "id": "slide-ai-title-claim",
+      "status": "pass",
+      "evidence": "全3ページのタイトル「AI採用はLevel 3の並列運用へ進む」、「Level 1〜3の機能と整備条件」、「Level 4〜5の機能と整備条件」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。"
+    },
+    {
+      "id": "slide-ai-subtitle-support",
+      "status": "pass",
+      "evidence": "全3ページの副題「Level 1〜2の導入基盤を整え、量を機械で検証できる状態へ移す」、「人の確認を、分離された並列実行と自動検証へ置き換える」、「監督付き自律から、意図・例外・停止を保った安全な拡張へ進む」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:33:55.465Z",
+  "artifactSha256": "7f9a21aeeb4bc066ca10df943689985da1e2db7845ba613db583f6a84646a4e9"
+}

@@ -1,0 +1,27 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "claude-cursor使い分け-リミット観点"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "pass",
+      "evidence": "現SHAの全3ページをHTMLとwide/narrowで確認した。P1で通常時・上限到達・復帰の共通判断を示し、P2で5時間枠、P3で週次枠の条件付き例へ進む。原則を先に置き、異なる時間軸を混ぜずに適用例へ展開している。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "pass",
+      "evidence": "P1の3段階判断をデッキの主役とし、P2とP3は横長タイムラインを静かに確認する補足ページである。主張ページの後に分析ページを2枚置くため強調が連続せず、広い余白が条件・因果・注記の読み分けに機能している。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "pass",
+      "evidence": "P1は通常・上限・復帰の3段階フロー、P2とP3は時間軸である。後半2ページのタイムライン反復は5時間枠と週次枠を同じ読み方で比較するために必要で、目盛・切替点・復帰点の左から右への読み順も一貫している。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T10:44:38.117Z",
+  "artifactSha256": "a91cfbdd6feaf1260e1eb1a3f35e72b85053e86d7b2fdc2d6b90794723814016"
+}

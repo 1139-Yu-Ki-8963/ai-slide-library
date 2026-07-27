@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["判断反映分離-委任設計"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全2ページを確認。1ページ目で丸投げ委任と判断・反映分離を比較し、2ページ目で直接編集停止・委任誘導・安全弁をhookで強制する運用へ落とす。原則から機械強制へ進む。"},
+    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "1ページ目は分離委任の判断を主役にし、2ページ目は3段階の強制フローを静かに具体化する。問題の赤、採用案の緑、実行境界の青灰を役割限定で使い、過剰強調がない。"},
+    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "1ページ目の丸投げ対分離の非対称比較と2ページ目の停止・誘導・安全弁フローで配置が変わる。共通語彙は原則と実装を結ぶためで、理由なき同型反復ではない。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:31:00Z",
+  "artifactSha256": "52fb00aa3e4474106a3e7895d6e4538a0db6edc1e4c804efda6fba739059540d"
+}

@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["リポジトリ現状理想-AI可読性対比"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "not-applicable", "evidence": "「AIが働けるリポジトリ、働けないリポジトリ」は単一ページで、暗黙知依存の現状から書かれた地図を持つ理想像へ矢印で対比し、下段の3段階で移行を補う。前後ページの役割・順序は指定されていない。"},
+    {"id": "deck-ai-strength-rhythm", "status": "not-applicable", "evidence": "赤い現状カードと緑の理想カードを同じ強度で比較し、中央の「整備」と下段の3手順を移行の入口として置いている。ページ間の強弱リズムを判断するデッキ文脈はない。"},
+    {"id": "deck-ai-layout-repetition", "status": "not-applicable", "evidence": "左右の5項目反復は、現状の欠落と理想側の対応状態を1対1で比較するためであり、他ページとの理由なきレイアウト反復を評価する対象はない。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "412e1c084beca81e57e463815b4cdb60d8219a9c09b5f8685cba86ea0dee8f1f"
+}

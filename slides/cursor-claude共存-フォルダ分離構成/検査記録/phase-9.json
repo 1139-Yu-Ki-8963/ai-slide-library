@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["cursor-claude共存-フォルダ分離構成"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全2ページを確認。1ページ目で.cursorと.claudeの専用設定を分離し、2ページ目で両AIが参照する共有資料をproject-portalへ集約する。専用領域から共有領域へ進む順序が自然である。"},
+    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "1ページ目は分離原則を中強度で示し、2ページ目は共有参照経路を静かに具体化する。主役を1ページ目に限定し、2ページとも同じ強さにしていない。"},
+    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "1ページ目の左右分離図と2ページ目の共有ハブ構成で配置が明確に変化する。共通フレーム以外の理由なき反復はなく、分離と共有という異なる関係が視覚化されている。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:31:00Z",
+  "artifactSha256": "e8b5520dc1c12381bbb70d99eec8f9771a69475b490ee89b493dbc46dc8ef0c1"
+}

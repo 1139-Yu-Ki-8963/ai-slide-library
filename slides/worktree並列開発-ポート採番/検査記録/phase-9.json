@@ -1,0 +1,35 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "worktree並列開発-ポート採番"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "対象は slides/worktree並列開発-ポート採番/解説スライド.html の単一ページであり、指定範囲に前後ページ・デッキ順序・役割分担を評価できるデッキ文脈がない。現HTML SHA-256 30868476277b4a8e4c61304551390a91e222bf5f99c1d0895149e0aa4f68a4ed に一致する wide/narrow 実描画PNGと最新サムネイルを確認した。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "対象キー worktree並列開発-ポート採番 には評価対象となるページが1枚だけで、複数ページ間の強・中・静の配分、主役の連続、または強度リズムを判定する材料がない。単ページ内の比較と結論の配置は確認したが、デッキ全体の強度評価には拡張しない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "対象範囲は単一HTMLのみで、直前2ページを含む複数ページのレイアウト反復を比較できない。対象ページは『混線→物理分離→機械採番』の順序に対し比較カードと全幅の結論帯を使い分けており、同ページ内の無意味な反復はデッキ反復判定の対象外である。"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "作業場所の比較とポート採番規則",
+      "evidence": "単一ページ内では、左の混線、右のworktreeによる物理分離、下部の計算式による機械採番が一貫した問題→対処→運用規約の流れを示す。html-common-static.json と html-common-runtime.json はともに現HTML SHA-256でpassであり、wide/narrow PNGと最新サムネイルで表示内容の一致を確認した。",
+      "fix": "修正不要。"
+    }
+  ],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "30868476277b4a8e4c61304551390a91e222bf5f99c1d0895149e0aa4f68a4ed"
+}

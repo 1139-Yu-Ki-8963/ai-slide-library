@@ -1,0 +1,25 @@
+{
+  "phase": 9,
+  "targetKeys": ["hook強制助言-二層設計"],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈がない。『止める』blockと『気づかせる』advisoryの二層設計を、上段のhook検査から下段の二分岐へ展開して一枚で完結させており、ページ間の役割・順序は対象外である。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "単一ページのためデッキ全体の強弱配分は評価対象外である。タイトルと上段の検査機構を入口とし、block/advisoryの対照的な色と下部要約は二層の判断基準を支える反復であり、ページ列上の強弱リズムは存在しない。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "単一ページで前後ページとの反復比較はできない。左右2列は重大違反を止める層と軽微な規約を注入する層を比較する必然的な配置であり、直前ページからの理由なき定型反復を判定する対象ではない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:19:55Z",
+  "artifactSha256": "12e250d9102d7a2cf2de4d4bbc5a9f146e5891be851e349c9c1a96f2e0c446a2"
+}

@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["AI駆動開発導入-五段階計画表"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "pass", "evidence": "全3ページを確認。1ページ目で5段階を俯瞰し、2ページ目で診断・土台整備、3ページ目で安全装置・型化・拡大を説明する。全体像から前半・後半詳細へ進み、STEP 3を転換点として順序が明確である。"},
+    {"id": "deck-ai-strength-rhythm", "status": "pass", "evidence": "1ページ目を導入順序の主張ページ、2ページ目を静かな土台説明、3ページ目を転換点と展開の中強度ページとしている。強調はSTEP 3へ集約され、全ページが同じ強さではない。"},
+    {"id": "deck-ai-layout-repetition", "status": "pass", "evidence": "1ページ目は5段階一覧、2ページ目は2工程対比、3ページ目は転換点を大きく置いた3工程構成で、情報量に応じて非対称に変化する。段階番号の反復は時系列理解に必要である。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T08:31:00Z",
+  "artifactSha256": "9fc866e5ceae44c1003750f58b4b82633f7a966ca09bde616ba54523d6c28b18"
+}
