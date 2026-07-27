@@ -392,10 +392,11 @@ test("check-css-drift.mjs が対象・共有セレクタ・乖離の集計を出
   assert.match(output, /乖離\s*\d+\s*件/);
 });
 
-test("提案パック絞り込み時に束ねカードへ指定memberのhashを付与する", () => {
+test("ツールまたは提案パックの絞り込み時に束ねカードから指定memberのHTMLを開く", () => {
   const html = readCatalogModel().html;
-  assert.ok(html.includes("function packMemberForItem"));
-  assert.match(html, /const packMember = packMemberForItem\(s\);/);
-  assert.match(html, /const openPath = packMember \? `\$\{path\}#\$\{esc\(packMember\.slug\)\}` : path;/);
+  assert.ok(html.includes("function selectedMemberForItem"));
+  assert.match(html, /item\.group\.members\.find\(m => m\.slug === state\.tool\)/);
+  assert.match(html, /const selectedMember = selectedMemberForItem\(s\);/);
+  assert.match(html, /const openPath = slidePath\(selectedMember \? selectedMember\.key : canonicalKey\);/);
   assert.ok(html.includes('href="${openPath}" target="_blank"'));
 });
