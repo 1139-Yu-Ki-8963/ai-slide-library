@@ -81,8 +81,6 @@
   .step{ display: flex; gap: 8px; align-items: center; }
   .step-text{ font-size: 13px; line-height: 1.5; color: var(--ink-2); }
   .step-text strong{ color: var(--ink); }
-  .slide-page{ display: none; flex: 1; min-height: 0; flex-direction: column; gap: 18px; }
-  .slide-page.is-active{ display: flex; }
   .hook-layout{ display: grid; grid-template-columns: 1.25fr .75fr; gap: 28px; flex: 1; min-height: 0; }
   .hook-flow{ display: flex; flex-direction: column; justify-content: center; gap: 12px; }
   .hook-step{
@@ -99,21 +97,14 @@
   }
   .safety-valve strong{ font-size: 22px; color: var(--ink); }
   .safety-valve p{ font-size: 13px; line-height: 1.65; color: var(--ink-2); }
-  .pager{ position: fixed; right: 22px; bottom: 14px; display: flex; align-items: center; gap: 10px; }
-  .pager button{
-    width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 50%;
-    background: var(--surface); color: var(--ink); cursor: pointer;
-  }
-  .pager button:disabled{ visibility: hidden; }
-  .pager button:focus-visible{ outline: 2px solid var(--ink); outline-offset: 2px; }
-  .pager-count{ font: 11px/1 system-ui, sans-serif; color: var(--ink-3); }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 
 <div class="slide-viewport">
   <div class="slide">
 
-    <section class="slide-page is-active" aria-label="判断と反映の分離">
+    <section class="slide-page is-active" aria-label="判断と反映の分離" data-slide-page="1">
       <header class="slide-header">
         <span class="slide-eyebrow">AI開発ガバナンス — 委任設計</span>
         <h1 class="slide-title">AIへの依頼は「決める」と「反映する」を分ける</h1>
@@ -165,7 +156,7 @@
 
       </div>
 
-      <footer class="steps">
+      <div class="steps">
         <div class="step">
           <span class="step-chip step-chip--critical">1</span>
           <p class="step-text"><strong>丸投げ</strong>— 決定ごと任せる依頼は独自解釈の混入源になる</p>
@@ -178,11 +169,11 @@
           <span class="step-chip step-chip--main">3</span>
           <p class="step-text"><strong>確定実体</strong>— 新規は全文、編集は変更前後の対を渡す</p>
         </div>
-      </footer>
-      <footer class="slide-meta"></footer>
+      </div>
+
     </section>
 
-    <section class="slide-page" aria-label="hookによる機械強制">
+    <section class="slide-page" aria-label="hookによる機械強制" data-slide-page="2">
       <header class="slide-header">
         <span class="slide-eyebrow">AI開発ガバナンス — 機械強制</span>
         <h1 class="slide-title">判断と反映の分離をhookで強制する</h1>
@@ -212,52 +203,18 @@
         </aside>
       </div>
 
-      <footer class="steps">
+      <div class="steps">
         <div class="step"><span class="step-chip step-chip--critical">1</span><p class="step-text"><strong>停止</strong>— 依頼側の直接編集を遮断する</p></div>
         <div class="step"><span class="step-chip step-chip--good">2</span><p class="step-text"><strong>誘導</strong>— 実行役への委任へ戻す</p></div>
         <div class="step"><span class="step-chip step-chip--main">3</span><p class="step-text"><strong>安全弁</strong>— 3回連続停止で自動解除する</p></div>
-      </footer>
-      <footer class="slide-meta"></footer>
+      </div>
+
     </section>
 
   </div>
-  <nav class="pager" aria-label="スライドページ">
-    <button type="button" data-pager-prev aria-label="前のページ">←</button>
-    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>2</span></span>
-    <button type="button" data-pager-next aria-label="次のページ">→</button>
-  </nav>
+
 </div>
 
 <!-- ==== スケーリング（常時必須） ==== -->
-<script>
-(function(){
-  function f(){
-    document.documentElement.style.setProperty(
-      '--slide-scale',
-      Math.min(innerWidth/1280, innerHeight/720)
-    );
-  }
-  addEventListener('resize', f);
-  f();
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.slide-page'));
-  var index = 0;
-  var prev = document.querySelector('[data-pager-prev]');
-  var next = document.querySelector('[data-pager-next]');
-  var current = document.querySelector('[data-pager-current]');
-  function show(i) {
-    index = Math.max(0, Math.min(i, pages.length - 1));
-    pages.forEach(function(page, n){ page.classList.toggle('is-active', n === index); });
-    current.textContent = index + 1;
-    prev.disabled = index === 0;
-    next.disabled = index === pages.length - 1;
-  }
-  prev.addEventListener('click', function(){ show(index - 1); });
-  next.addEventListener('click', function(){ show(index + 1); });
-  addEventListener('keydown', function(event){
-    if (event.key === 'ArrowLeft') show(index - 1);
-    if (event.key === 'ArrowRight') show(index + 1);
-  });
-  show(0);
-})();
-</script>
+
 </html>

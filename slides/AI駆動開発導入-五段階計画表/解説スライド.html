@@ -21,8 +21,6 @@
     --claude-deep: #9F432C;
   }
   .slide > .group-row, .slide > .stages-grid, .slide > .layer-band{ display: none; }
-  .slide-page{ display: none; flex: 1; min-height: 0; flex-direction: column; gap: 18px; }
-  .slide-page.is-active{ display: flex; }
   .section-label{ color: var(--claude-deep); font-size: 13px; font-weight: 800; letter-spacing: .08em; }
 
   .overview-thesis{
@@ -82,19 +80,15 @@
     color: var(--ink-2); font-size: 14px; line-height: 1.5;
   }
   .failure-band strong{ color: var(--critical); }
-
-  .pager{ position: fixed; right: 22px; bottom: 13px; display: flex; align-items: center; gap: 9px; }
-  .pager button{ width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 50%; background: var(--surface); color: var(--ink); }
-  .pager button[aria-disabled="true"]{ opacity: .35; }
-  .pager-count{ color: var(--ink-3); font-size: 11px; font-variant-numeric: tabular-nums; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 
 <body>
 <div class="slide-viewport">
   <div class="slide">
-    <section class="slide-page is-active">
+    <section class="slide-page is-active" data-slide-page="1">
       <header class="slide-header">
         <span class="slide-eyebrow">AI駆動開発 導入解説 — 全体像</span>
         <h1 class="slide-title">AI駆動開発の導入は5段階で進める</h1>
@@ -118,7 +112,7 @@
       </ol>
     </section>
 
-    <section class="slide-page">
+    <section class="slide-page" data-slide-page="2">
       <header class="slide-header">
         <span class="slide-eyebrow">AI駆動開発 導入解説 — STEP 1–2</span>
         <h1 class="slide-title">AIを入れる前に、現状を測り、検証できる土台を作る</h1>
@@ -151,7 +145,7 @@
       </div>
     </section>
 
-    <section class="slide-page">
+    <section class="slide-page" data-slide-page="3">
       <header class="slide-header">
         <span class="slide-eyebrow">AI駆動開発 導入解説 — STEP 3–5</span>
         <h1 class="slide-title">安全網を置いてから、実装フローを型化し、チームへ広げる</h1>
@@ -303,51 +297,13 @@
       <p class="layer-desc"><strong>よくある失敗：</strong>段階3のツール導入から始める → 規約もテストも無いままAIがコードを量産し、レビューが破綻する</p>
     </div>
 
-    <footer class="slide-meta"></footer>
+
 
   </div>
-  <nav class="pager">
-    <button type="button" data-pager-prev aria-label="前のページ">←</button>
-    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>3</span></span>
-    <button type="button" data-pager-next aria-label="次のページ">→</button>
-  </nav>
+
 </div>
 
-<script>
-(function(){
-  function f(){
-    document.documentElement.style.setProperty(
-      '--slide-scale',
-      Math.min(innerWidth/1280, innerHeight/720)
-    );
-  }
-  addEventListener('resize', f);
-  f();
-})();
-</script>
-<script>
-(function () {
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.slide-page'));
-  var pager = document.querySelector('.pager');
-  var idx = 0;
-  var prev = pager.querySelector('[data-pager-prev]');
-  var next = pager.querySelector('[data-pager-next]');
-  var current = pager.querySelector('[data-pager-current]');
-  pager.querySelector('[data-pager-total]').textContent = pages.length;
-  function render() {
-    pages.forEach(function (page, i) { page.classList.toggle('is-active', i === idx); });
-    current.textContent = idx + 1;
-    prev.setAttribute('aria-disabled', String(idx === 0));
-    next.setAttribute('aria-disabled', String(idx === pages.length - 1));
-  }
-  prev.addEventListener('click', function () { if (idx > 0) { idx -= 1; render(); } });
-  next.addEventListener('click', function () { if (idx < pages.length - 1) { idx += 1; render(); } });
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'ArrowLeft' && idx > 0) { idx -= 1; render(); }
-    if (event.key === 'ArrowRight' && idx < pages.length - 1) { idx += 1; render(); }
-  });
-  render();
-})();
-</script>
+
+
 </body>
 </html>

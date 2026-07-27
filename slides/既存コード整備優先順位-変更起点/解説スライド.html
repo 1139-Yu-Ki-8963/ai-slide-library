@@ -13,8 +13,6 @@
   --good: #356a4b;
   --good-soft: #eaf2ed;
 }
-.slide-page{ display: none; flex: 1; min-height: 0; flex-direction: column; }
-.slide-page.is-active{ display: flex; }
 .content{ flex: 1; min-height: 0; padding: 22px 0 10px; font-family: system-ui, sans-serif; }
 .matrix-layout{ display: grid; grid-template-columns: 46px 1fr; grid-template-rows: 1fr 34px; height: 100%; }
 .y-axis{ grid-row: 1; display: grid; place-items: center; color: var(--muted); font-size: 12px; font-weight: 700; writing-mode: vertical-rl; }
@@ -37,17 +35,14 @@
 .work-step ul{ margin: 0; padding-left: 18px; color: var(--ink); font-size: 13px; line-height: 1.65; }
 .connector{ display: grid; place-items: center; color: var(--muted); font-size: 22px; }
 .warning{ grid-column: 1 / -1; align-self: end; padding: 11px 14px; border-left: 4px solid var(--critical); background: var(--critical-soft); color: var(--critical); font-size: 12px; line-height: 1.45; }
-.page-nav{ display: flex; justify-content: flex-end; gap: 8px; padding-top: 5px; font-family: system-ui, sans-serif; }
-.page-nav button{ min-width: 92px; padding: 6px 11px; border: 1px solid var(--muted); background: var(--surface); color: var(--ink); font-weight: 700; cursor: pointer; }
-.page-nav button:focus-visible{ outline: 3px solid var(--accent); outline-offset: 2px; }
-.page-nav button:disabled{ opacity: .42; cursor: default; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
   <main class="slide">
-    <section class="slide-page is-active" id="priority-matrix" aria-label="整備優先順位 1ページ目">
+    <section class="slide-page is-active" id="priority-matrix" aria-label="整備優先順位 1ページ目" data-slide-page="1">
       <header class="slide-header">
         <span class="kicker">レガシーコード整備 — 対象選定</span>
         <h1 class="slide-title">整備対象は変更頻度×事業重要度で選ぶ</h1>
@@ -82,7 +77,7 @@
       </div>
     </section>
 
-    <section class="slide-page" id="priority-workflow" aria-label="着手フロー 2ページ目" hidden>
+    <section class="slide-page" id="priority-workflow" aria-label="着手フロー 2ページ目" hidden data-slide-page="2">
       <header class="slide-header">
         <span class="kicker">レガシーコード整備 — 着手方法</span>
         <h1 class="slide-title">選んだ場所だけ、変更直前に整備する</h1>
@@ -112,40 +107,10 @@
       </div>
     </section>
 
-    <nav class="page-nav" aria-label="スライドページを切り替える">
-      <button type="button" id="prev-page" hidden>前のページ</button>
-      <button type="button" id="next-page">次のページ</button>
-    </nav>
-    <footer class="slide-meta"></footer>
+
+
   </main>
 </div>
-<script>
-(() => {
-  const pages = [...document.querySelectorAll('.slide-page')];
-  const prev = document.getElementById('prev-page');
-  const next = document.getElementById('next-page');
-  let index = 0;
-  const scale = () => document.documentElement.style.setProperty('--slide-scale', Math.min(innerWidth / 1280, innerHeight / 720));
-  const show = value => {
-    index = Math.max(0, Math.min(value, pages.length - 1));
-    pages.forEach((page, pageIndex) => {
-      const active = pageIndex === index;
-      page.classList.toggle('is-active', active);
-      page.hidden = !active;
-    });
-    prev.hidden = index === 0;
-    next.hidden = index === pages.length - 1;
-  };
-  prev.addEventListener('click', () => show(index - 1));
-  next.addEventListener('click', () => show(index + 1));
-  addEventListener('keydown', event => {
-    if (event.key === 'ArrowLeft') show(index - 1);
-    if (event.key === 'ArrowRight') show(index + 1);
-  });
-  addEventListener('resize', scale);
-  scale();
-  show(0);
-})();
-</script>
+
 </body>
 </html>

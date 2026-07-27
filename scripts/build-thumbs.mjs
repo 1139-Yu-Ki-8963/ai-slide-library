@@ -43,7 +43,10 @@ async function main() {
       const thumbFile = join(slidesDir, key, "サムネイル.png");
       const page = await context.newPage();
       await page.goto("file://" + slideFile, { waitUntil: "networkidle" });
-      await page.waitForTimeout(300);
+      await page.waitForFunction(() => (
+        document.documentElement.dataset.sharedSlideShellReady === "true"
+      ));
+      await page.evaluate(() => document.fonts?.ready);
       await page.screenshot({ path: thumbFile });
       await page.close();
       if (evidenceContext) {
@@ -52,7 +55,10 @@ async function main() {
         mkdirSync(evidenceDir, { recursive: true });
         const evidencePage = await evidenceContext.newPage();
         await evidencePage.goto("file://" + slideFile, { waitUntil: "networkidle" });
-        await evidencePage.waitForTimeout(300);
+        await evidencePage.waitForFunction(() => (
+          document.documentElement.dataset.sharedSlideShellReady === "true"
+        ));
+        await evidencePage.evaluate(() => document.fonts?.ready);
         await evidencePage.screenshot({ path: evidenceFile });
         await evidencePage.close();
       }

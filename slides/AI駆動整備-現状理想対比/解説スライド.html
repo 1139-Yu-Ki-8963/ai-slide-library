@@ -96,10 +96,6 @@
   }
 
   .source-line{ font-size: 11px; color: var(--ink-3); border-top: 1px solid var(--border); padding-top: 6px; }
-
-  .slide-page{ display: none; flex-direction: column; flex: 1; min-height: 0; gap: 18px; }
-  .slide-page.is-active{ display: flex; }
-  .slide-page.test-page{ gap: 8px; }
   .slide-page.test-page .lead-band{ padding: 8px 14px; font-size: 18px; }
   .slide-page.test-page .head-message p{ line-height: 1.35; }
   .slide-page.test-page .argument-table th{ padding-top: 5px; padding-bottom: 5px; }
@@ -107,23 +103,15 @@
   .slide-page.test-page .cell-note{ margin-top: 2px; line-height: 1.35; }
   .slide-page.test-page .gap-action{ padding-top: 2px; padding-bottom: 2px; line-height: 1.35; }
   .slide-page.test-page .source-line{ padding-top: 0; font-size: 10px; line-height: 1; }
-  .pager{ position: fixed; bottom: 14px; right: 20px; display: flex; align-items: center; gap: 10px; }
-  .pager button{
-    width: 30px; height: 30px; border-radius: 50%;
-    border: 1px solid var(--border); background: var(--surface); color: var(--ink);
-    font-size: 14px; cursor: pointer;
-  }
-  .pager button:focus-visible{ outline: 2px solid var(--ink); outline-offset: 2px; }
-  .pager button[aria-disabled="true"]{ opacity: 0.35; cursor: default; }
-  .pager-count{ font-size: 11px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
   <div class="slide">
 
-    <section class="slide-page test-page is-active">
+    <section class="slide-page test-page is-active" data-slide-page="1">
       <header class="slide-header">
         <span class="slide-eyebrow">GAP ANALYSIS — テスト系</span>
         <h1 class="slide-title">人手確認から、成果物を機械で証明する基盤へ移行する</h1>
@@ -215,7 +203,7 @@
       <p class="source-line">出典条件：汎用例。個別案件では対象版と調査年月を記録する</p>
     </section>
 
-    <section class="slide-page">
+    <section class="slide-page" data-slide-page="2">
       <header class="slide-header">
         <span class="slide-eyebrow">GAP ANALYSIS — 静的検査系</span>
         <h1 class="slide-title">人手確認から、成果物を機械で証明する基盤へ移行する</h1>
@@ -294,53 +282,13 @@
       <p class="source-line">出典条件：汎用例。個別案件では対象版と調査年月を記録する</p>
     </section>
 
-    <footer class="slide-meta"></footer>
+
   </div>
 
-  <nav class="pager">
-    <button type="button" data-pager-prev aria-label="前のページ">&#8592;</button>
-    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>2</span></span>
-    <button type="button" data-pager-next aria-label="次のページ">&#8594;</button>
-  </nav>
+
 </div>
 
-<script>
-(function(){
-  function f(){
-    document.documentElement.style.setProperty(
-      '--slide-scale',
-      Math.min(innerWidth/1280, innerHeight/720)
-    );
-  }
-  addEventListener('resize', f);
-  f();
-})();
-</script>
-<script>
-(function () {
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.slide-page'));
-  var pager = document.querySelector('.pager');
-  if (!pager) return;
-  if (pages.length < 2) { pager.style.display = 'none'; return; }
-  var idx = 0;
-  var prev = pager.querySelector('[data-pager-prev]');
-  var next = pager.querySelector('[data-pager-next]');
-  var current = pager.querySelector('[data-pager-current]');
-  pager.querySelector('[data-pager-total]').textContent = pages.length;
-  function render() {
-    pages.forEach(function (p, i) { p.classList.toggle('is-active', i === idx); });
-    current.textContent = idx + 1;
-    prev.setAttribute('aria-disabled', String(idx === 0));
-    next.setAttribute('aria-disabled', String(idx === pages.length - 1));
-  }
-  prev.addEventListener('click', function () { if (idx > 0) { idx--; render(); } });
-  next.addEventListener('click', function () { if (idx < pages.length - 1) { idx++; render(); } });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft' && idx > 0) { idx--; render(); }
-    if (e.key === 'ArrowRight' && idx < pages.length - 1) { idx++; render(); }
-  });
-  render();
-})();
-</script>
+
+
 </body>
 </html>

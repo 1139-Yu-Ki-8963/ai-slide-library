@@ -60,9 +60,10 @@
   .step-text strong{ color: var(--ink); }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
-<div class="slide-viewport"><div class="slide">
+<div class="slide-viewport"><div class="slide" data-slide-page="1">
 <header class="slide-header"><span class="slide-eyebrow">HOOKS-ARCHITECTURE</span><h1 class="slide-title">hook は規約の定義ファイルと同じフォルダに置く</h1><p class="slide-subtitle">flat な hooks/ ディレクトリに全 hook を投げ込む構造では、どの規約のための hook か判別できなくなる</p></header>
 <div class="compare-row">
 <article class="compare-card compare-card--ng"><div class="card-head"><span class="step-chip step-chip--critical">1</span><h2>flat バケット — 全部 hooks/ に入れる</h2></div>
@@ -72,8 +73,8 @@
 <div class="tree"><div class="tree-line"><span class="tree-folder">.claude/rules/&lt;topic&gt;/&lt;rule&gt;/</span><span class="tree-tag tree-tag--accent">1規約=1フォルダ</span></div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> <span class="tree-folder">rule.md</span><span class="tree-tag tree-tag--good">規約の定義</span></div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> <span class="tree-hl">check-xxx.sh</span><span class="tree-tag tree-tag--good">機械強制</span></div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> check-xxx.test.sh<span class="tree-tag tree-tag--good">回帰テスト</span></div><div class="tree-line"><span class="tree-indent">&nbsp; └─</span> design-notes.txt<span class="tree-tag tree-tag--good">設計経緯</span></div><div class="tree-sep"></div><div class="tree-line"><span class="tree-folder">.claude/skills/&lt;skill&gt;/</span><span class="tree-tag tree-tag--accent">スキルも同じ</span></div><div class="tree-line"><span class="tree-indent">&nbsp; ├─</span> <span class="tree-folder">SKILL.md</span><span class="tree-tag tree-tag--good">スキル定義</span></div><div class="tree-line"><span class="tree-indent">&nbsp; └─</span> scripts/<span class="tree-hl">check-xxx.sh</span><span class="tree-tag tree-tag--good">スキル専用 hook</span></div></div>
 <div class="card-status"><div class="status-row status-ok"><span class="status-icon">✓</span><span>フォルダを見れば規約と hook の対応が自明</span></div><div class="status-row status-ok"><span class="status-icon">✓</span><span>規約の追加・削除がフォルダ単位で完結する</span></div><div class="status-row status-ok"><span class="status-icon">✓</span><span>テスト・設計記録も同居しレビューが容易</span></div></div></article>
 </div>
-<footer class="steps"><div class="step"><span class="step-chip step-chip--critical">1</span><p class="step-text"><strong>flat は判別不能</strong> — 50本が並ぶと所属不明</p></div><div class="step"><span class="step-chip step-chip--good">2</span><p class="step-text"><strong>同居で完結</strong> — 定義・強制・テスト・経緯が1箇所</p></div><div class="step"><span class="step-chip step-chip--main">3</span><p class="step-text"><strong>hook が block</strong> — 禁止パスへの新規作成を自動拒否</p></div></footer>
-<footer class="slide-meta"></footer>
+<div class="steps"><div class="step"><span class="step-chip step-chip--critical">1</span><p class="step-text"><strong>flat は判別不能</strong> — 50本が並ぶと所属不明</p></div><div class="step"><span class="step-chip step-chip--good">2</span><p class="step-text"><strong>同居で完結</strong> — 定義・強制・テスト・経緯が1箇所</p></div><div class="step"><span class="step-chip step-chip--main">3</span><p class="step-text"><strong>hook が block</strong> — 禁止パスへの新規作成を自動拒否</p></div></div>
+
 </div></div>
-<script>(function(){function f(){document.documentElement.style.setProperty('--slide-scale',Math.min(innerWidth/1280,innerHeight/720));}addEventListener('resize',f);f();})();</script>
+
 </body></html>

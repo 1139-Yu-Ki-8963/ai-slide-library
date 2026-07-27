@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI開発で確認する2つの課題例</title>
 <style>
-  .slide-page{ display: none; flex: 1; min-height: 0; flex-direction: column; }
-  .slide-page.is-active{ display: flex; }
   .overview{
     display: grid;
     grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
@@ -65,18 +63,14 @@
     color: var(--muted);
     font: 11px/1.55 system-ui, sans-serif;
   }
-  .pager{ position: fixed; right: 22px; bottom: 15px; display: flex; align-items: center; gap: 10px; font-family: system-ui, sans-serif; }
-  .pager button{ width: 30px; height: 30px; border: 1px solid var(--faint); border-radius: 50%; background: #fff; color: var(--ink); cursor: pointer; }
-  .pager button:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
-  .pager button[aria-disabled="true"]{ opacity: .35; cursor: default; }
-  .pager-count{ color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
   <main class="slide">
-    <section class="slide-page is-active">
+    <section class="slide-page is-active" data-slide-page="1">
       <header class="slide-header">
         <span class="kicker">AI開発ガバナンス｜課題例の読み方</span>
         <h1 class="slide-title">AI開発で確認する<span class="title-num">2</span>つの課題例</h1>
@@ -100,7 +94,7 @@
       </div>
     </section>
 
-    <section class="slide-page">
+    <section class="slide-page" data-slide-page="2">
       <header class="slide-header">
         <span class="kicker">AI開発ガバナンス｜読み方の例 1</span>
         <h1 class="slide-title">前提探索の負荷を<span class="title-num">3</span>場面で確認する</h1>
@@ -136,7 +130,7 @@
       </div>
     </section>
 
-    <section class="slide-page">
+    <section class="slide-page" data-slide-page="3">
       <header class="slide-header">
         <span class="kicker">AI開発ガバナンス｜読み方の例 2</span>
         <h1 class="slide-title">品質のばらつきを<span class="title-num">3</span>つの観点で確認する</h1>
@@ -172,42 +166,10 @@
       </div>
     </section>
 
-    <footer class="slide-meta"></footer>
+
   </main>
-  <nav class="pager" aria-label="スライドページを切り替える">
-    <button type="button" data-pager-prev aria-label="前のページ">←</button>
-    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>3</span></span>
-    <button type="button" data-pager-next aria-label="次のページ">→</button>
-  </nav>
+
 </div>
-<script>
-(function () {
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.slide-page'));
-  var pager = document.querySelector('.pager');
-  var idx = 0;
-  var prev = pager.querySelector('[data-pager-prev]');
-  var next = pager.querySelector('[data-pager-next]');
-  var current = pager.querySelector('[data-pager-current]');
-  pager.querySelector('[data-pager-total]').textContent = pages.length;
-  function render() {
-    pages.forEach(function (page, index) { page.classList.toggle('is-active', index === idx); });
-    current.textContent = idx + 1;
-    prev.setAttribute('aria-disabled', idx === 0 ? 'true' : 'false');
-    next.setAttribute('aria-disabled', idx === pages.length - 1 ? 'true' : 'false');
-  }
-  prev.addEventListener('click', function () { if (idx > 0) { idx -= 1; render(); } });
-  next.addEventListener('click', function () { if (idx < pages.length - 1) { idx += 1; render(); } });
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'ArrowLeft' && idx > 0) { idx -= 1; render(); }
-    if (event.key === 'ArrowRight' && idx < pages.length - 1) { idx += 1; render(); }
-  });
-  function fit() {
-    document.documentElement.style.setProperty('--slide-scale', Math.min(innerWidth / 1280, innerHeight / 720));
-  }
-  addEventListener('resize', fit);
-  render();
-  fit();
-})();
-</script>
+
 </body>
 </html>

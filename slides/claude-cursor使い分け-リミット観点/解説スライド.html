@@ -17,11 +17,6 @@
   --good: #356b4a;
   --good-soft: #e7f0e9;
 }
-.slide-page{
-  display: none; flex: 1; min-height: 0; padding: 24px 0 8px;
-  font-family: system-ui, -apple-system, "Hiragino Sans", sans-serif;
-}
-.slide-page.is-active{ display: flex; flex-direction: column; }
 .page-heading{ display: grid; grid-template-columns: 55px 1fr; gap: 14px; align-items: start; margin-bottom: 18px; }
 .page-no{ color: var(--accent); font: 700 12px/1 system-ui, sans-serif; letter-spacing: .1em; padding-top: 6px; }
 .page-heading h2{ margin: 0; font-size: 25px; line-height: 1.25; font-weight: 680; }
@@ -73,16 +68,9 @@
 .timeline-note{ margin: 2px 10px 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
 .timeline-note strong{ color: var(--ink); }
 .source-note{ margin: 16px 0 0; padding-top: 11px; border-top: 1px solid var(--line); font-size: 10.5px; line-height: 1.45; color: var(--muted); }
-.pager{
-  position: absolute; right: 58px; bottom: 17px; display: flex; align-items: center;
-  gap: 10px; z-index: 2; font: 12px/1 system-ui, sans-serif;
-}
-.pager button{ min-width: 32px; height: 26px; border: 1px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; }
-.pager button:focus-visible{ outline: 3px solid var(--accent); outline-offset: 2px; }
-.pager button[aria-disabled="true"]{ opacity: .3; cursor: default; }
-.pager-count{ min-width: 42px; text-align: center; font-variant-numeric: tabular-nums; color: var(--muted); }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
@@ -93,7 +81,7 @@
       <p class="slide-subtitle">5時間枠と週次枠を混ぜず、共通判断と各時間軸の条件付き例を順に確認する</p>
     </header>
 
-    <section class="slide-page is-active" aria-labelledby="limit-page-1">
+    <section class="slide-page is-active" aria-labelledby="limit-page-1" data-slide-page="1">
       <div class="page-heading">
         <span class="page-no">01 / 判断</span>
         <h2 id="limit-page-1">Claude Codeを主利用し、上限到達時だけCursorで作業をつなぐ</h2>
@@ -125,7 +113,7 @@
       </div>
     </section>
 
-    <section class="slide-page" aria-labelledby="limit-page-2">
+    <section class="slide-page" aria-labelledby="limit-page-2" data-slide-page="2">
       <div class="page-heading">
         <span class="page-no">02 / 5時間枠</span>
         <h2 id="limit-page-2">5時間枠は開始時刻を基準に回復時刻を判断する</h2>
@@ -148,7 +136,7 @@
       <p class="source-note">2026年7月時点のAnthropic公式仕様に基づく例示。契約プランにより数値は異なる。切り替え時の作業文脈は手動で引き継ぐ。</p>
     </section>
 
-    <section class="slide-page" aria-labelledby="limit-page-3">
+    <section class="slide-page" aria-labelledby="limit-page-3" data-slide-page="3">
       <div class="page-heading">
         <span class="page-no">03 / 週次枠</span>
         <h2 id="limit-page-3">週次枠は週次リセットまでCursorで作業を継続する</h2>
@@ -171,46 +159,10 @@
       <p class="source-note">2026年7月時点のAnthropic公式仕様に基づく例示。契約プランにより数値は異なる。切り替え時の作業文脈は手動で引き継ぐ。</p>
     </section>
 
-    <footer class="slide-meta"></footer>
-    <nav class="pager" aria-label="スライドページ">
-      <button type="button" data-pager-prev aria-label="前のページ">←</button>
-      <span class="pager-count" aria-live="polite"><span data-pager-current>1</span> / <span data-pager-total>3</span></span>
-      <button type="button" data-pager-next aria-label="次のページ">→</button>
-    </nav>
+
+
   </main>
 </div>
-<script>
-(function () {
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.slide-page'));
-  var index = 0;
-  var previous = document.querySelector('[data-pager-prev]');
-  var next = document.querySelector('[data-pager-next]');
-  var current = document.querySelector('[data-pager-current]');
-  var total = document.querySelector('[data-pager-total]');
-  total.textContent = pages.length;
-  function render() {
-    pages.forEach(function (page, pageIndex) {
-      var active = pageIndex === index;
-      page.classList.toggle('is-active', active);
-      page.setAttribute('aria-hidden', active ? 'false' : 'true');
-    });
-    current.textContent = index + 1;
-    previous.setAttribute('aria-disabled', index === 0 ? 'true' : 'false');
-    next.setAttribute('aria-disabled', index === pages.length - 1 ? 'true' : 'false');
-  }
-  previous.addEventListener('click', function () { if (index > 0) { index -= 1; render(); } });
-  next.addEventListener('click', function () { if (index < pages.length - 1) { index += 1; render(); } });
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'ArrowLeft' && index > 0) { index -= 1; render(); }
-    if (event.key === 'ArrowRight' && index < pages.length - 1) { index += 1; render(); }
-  });
-  function scaleSlide() {
-    document.documentElement.style.setProperty('--slide-scale', Math.min(innerWidth / 1280, innerHeight / 720));
-  }
-  addEventListener('resize', scaleSlide);
-  render();
-  scaleSlide();
-})();
-</script>
+
 </body>
 </html>

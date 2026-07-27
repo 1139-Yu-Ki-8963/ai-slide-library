@@ -34,10 +34,11 @@ tbody th{ color: var(--ink); font-size: 13px; letter-spacing: 0; }
 .first-step{ grid-column: 1 / -1; align-self: end; padding-top: 11px; border-top: 1px solid var(--faint); color: var(--muted); font-size: 12px; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
-  <main class="slide">
+  <main class="slide" data-slide-page="1">
     <header class="slide-header">
       <span class="kicker">AI開発ガバナンス — 規約カバレッジ</span>
       <h1 class="slide-title">規約の担保手段を示し、自動化の穴を見つける</h1>
@@ -76,15 +77,9 @@ tbody th{ color: var(--ink); font-size: 13px; letter-spacing: 0; }
 
       <p class="first-step"><strong>導入の最初の一歩：</strong>既存のコーディング規約一覧へ「担保手段」の列を1列追加する。</p>
     </div>
-    <footer class="slide-meta"></footer>
+
   </main>
 </div>
-<script>
-(() => {
-  const scale = () => document.documentElement.style.setProperty('--slide-scale', Math.min(innerWidth / 1280, innerHeight / 720));
-  addEventListener('resize', scale);
-  scale();
-})();
-</script>
+
 </body>
 </html>

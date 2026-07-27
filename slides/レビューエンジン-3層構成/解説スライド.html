@@ -141,27 +141,15 @@
     border-top: 1px solid var(--border);
     padding-top: 6px;
   }
-
-  /* ==== 複数ページ用ページ送り ==== */
-  .slide-page{ display: none; flex-direction: column; flex: 1; min-height: 0; gap: 18px; }
-  .slide-page.is-active{ display: flex; }
-  .pager{ position: fixed; bottom: 14px; right: 20px; display: flex; align-items: center; gap: 10px; }
-  .pager button{
-    width: 30px; height: 30px; border-radius: 50%;
-    border: 1px solid var(--border); background: var(--surface); color: var(--ink);
-    font-size: 14px; cursor: pointer;
-  }
-  .pager button:focus-visible{ outline: 2px solid var(--ink); outline-offset: 2px; }
-  .pager button:disabled{ visibility: hidden; }
-  .pager-count{ font-size: 11px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 
 <div class="slide-viewport">
   <div class="slide">
 
     <!-- ==== ページ1: 全体フローと3層の位置づけ ==== -->
-    <section class="slide-page is-active">
+    <section class="slide-page is-active" data-slide-page="1">
 
       <header class="slide-header">
         <span class="slide-eyebrow">レビューエンジン 3層構成</span>
@@ -216,7 +204,7 @@
     </section>
 
     <!-- ==== ページ2: 機械的チェック層 ==== -->
-    <section class="slide-page">
+    <section class="slide-page" data-slide-page="2">
 
       <header class="slide-header">
         <span class="slide-eyebrow">レビューエンジン 3層構成</span>
@@ -282,7 +270,7 @@
     </section>
 
     <!-- ==== ページ3: 判断系レビュー層 ==== -->
-    <section class="slide-page">
+    <section class="slide-page" data-slide-page="3">
 
       <header class="slide-header">
         <span class="slide-eyebrow">レビューエンジン 3層構成</span>
@@ -337,7 +325,7 @@
     </section>
 
     <!-- ==== ページ4: 対象ごとのレビュー組み合わせ ==== -->
-    <section class="slide-page">
+    <section class="slide-page" data-slide-page="4">
 
       <header class="slide-header">
         <span class="slide-eyebrow">レビューエンジン 3層構成</span>
@@ -370,7 +358,7 @@
         </div>
       </div>
 
-      <footer class="steps">
+      <div class="steps">
         <div class="step">
           <span class="step-chip step-chip--critical">1</span>
           <p class="step-text"><strong>計画</strong>— 暗黙知と論理の穴を提示前に潰す</p>
@@ -383,12 +371,12 @@
           <span class="step-chip step-chip--good">3</span>
           <p class="step-text"><strong>実装</strong>— 規約違反と破壊的差分を完了後に探す</p>
         </div>
-      </footer>
+      </div>
 
     </section>
 
     <!-- ==== ページ5: 可変レビュー層 ==== -->
-    <section class="slide-page">
+    <section class="slide-page" data-slide-page="5">
 
       <header class="slide-header">
         <span class="slide-eyebrow">レビューエンジン 3層構成</span>
@@ -430,56 +418,15 @@
 
     </section>
 
-    <footer class="slide-meta"></footer>
+
 
   </div>
 
   <!-- ==== 部品: ページ送り ==== -->
-  <nav class="pager">
-    <button type="button" data-pager-prev aria-label="前のページ">←</button>
-    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>5</span></span>
-    <button type="button" data-pager-next aria-label="次のページ">→</button>
-  </nav>
+
 </div>
 
-<script>
-(function () {
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.slide-page'));
-  var pager = document.querySelector('.pager');
-  if (!pager) return;
-  if (pages.length < 2) { pager.style.display = 'none'; return; }
-  var idx = 0;
-  var prev = pager.querySelector('[data-pager-prev]');
-  var next = pager.querySelector('[data-pager-next]');
-  var current = pager.querySelector('[data-pager-current]');
-  pager.querySelector('[data-pager-total]').textContent = pages.length;
-  function render() {
-    pages.forEach(function (p, i) { p.classList.toggle('is-active', i === idx); });
-    current.textContent = idx + 1;
-    prev.disabled = idx === 0;
-    next.disabled = idx === pages.length - 1;
-  }
-  prev.addEventListener('click', function () { if (idx > 0) { idx--; render(); } });
-  next.addEventListener('click', function () { if (idx < pages.length - 1) { idx++; render(); } });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft' && idx > 0) { idx--; render(); }
-    if (e.key === 'ArrowRight' && idx < pages.length - 1) { idx++; render(); }
-  });
-  render();
-})();
-</script>
+
 </html>
 
 <!-- ==== スケーリング（常時必須・削除禁止） ==== -->
-<script>
-(function(){
-  function f(){
-    document.documentElement.style.setProperty(
-      '--slide-scale',
-      Math.min(innerWidth/1280, innerHeight/720)
-    );
-  }
-  addEventListener('resize', f);
-  f();
-})();
-</script>

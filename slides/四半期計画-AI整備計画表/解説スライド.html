@@ -94,11 +94,13 @@
   .gc-bar-end{ transform: translateX(-100%); }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 
 <div class="slide-viewport">
-  <div class="slide">
+  <div class="slide" data-slide-page="1">
 
     <header class="slide-header">
+      <span class="kicker">AI整備計画 — 四半期ロードマップ</span>
       <h1 class="slide-title">AI整備は、基盤から運用まで4段階で進める</h1>
       <p class="slide-subtitle">四半期ごとの重点施策と完了条件を並べ、年間の整備順序を示す。</p>
     </header>
@@ -153,21 +155,10 @@
 
     </div>
 
-    <footer class="slide-meta"></footer>
+
 
   </div>
 </div>
 
-<script>
-(function(){
-  function f(){
-    document.documentElement.style.setProperty(
-      '--slide-scale',
-      Math.min(innerWidth/1280, innerHeight/720)
-    );
-  }
-  addEventListener('resize', f);
-  f();
-})();
-</script>
+
 </html>

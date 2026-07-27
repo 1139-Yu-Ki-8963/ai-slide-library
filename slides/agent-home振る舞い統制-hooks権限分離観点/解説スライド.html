@@ -198,8 +198,6 @@
   .step-head{ font-size: 13px; font-weight: 700; color: var(--ink); }
   .step-body{ font-size: 11px; color: var(--ink-2); line-height: 1.45; }
   .slide > .content, .slide > .steps{ display: none; }
-  .slide-page{ display: none; flex: 1; min-height: 0; flex-direction: column; gap: 18px; }
-  .slide-page.is-active{ display: flex; }
 
   .control-thesis{
     display: grid; grid-template-columns: 1fr 80px 1.25fr; gap: 20px;
@@ -236,20 +234,16 @@
   .verdict-no{ color: var(--ink-3); font-weight: 800; }
   .verdict-yes{ color: var(--claude-deep); font-weight: 900; }
   .verdict-rule{ padding: 13px 18px; border-left: 5px solid var(--claude-deep); background: var(--claude-soft); color: var(--ink); font-size: 15px; font-weight: 700; }
-
-  .pager{ position: fixed; right: 22px; bottom: 13px; display: flex; align-items: center; gap: 9px; }
-  .pager button{ width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 50%; background: var(--surface); color: var(--ink); }
-  .pager button[aria-disabled="true"]{ opacity: .35; }
-  .pager-count{ color: var(--ink-3); font-size: 11px; font-variant-numeric: tabular-nums; }
   :focus-visible{ outline: 3px solid var(--critical); outline-offset: 3px; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 
 <body>
 <div class="slide-viewport">
   <div class="slide">
-    <section class="slide-page is-active">
+    <section class="slide-page is-active" data-slide-page="1">
       <header class="slide-header">
         <span class="slide-eyebrow">設定・規約遵守 — 統制の全体像</span>
         <h1 class="slide-title">品質保証は、機械強制と権限分離の2層で成立する</h1>
@@ -275,7 +269,7 @@
       </dl>
     </section>
 
-    <section class="slide-page hook-page">
+    <section class="slide-page hook-page" data-slide-page="2">
       <header class="slide-header">
         <span class="slide-eyebrow">設定・規約遵守 — hooks</span>
         <h1 class="slide-title">操作の前後と終了時に検査し、違反を次工程へ流さない</h1>
@@ -309,7 +303,7 @@
       <p class="safety-valve"><strong>安全弁：</strong>hookごとに解除可否を定義する。証跡コミットと外部送信は自動解除せず、原因を修正してから再実行する。</p>
     </section>
 
-    <section class="slide-page agent-page">
+    <section class="slide-page agent-page" data-slide-page="3">
       <header class="slide-header">
         <span class="slide-eyebrow">設定・規約遵守 — サブエージェント</span>
         <h1 class="slide-title">実行する役割と、合否を宣言する役割を分離する</h1>
@@ -430,7 +424,7 @@
 
     </div>
 
-    <footer class="steps">
+    <div class="steps">
       <div class="step">
         <span class="step-chip">1</span>
         <div class="step-text">
@@ -452,52 +446,15 @@
           <span class="step-body">証跡コミットと外部送信は、原因を直してから再実行する</span>
         </div>
       </div>
-    </footer>
+    </div>
 
-    <footer class="slide-meta"></footer>
+
 
   </div>
-  <nav class="pager">
-    <button type="button" data-pager-prev aria-label="前のページ">←</button>
-    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>3</span></span>
-    <button type="button" data-pager-next aria-label="次のページ">→</button>
-  </nav>
+
 </div>
 
-<script>
-(function(){
-  function f(){
-    document.documentElement.style.setProperty(
-      '--slide-scale', Math.min(innerWidth/1280, innerHeight/720)
-    );
-  }
-  addEventListener('resize', f);
-  f();
-})();
-</script>
-<script>
-(function () {
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.slide-page'));
-  var pager = document.querySelector('.pager');
-  var idx = 0;
-  var prev = pager.querySelector('[data-pager-prev]');
-  var next = pager.querySelector('[data-pager-next]');
-  var current = pager.querySelector('[data-pager-current]');
-  pager.querySelector('[data-pager-total]').textContent = pages.length;
-  function render() {
-    pages.forEach(function (page, i) { page.classList.toggle('is-active', i === idx); });
-    current.textContent = idx + 1;
-    prev.setAttribute('aria-disabled', String(idx === 0));
-    next.setAttribute('aria-disabled', String(idx === pages.length - 1));
-  }
-  prev.addEventListener('click', function () { if (idx > 0) { idx -= 1; render(); } });
-  next.addEventListener('click', function () { if (idx < pages.length - 1) { idx += 1; render(); } });
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'ArrowLeft' && idx > 0) { idx -= 1; render(); }
-    if (event.key === 'ArrowRight' && idx < pages.length - 1) { idx += 1; render(); }
-  });
-  render();
-})();
-</script>
+
+
 </body>
 </html>

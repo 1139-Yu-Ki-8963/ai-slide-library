@@ -141,8 +141,6 @@
   }
   .footer-axis-desc{ font-size: 12px; color: var(--ink-2); line-height: 1.4; }
   .footer-axis-desc strong{ color: var(--ink); }
-  .slide-page{ display: none; flex: 1; min-height: 0; flex-direction: column; gap: 18px; }
-  .slide-page.is-active{ display: flex; }
   .axis-hero{ display: grid; grid-template-columns: 220px 1fr; gap: 20px; flex: 1; min-height: 0; }
   .axis-labels{ display: grid; grid-template-rows: 1fr 1fr; gap: 14px; }
   .axis-label{
@@ -168,22 +166,15 @@
   }
   .contract strong{ color: var(--global); font-size: 14px; }
   .contract p{ color: var(--ink-2); font-size: 13px; line-height: 1.5; }
-  .pager{ position: fixed; right: 22px; bottom: 14px; display: flex; align-items: center; gap: 10px; }
-  .pager button{
-    width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 50%;
-    background: var(--surface); color: var(--ink); cursor: pointer;
-  }
-  .pager button:disabled{ visibility: hidden; }
-  .pager button:focus-visible{ outline: 2px solid var(--ink); outline-offset: 2px; }
-  .pager-count{ font: 11px/1 system-ui, sans-serif; color: var(--ink-3); }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
   <div class="slide">
 
-    <section class="slide-page is-active" aria-label="二軸の分類">
+    <section class="slide-page is-active" aria-label="二軸の分類" data-slide-page="1">
       <header class="slide-header">
         <span class="slide-eyebrow">CLAUDE CODE 設定管理</span>
         <h1 class="slide-title">規約は「所有レベル」×「注入タイミング」で整理する</h1>
@@ -207,10 +198,10 @@
         <div class="footer-axis"><span class="footer-axis-label">第1軸:</span><p class="footer-axis-desc"><strong>所有レベル</strong> — 共通か、リポジトリ固有か</p></div>
         <div class="footer-axis"><span class="footer-axis-label">第2軸:</span><p class="footer-axis-desc"><strong>注入タイミング</strong> — 常時か、対象条件付きか</p></div>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
 
-    <section class="slide-page" aria-label="グローバル規約の詳細">
+    <section class="slide-page" aria-label="グローバル規約の詳細" data-slide-page="2">
       <header class="slide-header">
         <span class="slide-eyebrow">GLOBAL RULES</span>
         <h1 class="slide-title">グローバル規約は共通原則と対象別基準を分ける</h1>
@@ -248,10 +239,10 @@
         <strong>ruleごとの上書き契約</strong>
         <p>委譲可（値のみ）・一律適用・上書き禁止を各ruleの宣言で確認する。プロジェクト側が変更できる範囲は、この契約を越えない。</p>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
 
-    <section class="slide-page" aria-label="プロジェクト規約の詳細">
+    <section class="slide-page" aria-label="プロジェクト規約の詳細" data-slide-page="3">
       <header class="slide-header">
         <span class="slide-eyebrow">PROJECT RULES</span>
         <h1 class="slide-title">プロジェクト規約は固有ルールと委譲値を分ける</h1>
@@ -293,47 +284,13 @@
         <div class="footer-axis"><span class="footer-axis-label">独自rule:</span><p class="footer-axis-desc">プロジェクト文脈・条件付きフロー・追加レビュー観点</p></div>
         <div class="footer-axis"><span class="footer-axis-label">委譲値:</span><p class="footer-axis-desc">命名値・語彙辞書など、global契約が許す値だけ</p></div>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
 
   </div>
-  <nav class="pager" aria-label="スライドページ">
-    <button type="button" data-pager-prev aria-label="前のページ">←</button>
-    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>3</span></span>
-    <button type="button" data-pager-next aria-label="次のページ">→</button>
-  </nav>
+
 </div>
 
-<script>
-(function(){
-  function f(){
-    document.documentElement.style.setProperty(
-      '--slide-scale',
-      Math.min(innerWidth/1280, innerHeight/720)
-    );
-  }
-  addEventListener('resize', f);
-  f();
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.slide-page'));
-  var index = 0;
-  var prev = document.querySelector('[data-pager-prev]');
-  var next = document.querySelector('[data-pager-next]');
-  var current = document.querySelector('[data-pager-current]');
-  function show(i) {
-    index = Math.max(0, Math.min(i, pages.length - 1));
-    pages.forEach(function(page, n){ page.classList.toggle('is-active', n === index); });
-    current.textContent = index + 1;
-    prev.disabled = index === 0;
-    next.disabled = index === pages.length - 1;
-  }
-  prev.addEventListener('click', function(){ show(index - 1); });
-  next.addEventListener('click', function(){ show(index + 1); });
-  addEventListener('keydown', function(event){
-    if (event.key === 'ArrowLeft') show(index - 1);
-    if (event.key === 'ArrowRight') show(index + 1);
-  });
-  show(0);
-})();
-</script>
+
 </body>
 </html>

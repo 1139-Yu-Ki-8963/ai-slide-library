@@ -129,39 +129,15 @@
   }
   .boundary strong{ display: block; margin-bottom: 8px; font-size: 18px; }
   .boundary p{ margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
-  .pager{
-    position: fixed;
-    left: 50%;
-    bottom: 14px;
-    z-index: 10;
-    display: flex;
-    gap: 8px;
-    transform: translateX(-50%);
-    font-family: system-ui, sans-serif;
-  }
-  .pager button{
-    width: 32px;
-    height: 28px;
-    border: 1px solid var(--faint);
-    background: #fff;
-    color: var(--muted);
-    font-size: 12px;
-    cursor: pointer;
-  }
-  .pager button[aria-current="page"]{
-    border-color: var(--accent);
-    background: var(--accent);
-    color: #fff;
-  }
-  .pager button:focus-visible{ outline: 3px solid var(--ink); outline-offset: 3px; }
   @media (prefers-reduced-motion: reduce){
   }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
   <main class="slide-viewport" aria-label="Cursor設定資産ガイド">
-    <section class="slide is-active" data-page="0" aria-label="設定資産5種の全体像">
+    <section class="slide is-active" data-page="0" aria-label="設定資産5種の全体像" data-slide-page="1">
       <header class="slide-header">
         <div><span class="kicker">CURSOR · 01</span><h1 class="slide-title">5つの設定資産は役割で置き分ける</h1></div>
         <p class="slide-subtitle">プロジェクト文脈・rules・skills・agents・実行設定を、Cursor固有の配置へ分ける</p>
@@ -178,10 +154,10 @@
           </tbody>
         </table>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
 
-    <section class="slide" data-page="1" aria-label="AGENTS.mdとrules">
+    <section class="slide" data-page="1" aria-label="AGENTS.mdとrules" data-slide-page="2">
       <header class="slide-header">
         <div><span class="kicker">CURSOR · 02</span><h1 class="slide-title">AGENTS.mdとMDC rulesを分ける</h1></div>
         <p class="slide-subtitle">ルートの共通文脈は平文Markdown、適用条件付き規約は.mdc metadataで管理する</p>
@@ -205,10 +181,10 @@
           <div class="rule-note">色やファイル名ではなく、metadataの条件がruleの読まれ方を決める。</div>
         </div>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
 
-    <section class="slide" data-page="2" aria-label="skillsとagents">
+    <section class="slide" data-page="2" aria-label="skillsとagents" data-slide-page="3">
       <header class="slide-header">
         <div><span class="kicker">CURSOR · 03</span><h1 class="slide-title">skillsは手順、agentsは専門役割</h1></div>
         <p class="slide-subtitle">繰り返すワークフローと、別コンテキストへ委任する役割を別資産にする</p>
@@ -230,10 +206,10 @@
           <ul><li>固定の並列数は前提にしない。</li><li>Skillの手順とagentの責務を重複させない。</li></ul>
         </div>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
 
-    <section class="slide" data-page="3" aria-label="実行制御">
+    <section class="slide" data-page="3" aria-label="実行制御" data-slide-page="4">
       <header class="slide-header">
         <div><span class="kicker">CURSOR · 04</span><h1 class="slide-title">MCP接続とCLI権限を分けて置く</h1></div>
         <p class="slide-subtitle">プロジェクトMCPはmcp.json、Cursor CLIのpermissionsはcli.jsonで管理する</p>
@@ -251,38 +227,11 @@
           <p>Cursor CLIの権限制御は.cursor/cli.json。MCP接続は.cursor/mcp.jsonであり、目的ごとに設定面を分ける。</p>
         </aside>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
   </main>
 
-  <nav class="pager" aria-label="ページ移動">
-    <button type="button" data-go="0" aria-label="1ページ目" aria-current="page">1</button>
-    <button type="button" data-go="1" aria-label="2ページ目">2</button>
-    <button type="button" data-go="2" aria-label="3ページ目">3</button>
-    <button type="button" data-go="3" aria-label="4ページ目">4</button>
-  </nav>
-  <script>
-    (() => {
-      const slides = [...document.querySelectorAll(".slide")];
-      const buttons = [...document.querySelectorAll("[data-go]")];
-      let current = 0;
-      const scale = () => document.documentElement.style.setProperty("--slide-scale", Math.min(innerWidth / 1280, innerHeight / 720));
-      const show = index => {
-        current = Math.max(0, Math.min(slides.length - 1, index));
-        slides.forEach((slide, i) => slide.classList.toggle("is-active", i === current));
-        buttons.forEach((button, i) => i === current ? button.setAttribute("aria-current", "page") : button.removeAttribute("aria-current"));
-      };
-      buttons.forEach(button => button.addEventListener("click", () => show(Number(button.dataset.go))));
-      addEventListener("keydown", event => {
-        if (event.key === "ArrowRight" || event.key === "PageDown") show(current + 1);
-        if (event.key === "ArrowLeft" || event.key === "PageUp") show(current - 1);
-        if (event.key === "Home") show(0);
-        if (event.key === "End") show(slides.length - 1);
-      });
-      addEventListener("resize", scale);
-      scale();
-      show(0);
-    })();
-  </script>
+
+
 </body>
 </html>

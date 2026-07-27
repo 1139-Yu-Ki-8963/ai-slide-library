@@ -44,16 +44,12 @@
     flex: 1;
     min-height: 0;
   }
-  .slide-page{ display:none; flex:1; min-height:0; flex-direction:column; gap:12px; }
-  .slide-page.is-active{ display:flex; }
   .style-matrix{ width:100%; border-collapse:collapse; table-layout:fixed; font-size:13px; }
   .style-matrix th{ background:var(--ink); color:#fff; padding:9px 10px; text-align:left; font-size:12px; }
   .style-matrix td{ padding:12px 10px; vertical-align:top; border-bottom:1px solid var(--border); color:var(--ink-2); line-height:1.45; }
   .style-matrix td:first-child{ font-weight:700; color:var(--ink); width:18%; }
   .style-matrix tr:nth-child(2) td:first-child{ color:var(--claude-deep); }
   .learning-note{ background:var(--good-soft); border-left:4px solid var(--good); padding:12px 16px; color:var(--ink-2); font-size:13px; line-height:1.55; }
-  .pager{ position:fixed; right:24px; bottom:16px; display:flex; gap:8px; align-items:center; font-size:11px; color:var(--ink-3); }
-  .pager button{ width:28px; height:28px; border:1px solid var(--border); background:#fff; cursor:pointer; }
 
   /* ターミナルモックアップ（縦長） */
   .terminal{
@@ -150,12 +146,13 @@
   }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
 <div class="slide">
 
-  <section class="slide-page is-active" aria-label="4分類の比較">
+  <section class="slide-page is-active" aria-label="4分類の比較" data-slide-page="1">
     <header class="slide-header">
       <span class="slide-eyebrow">CLAUDE CODE — OUTPUT STYLE</span>
       <h1 class="slide-title">Output Styleを場面に合わせて切り替える</h1>
@@ -174,7 +171,7 @@
     <p class="source-line">根拠：インストール済み Claude Code 2.1.219 の組み込み Learning 説明（小さなコード実装を利用者に委ね、実践学習させる）。</p>
   </section>
 
-  <section class="slide-page" aria-label="Proactiveの5指示">
+  <section class="slide-page" aria-label="Proactiveの5指示" data-slide-page="2">
   <header class="slide-header">
     <span class="slide-eyebrow">CLAUDE CODE — PROACTIVE</span>
     <h1 class="slide-title">Proactiveの5指示と確認境界を読む</h1>
@@ -254,34 +251,13 @@
   </section>
 
   <p class="source-line">設定: /config の Output style（Default / Proactive / Explanatory / Learning、settings.json の outputStyle で永続設定可能）</p>
-  <footer class="slide-meta"></footer>
+
 
 </div>
 </div>
 
-<nav class="pager" aria-label="ページ送り"><button type="button" id="prev" aria-label="前のページ">←</button><span id="count">1 / 2</span><button type="button" id="next" aria-label="次のページ">→</button></nav>
 
-<script>
-(function(){
-  function f(){
-    document.documentElement.style.setProperty(
-      '--slide-scale',
-      Math.min(innerWidth/1280, innerHeight/720)
-    );
-  }
-  addEventListener('resize', f);
-  f();
-})();
-(function(){
-  var pages=[].slice.call(document.querySelectorAll('.slide-page')), index=0;
-  function show(n){ index=(n+pages.length)%pages.length; pages.forEach(function(p,i){p.classList.toggle('is-active',i===index);}); document.getElementById('count').textContent=(index+1)+' / '+pages.length; }
-  document.getElementById('prev').addEventListener('click',function(){show(index-1);});
-  document.getElementById('next').addEventListener('click',function(){show(index+1);});
-  addEventListener('keydown',function(event){
-    if(event.key==='ArrowLeft')show(index-1);
-    if(event.key==='ArrowRight')show(index+1);
-  });
-})();
-</script>
+
+
 </body>
 </html>

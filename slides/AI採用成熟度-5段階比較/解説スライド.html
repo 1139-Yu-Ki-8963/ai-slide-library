@@ -6,7 +6,6 @@
 <title>AI採用の5段階 — 状態と進行条件</title>
 <style>
 :root{ --paper:#f5f4f1; --ink:#202426; --muted:#52606b; --faint:#d7d9d5; --accent:#a15d32; --good:#286344; --good-soft:#edf5ef; --warn:#9b4c2f; --warn-soft:#fbf0eb; }
-.slide-page{ display:none; flex:1; min-height:0; flex-direction:column; gap:16px; } .slide-page.is-active{ display:flex; }
 .thesis{ padding:11px 15px; border-left:4px solid var(--accent); background:var(--warn-soft); font-size:16px; line-height:1.45; }
 .overview{ display:grid; grid-template-columns:repeat(5,1fr); gap:13px; flex:1; min-height:0; }
 .stage{ display:flex; flex-direction:column; gap:8px; padding:15px 13px; border-top:4px solid var(--faint); border-bottom:1px solid var(--faint); background:#fff; }
@@ -19,15 +18,15 @@
 .detail-card h2{ font-size:20px; } .detail-card h3{ margin:4px 0 0; color:var(--accent); font:700 12px/1.3 system-ui,sans-serif; letter-spacing:.08em; } .detail-card ul{ margin:0; padding-left:18px; color:var(--muted); font:13px/1.52 system-ui,sans-serif; } .detail-card li+li{ margin-top:3px; }
 .detail-card .condition{ margin-top:auto; padding-top:10px; border-top:1px solid var(--faint); color:var(--ink); font:700 13px/1.45 system-ui,sans-serif; }
 .note{ margin:0; padding:9px 12px; border-left:3px solid var(--accent); background:var(--warn-soft); color:var(--ink); font:12px/1.45 system-ui,sans-serif; }
-.pager{ position:fixed; right:22px; bottom:16px; display:flex; align-items:center; gap:9px; font:12px/1 system-ui,sans-serif; color:var(--muted); } .pager button{ width:30px; height:30px; border:1px solid var(--faint); border-radius:50%; background:#fff; color:var(--ink); font-size:16px; cursor:pointer; } .pager button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; } .pager button[aria-disabled="true"]{ opacity:.35; }
 @media (max-width:700px){ }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="viewport">
   <main class="slide">
-    <section class="slide-page is-active">
+    <section class="slide-page is-active" data-slide-page="1">
       <header class="slide-header"><span class="kicker">AI採用成熟度モデル｜全体像</span><h1 class="slide-title">AI採用の5段階を、状態と進行条件で比較する</h1><p class="slide-subtitle">人の全件確認から、仕組みによる検証・監督へ移る道筋</p></header>
       <p class="thesis">段階を上げる条件は、機能の追加ではなく、前段階の出力を安全に検証・監督できること。</p>
       <section class="overview" aria-label="AI採用成熟度の全体像">
@@ -38,11 +37,9 @@
         <article class="stage final"><span class="level">LEVEL 5</span><h2>AIネイティブ</h2><span class="english">AI-native</span><p class="state">エージェントが起動・管理・停止まで行い、人は意図と例外を扱う。</p><p class="gate">次へ：安全にスケールする</p></article>
       </section>
     </section>
-    <footer class="slide-meta"></footer>
+
   </main>
 </div>
-<script>
-(() => { const scale=()=>document.documentElement.style.setProperty('--slide-scale',Math.min(innerWidth/1280,innerHeight/720)); addEventListener('resize',scale); scale(); })();
-</script>
+
 </body>
 </html>

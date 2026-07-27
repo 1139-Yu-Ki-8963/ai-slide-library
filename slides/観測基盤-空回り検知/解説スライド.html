@@ -34,10 +34,11 @@
 .roadmap strong{ color: var(--ink); }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
-  <main class="slide">
+  <main class="slide" data-slide-page="1">
     <header class="slide-header">
       <span class="kicker">AI開発ガバナンス — 観測と監視</span>
       <h1 class="slide-title">観測ログから空回りと文脈肥大を検知する</h1>
@@ -74,15 +75,9 @@
 
       <p class="roadmap"><strong>整備順：</strong>スキル発火ログと定期確認 → 全操作スキーマ → 失敗継続判定 → 発話ごとの文脈増加判定。600秒は確定閾値ではなく判定例である。</p>
     </div>
-    <footer class="slide-meta"></footer>
+
   </main>
 </div>
-<script>
-(() => {
-  const scale = () => document.documentElement.style.setProperty('--slide-scale', Math.min(innerWidth / 1280, innerHeight / 720));
-  addEventListener('resize', scale);
-  scale();
-})();
-</script>
+
 </body>
 </html>

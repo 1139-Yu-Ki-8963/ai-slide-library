@@ -13,10 +13,8 @@
   --good: #356a4b;
   --good-soft: #eaf2ed;
 }
-.slide-page{ display: none; flex: 1; min-height: 0; flex-direction: column; }
-.slide-page.is-active{ display: flex; }
-.content{ flex: 1; min-height: 0; padding: 22px 0 10px; font-family: system-ui, sans-serif; }
-.permission-axis{ display: grid; grid-template-columns: 1.42fr .82fr 1fr; height: 100%; border-top: 1px solid var(--faint); border-bottom: 1px solid var(--faint); }
+.content{ flex: 1; min-height: 0; padding: 22px 0 10px; display: flex; flex-direction: column; font-family: system-ui, sans-serif; }
+.permission-axis{ display: grid; grid-template-columns: 1.42fr .82fr 1fr; flex: 1; min-height: 0; border-top: 1px solid var(--faint); border-bottom: 1px solid var(--faint); }
 .permission-segment{ position: relative; padding: 24px 22px; border-right: 1px solid var(--faint); }
 .permission-segment:last-child{ border-right: 0; }
 .permission-segment.read{ border-top: 6px solid var(--good); background: var(--good-soft); }
@@ -41,17 +39,14 @@
 .conditions-aside p{ margin: 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
 .extremes{ margin-top: auto !important; padding: 12px 14px; border-left: 4px solid var(--critical); background: var(--critical-soft); color: var(--critical) !important; font-weight: 700; }
 .principle{ grid-column: 1 / -1; align-self: end; padding-top: 10px; border-top: 1px solid var(--faint); color: var(--muted); font-size: 11px; }
-.page-nav{ display: flex; justify-content: flex-end; gap: 8px; padding-top: 5px; font-family: system-ui, sans-serif; }
-.page-nav button{ min-width: 92px; padding: 6px 11px; border: 1px solid var(--muted); background: var(--surface); color: var(--ink); font-weight: 700; cursor: pointer; }
-.page-nav button:focus-visible{ outline: 3px solid var(--accent); outline-offset: 2px; }
-.page-nav button:disabled{ opacity: .42; cursor: default; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
   <main class="slide">
-    <section class="slide-page is-active" id="permission-range" aria-label="権限解禁の順序 1ページ目">
+    <section class="slide-page is-active" id="permission-range" aria-label="権限解禁の順序 1ページ目" data-slide-page="1">
       <header class="slide-header">
         <span class="kicker">AI導入方式 — 権限設計</span>
         <h1 class="slide-title">AIの導入は編集権限を与えることから始めない</h1>
@@ -90,7 +85,7 @@
       </div>
     </section>
 
-    <section class="slide-page" id="write-conditions" aria-label="書き込み解禁条件 2ページ目" hidden>
+    <section class="slide-page" id="write-conditions" aria-label="書き込み解禁条件 2ページ目" hidden data-slide-page="2">
       <header class="slide-header">
         <span class="kicker">AI導入方式 — 書き込みの関所</span>
         <h1 class="slide-title">書き込みは安全網を確認できる範囲だけ解禁する</h1>
@@ -120,40 +115,10 @@
       </div>
     </section>
 
-    <nav class="page-nav" aria-label="スライドページを切り替える">
-      <button type="button" id="prev-page" hidden>前のページ</button>
-      <button type="button" id="next-page">次のページ</button>
-    </nav>
-    <footer class="slide-meta"></footer>
+
+
   </main>
 </div>
-<script>
-(() => {
-  const pages = [...document.querySelectorAll('.slide-page')];
-  const prev = document.getElementById('prev-page');
-  const next = document.getElementById('next-page');
-  let index = 0;
-  const scale = () => document.documentElement.style.setProperty('--slide-scale', Math.min(innerWidth / 1280, innerHeight / 720));
-  const show = value => {
-    index = Math.max(0, Math.min(value, pages.length - 1));
-    pages.forEach((page, pageIndex) => {
-      const active = pageIndex === index;
-      page.classList.toggle('is-active', active);
-      page.hidden = !active;
-    });
-    prev.hidden = index === 0;
-    next.hidden = index === pages.length - 1;
-  };
-  prev.addEventListener('click', () => show(index - 1));
-  next.addEventListener('click', () => show(index + 1));
-  addEventListener('keydown', event => {
-    if (event.key === 'ArrowLeft') show(index - 1);
-    if (event.key === 'ArrowRight') show(index + 1);
-  });
-  addEventListener('resize', scale);
-  scale();
-  show(0);
-})();
-</script>
+
 </body>
 </html>

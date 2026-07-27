@@ -80,10 +80,11 @@
   .step-text strong{ color: var(--ink); }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
-  <div class="slide">
+  <div class="slide" data-slide-page="1">
 
     <header class="slide-header">
       <span class="slide-eyebrow">AI開発ガバナンス — 並列開発環境</span>
@@ -139,7 +140,7 @@
       </div>
     </div>
 
-    <footer class="steps">
+    <div class="steps">
       <div class="step">
         <span class="step-chip step-chip--critical">1</span>
         <p class="step-text"><strong>混線</strong>— 同じ場所の並行作業は変更もサーバーも衝突する</p>
@@ -152,27 +153,16 @@
         <span class="step-chip step-chip--main">3</span>
         <p class="step-text"><strong>機械採番</strong>— ポートは計算式で一意に決める</p>
       </div>
-    </footer>
+    </div>
 
     <p style="font-size:11px;color:var(--ink-3);border-top:none;padding-top:4px;">導入の最初の一歩：プロジェクトごとに基準ポート番号の割当表を 1 枚作ることから始める</p>
 
-    <footer class="slide-meta"></footer>
+
 
   </div>
 </div>
 
 <!-- ==== スケーリング（常時必須・1ページでも削除禁止） ==== -->
-<script>
-(function(){
-  function f(){
-    document.documentElement.style.setProperty(
-      '--slide-scale',
-      Math.min(innerWidth/1280, innerHeight/720)
-    );
-  }
-  addEventListener('resize', f);
-  f();
-})();
-</script>
+
 </body>
 </html>

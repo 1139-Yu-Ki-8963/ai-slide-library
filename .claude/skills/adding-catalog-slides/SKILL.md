@@ -49,7 +49,10 @@ SLIDE_VERIFY_REGISTRY=0 SLIDE_VERIFY_CATALOG=0 npm test
 
 検査内容:
 
-- `pretest`でグローバル正本CSSを`assets/shared-slide-shell.css`へ同期し、全HTMLの参照を統一する
+- `pretest`でグローバル正本CSS・JavaScriptを`assets/shared-slide-shell.css`・`assets/shared-slide-shell.js`へ同期し、全HTMLの参照を各1回へ統一する
+- `verify-slide-shell-completeness.mjs`で、全HTML・全論理ページ・全外枠候補を母集団化し、共有/許可済み本文/禁止の未分類0件、正本とのbyte一致、規約・criterion・正常fixture・単独違反fixture・実行経路の1対1対応を検査する
+- `test-slide-shell-completeness.mjs`で全機械criterionを1件ずつ単独破壊し、mutation survivor 0件を確認する
+- `verify-slide-shell-runtime.mjs`で、共有フッター・共有ページ送り・現在/総数・前後ボタン・左右キーを全ページ状態で実操作し、全遷移とcomputed styleを検査する
 - `verify-slide-rule-enforcement.mjs`で、ヘッダー規約1件・criterion 1件・checker・正常/違反fixture・証跡・公開ゲートの完全対応を検査する
 - `verify-slide-header-contract.mjs`で、HTMLファイル数・DOMヘッダー数とは独立に全論理ページ状態を検出して母数にし、共有ヘッダーも各状態で再検査する。DOM、文字数、改行、実描画行数、文字列内包、座標、computed style、子要素、疑似要素、inline style、`!important`、指定フォントとFontFaceの利用可能性を正本と比較する
 - 全スライドが`assets/shared-slide-shell.css`を1つだけ直接参照し、共有CSSのインライン複製が0件で、公開用CSSがグローバル正本と完全一致すること

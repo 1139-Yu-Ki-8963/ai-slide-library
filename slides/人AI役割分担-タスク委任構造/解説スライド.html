@@ -26,11 +26,13 @@ svg.ov{position:absolute;top:0;left:0;width:1280px;height:720px;pointer-events:n
   border-left:4px solid var(--ink);display:flex;align-items:center;justify-content:center;padding:0 18px;font-size:13px;letter-spacing:.02em;z-index:1}
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
-<main class="slide">
+<main class="slide" data-slide-page="1">
   <header class="slide-header">
+    <span class="kicker">AI役割分担 — タスク委任</span>
     <h1 class="slide-title"><span>タスク委任パターン</span>｜AIに任せる — アクセス解析の定型レポート</h1>
     <p class="slide-subtitle">ルールが明確で、間違えてもやり直せる仕事</p>
   </header>
@@ -71,20 +73,9 @@ svg.ov{position:absolute;top:0;left:0;width:1280px;height:720px;pointer-events:n
   </svg>
 
   <div class="msg">日々の処理はAIが回す。人の仕事は、最初の設計と、目的に照らした見直しに集約される。</div>
-  <footer class="slide-meta"></footer>
+
 </main>
 </div>
-<script>
-(function(){
-  function f(){
-    document.documentElement.style.setProperty(
-      '--slide-scale',
-      Math.min(innerWidth/1280, innerHeight/720)
-    );
-  }
-  addEventListener('resize', f);
-  f();
-})();
-</script>
+
 </body>
 </html>

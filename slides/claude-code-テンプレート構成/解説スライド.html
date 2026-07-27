@@ -156,39 +156,15 @@
   }
   .boundary strong{ display: block; margin-bottom: 8px; font-size: 18px; }
   .boundary p{ margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
-  .pager{
-    position: fixed;
-    left: 50%;
-    bottom: 14px;
-    z-index: 10;
-    display: flex;
-    gap: 8px;
-    transform: translateX(-50%);
-    font-family: system-ui, sans-serif;
-  }
-  .pager button{
-    width: 32px;
-    height: 28px;
-    border: 1px solid var(--faint);
-    background: #fff;
-    color: var(--muted);
-    font-size: 12px;
-    cursor: pointer;
-  }
-  .pager button[aria-current="page"]{
-    border-color: var(--accent);
-    background: var(--accent);
-    color: #fff;
-  }
-  .pager button:focus-visible{ outline: 3px solid var(--ink); outline-offset: 3px; }
   @media (prefers-reduced-motion: reduce){
   }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
   <main class="slide-viewport" aria-label="Claude Code設定資産ガイド">
-    <section class="slide is-active" data-page="0" aria-label="設定資産5種の全体像">
+    <section class="slide is-active" data-page="0" aria-label="設定資産5種の全体像" data-slide-page="1">
       <header class="slide-header">
         <div><span class="kicker">CLAUDE CODE · 01</span><h1 class="slide-title">5つの設定資産は役割で置き分ける</h1></div>
         <p class="slide-subtitle">概要・規約・手順・役割・実行制御を、読み込まれ方に合わせて分離する</p>
@@ -205,10 +181,10 @@
           </tbody>
         </table>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
 
-    <section class="slide" data-page="1" aria-label="指示とrulesの読み込み">
+    <section class="slide" data-page="1" aria-label="指示とrulesの読み込み" data-slide-page="2">
       <header class="slide-header">
         <div><span class="kicker">CLAUDE CODE · 02</span><h1 class="slide-title">文脈とrulesは読込条件が異なる</h1></div>
         <p class="slide-subtitle">CLAUDE.mdは平文、パス限定ruleはYAML frontmatterで対象を宣言する</p>
@@ -238,10 +214,10 @@ paths:
           </ul>
         </div>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
 
-    <section class="slide" data-page="2" aria-label="skillsとagents">
+    <section class="slide" data-page="2" aria-label="skillsとagents" data-slide-page="3">
       <header class="slide-header">
         <div><span class="kicker">CLAUDE CODE · 03</span><h1 class="slide-title">skillsは手順、agentsは専門役割</h1></div>
         <p class="slide-subtitle">再現したいワークフローと、委任したい判断主体を別の資産として管理する</p>
@@ -263,10 +239,10 @@ paths:
           <ul><li>Skillは「どう進めるか」を固定する。</li><li>Agentは「誰の視点で担うか」を分ける。</li></ul>
         </div>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
 
-    <section class="slide" data-page="3" aria-label="実行制御">
+    <section class="slide" data-page="3" aria-label="実行制御" data-slide-page="4">
       <header class="slide-header">
         <div><span class="kicker">CLAUDE CODE · 04</span><h1 class="slide-title">実行制御は設定とMCPへ集約する</h1></div>
         <p class="slide-subtitle">生成指示とは分離し、許可・自動処理・外部接続の境界を明示する</p>
@@ -285,38 +261,11 @@ paths:
           <p>CLAUDE.mdとrulesは「何を守るか」を伝える。settingsとMCPは「何を実行できるか」を制御する。</p>
         </aside>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
   </main>
 
-  <nav class="pager" aria-label="ページ移動">
-    <button type="button" data-go="0" aria-label="1ページ目" aria-current="page">1</button>
-    <button type="button" data-go="1" aria-label="2ページ目">2</button>
-    <button type="button" data-go="2" aria-label="3ページ目">3</button>
-    <button type="button" data-go="3" aria-label="4ページ目">4</button>
-  </nav>
-  <script>
-    (() => {
-      const slides = [...document.querySelectorAll(".slide")];
-      const buttons = [...document.querySelectorAll("[data-go]")];
-      let current = 0;
-      const scale = () => document.documentElement.style.setProperty("--slide-scale", Math.min(innerWidth / 1280, innerHeight / 720));
-      const show = (index) => {
-        current = Math.max(0, Math.min(slides.length - 1, index));
-        slides.forEach((slide, i) => slide.classList.toggle("is-active", i === current));
-        buttons.forEach((button, i) => i === current ? button.setAttribute("aria-current", "page") : button.removeAttribute("aria-current"));
-      };
-      buttons.forEach(button => button.addEventListener("click", () => show(Number(button.dataset.go))));
-      addEventListener("keydown", event => {
-        if (event.key === "ArrowRight" || event.key === "PageDown") show(current + 1);
-        if (event.key === "ArrowLeft" || event.key === "PageUp") show(current - 1);
-        if (event.key === "Home") show(0);
-        if (event.key === "End") show(slides.length - 1);
-      });
-      addEventListener("resize", scale);
-      scale();
-      show(0);
-    })();
-  </script>
+
+
 </body>
 </html>

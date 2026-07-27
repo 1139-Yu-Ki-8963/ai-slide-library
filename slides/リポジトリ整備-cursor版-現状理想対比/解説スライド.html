@@ -6,8 +6,6 @@
 <title>Cursor導入 — リポジトリ整備の現状と理想</title>
 <style>
 :root{ --cursor: #31363d; --cursor-soft: #eef0f1; --critical: #a33f31; --critical-soft: #f8ebe7; }
-.slide-page{ display: none; flex: 1; min-height: 0; flex-direction: column; }
-.slide-page.is-active{ display: flex; }
 .lead{ margin: 16px 0 13px; padding: 11px 16px; background: var(--ink); color: #fff; font-size: 15px; font-weight: 650; line-height: 1.45; }
 .analysis-table{ width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 14px; line-height: 1.45; }
 .analysis-table caption{ padding-bottom: 8px; color: var(--muted); font-size: 12px; text-align: left; }
@@ -21,17 +19,14 @@
 .path{ color: var(--cursor); font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-weight: 800; }
 .impact{ color: var(--muted); }
 .source{ margin: auto 100px 0 0; padding-top: 9px; border-top: 1px solid var(--faint); color: var(--muted); font-size: 11px; }
-.pager{ position: absolute; right: 58px; bottom: 27px; display: flex; align-items: center; gap: 9px; font: 11px system-ui; color: var(--muted); }
-.pager button{ width: 30px; height: 30px; border: 1px solid var(--faint); border-radius: 50%; background: #fff; color: var(--ink); font-size: 15px; cursor: pointer; }
-.pager button:disabled{ visibility: hidden; }
-.pager button:focus-visible{ outline: 2px solid var(--cursor); outline-offset: 2px; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <main class="slide-viewport">
   <article class="slide">
-    <section class="slide-page is-active" aria-label="現状と実害">
+    <section class="slide-page is-active" aria-label="現状と実害" data-slide-page="1">
       <header class="slide-header">
         <span class="slide-eyebrow">GAP ANALYSIS — CURSOR</span>
         <h1 class="slide-title">Cursor導入前の欠落と実害を診断する</h1>
@@ -52,7 +47,7 @@
       <p class="source">出典：対象プロジェクトの実地調査に基づく（調査時点の構成）。</p>
     </section>
 
-    <section class="slide-page" aria-label="理想配置と整備アクション">
+    <section class="slide-page" aria-label="理想配置と整備アクション" data-slide-page="2">
       <header class="slide-header">
         <span class="slide-eyebrow">GAP ANALYSIS — CURSOR</span>
         <h1 class="slide-title">Cursorが参照する配置へ順に整備する</h1>
@@ -73,40 +68,10 @@
       <p class="source">出典：対象プロジェクトの実地調査に基づく（調査時点の構成）。</p>
     </section>
 
-    <nav class="pager" aria-label="ページ送り">
-      <button type="button" data-prev aria-label="前のページ">←</button>
-      <span><span data-current>1</span> / 2</span>
-      <button type="button" data-next aria-label="次のページ">→</button>
-    </nav>
-    <footer class="slide-meta"></footer>
+
+
   </article>
 </main>
-<script>
-(function () {
-  var pages = Array.prototype.slice.call(document.querySelectorAll(".slide-page"));
-  var index = 0;
-  var prev = document.querySelector("[data-prev]");
-  var next = document.querySelector("[data-next]");
-  var current = document.querySelector("[data-current]");
-  function scale() {
-    document.documentElement.style.setProperty("--slide-scale", Math.min(innerWidth / 1280, innerHeight / 720));
-  }
-  function render() {
-    pages.forEach(function (page, i) { page.classList.toggle("is-active", i === index); });
-    current.textContent = index + 1;
-    prev.disabled = index === 0;
-    next.disabled = index === pages.length - 1;
-  }
-  prev.addEventListener("click", function () { if (index > 0) { index -= 1; render(); } });
-  next.addEventListener("click", function () { if (index < pages.length - 1) { index += 1; render(); } });
-  addEventListener("keydown", function (event) {
-    if (event.key === "ArrowLeft" && index > 0) { index -= 1; render(); }
-    if (event.key === "ArrowRight" && index < pages.length - 1) { index += 1; render(); }
-  });
-  addEventListener("resize", scale);
-  scale();
-  render();
-})();
-</script>
+
 </body>
 </html>

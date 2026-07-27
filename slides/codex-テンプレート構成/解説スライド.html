@@ -132,39 +132,15 @@
   }
   .boundary strong{ display: block; margin-bottom: 8px; font-size: 18px; }
   .boundary p{ margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
-  .pager{
-    position: fixed;
-    left: 50%;
-    bottom: 14px;
-    z-index: 10;
-    display: flex;
-    gap: 8px;
-    transform: translateX(-50%);
-    font-family: system-ui, sans-serif;
-  }
-  .pager button{
-    width: 32px;
-    height: 28px;
-    border: 1px solid var(--faint);
-    background: #fff;
-    color: var(--muted);
-    font-size: 12px;
-    cursor: pointer;
-  }
-  .pager button[aria-current="page"]{
-    border-color: var(--accent);
-    background: var(--accent);
-    color: #fff;
-  }
-  .pager button:focus-visible{ outline: 3px solid var(--ink); outline-offset: 3px; }
   @media (prefers-reduced-motion: reduce){
   }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
   <main class="slide-viewport" aria-label="Codex設定資産ガイド">
-    <section class="slide is-active" data-page="0" aria-label="設定資産5種の全体像">
+    <section class="slide is-active" data-page="0" aria-label="設定資産5種の全体像" data-slide-page="1">
       <header class="slide-header">
         <div><span class="kicker">CODEX · 01</span><h1 class="slide-title">5つの設定資産は役割で置き分ける</h1></div>
         <p class="slide-subtitle">階層指示・中央設定・手順・役割・実行制御を、それぞれの正規配置へ分ける</p>
@@ -181,10 +157,10 @@
           </tbody>
         </table>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
 
-    <section class="slide" data-page="1" aria-label="階層指示の読み込み">
+    <section class="slide" data-page="1" aria-label="階層指示の読み込み" data-slide-page="2">
       <header class="slide-header">
         <div><span class="kicker">CODEX · 02</span><h1 class="slide-title">AGENTS.mdは階層ごとに作用する</h1></div>
         <p class="slide-subtitle">リポジトリ上位から作業ディレクトリへ読み進み、近い階層の指示を優先する</p>
@@ -205,10 +181,10 @@
           <div class="override-note"><strong>平文Markdown：</strong>指示本文はMarkdownで記述し、ファイル階層そのものを適用範囲にする。</div>
         </div>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
 
-    <section class="slide" data-page="2" aria-label="skillsとagents">
+    <section class="slide" data-page="2" aria-label="skillsとagents" data-slide-page="3">
       <header class="slide-header">
         <div><span class="kicker">CODEX · 03</span><h1 class="slide-title">skillsは手順、agentsは委任先</h1></div>
         <p class="slide-subtitle">再利用ワークフローはファイル、複数エージェントの役割はconfig.tomlで宣言する</p>
@@ -235,10 +211,10 @@ config_file = "agents/reviewer.toml"</pre>
           </ul>
         </div>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
 
-    <section class="slide" data-page="3" aria-label="実行制御">
+    <section class="slide" data-page="3" aria-label="実行制御" data-slide-page="4">
       <header class="slide-header">
         <div><span class="kicker">CODEX · 04</span><h1 class="slide-title">実行境界はconfig.tomlで定める</h1></div>
         <p class="slide-subtitle">サンドボックス・承認・MCP・inline hooksを、指示文書から切り離して管理する</p>
@@ -257,38 +233,11 @@ config_file = "agents/reviewer.toml"</pre>
           <p>AGENTS.mdは作業指示を伝える。実行可能範囲と承認条件はconfig.tomlの制御キーで決める。</p>
         </aside>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
   </main>
 
-  <nav class="pager" aria-label="ページ移動">
-    <button type="button" data-go="0" aria-label="1ページ目" aria-current="page">1</button>
-    <button type="button" data-go="1" aria-label="2ページ目">2</button>
-    <button type="button" data-go="2" aria-label="3ページ目">3</button>
-    <button type="button" data-go="3" aria-label="4ページ目">4</button>
-  </nav>
-  <script>
-    (() => {
-      const slides = [...document.querySelectorAll(".slide")];
-      const buttons = [...document.querySelectorAll("[data-go]")];
-      let current = 0;
-      const scale = () => document.documentElement.style.setProperty("--slide-scale", Math.min(innerWidth / 1280, innerHeight / 720));
-      const show = index => {
-        current = Math.max(0, Math.min(slides.length - 1, index));
-        slides.forEach((slide, i) => slide.classList.toggle("is-active", i === current));
-        buttons.forEach((button, i) => i === current ? button.setAttribute("aria-current", "page") : button.removeAttribute("aria-current"));
-      };
-      buttons.forEach(button => button.addEventListener("click", () => show(Number(button.dataset.go))));
-      addEventListener("keydown", event => {
-        if (event.key === "ArrowRight" || event.key === "PageDown") show(current + 1);
-        if (event.key === "ArrowLeft" || event.key === "PageUp") show(current - 1);
-        if (event.key === "Home") show(0);
-        if (event.key === "End") show(slides.length - 1);
-      });
-      addEventListener("resize", scale);
-      scale();
-      show(0);
-    })();
-  </script>
+
+
 </body>
 </html>

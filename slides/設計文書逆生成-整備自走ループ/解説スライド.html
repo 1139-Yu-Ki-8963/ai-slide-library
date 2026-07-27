@@ -34,10 +34,11 @@
 .content-footer{ display: grid; grid-template-columns: 1.35fr 1fr; gap: 35px; flex: 0 0 auto; color: var(--muted); font: 10px/1.45 system-ui, sans-serif; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
-  <main class="slide">
+  <main class="slide" data-slide-page="1">
     <header class="slide-header">
       <span class="kicker">既存資産の設計文書整備 × AI協業</span>
       <h1 class="slide-title">AIの下書きを人が確定し、設計文書を育てる</h1>
@@ -77,15 +78,9 @@
       <div class="warning"><strong>前提：</strong>以後のコード変更では、文書を同じ変更単位で更新する。</div>
       <div class="sequence">コード → AI下書き → 人の確定 → 文書再利用</div>
     </div>
-    <footer class="slide-meta"></footer>
+
   </main>
 </div>
-<script>
-(() => {
-  const scale = () => document.documentElement.style.setProperty('--slide-scale', Math.min(innerWidth / 1280, innerHeight / 720));
-  addEventListener('resize', scale);
-  scale();
-})();
-</script>
+
 </body>
 </html>

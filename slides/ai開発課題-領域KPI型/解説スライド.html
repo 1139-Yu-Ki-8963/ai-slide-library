@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI開発の課題を4領域で診断する</title>
 <style>
-  .slide-page{ display: none; flex: 1; min-height: 0; flex-direction: column; }
-  .slide-page.is-active{ display: flex; }
   .domain-map{ display: grid; grid-template-columns: 160px 1fr; flex: 1; border-top: 1px solid var(--ink); }
   .domain-row{ display: contents; }
   .domain-name{
@@ -66,18 +64,14 @@
   .rate i::after{ content: ""; display: block; width: var(--w); height: 3px; background: var(--accent); }
   .action{ padding-left: 13px; border-left: 2px solid var(--faint); font-weight: 700; }
   .example-note{ margin-top: 17px; color: var(--muted); font: 11px/1.55 system-ui, sans-serif; }
-  .pager{ position: fixed; right: 22px; bottom: 15px; display: flex; align-items: center; gap: 10px; font-family: system-ui, sans-serif; }
-  .pager button{ width: 30px; height: 30px; border: 1px solid var(--faint); border-radius: 50%; background: #fff; color: var(--ink); cursor: pointer; }
-  .pager button:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
-  .pager button[aria-disabled="true"]{ opacity: .35; cursor: default; }
-  .pager-count{ color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
   <main class="slide">
-    <section class="slide-page is-active">
+    <section class="slide-page is-active" data-slide-page="1">
       <header class="slide-header">
         <span class="kicker">AI開発ガバナンス｜現状診断</span>
         <h1 class="slide-title">AI開発の課題を<span class="title-num">4</span>領域で診断する</h1>
@@ -116,7 +110,7 @@
       <p class="diagnostic-note">診断では、各症状の有無と結果のつながりを確認する。達成指標の例は次ページで領域別に対応付ける。</p>
     </section>
 
-    <section class="slide-page">
+    <section class="slide-page" data-slide-page="2">
       <header class="slide-header">
         <span class="kicker">AI開発ガバナンス｜測定設計の例</span>
         <h1 class="slide-title"><span class="title-num">4</span>領域の改善を達成指標で追跡する</h1>
@@ -176,42 +170,10 @@
       <p class="example-note">※ 目標100%・80%・90%・100%、現状72%・46%・55%・61%、達成率72.0%・57.5%・61.1%・61.0%は構成サンプル。実測値へ置換する際は、期間・母集団・指標定義・算定式・出典を併記する。</p>
     </section>
 
-    <footer class="slide-meta"></footer>
+
   </main>
-  <nav class="pager" aria-label="スライドページを切り替える">
-    <button type="button" data-pager-prev aria-label="前のページ">←</button>
-    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>2</span></span>
-    <button type="button" data-pager-next aria-label="次のページ">→</button>
-  </nav>
+
 </div>
-<script>
-(function () {
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.slide-page'));
-  var pager = document.querySelector('.pager');
-  var idx = 0;
-  var prev = pager.querySelector('[data-pager-prev]');
-  var next = pager.querySelector('[data-pager-next]');
-  var current = pager.querySelector('[data-pager-current]');
-  pager.querySelector('[data-pager-total]').textContent = pages.length;
-  function render() {
-    pages.forEach(function (page, index) { page.classList.toggle('is-active', index === idx); });
-    current.textContent = idx + 1;
-    prev.setAttribute('aria-disabled', idx === 0 ? 'true' : 'false');
-    next.setAttribute('aria-disabled', idx === pages.length - 1 ? 'true' : 'false');
-  }
-  prev.addEventListener('click', function () { if (idx > 0) { idx -= 1; render(); } });
-  next.addEventListener('click', function () { if (idx < pages.length - 1) { idx += 1; render(); } });
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'ArrowLeft' && idx > 0) { idx -= 1; render(); }
-    if (event.key === 'ArrowRight' && idx < pages.length - 1) { idx += 1; render(); }
-  });
-  function fit() {
-    document.documentElement.style.setProperty('--slide-scale', Math.min(innerWidth / 1280, innerHeight / 720));
-  }
-  addEventListener('resize', fit);
-  render();
-  fit();
-})();
-</script>
+
 </body>
 </html>

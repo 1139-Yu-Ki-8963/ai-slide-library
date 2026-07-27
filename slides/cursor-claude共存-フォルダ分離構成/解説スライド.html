@@ -114,8 +114,6 @@
   .step-chip--cursor{ background: var(--cursor); }
   .step-chip--good{ background: var(--good); }
   .step-chip--claude{ background: var(--claude); }
-  .slide-page{ display: none; flex: 1; min-height: 0; flex-direction: column; gap: 12px; }
-  .slide-page.is-active{ display: flex; }
   .portal-layout{ display: grid; grid-template-columns: .9fr 1.25fr; gap: 24px; flex: 1; min-height: 0; align-items: center; }
   .portal-hero{
     border-left: 6px solid var(--good); background: var(--good-soft);
@@ -129,22 +127,15 @@
     font-size: 12px; line-height: 1.5; color: var(--ink-2);
   }
   .read-path strong{ display: block; color: var(--ink); font-size: 13px; }
-  .pager{ position: fixed; right: 22px; bottom: 14px; display: flex; align-items: center; gap: 10px; }
-  .pager button{
-    width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 50%;
-    background: var(--surface); color: var(--ink); cursor: pointer;
-  }
-  .pager button:disabled{ visibility: hidden; }
-  .pager button:focus-visible{ outline: 2px solid var(--ink); outline-offset: 2px; }
-  .pager-count{ font: 11px/1 system-ui, sans-serif; color: var(--ink-3); }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
   <div class="slide">
 
-    <section class="slide-page is-active" aria-label="専用設定の分離">
+    <section class="slide-page is-active" aria-label="専用設定の分離" data-slide-page="1">
       <header class="slide-header">
         <span class="slide-eyebrow">REPOSITORY STRUCTURE — DUAL AI</span>
         <h1 class="slide-title">CursorとClaude Codeの専用設定を分離する</h1>
@@ -184,10 +175,10 @@
           </div>
         </div>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
 
-    <section class="slide-page" aria-label="共有資産の配置">
+    <section class="slide-page" aria-label="共有資産の配置" data-slide-page="2">
       <header class="slide-header">
         <span class="slide-eyebrow">REPOSITORY STRUCTURE — SHARED PORTAL</span>
         <h1 class="slide-title">共有資料はproject-portalに集約する</h1>
@@ -216,47 +207,13 @@
           <p class="card-scope">対象: project-portal/ 配下の基盤情報・規約・一覧・設計図・交差ビュー・解析概要</p>
         </article>
       </div>
-      <footer class="slide-meta"></footer>
+
     </section>
 
   </div>
-  <nav class="pager" aria-label="スライドページ">
-    <button type="button" data-pager-prev aria-label="前のページ">←</button>
-    <span class="pager-count"><span data-pager-current>1</span> / <span data-pager-total>2</span></span>
-    <button type="button" data-pager-next aria-label="次のページ">→</button>
-  </nav>
+
 </div>
 
-<script>
-(function(){
-  function f(){
-    document.documentElement.style.setProperty(
-      '--slide-scale',
-      Math.min(innerWidth/1280, innerHeight/720)
-    );
-  }
-  addEventListener('resize', f);
-  f();
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.slide-page'));
-  var index = 0;
-  var prev = document.querySelector('[data-pager-prev]');
-  var next = document.querySelector('[data-pager-next]');
-  var current = document.querySelector('[data-pager-current]');
-  function show(i) {
-    index = Math.max(0, Math.min(i, pages.length - 1));
-    pages.forEach(function(page, n){ page.classList.toggle('is-active', n === index); });
-    current.textContent = index + 1;
-    prev.disabled = index === 0;
-    next.disabled = index === pages.length - 1;
-  }
-  prev.addEventListener('click', function(){ show(index - 1); });
-  next.addEventListener('click', function(){ show(index + 1); });
-  addEventListener('keydown', function(event){
-    if (event.key === 'ArrowLeft') show(index - 1);
-    if (event.key === 'ArrowRight') show(index + 1);
-  });
-  show(0);
-})();
-</script>
+
 </body>
 </html>

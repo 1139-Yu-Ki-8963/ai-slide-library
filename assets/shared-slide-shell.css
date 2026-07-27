@@ -63,6 +63,18 @@ body {
   display: flex;
 }
 
+.slide-page {
+  width: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.slide-page[hidden] {
+  display: none !important;
+}
+
 :is(#slide-header-contract, header, .slide-header) {
   position: relative;
   inset: auto;
@@ -236,17 +248,14 @@ body {
   content: none;
 }
 
-.bottom,
-.slide-footer,
-footer.slide-meta,
-footer.meta {
+footer.slide-meta[data-shared-slide-footer] {
   display: grid;
   grid-template-columns: 1.35fr 1fr;
   gap: 35px;
   height: auto;
   flex: 0 0 auto;
   min-height: 0;
-  margin: 0;
+  margin: auto 0 0;
   border-top: 0;
   padding-top: 10px;
   color: var(--muted);
@@ -255,19 +264,72 @@ footer.meta {
   line-height: 1.45;
 }
 
-.bottom strong,
-.slide-footer strong,
-footer.slide-meta strong { color: var(--ink); }
+footer.slide-meta[data-shared-slide-footer] strong { color: var(--ink); }
 
-.warning,
-.slide-footer .warning {
+footer.slide-meta[data-shared-slide-footer] .warning {
   padding-left: 10px;
   border-left: 3px solid var(--accent);
 }
 
-.sequence,
-.slide-footer .sequence { text-align: right; }
+footer.slide-meta[data-shared-slide-footer] .sequence { text-align: right; }
+
+.slide-pager {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 7px 10px;
+  border: 1px solid #d7dce2;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 4px 16px rgba(32, 36, 38, 0.12);
+  color: var(--ink);
+  font-family: system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.slide-pager button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #cbd1d8;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.slide-pager button:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.slide-pager button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.slide-pager-count {
+  min-width: 36px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
 
 @media (max-width: 700px) {
   .slide { transform: translate(-50%, -50%) scale(min(calc(100vw / 1280), calc(100vh / 720))); }
+  .slide-pager {
+    right: 8px;
+    bottom: 8px;
+    transform: scale(0.85);
+    transform-origin: right bottom;
+  }
 }
