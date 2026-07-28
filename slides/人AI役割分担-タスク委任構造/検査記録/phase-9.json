@@ -22,17 +22,8 @@
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T18:19:38.680Z",
-  "artifactSha256": "2c867373ade00fc0313400d8944d3e44e795e47234acb81c2ab0f045d2ce0b8e",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "d00bef292ab24d13d97655f6501461cc9438d5be97e43b051b33c4d54ed87267",
-    "toArtifactSha256": "2c867373ade00fc0313400d8944d3e44e795e47234acb81c2ab0f045d2ce0b8e",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "755f9c10f7b9321a7792fd962a5eb44777458ee8ecde305e093d426734c104c0",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  },
+  "checkedAt": "2026-07-27T23:10:35.163Z",
+  "artifactSha256": "f5c20d5e17ef7dfaabce3a68101985ea673972c55fda7121f977a3d3bc278632",
   "impactReview": {
     "status": "pass",
     "screenshotPath": "/tmp/ai-slide-catalog-preview.png",

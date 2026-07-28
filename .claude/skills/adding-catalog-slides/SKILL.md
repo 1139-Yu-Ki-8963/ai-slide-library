@@ -44,15 +44,19 @@ allowed-tools: Bash, Read, Write, Edit, AskUserQuestion
 実行:
 
 ```bash
+npm run sync:slide-shell
 SLIDE_VERIFY_REGISTRY=0 SLIDE_VERIFY_CATALOG=0 npm test
 ```
 
 検査内容:
 
-- `pretest`でグローバル正本CSS・JavaScriptを`assets/shared-slide-shell.css`・`assets/shared-slide-shell.js`へ同期し、全HTMLの参照を各1回へ統一する
+- `npm run sync:slide-shell`を生成・修正工程として明示実行し、グローバル正本CSS・JavaScriptを`assets/shared-slide-shell.css`・`assets/shared-slide-shell.js`へ同期して全HTMLの参照を各1回へ統一する。`npm test`、`pretest`、`posttest`から同期・生成・修正を行わない
+- `slide-inventory.mjs`を全スライド検査の唯一の母集団とし、再帰列挙したpath・SHA-256・inventory digestを全checkerで一致させる。別名HTML、refresh文書、symlink、母集団digest不一致はfail closedで停止する
+- `slide-mechanical-registry.json`と`verify-slide-mechanical-registry.mjs`で、全契約ファイル、規約文、criterion/check、checker、単独違反fixture、npm test到達性を全数照合する
 - `verify-slide-shell-completeness.mjs`で、全HTML・全論理ページ・全外枠候補を母集団化し、共有/許可済み本文/禁止の未分類0件、正本とのbyte一致、規約・criterion・正常fixture・単独違反fixture・実行経路の1対1対応を検査する
 - `test-slide-shell-completeness.mjs`で全機械criterionを1件ずつ単独破壊し、mutation survivor 0件を確認する
 - `verify-slide-shell-runtime.mjs`で、共有フッター・共有ページ送り・現在/総数・前後ボタン・左右キーを全ページ状態で実操作し、全遷移とcomputed styleを検査する
+- `test-slide-shell-runtime-contract.mjs`で実行時規約の全機械checkを1件ずつ単独破壊し、mutation survivor 0件を確認する
 - `verify-slide-rule-enforcement.mjs`で、ヘッダー規約1件・criterion 1件・checker・正常/違反fixture・証跡・公開ゲートの完全対応を検査する
 - `verify-slide-header-contract.mjs`で、HTMLファイル数・DOMヘッダー数とは独立に全論理ページ状態を検出して母数にし、共有ヘッダーも各状態で再検査する。DOM、文字数、改行、実描画行数、文字列内包、座標、computed style、子要素、疑似要素、inline style、`!important`、指定フォントとFontFaceの利用可能性を正本と比較する
 - 全スライドが`assets/shared-slide-shell.css`を1つだけ直接参照し、共有CSSのインライン複製が0件で、公開用CSSがグローバル正本と完全一致すること
@@ -69,7 +73,7 @@ Phase 7の検査項目には、グローバルSkillの`verify-slide-static-contr
 - 保存済み`サムネイル.png`の640×360寸法
 - 既存登録時のスライドキーと蓄積簿・主題一覧の集合一致
 
-完了条件: 追加前は`SLIDE_VERIFY_REGISTRY=0 SLIDE_VERIFY_CATALOG=0 npm test`でスライド本体3系統と全論理ページ状態のヘッダー契約を通過し、Phase 14後のPhase 15では環境変数なしの`npm test`で台帳・主題一覧・カタログを含む全件を通過すること。ヘッダー契約は、独立検出した論理ページ状態数と検査済みページ状態数の一致、各状態に対応するヘッダーの存在を必須とする。
+完了条件: 明示的な同期後、追加前は`SLIDE_VERIFY_REGISTRY=0 SLIDE_VERIFY_CATALOG=0 npm test`でスライド本体3系統と全論理ページ状態のヘッダー契約を通過し、Phase 14後のPhase 15では環境変数なしの`npm test`で台帳・主題一覧・カタログを含む全件を通過すること。検査前後で`git diff`が増えず、全checkerのinventory digestが一致すること。ヘッダー契約は、独立検出した論理ページ状態数と検査済みページ状態数の一致、各状態に対応するヘッダーの存在を必須とする。
 
 ## Phase 8: 公開成果物の観点レビュー
 

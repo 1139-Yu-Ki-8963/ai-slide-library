@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/解説スライド.html",
-      "artifactSha256": "67609f36992d2432b29b7f0c8d033de109daed486f86dd1c9fa4fe7c60f20b6e",
+      "artifactSha256": "ddcee6f177c68bb3358ed2adf2b2f26eff2556ea3e458eef83ab026adf906e02",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,16 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/解説スライド-wide-67609f36992d.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/解説スライド-narrow-67609f36992d.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/レビューエンジン-3層構成/ddcee6f177c6/解説スライド-wide-page-1-ddcee6f177c6.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/レビューエンジン-3層構成/ddcee6f177c6/解説スライド-wide-page-2-ddcee6f177c6.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/レビューエンジン-3層構成/ddcee6f177c6/解説スライド-wide-page-3-ddcee6f177c6.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/レビューエンジン-3層構成/ddcee6f177c6/解説スライド-wide-page-4-ddcee6f177c6.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/レビューエンジン-3層構成/ddcee6f177c6/解説スライド-wide-page-5-ddcee6f177c6.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/レビューエンジン-3層構成/ddcee6f177c6/解説スライド-narrow-page-1-ddcee6f177c6.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/レビューエンジン-3層構成/ddcee6f177c6/解説スライド-narrow-page-2-ddcee6f177c6.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/レビューエンジン-3層構成/ddcee6f177c6/解説スライド-narrow-page-3-ddcee6f177c6.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/レビューエンジン-3層構成/ddcee6f177c6/解説スライド-narrow-page-4-ddcee6f177c6.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/evidence/html-runtime/レビューエンジン-3層構成/ddcee6f177c6/解説スライド-narrow-page-5-ddcee6f177c6.png"
           ]
         }
       ]

@@ -27,15 +27,6 @@
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T18:19:38.680Z",
-  "artifactSha256": "67609f36992d2432b29b7f0c8d033de109daed486f86dd1c9fa4fe7c60f20b6e",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "7dab648e559f33c30045e253040bd0b67354e107b3c71780d294eb52b3fe6da3",
-    "toArtifactSha256": "67609f36992d2432b29b7f0c8d033de109daed486f86dd1c9fa4fe7c60f20b6e",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "0dbbb80ce1f1af2bf5cd223abef10677c5fd7299710c158631d6db1b7e059aae",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  }
+  "checkedAt": "2026-07-27T23:10:32.998Z",
+  "artifactSha256": "ddcee6f177c68bb3358ed2adf2b2f26eff2556ea3e458eef83ab026adf906e02"
 }

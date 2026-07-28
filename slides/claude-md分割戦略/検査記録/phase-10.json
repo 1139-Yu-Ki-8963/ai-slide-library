@@ -29,15 +29,6 @@
       "verification": "HTML SHA-256が5cbf0b2b80675cc080d41e7de9938f7edd5dc59ed5c9c1cb39fb34a3ae3d057aであること、保存済み最新runtime画像はwide 1/1ページ、narrow 1/1ページを現SHAで確認し、全1ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
     }
   ],
-  "checkedAt": "2026-07-27T23:25:00+09:00",
-  "artifactSha256": "e39a0ca462b66340197413f0638c161ae69ea14231d21f0d75e83d7ee00952b9",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "0b5804713a18a8ddaa8e18ac3d623b3eb1ecbdac71bce6ff641604c9a8395096",
-    "toArtifactSha256": "e39a0ca462b66340197413f0638c161ae69ea14231d21f0d75e83d7ee00952b9",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "c243c162ca01820841342b5983b0f7e150093d5581ad223391ddd5ee6c73729a",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  }
+  "checkedAt": "2026-07-27T23:10:29.508Z",
+  "artifactSha256": "1a68baea61416a618c297f98111a7f6ba2a202da5ba6ccaeac12a58ec39d934c"
 }

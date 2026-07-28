@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動開発導入-五段階計画表/解説スライド.html",
-      "artifactSha256": "df25c669d686987ac3c21aaa336c55ac41f87b3cccdb22661abb9d725b5cecb6",
+      "artifactSha256": "ec3c55af4ac38701d3f720143487adb25f0d3b8b8040024b7e78923c7c88726a",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,12 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動開発導入-五段階計画表/evidence/html-runtime/解説スライド-wide-df25c669d686.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動開発導入-五段階計画表/evidence/html-runtime/解説スライド-narrow-df25c669d686.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動開発導入-五段階計画表/evidence/html-runtime/AI駆動開発導入-五段階計画表/ec3c55af4ac3/解説スライド-wide-page-1-ec3c55af4ac3.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動開発導入-五段階計画表/evidence/html-runtime/AI駆動開発導入-五段階計画表/ec3c55af4ac3/解説スライド-wide-page-2-ec3c55af4ac3.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動開発導入-五段階計画表/evidence/html-runtime/AI駆動開発導入-五段階計画表/ec3c55af4ac3/解説スライド-wide-page-3-ec3c55af4ac3.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動開発導入-五段階計画表/evidence/html-runtime/AI駆動開発導入-五段階計画表/ec3c55af4ac3/解説スライド-narrow-page-1-ec3c55af4ac3.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動開発導入-五段階計画表/evidence/html-runtime/AI駆動開発導入-五段階計画表/ec3c55af4ac3/解説スライド-narrow-page-2-ec3c55af4ac3.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動開発導入-五段階計画表/evidence/html-runtime/AI駆動開発導入-五段階計画表/ec3c55af4ac3/解説スライド-narrow-page-3-ec3c55af4ac3.png"
           ]
         }
       ]

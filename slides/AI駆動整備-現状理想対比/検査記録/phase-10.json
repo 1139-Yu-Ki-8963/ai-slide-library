@@ -30,15 +30,6 @@
       "verification": "HTML SHA-256が3eb357e219dd9b872c1af7a7ce5f55b37dadba4c09d552d59ce51d88a5ab2454であること、保存済み最新runtime画像は現SHAのwide 1/2ページ、narrow 1/2ページを確認し、保存対象外の追加ページは同一SHAをPlaywrightでwide/narrow一時描画して補完確認した。更新後サムネイルが640×360であること、全2ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
     }
   ],
-  "checkedAt": "2026-07-27T23:25:00+09:00",
-  "artifactSha256": "d6833a4d68abd794e97185afe72aff38dafbd2c14e4c56e28482515dd3f19e6c",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "c23292d8fa44c18c5bf5969441918944ff4721c7863fcc2522a8c10bd7bae2ce",
-    "toArtifactSha256": "d6833a4d68abd794e97185afe72aff38dafbd2c14e4c56e28482515dd3f19e6c",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "253f6f4164ecad01b4b05267b2f08041e628353c6b1803ba2faaa63175e16987",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  }
+  "checkedAt": "2026-07-27T23:10:23.350Z",
+  "artifactSha256": "b033db6ded2dde57ed329b3da7de27397b0806ab96dc71a5d149e564ff040022"
 }

@@ -1,0 +1,82 @@
+name: verify-slide-library
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout slide library
+        uses: actions/checkout@v4
+
+      - name: Checkout global slide skill
+        uses: actions/checkout@v4
+        with:
+          repository: 1139-Yu-Ki-8963/agent-home
+          path: .ci-agent-home
+          ssh-key: ${{ secrets.AGENT_HOME_DEPLOY_KEY }}
+          persist-credentials: false
+
+      - name: Link global slide skill
+        run: ln -s "$GITHUB_WORKSPACE/.ci-agent-home" "$HOME/agent-home"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify working tree before tests
+        run: git diff --exit-code
+
+      - name: Run all slide gates
+        run: npm test
+
+      - name: Prove tests are read-only
+        run: git diff --exit-code
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs:
+      - verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout verified commit
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload verified site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy verified site
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/人AI役割分担-タスク委任構造/解説スライド.html",
-      "artifactSha256": "2c867373ade00fc0313400d8944d3e44e795e47234acb81c2ab0f045d2ce0b8e",
+      "artifactSha256": "f5c20d5e17ef7dfaabce3a68101985ea673972c55fda7121f977a3d3bc278632",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/人AI役割分担-タスク委任構造/evidence/html-runtime/解説スライド-wide-2c867373ade0.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/人AI役割分担-タスク委任構造/evidence/html-runtime/解説スライド-narrow-2c867373ade0.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/人AI役割分担-タスク委任構造/evidence/html-runtime/人AI役割分担-タスク委任構造/f5c20d5e17ef/解説スライド-wide-page-1-f5c20d5e17ef.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/人AI役割分担-タスク委任構造/evidence/html-runtime/人AI役割分担-タスク委任構造/f5c20d5e17ef/解説スライド-narrow-page-1-f5c20d5e17ef.png"
           ]
         }
       ]

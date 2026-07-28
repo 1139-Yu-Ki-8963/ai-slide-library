@@ -41,7 +41,9 @@
     display: grid;
     grid-template-columns: 56fr 44fr;
     gap: 16px;
-    flex: 1;
+    flex: 0 0 430px;
+    height: 430px;
+    max-height: 430px;
     min-height: 0;
   }
   .style-matrix{ width:100%; border-collapse:collapse; table-layout:fixed; font-size:13px; }
@@ -71,10 +73,10 @@
     margin-left: 8px;
   }
   .terminal-body{
-    padding: 12px 16px;
+    padding: 8px 14px;
     font-family: 'SF Mono', 'Cascadia Code', 'JetBrains Mono', 'Consolas', 'Menlo', monospace;
-    font-size: 11.5px;
-    line-height: 1.65;
+    font-size: 10.5px;
+    line-height: 1.35;
     color: var(--term-text);
     flex: 1;
     overflow: hidden;
@@ -87,25 +89,27 @@
   .t-bold{ font-weight: 700; }
   .t-line{ display: block; }
   .t-indent{ padding-left: 20px; display: block; }
-  .t-gap{ display: block; height: 6px; }
+  .t-gap{ display: block; height: 3px; }
 
   /* 右側注釈 */
   .anno-stack{
     display: flex; flex-direction: column;
-    gap: 10px;
+    gap: 7px;
   }
   .anno-card{
     background: var(--tag-bg);
     border: 1.5px solid var(--border);
     border-radius: 8px;
-    padding: 11px 14px;
+    padding: 8px 10px;
     display: flex; flex-direction: column;
-    gap: 5px;
+    gap: 3px;
     flex: 1;
   }
   .anno-card--active{ border-left: 4px solid var(--claude); background: var(--claude-soft); }
   .anno-card--inactive{ border-left: 4px solid var(--ink-3); }
   .anno-card--teach{ border-left: 4px solid var(--good); }
+  .anno-card h2,
+  .anno-card p{ margin: 0; }
 
   .anno-head{
     display: flex; align-items: center; gap: 8px;
@@ -123,14 +127,14 @@
   .step-chip--teach{ background: var(--good); }
 
   .anno-desc{
-    font-size: 11.5px;
+    font-size: 10.8px;
     color: var(--ink-2);
-    line-height: 1.45;
+    line-height: 1.35;
   }
   .anno-desc strong{ color: var(--ink); font-weight: 600; }
 
   .anno-when{
-    font-size: 10.5px;
+    font-size: 10px;
     color: var(--ink-3);
     margin-top: auto;
     padding-top: 4px;
@@ -142,6 +146,7 @@
     color: var(--ink-3);
     border-top: 1px solid var(--border);
     padding-top: 6px;
+    margin: 6px 0 0;
     flex-shrink: 0;
   }
 </style>
@@ -168,7 +173,7 @@
         <tr><td>Learning</td><td>小さな実装を利用者へ返す</td><td>実践に必要な導き</td><td>利用者が小さなコード実装を担い、実践学習するとき</td></tr>
       </tbody>
     </table>
-    <p class="source-line">根拠：インストール済み Claude Code 2.1.219 の組み込み Learning 説明（小さなコード実装を利用者に委ね、実践学習させる）。</p>
+    <p class="source-line">根拠：Claude Code 2.1.219 の組み込み Learning 説明。設定：/config の Output style（settings.json の outputStyle で永続設定可能）。</p>
   </section>
 
   <section class="slide-page" aria-label="Proactiveの5指示" data-slide-page="2">
@@ -247,10 +252,8 @@
     </div>
 
   </div>
-  <p class="source-line">Proactive は即時実行・仮定・割込み最小化・計画抑制・方向転換を扱う一方、削除と共有システム変更は確認境界として残す。</p>
+  <p class="source-line">Proactive は即時実行・仮定・割込み最小化・計画抑制・方向転換を扱う。設定：/config の Output style（settings.json の outputStyle で永続設定可能）。</p>
   </section>
-
-  <p class="source-line">設定: /config の Output style（Default / Proactive / Explanatory / Learning、settings.json の outputStyle で永続設定可能）</p>
 
 
 </div>

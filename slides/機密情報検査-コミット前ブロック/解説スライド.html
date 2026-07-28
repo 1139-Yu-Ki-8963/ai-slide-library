@@ -38,10 +38,10 @@
   .step-chip--partial{ background: var(--ink-3); }  /* 中間段階・第2層など「進行中/中立」を表す番号 */
 
   /* ==== 層・積層構造（全幅帯。上辺ではなく左辺の色で層の位置づけを示す） ==== */
-  .layer-stack{ display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 0; justify-content: center; }
+  .layer-stack{ display: flex; flex-direction: column; gap: 5px; flex: 1; min-height: 0; justify-content: flex-start; padding-top: 6px; }
   .layer-band{
     display: flex; align-items: center; gap: 20px;
-    padding: 10px 20px;
+    padding: 6px 16px;
     border-radius: 10px;
     background: var(--tag-bg);
     border: 1.5px solid var(--border);
@@ -50,15 +50,15 @@
   .layer-band--critical{ background: var(--critical-soft); border-color: var(--critical); border-left-color: var(--critical); }  /* 警告・制限層 */
   .layer-band--partial{ border-left-color: var(--ink-3); }     /* 中間層（背景は既定の --tag-bg のまま） */
   .layer-band--good{ background: var(--good-soft); border-color: var(--good); border-left-color: var(--good); }      /* 最終・保護層 */
-  .layer-body{ flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  .layer-body h3{ font-size: 16px; font-weight: 700; color: var(--ink); }
-  .layer-desc{ font-size: 11px; color: var(--ink-2); line-height: 1.35; }
-  .layer-examples{ display: flex; gap: 5px; flex-wrap: wrap; margin-top: 2px; }
-  .ex{ font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
+  .layer-body{ flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .layer-body h2{ font-size: 15px; font-weight: 700; color: var(--ink); margin: 0; }
+  .layer-desc{ font-size: 10.5px; color: var(--ink-2); line-height: 1.25; }
+  .layer-examples{ display: flex; gap: 4px; flex-wrap: wrap; margin-top: 1px; }
+  .ex{ font-size: 10px; font-weight: 600; padding: 1px 8px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
 
   /* ==== 層間の接続注記（層構造で「AがBを通過してからCが適用される」等を1行で説明） ==== */
   .arrow-between{ display: flex; align-items: center; justify-content: center; gap: 6px; }
-  .arrow-text{ font-size: 11px; font-weight: 600; color: var(--ink-3); }
+  .arrow-text{ font-size: 10px; font-weight: 600; color: var(--ink-3); }
 
   /* ==== 出典行 ==== */
   .source-line{

@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/output-style-応答態度切替/解説スライド.html",
-      "artifactSha256": "a9396ad9022ed5607f831c0f9d69f0cb5490c1a57a40d97128d88868bb5e4a3e",
+      "artifactSha256": "a03d4f76bfc18f26f2e3bddf3d1ce9ea0d0d4c074b1e7ae1624a210cbf3aa161",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,10 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/output-style-応答態度切替/evidence/html-runtime/解説スライド-wide-a9396ad9022e.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/output-style-応答態度切替/evidence/html-runtime/解説スライド-narrow-a9396ad9022e.png"
+            "/Users/MacPro/Projects/ai-slide-library/slides/output-style-応答態度切替/evidence/html-runtime/output-style-応答態度切替/a03d4f76bfc1/解説スライド-wide-page-1-a03d4f76bfc1.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/output-style-応答態度切替/evidence/html-runtime/output-style-応答態度切替/a03d4f76bfc1/解説スライド-wide-page-2-a03d4f76bfc1.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/output-style-応答態度切替/evidence/html-runtime/output-style-応答態度切替/a03d4f76bfc1/解説スライド-narrow-page-1-a03d4f76bfc1.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/output-style-応答態度切替/evidence/html-runtime/output-style-応答態度切替/a03d4f76bfc1/解説スライド-narrow-page-2-a03d4f76bfc1.png"
           ]
         }
       ]

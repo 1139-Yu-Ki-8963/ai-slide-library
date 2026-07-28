@@ -1,8 +1,10 @@
 {
   "scripts": {
+    "generate:slide-shell": "npm run sync:slide-shell",
     "sync:slide-shell": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/sync-shared-slide-shell-reference.mjs\" slides \"$HOME/agent-home/skills/generating-explanation-html-slides/references/shared-slide-shell.css\" \"$HOME/agent-home/skills/generating-explanation-html-slides/references/shared-slide-shell.js\"",
-    "pretest": "npm run sync:slide-shell",
-    "test": "npm run test:slide-shell-completeness && npm run test:slide-shell-mutations && npm run test:slide-rule-enforcement && npm run test:slide-header-fixtures && npm run test:slide-header-only-normalization && npm run test:slide-shell-propagation && npm run test:slide-header-contract && npm run test:slide-header-rules && npm run test:slide-ai-contract && npm run test:slide-evidence-hook && npm run test:html-common-static && npm run test:slide-static && npm run test:slide-contract && npm run test:catalog-preview && npm run test:html-common-runtime && npm run test:slide-shell-runtime && npm run test:slide-layout",
+    "test": "npm run test:slide-mechanical-registry && npm run test:slide-gate-reachability && npm run test:slide-shell-completeness && npm run test:slide-shell-mutations && npm run test:slide-rule-enforcement && npm run test:slide-header-fixtures && npm run test:slide-header-only-normalization && npm run test:slide-shell-propagation && npm run test:slide-header-contract && npm run test:slide-header-rules && npm run test:slide-ai-contract && npm run test:slide-evidence-hook && npm run test:html-common-contract && npm run test:html-common-tooling && npm run test:html-common-static && npm run test:slide-static && npm run test:slide-contract && npm run test:catalog-preview && npm run test:html-common-runtime && npm run test:slide-shell-runtime-mutations && npm run test:slide-shell-runtime && npm run test:slide-layout",
+    "test:slide-mechanical-registry": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-mechanical-registry.mjs\" --self-test",
+    "test:slide-gate-reachability": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-gate-reachability.mjs\" --self-test",
     "test:slide-shell-completeness": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-shell-completeness.mjs\" --project-root . --slides-root slides --audit",
     "test:slide-shell-mutations": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/test-slide-shell-completeness.mjs\"",
     "test:slide-rule-enforcement": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-rule-enforcement.mjs\"",
@@ -13,13 +15,16 @@
     "test:slide-header-rules": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-static-contract.mjs\" --self-test",
     "test:slide-ai-contract": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-ai-review-contract.mjs\" --self-test",
     "test:slide-evidence-hook": "bash \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/check-slide-evidence.sh\" --self-test",
-    "test:html-common-static": "node \"$HOME/agent-home/skills/reviewing-explanatory-html/scripts/verify-html-static.mjs\" slides/*/解説スライド.html",
+    "test:html-common-contract": "node \"$HOME/agent-home/skills/reviewing-explanatory-html/scripts/verify-html-review-contract.mjs\"",
+    "test:html-common-tooling": "node \"$HOME/agent-home/skills/reviewing-explanatory-html/scripts/test-html-review-tooling.mjs\"",
+    "test:html-common-static": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/run-html-common-review.mjs\" static",
     "test:slide-static": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-static-contract.mjs\"",
     "test:slide-final": "npm test",
     "test:slide-contract": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-contract.mjs\"",
     "test:catalog-preview": "node .claude/skills/adding-catalog-slides/scripts/verify-catalog-preview.mjs",
-    "test:html-common-runtime": "node \"$HOME/agent-home/skills/reviewing-explanatory-html/scripts/verify-html-runtime.mjs\" slides/*/解説スライド.html",
+    "test:html-common-runtime": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/run-html-common-review.mjs\" runtime",
     "test:slide-shell-runtime": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-shell-runtime.mjs\"",
+    "test:slide-shell-runtime-mutations": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/test-slide-shell-runtime-contract.mjs\"",
     "test:slide-layout": "node \"$HOME/agent-home/skills/generating-explanation-html-slides/scripts/qa-slide-layout.mjs\""
   },
   "devDependencies": {
