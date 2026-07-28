@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/レビューエンジン-3層構成/解説スライド.html",
-      "artifactSha256": "ddcee6f177c68bb3358ed2adf2b2f26eff2556ea3e458eef83ab026adf906e02",
+      "file": "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/new-design-slide-set/slides/レビューエンジン-3層構成/解説スライド.html",
+      "artifactSha256": "487b200940b05826d90fd2c9c38ee17fb2cdcd0bc11aa51df2f14e33f9d85752",
       "status": "pass",
       "checks": [
         {

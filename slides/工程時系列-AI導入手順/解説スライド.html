@@ -1,122 +1,49 @@
 <!doctype html>
 <html lang="ja">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
 <meta charset="utf-8">
-<title>AI導入プロジェクトの工程時系列</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI導入プロジェクトの工程時系列（新デザイン）</title>
 <style>
-
-  :root{
-    --page: #EDF0F4;
-    --surface: #FFFFFF;
-    --ink: #1C2B3A;
-    --ink-2: #55667A;
-    --ink-3: #8494A6;
-    --border: #D9E0E8;
-    --grid: #E4E9F0;
-    --accent: #3b7dd8;
-    --accent-deep: #2f66b3;
-    --accent-soft: #EAF1FC;
-  }
-  .header-accent-bar{ flex: 0 0 5px; border-radius: 0; background: var(--accent-deep); }
-  .header-text{ display: flex; flex-direction: column; gap: 6px; }
-  .slide-desc{ font-size: 14px; color: var(--ink-2); line-height: 1.6; }
-
-  /* ==== 時系列全体 ==== */
-  .timeline{ flex: 1; min-height: 0; display: flex; flex-direction: column; }
-
-  /* ==== 月ヘッダー行 ==== */
-  .tl-months{
-    display: flex;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-  }
-  .tl-months-spacer{ flex: 0 0 240px; }
-  .tl-months-right{
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-  }
-  .tl-month{
-    font-size: 13px; font-weight: 700; color: var(--ink-3);
-    text-align: center;
-    letter-spacing: 0.04em;
-  }
-
-  /* ==== 工程行 ==== */
-  .tl-row{
-    flex: 1;
-    display: flex; align-items: stretch;
-    border-bottom: 1px solid var(--border);
-  }
-  .tl-row:last-child{ border-bottom: none; }
-
-  .tl-row-left{
-    flex: 0 0 240px;
-    display: flex; flex-direction: column; gap: 6px;
-    justify-content: center;
-    padding: 8px 16px 8px 0;
-  }
-  .tl-process-tag{
-    display: inline-block;
-    align-self: flex-start;
-    background: var(--accent);
-    color: #fff;
-    font-size: 13px; font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 4px;
-  }
-  .tl-desc{ font-size: 12px; color: var(--ink-2); line-height: 1.55; }
-
-  .tl-row-right{
-    position: relative;
-    flex: 1;
-    background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size: 16.667% 100%;
-  }
-
-  /* ==== 矢印バー（先端三角形。CSS clip-path で描画） ==== */
-  .tl-bar{
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 30px;
-    display: flex; align-items: center;
-    padding: 0 16px 0 12px;
-    background: var(--accent);
-    border-left: 4px solid var(--accent-deep);
-    color: #fff;
-    font-size: 11px; font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-  .tl-bar-start, .tl-bar-end{
-    position: absolute;
-    top: calc(50% + 22px);
-    font-size: 10.5px;
-    color: var(--ink-3);
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-  }
-  .tl-bar-end{ transform: translateX(-100%); }
+  /* 骨格B: 構造型（slide-design-system.md 参照）。バーの濃さ＝定着への近さ */
+  .pageno{ font: 12px/1.4 system-ui, sans-serif; color: var(--label); margin-left: auto; }
+  .figure{ flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 0; padding-top: 24px; }
+  .tl-months{ display: flex; padding-bottom: 8px; border-bottom: 1px solid var(--faint); }
+  .tl-spacer{ flex: 0 0 250px; }
+  .tl-months-right{ flex: 1; display: grid; grid-template-columns: repeat(6, 1fr); }
+  .tl-month{ font: 700 12px/1.2 system-ui, sans-serif; letter-spacing: .08em; color: var(--label); text-align: center; }
+  .tl-row{ flex: 1; display: flex; align-items: stretch; }
+  .tl-rows{ flex: 1; display: flex; flex-direction: column; min-height: 0; padding-bottom: 12px; }
+  .tl-left{ flex: 0 0 250px; display: flex; flex-direction: column; gap: 5px; justify-content: center; padding: 10px 20px 10px 0; }
+  .tl-name{ font-size: 17px; font-weight: 600; color: var(--ink); }
+  .tl-desc{ margin: 0; font-size: 14px; line-height: 1.55; color: var(--muted); }
+  .tl-right{ position: relative; flex: 1; background-image: linear-gradient(90deg, var(--faint) 1px, transparent 1px); background-size: 16.667% 100%; }
+  .tl-bar{ position: absolute; top: 50%; transform: translateY(-50%); height: 34px; display: flex; align-items: center; padding: 0 14px; font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; }
+  .tl-date{ position: absolute; top: calc(50% + 19px); font: 12px/1.2 system-ui, sans-serif; color: var(--label); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .tl-date.end{ transform: translateX(-100%); }
+  .row-star .tl-name{ font-size: 20px; }
+  .row-star .tl-desc{ color: var(--ink); }
+  .conclusion{ display: flex; align-items: baseline; gap: 18px; border-top: 2px solid var(--ink); padding-top: 14px; }
+  .c-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--ink); flex-shrink: 0; }
+  .c-text{ font-size: 18px; font-weight: 600; line-height: 1.5; color: var(--ink); }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
-
+</head>
+<body>
 <div class="slide-viewport">
-  <div class="slide" data-slide-page="1">
+<div class="slide">
 
+  <section class="slide-page is-active" data-slide-page="1">
     <header class="slide-header">
       <span class="kicker">AI導入計画 — 工程時系列</span>
-      <div class="header-text">
-        <h1 class="slide-title">AI導入は、診断から運用定着まで段階的に進める</h1>
-        <p class="slide-subtitle">診断・基盤整備・実装・運用定着の期間と重なりを、6か月の時間軸で示す。</p>
-      </div>
+      <h1 class="slide-title">AI導入は、診断から運用定着まで6か月で進める</h1>
+      <p class="slide-subtitle">4つの工程を重ねながら進める。色の付いた土台整備が、この計画の要</p>
     </header>
 
-    <div class="timeline">
-
+    <div class="figure">
       <div class="tl-months">
-        <div class="tl-months-spacer"></div>
+        <div class="tl-spacer"></div>
         <div class="tl-months-right">
           <span class="tl-month">1月</span>
           <span class="tl-month">2月</span>
@@ -127,60 +54,65 @@
         </div>
       </div>
 
-      <div class="tl-row">
-        <div class="tl-row-left">
-          <span class="tl-process-tag">現状診断</span>
-          <p class="tl-desc">既存コードの可読性・テスト・文書化状態を評価</p>
+      <div class="tl-rows">
+        <div class="tl-row">
+          <div class="tl-left">
+            <span class="tl-name">現状診断</span>
+            <p class="tl-desc">既存コードの可読性・テスト・文書化状態を評価</p>
+          </div>
+          <div class="tl-right">
+            <div class="tl-bar" style="left: 2%; width: 22%; background: var(--faint); color: var(--muted);">現状診断</div>
+            <span class="tl-date" style="left: 2%;">1月</span>
+            <span class="tl-date end" style="left: 24%;">2月中旬</span>
+          </div>
         </div>
-        <div class="tl-row-right">
-          <div class="tl-bar" style="left: 2%; width: 22%;">現状診断</div>
-          <span class="tl-bar-start" style="left: 2%;">1月</span>
-          <span class="tl-bar-end" style="left: 24%;">2月中旬</span>
+
+        <div class="tl-row row-star">
+          <div class="tl-left">
+            <span class="tl-name">土台整備</span>
+            <p class="tl-desc">設計文書の逆生成・テスト基盤の構築</p>
+          </div>
+          <div class="tl-right">
+            <div class="tl-bar" style="left: 17%; width: 49%; background: var(--accent); color: #FFFFFF; font-weight: 700;">土台整備</div>
+            <span class="tl-date" style="left: 17%;">2月</span>
+            <span class="tl-date end" style="left: 66%;">4月</span>
+          </div>
+        </div>
+
+        <div class="tl-row">
+          <div class="tl-left">
+            <span class="tl-name">ツール導入</span>
+            <p class="tl-desc">AIツール選定・権限設定・安全装置構築</p>
+          </div>
+          <div class="tl-right">
+            <div class="tl-bar" style="left: 44%; width: 39%; background: var(--faint); color: var(--muted);">ツール導入</div>
+            <span class="tl-date" style="left: 44%;">3月下旬</span>
+            <span class="tl-date end" style="left: 83%;">5月</span>
+          </div>
+        </div>
+
+        <div class="tl-row">
+          <div class="tl-left">
+            <span class="tl-name">運用定着</span>
+            <p class="tl-desc">パイロット運用・振り返り・全社展開判定</p>
+          </div>
+          <div class="tl-right">
+            <div class="tl-bar" style="left: 67%; width: 31%; background: var(--faint); color: var(--muted);">運用定着</div>
+            <span class="tl-date" style="left: 67%;">5月</span>
+            <span class="tl-date end" style="left: 98%;">6月</span>
+          </div>
         </div>
       </div>
-
-      <div class="tl-row">
-        <div class="tl-row-left">
-          <span class="tl-process-tag">土台整備</span>
-          <p class="tl-desc">設計文書の逆生成・テスト基盤の構築</p>
-        </div>
-        <div class="tl-row-right">
-          <div class="tl-bar" style="left: 17%; width: 49%;">土台整備</div>
-          <span class="tl-bar-start" style="left: 17%;">2月</span>
-          <span class="tl-bar-end" style="left: 66%;">4月</span>
-        </div>
-      </div>
-
-      <div class="tl-row">
-        <div class="tl-row-left">
-          <span class="tl-process-tag">ツール導入</span>
-          <p class="tl-desc">AIツール選定・権限設定・安全装置構築</p>
-        </div>
-        <div class="tl-row-right">
-          <div class="tl-bar" style="left: 44%; width: 39%;">ツール導入</div>
-          <span class="tl-bar-start" style="left: 44%;">3月下旬</span>
-          <span class="tl-bar-end" style="left: 83%;">5月</span>
-        </div>
-      </div>
-
-      <div class="tl-row">
-        <div class="tl-row-left">
-          <span class="tl-process-tag">運用定着</span>
-          <p class="tl-desc">パイロット運用・振り返り・全社展開判定</p>
-        </div>
-        <div class="tl-row-right">
-          <div class="tl-bar" style="left: 67%; width: 31%;">運用定着</div>
-          <span class="tl-bar-start" style="left: 67%;">5月</span>
-          <span class="tl-bar-end" style="left: 98%;">6月</span>
-        </div>
-      </div>
-
     </div>
 
+    <div class="conclusion">
+      <span class="c-label">計画の要</span>
+      <span class="c-text">成否は2〜4月の土台整備で決まる。設計文書とテスト基盤が、後続の導入と定着を支える</span>
+      <span class="pageno">1 / 1</span>
+    </div>
+  </section>
 
-
-  </div>
 </div>
-
-
+</div>
+</body>
 </html>

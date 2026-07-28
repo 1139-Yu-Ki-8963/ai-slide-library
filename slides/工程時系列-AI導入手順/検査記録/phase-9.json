@@ -1,50 +1,25 @@
 {
   "phase": 9,
-  "targetKeys": [
-    "工程時系列-AI導入手順"
-  ],
+  "targetKeys": ["工程時系列-AI導入手順"],
   "status": "pass",
   "criteria": [
     {
       "id": "deck-ai-role-sequence",
       "status": "not-applicable",
-      "evidence": "ページ送り要素のない単一ページで、他ページとの役割分担は指定されていない。実画像では1月の現状診断から土台整備、ツール導入、6月の運用定着までが月軸上で左から右へ完結しているため、デッキ内順序は評価対象外。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "単一ページのみで構成され、他ページとの前後関係を判定するデッキ文脈が存在しない。ページ内は現状診断→土台整備→ツール導入→運用定着の4工程が1〜6月のガントチャートで時系列に並ぶが、これはページ内の時系列表現であり複数ページのデッキ順序の評価対象ではない。"
     },
     {
       "id": "deck-ai-strength-rhythm",
       "status": "not-applicable",
-      "evidence": "複数ページ間の強弱配分を持たない単一ページである。ページ内では4工程を同じ茶色の期間バーで扱い、開始位置と期間長の違いを主役にしており、特定工程を根拠なく過剰強調していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "単一ページのため複数ページ間の強度配分を評価する対象がない。ページ内では.row-star（土台整備行）だけがアクセント色の帯と20pxの行名で強調され、他3工程は薄いグレー帯で静的に表示されており、1枚に1箇所の主役という原則はページ内で満たされているが、これはデッキ横断の強度リズムの評価対象ではない。"
     },
     {
       "id": "deck-ai-layout-repetition",
       "status": "not-applicable",
-      "evidence": "前後ページとの理由なき反復を比較するデッキ文脈がない。4行の反復は同じ6か月軸上で工程の重なりを比較するガント構造に必要で、ラベル・期間・説明が各行で固有である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "単一ページのため直前ページとのレイアウト反復を評価する対象がない。月ラベル＋4行のガントバーという構成はこの1枚のみに存在し、反復の理由なき踏襲を判定するデッキ内比較対象がない。"
     }
   ],
-  "findings": [
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "単一ページ全体",
-      "evidence": "現HTML SHAのwide/narrow画像とサムネイル、static/runtime PASS記録を確認した。診断から運用定着までの工程時系列は当該ページ内で完結している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "修正不要。"
-    }
-  ],
-  "checkedAt": "2026-07-27T18:19:38.680Z",
-  "artifactSha256": "88dc9f645647920f9abe3ccd7d9470c0fc0fc1a6b2f01d29d01b681e30487866",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "3460e53518622d549f974bb9966b68a69c8229c4d74a0d6f9180d210bce5721e",
-    "toArtifactSha256": "88dc9f645647920f9abe3ccd7d9470c0fc0fc1a6b2f01d29d01b681e30487866",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "9233267f3ec28ba2cabae4cde79f71c4cffd2ce4c219a1f497f210fb7247c77e",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  },
-  "impactReview": {
-    "status": "pass",
-    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
-    "screenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4",
-    "evidence": "現HTMLから生成した一覧画像（SHA 1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
-  }
+  "findings": [],
+  "checkedAt": "2026-07-28T13:29:10.000Z",
+  "artifactSha256": "b010e22030b457433082647dd11ac51eb56de36fc059a4b6be48376f426281a8"
 }
