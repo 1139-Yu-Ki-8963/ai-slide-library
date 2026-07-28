@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/工程時系列-AI導入手順/解説スライド.html",
-      "artifactSha256": "88dc9f645647920f9abe3ccd7d9470c0fc0fc1a6b2f01d29d01b681e30487866",
+      "file": "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/new-design-slide-set/slides/工程時系列-AI導入手順/解説スライド.html",
+      "artifactSha256": "b010e22030b457433082647dd11ac51eb56de36fc059a4b6be48376f426281a8",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/工程時系列-AI導入手順/evidence/html-runtime/解説スライド-wide-88dc9f645647.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/工程時系列-AI導入手順/evidence/html-runtime/解説スライド-narrow-88dc9f645647.png"
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/new-design-slide-set/slides/工程時系列-AI導入手順/evidence/html-runtime/工程時系列-AI導入手順/b010e22030b4/解説スライド-wide-page-1-b010e22030b4.png",
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/new-design-slide-set/slides/工程時系列-AI導入手順/evidence/html-runtime/工程時系列-AI導入手順/b010e22030b4/解説スライド-narrow-page-1-b010e22030b4.png"
           ]
         }
       ]
