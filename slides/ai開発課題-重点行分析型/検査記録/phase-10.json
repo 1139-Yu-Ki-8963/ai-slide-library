@@ -1,0 +1,43 @@
+{
+  "phase": 10,
+  "targetKeys": [
+    "ai開発課題-重点行分析型"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-split-plan",
+      "status": "pass",
+      "evidence": "最終HTML SHA 5ef87a60757cの全1ページを独立確認した。p1「四半期の達成指標表の重点行と全体サマリーの読み方」の役割分担で、各ページは1メッセージに収束している。表、重点行、全体サマリーは同一の達成指標表の読み順であり、例示値を意思決定へ使うために同居が必要である。保存済み最新runtime画像はwide 1/1ページ、narrow 1/1ページを現SHAで確認した。更新後の640×360サムネイルも再確認し、文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "slides/ai開発課題-重点行分析型/解説スライド.html の全1ページ、現SHAのwide/narrow実描画、更新後サムネイル",
+      "evidence": "p1「四半期の達成指標表の重点行と全体サマリーの読み方」として読める。表、重点行、全体サマリーは同一の達成指標表の読み順であり、例示値を意思決定へ使うために同居が必要である。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "impact": "分割すると、共通軸で比較・追跡する関係または一続きの工程がページ間に分断され、全体判断が難しくなる。",
+      "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
+      "preservedInformation": [
+        "期間比較",
+        "重点行",
+        "全体サマリー",
+        "例示値である旨と算定条件"
+      ],
+      "splitPlan": "分割なし。表、重点行、全体サマリーは同一の達成指標表の読み順であり、例示値を意思決定へ使うために同居が必要である。",
+      "verification": "HTML SHA-256が5ef87a60757cb3fd4a8be709d123e1baf4311059fd2af578fffdea2c77b3de54であること、保存済み最新runtime画像はwide 1/1ページ、narrow 1/1ページを現SHAで確認した。更新後サムネイルが640×360であること、全1ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
+    }
+  ],
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "87c568de929a21a15268d9e655897fabef998d54793b01df09f8cd4bee587d75",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "d45e7d536f9b0a67952614b9f949498c55f4d78eb5263a2ad17709ac9367447c",
+    "toArtifactSha256": "87c568de929a21a15268d9e655897fabef998d54793b01df09f8cd4bee587d75",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "051a92442191a0b0665f4c802341116828ed20ae498aaa387782ffd334b4f4a6",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  }
+}

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>開発タスクは 5 ルートに分類し、手順の重さを自動で選ぶ</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root{
+    --page: #EDF0F4;          /* 背景（スライドの外） */
+    --surface: #FFFFFF;       /* スライド面 */
+    --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
+    --ink-2: #55667A;         /* 本文 */
+    --ink-3: #63758A;         /* 補足・軸ラベル */
+    --border: #D9E0E8;        /* 罫線 */
+    --grid: #E9EDF2;          /* 図中グリッド線 */
+    --critical: #C0392B;      /* 警告・上限・停止 */
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;          /* 回復・完了・推奨 */
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;        /* パネルタグ地 */
+    /* ツール識別色（実在ツールを描く時のみここに追記する） */
+    --claude: #A54832;        /* Claude: コーラル */
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;        /* Cursor: チャコール */
+    --cursor-soft: #EFF1F4;
+  }
+
+  /* ==== ステップ番号チップ（図と本文で同番号・同色を使う） ==== */
+  .step-chip{
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--main{ background: var(--claude); }
+  .step-chip--good{ background: var(--good); }
+  .step-chip--partial{ background: var(--ink-3); }  /* 中間段階・第2層など「進行中/中立」を表す番号 */
+
+  /* ==== 主図: 5ルート一覧 ==== */
+  .route-panel{ flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+  .route-heading{ display: grid; grid-template-columns: 1.35fr 1fr; gap: 18px; padding: 0 16px 2px 20px; color: var(--ink-3); font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+  .route-list{ display: grid; grid-template-rows: repeat(5, minmax(0, 1fr)); gap: 5px; min-height: 0; }
+  .route-row{ display: grid; grid-template-columns: 1.35fr 1fr; gap: 18px; align-items: center; min-height: 0; padding: 5px 16px 5px 20px; border: 1.5px solid var(--border); border-left: 6px solid var(--ink-3); border-radius: 8px; background: var(--tag-bg); }
+  .route-row:nth-child(1){ border-left-color: var(--claude); background: var(--claude-soft); }
+  .route-row:nth-child(5){ border-left-color: var(--critical); background: var(--critical-soft); }
+  .route-main, .route-detail{ min-width: 0; }
+  .route-main{ display: flex; align-items: baseline; gap: 10px; }
+  .route-number{ font-size: 13px; font-weight: 800; color: var(--ink-3); }
+  .route-main h2{ font-size: 16px; line-height: 1.15; color: var(--ink); }
+  .route-main p, .route-detail p{ font-size: 12px; line-height: 1.2; color: var(--ink-2); }
+  .route-main p{ margin-left: 30px; }
+  .route-detail{ display: flex; flex-direction: column; gap: 2px; }
+  .route-detail strong{ color: var(--ink); font-size: 12px; }
+  .support-strip{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding-top: 5px; border-top: 1px solid var(--border); }
+  .support-step{ display: flex; align-items: flex-start; gap: 8px; }
+  .support-step p{ font-size: 11px; line-height: 1.25; color: var(--ink-2); }
+  .support-step strong{ color: var(--ink); }
+
+  /* ==== 出典行 ==== */
+  .source-line{
+    font-size: 10px;
+    color: var(--ink-3);
+    border-top: 1px solid var(--border);
+    padding-top: 2px;
+  }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+  <div class="slide" data-slide-page="1">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI開発ガバナンス — 開発フロー統制</span>
+      <h1 class="slide-title">開発タスクは 5 ルートに分類し、手順の重さを自動で選ぶ</h1>
+      <p class="slide-subtitle">軽いタスクに重い手順は非効率、重いタスクに軽い手順は事故のもと。分類で工程を最適化し、計画確定前の見切り発車はゲートで止める。</p>
+    </header>
+
+    <section class="route-panel" aria-label="5つの開発タスクルート">
+      <div class="route-heading"><span>タスクの分類（何をするか）</span><span>手順の重さと適用条件</span></div>
+      <div class="route-list">
+        <article class="route-row"><div class="route-main"><span class="route-number">01</span><div><h2>フル計画</h2><p>対象：新機能・大きな変更</p></div></div><div class="route-detail"><strong>重い — 計画・実装・検証</strong><p>設計・レビュー・複数ゲートを含む</p></div></article>
+        <article class="route-row"><div class="route-main"><span class="route-number">02</span><div><h2>クイック修正</h2><p>対象：小さなバグ・文言修正</p></div></div><div class="route-detail"><strong>軽い — 短縮工程</strong><p>影響範囲と差分が限定される</p></div></article>
+        <article class="route-row"><div class="route-main"><span class="route-number">03</span><div><h2>設定・ドキュメント</h2><p>対象：設定・README・運用文書</p></div></div><div class="route-detail"><strong>中程度 — 内容に応じる</strong><p>正確さとレビューを確認する</p></div></article>
+        <article class="route-row"><div class="route-main"><span class="route-number">04</span><div><h2>リファクタリング</h2><p>対象：挙動を保つ内部改善</p></div></div><div class="route-detail"><strong>重い — 安全網つき変更</strong><p>テスト・レビューで既存挙動を固定</p></div></article>
+        <article class="route-row"><div class="route-main"><span class="route-number">05</span><div><h2>障害復旧</h2><p>対象：本番影響の緊急対応</p></div></div><div class="route-detail"><strong>専用 — 復旧優先の手順</strong><p>事後レビューと再発防止まで行う</p></div></article>
+      </div>
+    </section>
+
+    <section class="support-strip" aria-label="全ルートに共通する3段階の工程">
+      <div class="support-step"><span class="step-chip step-chip--main">1</span><p><strong>分類</strong> — タスクの性質でルートを確定</p></div>
+      <div class="support-step"><span class="step-chip step-chip--partial">2</span><p><strong>工程を選択</strong> — 手順の重さを適合させる</p></div>
+      <div class="support-step"><span class="step-chip step-chip--good">3</span><p><strong>ゲートで統制</strong> — 計画前の編集を機械的に停止</p></div>
+    </section>
+
+    <p class="source-line">導入の最初の一歩：自社の定型タスクをどのルートに当てるか決める　／　出典：開発フロー規約（ルート分類・工程選択の正本、2026年7月時点）</p>
+
+    <!-- ==== 部品: メタデータフッター（区切り線 + 下端余白） ==== -->
+
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・削除禁止） ==== -->
+
+</body></html>

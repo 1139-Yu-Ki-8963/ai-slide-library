@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>完了基準を「動いた証跡」まで引き上げる</title>
+<style>
+:root{
+  --surface: #fff;
+  --soft: #f1efea;
+  --critical: #934238;
+  --critical-soft: #f6ebe8;
+  --good: #356a4b;
+  --good-soft: #eaf2ed;
+  --neutral: #59666f;
+}
+.content{ flex: 1; min-height: 0; padding: 24px 0 10px; font-family: system-ui, sans-serif; }
+.guarantee-map{ display: grid; grid-template-columns: .78fr 1.58fr; gap: 30px; height: 100%; }
+.preconditions{ display: grid; grid-template-rows: 1fr 1fr; gap: 14px; }
+.pre-step{ padding: 16px 18px; border-left: 3px solid var(--faint); background: var(--soft); }
+.pre-step h2, .final-gate h2, .evidence-panel h2, .rule-panel h2{ margin: 0 0 7px; font-size: 18px; }
+.step-label{ display: block; margin-bottom: 5px; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .12em; }
+.pre-step p, .final-gate p, .evidence-panel p, .rule-panel p{ margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.limit{ margin-top: 10px !important; color: var(--critical) !important; font-weight: 700; }
+.final-gate{ padding: 22px 24px; border-top: 5px solid var(--good); background: var(--good-soft); display: grid; grid-template-rows: auto auto 1fr auto; }
+.final-gate h2{ font-size: 25px; color: var(--ink); }
+.evidence-list{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; align-self: center; }
+.evidence-item{ padding: 13px 11px; border-top: 1px solid var(--good); background: var(--surface); }
+.evidence-item strong{ display: block; margin-bottom: 4px; font-size: 14px; }
+.evidence-item span{ color: var(--muted); font-size: 11px; line-height: 1.4; }
+.gate-line{ padding-top: 12px; border-top: 1px solid var(--good); color: var(--good); font-size: 15px; font-weight: 800; }
+.operation-grid{ display: grid; grid-template-columns: 1.12fr .88fr; gap: 28px; height: 100%; }
+.evidence-panel{ padding: 20px 22px; border-top: 4px solid var(--good); background: var(--good-soft); }
+.evidence-flow{ margin-top: 18px; display: grid; grid-template-columns: 1fr 34px 1fr 34px 1fr; align-items: stretch; }
+.evidence-node{ padding: 16px 13px; background: var(--surface); border-bottom: 2px solid var(--good); }
+.evidence-node strong{ display: block; font-size: 15px; }
+.evidence-node span{ display: block; margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+.connector{ display: grid; place-items: center; color: var(--muted); font-size: 22px; }
+.rule-panel{ display: flex; flex-direction: column; gap: 16px; padding: 20px 0 0 22px; border-left: 1px solid var(--faint); }
+.required-sections{ margin: 0; padding: 14px 18px 14px 36px; background: var(--soft); color: var(--ink); font-size: 14px; line-height: 1.75; }
+.hard-rule{ padding: 14px 16px; border-left: 4px solid var(--critical); background: var(--critical-soft); color: var(--critical); font-size: 15px; font-weight: 800; }
+.effects{ display: grid; gap: 7px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+.first-step{ margin-top: auto; padding-top: 11px; border-top: 1px solid var(--faint); font-size: 12px; color: var(--muted); }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+  <main class="slide">
+    <section class="slide-page is-active" id="completion-standard" aria-label="完了基準の比較 1ページ目" data-slide-page="1">
+      <header class="slide-header">
+        <span class="kicker">AI開発ガバナンス — 完了定義</span>
+        <h1 class="slide-title">完了基準を「動いた証跡」まで引き上げる</h1>
+        <p class="slide-subtitle">存在確認とテスト通過は途中条件。実際の操作・応答・一連動作を確認して初めて完了とする。</p>
+      </header>
+      <div class="content guarantee-map">
+        <div class="preconditions" aria-label="途中条件">
+          <section class="pre-step">
+            <span class="step-label">途中条件 01</span>
+            <h2>存在確認</h2>
+            <p>コードが書かれ、型や参照が成立している状態。</p>
+            <p class="limit">動作は保証しない。「完了しました」という自己申告と区別できない。</p>
+          </section>
+          <section class="pre-step">
+            <span class="step-label">途中条件 02</span>
+            <h2>テスト通過</h2>
+            <p>自動テストが全部通り、過去の機能が壊れていないことを確認した状態。</p>
+            <p class="limit">保証は書かれたテストの範囲まで。「通った」と「動いた」は別である。</p>
+          </section>
+        </div>
+        <section class="final-gate">
+          <span class="step-label">採用する完了条件</span>
+          <h2>実害検証つきの完了</h2>
+          <div class="evidence-list" aria-label="求める証跡">
+            <div class="evidence-item"><strong>画面操作</strong><span>利用者の操作が成立した記録</span></div>
+            <div class="evidence-item"><strong>応答の実物</strong><span>返却データや表示結果の実物</span></div>
+            <div class="evidence-item"><strong>一連動作</strong><span>入口から出口までの挙動観察</span></div>
+          </div>
+          <p class="gate-line">「動いた」証拠を伴う変更だけが、完了ゲートを通過する。</p>
+        </section>
+      </div>
+    </section>
+
+    <section class="slide-page" id="completion-operation" aria-label="変更提案への実装 2ページ目" hidden data-slide-page="2">
+      <header class="slide-header">
+        <span class="kicker">AI開発ガバナンス — 証跡の運用</span>
+        <h1 class="slide-title">実動証跡を変更提案の必須欄にする</h1>
+        <p class="slide-subtitle">証跡3種と判断理由を空欄不可にし、証跡がない変更は完了として受け入れない。</p>
+      </header>
+      <div class="content operation-grid">
+        <section class="evidence-panel">
+          <span class="step-label">変更提案に残す実物</span>
+          <h2>操作・応答・一連動作を同じ変更へ結び付ける</h2>
+          <div class="evidence-flow">
+            <div class="evidence-node"><strong>画面操作</strong><span>どの操作を行ったか</span></div>
+            <div class="connector" aria-hidden="true">→</div>
+            <div class="evidence-node"><strong>応答の実物</strong><span>何が返り、何が表示されたか</span></div>
+            <div class="connector" aria-hidden="true">→</div>
+            <div class="evidence-node"><strong>一連動作</strong><span>入口から出口まで成立したか</span></div>
+          </div>
+          <p class="first-step"><strong>導入の最初の一歩：</strong>変更提案（PR）の定型欄へ「動作確認の証跡」を必須項目として追加する。</p>
+        </section>
+        <aside class="rule-panel">
+          <div>
+            <span class="step-label">変更提案の必須3節</span>
+            <h2>判断根拠も証跡と一緒に残す</h2>
+          </div>
+          <ol class="required-sections">
+            <li>なぜこの実装か</li>
+            <li>実害検証</li>
+            <li>生成プロンプト</li>
+          </ol>
+          <div class="hard-rule">3節は空欄不可。証跡がなければ完了と認めない。</div>
+          <div class="effects">
+            <p><strong>効果 1：</strong>証拠付きで完了を宣言できる。</p>
+            <p><strong>効果 2：</strong>本番で初めて発覚する不具合を防ぐ。</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+
+
+  </main>
+</div>
+
+</body>
+</html>

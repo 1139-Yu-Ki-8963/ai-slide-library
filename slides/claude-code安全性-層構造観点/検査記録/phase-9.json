@@ -1,0 +1,42 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "claude-code安全性-層構造観点"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈がない。『Claude Code は 2 層で安全性を確保する』という結論を、上段Permissionから下段Sandboxへ向かう一方向の層構造として説明しており、ページ間の役割・順序は存在しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "単一ページのためデッキ全体の強弱リズムは対象外である。大きなタイトルを入口にし、PermissionとSandboxの2層は同じ安全性結論を補完する情報提示として扱われ、複数ページでの強調連続や静ページの有無を評価できない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "単一ページで直前2ページとのレイアウト反復は存在しない。上下2層と中央の接続矢印は、Permission通過後のBashにSandboxが適用される関係を示すための構造であり、ページ横断の反復判定は不要である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T18:19:38.680Z",
+  "artifactSha256": "119f1247b68ae69f071dd259d778d6717cee6b307ffb7397fc971ea9b64b06ef",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "6a24a2317f17b43fa47d5e3be3a000e0afc0521572d343e40c6b536f582432db",
+    "toArtifactSha256": "119f1247b68ae69f071dd259d778d6717cee6b307ffb7397fc971ea9b64b06ef",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "1a7cfab942fb958fdcc39555bd7ce48c0f507bbfd9be97c6b4c97d479a7da506",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  },
+  "impactReview": {
+    "status": "pass",
+    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
+    "screenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4",
+    "evidence": "現HTMLから生成した一覧画像（SHA 1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "phase": 10,
+  "targetKeys": [
+    "実害検証-完了定義"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-split-plan",
+      "status": "pass",
+      "evidence": "最終HTML SHA 62ca5881b26dの全2ページを独立確認した。p1「完了条件を動いた証跡へ引き上げる」、p2「証跡を変更提案の必須欄にする」の役割分担で、各ページは1メッセージに収束している。完了定義と証跡運用を2ページへ分け、基準と運用の混在を解消している。保存済み最新runtime画像はwide 2/2ページ、narrow 2/2ページを現SHAで確認した。更新後の640×360サムネイルも再確認し、文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "slides/実害検証-完了定義/解説スライド.html の全2ページ、現SHAのwide/narrow実描画、更新後サムネイル",
+      "evidence": "p1「完了条件を動いた証跡へ引き上げる」、p2「証跡を変更提案の必須欄にする」として読める。完了定義と証跡運用を2ページへ分け、基準と運用の混在を解消している。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "impact": "これ以上分割すると、すでに分離済みの各ページ内で主張と根拠が離れ、前後ページを往復しないと判断できなくなる。",
+      "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
+      "preservedInformation": [
+        "存在確認",
+        "テスト通過",
+        "画面操作・応答・一連動作",
+        "変更提案の証跡欄"
+      ],
+      "splitPlan": "分割なし。完了定義と証跡運用を2ページへ分け、基準と運用の混在を解消している。",
+      "verification": "HTML SHA-256が62ca5881b26d813ed1681f5299529fcd0f0eb594676570e462a3f5177b4e48c3であること、保存済み最新runtime画像はwide 2/2ページ、narrow 2/2ページを現SHAで確認した。更新後サムネイルが640×360であること、全2ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
+    }
+  ],
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "61e5ef01ddeaf8ce79bbf264944c1dbb181a699f15f5acfbd4a85cfc42d1d75f",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "66d453ca222b404a5028aa08662a6ebd73ed2dfeb9f7ed4eade81c0fce6d3ec0",
+    "toArtifactSha256": "61e5ef01ddeaf8ce79bbf264944c1dbb181a699f15f5acfbd4a85cfc42d1d75f",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "5e854660f68764ed5de4b6d581cb7a524fa38cb26276fa088be8a145979cbe58",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  }
+}

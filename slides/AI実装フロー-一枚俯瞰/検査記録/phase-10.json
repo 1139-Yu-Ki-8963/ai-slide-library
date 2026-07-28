@@ -1,0 +1,44 @@
+{
+  "phase": 10,
+  "targetKeys": [
+    "AI実装フロー-一枚俯瞰"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-split-plan",
+      "status": "pass",
+      "evidence": "最終HTML SHA 9fdd14f5ccddの全1ページを独立確認した。p1「依頼からPR・最終確認までの1タスク全工程」の役割分担で、各ページは1メッセージに収束している。人間・AI・機械ゲートの受け渡しを1本の時系列として見渡すことが理解の核であり、工程分割は境界を見失わせる。保存済み最新runtime画像はwide 1/1ページ、narrow 1/1ページを現SHAで確認した。更新後の640×360サムネイルも再確認し、文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "slides/AI実装フロー-一枚俯瞰/解説スライド.html の全1ページ、現SHAのwide/narrow実描画、更新後サムネイル",
+      "evidence": "p1「依頼からPR・最終確認までの1タスク全工程」として読める。人間・AI・機械ゲートの受け渡しを1本の時系列として見渡すことが理解の核であり、工程分割は境界を見失わせる。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "impact": "分割すると、共通軸で比較・追跡する関係または一続きの工程がページ間に分断され、全体判断が難しくなる。",
+      "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
+      "preservedInformation": [
+        "依頼と計画承認",
+        "AI実装",
+        "機械レビューゲート",
+        "実害検証",
+        "PRと人間の最終確認"
+      ],
+      "splitPlan": "分割なし。人間・AI・機械ゲートの受け渡しを1本の時系列として見渡すことが理解の核であり、工程分割は境界を見失わせる。",
+      "verification": "HTML SHA-256が9fdd14f5ccddf559f7ee644368547f71ceda8b8ed514a1884bf2d4b52be0a249であること、保存済み最新runtime画像はwide 1/1ページ、narrow 1/1ページを現SHAで確認した。更新後サムネイルが640×360であること、全1ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
+    }
+  ],
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "632ced7677404735bcec5de504f5f5348a5b0b1fc14d99a294f1199d0a4645de",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "2aa6ee8d46fa0c3814c31018dca37e58d527a6ae97f8d53b5a4f7b73ffea7502",
+    "toArtifactSha256": "632ced7677404735bcec5de504f5f5348a5b0b1fc14d99a294f1199d0a4645de",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "d7b26520e83714b6cba445983c6e1a53e9b38bb5c13c9c5d290350e61cd50b44",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  }
+}

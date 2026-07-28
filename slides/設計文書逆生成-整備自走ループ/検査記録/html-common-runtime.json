@@ -1,0 +1,76 @@
+{
+  "kind": "html-runtime",
+  "status": "pass",
+  "files": [
+    {
+      "file": "/Users/MacPro/Projects/ai-slide-library/slides/設計文書逆生成-整備自走ループ/解説スライド.html",
+      "artifactSha256": "8f2310f2ef2f5b1741ed2666a60cc28820064a99a39b40cddc019d2478a05f9f",
+      "status": "pass",
+      "checks": [
+        {
+          "id": "html-runtime-load",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-console-errors",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-page-errors",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-missing-resources",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-horizontal-overflow",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-clipped-text",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-critical-overlap",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-keyboard-reachability",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-visible-focus",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-contrast",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-reduced-motion",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-screenshot",
+          "status": "pass",
+          "evidence": [
+            "/Users/MacPro/Projects/ai-slide-library/slides/設計文書逆生成-整備自走ループ/evidence/html-runtime/解説スライド-wide-8f2310f2ef2f.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/設計文書逆生成-整備自走ループ/evidence/html-runtime/解説スライド-narrow-8f2310f2ef2f.png"
+          ]
+        }
+      ]
+    }
+  ]
+}

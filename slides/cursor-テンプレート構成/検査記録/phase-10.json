@@ -1,0 +1,17 @@
+{
+  "phase": 10,
+  "targetKeys": [
+    "cursor-テンプレート構成"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-split-plan",
+      "status": "pass",
+      "evidence": "分割不要。ツール固有の5種類の設定資産と配置先を左の説明表、右のプロジェクトツリーで同時に確認できる。 分割すると対応関係または同時比較を損なう。1280×720で押し込み・切れ・重なりはない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T23:20:14.014Z",
+  "artifactSha256": "c16b90f9302749f0320e07a1a22d718c2775c7e0fd4038360f40a5c27a6db487"
+}

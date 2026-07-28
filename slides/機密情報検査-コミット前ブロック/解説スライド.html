@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>機密情報を三重に検査し、公開は承認で守る</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root{
+    --page: #EDF0F4;          /* 背景（スライドの外） */
+    --surface: #FFFFFF;       /* スライド面 */
+    --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
+    --ink-2: #55667A;         /* 本文 */
+    --ink-3: #52677A;         /* 補足・軸ラベル（白地で判読可能な濃さ） */
+    --border: #D9E0E8;        /* 罫線 */
+    --grid: #E9EDF2;          /* 図中グリッド線 */
+    --critical: #C0392B;      /* 警告・上限・停止 */
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;          /* 回復・完了・推奨 */
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;        /* パネルタグ地 */
+    /* ツール識別色（実在ツールを描く時のみここに追記する） */
+    --claude: #D97757;        /* Claude: コーラル */
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;        /* Cursor: チャコール */
+    --cursor-soft: #EFF1F4;
+  }
+
+  /* ==== ステップ番号チップ（図と本文で同番号・同色を使う） ==== */
+  .step-chip{
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--critical{ background: var(--critical); }
+  .step-chip--good{ background: var(--good); }
+  .step-chip--partial{ background: var(--ink-3); }  /* 中間段階・第2層など「進行中/中立」を表す番号 */
+
+  /* ==== 層・積層構造（全幅帯。上辺ではなく左辺の色で層の位置づけを示す） ==== */
+  .layer-stack{ display: flex; flex-direction: column; gap: 5px; flex: 1; min-height: 0; justify-content: flex-start; padding-top: 6px; }
+  .layer-band{
+    display: flex; align-items: center; gap: 20px;
+    padding: 6px 16px;
+    border-radius: 10px;
+    background: var(--tag-bg);
+    border: 1.5px solid var(--border);
+    border-left: 5px solid var(--ink-3);
+  }
+  .layer-band--critical{ background: var(--critical-soft); border-color: var(--critical); border-left-color: var(--critical); }  /* 警告・制限層 */
+  .layer-band--partial{ border-left-color: var(--ink-3); }     /* 中間層（背景は既定の --tag-bg のまま） */
+  .layer-band--good{ background: var(--good-soft); border-color: var(--good); border-left-color: var(--good); }      /* 最終・保護層 */
+  .layer-body{ flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .layer-body h2{ font-size: 15px; font-weight: 700; color: var(--ink); margin: 0; }
+  .layer-desc{ font-size: 10.5px; color: var(--ink-2); line-height: 1.25; }
+  .layer-examples{ display: flex; gap: 4px; flex-wrap: wrap; margin-top: 1px; }
+  .ex{ font-size: 10px; font-weight: 600; padding: 1px 8px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
+
+  /* ==== 層間の接続注記（層構造で「AがBを通過してからCが適用される」等を1行で説明） ==== */
+  .arrow-between{ display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .arrow-text{ font-size: 10px; font-weight: 600; color: var(--ink-3); }
+
+  /* ==== 出典行 ==== */
+  .source-line{
+    font-size: 11px;
+    color: var(--ink-3);
+    border-top: 1px solid var(--border);
+    padding-top: 6px;
+  }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+
+<div class="slide-viewport">
+  <div class="slide" data-slide-page="1">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI開発ガバナンス — 機密情報保護</span>
+      <h1 class="slide-title">機密情報を三重に検査し、公開は承認で守る</h1>
+      <p class="slide-subtitle">機密を検出したときだけcommit・pushをhookで止め、公開前は全体レビューと承認で守る。</p>
+    </header>
+
+    <div class="layer-stack">
+
+      <div class="layer-band layer-band--critical">
+        <span class="step-chip step-chip--critical">1</span>
+        <div class="layer-body">
+          <h2>第一関門: コミット時の検査</h2>
+          <p class="layer-desc">コミット対象の追加行を既知の機密パターン集と照合し、一致すればコミット自体をエラー終了（終了コード 2）で停止する。検出時は件数とファイル名のみ通知し、機密値そのものは表示しない。</p>
+          <div class="layer-examples">
+            <span class="ex">クラウドのアクセスキー（AKIA… 形式）</span>
+            <span class="ex">コード共有サービスのトークン（ghp_… 形式）</span>
+            <span class="ex">秘密鍵ブロック（BEGIN PRIVATE KEY）</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrow-between">
+        <svg role="img" aria-label="push時の再検査へ" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="arrow-text">第一関門を通過した変更も、外部リポジトリへ出る直前に再検査される</span>
+      </div>
+
+      <div class="layer-band layer-band--partial">
+        <span class="step-chip step-chip--partial">2</span>
+        <div class="layer-body">
+          <h2>第二関門: push 時の再検査</h2>
+          <p class="layer-desc">push 対象の未送信コミット全体の追加行を再走査し、すり抜けた機密値をリポジトリの外へ出る直前で止める。検出時は履歴からの除去までを要求する。</p>
+          <div class="layer-examples">
+            <span class="ex">未 push コミットの全追加行</span>
+            <span class="ex">履歴からの除去を要求</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrow-between">
+        <svg role="img" aria-label="公開前レビューへ" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="arrow-text">公開・配布前は、差分ではなく公開物全体をレビューして承認する</span>
+      </div>
+
+      <div class="layer-band layer-band--good">
+        <span class="step-chip step-chip--good">3</span>
+        <div class="layer-body">
+          <h2>最終防衛線: 公開前レビューと承認</h2>
+          <p class="layer-desc">公開物全体をpublic-readinessレビューで確認し、機密文字列、特定環境の絶対パス、顧客情報の残存を含めて公開承認を判断する。</p>
+          <div class="layer-examples">
+            <span class="ex">公開物全体をレビュー</span>
+            <span class="ex">承認ゲートで公開可否を判断</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="source-line">出典：本カタログ運用のhook構成・public-readinessレビュー（2026年7月時点）</p>
+
+
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・1ページでも削除禁止。削除可はページ送りスクリプトのみ） ==== -->
+
+</body>
+</html>

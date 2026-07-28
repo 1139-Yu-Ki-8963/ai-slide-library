@@ -1,0 +1,126 @@
+{
+  "phase": 11,
+  "targetKeys": [
+    "agent-home設定一元管理-symlink配布観点"
+  ],
+  "status": "pass",
+  "criteria": [],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック1: 3カード構成でない",
+      "evidence": "wide・narrow・サムネイルは左の正本、中央のsymlink経路、右の配布先という非対称な関係図で、3カード均等説明ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "正本→リンク→配布先の関係図を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック2: 項目ごとの丸アイコンに依存しない",
+      "evidence": "丸形は下段3要点の番号だけで、rules・skills・agents等を単語置換アイコンにしていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "資産名は文字で示し、項目別アイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック3: 写真を装飾使用しない",
+      "evidence": "実描画とサムネイルに写真・人物・ストック素材はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "写真を追加せず構造図として保つ。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック4: 多角形装飾を使用しない",
+      "evidence": "装飾多角形・立体・グラデーションはなく、矢じりはsymlinkの配布方向だけを示す。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "接続に無関係な図形を追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック5: 濃紺フッターを追加しない",
+      "evidence": "下段3要点は白地で、濃紺の大面積フッターを置いていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "下段要約の軽い扱いを維持する。"
+    },
+    {
+      "severity": "medium",
+      "decision": "suggestion",
+      "target": "最終チェック6: 架空情報を追加しない",
+      "evidence": "会社名・日付・ロゴ・効果値はないが、rules 47本、skills 20本、agents 24体、routines 15本は可変件数で、スライド内に集計時点がない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "次回改訂時に件数を正本から再集計して時点を添えるか、件数を削除して構造説明へ集中する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック7: 情報の強弱がある",
+      "evidence": "左の正本が最大面積、右の接続先が次位、中央の経路と将来ツールが補助となり、主従が明確。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "正本を主役とし、将来ツールは後景のまま保つ。"
+    },
+    {
+      "severity": "medium",
+      "decision": "pass",
+      "target": "最終チェック8: 情報を詰め込みすぎない",
+      "evidence": "6資産と3配布先を扱うが、説明は短く、wideとサムネイルで一元管理構造を追える。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "資産や配布先を増やす場合は代表例へ絞る。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック9: 青を安易な企業資料色にしない",
+      "evidence": "青はsymlink経路と配布先見出し、緑は接続中、橙は件数に限定され、青一色の装飾ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "色の用途を状態と経路に限定する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック10: 不要なアイコンを使用しない",
+      "evidence": "Claude CodeとCodex CLIの小記号は配布先識別に機能し、資産カードへの装飾アイコン乱用はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "各ディレクトリに個別アイコンを足さない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック11: 余白を装飾で埋めない",
+      "evidence": "中央経路と右下に余白を残し、模様や写真で埋めていない。余白が将来ツールを後景化する。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "空白へ装飾や説明を追加しすぎない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック12: 読み順が明確",
+      "evidence": "左の正本から破線を通って右の配布先へ進み、下段で一元管理の3効果を確認する順序が明確。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "左→右→下段の読み順を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック13: 1スライド1メッセージ",
+      "evidence": "設定資産を一元管理し各ツールへリンク配布する、という一つの構造主張に集約される。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "hooksや権限分離など別論点を混在させない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック14: 人間が編集したように見える",
+      "evidence": "正本と配布先を非対称に配置し、接続中と将来を区別し、実パス例まで示しており環境説明に使える。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "正本・経路・状態の具体性を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "suggestion",
+      "target": "情報設計の再編集案",
+      "evidence": "主役は「設定資産は一元管理しリンクで配る」。支える情報は6資産の内訳、実パス、Claude Code/Codex CLIへの接続、後景化は可変件数と将来ツール。レイアウトは左大・右小の非対称、読み順は正本→symlink→接続先→下段効果。削除・統合・短縮候補は件数と下段3要点の重複文。追加禁止情報は未接続ツールの断定、架空の件数・効果・会社名・日付・ロゴ・費用・期間・写真。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "件数を時点付きにするか削除し、構造と接続経路は保持する。"
+    }
+  ],
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "6ec50b9f25658cc9590effa110bcb3c1fc5e65ea9c8ce3c2838d5575ad09b6bb",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "476bcd2266ca62cd6e7d9439c54e4178183e319aed3d5434d85eb9e378ef6c4d",
+    "toArtifactSha256": "6ec50b9f25658cc9590effa110bcb3c1fc5e65ea9c8ce3c2838d5575ad09b6bb",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "6125655205dee7d0ee4854de4fc5a4d353e9b8cf0027fab5cc2fbb71730c18be",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  }
+}

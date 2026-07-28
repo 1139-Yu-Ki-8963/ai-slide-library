@@ -1,0 +1,126 @@
+{
+  "phase": 11,
+  "targetKeys": [
+    "リポジトリ現状理想-AI可読性対比"
+  ],
+  "status": "pass",
+  "criteria": [],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック1：3カード構成",
+      "evidence": "現状と理想の2面対比に中央の整備矢印を置く構成で、定型的な3カードではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現状/理想の2面対比を維持し、3カードへ分割しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック2：項目ごとの丸アイコン依存",
+      "evidence": "丸要素は現状1・整備2・理想3の読み順番号だけで、各項目は文章と✓・×で説明されている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "番号を読み順の補助に限定し、項目ごとの装飾アイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック3：写真の装飾使用",
+      "evidence": "3画像とも写真を使わず、リポジトリ状態の比較だけで成立している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "開発者やAIの装飾写真を追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック4：多角形装飾",
+      "evidence": "比較カード、矢印、番号円以外の多角形装飾がない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "対比に必要な矩形と矢印だけを維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック5：濃紺フッター",
+      "evidence": "下部は淡青の補足帯と3ステップで、濃紺フッターを使用していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "補足を濃色の装飾フッターへ変更しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック6：架空情報",
+      "evidence": "README、docs/、hook、テスト、linter、CLAUDE.md等の状態説明に限定され、会社名・ロゴ・日付・費用・効果数値を追加していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "根拠のない導入効果、期間、費用、件数、会社名を追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック7：情報の強弱",
+      "evidence": "現状は赤、理想は緑、中央の整備は中立色、下部の「AIは毎回が初出社」は補助帯として主従が明確。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "赤/緑を状態意味に限定し、補足帯を主役より強くしない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック8：情報量",
+      "evidence": "左右各5項目は一対一で対応し、wideで押し込みや重なりがなく、比較に必要な粒度へ整理されている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "追加項目を増やす場合は既存5項目との統合を優先する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック9：安易な青",
+      "evidence": "主な意味色は赤と緑で、青灰は中立の番号・補足に限定されている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "企業資料らしさのための青い装飾を増やさない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック10：不要なアイコン",
+      "evidence": "使用記号は状態を示す✓・×、読み順番号、変化を示す矢印だけで、不要なアイコンはない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "フォルダ・ロボット・人物アイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック11：余白を装飾で埋めない",
+      "evidence": "ヘッダー下と比較ブロック周囲の広い余白を装飾で埋めず、対比の分離に使っている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "空き領域に写真や図形を追加せず、必要ならブロック位置だけを調整する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック12：読み順",
+      "evidence": "タイトル→左の現状1→中央の整備2→右の理想3→補足帯→下部3ステップの順が画像上で明確。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "左から右の変化と1→2→3の対応を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック13：1スライド1メッセージ",
+      "evidence": "全要素が「AIが働くには書かれた地図が必要」という単一メッセージを現状/理想比較で支えている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "導入ツール比較や費用対効果をこの1枚へ追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック14：人間が編集したように見える",
+      "evidence": "左右5項目が対応し、中央に整備行為、下部に会議で使える比喩と次の3手を置く編集判断が見える。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "一対一対応と「AIは毎回が初出社」の補足を維持し、汎用カード列へ戻さない。"
+    },
+    {
+      "severity": "low",
+      "decision": "suggestion",
+      "target": "情報設計の再編集案",
+      "evidence": "主役は現状/理想の5項目対比と中央の「整備」。支える情報は下部の「AIは毎回が初出社」と3ステップ。後景化する情報は各項目の括弧説明と英語用語の補足。レイアウトは左右対比を維持し、ヘッダー下の空きを40〜60px詰めてカードを少し上げる。読み順はタイトル→現状→整備→理想→比喩→次の3手。削除・統合・短縮候補は「状態。」などの反復、括弧内説明、下部ステップの重複語を短縮する。追加禁止情報は架空の会社名・ロゴ・日付・効果数値・費用・期間、根拠のないAI生産性指標、装飾写真。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "修正する場合は縦の空きだけを詰め、左右5項目の対応、整備矢印、README/docs/規約/hook/テスト/案内文書の意味を保持する。"
+    }
+  ],
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "b67ee278108b65563468b2430108b38547aef86c6d2f98dafc1301dbe75f0e9e",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "31110783aabdd732a080651f79def9c04c046cf77ab86afe4820a057396e4885",
+    "toArtifactSha256": "b67ee278108b65563468b2430108b38547aef86c6d2f98dafc1301dbe75f0e9e",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "a5a20eed9f331ec03c497c02763a632eb7b7659ac05cf0a41152c3395e5f3aa7",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  }
+}

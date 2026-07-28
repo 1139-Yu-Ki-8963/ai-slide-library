@@ -1,0 +1,32 @@
+{
+  "phase": 8,
+  "targetKeys": [
+    "cursor-テンプレート構成"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "slide-ai-thumbnail-legibility",
+      "status": "pass",
+      "evidence": "640×360サムネイルでタイトルと主図の構造を識別できる。ツール固有の5種類の設定資産と配置先を左の説明表、右のプロジェクトツリーで同時に確認できる。"
+    },
+    {
+      "id": "slide-ai-one-message",
+      "status": "pass",
+      "evidence": "1論理ページは単一の利用判断へ収束している。ツール固有の5種類の設定資産と配置先を左の説明表、右のプロジェクトツリーで同時に確認できる。"
+    },
+    {
+      "id": "slide-ai-title-claim",
+      "status": "pass",
+      "evidence": "タイトルは対象ツールと判断対象を明示し、本文の中心構造と一致する。"
+    },
+    {
+      "id": "slide-ai-subtitle-support",
+      "status": "pass",
+      "evidence": "副題は対象範囲と読み方を補い、タイトルの言い換えや本文の押し込みになっていない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T23:20:14.014Z",
+  "artifactSha256": "c16b90f9302749f0320e07a1a22d718c2775c7e0fd4038360f40a5c27a6db487"
+}

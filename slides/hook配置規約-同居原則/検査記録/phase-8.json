@@ -1,0 +1,41 @@
+{
+  "phase": 8,
+  "targetKeys": [
+    "hook配置規約-同居原則"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "slide-ai-thumbnail-legibility",
+      "status": "pass",
+      "evidence": "最終HTMLから再生成した640×360サムネイルで、先頭ページの主張「hook は規約の定義ファイルと同じフォルダに置く」と主要な図表構造を識別できる。さらに全1ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。 現SHAから640×360サムネイルと1280×720検証画像を再生成した。ヘッダー限定再検証で全90論理ページ状態に32件の機械規約を適用し、失敗0件を確認した。"
+    },
+    {
+      "id": "slide-ai-one-message",
+      "status": "pass",
+      "evidence": "ページ内のタイトル、根拠、図表、結論は「hook は規約の定義ファイルと同じフォルダに置く」という一つの判断へ収束し、別主張を同列に混在させていない。 ヘッダー限定AI再レビューでslide-ai-one-messageを90/90件PASSと判定した。"
+    },
+    {
+      "id": "slide-ai-title-claim",
+      "status": "pass",
+      "evidence": "全1ページのタイトル「hook は規約の定義ファイルと同じフォルダに置く」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。 ヘッダー限定AI再レビューでslide-ai-title-claimを90/90件PASSと判定した。"
+    },
+    {
+      "id": "slide-ai-subtitle-support",
+      "status": "pass",
+      "evidence": "全1ページの副題「flat な hooks/ ディレクトリに全 hook を投げ込む構造では、どの規約のための hook か判別できなくなる」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。 ヘッダー限定AI再レビューでslide-ai-subtitle-supportを90件PASS、0件N/A、FAIL 0件と判定した。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T18:19:38.680Z",
+  "artifactSha256": "280e9abde379579bc789d834bf191ea15b29ae9db64b77a7365479a9b8dbed6a",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "75145fa026a2bf717cb4051f8d939e8ab26bb9c8b812de81401524d3ef13b847",
+    "toArtifactSha256": "280e9abde379579bc789d834bf191ea15b29ae9db64b77a7365479a9b8dbed6a",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "eecf48c112da7aa5178558893a1af2fb472e1bb426a681aab2aaad61cecfbf75",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  }
+}

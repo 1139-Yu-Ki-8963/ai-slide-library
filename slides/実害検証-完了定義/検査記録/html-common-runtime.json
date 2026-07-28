@@ -1,0 +1,76 @@
+{
+  "kind": "html-runtime",
+  "status": "pass",
+  "files": [
+    {
+      "file": "/Users/MacPro/Projects/ai-slide-library/slides/実害検証-完了定義/解説スライド.html",
+      "artifactSha256": "61e5ef01ddeaf8ce79bbf264944c1dbb181a699f15f5acfbd4a85cfc42d1d75f",
+      "status": "pass",
+      "checks": [
+        {
+          "id": "html-runtime-load",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-console-errors",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-page-errors",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-missing-resources",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-horizontal-overflow",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-clipped-text",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-critical-overlap",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-keyboard-reachability",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-visible-focus",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-contrast",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-reduced-motion",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-screenshot",
+          "status": "pass",
+          "evidence": [
+            "/Users/MacPro/Projects/ai-slide-library/slides/実害検証-完了定義/evidence/html-runtime/解説スライド-wide-61e5ef01ddea.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/実害検証-完了定義/evidence/html-runtime/解説スライド-narrow-61e5ef01ddea.png"
+          ]
+        }
+      ]
+    }
+  ]
+}

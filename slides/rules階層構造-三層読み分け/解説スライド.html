@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>規約は「所有レベル」×「注入タイミング」の 2 軸で整理する</title>
+<style>
+  :root{
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+    --claude: #D97757;
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;
+    --cursor-soft: #EFF1F4;
+    --global: #2B5EA7;
+    --global-soft: #E8F0FA;
+    --project: #1F7A46;
+    --project-soft: #EAF4EE;
+    --always: #6E4CA8;
+    --always-soft: #F0ECFA;
+    --scoped: #A67C1A;
+    --scoped-soft: #FDF6E4;
+  }
+
+  /* ── Layer (Global / Project) ── */
+  .layer{
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .layer--global{ border-left: 4px solid var(--global); }
+  .layer--project{ border-left: 4px solid var(--project); }
+
+  .layer-head{
+    display: flex; align-items: center; gap: 8px;
+  }
+  .layer-chip{
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 22px; padding: 0 10px;
+    border-radius: 11px; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .layer-chip--global{ background: var(--global); }
+  .layer-chip--project{ background: var(--project); }
+  .layer-path{
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+    font-size: 11px; color: var(--ink-3);
+  }
+
+  /* ── Two-column scope grid inside each layer ── */
+  .scope-grid{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+
+  .scope-card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .scope-card--always{ border-top: 3px solid var(--always); }
+  .scope-card--scoped{ border-top: 3px solid var(--scoped); }
+
+  .scope-head{
+    display: flex; align-items: center; gap: 6px;
+  }
+  .scope-tag{
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+    font-size: 12px; font-weight: 700;
+    padding: 1px 8px; border-radius: 4px;
+  }
+  .scope-tag--always{ background: var(--always-soft); color: var(--always); }
+  .scope-tag--scoped{ background: var(--scoped-soft); color: #8A650F; }
+  .scope-when{ font-size: 11px; color: var(--ink-3); }
+
+  /* ── Tree (reuse original) ── */
+  .tree{
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 7px 10px;
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+    font-size: 11px; line-height: 1.65;
+    color: var(--ink-2);
+    flex: 1; overflow: hidden;
+  }
+  .tree-line{ display: flex; align-items: baseline; gap: 4px; white-space: nowrap; }
+  .tree-indent{ color: var(--ink-3); user-select: none; }
+  .tree-folder{ color: var(--ink); font-weight: 600; }
+  .tree-note{ font-size: 10px; color: var(--ink-3); font-family: system-ui, sans-serif; }
+  .tree-tag{
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    font-size: 9px; font-weight: 600;
+    padding: 0px 5px; border-radius: 3px;
+    margin-left: auto; flex-shrink: 0;
+  }
+  .tree-tag--good{ background: var(--good-soft); color: var(--good); }
+  .tree-tag--accent{ background: var(--ink); color: #fff; }
+
+  /* ── Delegation arrow ── */
+  .delegation{
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 2px 0;
+  }
+  .delegation svg{ flex-shrink: 0; }
+  .delegation-label{ font-size: 12px; font-weight: 700; color: var(--global); }
+  .delegation-detail{ font-size: 11px; color: var(--ink-3); }
+
+  /* ── Constraint ── */
+  .constraint{
+    display: flex; align-items: center; gap: 6px;
+    background: var(--critical-soft);
+    border: 1px solid #F0D0CC;
+    border-radius: 5px;
+    padding: 6px 12px;
+  }
+  .constraint-icon{ font-size: 12px; font-weight: 700; color: var(--critical); flex-shrink: 0; }
+  .constraint-text{ font-size: 11.5px; color: var(--critical); font-weight: 500; }
+
+  /* ── Footer ── */
+  .footer-notes{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    padding-top: 8px;
+  }
+  .footer-axis{ display: flex; gap: 8px; align-items: flex-start; }
+  .footer-axis-label{
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--ink-3); white-space: nowrap; padding-top: 1px;
+  }
+  .footer-axis-desc{ font-size: 12px; color: var(--ink-2); line-height: 1.4; }
+  .footer-axis-desc strong{ color: var(--ink); }
+  .axis-hero{ display: grid; grid-template-columns: 220px 1fr; gap: 20px; flex: 1; min-height: 0; }
+  .axis-labels{ display: grid; grid-template-rows: 1fr 1fr; gap: 14px; }
+  .axis-label{
+    display: flex; flex-direction: column; justify-content: center; gap: 7px;
+    padding: 18px; border-radius: 9px; color: #fff;
+  }
+  .axis-label--global{ background: var(--global); }
+  .axis-label--project{ background: var(--project); }
+  .axis-label strong{ font-size: 20px; }
+  .axis-label span{ font: 12px/1.5 system-ui, sans-serif; opacity: .9; }
+  .axis-grid{ display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; }
+  .axis-card{
+    padding: 20px 22px; border: 1.5px solid var(--border); border-radius: 9px;
+    display: flex; flex-direction: column; justify-content: center; gap: 9px;
+  }
+  .axis-card--always{ border-top: 5px solid var(--always); }
+  .axis-card--scoped{ border-top: 5px solid var(--scoped); }
+  .axis-card h2{ font-size: 18px; color: var(--ink); }
+  .axis-card p{ font-size: 13px; line-height: 1.6; color: var(--ink-2); }
+  .contract{
+    display: grid; grid-template-columns: 185px 1fr; align-items: center; gap: 18px;
+    padding: 14px 18px; border: 1px solid var(--border); border-left: 5px solid var(--global); border-radius: 8px;
+  }
+  .contract strong{ color: var(--global); font-size: 14px; }
+  .contract p{ color: var(--ink-2); font-size: 13px; line-height: 1.5; }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+  <div class="slide">
+
+    <section class="slide-page is-active" aria-label="二軸の分類" data-slide-page="1">
+      <header class="slide-header">
+        <span class="slide-eyebrow">CLAUDE CODE 設定管理</span>
+        <h1 class="slide-title">規約は「所有レベル」×「注入タイミング」で整理する</h1>
+        <p class="slide-subtitle">グローバル／プロジェクト固有と、always／scopedを混ぜずに二段階で分類する</p>
+      </header>
+
+      <div class="axis-hero">
+        <div class="axis-labels">
+          <div class="axis-label axis-label--global"><strong>グローバル</strong><span>全プロジェクト共通<br>~/agent-home/rules/</span></div>
+          <div class="axis-label axis-label--project"><strong>プロジェクト固有</strong><span>リポジトリ単位<br>&lt;repo&gt;/.claude/rules/</span></div>
+        </div>
+        <div class="axis-grid">
+          <article class="axis-card axis-card--always"><h2>global × always</h2><p>全セッションへ常時注入する共通規約。命名・語彙・委任・応答などを置く。</p></article>
+          <article class="axis-card axis-card--scoped"><h2>global × scoped</h2><p>対象パスの操作時だけ注入する共通規約。コード・開発フロー・hook設定などを置く。</p></article>
+          <article class="axis-card axis-card--always"><h2>project × always</h2><p>そのリポジトリ内で常時必要な文脈と、globalから委譲された値を置く。</p></article>
+          <article class="axis-card axis-card--scoped"><h2>project × scoped</h2><p>そのリポジトリ固有の条件付き規約。マージ時・コード編集時・レビュー時などに絞る。</p></article>
+        </div>
+      </div>
+
+      <div class="footer-notes">
+        <div class="footer-axis"><span class="footer-axis-label">第1軸:</span><p class="footer-axis-desc"><strong>所有レベル</strong> — 共通か、リポジトリ固有か</p></div>
+        <div class="footer-axis"><span class="footer-axis-label">第2軸:</span><p class="footer-axis-desc"><strong>注入タイミング</strong> — 常時か、対象条件付きか</p></div>
+      </div>
+
+    </section>
+
+    <section class="slide-page" aria-label="グローバル規約の詳細" data-slide-page="2">
+      <header class="slide-header">
+        <span class="slide-eyebrow">GLOBAL RULES</span>
+        <h1 class="slide-title">グローバル規約は共通原則と対象別基準を分ける</h1>
+        <p class="slide-subtitle">alwaysは全セッション、scopedは対象パス操作時だけ読み込み、上書き可否はruleごとに宣言する</p>
+      </header>
+
+      <div class="layer layer--global">
+        <div class="layer-head">
+          <span class="layer-chip layer-chip--global">グローバル</span>
+          <span class="layer-path">~/agent-home/rules/</span>
+          <span class="scope-when">— 全プロジェクト共通の規約</span>
+        </div>
+        <div class="scope-grid">
+          <div class="scope-card scope-card--always">
+            <div class="scope-head"><span class="scope-tag scope-tag--always">always/</span><span class="scope-when">全セッションで常時注入</span></div>
+            <div class="tree">
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">naming/commit-branch/</span> <span class="tree-note">命名規約</span> <span class="tree-tag tree-tag--good">hook 同居</span></div>
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">review-checklist/text-dictionary/</span> <span class="tree-note">語彙辞書</span></div>
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">agent/subagent-selection/</span> <span class="tree-note">委任規約</span> <span class="tree-tag tree-tag--good">hook 同居</span></div>
+              <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">response/</span> <span class="tree-note">応答規約の代表例</span></div>
+            </div>
+          </div>
+          <div class="scope-card scope-card--scoped">
+            <div class="scope-head"><span class="scope-tag scope-tag--scoped">scoped/</span><span class="scope-when">対象パス操作時のみ注入</span></div>
+            <div class="tree">
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">review-checklist/code/</span> <span class="tree-note">paths: <code>**/*.ts</code></span></div>
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">dev-flow/gate/</span> <span class="tree-note">paths: <code>src/**</code></span></div>
+              <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">agent-config/hooks/</span> <span class="tree-note">paths: <code>tools/hooks/**</code></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contract">
+        <strong>ruleごとの上書き契約</strong>
+        <p>委譲可（値のみ）・一律適用・上書き禁止を各ruleの宣言で確認する。プロジェクト側が変更できる範囲は、この契約を越えない。</p>
+      </div>
+
+    </section>
+
+    <section class="slide-page" aria-label="プロジェクト規約の詳細" data-slide-page="3">
+      <header class="slide-header">
+        <span class="slide-eyebrow">PROJECT RULES</span>
+        <h1 class="slide-title">プロジェクト規約は固有ルールと委譲値を分ける</h1>
+        <p class="slide-subtitle">独自ruleとglobalから委譲された値の受け口を分離し、hookと違反時手順は正本を確認する</p>
+      </header>
+
+      <div class="layer layer--project">
+        <div class="layer-head">
+          <span class="layer-chip layer-chip--project">プロジェクト固有</span>
+          <span class="layer-path">&lt;repo&gt;/.claude/rules/</span>
+          <span class="scope-when">— リポジトリ単位の規約と値の追加</span>
+        </div>
+        <div class="scope-grid">
+          <div class="scope-card scope-card--always">
+            <div class="scope-head"><span class="scope-tag scope-tag--always">always/</span><span class="scope-when">プロジェクト内で常時注入</span></div>
+            <div class="tree">
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">project-context/rule.md</span> <span class="tree-note">概要・技術スタック</span></div>
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">naming-values.txt</span> <span class="tree-tag tree-tag--good">委譲受け口</span></div>
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">prh.yml</span> <span class="tree-tag tree-tag--good">委譲受け口</span></div>
+              <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">domain/dictionary/</span> <span class="tree-note">ドメイン用語辞書</span></div>
+            </div>
+          </div>
+          <div class="scope-card scope-card--scoped">
+            <div class="scope-head"><span class="scope-tag scope-tag--scoped">scoped/</span><span class="scope-when">対象パス操作時のみ注入</span></div>
+            <div class="tree">
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">flow/approved-sha/</span> <span class="tree-note">マージ時のみ</span></div>
+              <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">project/context-scope/</span> <span class="tree-note">コード編集時</span></div>
+              <div class="tree-line"><span class="tree-indent">└─</span> <span class="tree-folder">review-checklist/</span> <span class="tree-note">レビュー観点の追加</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="constraint">
+        <span class="constraint-icon">✕</span>
+        <span class="constraint-text">hook と違反時手順は正本を確認する。プロジェクト独自 rule と、global から委譲された値の受け口を分ける</span>
+      </div>
+      <div class="footer-notes">
+        <div class="footer-axis"><span class="footer-axis-label">独自rule:</span><p class="footer-axis-desc">プロジェクト文脈・条件付きフロー・追加レビュー観点</p></div>
+        <div class="footer-axis"><span class="footer-axis-label">委譲値:</span><p class="footer-axis-desc">命名値・語彙辞書など、global契約が許す値だけ</p></div>
+      </div>
+
+    </section>
+
+  </div>
+
+</div>
+
+
+</body>
+</html>

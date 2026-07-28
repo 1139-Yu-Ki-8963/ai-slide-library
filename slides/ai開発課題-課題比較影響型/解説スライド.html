@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI開発で確認する2つの課題例</title>
+<style>
+  .overview{
+    display: grid;
+    grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+    gap: 54px;
+    flex: 1;
+    align-items: stretch;
+  }
+  .issue-column{ padding: 10px 0 0 24px; border-left: 2px solid var(--faint); }
+  .issue-column--quality{ padding-top: 54px; border-left-color: var(--accent); }
+  .issue-index{ color: var(--accent); font: 700 12px/1.2 system-ui, sans-serif; letter-spacing: .12em; }
+  .issue-column h2{ margin: 9px 0 15px; font-size: 26px; font-weight: 600; }
+  .issue-column p{ max-width: 490px; margin: 0; color: var(--muted); font: 15px/1.75 system-ui, sans-serif; }
+  .shared-logic{
+    margin: 28px 0 12px;
+    padding: 18px 22px;
+    display: grid;
+    grid-template-columns: 145px 1fr;
+    gap: 24px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--faint);
+    font-family: system-ui, sans-serif;
+  }
+  .shared-logic strong{ color: var(--accent); font-size: 13px; letter-spacing: .08em; }
+  .shared-logic p{ margin: 0; font-size: 16px; line-height: 1.65; }
+  .detail-layout{ display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(300px, .6fr); gap: 48px; flex: 1; }
+  .metric-list{ border-top: 1px solid var(--ink); }
+  .metric-row{
+    display: grid;
+    grid-template-columns: 105px 170px 1fr;
+    gap: 20px;
+    align-items: baseline;
+    padding: 18px 8px;
+    border-bottom: 1px solid var(--faint);
+  }
+  .metric-label{ color: var(--muted); font: 700 13px/1.3 system-ui, sans-serif; letter-spacing: .08em; }
+  .metric-value{ font-size: 31px; line-height: 1; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .metric-value small{ margin-left: 6px; font: 700 14px/1 system-ui, sans-serif; }
+  .metric-copy{ margin: 0; color: var(--muted); font: 14px/1.65 system-ui, sans-serif; }
+  .impact-block{ padding-top: 8px; }
+  .impact-block h2{ margin: 0 0 19px; color: var(--accent); font-size: 17px; }
+  .impact-block ol{ margin: 0; padding: 0; list-style: none; counter-reset: impact; }
+  .impact-block li{ position: relative; padding: 0 0 17px 32px; color: var(--ink); font: 15px/1.6 system-ui, sans-serif; }
+  .impact-block li::before{
+    counter-increment: impact;
+    content: counter(impact);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    color: var(--accent);
+    font: 700 12px/1.5 system-ui, sans-serif;
+  }
+  .example-note{
+    margin-top: 18px;
+    padding: 12px 0 0;
+    border-top: 1px solid var(--faint);
+    color: var(--muted);
+    font: 11px/1.55 system-ui, sans-serif;
+  }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+  <main class="slide">
+    <section class="slide-page is-active" data-slide-page="1">
+      <header class="slide-header">
+        <span class="kicker">AI開発ガバナンス｜課題例の読み方</span>
+        <h1 class="slide-title">AI開発で確認する<span class="title-num">2</span>つの課題例</h1>
+        <p class="slide-subtitle">優先順位や実績ではなく、速度と品質に共通する構造を確認するための例。</p>
+      </header>
+      <div class="overview">
+        <article class="issue-column">
+          <span class="issue-index">ISSUE 01｜SPEED</span>
+          <h2>前提を探す時間が長い</h2>
+          <p>仕様・設計・レビューの前提が散在すると、本来の実装より準備作業が先行し、依頼品質と手戻りが担当者に左右される。</p>
+        </article>
+        <article class="issue-column issue-column--quality">
+          <span class="issue-index">ISSUE 02｜QUALITY</span>
+          <h2>成果物の品質が揃わない</h2>
+          <p>レビュー観点と記録方法が揃わないと、読み手がルールを推測し、同じ指摘が反復して、改善効果を比較できない。</p>
+        </article>
+      </div>
+      <div class="shared-logic">
+        <strong>共通する構造</strong>
+        <p>前提情報を標準化し、レビュー観点と記録方法を共通化することで、速度と品質を同時に改善する。</p>
+      </div>
+    </section>
+
+    <section class="slide-page" data-slide-page="2">
+      <header class="slide-header">
+        <span class="kicker">AI開発ガバナンス｜読み方の例 1</span>
+        <h1 class="slide-title">前提探索の負荷を<span class="title-num">3</span>場面で確認する</h1>
+        <p class="slide-subtitle">仕様・設計・レビューの例示時間から、探索と確認が業務へ及ぼす構造を読む。</p>
+      </header>
+      <div class="detail-layout">
+        <section class="metric-list" aria-label="前提探索時間の例示値">
+          <div class="metric-row">
+            <span class="metric-label">仕様</span>
+            <strong class="metric-value">6.2<small>時間</small></strong>
+            <p class="metric-copy">標準化が進まず、毎回の確認と調整に時間を要する。</p>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">設計</span>
+            <strong class="metric-value">11.8<small>時間</small></strong>
+            <p class="metric-copy">既存資料の探索と読み替えが多く、着手が遅れる。</p>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">レビュー</span>
+            <strong class="metric-value">9.4<small>時間</small></strong>
+            <p class="metric-copy">判断材料が揃わず、確認が往復する。</p>
+          </div>
+          <p class="example-note">※ 6.2時間・11.8時間・9.4時間は課題構造を読むための例示値であり、測定結果ではない。実測値へ置換する際は、測定期間・母集団・算定方法・出典を併記する。</p>
+        </section>
+        <aside class="impact-block">
+          <h2>業務に生ずる影響</h2>
+          <ol>
+            <li>本来の実装より準備作業が先行する</li>
+            <li>AIへの依頼品質が担当者ごとに変わる</li>
+            <li>短納期の変更ほど手戻りが増える</li>
+          </ol>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide-page" data-slide-page="3">
+      <header class="slide-header">
+        <span class="kicker">AI開発ガバナンス｜読み方の例 2</span>
+        <h1 class="slide-title">品質のばらつきを<span class="title-num">3</span>つの観点で確認する</h1>
+        <p class="slide-subtitle">観点依存・確認母数・運用の分散という例示条件から、品質不均一の構造を読む。</p>
+      </header>
+      <div class="detail-layout">
+        <section class="metric-list" aria-label="品質ばらつきの例示値">
+          <div class="metric-row">
+            <span class="metric-label">レビュー観点</span>
+            <strong class="metric-value">92<small>%</small></strong>
+            <p class="metric-copy">23 / 25観点が担当者の経験に依存する。</p>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">母数</span>
+            <strong class="metric-value">25<small>観点</small></strong>
+            <p class="metric-copy">共通の確認対象として定義されている。</p>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">運用</span>
+            <strong class="metric-value">4<small>種</small></strong>
+            <p class="metric-copy">案件ごとにテンプレートと記録方法が乱立する。</p>
+          </div>
+          <p class="example-note">※ 92%（23 / 25観点）・25観点・4種は課題構造を読むための例示値であり、測定結果ではない。実測値へ置換する際は、測定期間・母集団・算定方法・出典を併記する。</p>
+        </section>
+        <aside class="impact-block">
+          <h2>業務に生ずる影響</h2>
+          <ol>
+            <li>成果物の読み手が毎回ルールを推測する</li>
+            <li>同じ指摘が別案件で繰り返される</li>
+            <li>改善の効果を比較できない</li>
+          </ol>
+        </aside>
+      </div>
+    </section>
+
+
+  </main>
+
+</div>
+
+</body>
+</html>

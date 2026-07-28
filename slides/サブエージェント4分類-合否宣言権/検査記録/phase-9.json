@@ -1,0 +1,42 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "サブエージェント4分類-合否宣言権"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。『AI の分業は4分類に固定し、合否の宣言は判定役だけに許す』を、計画・実行・調査・判定の4役割と権限境界として同時に示す定義ページであり、ページ間の役割・順序は判定対象外である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。4分類は均等に比較しつつ、判定系のみを緑の枠と『唯一 PASS / FAIL を宣言できる』で強調しており、デッキ内の強弱配分は適用しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。4列の反復は役割・担当例・許可／禁止を横断比較するための等幅構造であり、直前ページとの無理由なレイアウト反復を評価する対象ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T18:19:38.680Z",
+  "artifactSha256": "794d4a1b4db88a8ad8e57988071368fce86a64ef2037f0d0d2d22666a15b6312",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "c76ff1e3e52e6f6ba435ef95c234fec8329efe5e56fed9eb72eca2b2ba811318",
+    "toArtifactSha256": "794d4a1b4db88a8ad8e57988071368fce86a64ef2037f0d0d2d22666a15b6312",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "b1d1d0f2ef442c3a8c85302fbc1b718aa719d5bef62ae47f71f3e8ca356e4590",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  },
+  "impactReview": {
+    "status": "pass",
+    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
+    "screenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4",
+    "evidence": "現HTMLから生成した一覧画像（SHA 1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
+  }
+}

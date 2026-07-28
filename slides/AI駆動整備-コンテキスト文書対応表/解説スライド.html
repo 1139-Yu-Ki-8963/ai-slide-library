@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 駆動開発のための自動検証基盤整備</title>
+<style>
+  :root{
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #8494A6;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+    --claude: #D97757;
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+  }
+
+  .lead-band{
+    background: var(--tag-bg); color: var(--ink); border-left: 4px solid var(--accent);
+    padding: 12px 16px; font-size: 19px; font-weight: 700;
+    text-align: left; letter-spacing: 0.02em;
+  }
+
+  .head-message{ display: flex; flex-direction: column; gap: 5px; }
+  .head-message p{ display: flex; gap: 7px; font-size: 15px; font-weight: 600; line-height: 1.55; color: var(--ink); }
+  .head-message .mark{ color: var(--claude-deep); flex-shrink: 0; }
+
+  .argument-table{ width: 100%; flex: 1; border-collapse: collapse; table-layout: fixed; }
+  .argument-table caption{ text-align: left; font-size: 13px; font-weight: 700; color: var(--ink-3); padding-bottom: 6px; }
+  .argument-table th{
+    background: var(--ink); color: #fff; font-size: 13px; font-weight: 700;
+    text-align: left; padding: 7px 12px;
+  }
+  .argument-table th:first-child{ border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
+  .argument-table th:last-child{ border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
+  .col-tool{ width: 23%; }
+  .col-ctx{ width: 31%; }
+  .col-detail{ width: 46%; }
+  .argument-table td{
+    vertical-align: top; border-bottom: 1px solid var(--border);
+    padding: 10px 12px; font-size: 13px; color: var(--ink-2); line-height: 1.5;
+  }
+  .argument-table tbody tr:nth-child(even) td{ background: var(--tag-bg); }
+  .cell-tool{ font-weight: 700; color: var(--ink); }
+  .cell-ctx{
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--accent) 8%, var(--surface) 92%) !important;
+    border-left: 3px solid var(--accent);
+  }
+  .lang-note{ font-size: 11px; color: var(--ink-3); margin-top: 4px; display: block; }
+
+  .source-line{ font-size: 11px; color: var(--ink-3); border-top: 1px solid var(--border); padding-top: 6px; }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+  <div class="slide">
+
+    <section class="slide-page is-active" data-slide-page="1">
+      <header class="slide-header">
+        <span class="slide-eyebrow">AI 駆動開発 — 整備項目</span>
+        <h1 class="slide-title">AI導入前に、成果物を自動検証できる基盤を整える</h1>
+        <p class="slide-subtitle">自動化対象から、先に整える文書と定義内容を対応付ける</p>
+      </header>
+      <div class="lead-band">AI を導入するには自動検証できる状態が前提になる</div>
+      <section class="head-message">
+        <p><span class="mark">■</span><span>AI がコードを変更した後に「壊れていない」と機械的に証明できなければ、AI を安全に使えない</span></p>
+        <p><span class="mark">■</span><span>ツール導入とコンテキスト文書の整備を並行で進める — どちらか一方だけでは基盤にならない</span></p>
+      </section>
+      <table class="argument-table">
+        <caption>テスト系: やりたいことと、先に整備すべきコンテキスト文書</caption>
+        <colgroup><col class="col-tool"><col class="col-ctx"><col class="col-detail"></colgroup>
+        <thead><tr>
+          <th scope="col">やりたいこと</th>
+          <th scope="col">必要なコンテキスト</th>
+          <th scope="col">文書が定義すること</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td class="cell-tool">テストフレームワーク導入</td>
+            <td>ツール選定</td>
+            <td>言語に合ったフレームワークを選ぶ<span class="lang-note">JS: vitest / Jest / Node.js --test　Ruby: RSpec / Minitest　Python: pytest / unittest</span></td>
+          </tr>
+          <tr>
+            <td class="cell-tool">単体テスト整備</td>
+            <td class="cell-ctx">観点表</td>
+            <td>各関数の引数・戻り値・例外条件を一覧化する</td>
+          </tr>
+          <tr>
+            <td class="cell-tool">結合テスト整備</td>
+            <td class="cell-ctx">API 設計書 / データフロー定義</td>
+            <td>モジュール間のデータの流れ・形式・制約を定義する</td>
+          </tr>
+          <tr>
+            <td class="cell-tool">E2E テスト整備</td>
+            <td class="cell-ctx">画面設計書</td>
+            <td>操作手順・画面遷移・期待表示を定義する</td>
+          </tr>
+          <tr>
+            <td class="cell-tool">カバレッジ計測導入</td>
+            <td class="cell-ctx">CI 設定の前提定義</td>
+            <td>目標値・除外対象を定義し、CI にカバレッジ計測を組み込む</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="source-line">テストフレームワークの選定は言語と既存ビルド構成に依存する（2026年7月時点）</p>
+    </section>
+
+    <section class="slide-page" data-slide-page="2">
+      <header class="slide-header">
+        <span class="slide-eyebrow">AI 駆動開発 — 整備項目</span>
+        <h1 class="slide-title">AI導入前に、成果物を自動検証できる基盤を整える</h1>
+        <p class="slide-subtitle">規約を言語化し、静的検査の設定へ変換する</p>
+      </header>
+      <div class="lead-band">AI を導入するには自動検証できる状態が前提になる</div>
+      <section class="head-message">
+        <p><span class="mark">■</span><span>コーディングルールを言語化し linter に落とす — 規約がなければ linter は意味を持たない</span></p>
+        <p><span class="mark">■</span><span>「言語化 → 自動検証への変換」がこの基盤整備の本質</span></p>
+      </section>
+      <table class="argument-table">
+        <caption>静的検査系: やりたいことと、先に整備すべきコンテキスト文書</caption>
+        <colgroup><col class="col-tool"><col class="col-ctx"><col class="col-detail"></colgroup>
+        <thead><tr>
+          <th scope="col">やりたいこと</th>
+          <th scope="col">必要なコンテキスト</th>
+          <th scope="col">文書が定義すること</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td class="cell-tool">コード linter 導入</td>
+            <td class="cell-ctx">コーディング規約</td>
+            <td>命名規則・禁止パターン・ファイル構成方針を定義し、linter 設定の根拠にする</td>
+          </tr>
+          <tr>
+            <td class="cell-tool">文体 linter 導入</td>
+            <td class="cell-ctx">文体規約 + 用語辞書</td>
+            <td>文体規約（文長・読点数・冗長表現等）と用語辞書（prh.yml）を定義する</td>
+          </tr>
+          <tr>
+            <td class="cell-tool">リンク切れ linter 導入</td>
+            <td class="cell-ctx">リンク検査設定</td>
+            <td>検査対象のファイル範囲と除外パターンを定義する</td>
+          </tr>
+          <tr>
+            <td class="cell-tool">HTML 静的検査導入</td>
+            <td class="cell-ctx">検査観点（rules/ に定義）</td>
+            <td>機械検査の観点（必須属性・アクセシビリティ等）を rules/ に定義する</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="source-line">linter の設定は規約文書から導出する — 規約がなければ linter は意味を持たない</p>
+    </section>
+
+
+  </div>
+
+
+</div>
+
+
+
+</body>
+</html>

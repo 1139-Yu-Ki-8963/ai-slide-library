@@ -1,0 +1,11 @@
+{
+  "phase": 11,
+  "targetKeys": [
+    "リポジトリ整備-claude-code版-現状理想対比"
+  ],
+  "status": "pass",
+  "criteria": [],
+  "findings": [],
+  "checkedAt": "2026-07-27T23:20:14.014Z",
+  "artifactSha256": "acc6b216a862f439bb119919049fd9703af59e90c2293cbab5a9cbdb229afd73"
+}

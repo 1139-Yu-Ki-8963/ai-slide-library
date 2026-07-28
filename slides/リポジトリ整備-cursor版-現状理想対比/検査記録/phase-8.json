@@ -1,0 +1,32 @@
+{
+  "phase": 8,
+  "targetKeys": [
+    "リポジトリ整備-cursor版-現状理想対比"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "slide-ai-thumbnail-legibility",
+      "status": "pass",
+      "evidence": "640×360サムネイルでタイトルと主図の構造を識別できる。ユーザー指定の5項目について、現状・ツール別の理想・埋める差分を同一画面の3列で比較できる。"
+    },
+    {
+      "id": "slide-ai-one-message",
+      "status": "pass",
+      "evidence": "1論理ページは単一の利用判断へ収束している。ユーザー指定の5項目について、現状・ツール別の理想・埋める差分を同一画面の3列で比較できる。"
+    },
+    {
+      "id": "slide-ai-title-claim",
+      "status": "pass",
+      "evidence": "タイトルは対象ツールと判断対象を明示し、本文の中心構造と一致する。"
+    },
+    {
+      "id": "slide-ai-subtitle-support",
+      "status": "pass",
+      "evidence": "副題は対象範囲と読み方を補い、タイトルの言い換えや本文の押し込みになっていない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T23:20:14.014Z",
+  "artifactSha256": "8a0e9b71b4c3559709c4e75410d101a4a536fd749fe1773eae306fbacc5f4ce5"
+}

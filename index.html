@@ -419,8 +419,1042 @@ const VOCAB = {
 };
 const SLIDES = [
   {
+    "key": "claude-cursor使い分け-リミット観点",
+    "title": "Claude CodeとCursorのリミット時運用",
+    "purpose": "Claude Codeを主力にし、利用上限に達したときだけCursorへ切り替える運用を示す。",
+    "target": "Claude Code の 5時間/週次リミットと Cursor への切り替え運用",
+    "problems": "リミット枯渇で作業が止まる・ツール併用の運用が決まっていない",
+    "tools": [
+      "claude-code",
+      "cursor"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "コスト・リミット",
+      "運用ルール"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-09",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "ai-model使い分け-役割観点",
+    "title": "Claude Codeのlimitが切れた時だけCursorへ切り替える",
+    "purpose": "Claude Codeを主力にし、limitが切れた時だけCursorへ切り替え、設計はOpus・それ以外はComposerで継続する運用を示す。",
+    "target": "Claude Codeのモデルを役割で使い分け、limitが切れた時だけCursorへ切り替える運用",
+    "problems": "モデル選定が未決定・全部 Opus にしてコストが膨らんでいる",
+    "tools": [
+      "claude-code",
+      "cursor"
+    ],
+    "mechanisms": [
+      "model"
+    ],
+    "themes": [
+      "モデル・ツール選定",
+      "コスト・リミット"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-14",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "claude-code安全性-層構造観点",
+    "title": "Claude Code の安全性の仕組み",
+    "purpose": "Permission・Sandbox・WSLがそれぞれ異なる安全境界を担うことを示す。",
+    "target": "Claude Code の Permission・Sandbox・WSL の役割と層構造の違い",
+    "problems": "セキュリティが心配・WSL とサンドボックスの違いがわからない",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "permission",
+      "sandbox"
+    ],
+    "themes": [
+      "セキュリティ"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-14",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "claude-md分割戦略",
+    "title": "CLAUDE.mdの分割戦略",
+    "purpose": "規約を一つのCLAUDE.mdに詰め込まず、種類と適用条件で分割すると遵守率とコストを両立できることを示す。",
+    "target": "CLAUDE.md の分割戦略（全部入り→種類分離→条件読み分けの3段階比較）",
+    "problems": "CLAUDE.md が肥大化して規約が守られない・読み込みコストが増えている",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "CLAUDE.md",
+      "rules"
+    ],
+    "themes": [
+      "設定・規約遵守"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
+    "entities": [
+      "規約: 設定ファイルの分割と読み分け"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "hook配置規約-同居原則",
+    "title": "hook は規約の定義ファイルと同じフォルダに置く",
+    "purpose": "hookは対象となる規約定義と同じ場所に置き、所属と適用範囲を明確にする原則を示す。",
+    "target": "hook の配置規約（flat バケット禁止・規約との同居原則）",
+    "problems": "hook の管理場所が決まっていない・flat な hooks/ に全 hook が混在して所属不明",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "hooks",
+      "rules",
+      "skills"
+    ],
+    "themes": [
+      "設定・規約遵守",
+      "運用ルール"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
+    "entities": [
+      "規約: hook の配置場所の決め方"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "agent-home設定一元管理-symlink配布観点",
+    "title": "AI エージェント設定の一元管理 ── agent-home のシンボリックリンク配布方式",
+    "purpose": "共通設定をagent-homeに一元管理し、各ツールへシンボリックリンクで配布する構成を示す。",
+    "target": "agent-home のフォルダ設計とシンボリックリンク配布の仕組み",
+    "problems": "ツールごとに設定が散在し二重管理になる",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [
+      "rules",
+      "skills",
+      "hooks",
+      "subagent"
+    ],
+    "themes": [
+      "環境構築",
+      "設定・規約遵守"
+    ],
+    "stages": [
+      "拡大・継続改善"
+    ],
+    "entities": [
+      "テンプレート: 設定リポジトリのフォルダ設計",
+      "スクリプト: シンボリックリンク配布"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "agent-home振る舞い統制-hooks権限分離観点",
+    "title": "AI エージェントの振る舞い統制 ── hooks 強制とサブエージェント権限分離",
+    "purpose": "hookで規約を機械的に強制し、サブエージェントには必要最小限の権限だけを与える構成を示す。",
+    "target": "hooks による機械的規約強制とサブエージェント権限分離",
+    "problems": "ルール違反がプロンプトのお願いでは防げない",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [
+      "hooks",
+      "subagent"
+    ],
+    "themes": [
+      "設定・規約遵守"
+    ],
+    "stages": [
+      "拡大・継続改善"
+    ],
+    "entities": [
+      "規約: 振る舞い統制の全体設計"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "claude-code-テンプレート構成",
+    "title": "Claude Code｜docs配置ガイド",
+    "purpose": "Claude Codeが参照する文書・規約・スキルを、どのフォルダへ配置するかを示す。",
+    "target": "Claude Code の docs 配置ガイド（CLAUDE.md・rules・skills・agents・hooks の配置と効果）",
+    "problems": "ドキュメントの置き場所が決まっていない・規約を書いても AI に読まれない",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "CLAUDE.md",
+      "rules",
+      "skills",
+      "subagent",
+      "hooks",
+      "MCP",
+      "permission"
+    ],
+    "themes": [
+      "設定・規約遵守",
+      "環境構築"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
+    "entities": [
+      "テンプレート: 設定フォルダの書き分け構成"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T08:31:47+09:00"
+  },
+  {
+    "key": "cursor-テンプレート構成",
+    "title": "Cursor｜docs配置ガイド",
+    "purpose": "Cursorが参照する文書・規約・スキルを、どのフォルダへ配置するかを示す。",
+    "target": "Cursor の docs 配置ガイド（AGENTS.md・.mdc rules・skills・agents・hooks の配置と効果）",
+    "problems": "ドキュメントの置き場所が決まっていない・規約を書いても AI に読まれない",
+    "tools": [
+      "cursor"
+    ],
+    "mechanisms": [
+      "rules",
+      "skills",
+      "subagent",
+      "hooks",
+      "MCP",
+      "permission"
+    ],
+    "themes": [
+      "設定・規約遵守",
+      "環境構築"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-17",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T08:31:47+09:00"
+  },
+  {
+    "key": "codex-テンプレート構成",
+    "title": "Codex CLI｜docs配置ガイド",
+    "purpose": "Codex CLIが参照する文書・規約・スキルを、どのフォルダへ配置するかを示す。",
+    "target": "Codex CLI の docs 配置ガイド（AGENTS.md・config.toml・skills・agents・hooks の配置と効果）",
+    "problems": "ドキュメントの置き場所が決まっていない・規約を書いても AI に読まれない",
+    "tools": [
+      "codex"
+    ],
+    "mechanisms": [
+      "skills",
+      "subagent",
+      "hooks",
+      "MCP",
+      "sandbox"
+    ],
+    "themes": [
+      "設定・規約遵守",
+      "環境構築"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-17",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T08:31:47+09:00"
+  },
+  {
+    "key": "hook強制助言-二層設計",
+    "title": "AIを縛る規約は「止める」と「気づかせる」の二層に分ける",
+    "purpose": "違反を止めるblockと、判断材料を与えるadvisoryを分けてhookを設計する方法を示す。",
+    "target": "hook の block（強制停止）と advisory（知識注入）の二層設計",
+    "problems": "ルールで縛ると AI の開発速度が落ちる・お願いだけでは違反が防げない",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "hooks",
+      "rules"
+    ],
+    "themes": [
+      "設定・規約遵守",
+      "運用ルール"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
+    "entities": [
+      "hook: block による停止",
+      "hook: advisory による注意喚起"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "機密情報検査-コミット前ブロック",
+    "title": "機密情報を三重に検査し、公開は承認で守る",
+    "purpose": "機密情報をコミット・push・公開の三段階で検査し、外部へ出る前に機械的に止める仕組みを示す。",
+    "target": "コミット・push・公開前の三段階での機密文字列検出と機械停止",
+    "problems": "AI がうっかり API キーや顧客情報をコミットしないか不安",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "hooks"
+    ],
+    "themes": [
+      "セキュリティ"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
+    "entities": [
+      "hook: コミット時の機密文字列走査",
+      "規約: 検出時の通知と除去手順"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "サブエージェント4分類-合否宣言権",
+    "title": "AI の分業は 4 分類に固定し、合否の宣言は「判定役」だけに許す",
+    "purpose": "計画・実行・調査・判定を分担し、合否の宣言権を専任レビュアーに限定する構造を示す。",
+    "target": "サブエージェントの 4 分類（計画=上位モデル・実行=Sonnet/Haiku・調査=読み取り専用・判定=専任レビュアー）と合否宣言権の判定系独占",
+    "problems": "1 つの AI に丸ごと任せて自己申告の「完了です」で品質が確認されない",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "subagent"
+    ],
+    "themes": [
+      "運用ルール",
+      "設定・規約遵守"
+    ],
+    "stages": [
+      "拡大・継続改善"
+    ],
+    "entities": [
+      "規約: 役割分担と合否宣言権の定義"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "判断反映分離-委任設計",
+    "title": "AI への依頼は「決める」と「反映する」を分けてから渡す",
+    "purpose": "依頼側が決定し、実行役が反映するように判断と実装を分離する委任設計を示す。",
+    "target": "「決める」（依頼側）と「反映する」（実行役）の分離委任と hook による機械強制",
+    "problems": "AI への丸投げ依頼で意図しない実装判断が紛れ込み後から説明できない",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "subagent",
+      "hooks"
+    ],
+    "themes": [
+      "運用ルール"
+    ],
+    "stages": [
+      "拡大・継続改善"
+    ],
+    "entities": [
+      "規約: 委任プロンプトの必須要素"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "ルート分類-開発フロー統制",
+    "title": "開発タスクは 5 ルートに分類し、手順の重さを自動で選ぶ",
+    "purpose": "開発タスクを5ルートに分類し、タスクの重さに応じて手順とゲートを選ぶ方法を示す。",
+    "target": "開発タスクの 5 ルート分類による工程の自動選択と Phase ゲートによる見切り発車防止",
+    "problems": "タスクの重さに関係なく同じ手順で非効率・大規模タスクを場当たりで進めて事故る",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "skills",
+      "hooks"
+    ],
+    "themes": [
+      "運用ルール"
+    ],
+    "stages": [
+      "開発フロー確立"
+    ],
+    "entities": [
+      "規約: ルート判定の条件分岐"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "実害検証-完了定義",
+    "title": "完了基準を「動いた証跡」まで引き上げる",
+    "purpose": "テスト通過だけでなく、実際に動かした証跡を完了条件に含める考え方を示す。",
+    "target": "テスト通過ではなく実際に動かした証跡（画面操作・応答・動作観察）を完了条件にする定義",
+    "problems": "テストが通っただけで完了報告され本番で不具合が発覚する",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "運用ルール"
+    ],
+    "stages": [
+      "開発フロー確立"
+    ],
+    "entities": [
+      "テンプレート: 変更提案の必須節"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "worktree並列開発-ポート採番",
+    "title": "並列する AI タスクは「作業場所」と「ポート番号」で物理的に分ける",
+    "purpose": "worktreeとポート番号を分離して、複数のAIタスクを安全に並行実行する方法を示す。",
+    "target": "worktree による作業場所の物理分離と計算式によるポート機械採番",
+    "problems": "複数タスクの同時進行で変更が混線しポートが衝突する",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "skills"
+    ],
+    "themes": [
+      "環境構築",
+      "運用ルール"
+    ],
+    "stages": [
+      "拡大・継続改善"
+    ],
+    "entities": [
+      "規約: ポート計算式と割当方式",
+      "テンプレート: 割当表の雛形"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "観測基盤-空回り検知",
+    "title": "観測ログから空回りと文脈肥大を検知する",
+    "purpose": "機械可読な操作記録から、無限リトライと会話文脈の肥大を検知する仕組みを示す。",
+    "target": "全操作の機械可読な記録基盤と、それを使う無限リトライ検知・会話文脈の肥大監視",
+    "problems": "AI が何をしたか追えない・同じエラーに延々と挑み続ける・長時間作業で応答が劣化する",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "hooks"
+    ],
+    "themes": [
+      "運用ルール"
+    ],
+    "stages": [
+      "拡大・継続改善"
+    ],
+    "entities": [
+      "hook: 失敗長期化と文脈肥大の検知",
+      "スクリプト: 操作ログの記録"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "docs同時更新-同一PR強制",
+    "title": "設計書はコードと「同じ変更単位」で更新させ、乖離を作らない",
+    "purpose": "コード変更と設計文書の更新を同じPRで照合し、成果物の乖離を防ぐ方法を示す。",
+    "target": "コード変更と設計書更新を同じ変更提案（PR）に縛る同時更新の機械照合",
+    "problems": "コードだけ先に変わり設計書が取り残されて乖離する",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [
+      "hooks"
+    ],
+    "themes": [
+      "運用ルール",
+      "設定・規約遵守"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
+    "entities": [
+      "規約: 同時更新の照合ルール"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "規約カバレッジ-可視化",
+    "title": "規約の担保手段を示し、自動化の穴を見つける",
+    "purpose": "各規約がどの検査手段で担保され、どこに未担保の穴があるかを可視化する方法を示す。",
+    "target": "規約ごとの担保手段（自動整形・静的検査・実行時検査・未担保）のラベル付けと穴の一覧化",
+    "problems": "規約を作っても実際に守られているか分からず形骸化に気づけない",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [
+      "hooks"
+    ],
+    "themes": [
+      "設定・規約遵守"
+    ],
+    "stages": [
+      "拡大・継続改善"
+    ],
+    "entities": [
+      "テンプレート: 担保手段列付きの規約一覧"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "開発プロセス-成果物化",
+    "title": "開発プロセスを「設計して記録する成果物」にする",
+    "purpose": "開発プロセスを設計メモと意思決定記録として残し、課題から継続改善する方法を示す。",
+    "target": "開発プロセス自体の設計メモ・意思決定記録（ADR）としての蓄積と課題駆動の自己改善ループ",
+    "problems": "開発の進め方や AI 協業ルールが暗黙知のままで、なぜ今のやり方かを誰も説明できない",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "運用ルール"
+    ],
+    "stages": [
+      "拡大・継続改善"
+    ],
+    "entities": [
+      "テンプレート: 意思決定記録（ADR）の型"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-16",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "rules階層構造-三層読み分け",
+    "title": "規約は「所有レベル」×「注入タイミング」の 2 軸で整理する",
+    "purpose": "規約を所有レベルと注入タイミングの軸で整理し、必要なルールだけを読み分ける方法を示す。",
+    "target": "rules の内部階層構造（always/scoped の 2 層読み分けとプロジェクト委譲の仕組み）",
+    "problems": "規約を書いても AI に読まれない・読み込みコストが膨らむ",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "rules",
+      "hooks"
+    ],
+    "themes": [
+      "設定・規約遵守"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
+    "entities": [
+      "規約: rules フォルダの読み分け設計"
+    ],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-17",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "AI駆動整備-コンテキスト文書対応表",
+    "title": "AI 駆動開発のための自動検証基盤整備",
+    "purpose": "テストやlinterを機能させるために、先に整えるべきコンテキスト文書を対応づけて示す。",
+    "target": "テスト・linter を機能させるために先に整備すべきコンテキスト文書の対応表",
+    "problems": "テストや linter を入れたいが何から始めればいいかわからない・自動化ツールを入れたが機能しない",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "運用ルール",
+      "環境構築"
+    ],
+    "stages": [
+      "土台整備"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-17",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "AI駆動開発導入-五段階計画表",
+    "title": "AI駆動開発の導入は5段階で進める",
+    "purpose": "AI未導入からAI駆動開発へ進むための5段階の整備順序を示す。",
+    "target": "AI未導入組織がAI駆動開発に到達するまでの5段階の整備順序（診断→土台→導入→フロー→拡大）",
+    "problems": "AIを導入したいが何から始めればよいか分からない。ツールだけ導入して成果が出ない",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "環境構築",
+      "運用ルール"
+    ],
+    "stages": [
+      "全体像"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-19",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "リポジトリ現状理想-AI可読性対比",
+    "title": "AIが働けるリポジトリ、働けないリポジトリ",
+    "purpose": "暗黙知に依存するリポジトリを、AIが継続的に読める状態へ整備する差分を示す。",
+    "target": "AIが働けるリポジトリの条件（書かれた地図）と暗黙知前提の現状リポジトリの対比",
+    "problems": "自社リポジトリのままAIを入れて効果が出るか判断できない。整備項目を経営層に説明したい",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [
+      "CLAUDE.md",
+      "rules",
+      "hooks"
+    ],
+    "themes": [
+      "環境構築"
+    ],
+    "stages": [
+      "現状診断"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-19",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "AI実装フロー-一枚俯瞰",
+    "title": "AI駆動開発 1タスクの流れ — 人間は入口と出口、途中は機械が守る",
+    "purpose": "AIが1タスクを実装する流れと、人間が依頼・承認・最終レビューで関与する位置を示す。",
+    "target": "AI駆動開発の1タスクの実装フロー全体像と人間の関与点（依頼・計画承認・最終レビュー）",
+    "problems": "AI任せで品質を守れるのか不安。人間がどこで関与するのかを説明したい",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [
+      "hooks",
+      "subagent"
+    ],
+    "themes": [
+      "運用ルール"
+    ],
+    "stages": [
+      "開発フロー確立"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-19",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "statusline-四行表示の見方",
+    "title": "statusline — 入力欄の下に任意の情報を常時表示できるカスタマイズ機能",
+    "purpose": "Claude Codeのstatuslineに表示される4行の情報と、記号・色の読み方を示す。",
+    "target": "Claude Code の statusline が表示する 4 行の項目とリング記号・色の見方",
+    "problems": "statusline の表示が何を意味しているかわからない",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "環境構築"
+    ],
+    "stages": [
+      "拡大・継続改善"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-19",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "AI採用成熟度-機能整備対応表",
+    "title": "AI採用の5段階 — 機能と整備条件の対応表",
+    "purpose": "AI採用の5段階ごとに、必要な機能とガードレールがどう変わるかを対応づけて示す。",
+    "target": "Anthropic AI Adoption Framework に基づく AI 採用の 5 段階成熟度モデル（Gated→AI-native）と各段階で使う機能・ガードレールの対応",
+    "problems": "AI導入の進め方が分からない・機能を先に入れたが効果が出ない・自チームの現在地が分からない",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "CLAUDE.md",
+      "subagent",
+      "sandbox",
+      "model"
+    ],
+    "themes": [
+      "モデル・ツール選定",
+      "運用ルール"
+    ],
+    "stages": [
+      "全体像"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "段階比較型",
+    "date": "2026-07-19",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "読み取り専用先行導入-権限段階解禁",
+    "title": "AIの導入は編集権限を与えることから始めない",
+    "purpose": "AIを読み取り専用から導入し、安全網の整備に合わせて編集権限を段階的に解禁する方針を示す。",
+    "target": "AI導入時の権限を読み取り専用→提案まで→ガード付き書き込みへ段階的に解禁する方式",
+    "problems": "AIにコードを触らせるのが怖い。どこまで許可してよいか判断できない",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [
+      "permission"
+    ],
+    "themes": [
+      "セキュリティ",
+      "運用ルール"
+    ],
+    "stages": [
+      "土台整備",
+      "ツール導入と安全装置"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-19",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "設計文書逆生成-整備自走ループ",
+    "title": "AIの下書きを人が確定し、設計文書を育てる",
+    "purpose": "AIが既存コードから設計文書の下書きを作り、人が確定する循環で文書整備を進める方法を示す。",
+    "target": "AIによる設計文書の下書き逆生成と人のレビュー確定を循環させる整備方式",
+    "problems": "設計書が無い・古い既存システムで、文書整備が人手では終わらない",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "環境構築"
+    ],
+    "stages": [
+      "土台整備"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-19",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "既存コード整備優先順位-変更起点",
+    "title": "整備対象は変更頻度×事業重要度で選ぶ",
+    "purpose": "既存コードを全面整備せず、変更頻度と事業重要度が高い場所から整える優先順位を示す。",
+    "target": "変更頻度と事業重要度による整備対象の優先順位付け（全面整備をしない方針）",
+    "problems": "巨大な既存コードのどこから整備すべきか決められない",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "環境構築"
+    ],
+    "stages": [
+      "現状診断",
+      "土台整備"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-19",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "特性テスト-変更前安全網",
+    "title": "AI変更の前に、現状挙動をテストで固定する",
+    "purpose": "AIに編集権限を与える前に、現状の挙動を特性テストで固定する安全網を示す。",
+    "target": "現状の挙動を固定する特性テストによる、AI書き込み解禁前の安全網の作り方",
+    "problems": "テストが無い既存コードにAIの変更を入れるのが怖い。壊れても気付けない",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "環境構築",
+      "運用ルール"
+    ],
+    "stages": [
+      "土台整備",
+      "ツール導入と安全装置"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-19",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "output-style-応答態度切替",
+    "title": "Output Style — AI の応答態度を場面に合わせて切り替える機能",
+    "purpose": "作業場面に応じてAIの応答態度を切り替え、会話の目的に合う出力を得る方法を示す。",
+    "target": "Output Style（応答態度切替）",
+    "problems": "AI の応答態度を場面に合わせて切り替えたいとき",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "運用ルール"
+    ],
+    "stages": [
+      "拡大・継続改善"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-19",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "リポジトリ整備-claude-code版-現状理想対比",
+    "title": "Claude Code｜リポジトリ整備の現状・理想・差分",
+    "purpose": "Claude Codeを導入する前後で、リポジトリの整備状態をどう変えるべきか比較する。",
+    "target": "Claude Code 導入リポジトリ整備の現状と理想",
+    "problems": "AI 導入に向けたリポジトリ整備の全体像を見せたいとき",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "rules"
+    ],
+    "themes": [
+      "運用ルール"
+    ],
+    "stages": [
+      "全体像"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "現状理想対比テーブル型",
+    "date": "2026-07-20",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T08:31:47+09:00"
+  },
+  {
+    "key": "リポジトリ整備-cursor版-現状理想対比",
+    "title": "Cursor｜リポジトリ整備の現状・理想・差分",
+    "purpose": "Cursorを導入する前後で、リポジトリの整備状態をどう変えるべきか比較する。",
+    "target": "Cursor 導入リポジトリ整備の現状と理想",
+    "problems": "Cursor 導入に向けたリポジトリ整備の全体像を見せたいとき",
+    "tools": [
+      "cursor"
+    ],
+    "mechanisms": [
+      "rules"
+    ],
+    "themes": [
+      "運用ルール"
+    ],
+    "stages": [
+      "全体像"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-20",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T08:31:47+09:00"
+  },
+  {
+    "key": "リポジトリ整備-codex版-現状理想対比",
+    "title": "Codex CLI｜リポジトリ整備の現状・理想・差分",
+    "purpose": "Codex CLIを導入する前後で、リポジトリの整備状態をどう変えるべきか比較する。",
+    "target": "Codex CLI 導入リポジトリ整備の現状と理想",
+    "problems": "Codex CLI 導入に向けたリポジトリ整備の全体像を見せたいとき",
+    "tools": [
+      "codex"
+    ],
+    "mechanisms": [
+      "CLAUDE.md"
+    ],
+    "themes": [
+      "運用ルール"
+    ],
+    "stages": [
+      "全体像"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-20",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T08:31:47+09:00"
+  },
+  {
+    "key": "AI駆動整備-現状理想対比",
+    "title": "自動検証基盤整備の現状と理想",
+    "purpose": "テスト・linterを機能させるための現状と理想のギャップを診断し、整備の方向を示す。",
+    "target": "テスト・linter の自動検証基盤整備を現状と理想のギャップで診断する対比表",
+    "problems": "テストや linter を入れたいが現状と理想の差が見えない・何から手をつけるか決められない",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "運用ルール",
+      "環境構築"
+    ],
+    "stages": [
+      "現状診断"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-21",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
     "key": "レビューエンジン-3層構成",
-    "title": "レビューエンジン 3層構成（新デザイン）",
+    "title": "レビューエンジン 3層構成",
     "purpose": "機械的チェック・判断系レビュー・可変レビューの3層を、対象に応じて適用する全体構造を示す。",
     "target": "品質検証エンジンの 3 層構成（機械的チェック・判断系レビュー・可変レビュー）の全体フローと各層の仕組み",
     "problems": "レビューの仕組みが体系化されていない・どの段階でどんな検証が入るか説明できない",
@@ -446,11 +1480,11 @@ const SLIDES = [
     "template": "層構造型",
     "date": "2026-07-21",
     "updated": "2026-07-28",
-    "updatedAt": "2026-07-28T14:33:55+09:00"
+    "updatedAt": "2026-07-28T07:03:16+09:00"
   },
   {
     "key": "人AI役割分担-タスク委任構造",
-    "title": "AIに任せる — 定型レポートの委任構造（新デザイン）",
+    "title": "AIに任せる — 定型レポートのタスク委任構造",
     "purpose": "人が判断しAIが定型処理を実行する、役割分担と委任の流れを示す。",
     "target": "人とAIの役割分担（定型処理のタスク委任構造を2レーンフローで図示）",
     "problems": "AIにどこまで任せてよいか分からない・人とAIの分担を説明したい",
@@ -470,11 +1504,41 @@ const SLIDES = [
     "template": "役割分担型",
     "date": "2026-07-22",
     "updated": "2026-07-28",
-    "updatedAt": "2026-07-28T14:33:55+09:00"
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "cursor-claude共存-フォルダ分離構成",
+    "title": "Cursor と Claude Code は設定フォルダが分離——1 リポジトリで共存する",
+    "purpose": "CursorとClaude Codeの設定を分離し、共有資産だけを共通フォルダに置く構成を示す。",
+    "target": "Cursor と Claude Code を 1 リポジトリで共存させる際のフォルダ構成（.cursor/ と .claude/ の分離と project-portal/ による共有）",
+    "problems": "2 つの AI ツールの設定が混在して干渉する・設計書をどちらの AI からも参照させたい",
+    "tools": [
+      "claude-code",
+      "cursor"
+    ],
+    "mechanisms": [
+      "CLAUDE.md",
+      "rules",
+      "skills"
+    ],
+    "themes": [
+      "設定・規約遵守",
+      "環境構築"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-22",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
   },
   {
     "key": "工程時系列-AI導入手順",
-    "title": "AI導入プロジェクトの工程時系列（新デザイン）",
+    "title": "AI導入プロジェクトの工程時系列",
     "purpose": "AI導入プロジェクトの工程を時系列で並べ、前後関係と重なりを示す。",
     "target": "AI導入プロジェクトの工程を月軸の時系列の矢印バーで図示",
     "problems": "AI導入の進め方を時系列で説明したい・工程の重なりと前後関係を見せたい",
@@ -496,10 +1560,339 @@ const SLIDES = [
     "date": "2026-07-22",
     "updated": "2026-07-28",
     "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "四半期計画-AI整備計画表",
+    "title": "AI整備計画表（4段階構成）",
+    "purpose": "AI整備の年間計画を四半期と段階で整理し、各時期の重点を示す。",
+    "target": "AI整備の年間計画を四半期×段階のガントチャートで俯瞰",
+    "problems": "年間の整備計画を経営層に示したい・四半期ごとの重点を説明したい",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "環境構築",
+      "運用ルール"
+    ],
+    "stages": [
+      "全体像"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "工程時系列型",
+    "date": "2026-07-22",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "AI開発五層モデル-プロンプトからグラフ",
+    "title": "AI開発の5層モデル",
+    "purpose": "AI開発をプロンプトからグラフまでの5層に分け、各層の役割と積み上げ関係を示す。",
+    "target": "AI開発の5層モデル（プロンプト→コンテキスト→ハーネス→ループ→グラフ）と各層の役割",
+    "problems": "AIアプリ開発がプロンプト作成から先に進まない・モデルを中心としたシステム全体の設計方法が分からない",
+    "tools": [
+      "汎用"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "運用ルール",
+      "環境構築"
+    ],
+    "stages": [
+      "全体像"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "",
+    "date": "2026-07-23",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "claude-code-マルチアカウント-ディレクトリ隔離",
+    "title": "Claude Code 複数アカウント切り替えの仕組み",
+    "purpose": "CLAUDE_CONFIG_DIRで設定ディレクトリを分離し、Claude Codeの複数アカウントを並行利用する方法を示す。",
+    "target": "Claude Code の複数アカウント並行利用（CLAUDE_CONFIG_DIR によるディレクトリ隔離と Bedrock 接続設定）",
+    "problems": "アカウントが1つしか使えない・Bedrock の接続設定がわからない",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [],
+    "themes": [
+      "環境構築"
+    ],
+    "stages": [
+      "ツール導入と安全装置"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": true,
+    "template": "",
+    "date": "2026-07-24",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "現状レベル診断-診断サマリー型",
+    "title": "診断サマリー型サンプル — 構成確認用",
+    "purpose": "AI開発環境を5項目で採点し、現在地と次に整備すべき領域を一枚で示す。",
+    "target": "AI開発環境の整備レベルを5項目で確認する構成サンプル（AGENTS.md・Skills・ルール・検証・開発フロー）",
+    "problems": "AI開発の現在地と次に整える対象を1枚で説明したい",
+    "tools": [
+      "codex"
+    ],
+    "mechanisms": [
+      "skills",
+      "rules",
+      "hooks"
+    ],
+    "themes": [
+      "設定・規約遵守",
+      "運用ルール"
+    ],
+    "stages": [
+      "現状診断"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "診断サマリー型",
+    "date": "2026-07-25",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "ai開発課題-領域KPI型",
+    "title": "AI開発の課題を4領域で診断する",
+    "purpose": "AI開発の課題を4領域のKPIで整理し、優先して改善すべき領域を俯瞰する。",
+    "target": "AI開発の仕様管理・知識整備・検証基盤・運用設計を4領域とKPIで俯瞰する構成サンプル",
+    "problems": "AI開発の課題が個別最適に見えており、優先対応を共通指標で整理したい",
+    "tools": [
+      "codex"
+    ],
+    "mechanisms": [
+      "skills",
+      "rules",
+      "hooks"
+    ],
+    "themes": [
+      "設定・規約遵守",
+      "運用ルール"
+    ],
+    "stages": [
+      "現状診断"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "領域KPI型",
+    "date": "2026-07-25",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "ai開発課題-課題比較影響型",
+    "title": "AI開発で確認する2つの課題例",
+    "purpose": "AI開発で優先すべき2つの課題を、現状データと業務への影響で比較する。",
+    "target": "AI開発の前提探索時間と成果物品質の2課題を現状データと業務影響で比較する構成サンプル",
+    "problems": "AI開発の遅さと品質ばらつきの共通原因を整理したい",
+    "tools": [
+      "codex"
+    ],
+    "mechanisms": [
+      "skills",
+      "rules",
+      "hooks"
+    ],
+    "themes": [
+      "設定・規約遵守",
+      "運用ルール"
+    ],
+    "stages": [
+      "現状診断"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "課題比較影響型",
+    "date": "2026-07-25",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "ai開発課題-重点行分析型",
+    "title": "導入段階別の達成指標表を確認する",
+    "purpose": "AI開発タスクの区分別推移から重点改善対象を特定し、全体サマリーで位置づける。",
+    "target": "AI開発タスクの区分別推移を重点行と全体サマリーで分析する構成サンプル",
+    "problems": "AI開発の整備効果を区分別に比較し、優先改善対象を説明したい",
+    "tools": [
+      "codex"
+    ],
+    "mechanisms": [
+      "skills",
+      "rules",
+      "hooks"
+    ],
+    "themes": [
+      "設定・規約遵守",
+      "運用ルール"
+    ],
+    "stages": [
+      "現状診断"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "重点行分析型",
+    "date": "2026-07-25",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
+  },
+  {
+    "key": "AI採用成熟度-5段階比較",
+    "title": "AI採用の5段階 — 状態と進行条件",
+    "purpose": "AI採用の5段階を、状態・機能・ガードレール・次段階への条件で比較する。",
+    "target": "AI採用成熟度の5段階を、状態・使う機能・必要なガードレール・次段階への条件で比較する見本",
+    "problems": "AI採用の段階ごとの違いと、次に整備すべき機能・運用条件を判断したい",
+    "tools": [
+      "claude-code"
+    ],
+    "mechanisms": [
+      "model",
+      "subagent",
+      "sandbox"
+    ],
+    "themes": [
+      "モデル・ツール選定",
+      "運用ルール"
+    ],
+    "stages": [
+      "全体像"
+    ],
+    "entities": [],
+    "pack": false,
+    "has_prompt": false,
+    "template": "段階比較型",
+    "date": "2026-07-25",
+    "updated": "2026-07-28",
+    "updatedAt": "2026-07-28T07:03:16+09:00"
   }
 ];
-const PACKS = [];
-const VARIANT_GROUPS = [];
+const PACKS = [
+  {
+    "name": "経営層向け初回提案",
+    "slides": [
+      "AI駆動開発導入-五段階計画表",
+      "リポジトリ現状理想-AI可読性対比",
+      "AI駆動整備-コンテキスト文書対応表",
+      "AI実装フロー-一枚俯瞰"
+    ]
+  },
+  {
+    "name": "実務者向けツール導入編",
+    "slides": [
+      "claude-code-テンプレート構成",
+      "ai-model使い分け-役割観点",
+      "claude-cursor使い分け-リミット観点",
+      "claude-code安全性-層構造観点"
+    ]
+  },
+  {
+    "name": "実務者向け規約・ガードレール編",
+    "slides": [
+      "claude-md分割戦略",
+      "rules階層構造-三層読み分け",
+      "hook強制助言-二層設計",
+      "機密情報検査-コミット前ブロック",
+      "docs同時更新-同一PR強制"
+    ]
+  },
+  {
+    "name": "実務者向け開発フロー編",
+    "slides": [
+      "AI実装フロー-一枚俯瞰",
+      "ルート分類-開発フロー統制",
+      "レビューエンジン-3層構成",
+      "実害検証-完了定義"
+    ]
+  },
+  {
+    "name": "実務者向け拡大・運用編",
+    "slides": [
+      "判断反映分離-委任設計",
+      "サブエージェント4分類-合否宣言権",
+      "worktree並列開発-ポート採番",
+      "レビューエンジン-3層構成",
+      "観測基盤-空回り検知",
+      "規約カバレッジ-可視化",
+      "開発プロセス-成果物化"
+    ]
+  },
+  {
+    "name": "大規模既存システム導入編",
+    "slides": [
+      "AI駆動開発導入-五段階計画表",
+      "リポジトリ現状理想-AI可読性対比",
+      "既存コード整備優先順位-変更起点",
+      "読み取り専用先行導入-権限段階解禁",
+      "設計文書逆生成-整備自走ループ",
+      "AI駆動整備-コンテキスト文書対応表",
+      "特性テスト-変更前安全網",
+      "AI実装フロー-一枚俯瞰"
+    ]
+  }
+];
+const VARIANT_GROUPS = [
+  {
+    "name": "テンプレート構成",
+    "base_name": "docs配置ガイド",
+    "kind": "tool",
+    "canonical": "claude-code-テンプレート構成",
+    "members": [
+      {
+        "key": "claude-code-テンプレート構成",
+        "slug": "claude-code",
+        "label": "Claude Code"
+      },
+      {
+        "key": "cursor-テンプレート構成",
+        "slug": "cursor",
+        "label": "Cursor"
+      },
+      {
+        "key": "codex-テンプレート構成",
+        "slug": "codex",
+        "label": "Codex CLI"
+      }
+    ]
+  },
+  {
+    "name": "リポジトリ整備",
+    "base_name": "リポジトリ整備の現状と理想",
+    "kind": "tool",
+    "canonical": "リポジトリ整備-claude-code版-現状理想対比",
+    "members": [
+      {
+        "key": "リポジトリ整備-claude-code版-現状理想対比",
+        "slug": "claude-code",
+        "label": "Claude Code"
+      },
+      {
+        "key": "リポジトリ整備-cursor版-現状理想対比",
+        "slug": "cursor",
+        "label": "Cursor"
+      },
+      {
+        "key": "リポジトリ整備-codex版-現状理想対比",
+        "slug": "codex",
+        "label": "Codex CLI"
+      }
+    ]
+  }
+];
 /*CATALOG-DATA-END*/
 
 const STALE_DAYS = 90;

@@ -1,0 +1,43 @@
+{
+  "phase": 10,
+  "targetKeys": [
+    "観測基盤-空回り検知"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-split-plan",
+      "status": "pass",
+      "evidence": "最終HTML SHA d21a333119a7の全1ページを独立確認した。p1「観測ログから空回りと文脈肥大を検知する連鎖」の役割分担で、各ページは1メッセージに収束している。既存ログ、失敗継続判定、文脈肥大判定を1本の観測フローとして示し、発火から対処までの因果を一望できる。保存済み最新runtime画像はwide 1/1ページ、narrow 1/1ページを現SHAで確認した。更新後の640×360サムネイルも再確認し、文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "slides/観測基盤-空回り検知/解説スライド.html の全1ページ、現SHAのwide/narrow実描画、更新後サムネイル",
+      "evidence": "p1「観測ログから空回りと文脈肥大を検知する連鎖」として読める。既存ログ、失敗継続判定、文脈肥大判定を1本の観測フローとして示し、発火から対処までの因果を一望できる。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "impact": "分割すると、共通軸で比較・追跡する関係または一続きの工程がページ間に分断され、全体判断が難しくなる。",
+      "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
+      "preservedInformation": [
+        "JSONLログ",
+        "失敗継続判定",
+        "一度だけ介入",
+        "文脈肥大の計測"
+      ],
+      "splitPlan": "分割なし。既存ログ、失敗継続判定、文脈肥大判定を1本の観測フローとして示し、発火から対処までの因果を一望できる。",
+      "verification": "HTML SHA-256がd21a333119a74a00c78a43d3a887537718d13a01b98c93587ae358a821927f6aであること、保存済み最新runtime画像はwide 1/1ページ、narrow 1/1ページを現SHAで確認した。更新後サムネイルが640×360であること、全1ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
+    }
+  ],
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "8686988f60eadc14e4e9e4d391e190dd336a416b7715a828d14b8cc1e2c6130a",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "6ddd8336d1ae3f2cf3c62aa888128d7433ed05005f6913a9ca0d0fd11d21ea02",
+    "toArtifactSha256": "8686988f60eadc14e4e9e4d391e190dd336a416b7715a828d14b8cc1e2c6130a",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "f26a5dac34810f31ae8e7b807feea47bc50a64ae727c364c3bceb901860d0a5d",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  }
+}

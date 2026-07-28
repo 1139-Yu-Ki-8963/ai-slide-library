@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AIの下書きを人が確定し、設計文書を育てる</title>
+<style>
+:root{
+  --surface: #fff;
+  --soft: #f1efea;
+  --critical: #934238;
+  --critical-soft: #f6ebe8;
+  --good: #356a4b;
+  --good-soft: #eaf2ed;
+}
+.content{ flex: 1; min-height: 0; padding: 24px 0 10px; font-family: system-ui, sans-serif; }
+.loop-layout{ display: grid; grid-template-columns: 190px 230px 1fr 230px; grid-template-rows: 1fr 94px; gap: 20px; height: 100%; align-items: center; }
+.input-code, .draft, .confirmed{ padding: 16px 17px; border-top: 3px solid var(--faint); background: var(--soft); }
+.draft{ border-color: var(--accent); }
+.confirmed{ border-color: var(--good); background: var(--good-soft); }
+.gate{ align-self: stretch; padding: 24px 28px; border-top: 6px solid var(--good); background: var(--surface); display: flex; flex-direction: column; justify-content: center; }
+.label{ color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .1em; }
+.loop-layout h2{ margin: 6px 0 8px; font-size: 18px; }
+.gate h2{ font-size: 25px; }
+.loop-layout p{ margin: 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.chips{ display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.chips span{ padding: 4px 8px; border: 1px solid var(--faint); background: var(--surface); font-size: 11px; }
+.gate-rule{ margin-top: 14px !important; padding: 11px 13px; border-left: 4px solid var(--critical); background: var(--critical-soft); color: var(--critical) !important; font-weight: 800; }
+.return-line{ grid-column: 2 / 5; grid-row: 2; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; color: var(--muted); font-size: 12px; }
+.return-line::before, .return-line::after{ content: ""; height: 1px; background: var(--muted); }
+.return-line strong{ padding: 0 14px; color: var(--ink); }
+.notes{ grid-column: 1; grid-row: 2; color: var(--muted); font-size: 11px; line-height: 1.45; }
+.notes strong{ color: var(--critical); }
+.content-footer{ display: grid; grid-template-columns: 1.35fr 1fr; gap: 35px; flex: 0 0 auto; color: var(--muted); font: 10px/1.45 system-ui, sans-serif; }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+  <main class="slide" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">既存資産の設計文書整備 × AI協業</span>
+      <h1 class="slide-title">AIの下書きを人が確定し、設計文書を育てる</h1>
+      <p class="slide-subtitle">コードから逆生成した下書きをレビューで正式化し、最新文書を次のAI入力へ戻す。</p>
+    </header>
+    <div class="content loop-layout">
+      <section class="input-code">
+        <span class="label">INPUT</span>
+        <h2>コードを読む</h2>
+        <p>読み取り専用の権限で既存資産を調査する。</p>
+      </section>
+
+      <section class="draft">
+        <span class="label">AI DRAFT</span>
+        <h2>文書の下書きを逆生成</h2>
+        <p>人手では書き切れない量をAIが肩代わりする。</p>
+        <div class="chips"><span>設計文書</span><span>用語集</span><span>README</span></div>
+      </section>
+
+      <section class="gate">
+        <span class="label">HUMAN REVIEW GATE</span>
+        <h2>人が誤りを直し、正式文書に確定</h2>
+        <p>AIの推測をレビューし、正確で最新の前提へ変える。</p>
+        <p class="gate-rule">レビューなしの確定は禁止する。</p>
+      </section>
+
+      <section class="confirmed">
+        <span class="label">CONFIRMED OUTPUT</span>
+        <h2>確定文書を次のAI入力へ</h2>
+        <p>次の調査・下書きでの前提誤りを減らし、対象範囲を広げる。</p>
+      </section>
+
+      <p class="notes"><strong>小さく始める：</strong>全部を一度に文書化せず、これから変更する場所から回す。</p>
+      <div class="return-line"><strong>確定文書を前提知識として戻し、再び下書きへ</strong></div>
+    </div>
+    <div class="content-footer">
+      <div class="warning"><strong>前提：</strong>以後のコード変更では、文書を同じ変更単位で更新する。</div>
+      <div class="sequence">コード → AI下書き → 人の確定 → 文書再利用</div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

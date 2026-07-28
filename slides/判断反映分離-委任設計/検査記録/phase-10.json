@@ -1,0 +1,43 @@
+{
+  "phase": 10,
+  "targetKeys": [
+    "判断反映分離-委任設計"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-split-plan",
+      "status": "pass",
+      "evidence": "最終HTML SHA fd88b693b2ffの全2ページを独立確認した。p1「決める役と反映する役の分離」、p2「hookによる分離の機械強制」の役割分担で、各ページは1メッセージに収束している。委任原則と強制方法を2ページへ分け、1ページ目は判断境界、2ページ目は実行制御へ限定している。保存済み最新runtime画像は現SHAのwide 1/2ページ、narrow 1/2ページを確認し、保存対象外の追加ページは同一SHAをPlaywrightでwide/narrow一時描画して補完確認した。更新後の640×360サムネイルも再確認し、文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "slides/判断反映分離-委任設計/解説スライド.html の全2ページ、現SHAのwide/narrow実描画、更新後サムネイル",
+      "evidence": "p1「決める役と反映する役の分離」、p2「hookによる分離の機械強制」として読める。委任原則と強制方法を2ページへ分け、1ページ目は判断境界、2ページ目は実行制御へ限定している。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "impact": "これ以上分割すると、すでに分離済みの各ページ内で主張と根拠が離れ、前後ページを往復しないと判断できなくなる。",
+      "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
+      "preservedInformation": [
+        "依頼側が変更内容を決定",
+        "実行役は確定内容だけ反映",
+        "直接編集の停止",
+        "3回連続時の安全弁"
+      ],
+      "splitPlan": "分割なし。委任原則と強制方法を2ページへ分け、1ページ目は判断境界、2ページ目は実行制御へ限定している。",
+      "verification": "HTML SHA-256がfd88b693b2ff193b43479a0980ab2c8c706ec2b99eb8b34aefc7111af27b9dd4であること、保存済み最新runtime画像は現SHAのwide 1/2ページ、narrow 1/2ページを確認し、保存対象外の追加ページは同一SHAをPlaywrightでwide/narrow一時描画して補完確認した。更新後サムネイルが640×360であること、全2ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
+    }
+  ],
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "79c51fab326d42e83a39855126f06d22fff6650c37ef9426b613a5acdd6502e8",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "1ac2e5cf8943100212c5d7b8acfd07a37eaf10ce40856a271d45102e81dc65b3",
+    "toArtifactSha256": "79c51fab326d42e83a39855126f06d22fff6650c37ef9426b613a5acdd6502e8",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "8aa4aa6625317f74eb08e76493c885d07641c99a8b9cb9f73c7c2f65f3a562cf",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "kind": "html-static",
+  "status": "pass",
+  "files": [
+    {
+      "file": "/Users/MacPro/Projects/ai-slide-library/slides/statusline-四行表示の見方/解説スライド.html",
+      "artifactSha256": "ec7b49a3e95e5a9584cd61458518eb907e46dcf5c44749c710765d62a459dcbf",
+      "status": "pass",
+      "checks": [
+        {
+          "id": "html-static-readable",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-doctype",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-lang",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-charset",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-viewport",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-title",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-heading-hierarchy",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-closed-tags",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-unique-ids",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-no-placeholders",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-local-assets",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-no-network-runtime",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-no-public-path",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-image-alt",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-control-name",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-table-semantics",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-static-svg-accessible-name",
+          "status": "pass",
+          "evidence": []
+        }
+      ]
+    }
+  ]
+}

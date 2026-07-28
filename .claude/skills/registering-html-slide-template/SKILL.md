@@ -154,12 +154,10 @@ HTMLとサムネイルがローカルで存在しても、カタログ生成前�
 
 ## サブエージェント委任仕様
 
-Claude Code は `Claude agent` 列を `Agent(subagent_type: ...)` に渡す。Codex は `Codex agent` 列の定義を全文読み、定義の `model`・`reasoning_effort`・本文と共通 prompt を `spawn_agent` に渡す。
-
-| 呼び出し箇所 | 役割 | Claude agent | Codex agent | prompt 骨格 | 期待返却値 |
-|---|---|---|---|---|---|
-| Phase 2 | 事実確認 | investigator | investigator-terra | 全スライドの共通シェル・例外・リダイレクトを読み取り専用で比較 | ファイル別の判定表と残存リスク |
-| Phase 6 | コマンド実行・画像保存 | worker-sonnet | worker-terra | 指定HTMLを1280×720／375×667で開き、表示条件を検証して画像を保存 | PASS/FAIL、再現情報、保存した検証画像 |
+| 呼び出し箇所 | subagent_type | prompt 骨格 | 期待返却値 |
+|---|---|---|---|
+| Phase 2 | investigator | 全スライドの共通シェル・例外・リダイレクトを読み取り専用で比較 | ファイル別の判定表と残存リスク |
+| Phase 6 | worker-haiku | 指定HTMLを1280×720／375×667で開き、表示条件を検証 | PASS/FAIL、再現情報、保存した検証画像 |
 
 ## 参照資料
 

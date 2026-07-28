@@ -1,0 +1,42 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "ai開発課題-重点行分析型"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。タイトル「導入段階別の達成指標表を確認する」は、期間比較・重点行・全体サマリーの読み方を一枚で完結させており、ページ間の役割・順序を判定する対象がない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。新規導入チームと拡大フェーズの重点2行だけを青枠で強調し、定着フェーズ・全社平均は比較の基準として静かに置く設計だが、デッキ内の強弱リズムを比較する対象がない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "単一ページで明示されたデッキ文脈はない。4行×5列の反復は年度上期・下期、増減、改善率を同一軸で読む表の必然であり、別ページとの理由なき同型反復は評価対象外。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T18:19:38.680Z",
+  "artifactSha256": "87c568de929a21a15268d9e655897fabef998d54793b01df09f8cd4bee587d75",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "d45e7d536f9b0a67952614b9f949498c55f4d78eb5263a2ad17709ac9367447c",
+    "toArtifactSha256": "87c568de929a21a15268d9e655897fabef998d54793b01df09f8cd4bee587d75",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "051a92442191a0b0665f4c802341116828ed20ae498aaa387782ffd334b4f4a6",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  },
+  "impactReview": {
+    "status": "pass",
+    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
+    "screenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4",
+    "evidence": "現HTMLから生成した一覧画像（SHA 1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
+  }
+}

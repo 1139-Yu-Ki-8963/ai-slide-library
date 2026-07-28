@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>開発プロセスを「設計して記録する成果物」にする</title>
+<style>
+:root{
+  --surface: #fff;
+  --soft: #f1efea;
+  --critical: #934238;
+  --critical-soft: #f6ebe8;
+  --good: #356a4b;
+  --good-soft: #eaf2ed;
+}
+.content{ flex: 1; min-height: 0; padding: 22px 0 10px; font-family: system-ui, sans-serif; }
+.process-layout{ display: grid; grid-template-columns: 210px 1fr 235px; grid-template-rows: 1fr 66px; gap: 22px 26px; height: 100%; align-items: center; }
+.lost{ align-self: start; margin-top: 35px; padding: 15px 0 15px 15px; border-left: 4px solid var(--critical); }
+.lost h2, .adr h2, .loop h2{ margin: 0 0 8px; font-size: 18px; }
+.lost p, .adr p, .loop p{ margin: 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.lost ul{ margin: 12px 0 0; padding-left: 18px; color: var(--critical); font-size: 12px; line-height: 1.55; }
+.adr{ align-self: stretch; padding: 19px 22px; border-top: 5px solid var(--accent); background: var(--soft); }
+.adr-fields{ margin: 14px 0 0; display: grid; grid-template-columns: 120px 1fr; border-top: 1px solid var(--faint); }
+.adr-fields dt, .adr-fields dd{ margin: 0; padding: 10px 9px; border-bottom: 1px solid var(--faint); font-size: 12px; line-height: 1.4; }
+.adr-fields dt{ color: var(--muted); font-weight: 800; }
+.adr-fields dd{ color: var(--ink); background: var(--surface); }
+.doc-types{ margin-top: 11px !important; color: var(--good) !important; font-weight: 700; }
+.loop{ align-self: end; margin-bottom: 28px; padding: 16px 17px; border-top: 4px solid var(--good); background: var(--good-soft); }
+.loop ol{ margin: 11px 0 0; padding-left: 20px; color: var(--ink); font-size: 12px; line-height: 1.7; }
+.first-step{ grid-column: 1 / -1; align-self: end; padding-top: 10px; border-top: 1px solid var(--faint); color: var(--muted); font-size: 12px; }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+  <main class="slide" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">AI開発ガバナンス — プロセス改善</span>
+      <h1 class="slide-title">開発プロセスを「設計して記録する成果物」にする</h1>
+      <p class="slide-subtitle">決定理由と却下案をADRへ残し、課題起票から文書更新・運用反映までを継続的に回す。</p>
+    </header>
+    <div class="content process-layout">
+      <aside class="lost">
+        <h2>記録しない進め方は消える</h2>
+        <p>AIとの協業ルールや開発フローが会話と記憶だけに残ると、なぜ今のやり方なのか説明できない。</p>
+        <ul><li>人にもAIにも引き継げない</li><li>同じ議論を繰り返す</li></ul>
+      </aside>
+
+      <section class="adr">
+        <h2>意思決定記録（ADR）を実務成果物にする</h2>
+        <p>プロセス変更の判断を、結果だけでなく理由と代替案まで記録する。</p>
+        <dl class="adr-fields">
+          <dt>決定</dt><dd>採用した進め方</dd>
+          <dt>背景</dt><dd>何が問題で、なぜ判断が必要だったか</dd>
+          <dt>却下した代替案</dt><dd>選ばなかった案と、その理由</dd>
+          <dt>廃棄条件</dt><dd>いつ、どの条件で見直すか</dd>
+        </dl>
+        <p class="doc-types">残す文書：意思決定記録（ADR）／設計メモ／却下した代替案と理由</p>
+      </section>
+
+      <aside class="loop">
+        <h2>課題駆動で改善を回す</h2>
+        <p>フローの不具合や改善案を課題として扱い、使うほど進化させる。</p>
+        <ol><li>課題を起票</li><li>決定を記録</li><li>文書を更新</li><li>運用へ反映</li></ol>
+        <p>決定の経緯を参照でき、AI協業ノウハウが属人化せず組織へ蓄積する。</p>
+      </aside>
+
+      <p class="first-step"><strong>導入の最初の一歩：</strong>次に進め方を変えるとき、その決定理由を1枚のメモへ残す。</p>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

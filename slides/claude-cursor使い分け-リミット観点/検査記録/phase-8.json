@@ -1,0 +1,41 @@
+{
+  "phase": 8,
+  "targetKeys": [
+    "claude-cursor使い分け-リミット観点"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "slide-ai-thumbnail-legibility",
+      "status": "pass",
+      "evidence": "現行640×360サムネイルで、先頭ページの主張「上限時だけCursorへ切り替え、回復後に戻る」と主要な図表構造を識別できる。さらに現行HTML SHAの全3ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。 現SHAから640×360サムネイルと1280×720検証画像を再生成した。ヘッダー限定再検証で全90論理ページ状態に32件の機械規約を適用し、失敗0件を確認した。"
+    },
+    {
+      "id": "slide-ai-one-message",
+      "status": "pass",
+      "evidence": "全3ページをページ単位で確認した。各ページは「通常・上限到達・回復の共通判断」、「5時間枠の回復時刻」、「週次枠の回復条件」という一つずつの判断へ収束し、5時間枠と週次枠を同じ軸へ混在させていない。 ヘッダー限定AI再レビューでslide-ai-one-messageを90/90件PASSと判定した。"
+    },
+    {
+      "id": "slide-ai-title-claim",
+      "status": "pass",
+      "evidence": "全3ページのタイトル「上限時だけCursorへ切り替え、回復後に戻る」、「上限時だけCursorへ切り替え、回復後に戻る」、「上限時だけCursorへ切り替え、回復後に戻る」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。 ヘッダー限定AI再レビューでslide-ai-title-claimを90/90件PASSと判定した。"
+    },
+    {
+      "id": "slide-ai-subtitle-support",
+      "status": "pass",
+      "evidence": "全3ページの副題「5時間枠と週次枠を混ぜず、共通判断と各時間軸の条件付き例を順に確認する」、「5時間枠と週次枠を混ぜず、共通判断と各時間軸の条件付き例を順に確認する」、「5時間枠と週次枠を混ぜず、共通判断と各時間軸の条件付き例を順に確認する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。 ヘッダー限定AI再レビューでslide-ai-subtitle-supportを90件PASS、0件N/A、FAIL 0件と判定した。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T18:19:38.680Z",
+  "artifactSha256": "9ad1957fc9e54ee8b269df0e48ca65396fdc3c8e849aa76b01eb2376dbd640c6",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "a4ec6f8f8c35f4ac4f3fcf0b20be6ed89816fb778ef9b73b5b6222d97ebfaef5",
+    "toArtifactSha256": "9ad1957fc9e54ee8b269df0e48ca65396fdc3c8e849aa76b01eb2376dbd640c6",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "fa1044ebf63e68ed1ef2eba8f7c6bb8cac585d813ca967008e0be20c93497d54",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  }
+}

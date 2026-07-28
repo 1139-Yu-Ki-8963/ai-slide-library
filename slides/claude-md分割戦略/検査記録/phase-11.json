@@ -1,0 +1,152 @@
+{
+  "phase": 11,
+  "targetKeys": [
+    "claude-md分割戦略"
+  ],
+  "status": "pass",
+  "criteria": [],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "1. 対象",
+      "evidence": "claude-md分割戦略の全1ページ。現行HTML SHA-256 5cbf0b2b80675cc080d41e7de9938f7edd5dc59ed5c9c1cb39fb34a3ae3d057aから1280×720と390×844でPlaywright再描画し、全ページ、最新runtime、タイトル・副題、余白、共有シェル、footerを確認した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行SHAと全ページの表示対応を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "2. 要約",
+      "evidence": "全部入りCLAUDE.mdと種類別分離の限界を比較し、always／scoped rulesと呼出時skillsへ分ける推奨構造を示す。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の実務判断とページ役割を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "3. 良い点",
+      "evidence": "左側に現状と中間案、右側に推奨構造を大きく置き、遵守率と読込コストの両立という結論へ視線を集める。 共有CSS修正後も全ページの外枠、ヘッダー、本文、ページ送り、footerが同じ基準線で揃い、wideのfooter computed heightは10pxである。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "共有シェルを独自上書きせず、現行の主従と整列を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "4. 指摘事項",
+      "evidence": "公開を妨げる実務性・非テンプレ感の問題はない。wide／narrowともoverflow・枠外表示・ブラウザエラーは0件で、footer／共有CSS修正後の不整合も認められない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "必須修正なし。内容または共有CSSを変更した場合だけ全ページを再レビューする。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "5. 情報設計の再編集案",
+      "evidence": "主役は右側のalways／scoped rules分割と、その判断効果。 支える情報は全部入りの問題、種類別分離の限界、500行+が例示である注記。 後景化する情報は小さな構造例と補足注記。 レイアウトは左に現状／中間案を縦積みし、右に推奨を大きく置く非対称比較。 読み順は現状→中間案の限界→右側の推奨→遵守率／コストの効果→結論。 削除・統合・短縮候補は現時点で削除・統合・短縮は不要。具体例を増やす場合は別ページへ分ける。 追加禁止情報は500行を実測閾値と誤記せず、未確認の遵守率・コスト削減値を追加しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "将来修正時も主役・支える情報・後景の順を崩さず、追加禁止情報を持ち込まない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック1: 3カード構成でない",
+      "evidence": "均等3カードではなく、左の2段課題と右の大きな推奨を非対称に配置する。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "意味関係のない均等3カードへ置き換えない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック2: 項目ごとの丸アイコンに依存しない",
+      "evidence": "項目ごとの丸アイコンはなく、文字、表、罫線、位置関係で意味を示している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "単語置換型の丸アイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック3: 写真を装飾使用しない",
+      "evidence": "全ページのwide／narrow実描画に写真、人物、会議室、端末の装飾素材はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "説明に不要なストックフォトを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック4: 多角形装飾を使用しない",
+      "evidence": "多角形、立体、グラデーションの装飾はなく、線と矢印は具体的な比較・遷移・依存に限定される。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "余白を埋める図形や大きな装飾矢印を追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック5: 濃紺フッターを追加しない",
+      "evidence": "濃紺の帯フッターはなく、共有CSS修正後のfooterはwide全ページでborder 0、padding-top 10px、font-size 10px、height 10pxとして本文内に収まる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "footerの共通契約を独自CSSで上書きしない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック6: 架空情報を追加しない",
+      "evidence": "会社名、ロゴ、費用、根拠のない効果値を追加していない。500行を実測閾値と誤記せず、未確認の遵守率・コスト削減値を追加しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "一次情報または元資料で確認できない情報を追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック7: 情報の強弱がある",
+      "evidence": "推奨領域を最大面積と緑で主役化し、現状・中間案は小さく後景化している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "タイトル、主役、根拠、補足の強度順を維持する。"
+    },
+    {
+      "severity": "medium",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック8: 情報を詰め込みすぎない",
+      "evidence": "3状態を一画面で比較できる密度だが、文字サイズと余白を維持し押し込みがない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "情報追加時は文字縮小より先に統合・短縮・分割を検討する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック9: 青を安易な企業資料色にしない",
+      "evidence": "赤は問題、緑は推奨、黒は結論に限定し、青を安易な企業資料色にしていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "色を意味と強調に限定し、既定の青で全面を均質化しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック10: 不要なアイコンを使用しない",
+      "evidence": "アイコンを使わず、構造図、矢印、ラベル、面積差だけで比較を示す。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "情報関係を説明しないアイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック11: 余白を装飾で埋めない",
+      "evidence": "右側の余白は推奨構造と効果の区切りに使われ、装飾で埋めていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "余白を区切りと強弱に使い、写真・図形・模様で埋めない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック12: 読み順が明確",
+      "evidence": "現状→中間案の限界→右側の推奨→遵守率／コストの効果→結論。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の基準線と視線順を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック13: 1スライド1メッセージ",
+      "evidence": "『rulesをalways／scopedへ分け、skillsは呼出時だけ読む』に集約される。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "別の判断軸を追加する場合は同一ページへ押し込まない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック14: 人間が編集したように見える",
+      "evidence": "現状と中間案の欠点を踏まえて推奨へ編集しており、テンプレート的な3案比較ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "具体的な判断条件と情報関係を維持し、均等テンプレートへ戻さない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "7. 実装者がそのまま作業できる優先順位付き修正方針",
+      "evidence": "優先度1: 現状維持。必須修正なし。優先度2: 内容・共有CSS・footer変更時は現行HTML SHAから全ページをwide／narrowで再描画し、14項目を再判定する。優先度3: 元にない会社名、日付、ロゴ、数値、効果、費用、期間、写真、根拠のない図解を追加しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "更新時は優先度順に適用し、Phase 11記録を新SHAへ更新する。"
+    }
+  ],
+  "checkedAt": "2026-07-27T23:10:29.508Z",
+  "artifactSha256": "1a68baea61416a618c297f98111a7f6ba2a202da5ba6ccaeac12a58ec39d934c"
+}

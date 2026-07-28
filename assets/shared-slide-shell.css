@@ -1,20 +1,15 @@
 /*
- * Shared slide shell — v2（新デザインシステム）
+ * Shared slide shell
  * 正本: generating-explanation-html-slides/references/shared-slide-shell.css
- * トークンとヘッダー・フッター・ページ送りの色のみ新システムへ更新。セレクタ構造は旧版のまま。
+ * カタログ型リポジトリでは単一公開資産へ同期し、全HTMLから直接参照する。
  * 型固有の表・図表・本文レイアウトはこのファイルへ追加しない。
  */
 :root {
-  --paper: #ECEDEE;
-  --surface: #FFFFFF;
-  --surface-2: #FAFBFB;
-  --ink: #1E2226;
-  --muted: #5A6066;
-  --label: #8A9096;
-  --line: #C9CDD1;
-  --faint: #E3E5E7;
-  --accent: #3D6CA5;
-  --serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
+  --paper: #f5f4f1;
+  --ink: #202426;
+  --muted: #626967;
+  --faint: #d7d9d5;
+  --accent: #a15d32;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -48,10 +43,10 @@ body {
   left: 50%;
   width: 1280px;
   height: 720px;
-  padding: 56px 64px 40px;
+  padding: 46px 58px 30px;
   display: flex;
   flex-direction: column;
-  background: var(--surface);
+  background: #fff;
   border: 0;
   border-radius: 0;
   box-shadow: none;
@@ -96,7 +91,7 @@ body {
   padding: 0;
   padding-bottom: 17px;
   overflow: visible;
-  color: var(--ink);
+  color: #202426;
   background: transparent;
   box-shadow: none;
   opacity: 1;
@@ -124,10 +119,10 @@ body {
   margin: 0;
   padding: 0;
   border: 0;
-  color: var(--label);
+  color: #a15d32;
   background: transparent;
   font-family: system-ui, sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   font-style: normal;
   line-height: 1.2;
@@ -153,7 +148,7 @@ body {
   margin: 0;
   padding: 0;
   border: 0;
-  color: var(--ink);
+  color: #202426;
   background: transparent;
   font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
   font-size: 33px;
@@ -196,7 +191,7 @@ body {
 
 :is(#slide-header-contract, header, .slide-header) :is(.lede, .slide-subtitle, p:first-of-type) {
   position: absolute;
-  top: 62px;
+  top: 56px;
   right: 0;
   left: 0;
   display: block;
@@ -206,10 +201,10 @@ body {
   margin: 0;
   padding: 0;
   border: 0;
-  color: var(--muted);
+  color: #626967;
   background: transparent;
   font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
   font-style: normal;
   line-height: 1.65;
@@ -263,19 +258,17 @@ footer.slide-meta[data-shared-slide-footer] {
   margin: auto 0 0;
   border-top: 0;
   padding-top: 10px;
-  color: var(--label);
+  color: var(--muted);
   font-family: system-ui, sans-serif;
-  font-size: 12px;
+  font-size: 10px;
   line-height: 1.45;
 }
 
 footer.slide-meta[data-shared-slide-footer] strong { color: var(--ink); }
 
 footer.slide-meta[data-shared-slide-footer] .warning {
-  padding-left: 0;
-  border-left: 0;
-  border-top: 2px solid var(--accent);
-  padding-top: 6px;
+  padding-left: 10px;
+  border-left: 3px solid var(--accent);
 }
 
 footer.slide-meta[data-shared-slide-footer] .sequence { text-align: right; }
@@ -290,10 +283,10 @@ footer.slide-meta[data-shared-slide-footer] .sequence { text-align: right; }
   gap: 10px;
   margin: 0;
   padding: 7px 10px;
-  border: 1px solid var(--faint);
+  border: 1px solid #d7dce2;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 4px 16px rgba(30, 34, 38, 0.12);
+  box-shadow: 0 4px 16px rgba(32, 36, 38, 0.12);
   color: var(--ink);
   font-family: system-ui, sans-serif;
   font-size: 12px;
@@ -307,9 +300,9 @@ footer.slide-meta[data-shared-slide-footer] .sequence { text-align: right; }
   height: 28px;
   margin: 0;
   padding: 0;
-  border: 1px solid var(--line);
+  border: 1px solid #cbd1d8;
   border-radius: 50%;
-  background: var(--surface);
+  background: #fff;
   color: var(--ink);
   font: inherit;
   cursor: pointer;

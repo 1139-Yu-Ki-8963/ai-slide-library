@@ -1,0 +1,11 @@
+{
+  "phase": 11,
+  "targetKeys": [
+    "リポジトリ整備-codex版-現状理想対比"
+  ],
+  "status": "pass",
+  "criteria": [],
+  "findings": [],
+  "checkedAt": "2026-07-27T23:20:14.014Z",
+  "artifactSha256": "d0d2c84cf18f916e8ef1abbe625228487e10f30d10685a5d702308944d5239a6"
+}

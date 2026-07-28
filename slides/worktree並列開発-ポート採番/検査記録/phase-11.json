@@ -1,0 +1,126 @@
+{
+  "phase": 11,
+  "targetKeys": [
+    "worktree並列開発-ポート採番"
+  ],
+  "status": "pass",
+  "criteria": [],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック1: 3カード構成",
+      "evidence": "主領域は同じ作業場所とworktree分離の2面比較で、ポート採番は横長の実装帯に分けられ、同寸3カードではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "2面比較＋横長採番帯の非対称構成を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック2: 項目ごとの丸アイコン依存",
+      "evidence": "丸い1〜3は混線、物理分離、機械採番の読み順だけを示し、本文と数式例が主たる意味を担う。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "番号を順序標識に限定し、作業項目ごとのアイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック3: 写真の装飾使用",
+      "evidence": "3画像に写真はなく、並列開発の問題と解決を文字、結果帯、計算式で説明している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "AIやサーバーの装飾写真を追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック4: 多角形装飾",
+      "evidence": "中央の山形は混線状態からworktree分離への遷移を示す最小限の記号で、背景装飾の多角形はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "方向記号を遷移表現に限定し、装飾図形を追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック5: 濃紺フッター",
+      "evidence": "最下部は白地の3点要約と導入文で、濃紺フッターは使用していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "白地要約を維持し、濃色帯へ置き換えない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック6: 架空情報",
+      "evidence": "8300、1×10、8311は採番式の明示された例で、会社名、日付、ロゴ、費用、効果数値、実環境のIPやセッション情報を追加していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "採番例を変更する場合も元資料の式と値を保持し、実環境固有値を追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック7: 情報の強弱",
+      "evidence": "赤の混線面、緑の物理分離面、青灰のポート採番帯、下部要約の順に主従が明確である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "worktree分離を主役、採番式を実装補足として保つ。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック8: 情報の詰め込み",
+      "evidence": "wide画像では2面と採番帯が分離され、式の例も1件に限定され、narrow画像で欠落がない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "worktree操作コマンドや追加用途番号を詰め込まず、原則と式に範囲を限定する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック9: 安易な青の企業資料色",
+      "evidence": "青灰はポート採番の補足帯に限定され、主たる問題・解決は赤と緑で意味付けされている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "青を追加カテゴリ色に使わず、補足帯の用途に限定する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック10: 不要なアイコン",
+      "evidence": "順序番号、×、✓、山形以外に装飾アイコンはなく、すべて状態または読み順を示している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "worktree、AI、サーバーの比喩アイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック11: 余白を装飾で埋めない",
+      "evidence": "左右面の下部余白は比較面の高さを揃え、横長の採番帯へ視線を送るために残され、装飾で埋めていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "余白へコマンド例や装飾を水増しせず、必要なら面高を詰める。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック12: 読み順",
+      "evidence": "タイトル→左の混線→中央山形→右の物理分離→下の機械採番→3点要約の順が明確である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "1・2・3の順序と左から右、上から下の導線を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック13: 1スライド1メッセージ",
+      "evidence": "全要素が「並列AIタスクを作業場所とポート番号で物理分離する」という単一メッセージを支える。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "ブランチ戦略やCI構成を第二の主張として追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック14: 人間が編集したように見える",
+      "evidence": "問題と解決を2面で比較し、ポート式を別帯へ落とし、最後に導入の一歩を置く編集判断が見える。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "3つの同寸カードへ再分配せず、比較と実装補足の役割差を保つ。"
+    },
+    {
+      "severity": "low",
+      "decision": "suggestion",
+      "target": "情報設計の再編集案",
+      "evidence": "主役は右面の「1タスク=1作業フォルダ」と、下帯の機械採番式を組み合わせた分離原則。支える情報は左面の混線2例、右面の運用ルールと効果、採番の8311例。後景化する情報は最下部3点復唱と導入の一歩。レイアウトは左の問題面を内容量に合わせて少し縮め、右の分離面と下帯の式へ比重を移す。読み順はタイトル→混線→worktree分離→採番式→導入の一歩。削除・統合・短縮候補は最下部「混線／物理分離／機械採番」と各見出しの重複、採番帯の「空いている番号を場当たりで選ぶ」補足。追加禁止情報は未確認のポート範囲、実IP、実プロセスID、会社名、日付、ロゴ、効果数値、費用、期間。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "下部の復唱を短縮し、右面の分離原則と採番式の対応を会議で一読できる比重へ寄せる。"
+    }
+  ],
+  "artifactSha256": "d658d44982222dc6e5d40ef7f4cd9dd45bf23b3b5c59142bd6fb1ee5160fec42",
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "cb20e504817ee439d49da1c71a721be441fa5dbe20eafa1d960b024d3d631391",
+    "toArtifactSha256": "d658d44982222dc6e5d40ef7f4cd9dd45bf23b3b5c59142bd6fb1ee5160fec42",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "b65c7839dc818ad676a6d78b166b96d67e8babc89ab61d5a481b7512afdbdf19",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  }
+}

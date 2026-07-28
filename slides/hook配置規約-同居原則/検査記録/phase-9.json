@@ -1,0 +1,50 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "hook配置規約-同居原則"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "「hook は規約の定義ファイルと同じフォルダに置く」単一ページで、デッキの前後関係は指定されていない。左のflatバケットによる問題、右の規約同居構造、下部の運用結論という比較順序がページ内で完結している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "複数ページの強弱を評価する文脈がない。単ページでは左の失敗を赤、右の推奨構造を緑とし、同居構造を主役にしつつ下部の3要点で結論を補強している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "前後ページとの比較対象がない。左右のファイルツリーはflat配置と規約同居配置を同一粒度で比較するための必要な反復で、同じカードを無意味に並べたものではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "flat配置と規約同居配置の対比",
+      "evidence": "現在SHA 69b6152c9bca…のwide/narrow実描画とサムネイルで、左の所属不明なhook群と右のrule・hook・テスト・設計記録の同居が明確に対比される。静的・実描画JSONはpassでSHA一致している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "修正不要。"
+    }
+  ],
+  "checkedAt": "2026-07-27T18:19:38.680Z",
+  "artifactSha256": "280e9abde379579bc789d834bf191ea15b29ae9db64b77a7365479a9b8dbed6a",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "75145fa026a2bf717cb4051f8d939e8ab26bb9c8b812de81401524d3ef13b847",
+    "toArtifactSha256": "280e9abde379579bc789d834bf191ea15b29ae9db64b77a7365479a9b8dbed6a",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "eecf48c112da7aa5178558893a1af2fb472e1bb426a681aab2aaad61cecfbf75",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  },
+  "impactReview": {
+    "status": "pass",
+    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
+    "screenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4",
+    "evidence": "現HTMLから生成した一覧画像（SHA 1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
+  }
+}

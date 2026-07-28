@@ -1,0 +1,126 @@
+{
+  "phase": 11,
+  "targetKeys": [
+    "AI開発五層モデル-プロンプトからグラフ"
+  ],
+  "status": "pass",
+  "criteria": [],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック1: 3カード構成",
+      "evidence": "5層の積み上げを5本の帯で示し、安易な3カード構成ではない。反復は層同士を同じ粒度で比較するために必要。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "5層の対応関係を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック2: 項目ごとの丸アイコン",
+      "evidence": "丸印は層番号1〜5だけで、各キーワードを単語置換アイコンへ変換していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "機能語ごとのアイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック3: 写真の装飾使用",
+      "evidence": "写真やストック素材を使わず、層名、定義、例だけで説明している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "写真は追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック4: 多角形装飾",
+      "evidence": "多角形・立体・斜め装飾を使わず、矩形帯は層の単位として機能する。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "積層を装飾的なピラミッドへ置換しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック5: 濃紺フッター",
+      "evidence": "下部は細線と結論文だけで、濃色の大面積フッターを置いていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "結論は現在の軽い後景表現を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック6: 架空情報",
+      "evidence": "会社名・日付・ロゴ・効果値・費用・期間を追加していない。内容は5層の役割と例に限定される。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "根拠のない成熟度や効果値を追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック7: 情報の強弱",
+      "evidence": "タイトル、層名、定義、例タグ、結論の順に強弱があり、層番号と左端基準線で主従が分かる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "例タグを層名より強くしない。"
+    },
+    {
+      "severity": "medium",
+      "decision": "pass",
+      "target": "最終チェック8: 情報量",
+      "evidence": "各層は1定義と4〜5例に整理され、5層を一画面で比較できる。10〜12pxの補足は多いが、主張と層名は投影時にも追える。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "例を増やさず、追加する場合は別資料へ移す。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック9: 青の安易な企業資料色",
+      "evidence": "現SHAの実画像は白・灰・青灰を基調にし、Graph Engineeringだけを緑で強調する。5層を無意味な多色へ分配せず、青を安易な企業資料色として全面使用していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "変更不要。無彩色基調と最終層だけの緑アクセントを維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック10: 不要なアイコン",
+      "evidence": "番号以外の装飾アイコンがなく、例は文字タグで示される。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "歯車・グラフ等の単語置換アイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック11: 余白を装飾で埋めない",
+      "evidence": "帯の間隔と右側余白を残し、背景装飾で空白を埋めていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "空白を積層の区切りとして維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック12: 読み順",
+      "evidence": "上からPrompt→Context→Harness→Loop→Graphへ進み、番号と積層位置が読み順を明示する。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "順序を崩す装飾的な並べ替えをしない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック13: 1スライド1メッセージ",
+      "evidence": "AI開発は単発プロンプトから実行グラフまで5層を積み上げる、という一つの主張に集約される。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "成熟度や導入手順を同じページへ混在させない。"
+    },
+    {
+      "severity": "medium",
+      "decision": "suggestion",
+      "target": "最終チェック14: 人間が編集したように見える",
+      "evidence": "各層を「制御する対象」で統一し、定義と具体例を選んで最終結論へつなぐ編集判断がある。一方、5本の同形・同高の帯は階層の拡張関係より一覧性を強め、テンプレ反復がわずかに残る。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "次回編集時は上位層ほど左余白または帯幅を変え、下位の定義・例を後景化して積み上げの方向を強める。"
+    },
+    {
+      "severity": "medium",
+      "decision": "suggestion",
+      "target": "情報設計の再編集案",
+      "evidence": "主役はPromptからGraphへ制御対象が拡張する関係、支える情報は各層の一文定義、後景化は各層の4〜5個の具体例と下部結論。レイアウトは5本の同形帯を完全均等にせず、上から下へ帯幅または左インデントを段階的に広げて積層を示す。読み順はタイトル→1から5→最終結論。削除・統合・短縮候補は具体例のうち意味が重なる語、各定義の「制御する」の反復。追加禁止情報は架空の成熟度、効果率、費用、期間、会社名、ロゴ、根拠のない層間依存。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "修正する場合は5層名と定義を保持し、例を削って位置・幅・余白で拡張関係を見せる。"
+    }
+  ],
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "0eb29c7b2904dc61559ac8913544b1f0f78d38f28202e1c4685e1d6f3922994f",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "cc3294df3a103db210a15f2b8e256292447a6b5e199df1399343558ad982c6ca",
+    "toArtifactSha256": "0eb29c7b2904dc61559ac8913544b1f0f78d38f28202e1c4685e1d6f3922994f",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "d2cc170a8fcf8aa505a8990d47f1b389826cd81f795bb5790044e857d46a3fff",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  }
+}

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codex CLI｜docs配置ガイド</title>
+  <style data-slide-specific>
+    :root {
+      --accent: #315f68;
+    }
+    .docs-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.52fr) minmax(0, .78fr);
+      gap: 38px;
+      flex: 1 1 auto;
+      min-height: 0;
+      padding-top: 22px;
+    }
+    .guide {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .guide th {
+      padding: 7px 10px 9px;
+      border-bottom: 1px solid var(--ink);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-align: left;
+    }
+    .guide th:nth-child(1) { width: 22%; }
+    .guide th:nth-child(2) { width: 43%; }
+    .guide tbody { height: calc(100% - 35px); }
+    .guide tbody tr { height: 20%; }
+    .guide td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--faint);
+      font-size: 12px;
+      line-height: 1.4;
+      vertical-align: top;
+    }
+    .guide tbody tr:last-child td { border-bottom: 0; }
+    .guide td:first-child {
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .guide code {
+      color: var(--accent);
+      font: 700 11px/1.45 "SFMono-Regular", Consolas, monospace;
+    }
+    .guide small {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 1.4;
+    }
+    .project-tree {
+      min-width: 0;
+      padding-left: 30px;
+      border-left: 1px solid var(--faint);
+    }
+    .tree-label {
+      display: block;
+      margin: 1px 0 6px;
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .14em;
+    }
+    .project-tree h2 {
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 650;
+      line-height: 1.35;
+    }
+    .project-tree pre {
+      margin: 0;
+      color: var(--ink);
+      font: 12px/1.58 "SFMono-Regular", Consolas, monospace;
+      white-space: pre;
+    }
+    .project-tree .hot {
+      color: var(--accent);
+      font-weight: 800;
+    }
+    .project-tree .outside { color: var(--muted); }
+    .tree-note {
+      margin: 15px 0 0;
+      padding-top: 12px;
+      border-top: 1px solid var(--ink);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .tree-note strong { color: var(--ink); }
+  </style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+  <main class="slide-viewport" aria-label="Codex CLIのdocs配置ガイド">
+    <section class="slide is-active" data-page="0" data-slide-page="1" aria-label="Codex CLIの配置像">
+      <header class="slide-header">
+        <span class="kicker">CODEX CLI</span>
+        <h1 class="slide-title">Codex CLI｜docs配置ガイド</h1>
+        <p class="slide-subtitle">階層化したAGENTS.mdと共有Skillsをリポジトリに置き、実行設定はconfig.tomlへ分離する</p>
+      </header>
+      <div class="docs-layout">
+        <table class="guide" aria-label="Codex CLIの文書配置">
+          <thead>
+            <tr><th>書く内容</th><th>置く場所</th><th>AIへの効果</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>全体の指示</td>
+              <td><code>AGENTS.md</code><small>目的・構成・実行コマンド・参照先</small></td>
+              <td>リポジトリ全体の入口を固定する</td>
+            </tr>
+            <tr>
+              <td>階層別の指示</td>
+              <td><code>packages/*/AGENTS.md</code><small>優先指示は <code>AGENTS.override.md</code></small></td>
+              <td>ディレクトリ単位で文脈を狭める</td>
+            </tr>
+            <tr>
+              <td>再利用する手順</td>
+              <td><code>.agents/skills/&lt;name&gt;/SKILL.md</code><small>入力・手順・検証・完了条件</small></td>
+              <td>繰り返す作業を共有可能な手順にする</td>
+            </tr>
+            <tr>
+              <td>専門エージェント</td>
+              <td><code>config.toml [agents]</code><small>委任先と役割を宣言</small></td>
+              <td>担当領域ごとに作業を委任する</td>
+            </tr>
+            <tr>
+              <td>実行・承認設定</td>
+              <td><code>~/.codex/config.toml</code><small>CLI・MCP・承認・sandbox設定</small></td>
+              <td>端末固有の実行境界をrepoから分離する</td>
+            </tr>
+          </tbody>
+        </table>
+        <aside class="project-tree" aria-label="Codex CLI用のプロジェクト構成">
+          <span class="tree-label">PROJECT TREE</span>
+          <h2>Codex CLI用の配置像</h2>
+          <pre>project/
+├── <span class="hot">AGENTS.md</span>
+├── docs/
+│   ├── architecture.md
+│   └── operations.md
+├── packages/
+│   └── api/
+│       ├── <span class="hot">AGENTS.md</span>
+│       └── src/
+├── <span class="hot">.agents/</span>
+│   └── skills/
+│       └── release/
+│           └── SKILL.md
+└── src/
+
+<span class="outside">outside repo/</span>
+└── <span class="hot">~/.codex/config.toml</span></pre>
+          <p class="tree-note"><strong>配置の原則：</strong>共有すべき文脈と手順はrepoへ、端末固有の実行・承認・接続設定はconfig.tomlへ分離する。</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

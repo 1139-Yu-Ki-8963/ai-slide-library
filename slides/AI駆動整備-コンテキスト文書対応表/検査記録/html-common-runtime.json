@@ -1,0 +1,76 @@
+{
+  "kind": "html-runtime",
+  "status": "pass",
+  "files": [
+    {
+      "file": "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動整備-コンテキスト文書対応表/解説スライド.html",
+      "artifactSha256": "43785b89e3aa5e3f90c41bda6a49087f26b193a6e5f3e5b6d82963e7ef757a8e",
+      "status": "pass",
+      "checks": [
+        {
+          "id": "html-runtime-load",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-console-errors",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-page-errors",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-missing-resources",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-horizontal-overflow",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-clipped-text",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-critical-overlap",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-keyboard-reachability",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-visible-focus",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-contrast",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-reduced-motion",
+          "status": "pass",
+          "evidence": []
+        },
+        {
+          "id": "html-runtime-screenshot",
+          "status": "pass",
+          "evidence": [
+            "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動整備-コンテキスト文書対応表/evidence/html-runtime/解説スライド-wide-43785b89e3aa.png",
+            "/Users/MacPro/Projects/ai-slide-library/slides/AI駆動整備-コンテキスト文書対応表/evidence/html-runtime/解説スライド-narrow-43785b89e3aa.png"
+          ]
+        }
+      ]
+    }
+  ]
+}

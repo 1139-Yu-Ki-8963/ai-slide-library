@@ -1,0 +1,161 @@
+{
+  "phase": 11,
+  "targetKeys": [
+    "判断反映分離-委任設計"
+  ],
+  "status": "pass",
+  "criteria": [],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "1. 対象",
+      "evidence": "判断反映分離-委任設計の全2ページ。現行HTML SHA-256 fd88b693b2ff193b43479a0980ab2c8c706ec2b99eb8b34aefc7111af27b9dd4、現行HTMLから再描画したwide 1440×900・narrow 390×844の全ページ、HTMLより新しい640×360サムネイルを確認した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行SHAに結び付いた表示証跡を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "2. 要約",
+      "evidence": "AIへの依頼を判断と反映に分け、2ページ目でhookによる機械強制へ落とし込んでおり、委任ルールの合意形成に使える。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の実務利用性を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "3. 良い点",
+      "evidence": "丸投げと分離委任の対比、依頼側・実行役・自動解除の手順を別ページへ分け、原則と実装を混在させていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "主役と支える情報の役割差を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "suggestion",
+      "target": "4. 指摘事項",
+      "evidence": "公開を妨げる問題はない。3回連続の自動解除はスライド内の運用条件として明示されているため、装飾的数値ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "将来更新時に記載した注意点を再確認する。"
+    },
+    {
+      "severity": "low",
+      "decision": "suggestion",
+      "target": "5. 情報設計の再編集案",
+      "evidence": "主役は判断と反映の分離。支える情報は丸投げの失敗、依頼側の変更内容確定、hook停止、実行役への委任、自動解除。後景化する情報は下部の要点と運用補足。レイアウトは原則の対比から機械強制の実行手順へ進む2ページ。読み順は丸投げの問題→分離委任→hookで停止→実行役へ渡す→安全解除、の順が明確である。。削除・統合・短縮候補は説明が増える場合はhook条件を別の運用資料へ移す。追加禁止情報は未確認の解除回数、架空の効果値、会社・部署名、実在環境のパス。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "修正が必要になった場合も、主役・支援・後景の優先順位を崩さない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック1: 3カード構成でない",
+      "evidence": "1ページ目は失敗と改善の対比、2ページ目は手順と安全弁であり、3カード流し込みではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の意味構造と強弱を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック2: 項目ごとの丸アイコンに依存しない",
+      "evidence": "項目ごとの丸アイコンは使用せず、文字、表、関係線、状態色で意味を示している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の意味構造と強弱を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック3: 写真を装飾使用しない",
+      "evidence": "写真は使用せず、情報構造と文字組みだけで説明が成立している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の意味構造と強弱を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック4: 多角形装飾を使用しない",
+      "evidence": "背景を埋める多角形装飾はなく、矢印や線は比較・順序・因果の説明に限定されている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の意味構造と強弱を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック5: 濃紺フッターを追加しない",
+      "evidence": "濃紺の帯フッターはなく、下部情報は白地の注記または細い補助行に留めている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の意味構造と強弱を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック6: 架空情報を追加しない",
+      "evidence": "会社名、ロゴ、費用、根拠のない効果値を追加していない。追加禁止情報は 未確認の解除回数、架空の効果値、会社・部署名、実在環境のパス。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の意味構造と強弱を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック7: 情報の強弱がある",
+      "evidence": "赤い丸投げ、緑の分離委任、右側の安全弁を異なる大きさと役割で示している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の意味構造と強弱を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック8: 情報を詰め込みすぎない",
+      "evidence": "原則と実装を2ページ化し、各ページで一つの判断に集中できる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の意味構造と強弱を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック9: 青を安易な企業資料色にしない",
+      "evidence": "赤・緑・灰は失敗、正しい委任、安全弁の意味に対応している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の意味構造と強弱を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック10: 不要なアイコンを使用しない",
+      "evidence": "装飾アイコンに依存せず、段番号や状態記号も読み順・判定の補助に限定している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の意味構造と強弱を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック11: 余白を装飾で埋めない",
+      "evidence": "余白は主役と補助情報の分離、視線移動、比較領域の境界として使い、模様や飾りで埋めていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の意味構造と強弱を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック12: 読み順が明確",
+      "evidence": "丸投げの問題→分離委任→hookで停止→実行役へ渡す→安全解除、の順が明確である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の意味構造と強弱を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック13: 1スライド1メッセージ",
+      "evidence": "『AIに決めさせず、確定内容だけを反映させる』という単一メッセージを保つ。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の意味構造と強弱を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック14: 人間が編集したように見える",
+      "evidence": "概念対比と運用フローを分離し、会議で原則と実装を順に説明できる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "現行の意味構造と強弱を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "suggestion",
+      "target": "7. 実装者がそのまま作業できる優先順位付き修正方針",
+      "evidence": "優先度1: 現状維持。hook条件を変更する場合は手順と解除条件を同時に更新し、実装との齟齬を防ぐ。 優先度2: wide/narrowと640×360サムネイルで主役・読み順・文字量を再確認する。優先度3: 元にない会社名、日付、ロゴ、数値、効果、費用、期間、写真、根拠のない図解を追加しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "fix": "更新時は優先度順に適用し、Phase 11を再実行する。"
+    }
+  ],
+  "artifactSha256": "79c51fab326d42e83a39855126f06d22fff6650c37ef9426b613a5acdd6502e8",
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "1ac2e5cf8943100212c5d7b8acfd07a37eaf10ce40856a271d45102e81dc65b3",
+    "toArtifactSha256": "79c51fab326d42e83a39855126f06d22fff6650c37ef9426b613a5acdd6502e8",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "8aa4aa6625317f74eb08e76493c885d07641c99a8b9cb9f73c7c2f65f3a562cf",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  }
+}

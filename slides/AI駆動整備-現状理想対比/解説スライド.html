@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自動検証基盤整備の現状と理想</title>
+<style>
+  :root{
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #55667A;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+    --claude: #D97757;
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+  }
+
+  .lead-band{
+    background: var(--tag-bg); color: var(--ink); border-left: 4px solid var(--accent);
+    padding: 12px 16px; font-size: 19px; font-weight: 700;
+    text-align: left; letter-spacing: 0.02em;
+  }
+
+  .head-message{ display: flex; flex-direction: column; gap: 5px; }
+  .head-message p{ display: flex; gap: 7px; font-size: 15px; font-weight: 600; line-height: 1.55; color: var(--ink); }
+  .head-message .mark{ color: var(--claude-deep); flex-shrink: 0; }
+
+  .argument-table{ width: 100%; flex: 1; border-collapse: collapse; table-layout: fixed; }
+  .argument-table caption{ text-align: left; font-size: 13px; font-weight: 700; color: var(--ink-3); padding-bottom: 6px; }
+  .argument-table th{
+    background: var(--ink); color: var(--surface); font-size: 13px; font-weight: 700;
+    text-align: left; padding: 7px 12px;
+  }
+  .argument-table th:first-child{ border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
+  .argument-table th:last-child{ border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
+
+  .col-step{ width: 5%; }
+  .col-category{ width: 12%; }
+  .col-current{ width: 23%; }
+  .col-ideal{ width: 25%; }
+  .col-gap{ width: 35%; }
+
+  .argument-table td{
+    vertical-align: top; border-bottom: 1px solid var(--border);
+    padding: 9px 12px; font-size: 12px; color: var(--ink-2); line-height: 1.5;
+  }
+  .argument-table tbody tr:nth-child(even) td{ background: var(--tag-bg); }
+
+  .cell-issue{ font-weight: 700; color: var(--ink); }
+
+  .step-chip{
+    display: flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: #9B4329; color: #fff;
+    font-size: 12px; font-weight: 700; margin: 0 auto;
+  }
+
+  .badge-critical{
+    display: inline-block;
+    font-family: 'SF Mono','Cascadia Code','Consolas','Menlo',monospace;
+    font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px;
+    background: var(--critical-soft); color: var(--critical);
+    line-height: 1.5; white-space: nowrap;
+  }
+  .badge-path{
+    display: inline-block;
+    font-family: 'SF Mono','Cascadia Code','Consolas','Menlo',monospace;
+    font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px;
+    background: var(--surface); color: var(--ink);
+    border: 1px solid var(--border); line-height: 1.5; white-space: nowrap;
+  }
+
+  .cell-note{
+    display: block; margin-top: 4px;
+    font-size: 11.5px; color: var(--ink-2); line-height: 1.45;
+  }
+  .cell-note strong{ color: var(--ink); font-weight: 600; }
+
+  .gap-action{
+    position: relative; display: block;
+    padding: 4px 6px 4px 18px;
+    border-left: 3px solid var(--accent);
+    font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.45;
+  }
+  .gap-action::before{
+    content: '\2192'; position: absolute; left: 0; top: 0;
+    color: var(--claude); font-weight: 700;
+  }
+
+  .source-line{ font-size: 11px; color: var(--ink-3); border-top: 1px solid var(--border); padding-top: 6px; }
+  .slide-page.test-page .lead-band{ padding: 8px 14px; font-size: 18px; }
+  .slide-page.test-page .head-message p{ line-height: 1.35; }
+  .slide-page.test-page .argument-table th{ padding-top: 5px; padding-bottom: 5px; }
+  .slide-page.test-page .argument-table td{ padding: 4px 10px; line-height: 1.34; }
+  .slide-page.test-page .cell-note{ margin-top: 2px; line-height: 1.35; }
+  .slide-page.test-page .gap-action{ padding-top: 2px; padding-bottom: 2px; line-height: 1.35; }
+  .slide-page.test-page .source-line{ padding-top: 0; font-size: 10px; line-height: 1; transform: translateY(-4px); }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+  <div class="slide">
+
+    <section class="slide-page test-page is-active" data-slide-page="1">
+      <header class="slide-header">
+        <span class="slide-eyebrow">GAP ANALYSIS — テスト系</span>
+        <h1 class="slide-title">人手確認から、成果物を機械で証明する基盤へ移行する</h1>
+        <p class="slide-subtitle">現状と理想の差を、次に実行する整備作業へ変換する</p>
+      </header>
+      <div class="lead-band">AI がコード変更後に「壊れていない」と機械的に証明できる状態を目指す</div>
+      <section class="head-message">
+        <p><span class="mark">■</span><span>自動テストがなければ、AI の変更が正しいかどうかを人が毎回目視で確認するしかない</span></p>
+        <p><span class="mark">■</span><span>テストコードを書くには、前提となるコンテキスト文書（観点表・設計書）の整備が先</span></p>
+      </section>
+      <table class="argument-table">
+        <caption>テスト系 5 項目の現状・理想・ギャップ（上流から下流の依存順）</caption>
+        <colgroup><col class="col-step"><col class="col-category"><col class="col-current"><col class="col-ideal"><col class="col-gap"></colgroup>
+        <thead><tr>
+          <th scope="col"></th>
+          <th scope="col">カテゴリ</th>
+          <th scope="col">現状</th>
+          <th scope="col">理想</th>
+          <th scope="col">次に行うこと</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="step-chip">1</span></td>
+            <td class="cell-issue">テスト<br>フレームワーク</td>
+            <td>
+              <span class="badge-critical">未導入</span>
+              <span class="cell-note">フレームワーク未選定で自動テストが存在しない</span>
+            </td>
+            <td>
+              <span class="badge-path">フレームワーク設定</span>
+              <span class="cell-note">言語・既存構成に応じた<strong>フレームワークを選定・導入</strong>済み</span>
+            </td>
+            <td><span class="gap-action">言語とビルド構成に合うフレームワークを選定し、導入する</span></td>
+          </tr>
+          <tr>
+            <td><span class="step-chip">2</span></td>
+            <td class="cell-issue">単体テスト</td>
+            <td>
+              <span class="badge-critical">未整備</span>
+              <span class="cell-note">関数の入出力仕様が未定義で、テストを書く基準がない</span>
+            </td>
+            <td>
+              <span class="badge-path">テストコード</span>
+              <span class="cell-note">前提: <strong>観点表</strong>（関数の引数・戻り値・例外条件の一覧）</span>
+            </td>
+            <td><span class="gap-action">観点表を整理 → 単体テストを実装</span></td>
+          </tr>
+          <tr>
+            <td><span class="step-chip">3</span></td>
+            <td class="cell-issue">結合テスト</td>
+            <td>
+              <span class="badge-critical">未整備</span>
+              <span class="cell-note">モジュール間の接続仕様が暗黙知のままになっている</span>
+            </td>
+            <td>
+              <span class="badge-path">テストコード</span>
+              <span class="cell-note">前提: <strong>API 設計書 / データフロー定義</strong></span>
+            </td>
+            <td><span class="gap-action">API 設計書を整備 → 結合テストを実装</span></td>
+          </tr>
+          <tr>
+            <td><span class="step-chip">4</span></td>
+            <td class="cell-issue">E2E テスト</td>
+            <td>
+              <span class="badge-critical">未整備</span>
+              <span class="cell-note">画面操作の期待動作が口頭伝達で、再現性がない</span>
+            </td>
+            <td>
+              <span class="badge-path">テストコード</span>
+              <span class="cell-note">前提: <strong>画面設計書</strong>（操作手順・画面遷移の期待動作）</span>
+            </td>
+            <td><span class="gap-action">画面設計書を整備 → E2E テストを実装</span></td>
+          </tr>
+          <tr>
+            <td><span class="step-chip">5</span></td>
+            <td class="cell-issue">カバレッジ<br>計測</td>
+            <td>
+              <span class="badge-critical">未導入</span>
+              <span class="cell-note">テストの網羅率を把握する手段がない</span>
+            </td>
+            <td>
+              <span class="badge-path">CI 設定</span>
+              <span class="cell-note"><strong>目標値・除外対象</strong>を定義し、CI で自動計測</span>
+            </td>
+            <td><span class="gap-action">目標値を決め、CI にカバレッジ計測を組み込む</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="source-line">出典条件：汎用例。個別案件では対象版と調査年月を記録する</p>
+    </section>
+
+    <section class="slide-page test-page" data-slide-page="2">
+      <header class="slide-header">
+        <span class="slide-eyebrow">GAP ANALYSIS — 静的検査系</span>
+        <h1 class="slide-title">人手確認から、成果物を機械で証明する基盤へ移行する</h1>
+        <p class="slide-subtitle">規約の言語化から静的検査の導入までを、行動順に読む</p>
+      </header>
+      <div class="lead-band">規約がなければ linter は意味を持たない — 言語化が先、自動化が後</div>
+      <section class="head-message">
+        <p><span class="mark">■</span><span>コーディングルールを言語化し linter に落とす — 規約が先、ツール導入が後</span></p>
+        <p><span class="mark">■</span><span>「言語化 → 自動検証への変換」がこの基盤整備の本質</span></p>
+      </section>
+      <table class="argument-table">
+        <caption>静的検査系 4 項目の現状・理想・ギャップ</caption>
+        <colgroup><col class="col-step"><col class="col-category"><col class="col-current"><col class="col-ideal"><col class="col-gap"></colgroup>
+        <thead><tr>
+          <th scope="col"></th>
+          <th scope="col">カテゴリ</th>
+          <th scope="col">現状</th>
+          <th scope="col">理想</th>
+          <th scope="col">次に行うこと</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="step-chip">1</span></td>
+            <td class="cell-issue">コード<br>linter</td>
+            <td>
+              <span class="badge-critical">未導入</span>
+              <span class="cell-note">規約が暗黙知で、linter 設定の根拠がない</span>
+            </td>
+            <td>
+              <span class="badge-path">linter 設定</span>
+              <span class="cell-note">前提: <strong>コーディング規約</strong>（rules/ に命名規則・禁止パターンを定義）</span>
+            </td>
+            <td><span class="gap-action">規約を rules/ に文書化 → linter 設定へ変換</span></td>
+          </tr>
+          <tr>
+            <td><span class="step-chip">2</span></td>
+            <td class="cell-issue">文体 linter</td>
+            <td>
+              <span class="badge-critical">未導入</span>
+              <span class="cell-note">用語の表記揺れが放置され、読み手に負担がかかっている</span>
+            </td>
+            <td>
+              <span class="badge-path">textlint 設定</span>
+              <span class="cell-note">前提: <strong>文体規約</strong>（文長・読点数・冗長表現等）+ <strong>用語辞書</strong>（prh.yml）</span>
+            </td>
+            <td><span class="gap-action">文体規約・用語辞書を整備 → textlint を導入</span></td>
+          </tr>
+          <tr>
+            <td><span class="step-chip">3</span></td>
+            <td class="cell-issue">リンク切れ<br>検査</td>
+            <td>
+              <span class="badge-critical">未導入</span>
+              <span class="cell-note">リンク切れの検知が目視頼みで見落としが発生する</span>
+            </td>
+            <td>
+              <span class="badge-path">linkcheck 設定</span>
+              <span class="cell-note">前提: <strong>検査対象範囲と除外パターン</strong>の定義</span>
+            </td>
+            <td><span class="gap-action">検査範囲・除外条件を定義 → リンク検査を導入</span></td>
+          </tr>
+          <tr>
+            <td><span class="step-chip">4</span></td>
+            <td class="cell-issue">HTML<br>静的検査</td>
+            <td>
+              <span class="badge-critical">未導入</span>
+              <span class="cell-note">HTML 品質検査の基準が未定義で、検査が実施できない</span>
+            </td>
+            <td>
+              <span class="badge-path">linter 設定</span>
+              <span class="cell-note">前提: <strong>検査観点</strong>（rules/ に必須属性・アクセシビリティ等を定義）</span>
+            </td>
+            <td><span class="gap-action">検査観点を rules/ に定義 → linter 設定へ変換</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="source-line">出典条件：汎用例。個別案件では対象版と調査年月を記録する</p>
+    </section>
+
+
+  </div>
+
+
+</div>
+
+
+
+</body>
+</html>

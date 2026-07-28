@@ -1,0 +1,42 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "cursor-claude共存-フォルダ分離構成"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "pass",
+      "evidence": "全2ページを確認。1ページ目で.cursorと.claudeの専用設定を分離し、2ページ目で両AIが参照する共有資料をproject-portalへ集約する。専用領域から共有領域へ進む順序が自然である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "pass",
+      "evidence": "1ページ目は分離原則を中強度で示し、2ページ目は共有参照経路を静かに具体化する。主役を1ページ目に限定し、2ページとも同じ強さにしていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "pass",
+      "evidence": "1ページ目の左右分離図と2ページ目の共有ハブ構成で配置が明確に変化する。共通フレーム以外の理由なき反復はなく、分離と共有という異なる関係が視覚化されている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T18:19:38.680Z",
+  "artifactSha256": "c34bb108ed6e08907d6c9375c7c23a5b9bb4d14063f4c4b86353a0136f7647ae",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "8a08b9600f9d6fc71c3b9c90cc4604b63bc015fd7c8818c4e1c09bb959394afe",
+    "toArtifactSha256": "c34bb108ed6e08907d6c9375c7c23a5b9bb4d14063f4c4b86353a0136f7647ae",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "a3a8650f5f81e719ab88e24d3639956515918b71999da80d689d441c2d8239ca",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  },
+  "impactReview": {
+    "status": "pass",
+    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
+    "screenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4",
+    "evidence": "現HTMLから生成した一覧画像（SHA 1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "phase": 10,
+  "targetKeys": [
+    "設計文書逆生成-整備自走ループ"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-split-plan",
+      "status": "pass",
+      "evidence": "最終HTML SHA 767e7c9017e7の全1ページを独立確認した。p1「コード読取→AI下書き→人の確定→次回入力の循環」の役割分担で、各ページは1メッセージに収束している。4段階の循環と人間レビューゲートを一望することが主張であり、分割すると再利用ループが見えなくなる。保存済み最新runtime画像はwide 1/1ページ、narrow 1/1ページを現SHAで確認した。文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "slides/設計文書逆生成-整備自走ループ/解説スライド.html の全1ページ、現SHAのwide/narrow実描画、更新後サムネイル",
+      "evidence": "p1「コード読取→AI下書き→人の確定→次回入力の循環」として読める。4段階の循環と人間レビューゲートを一望することが主張であり、分割すると再利用ループが見えなくなる。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
+      "impact": "分割すると、共通軸で比較・追跡する関係または一続きの工程がページ間に分断され、全体判断が難しくなる。",
+      "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
+      "preservedInformation": [
+        "読み取り専用調査",
+        "AI下書き",
+        "人の確定",
+        "確定文書の次回入力"
+      ],
+      "splitPlan": "分割なし。4段階の循環と人間レビューゲートを一望することが主張であり、分割すると再利用ループが見えなくなる。",
+      "verification": "HTML SHA-256が767e7c9017e79d560e5d4af83ac2100991fb24a73b2065e48f65f155719911d2であること、保存済み最新runtime画像はwide 1/1ページ、narrow 1/1ページを現SHAで確認し、全1ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
+    }
+  ],
+  "checkedAt": "2026-07-27T23:25:00+09:00",
+  "artifactSha256": "8f2310f2ef2f5b1741ed2666a60cc28820064a99a39b40cddc019d2478a05f9f",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "30c8312dd11150b05d2ca1ad63891e5f58bbee85cb07b6a14fba265a99b68eee",
+    "toArtifactSha256": "8f2310f2ef2f5b1741ed2666a60cc28820064a99a39b40cddc019d2478a05f9f",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "b286052230357689d9da663317e286fd12361a30fd5330460d582df6eca3eb14",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "claude-md分割戦略"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "現SHAのHTMLはページ送りを持たない単一ページであり、wide/narrowとも同じ1ページを確認した。全部入りの問題、中間案の限界、always/scoped分割の推奨を一ページ内で完結させているため、ページ間の役割・順序は判定対象外である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "複数ページ間の強弱を持たない単一ページである。左の現状・中間案から右の推奨構造へ収束し、黒帯の結論を最後に読むページ内強弱はwide/narrowで確認したが、デッキ全体の強度リズムは存在しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "前後ページがなく、ページ間レイアウト反復を比較できない単一ページである。左2段と右の推奨領域は、現状から改善案へ読む因果・対比構造のための配置であり、別ページとの理由なき反復ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T23:10:29.508Z",
+  "artifactSha256": "1a68baea61416a618c297f98111a7f6ba2a202da5ba6ccaeac12a58ec39d934c",
+  "impactReview": {
+    "status": "pass",
+    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
+    "screenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4",
+    "evidence": "現HTMLから生成した一覧画像（SHA 1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
+  }
+}

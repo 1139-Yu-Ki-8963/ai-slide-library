@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Claude Codeのlimitが切れた時だけCursorへ切り替える</title>
+<style>
+:root{--ink:#1c2b3a;--muted:#60728a;--line:#d9e0e8;--claude:#d97858;--cursor:#252b31;--blue:#087db5}.table{display:grid;grid-template-columns:190px 1fr 1fr;border:1px solid var(--line);border-radius:10px;overflow:hidden;flex:1}.cell{padding:12px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:15px;line-height:1.28}.cell:nth-child(3n){border-right:0}.cell:nth-last-child(-n+3){border-bottom:0}.th{font-size:15px;font-weight:700;text-align:center;background:#eef2f6}.th.claude{background:var(--claude);color:#fff}.th.cursor{background:var(--cursor);color:#fff}.task{font-weight:700;background:#eef2f6}.claude-cell{background:#fff4ef}.cursor-cell{background:#f0f2f4}.model{font-weight:800}.accent{color:var(--blue)}.note{padding:12px 16px;border-radius:8px;background:#fff4dc;border:1px solid #efd08b;font-size:16px;font-weight:700}.foot{display:flex;gap:20px;justify-content:space-between;border-top:1px solid var(--line);padding-top:10px;font-size:14px;color:var(--muted)}.foot strong{color:var(--ink)}
+</style>
+<style>
+  :root{ --claude: #a84b31; --blue: #05618f; }
+  .matrix{ width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; overflow: hidden; flex: 1; border: 1px solid var(--line); border-radius: 10px; }
+  .matrix th, .matrix td{ padding: 12px 16px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.28; text-align: left; vertical-align: top; }
+  .matrix thead th{ font-size: 15px; font-weight: 700; text-align: center; background: #eef2f6; }
+  .matrix thead .claude{ background: var(--claude); color: #fff; }
+  .matrix thead .cursor{ background: var(--cursor); color: #fff; }
+  .matrix tbody th{ font-weight: 700; background: #eef2f6; }
+  .matrix .claude-cell{ background: #fff4ef; }
+  .matrix .cursor-cell{ background: #f0f2f4; }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head><body><div class="slide-viewport"><main class="slide" data-slide-page="1"><header class="head slide-header"><div class="eyebrow">開発ツール運用ガイド｜改善提案</div><h1 class="slide-title">Claude Codeのlimitが切れた時だけCursorへ切り替える</h1><p class="slide-subtitle">通常はClaude Codeのモデルを役割で使い分け、limitが切れた時だけCursorへ切り替える。</p></header><table class="matrix"><thead><tr><th scope="col">タスク</th><th scope="col" class="claude">Claude Code（通常）</th><th scope="col" class="cursor">Cursor（Claude Codeのlimitが切れた時）</th></tr></thead><tbody><tr><th scope="row">設計・計画</th><td class="claude-cell"><span class="model">Opus</span><br>高い判断力が必要な設計判断・計画立案</td><td class="cursor-cell"><span class="model accent">Opus</span><br>設計を継続する</td></tr><tr><th scope="row">実装・調査・レビュー</th><td class="claude-cell"><span class="model">Sonnet</span><br>コード修正・仕様調査・差分レビュー</td><td class="cursor-cell"><span class="model accent">Composer</span><br>通常作業を継続する</td></tr><tr><th scope="row">コマンド実行・テスト起動</th><td class="claude-cell"><span class="model">Haiku</span><br>判断不要の定型作業を高速処理</td><td class="cursor-cell"><span class="model accent">Composer</span><br>CursorではComposerに統一</td></tr></tbody></table><div class="note">切替時の割当：設計はOpus、それ以外はComposer。Cursorのautoモードは使わない。</div></main></div></body></html>

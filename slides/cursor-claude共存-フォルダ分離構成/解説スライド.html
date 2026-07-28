@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cursor と Claude Code は設定フォルダが分離——1 リポジトリで共存する</title>
+<style>
+  :root{
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #5F7185;
+    --border: #D9E0E8;
+    --grid: #E9EDF2;
+    --critical: #C0392B;
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;
+    --claude: #A94E32;
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;
+    --cursor-soft: #EFF1F4;
+  }
+
+  .key-message{
+    background: var(--ink);
+    color: var(--surface);
+    padding: 9px 20px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+
+  .lead-points{ display: flex; flex-direction: column; gap: 3px; }
+  .lead-point{
+    font-size: 13px; color: var(--ink-2); line-height: 1.5;
+    padding-left: 1.2em; text-indent: -1.2em;
+  }
+
+  .content-area{
+    display: flex; flex-direction: column;
+    gap: 6px; flex: 1; min-height: 0;
+  }
+  .content-label{
+    font-size: 12px; font-weight: 500; color: var(--ink-3);
+    padding: 3px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .body-columns{
+    display: flex; gap: 20px;
+    flex: 1; min-height: 0; align-items: stretch;
+  }
+
+  .tree{
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+    font-size: 11px; line-height: 1.65;
+    color: var(--ink-2);
+    flex: 0 0 44%;
+    overflow: hidden;
+  }
+  .tree-line{ display: flex; align-items: baseline; gap: 4px; white-space: nowrap; }
+  .tree-indent{ color: var(--ink-3); user-select: none; }
+  .tree-folder{ color: var(--ink); font-weight: 600; }
+  .tree-note{ font-size: 10px; color: var(--ink-3); font-family: system-ui, sans-serif; }
+  .tree-tag{
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    font-size: 9.5px; font-weight: 600;
+    padding: 1px 6px; border-radius: 3px;
+    margin-left: auto; flex-shrink: 0;
+  }
+  .tree-tag--accent{ background: var(--ink); color: var(--surface); }
+  .tree-tag--good{ background: var(--good-soft); color: var(--good); }
+  .tree-tag--claude{ background: var(--claude-soft); color: var(--claude); }
+
+  .info-cards{
+    display: flex; flex-direction: column;
+    gap: 8px; flex: 1; min-width: 0;
+  }
+  .info-card{
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex; flex-direction: column;
+    gap: 5px; flex: 1; min-height: 0;
+  }
+  .info-card--cursor{ border-left: 5px solid var(--cursor); }
+  .info-card--shared{ border-left: 5px solid var(--good); background: var(--good-soft); border-color: var(--good); }
+  .info-card--claude{ border-left: 5px solid var(--claude); }
+
+  .card-head{ display: flex; align-items: center; gap: 8px; }
+  .card-head svg{ flex-shrink: 0; }
+  .card-head h2{ font-size: 14.5px; font-weight: 700; color: var(--ink); }
+  .card-desc{ font-size: 11.5px; color: var(--ink-2); line-height: 1.5; }
+  .card-scope{
+    font-size: 10px; color: var(--ink-3);
+    margin-top: auto; padding-top: 4px;
+  }
+
+  .step-chip{
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700;
+    color: var(--surface); flex-shrink: 0;
+  }
+  .step-chip--cursor{ background: var(--cursor); }
+  .step-chip--good{ background: var(--good); }
+  .step-chip--claude{ background: var(--claude); }
+  .portal-layout{ display: grid; grid-template-columns: .9fr 1.25fr; gap: 24px; flex: 1; min-height: 0; align-items: center; }
+  .portal-hero{
+    border-left: 6px solid var(--good); background: var(--good-soft);
+    border-radius: 10px; padding: 22px 26px; display: flex; flex-direction: column; gap: 14px;
+  }
+  .portal-hero h2{ font-size: 22px; color: var(--ink); }
+  .portal-hero p{ font-size: 14px; line-height: 1.6; color: var(--ink-2); }
+  .read-paths{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .read-path{
+    padding: 12px 14px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface);
+    font-size: 12px; line-height: 1.5; color: var(--ink-2);
+  }
+  .read-path strong{ display: block; color: var(--ink); font-size: 13px; }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+  <div class="slide">
+
+    <section class="slide-page is-active" aria-label="専用設定の分離" data-slide-page="1">
+      <header class="slide-header">
+        <span class="slide-eyebrow">REPOSITORY STRUCTURE — DUAL AI</span>
+        <h1 class="slide-title">CursorとClaude Codeの専用設定を分離する</h1>
+        <p class="slide-subtitle">.cursor/と.claude/を主配置にし、ルート文書の読込対象も製品ごとに確認する</p>
+      </header>
+
+      <div class="key-message">専用設定は .cursor/ と .claude/ に分け、共有指示の重複と競合を防ぐ</div>
+
+      <div class="content-area">
+        <div class="content-label">専用設定とルート文書</div>
+        <div class="body-columns">
+          <div class="tree">
+            <div class="tree-line"><span class="tree-folder">&lt;repo&gt;/</span></div>
+            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">.claude/</span><span class="tree-note">&nbsp;Claude Code 専用</span></div>
+            <div class="tree-line"><span class="tree-indent">│&nbsp; ├─</span> <span class="tree-folder">rules/</span></div>
+            <div class="tree-line"><span class="tree-indent">│&nbsp; │&nbsp; ├─</span> always/<span class="tree-note">&nbsp;常時注入</span></div>
+            <div class="tree-line"><span class="tree-indent">│&nbsp; │&nbsp; └─</span> scoped/<span class="tree-note">&nbsp;条件注入</span></div>
+            <div class="tree-line"><span class="tree-indent">│&nbsp; └─</span> skills/&lt;name&gt;/SKILL.md<span class="tree-note">&nbsp;手順の入口</span></div>
+            <div class="tree-line"><span class="tree-indent">├─</span> <span class="tree-folder">.cursor/</span><span class="tree-note">&nbsp;Cursor 専用</span></div>
+            <div class="tree-line"><span class="tree-indent">│&nbsp; ├─</span> rules/*.mdc<span class="tree-note">&nbsp;ファイル条件で適用</span></div>
+            <div class="tree-line"><span class="tree-indent">│&nbsp; └─</span> skills/&lt;name&gt;/SKILL.md<span class="tree-note">&nbsp;互換して発見</span></div>
+            <div class="tree-line"><span class="tree-indent">├─</span> AGENTS.md<span class="tree-tag tree-tag--accent">Cursor 自動読込</span></div>
+            <div class="tree-line"><span class="tree-indent">└─</span> CLAUDE.md<span class="tree-tag tree-tag--claude">Claude Code・Cursor CLI が読込</span></div>
+          </div>
+
+          <div class="info-cards">
+            <article class="info-card info-card--claude">
+              <div class="card-head"><span class="step-chip step-chip--claude">1</span><h2>Claude Code の設定領域</h2></div>
+              <p class="card-desc">CLAUDE.md と .claude/rules/ を用途に応じて読む。Skill は .claude/skills/&lt;name&gt;/SKILL.md に置き、専用設定と共有指示を区別する。</p>
+              <p class="card-scope">対象: CLAUDE.md / .claude/rules/{always,scoped}/ / .claude/skills/&lt;name&gt;/SKILL.md</p>
+            </article>
+            <article class="info-card info-card--cursor">
+              <div class="card-head"><span class="step-chip step-chip--cursor">2</span><h2>Cursor の設定領域</h2></div>
+              <p class="card-desc">.cursor/rules/ は設定に応じて適用される。Cursor CLI は AGENTS.md と CLAUDE.md もルートで読み得るため、共有指示の重なりを確認する。</p>
+              <p class="card-scope">対象: AGENTS.md / CLAUDE.md / .cursor/rules/*.mdc / .cursor/skills/&lt;name&gt;/SKILL.md</p>
+            </article>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="slide-page" aria-label="共有資産の配置" data-slide-page="2">
+      <header class="slide-header">
+        <span class="slide-eyebrow">REPOSITORY STRUCTURE — SHARED PORTAL</span>
+        <h1 class="slide-title">共有資料はproject-portalに集約する</h1>
+        <p class="slide-subtitle">両AIが同じ設計情報を参照できるよう、共有資産と各製品の参照経路を分けて管理する</p>
+      </header>
+
+      <div class="key-message">専用設定は分離し、設計書・規約・可視化は人とAIの共通参照点へ集約する</div>
+
+      <div class="portal-layout">
+        <div class="tree">
+          <div class="tree-line"><span class="tree-folder">&lt;repo&gt;/project-portal/</span><span class="tree-tag tree-tag--good">両 AI が参照</span></div>
+          <div class="tree-line"><span class="tree-indent">├─</span> 基盤情報/<span class="tree-note">&nbsp;技術スタック・用語辞書</span></div>
+          <div class="tree-line"><span class="tree-indent">├─</span> 規約/<span class="tree-note">&nbsp;コーディング規約・命名規約</span></div>
+          <div class="tree-line"><span class="tree-indent">├─</span> 一覧・設計図/<span class="tree-note">&nbsp;画面・API・テーブル等 9 種</span></div>
+          <div class="tree-line"><span class="tree-indent">├─</span> 交差ビュー/<span class="tree-note">&nbsp;権限マトリクス・CRUD 図</span></div>
+          <div class="tree-line"><span class="tree-indent">└─</span> 解析概要/<span class="tree-note">&nbsp;調査結果と全体像</span></div>
+        </div>
+
+        <article class="portal-hero">
+          <h2>project-portal/ — 共有資産の主役</h2>
+          <p>設計情報と技術資産を一元管理するHTMLサイト。規約・一覧・交差ビュー・解析概要を集約し、人もAIもブラウザで同じ情報を参照する。</p>
+          <div class="read-paths">
+            <div class="read-path"><strong>Claude Code</strong>CLAUDE.md と .claude/ の指示から、必要な共有資料への参照経路を明示する。</div>
+            <div class="read-path"><strong>Cursor</strong>AGENTS.md・CLAUDE.md・.cursor/ の適用関係を確認し、同じ共有資料へ到達させる。</div>
+          </div>
+          <p class="card-scope">対象: project-portal/ 配下の基盤情報・規約・一覧・設計図・交差ビュー・解析概要</p>
+        </article>
+      </div>
+
+    </section>
+
+  </div>
+
+</div>
+
+
+</body>
+</html>

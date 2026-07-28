@@ -1,0 +1,42 @@
+{
+  "phase": 9,
+  "targetKeys": [
+    "開発プロセス-成果物化"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "not-applicable",
+      "evidence": "「開発プロセスを『設計して記録する成果物』にする」は単一ページで、ADRへ決定理由と却下案を残し、課題起票から運用反映まで回す要点を一枚で完結させている。前後ページの役割・順序は指定されていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "not-applicable",
+      "evidence": "単一ページであり、複数ページ間の強・中・静の配分を判断するデッキ文脈がない。ページ内の主従はwide/narrow実描画と更新後サムネイルで確認した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "not-applicable",
+      "evidence": "比較する直前・直後ページがないため、ページ間の理由なきレイアウト反復は評価対象外である。ページ内の配置はADRを中心に成果物化と継続改善の関係を示すためのものとして確認した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T18:19:38.680Z",
+  "artifactSha256": "df62346a3f386bc15bb04e0e75d6b212ae9d2282c38e134bc8d6883c1118e9c2",
+  "scopeCarryForward": {
+    "fromArtifactSha256": "33b49c7007e11dfe9eb796f90291fcb558e81afef8654f67fcef2bebc05d94eb",
+    "toArtifactSha256": "df62346a3f386bc15bb04e0e75d6b212ae9d2282c38e134bc8d6883c1118e9c2",
+    "validatedAt": "2026-07-27T18:19:38.680Z",
+    "unchangedScope": "non-header HTML, CSS, and DOM",
+    "nonHeaderFingerprintSha256": "0827fec387d1c2f055ded18aaf0dc42c4cc89c7826b063c3f4abd02daf9609f2",
+    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
+    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
+  },
+  "impactReview": {
+    "status": "pass",
+    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
+    "screenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4",
+    "evidence": "現HTMLから生成した一覧画像（SHA 1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
+  }
+}

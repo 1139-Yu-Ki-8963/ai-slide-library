@@ -1,0 +1,17 @@
+{
+  "phase": 10,
+  "targetKeys": [
+    "claude-code-テンプレート構成"
+  ],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-split-plan",
+      "status": "pass",
+      "evidence": "分割不要。ツール固有の5種類の設定資産と配置先を左の説明表、右のプロジェクトツリーで同時に確認できる。 分割すると対応関係または同時比較を損なう。1280×720で押し込み・切れ・重なりはない。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-27T23:20:14.014Z",
+  "artifactSha256": "633289710d823acc7f166a1ae79849f1f81fad4772a8dce1371d5576faa064c0"
+}
