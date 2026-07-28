@@ -1,432 +1,280 @@
 <!doctype html>
 <html lang="ja">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--
-  generating-explanation-html-slides デザイントークン+部品カタログから生成
-  4ページ構成（全体フロー / 段階比較・対比型 / 判断系レビュー2x2 / 可変レビュー対比型）。ページ送り部品を保持。
--->
+<head>
 <meta charset="utf-8">
-<title>レビューエンジン 3層構成</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>レビューエンジン 3層構成（新デザイン）</title>
 <style>
-  /* ==== デザイントークン（変更禁止） ==== */
-  :root{
-    --page: #EDF0F4;          /* 背景（スライドの外） */
-    --surface: #FFFFFF;       /* スライド面 */
-    --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
-    --ink-2: #55667A;         /* 本文 */
-    --ink-3: #8494A6;         /* 補足・軸ラベル */
-    --border: #D9E0E8;        /* 罫線 */
-    --grid: #E9EDF2;          /* 図中グリッド線 */
-    --critical: #C0392B;      /* 警告・上限・停止 */
-    --critical-soft: #FAECEA;
-    --good: #1F7A46;          /* 回復・完了・推奨 */
-    --good-soft: #EAF4EE;
-    --tag-bg: #EDF1F6;        /* パネルタグ地 */
-    /* ツール識別色（実在ツールを描く時のみここに追記する） */
-    --claude: #D97757;        /* Claude: コーラル */
-    --claude-deep: #BC5B3B;
-    --claude-soft: #FBF0EA;
-    --cursor: #23282E;        /* Cursor: チャコール */
-    --cursor-soft: #EFF1F4;
-  }
-
-  /* ==== ステップ番号チップ（図と本文で同番号・同色を使う） ==== */
-  .step-chip{
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 20px; height: 20px;
-    border-radius: 50%; font-size: 11px; font-weight: 700; color: var(--surface); flex-shrink: 0;
-  }
-  .step-chip--main{ background: var(--claude); }
-  .step-chip--critical{ background: var(--critical); }
-  .step-chip--good{ background: var(--good); }
-  .step-chip--partial{ background: #66788C; }  /* 中間段階・第2層など「進行中/中立」を表す番号 */
-
-  /* ==== ページ2: 層・積層構造（全幅帯。上辺ではなく左辺の色で層の位置づけを示す） ==== */
-  .layer-stack{ display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 0; justify-content: flex-start; padding-top: 10px; }
-  .layer-band{
-    display: flex; align-items: center; gap: 20px;
-    padding: 10px 20px;
-    border-radius: 10px;
-    background: var(--tag-bg);
-    border: 1.5px solid var(--border);
-    border-left: 5px solid var(--ink-3);
-  }
-  .layer-band--critical{ background: var(--critical-soft); border-color: var(--critical); border-left-color: var(--critical); }  /* 警告・制限層 */
-  .layer-band--partial{ border-left-color: var(--ink-3); }     /* 中間層（背景は既定の --tag-bg のまま） */
-  .layer-band--good{ background: var(--good-soft); border-color: var(--good); border-left-color: var(--good); }      /* 最終・保護層 */
-  .layer-body{ flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  .layer-body h2{ font-size: 16px; font-weight: 700; color: var(--ink); }
-  .layer-desc{ font-size: 12px; color: var(--ink-2); line-height: 1.5; }
-  .layer-examples{ display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
-  .ex{ font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
-
-  /* ==== 層間の接続注記（層構造で「AがBを通過してからCが適用される」等を1行で説明） ==== */
-  .arrow-between{ display: flex; align-items: center; justify-content: center; gap: 6px; }
-  .arrow-text{ font-size: 13px; font-weight: 600; color: var(--ink-2); }
-
-  /* ==== 判断系レビュー層: 4専門家の2x2グリッド（並列の専門家なので段階色分けなし） ==== */
-  .reviewer-grid{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    flex: 1;
-    min-height: 0;
-    align-items: stretch;
-  }
-  .reviewer-grid .compare-card{ padding: 16px 14px; gap: 8px; }
-
-  /* ==== 利点・欠点の列挙（✓/✕） ==== */
-  .stage-status{ display: flex; flex-direction: column; gap: 4px; margin-top: auto; }
-  .status-row{
-    display: flex; align-items: flex-start; gap: 6px;
-    font-size: 12px; line-height: 1.3;
-    padding: 4px 8px;
-    border-radius: 4px;
-  }
-  .status-ng{ background: var(--critical-soft); color: var(--critical); }
-  .status-ok{ background: var(--good-soft); color: var(--good); }
-  .status-icon{ font-weight: 700; flex-shrink: 0; width: 1em; text-align: center; }
-
-  /* ==== フッタ: ステップ要約（図中の番号チップと同番号・同色で対応させる） ==== */
-  .steps-label{ font-size: 12px; font-weight: 700; color: var(--ink-3); border-top: 1px solid var(--border); padding-top: 10px; }
-  .steps{ display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-  .step{ display: flex; gap: 8px; align-items: center; }
-  .step-text{ font-size: 13px; line-height: 1.5; color: var(--ink-2); }
-  .step-text strong{ color: var(--ink); }
-
-  /* ==== ページ1: フロー全体像 ==== */
-  .flow-diagram{ display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; }
-  .flow-row{ display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
-  .flow-step{
-    min-height: 78px; padding: 12px 10px;
-    display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;
-    border: 1.5px solid var(--border); border-radius: 8px; background: var(--tag-bg);
-    position: relative; text-align: center;
-  }
-  .flow-step:not(:last-child)::after{
-    content: "→"; position: absolute; right: -12px; top: 27px;
-    width: 12px; color: var(--ink-3); font-family: system-ui, sans-serif; font-weight: 700;
-  }
-  .flow-step--machine{ background: var(--critical-soft); }
-  .flow-step--judgment{ background: var(--good-soft); }
-  .flow-step--loop{ background: var(--surface); border: 2px solid var(--critical); }
-  .flow-step--return{ background: var(--good-soft); border-color: var(--good); }
-  .flow-num{ font: 600 11px/1 system-ui, sans-serif; color: var(--ink-3); }
-  .flow-label{ font: 700 14px/1.3 system-ui, -apple-system, "Hiragino Sans", sans-serif; color: var(--ink); }
-  .flow-loop{
-    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px;
-    padding: 8px 18px; border: 1px solid #f0d0cc; border-radius: 7px;
-    background: var(--critical-soft); color: var(--critical);
-    font: 700 12px/1.4 system-ui, sans-serif;
-  }
-  .flow-loop span:last-child{ text-align: right; color: var(--good); }
-
-  /* ==== 対比カード（時間構造がない「並べて比べる」型に使う） ==== */
-  .compare-row{ display: flex; gap: 24px; flex: 1; align-items: stretch; min-height: 0; }
-  .compare-card{ flex: 1; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
-  .compare-card h2{ font-size: 16px; font-weight: 700; color: var(--ink); }
-  .compare-desc{ font-size: 13px; color: var(--ink-2); line-height: 1.5; }
-  .compare-list{ list-style: none; display: flex; flex-direction: column; gap: 6px; }
-  .compare-list li{ font-size: 13px; line-height: 1.5; color: var(--ink-2); padding-left: 14px; position: relative; }
-  .compare-list li::before{ content: ''; position: absolute; left: 0; top: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
-  .profile-note{ font-size: 13px; font-weight: 600; color: var(--ink-2); background: var(--tag-bg); border: 1px solid var(--border); border-radius: 4px; padding: 3px 9px; margin-top: auto; display: inline-block; }
-
-  /* ==== 補足の小文 ==== */
-  .note-line{ font-size: 12px; color: var(--ink-3); text-align: center; }
-
-  /* ==== 出典行 ==== */
-  .source-line{
-    font-size: 11px;
-    color: var(--ink-3);
-    border-top: 1px solid var(--border);
-    padding-top: 6px;
-  }
+  /* 骨格A（1ページ目）＋骨格B（2〜5ページ目）。ページ順は層の順（機械→可変→判断）。slide-design-system.md 参照 */
+  .conclusion{ display: flex; align-items: baseline; gap: 18px; border-top: 2px solid var(--accent); padding-top: 14px; margin-top: auto; }
+  .c-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--accent); flex-shrink: 0; }
+  .c-text{ font-size: 18px; font-weight: 600; line-height: 1.5; color: var(--ink); }
+  .pageno{ margin-left: auto; font: 12px/1.4 system-ui, sans-serif; color: var(--label); }
+  /* ページ1: 要旨型 */
+  .split{ flex: 1; display: flex; gap: 72px; min-height: 0; padding-top: 12px; }
+  .rail{ width: 330px; flex-shrink: 0; display: flex; flex-direction: column; }
+  .big{ margin-top: 30px; display: flex; align-items: baseline; gap: 10px; }
+  .big-num{ font-family: var(--serif); font-weight: 600; font-size: 190px; line-height: .85; color: var(--ink); letter-spacing: -.02em; }
+  .big-unit{ font-family: var(--serif); font-weight: 600; font-size: 46px; color: var(--ink); }
+  .rail-meta{ margin-top: auto; font: 12px/1.5 system-ui, sans-serif; color: var(--label); }
+  .main{ flex: 1; display: flex; flex-direction: column; }
+  .row{ flex: 1; display: flex; gap: 28px; align-items: center; border-top: 1px solid var(--faint); }
+  .row-star{ flex: 1.5; border-top: 2px solid var(--ink); }
+  .row-num{ font-family: var(--serif); font-weight: 500; font-size: 56px; line-height: 1; width: 86px; flex-shrink: 0; }
+  .row-star .row-num{ font-weight: 600; color: var(--ink); }
+  .row-body{ display: flex; flex-direction: column; gap: 6px; }
+  .row-star .row-body{ gap: 10px; }
+  .row-name{ font-size: 20px; font-weight: 600; color: var(--muted); }
+  .row-star .row-name{ font-size: 32px; color: var(--ink); line-height: 1.3; }
+  .row-desc{ font-size: 15px; line-height: 1.6; color: var(--muted); }
+  .row-star .row-desc{ font-size: 16px; line-height: 1.65; color: var(--ink); }
+  .row-tags{ font-size: 14px; color: var(--muted); }
+  /* ページ2: 3種の自動検査（並列） */
+  .cols3{ flex: 1; display: flex; align-items: stretch; padding-top: 24px; min-height: 0; }
+  .check{ flex: 1; display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--faint); padding: 20px 0 0; }
+  .check-name{ font-size: 20px; font-weight: 600; color: var(--ink); }
+  .check-desc{ margin: 0; font-size: 15px; line-height: 1.65; color: var(--muted); }
+  .ex-list{ display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+  .ex-list span{ font-size: 13px; line-height: 1.5; color: var(--muted); }
+  .arrow{ width: 56px; display: flex; align-items: center; justify-content: center; color: var(--line); font-size: 18px; flex-shrink: 0; }
+  /* ページ3: 可変レビューの解決マップ（対象のシグナル → 適用規約） */
+  .map{ flex: 1; display: flex; flex-direction: column; padding-top: 12px; min-height: 0; }
+  .grp{ flex: 1; display: flex; gap: 48px; border-top: 1px solid var(--faint); padding: 20px 0; }
+  .grp-side{ width: 250px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; }
+  .grp-when{ font: 700 11px/1 system-ui, sans-serif; letter-spacing: .12em; color: var(--label); }
+  .grp-name{ font-size: 20px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+  .grp-desc{ margin: 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
+  .grp-map{ flex: 1; display: grid; grid-template-columns: 1fr 48px 1fr; row-gap: 10px; align-content: center; }
+  .sig{ font-size: 15px; line-height: 1.5; color: var(--muted); text-align: right; }
+  .arr{ text-align: center; color: var(--line); font-size: 15px; line-height: 1.5; }
+  .rule{ font-size: 16px; line-height: 1.5; font-weight: 600; color: var(--ink); }
+  /* ページ4: 4専門家（宣言権で濃淡） */
+  .grid2{ flex: 1; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; padding-top: 12px; }
+  .cell{ display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--faint); padding: 22px 28px 18px 0; }
+  .cell-r{ border-left: 1px solid var(--faint); padding: 22px 0 18px 28px; }
+  .cell-strong{ border-top: 2px solid var(--ink); }
+  .grid2 > .cell:nth-child(-n+2){ border-top: 0; padding-top: 10px; }
+  .cell-head{ display: flex; align-items: baseline; gap: 12px; }
+  .cell-name{ font-size: 22px; font-weight: 600; color: var(--muted); }
+  .cell-strong .cell-name{ color: var(--ink); }
+  .cell-model{ font: 600 12px/1 system-ui, sans-serif; letter-spacing: .08em; color: var(--label); }
+  .cell-verdict{ margin-left: auto; font: 700 11px/1 system-ui, sans-serif; letter-spacing: .12em; color: var(--ink); }
+  .cell-verdict.none{ color: var(--label); font-weight: 600; }
+  .cell-desc{ margin: 0; font-size: 15px; line-height: 1.65; color: var(--muted); }
+  /* ページ5: 組み合わせ表 */
+  .tbl{ flex: 1; display: flex; flex-direction: column; padding-top: 12px; min-height: 0; }
+  .tbl-head{ display: flex; gap: 24px; border-bottom: 1px solid var(--faint); padding-bottom: 8px; }
+  .tbl-head span{ font: 700 12px/1 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .tbl-row{ flex: 1; display: flex; gap: 24px; align-items: center; border-bottom: 1px solid var(--faint); padding: 14px 0; }
+  .tbl-row:last-child{ border-bottom: 0; }
+  .col-a{ width: 210px; flex-shrink: 0; }
+  .col-b{ flex: 1.2; }
+  .col-c{ flex: 1; }
+  .tbl-row .col-a{ font-size: 18px; font-weight: 600; color: var(--ink); }
+  .tbl-row :is(.col-b, .col-c){ font-size: 15px; line-height: 1.6; color: var(--muted); }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
-
+</head>
+<body>
 <div class="slide-viewport">
-  <div class="slide">
+<div class="slide">
 
-    <!-- ==== ページ1: 全体フローと3層の位置づけ ==== -->
-    <section class="slide-page is-active" data-slide-page="1">
-
-      <header class="slide-header">
-        <span class="slide-eyebrow">レビューエンジン 3層構成</span>
-        <h1 class="slide-title">3層レビューを収束させて結果を返す</h1>
-        <p class="slide-subtitle">工程2〜4を通し、新規指摘がゼロになるまで工程5から反復する</p>
-      </header>
-
-      <div class="flow-diagram" role="img" aria-label="工程1から工程6までのレビューフロー。工程5で新規指摘があれば工程2へ戻り、ゼロなら工程6で返却する">
-        <div class="flow-row">
-          <div class="flow-step"><span class="flow-num">工程 1</span><span class="flow-label">対象の判定</span></div>
-          <div class="flow-step flow-step--machine"><span class="flow-num">工程 2</span><span class="flow-label">機械的チェック</span></div>
-          <div class="flow-step"><span class="flow-num">工程 3</span><span class="flow-label">可変レビュー</span></div>
-          <div class="flow-step flow-step--judgment"><span class="flow-num">工程 4</span><span class="flow-label">判断系レビュー</span></div>
-          <div class="flow-step flow-step--loop"><span class="flow-num">工程 5</span><span class="flow-label">収束判定</span></div>
-          <div class="flow-step flow-step--return"><span class="flow-num">工程 6</span><span class="flow-label">結果返却</span></div>
-        </div>
-        <div class="flow-loop">
-          <span>新規指摘あり → 工程2へ戻って再実行</span>
-          <span>工程5</span>
-          <span>新規指摘ゼロ → 工程6へ進む</span>
+  <section class="slide-page is-active" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">レビューエンジン 3層構成</span>
+      <h1 class="slide-title">機械から判断へ、層を深くしながら指摘ゼロまで戻す</h1>
+      <p class="slide-subtitle">層が深いほど、人の判断に近づく</p>
+    </header>
+    <div class="split">
+    <div class="rail">
+      <div class="big"><span class="big-num">3</span><span class="big-unit">層</span></div>
+      <span class="rail-meta">AI駆動開発 レビュー基盤 2026</span>
+    </div>
+    <div class="main">
+      <div class="row">
+        <span class="row-num" style="color: var(--line)">01</span>
+        <div class="row-body">
+          <span class="row-name">機械的チェック</span>
+          <span class="row-desc">置き換え辞書・textlint・略称照合。全対象で共通に流す</span>
         </div>
       </div>
-
-      <div class="layer-stack">
-
-        <div class="layer-band layer-band--critical">
-          <span class="step-chip step-chip--critical">2</span>
-          <div class="layer-body">
-            <h2>機械的チェック</h2>
-            <p class="layer-desc">置き換え辞書・textlint・略称照合の<wbr>3 種の自動検査。<wbr>全対象で共通</p>
-          </div>
-        </div>
-
-        <div class="layer-band layer-band--partial">
-          <span class="step-chip step-chip--partial">3</span>
-          <div class="layer-body">
-            <h2>可変レビュー</h2>
-            <p class="layer-desc">対象の領域・変更パスから<wbr>適用規約を動的に解決。<wbr>計画・成果物・コードで<wbr>方式が異なる</p>
-          </div>
-        </div>
-
-        <div class="layer-band layer-band--good">
-          <span class="step-chip step-chip--good">4</span>
-          <div class="layer-body">
-            <h2>判断系レビュー</h2>
-            <p class="layer-desc">4 つの専門家が<wbr>観点別に照合。<wbr>Haiku・Sonnet・Opus の<wbr>3 モデルを使い分ける</p>
-          </div>
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- ==== ページ2: 機械的チェック層 ==== -->
-    <section class="slide-page" data-slide-page="2">
-
-      <header class="slide-header">
-        <span class="slide-eyebrow">レビューエンジン 3層構成</span>
-        <h1 class="slide-title">機械的チェック層 —<wbr> 人が見る前に<wbr>機械が潰す</h1>
-        <p class="slide-subtitle">全対象で共通の<wbr>3種の自動検査が、<wbr>語彙・文体・略語の<wbr>指摘をコミット前に消す</p>
-      </header>
-
-      <div class="layer-stack">
-
-        <div class="layer-band layer-band--critical">
-          <span class="step-chip step-chip--critical">1</span>
-          <div class="layer-body">
-            <h2>置き換え辞書による<wbr>語彙チェック</h2>
-            <p class="layer-desc">カタカナ語・英語バズワードを<wbr>平易な日本語へ<wbr>自動置換する辞書。<wbr>登録語を検出し、<wbr>推奨語へ置き換える</p>
-            <div class="layer-examples">
-              <span class="ex">アジェンダ→議題</span>
-              <span class="ex">リソース→資源</span>
-              <span class="ex">ナレッジ→知見</span>
-              <span class="ex">レビュー→照合</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="arrow-between">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" role="presentation" aria-hidden="true"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span class="arrow-text">語彙の置き換え後に、文の構造を検査する</span>
-        </div>
-
-        <div class="layer-band layer-band--partial">
-          <span class="step-chip step-chip--partial">2</span>
-          <div class="layer-body">
-            <h2>textlint 文書品質チェック</h2>
-            <p class="layer-desc">文の長さ・読点の数・漢字連続など、<wbr>読みやすさの定量基準を<wbr>機械検査する</p>
-            <div class="layer-examples">
-              <span class="ex">1文100字以内</span>
-              <span class="ex">読点3個以内</span>
-              <span class="ex">漢字連続7文字以内</span>
-              <span class="ex">冗長表現の簡潔化</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="arrow-between">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" role="presentation" aria-hidden="true"><path d="M8 2 L8 14 M4 10 L8 14 L12 10" stroke="var(--ink-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span class="arrow-text">文体の基準通過後に、略語の定義を検査する</span>
-        </div>
-
-        <div class="layer-band layer-band--good">
-          <span class="step-chip step-chip--good">3</span>
-          <div class="layer-body">
-            <h2>略称照合チェック</h2>
-            <p class="layer-desc">説明なしの略称・頭字語を<wbr>ブロックリストで検出し、<wbr>初出時に正式名称の<wbr>定義を強制する</p>
-            <div class="layer-examples">
-              <span class="ex">ref→参照</span>
-              <span class="ex">SHA→ハッシュ値</span>
-              <span class="ex">HMR→Hot Module Replacement</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- ==== ページ3: 判断系レビュー層 ==== -->
-    <section class="slide-page" data-slide-page="3">
-
-      <header class="slide-header">
-        <span class="slide-eyebrow">レビューエンジン 3層構成</span>
-        <h1 class="slide-title">判断系レビュー層の4専門家</h1>
-        <p class="slide-subtitle">文書照合・コード照合・反証・初見読解を、責務と合否宣言条件で使い分ける</p>
-      </header>
-
-      <div class="reviewer-grid">
-
-        <article class="compare-card">
-          <h2>文書照合</h2>
-          <p class="compare-desc">Sonnet が文書成果物を<wbr>規約に照合する。<wbr>形式・構成・文節改行・<wbr>意味キーの 4 観点</p>
-          <ul class="compare-list">
-            <li>被覆率・図解候補・禁止パターンの照合</li>
-            <li>自己完結性・外部リソース非依存の検査</li>
-            <li>日本語の文節境界での改行品質</li>
-            <li>連番禁止・意味語キーの検査</li>
-          </ul>
-        </article>
-
-        <article class="compare-card">
-          <h2>コード照合</h2>
-          <p class="compare-desc">Sonnet がコード差分を<wbr>規約に照合する。<wbr>共通基準と UI 実装基準の<wbr>2 観点</p>
-          <ul class="compare-list">
-            <li>OWASP 脆弱性・エラー処理・命名規約の照合</li>
-            <li>アイコン統一（Material Symbols 必須）・ホバー非依存</li>
-          </ul>
-        </article>
-
-        <article class="compare-card">
-          <h2>反証</h2>
-          <p class="compare-desc">Opus が作成文脈を<wbr>持たない懐疑者として<wbr>反証を試みる。<wbr>「誤りがある」前提で<wbr>証拠を探す</p>
-          <ul class="compare-list">
-            <li>論理整合・範囲整合・影響範囲の 3 観点で反証</li>
-            <li>コード差分に対して反証（変更が壊すものを探す）</li>
-            <li>合否の宣言はしない。証拠付きの反証所見を返すのみ</li>
-          </ul>
-        </article>
-
-        <article class="compare-card">
-          <h2>初見読解</h2>
-          <p class="compare-desc">Haiku の初見読解で<wbr>計画の暗黙知を炙り出す</p>
-          <ul class="compare-list">
-            <li>Haiku が計画どおりに<wbr>実行できるか検証</li>
-            <li>初見の読み手が成果物を理解できるか検証</li>
-            <li>理解できなかった部分 = 暗黙知が省略されている証拠</li>
-          </ul>
-        </article>
-
-      </div>
-
-    </section>
-
-    <!-- ==== ページ4: 対象ごとのレビュー組み合わせ ==== -->
-    <section class="slide-page" data-slide-page="4">
-
-      <header class="slide-header">
-        <span class="slide-eyebrow">レビューエンジン 3層構成</span>
-        <h1 class="slide-title">対象ごとに専門家レビューを組み替える</h1>
-        <p class="slide-subtitle">計画・成果物・実装では失敗の種類が違うため、必要な判断系レビューだけを選ぶ</p>
-      </header>
-
-      <p class="steps-label">レビュー対象ごとの組み合わせ</p>
-      <div class="layer-stack">
-        <div class="layer-band layer-band--critical">
-          <span class="step-chip step-chip--critical">1</span>
-          <div class="layer-body">
-            <h2>計画の提示前</h2>
-            <p class="layer-desc">文書照合 + 3観点反証 + 実行可能性の検証</p>
-          </div>
-        </div>
-        <div class="layer-band layer-band--partial">
-          <span class="step-chip step-chip--partial">2</span>
-          <div class="layer-body">
-            <h2>成果物の提示前</h2>
-            <p class="layer-desc">文書照合 + HTML出力 + 理解可能性の検証</p>
-          </div>
-        </div>
-        <div class="layer-band layer-band--good">
-          <span class="step-chip step-chip--good">3</span>
-          <div class="layer-body">
-            <h2>実装の完了後</h2>
-            <p class="layer-desc">コード照合 + 差分反証</p>
-          </div>
+      <div class="row">
+        <span class="row-num" style="color: var(--label)">02</span>
+        <div class="row-body">
+          <span class="row-name">可変レビュー</span>
+          <span class="row-desc">領域と変更パスから適用規約を解決。対象ごとに中身が変わる</span>
         </div>
       </div>
-
-      <div class="steps">
-        <div class="step">
-          <span class="step-chip step-chip--critical">1</span>
-          <p class="step-text"><strong>計画</strong>— 暗黙知と論理の穴を提示前に潰す</p>
-        </div>
-        <div class="step">
-          <span class="step-chip step-chip--partial">2</span>
-          <p class="step-text"><strong>成果物</strong>— 表示品質と初見理解を提示前に確認する</p>
-        </div>
-        <div class="step">
-          <span class="step-chip step-chip--good">3</span>
-          <p class="step-text"><strong>実装</strong>— 規約違反と破壊的差分を完了後に探す</p>
+      <div class="row row-star">
+        <span class="row-num">03</span>
+        <div class="row-body">
+          <span class="row-name">判断系レビュー</span>
+          <span class="row-desc">4つの専門家が観点別に照合し、唯一ここが合否を宣言する</span>
+          <span class="row-tags">文書照合　・　コード照合　・　反証　・　初見読解</span>
         </div>
       </div>
-
-    </section>
-
-    <!-- ==== ページ5: 可変レビュー層 ==== -->
-    <section class="slide-page" data-slide-page="5">
-
-      <header class="slide-header">
-        <span class="slide-eyebrow">レビューエンジン 3層構成</span>
-        <h1 class="slide-title">可変レビュー層 —<wbr> 対象から規約を<wbr>動的に解決する</h1>
-        <p class="slide-subtitle">計画文の触る領域や<wbr>変更ファイルのパスから、<wbr>適用すべき規約を自動で特定する</p>
-      </header>
-
-      <div class="compare-row">
-
-        <article class="compare-card">
-          <h2>計画の領域から<wbr>規約を特定</h2>
-          <p class="compare-desc">計画文の触る領域から<wbr>適用規約を特定する</p>
-          <ul class="compare-list">
-            <li>計画文が UI を<wbr>触る → UI 実装基準を<wbr>照合</li>
-            <li>計画文が DB を<wbr>触る → DB 設計基準を<wbr>照合</li>
-            <li>計画文が API を<wbr>触る → API 設計基準を<wbr>照合</li>
-            <li>計画文が認証に<wbr>触る → セキュリティ基準を<wbr>照合</li>
-            <li>計画文がカタログに<wbr>触る → カタログサイト基準を<wbr>照合</li>
-          </ul>
-          <p class="profile-note">計画の提示前に発火</p>
-        </article>
-
-        <article class="compare-card">
-          <h2>変更ファイルから<wbr>規約を特定</h2>
-          <p class="compare-desc">変更ファイルのパスから<wbr>適用規約を特定する</p>
-          <ul class="compare-list">
-            <li>*.html の<wbr>変更 → HTML 出力基準を<wbr>照合</li>
-            <li>src/components/ → UI 実装基準を<wbr>照合</li>
-            <li>*.test.* の<wbr>変更 → テスト基準を<wbr>照合</li>
-            <li>*.sh の<wbr>変更 → シェルスクリプト基準を<wbr>照合</li>
-            <li>schema.prisma の<wbr>変更 → DB 設計基準を<wbr>照合</li>
-          </ul>
-          <p class="profile-note">実装の完了後に発火</p>
-        </article>
-
+      <div class="conclusion">
+        <span class="c-label">収束条件</span>
+        <span class="c-text">新規指摘が 0 件になるまで、第1層から再実行する</span>
+        <span class="pageno">1 / 5</span>
       </div>
+    </div>
+    </div>
+  </section>
 
-      <p class="note-line">成果物の提示前では<wbr>可変レビューを実行しない<wbr>（共通基準のみで照合する）</p>
+  <section class="slide-page" data-slide-page="2">
+    <header class="slide-header">
+      <span class="kicker">レビューエンジン 3層構成</span>
+      <h1 class="slide-title">第1層 — 機械的チェックが、人が見る前に指摘を消す</h1>
+      <p class="slide-subtitle">3種の自動検査を、この順に全対象へ流す</p>
+    </header>
+    <div class="cols3">
+      <div class="check">
+        <span class="check-name">置き換え辞書</span>
+        <p class="check-desc">カタカナ語・英語バズワードを検出し、平易な日本語の推奨語へ置き換える。</p>
+        <div class="ex-list">
+          <span>アジェンダ → 議題</span>
+          <span>リソース → 資源</span>
+          <span>ナレッジ → 知見</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="check">
+        <span class="check-name">textlint</span>
+        <p class="check-desc">文の長さ・読点の数・漢字連続など、読みやすさの定量基準を機械検査する。</p>
+        <div class="ex-list">
+          <span>1文 100字以内</span>
+          <span>読点 3個以内</span>
+          <span>漢字連続 7文字以内</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="check">
+        <span class="check-name">略称照合</span>
+        <p class="check-desc">説明なしの略称・頭字語を検出し、初出時に正式名称の定義を強制する。</p>
+        <div class="ex-list">
+          <span>ref → 参照</span>
+          <span>SHA → ハッシュ値</span>
+          <span>初出時に正式名称を定義</span>
+        </div>
+      </div>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">効果</span>
+      <span class="c-text">語彙・文体・略語の指摘は、人のレビューに届く前に消える</span>
+      <span class="pageno">2 / 5</span>
+    </div>
+  </section>
 
-    </section>
+  <section class="slide-page" data-slide-page="3">
+    <header class="slide-header">
+      <span class="kicker">レビューエンジン 3層構成</span>
+      <h1 class="slide-title">第2層 — 対象が触るものが、適用する規約を決める</h1>
+      <p class="slide-subtitle">規約は人が選ばない。計画の領域と変更パスから自動で解決する</p>
+    </header>
+    <div class="map">
+      <div class="grp">
+        <div class="grp-side">
+          <span class="grp-when">計画の提示前に発火</span>
+          <span class="grp-name">計画の領域から</span>
+          <p class="grp-desc">計画文が何に触れるかを読み、その領域の設計基準を照合に加える。</p>
+        </div>
+        <div class="grp-map">
+          <span class="sig">計画文が UI に触れる</span><span class="arr">→</span><span class="rule">UI 実装基準</span>
+          <span class="sig">計画文が DB に触れる</span><span class="arr">→</span><span class="rule">DB 設計基準</span>
+          <span class="sig">計画文が API に触れる</span><span class="arr">→</span><span class="rule">API 設計基準</span>
+          <span class="sig">計画文が認証に触れる</span><span class="arr">→</span><span class="rule">セキュリティ基準</span>
+        </div>
+      </div>
+      <div class="grp">
+        <div class="grp-side">
+          <span class="grp-when">実装の完了後に発火</span>
+          <span class="grp-name">変更ファイルから</span>
+          <p class="grp-desc">差分に含まれるパスの型を見て、その種類の実装基準を照合に加える。</p>
+        </div>
+        <div class="grp-map">
+          <span class="sig">*.html を変更</span><span class="arr">→</span><span class="rule">HTML 出力基準</span>
+          <span class="sig">src/components/ を変更</span><span class="arr">→</span><span class="rule">UI 実装基準</span>
+          <span class="sig">*.test.* を変更</span><span class="arr">→</span><span class="rule">テスト基準</span>
+          <span class="sig">schema.prisma を変更</span><span class="arr">→</span><span class="rule">DB 設計基準</span>
+        </div>
+      </div>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">例外</span>
+      <span class="c-text">成果物の提示前では実行しない。共通基準のみで照合する</span>
+      <span class="pageno">3 / 5</span>
+    </div>
+  </section>
 
+  <section class="slide-page" data-slide-page="4">
+    <header class="slide-header">
+      <span class="kicker">レビューエンジン 3層構成</span>
+      <h1 class="slide-title">第3層 — 判断系レビューは、責務の違う4人の専門家に分ける</h1>
+      <p class="slide-subtitle">名前が濃い専門家だけが、合否を宣言できる</p>
+    </header>
+    <div class="grid2">
+      <div class="cell cell-strong">
+        <div class="cell-head"><span class="cell-name">文書照合</span><span class="cell-model">SONNET</span><span class="cell-verdict">合否を宣言する</span></div>
+        <p class="cell-desc">文書成果物を規約に照合する。形式・構成・文節改行・意味キーの4観点。</p>
+      </div>
+      <div class="cell cell-r cell-strong">
+        <div class="cell-head"><span class="cell-name">コード照合</span><span class="cell-model">SONNET</span><span class="cell-verdict">合否を宣言する</span></div>
+        <p class="cell-desc">コード差分を規約に照合する。共通基準とUI実装基準の2観点。</p>
+      </div>
+      <div class="cell">
+        <div class="cell-head"><span class="cell-name">反証</span><span class="cell-model">OPUS</span><span class="cell-verdict none">所見のみ</span></div>
+        <p class="cell-desc">作成文脈を持たない懐疑者として「誤りがある」前提で証拠を探す。合否は宣言しない。</p>
+      </div>
+      <div class="cell cell-r">
+        <div class="cell-head"><span class="cell-name">初見読解</span><span class="cell-model">HAIKU</span><span class="cell-verdict none">所見のみ</span></div>
+        <p class="cell-desc">初見で計画を読み、実行できるかを試す。読めなかった箇所が、省略された暗黙知の証拠。</p>
+      </div>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">合否宣言権</span>
+      <span class="c-text">宣言できるのは文書照合とコード照合だけ。反証と初見読解は所見を返す</span>
+      <span class="pageno">4 / 5</span>
+    </div>
+  </section>
 
-
-  </div>
-
-  <!-- ==== 部品: ページ送り ==== -->
+  <section class="slide-page" data-slide-page="5">
+    <header class="slide-header">
+      <span class="kicker">レビューエンジン 3層構成</span>
+      <h1 class="slide-title">対象ごとに、専門家の組み合わせを替える</h1>
+      <p class="slide-subtitle">計画・成果物・実装では、失敗の種類が違う</p>
+    </header>
+    <div class="tbl">
+      <div class="tbl-head">
+        <span class="col-a">レビュー対象</span>
+        <span class="col-b">組み合わせ</span>
+        <span class="col-c">ねらい</span>
+      </div>
+      <div class="tbl-row">
+        <span class="col-a">計画の提示前</span>
+        <span class="col-b">文書照合 ＋ 3観点反証 ＋ 実行可能性の検証</span>
+        <span class="col-c">暗黙知と論理の穴を、提示前に潰す</span>
+      </div>
+      <div class="tbl-row">
+        <span class="col-a">成果物の提示前</span>
+        <span class="col-b">文書照合 ＋ HTML出力 ＋ 理解可能性の検証</span>
+        <span class="col-c">表示品質と初見理解を、提示前に確認する</span>
+      </div>
+      <div class="tbl-row">
+        <span class="col-a">実装の完了後</span>
+        <span class="col-b">コード照合 ＋ 差分反証</span>
+        <span class="col-c">規約違反と破壊的差分を、完了後に探す</span>
+      </div>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">原則</span>
+      <span class="c-text">失敗の種類が違えば、選ぶ専門家も違う</span>
+      <span class="pageno">5 / 5</span>
+    </div>
+  </section>
 
 </div>
-
-
+</div>
+</body>
 </html>
-
-<!-- ==== スケーリング（常時必須・削除禁止） ==== -->
