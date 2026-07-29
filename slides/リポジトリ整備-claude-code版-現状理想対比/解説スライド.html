@@ -1,164 +1,91 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Claude Code｜リポジトリ整備の現状・理想・差分</title>
-  <style>
-    .content {
-      display: flex;
-      min-height: 0;
-      flex: 1 1 auto;
-      flex-direction: column;
-      gap: 12px;
-      padding-top: 17px;
-    }
-    .lead {
-      margin: 0;
-      padding: 9px 15px;
-      color: #fff;
-      background: var(--ink);
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 1.35;
-      letter-spacing: .02em;
-    }
-    .comparison {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-    .comparison th {
-      padding: 8px 13px;
-      border-right: 1px solid #fff;
-      color: var(--ink);
-      background: #eceae5;
-      font-size: 12px;
-      line-height: 1.25;
-      letter-spacing: .08em;
-      text-align: left;
-    }
-    .comparison th:nth-child(1) { width: 35%; }
-    .comparison th:nth-child(2) { width: 39%; }
-    .comparison th:nth-child(3) {
-      width: 26%;
-      color: #fff;
-      background: var(--ink);
-    }
-    .comparison td {
-      height: 65px;
-      padding: 8px 13px;
-      border-right: 1px solid var(--faint);
-      border-bottom: 1px solid var(--faint);
-      font-size: 11.5px;
-      line-height: 1.4;
-      vertical-align: top;
-    }
-    .comparison td:last-child {
-      border-right: 0;
-      background: #f2eee9;
-    }
-    .row-label {
-      display: block;
-      margin-bottom: 2px;
-      color: var(--muted);
-      font-size: 9.5px;
-      font-weight: 700;
-      line-height: 1.25;
-      letter-spacing: .08em;
-    }
-    .current-key {
-      color: #9b3e35;
-      font-weight: 800;
-    }
-    .ideal-key {
-      color: #2f6f58;
-      font-weight: 800;
-    }
-    .gap-key {
-      display: block;
-      margin-bottom: 2px;
-      color: var(--accent);
-      font-size: 12.5px;
-      font-weight: 800;
-    }
-    .gap-key::before {
-      content: "→";
-      margin-right: 6px;
-    }
-    .summary {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      padding-top: 8px;
-      border-top: 1px solid var(--ink);
-      font-size: 10.5px;
-      line-height: 1.4;
-    }
-    .summary p {
-      margin: 0;
-      padding-right: 22px;
-    }
-    .summary strong {
-      display: block;
-      margin-bottom: 1px;
-      color: var(--ink);
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code｜リポジトリ整備の現状・理想・差分（新デザイン）</title>
+<style>
+  /* 骨格C: 対比型（slide-design-system.md 参照）。現状｜（理想 → 差分）を1px縦罫で分け、推す側だけを濃くする */
+  .figure{ flex: 1; display: flex; flex-direction: column; min-height: 0; padding-top: 20px; }
+  .gap-table{ width: 100%; flex: 1; border-collapse: collapse; table-layout: fixed; }
+  .gap-table th{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); text-align: left; padding: 0 18px 8px 0; border-bottom: 1px solid var(--faint); }
+  .gap-table th.side{ color: var(--ink); border-bottom: 2px solid var(--ink); }
+  .gap-table td{ vertical-align: top; padding: 9px 18px 9px 0; border-bottom: 1px solid var(--faint); font-size: 14px; line-height: 1.45; color: var(--muted); }
+  .gap-table .divide{ border-left: 1px solid var(--line); padding-left: 18px; }
+  .col-cat{ width: 16%; } .col-now{ width: 25%; } .col-ideal{ width: 31%; } .col-next{ width: 28%; }
+  .cat{ font-size: 15px; font-weight: 600; color: var(--ink); }
+  .status{ display: block; font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); margin-bottom: 3px; }
+  .doc{ display: block; font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 2px; font-family: "SF Mono", Consolas, Menlo, monospace; }
+  td.next-cell{ font-size: 15px; font-weight: 600; color: var(--ink); }
+  .conclusion{ display: flex; align-items: baseline; gap: 18px; border-top: 2px solid var(--accent); padding-top: 14px; margin-top: 8px; }
+  .c-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--accent); flex-shrink: 0; }
+  .c-text{ font-size: 18px; font-weight: 600; line-height: 1.5; color: var(--ink); }
+  .pageno{ font: 12px/1.4 system-ui, sans-serif; color: var(--label); margin-left: auto; flex-shrink: 0; }
+</style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
-  <main class="slide-viewport">
-    <article class="slide">
-      <section class="slide-page" data-slide-page="1" aria-label="Claude Code向けリポジトリ整備の現状・理想・差分">
-        <header class="slide-header">
-          <span class="slide-eyebrow">CURRENT → TARGET — CLAUDE CODE</span>
-          <h1 class="slide-title">Claude Code｜リポジトリ整備の現状・理想・差分</h1>
-          <p class="slide-subtitle">説明書・設計書・規約・手順書・可視化サイトの不足と、整備すべき配置を対比する</p>
-        </header>
+<div class="slide-viewport">
+<div class="slide">
 
-        <div class="content">
-          <p class="lead">AIが自走するには「読める文書」と「見える仕組み」をリポジトリに揃える</p>
-          <table class="comparison" aria-label="Claude Code向けリポジトリ整備の現状・理想・差分">
-            <thead>
-              <tr><th scope="col">現状</th><th scope="col">理想</th><th scope="col">差分</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="row-label">01｜プロジェクト説明書</span><span class="current-key">未作成</span>　技術構成・コマンド・守るべき原則をAIに伝えられない。</td>
-                <td><span class="row-label">01｜プロジェクト説明書</span><span class="ideal-key">CLAUDE.md</span>　プロジェクトの索引兼行動原則。AIが毎回のセッション開始時に自動で読み込む。</td>
-                <td><span class="gap-key">説明書を配置</span>技術構成・コマンド一覧・行動原則を1ファイルに整理する。</td>
-              </tr>
-              <tr>
-                <td><span class="row-label">02｜設計書</span><span class="current-key">0件</span>　機能仕様が口頭やSlackに散在し、AIは実装意図を推測する。</td>
-                <td><span class="row-label">02｜設計書</span><span class="ideal-key">docs/</span>　機能・画面の設計書を格納し、AIが仕様を参照できる。</td>
-                <td><span class="gap-key">設計書を配置</span>主要機能の設計書を作成し、体系的に配置する。</td>
-              </tr>
-              <tr>
-                <td><span class="row-label">03｜規約ファイル</span><span class="current-key">0件</span>　命名・コーディング規約が暗黙知で、AIの書き方が揺れる。</td>
-                <td><span class="row-label">03｜規約ファイル</span><span class="ideal-key">rules/</span>　規約をMarkdownで記述し、編集対象に必要な規約だけをAIへ渡す。</td>
-                <td><span class="gap-key">規約を文書化</span>命名規則・コーディング規約をファイル種別ごとに整理する。</td>
-              </tr>
-              <tr>
-                <td><span class="row-label">04｜作業手順書</span><span class="current-key">未整備</span>　繰り返し作業が属人化し、人が毎回口頭で指示している。</td>
-                <td><span class="row-label">04｜作業手順書</span><span class="ideal-key">skills/</span>　定型作業を構造化し、名前で呼ぶだけでAIが手順どおりに動く。</td>
-                <td><span class="gap-key">手順書を定型化</span>頻出の作業パターンを洗い出し、再利用可能な手順書に整理する。</td>
-              </tr>
-              <tr>
-                <td><span class="row-label">05｜可視化サイト</span><span class="current-key">なし</span>　規約・画面・APIを人が全体で俯瞰する手段がない。</td>
-                <td><span class="row-label">05｜可視化サイト</span><span class="ideal-key">project-portal/</span>　規約・画面・マスタ表をブラウザで読めるサイトとして構築する。</td>
-                <td><span class="gap-key">索引をHTML化</span>規約・画面・APIの索引を、人とAIの共通参照点にする。</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="summary" aria-label="整備方針の要約">
-            <p><strong>現状の問題</strong>AIが参照できる文書も、人が俯瞰できる基盤もない。</p>
-            <p><strong>理想の状態</strong>5資産を依存関係の上流から順に接続する。</p>
-            <p><strong>整備順</strong>説明書 → 設計書 → 規約 → 手順書 → 可視化。</p>
-          </div>
-        </div>
-      </section>
-    </article>
-  </main>
+  <section class="slide-page is-active" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">現状理想対比 — Claude Code</span>
+      <h1 class="slide-title">Claude Code｜リポジトリ整備の現状・理想・差分</h1>
+      <p class="slide-subtitle">AIが自走するには「読める文書」と「見える仕組み」を揃える — 不足と整備すべき配置を対比する</p>
+    </header>
+    <div class="figure">
+      <table class="gap-table">
+        <colgroup><col class="col-cat"><col class="col-now"><col class="col-ideal"><col class="col-next"></colgroup>
+        <thead><tr>
+          <th scope="col">資産</th>
+          <th scope="col">現状</th>
+          <th scope="col" class="side divide">理想の配置</th>
+          <th scope="col" class="side">差分（次に行うこと）</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="cat">プロジェクト<br>説明書</span></td>
+            <td><span class="status">未作成</span>技術構成・コマンド・守るべき原則をAIに伝えられない</td>
+            <td class="divide"><span class="doc">CLAUDE.md</span>プロジェクトの索引兼行動原則。セッション開始時に自動で読み込まれる</td>
+            <td class="next-cell">技術構成・コマンド一覧・行動原則を1ファイルに整理して配置</td>
+          </tr>
+          <tr>
+            <td><span class="cat">設計書</span></td>
+            <td><span class="status">0件</span>機能仕様が口頭やSlackに散在し、AIは実装意図を推測する</td>
+            <td class="divide"><span class="doc">docs/</span>機能・画面の設計書を格納し、AIが仕様を参照できる</td>
+            <td class="next-cell">主要機能の設計書を作成し、体系的に配置</td>
+          </tr>
+          <tr>
+            <td><span class="cat">規約ファイル</span></td>
+            <td><span class="status">0件</span>命名・コーディング規約が暗黙知で、AIの書き方が揺れる</td>
+            <td class="divide"><span class="doc">rules/</span>規約をMarkdownで記述し、編集対象に必要な規約だけをAIへ渡す</td>
+            <td class="next-cell">命名規則・コーディング規約をファイル種別ごとに整理</td>
+          </tr>
+          <tr>
+            <td><span class="cat">作業手順書</span></td>
+            <td><span class="status">未整備</span>繰り返し作業が属人化し、人が毎回口頭で指示している</td>
+            <td class="divide"><span class="doc">skills/</span>定型作業を構造化し、名前で呼ぶだけでAIが手順どおりに動く</td>
+            <td class="next-cell">頻出の作業パターンを再利用可能な手順書に整理</td>
+          </tr>
+          <tr>
+            <td><span class="cat">可視化サイト</span></td>
+            <td><span class="status">なし</span>規約・画面・APIを人が全体で俯瞰する手段がない</td>
+            <td class="divide"><span class="doc">project-portal/</span>規約・画面・マスタ表をブラウザで読めるサイトとして構築する</td>
+            <td class="next-cell">規約・画面・APIの索引を、人とAIの共通参照点に</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">整備順</span>
+      <span class="c-text">説明書 → 設計書 → 規約 → 手順書 → 可視化 — 依存関係の上流から順に接続する</span>
+      <span class="pageno">1 / 1</span>
+    </div>
+  </section>
+
+</div>
+</div>
 </body>
 </html>

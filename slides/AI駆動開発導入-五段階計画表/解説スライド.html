@@ -2,199 +2,184 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AI駆動開発の導入は5段階で進める</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI駆動開発の導入は5段階で進める（新デザイン v2）</title>
 <style>
-  :root{
-    --page: #EDF0F4;
-    --surface: #FFFFFF;
-    --ink: #1C2B3A;
-    --ink-2: #55667A;
-    --ink-3: #5B6D80;
-    --border: #D9E0E8;
-    --grid: #E9EDF2;
-    --critical: #C0392B;
-    --critical-soft: #FAECEA;
-    --good: #1F7A46;
-    --good-soft: #EAF4EE;
-    --tag-bg: #EDF1F6;
-    --claude-deep: #9F432C;
-  }
-  .slide > .group-row, .slide > .stages-grid, .slide > .layer-band{ display: none; }
-  .section-label{ color: var(--claude-deep); font-size: 13px; font-weight: 800; letter-spacing: .08em; }
-
-  .overview-thesis{
-    display: grid; grid-template-columns: 1.15fr 1fr; gap: 34px; align-items: end;
-    padding: 18px 0 16px; border-bottom: 1px solid var(--border);
-  }
-  .overview-thesis strong{ font-size: 25px; line-height: 1.4; }
-  .overview-thesis p{ font-size: 15px; line-height: 1.65; color: var(--ink-2); }
-  .phase-axis{ display: grid; grid-template-columns: 2fr 1fr 2fr; gap: 20px; }
-  .phase-axis span{
-    padding: 8px 12px; border-top: 4px solid var(--ink-3);
-    color: var(--ink-2); font-size: 13px; font-weight: 800;
-  }
-  .phase-axis span:nth-child(2){ border-color: var(--claude-deep); color: var(--ink); }
-  .phase-axis span:nth-child(3){ border-color: var(--good); }
-  .overview-flow{
-    list-style: none; display: grid; grid-template-columns: repeat(5, 1fr);
-    flex: 1; min-height: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--border);
-  }
-  .overview-flow li{ position: relative; padding: 25px 22px 18px; border-right: 1px solid var(--border); }
-  .overview-flow li:last-child{ border-right: 0; }
-  .overview-flow li:not(:last-child)::after{
-    content: '›'; position: absolute; right: -8px; top: 49%; z-index: 2;
-    width: 16px; background: var(--surface); color: var(--ink-3); font-size: 25px; text-align: center;
-  }
-  .overview-flow .num{ display: block; color: var(--claude-deep); font-size: 12px; font-weight: 800; letter-spacing: .08em; }
-  .overview-flow h2{ margin: 7px 0 12px; font-size: 20px; line-height: 1.35; }
-  .overview-flow p{ color: var(--ink-2); font-size: 14px; line-height: 1.55; }
-  .overview-flow .deliverable{ display: block; margin-top: 16px; padding-top: 10px; border-top: 1px solid var(--border); color: var(--ink); font-weight: 700; }
-
-  .detail-lead{ display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
-  .detail-lead strong{ font-size: 22px; }
-  .detail-lead span{ font-size: 13px; color: var(--ink-2); }
-  .detail-stack{ display: grid; grid-template-columns: 1fr 1fr; gap: 28px; flex: 1; min-height: 0; }
-  .detail-block{ padding: 22px 24px; border-top: 5px solid var(--ink-3); background: var(--tag-bg); }
-  .detail-block--turn{ border-color: var(--claude-deep); background: var(--critical-soft); }
-  .detail-block--grow{ border-color: var(--good); background: var(--good-soft); }
-  .detail-block .step-id{ font-size: 12px; font-weight: 800; color: var(--ink-3); letter-spacing: .08em; }
-  .detail-block h2{ margin: 6px 0 4px; font-size: 25px; }
-  .purpose{ margin: 0 0 16px; font-size: 16px; font-weight: 700; color: var(--ink-2); }
-  .work-list{ list-style: none; display: grid; gap: 10px; margin: 0; padding: 0; }
-  .work-list li{ position: relative; padding-left: 17px; font-size: 15px; line-height: 1.55; color: var(--ink-2); }
-  .work-list li::before{ content: '—'; position: absolute; left: 0; color: var(--ink-3); }
-  .output{ margin: 18px 0 0; padding-top: 12px; border-top: 1px solid var(--border); font-size: 15px; line-height: 1.5; color: var(--ink); }
-  .output strong{ color: var(--claude-deep); }
-
-  .late-layout{ display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; flex: 1; min-height: 0; }
-  .late-side{ display: grid; grid-template-rows: 1fr 1fr; gap: 14px; min-height: 0; }
-  .late-side .detail-block{ min-height: 0; padding: 14px 18px; }
-  .late-side .detail-block h2{ font-size: 21px; }
-  .late-side .purpose{ margin: 0 0 6px; font-size: 14px; }
-  .late-side .work-list{ gap: 4px; }
-  .late-side .work-list li{ font-size: 13.5px; line-height: 1.42; }
-  .late-side .output{ margin: 6px 0 0; padding-top: 6px; font-size: 13.5px; }
-  .failure-band{
-    padding: 12px 16px; border-left: 5px solid var(--critical); background: var(--critical-soft);
-    color: var(--ink-2); font-size: 14px; line-height: 1.5;
-  }
-  .failure-band strong{ color: var(--critical); }
+  /* 骨格B: 構造型（slide-design-system.md 参照）。主役は土台整備（STEP 2）のみ */
+  .steps{ flex: 1; display: flex; flex-direction: column; min-height: 0; padding-top: 20px; }
+  .steps-head{ display: grid; grid-template-columns: 90px 230px 1fr 330px; gap: 20px; padding-bottom: 8px; }
+  .steps-head span{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .step-row{ flex: 1; display: grid; grid-template-columns: 90px 230px 1fr 330px; gap: 20px; align-items: center; border-top: 1px solid var(--faint); padding: 8px 0; }
+  .step-row.star{ border-top: 2px solid var(--ink); }
+  .sn{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .step-row.star .sn{ color: var(--ink); }
+  .sname{ font-size: 17px; font-weight: 600; color: var(--ink); line-height: 1.35; }
+  .step-row.star .sname{ font-size: 20px; }
+  .sdesc{ margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .step-row.star .sdesc{ color: var(--ink); font-weight: 600; font-size: 15px; }
+  .deliv{ font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .deliv strong{ color: var(--ink); font-weight: 600; margin-right: 8px; }
+  .duo{ flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; padding-top: 22px; }
+  .trio{ flex: 1; min-height: 0; display: grid; grid-template-columns: 1.15fr 1fr; gap: 28px; padding-top: 22px; }
+  .trio-side{ display: grid; grid-template-rows: 1fr 1fr; gap: 14px; min-height: 0; }
+  .block{ display: flex; flex-direction: column; min-height: 0; padding: 16px 22px 14px; border-top: 1px solid var(--line); }
+  .block.star{ border-top: 2px solid var(--ink); background: var(--surface-2); }
+  .block .sid{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .block.star .sid{ color: var(--ink); }
+  .block h2{ margin: 6px 0 4px; font-size: 18px; font-weight: 600; color: var(--ink); }
+  .block.star h2{ font-size: 21px; }
+  .block .purpose{ margin: 0 0 10px; font-size: 15px; font-weight: 600; color: var(--muted); }
+  .work{ list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .work li{ position: relative; padding-left: 16px; font-size: 15px; line-height: 1.5; color: var(--muted); }
+  .work li::before{ content: '—'; position: absolute; left: 0; color: var(--label); }
+  .trio-side .work li{ font-size: 14px; }
+  .block .output{ margin: auto 0 0; padding-top: 8px; border-top: 1px solid var(--faint); font-size: 15px; line-height: 1.5; color: var(--ink); }
+  .trio-side .block .output{ font-size: 14px; }
+  .block .output .olabel{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); margin-right: 10px; }
+  .conclusion{ display: flex; align-items: baseline; gap: 18px; border-top: 2px solid var(--accent); padding-top: 14px; margin-top: 16px; }
+  .c-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--accent); flex-shrink: 0; }
+  .c-text{ font-size: 18px; font-weight: 600; line-height: 1.5; color: var(--ink); }
+  .pageno{ font: 12px/1.4 system-ui, sans-serif; color: var(--label); margin-left: auto; flex-shrink: 0; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
-
 <body>
 <div class="slide-viewport">
-  <div class="slide">
-    <section class="slide-page is-active" data-slide-page="1">
-      <header class="slide-header">
-        <span class="slide-eyebrow">AI駆動開発 導入解説 — 全体像</span>
-        <h1 class="slide-title">AI駆動開発の導入は5段階で進める</h1>
-        <p class="slide-subtitle">ツール導入から始めない — 診断と土台整備が先、拡大は最後</p>
-      </header>
-      <div class="overview-thesis">
-        <strong>診断と土台を先に整え、<wbr>安全装置を経て、<wbr>型化・拡大へ進む</strong>
-        <p>順序を飛ばすと、AIの出力を検証する基準と止める仕組みがないまま実装量だけが増える。</p>
-      </div>
-      <div class="phase-axis" aria-label="3つの局面">
-        <span>土台を作る｜STEP 1–2</span>
-        <span>安全に導入｜STEP 3</span>
-        <span>型にして広げる｜STEP 4–5</span>
-      </div>
-      <ol class="overview-flow">
-        <li><span class="num">STEP 1</span><h2>現状診断</h2><p>AIが働ける土台を棚卸し</p><span class="deliverable">成果物：診断結果・整備優先順位</span></li>
-        <li><span class="num">STEP 2</span><h2>土台整備</h2><p>AIが読める文書と自動検証を整備</p><span class="deliverable">成果物：参照文書・自動検証</span></li>
-        <li><span class="num">STEP 3</span><h2>ツール導入と<wbr>安全装置</h2><p>小さく安全に使い始める</p><span class="deliverable">成果物：ガード付き開発環境</span></li>
-        <li><span class="num">STEP 4</span><h2>開発フロー確立</h2><p>1タスクの進め方を型にする</p><span class="deliverable">成果物：再現可能な実装フロー</span></li>
-        <li><span class="num">STEP 5</span><h2>拡大と継続改善</h2><p>チーム全体で回し続ける</p><span class="deliverable">成果物：自己改善する開発体制</span></li>
-      </ol>
-    </section>
+<div class="slide">
 
-    <section class="slide-page" data-slide-page="2">
-      <header class="slide-header">
-        <span class="slide-eyebrow">AI駆動開発 導入解説 — STEP 1–2</span>
-        <h1 class="slide-title">AIを入れる前に、現状を測り、検証できる土台を作る</h1>
-        <p class="slide-subtitle">全面整備を避け、変更履歴から優先範囲を決めて着手する</p>
-      </header>
-      <div class="detail-lead"><strong>土台を作る</strong><span>診断 → 優先順位 → 文書・テスト・規約</span></div>
-      <div class="detail-stack">
-        <article class="detail-block">
-          <span class="step-id">STEP 1</span>
-          <h2>現状診断</h2>
-          <p class="purpose">目的：AIが働ける土台があるかを棚卸しする</p>
-          <ul class="work-list">
-            <li>リポジトリ・設計書・テスト・規約を棚卸しする</li>
-            <li>変更履歴を実測し、整備の優先順位を付ける</li>
-            <li>全面整備はせず、変更頻度と影響の大きい範囲から選ぶ</li>
+  <section class="slide-page is-active" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">AI駆動開発 導入計画 — 全体像</span>
+      <h1 class="slide-title">AI駆動開発の導入は5段階で進める</h1>
+      <p class="slide-subtitle">ツール導入から始めない — 診断と土台整備が先、拡大は最後</p>
+    </header>
+    <div class="steps">
+      <div class="steps-head"><span></span><span>段階</span><span>やること</span><span>成果物</span></div>
+      <div class="step-row">
+        <span class="sn">STEP 1</span>
+        <span class="sname">現状診断</span>
+        <p class="sdesc">リポジトリ・設計書・テスト・規約を棚卸しし、変更履歴から整備の優先順位を付ける</p>
+        <span class="deliv"><strong>成果物</strong>診断結果・整備優先順位</span>
+      </div>
+      <div class="step-row star">
+        <span class="sn">STEP 2</span>
+        <span class="sname">土台整備</span>
+        <p class="sdesc">AIが読める文書と自動検証を整備する — 後続の導入・型化・拡大のすべてを支える</p>
+        <span class="deliv"><strong>成果物</strong>参照文書・自動検証</span>
+      </div>
+      <div class="step-row">
+        <span class="sn">STEP 3</span>
+        <span class="sname">ツール導入と安全装置</span>
+        <p class="sdesc">特性テストと権限・機密ガードで安全網を張り、小さく安全に使い始める</p>
+        <span class="deliv"><strong>成果物</strong>ガード付き開発環境</span>
+      </div>
+      <div class="step-row">
+        <span class="sn">STEP 4</span>
+        <span class="sname">開発フロー確立</span>
+        <p class="sdesc">計画承認・レビューゲート・証跡による完了定義で、1タスクの進め方を型にする</p>
+        <span class="deliv"><strong>成果物</strong>再現可能な実装フロー</span>
+      </div>
+      <div class="step-row">
+        <span class="sn">STEP 5</span>
+        <span class="sname">拡大と継続改善</span>
+        <p class="sdesc">並列開発と役割分業を導入し、全操作を記録して改善ループへ戻す</p>
+        <span class="deliv"><strong>成果物</strong>自己改善する開発体制</span>
+      </div>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">計画の前提</span>
+      <span class="c-text">順序を飛ばすと、AIの出力を検証する基準と止める仕組みがないまま、実装量だけが増える</span>
+      <span class="pageno">1 / 3</span>
+    </div>
+  </section>
+
+  <section class="slide-page" data-slide-page="2">
+    <header class="slide-header">
+      <span class="kicker">AI駆動開発 導入計画 — STEP 1–2</span>
+      <h1 class="slide-title">AIを入れる前に、現状を測り、検証できる土台を作る</h1>
+      <p class="slide-subtitle">診断 → 優先順位 → 文書・テスト・規約の順で土台を作る</p>
+    </header>
+    <div class="duo">
+      <article class="block">
+        <span class="sid">STEP 1</span>
+        <h2>現状診断</h2>
+        <p class="purpose">目的：AIが働ける土台があるかを棚卸しする</p>
+        <ul class="work">
+          <li>リポジトリ・設計書・テスト・規約を棚卸しする</li>
+          <li>変更履歴を実測し、整備の優先順位を付ける</li>
+          <li>全面整備はせず、変更頻度と影響の大きい範囲から選ぶ</li>
+        </ul>
+        <p class="output"><span class="olabel">成果物</span>診断結果と「どこから整備するか」の優先順位</p>
+      </article>
+      <article class="block star">
+        <span class="sid">STEP 2</span>
+      <h2>土台整備</h2>
+      <p class="purpose">目的：AIが読める「書かれた地図」を作る</p>
+        <ul class="work">
+          <li>読み取り専用AIを先行投入し、設計文書の下書きを逆生成する</li>
+          <li>下書きの確定は人がレビューする</li>
+          <li>テストとlinter（コード規約の自動チェック）を整備する</li>
+        </ul>
+        <p class="output"><span class="olabel">成果物</span>AIが参照できる文書と自動検証（優先範囲から）</p>
+      </article>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">着手の原則</span>
+      <span class="c-text">全面整備はしない — 変更履歴を実測し、変更頻度と影響の大きい範囲から整備する</span>
+      <span class="pageno">2 / 3</span>
+    </div>
+  </section>
+
+  <section class="slide-page" data-slide-page="3">
+    <header class="slide-header">
+      <span class="kicker">AI駆動開発 導入計画 — STEP 3–5</span>
+      <h1 class="slide-title">安全網を置いてから、実装フローを型化し、チームへ広げる</h1>
+      <p class="slide-subtitle">STEP 3を転換点に、書き込み解禁・運用標準化・継続改善へ進む</p>
+    </header>
+    <div class="trio">
+      <article class="block star">
+        <span class="sid">STEP 3｜転換点</span>
+        <h2>ツール導入と安全装置</h2>
+        <p class="purpose">目的：小さく安全に使い始める</p>
+        <ul class="work">
+          <li>特性テスト（現状の挙動を固定するテスト）で安全網を張る</li>
+          <li>権限・機密ガードを設定する</li>
+          <li>安全網の確認後、書き込みを段階的に解禁する</li>
+        </ul>
+        <p class="output"><span class="olabel">成果物</span>安全網とガード付きのAI開発環境</p>
+      </article>
+      <div class="trio-side">
+        <article class="block">
+          <span class="sid">STEP 4</span>
+          <h2>開発フロー確立</h2>
+          <p class="purpose">目的：1タスクの流れを型にする</p>
+          <ul class="work">
+            <li>計画を人が承認し、節目ごとにレビューゲートを置く</li>
+            <li>「実際に動いた証跡」で完了を定義する</li>
           </ul>
-          <p class="output"><strong>成果物</strong>　診断結果と「どこから整備するか」の優先順位</p>
+          <p class="output"><span class="olabel">成果物</span>再現可能な実装フロー</p>
         </article>
-        <article class="detail-block">
-          <span class="step-id">STEP 2</span>
-          <h2>土台整備</h2>
-          <p class="purpose">目的：AIが読める「書かれた地図」を作る</p>
-          <ul class="work-list">
-            <li>読み取り専用AIを先行投入し、設計文書の下書きを逆生成する</li>
-            <li>下書きの確定は人がレビューする</li>
-            <li>テストとlinter（コード規約の自動チェック）を整備する</li>
+        <article class="block">
+          <span class="sid">STEP 5</span>
+          <h2>拡大と継続改善</h2>
+          <p class="purpose">目的：チーム全体で回し続ける</p>
+          <ul class="work">
+            <li>並列開発とAIの役割分業を導入する</li>
+            <li>全操作を記録し、改善ループへ戻す</li>
           </ul>
-          <p class="output"><strong>成果物</strong>　AIが参照できる文書と自動検証（優先範囲から）</p>
+          <p class="output"><span class="olabel">成果物</span>自己改善するAI駆動開発体制</p>
         </article>
       </div>
-    </section>
-
-    <section class="slide-page" data-slide-page="3">
-      <header class="slide-header">
-        <span class="slide-eyebrow">AI駆動開発 導入解説 — STEP 3–5</span>
-        <h1 class="slide-title">安全網を置いてから、実装フローを型化し、チームへ広げる</h1>
-        <p class="slide-subtitle">STEP 3を転換点に、書き込み解禁・運用標準化・継続改善へ進む</p>
-      </header>
-      <div class="late-layout">
-        <article class="detail-block detail-block--turn">
-          <span class="step-id">STEP 3｜転換点</span>
-          <h2>ツール導入と安全装置</h2>
-          <p class="purpose">目的：小さく安全に使い始める</p>
-          <ul class="work-list">
-            <li>特性テスト（現状の挙動を固定するテスト）で安全網を張る</li>
-            <li>権限・機密ガードを設定する</li>
-            <li>安全網の確認後、書き込みを段階的に解禁する</li>
-          </ul>
-          <p class="output"><strong>成果物</strong>　安全網とガード付きのAI開発環境</p>
-        </article>
-        <div class="late-side">
-          <article class="detail-block detail-block--grow">
-            <span class="step-id">STEP 4</span>
-            <h2>開発フロー確立</h2>
-            <p class="purpose">目的：1タスクの流れを型にする</p>
-            <ul class="work-list">
-              <li>計画を人が承認する</li>
-              <li>節目ごとにレビューゲートを置く</li>
-              <li>「実際に動いた証跡」で完了を定義する</li>
-            </ul>
-            <p class="output"><strong>成果物</strong>　再現可能な実装フロー</p>
-          </article>
-          <article class="detail-block detail-block--grow">
-            <span class="step-id">STEP 5</span>
-            <h2>拡大と継続改善</h2>
-            <p class="purpose">目的：チーム全体で回し続ける</p>
-            <ul class="work-list">
-              <li>並列開発とAIの役割分業を導入する</li>
-              <li>全操作を記録し、改善ループへ戻す</li>
-            </ul>
-            <p class="output"><strong>成果物</strong>　自己改善するAI駆動開発体制</p>
-          </article>
-        </div>
-      </div>
-      <p class="failure-band"><strong>よくある失敗：</strong>STEP 3のツール導入から始める → 規約もテストも無いままAIがコードを量産し、レビューが破綻する</p>
-    </section>
-
-  </div>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">よくある失敗</span>
+      <span class="c-text">STEP 3のツール導入から始める — 規約もテストも無いままAIがコードを量産し、レビューが破綻する</span>
+      <span class="pageno">3 / 3</span>
+    </div>
+  </section>
 
 </div>
-
-
-
+</div>
 </body>
 </html>
