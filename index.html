@@ -602,35 +602,6 @@ const SLIDES = [
     "updatedAt": "2026-07-29T15:20:49+09:00"
   },
   {
-    "key": "agent-home振る舞い統制-hooks権限分離観点",
-    "title": "AI エージェントの振る舞い統制 ── hooks 強制とサブエージェント権限分離",
-    "purpose": "hookで規約を機械的に強制し、サブエージェントには必要最小限の権限だけを与える構成を示す。",
-    "target": "hooks による機械的規約強制とサブエージェント権限分離",
-    "problems": "ルール違反がプロンプトのお願いでは防げない",
-    "tools": [
-      "汎用"
-    ],
-    "mechanisms": [
-      "hooks",
-      "subagent"
-    ],
-    "themes": [
-      "設定・規約遵守"
-    ],
-    "stages": [
-      "拡大・継続改善"
-    ],
-    "entities": [
-      "規約: 振る舞い統制の全体設計"
-    ],
-    "pack": false,
-    "has_prompt": false,
-    "template": "",
-    "date": "2026-07-16",
-    "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
-  },
-  {
     "key": "claude-code-テンプレート構成",
     "title": "Claude Code｜docs配置ガイド",
     "purpose": "Claude Codeが参照する文書・規約・スキルを、どのフォルダへ配置するかを示す。",
@@ -729,37 +700,6 @@ const SLIDES = [
     "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
-    "key": "hook強制助言-二層設計",
-    "title": "AIを縛る規約は「止める」と「気づかせる」の二層に分ける",
-    "purpose": "違反を止めるblockと、判断材料を与えるadvisoryを分けてhookを設計する方法を示す。",
-    "target": "hook の block（強制停止）と advisory（知識注入）の二層設計",
-    "problems": "ルールで縛ると AI の開発速度が落ちる・お願いだけでは違反が防げない",
-    "tools": [
-      "claude-code"
-    ],
-    "mechanisms": [
-      "hooks",
-      "rules"
-    ],
-    "themes": [
-      "設定・規約遵守",
-      "運用ルール"
-    ],
-    "stages": [
-      "ツール導入と安全装置"
-    ],
-    "entities": [
-      "hook: block による停止",
-      "hook: advisory による注意喚起"
-    ],
-    "pack": false,
-    "has_prompt": false,
-    "template": "",
-    "date": "2026-07-16",
-    "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
-  },
-  {
     "key": "機密情報検査-コミット前ブロック",
     "title": "機密情報を三重に検査し、公開は承認で守る",
     "purpose": "機密情報をコミット・push・公開の三段階で検査し、外部へ出る前に機械的に止める仕組みを示す。",
@@ -780,64 +720,6 @@ const SLIDES = [
     "entities": [
       "hook: コミット時の機密文字列走査",
       "規約: 検出時の通知と除去手順"
-    ],
-    "pack": false,
-    "has_prompt": false,
-    "template": "",
-    "date": "2026-07-16",
-    "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
-  },
-  {
-    "key": "サブエージェント4分類-合否宣言権",
-    "title": "AI の分業は 4 分類に固定し、合否の宣言は「判定役」だけに許す",
-    "purpose": "計画・実行・調査・判定を分担し、合否の宣言権を専任レビュアーに限定する構造を示す。",
-    "target": "サブエージェントの 4 分類（計画=上位モデル・実行=Sonnet/Haiku・調査=読み取り専用・判定=専任レビュアー）と合否宣言権の判定系独占",
-    "problems": "1 つの AI に丸ごと任せて自己申告の「完了です」で品質が確認されない",
-    "tools": [
-      "claude-code"
-    ],
-    "mechanisms": [
-      "subagent"
-    ],
-    "themes": [
-      "運用ルール",
-      "設定・規約遵守"
-    ],
-    "stages": [
-      "拡大・継続改善"
-    ],
-    "entities": [
-      "規約: 役割分担と合否宣言権の定義"
-    ],
-    "pack": false,
-    "has_prompt": false,
-    "template": "",
-    "date": "2026-07-16",
-    "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
-  },
-  {
-    "key": "判断反映分離-委任設計",
-    "title": "AI への依頼は「決める」と「反映する」を分けてから渡す",
-    "purpose": "依頼側が決定し、実行役が反映するように判断と実装を分離する委任設計を示す。",
-    "target": "「決める」（依頼側）と「反映する」（実行役）の分離委任と hook による機械強制",
-    "problems": "AI への丸投げ依頼で意図しない実装判断が紛れ込み後から説明できない",
-    "tools": [
-      "claude-code"
-    ],
-    "mechanisms": [
-      "subagent",
-      "hooks"
-    ],
-    "themes": [
-      "運用ルール"
-    ],
-    "stages": [
-      "拡大・継続改善"
-    ],
-    "entities": [
-      "規約: 委任プロンプトの必須要素"
     ],
     "pack": false,
     "has_prompt": false,
@@ -1096,34 +978,6 @@ const SLIDES = [
     "date": "2026-07-19",
     "updated": "2026-07-29",
     "updatedAt": "2026-07-29T18:28:04+09:00"
-  },
-  {
-    "key": "リポジトリ現状理想-AI可読性対比",
-    "title": "AIが働けるリポジトリ、働けないリポジトリ",
-    "purpose": "暗黙知に依存するリポジトリを、AIが継続的に読める状態へ整備する差分を示す。",
-    "target": "AIが働けるリポジトリの条件（書かれた地図）と暗黙知前提の現状リポジトリの対比",
-    "problems": "自社リポジトリのままAIを入れて効果が出るか判断できない。整備項目を経営層に説明したい",
-    "tools": [
-      "汎用"
-    ],
-    "mechanisms": [
-      "CLAUDE.md",
-      "rules",
-      "hooks"
-    ],
-    "themes": [
-      "環境構築"
-    ],
-    "stages": [
-      "現状診断"
-    ],
-    "entities": [],
-    "pack": false,
-    "has_prompt": false,
-    "template": "",
-    "date": "2026-07-19",
-    "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
   },
   {
     "key": "AI実装フロー-一枚俯瞰",
@@ -1388,36 +1242,6 @@ const SLIDES = [
     "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
-    "key": "cursor-claude共存-フォルダ分離構成",
-    "title": "Cursor と Claude Code は設定フォルダが分離——1 リポジトリで共存する",
-    "purpose": "CursorとClaude Codeの設定を分離し、共有資産だけを共通フォルダに置く構成を示す。",
-    "target": "Cursor と Claude Code を 1 リポジトリで共存させる際のフォルダ構成（.cursor/ と .claude/ の分離と project-portal/ による共有）",
-    "problems": "2 つの AI ツールの設定が混在して干渉する・設計書をどちらの AI からも参照させたい",
-    "tools": [
-      "claude-code",
-      "cursor"
-    ],
-    "mechanisms": [
-      "CLAUDE.md",
-      "rules",
-      "skills"
-    ],
-    "themes": [
-      "設定・規約遵守",
-      "環境構築"
-    ],
-    "stages": [
-      "ツール導入と安全装置"
-    ],
-    "entities": [],
-    "pack": false,
-    "has_prompt": false,
-    "template": "",
-    "date": "2026-07-22",
-    "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
-  },
-  {
     "key": "工程時系列-AI導入手順",
     "title": "AI導入プロジェクトの工程時系列",
     "purpose": "AI導入プロジェクトの工程を時系列で並べ、前後関係と重なりを示す。",
@@ -1441,31 +1265,6 @@ const SLIDES = [
     "date": "2026-07-22",
     "updated": "2026-07-29",
     "updatedAt": "2026-07-29T18:28:04+09:00"
-  },
-  {
-    "key": "AI開発五層モデル-プロンプトからグラフ",
-    "title": "AI開発の5層モデル",
-    "purpose": "AI開発をプロンプトからグラフまでの5層に分け、各層の役割と積み上げ関係を示す。",
-    "target": "AI開発の5層モデル（プロンプト→コンテキスト→ハーネス→ループ→グラフ）と各層の役割",
-    "problems": "AIアプリ開発がプロンプト作成から先に進まない・モデルを中心としたシステム全体の設計方法が分からない",
-    "tools": [
-      "汎用"
-    ],
-    "mechanisms": [],
-    "themes": [
-      "運用ルール",
-      "環境構築"
-    ],
-    "stages": [
-      "全体像"
-    ],
-    "entities": [],
-    "pack": false,
-    "has_prompt": false,
-    "template": "",
-    "date": "2026-07-23",
-    "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
   },
   {
     "key": "claude-code-マルチアカウント-ディレクトリ隔離",
@@ -1519,64 +1318,6 @@ const SLIDES = [
     "date": "2026-07-25",
     "updated": "2026-07-29",
     "updatedAt": "2026-07-29T18:28:04+09:00"
-  },
-  {
-    "key": "ai開発課題-領域KPI型",
-    "title": "AI開発の課題を4領域で診断する",
-    "purpose": "AI開発の課題を4領域のKPIで整理し、優先して改善すべき領域を俯瞰する。",
-    "target": "AI開発の仕様管理・知識整備・検証基盤・運用設計を4領域とKPIで俯瞰する構成サンプル",
-    "problems": "AI開発の課題が個別最適に見えており、優先対応を共通指標で整理したい",
-    "tools": [
-      "codex"
-    ],
-    "mechanisms": [
-      "skills",
-      "rules",
-      "hooks"
-    ],
-    "themes": [
-      "設定・規約遵守",
-      "運用ルール"
-    ],
-    "stages": [
-      "現状診断"
-    ],
-    "entities": [],
-    "pack": false,
-    "has_prompt": false,
-    "template": "領域KPI型",
-    "date": "2026-07-25",
-    "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
-  },
-  {
-    "key": "ai開発課題-課題比較影響型",
-    "title": "AI開発で確認する2つの課題例",
-    "purpose": "AI開発で優先すべき2つの課題を、現状データと業務への影響で比較する。",
-    "target": "AI開発の前提探索時間と成果物品質の2課題を現状データと業務影響で比較する構成サンプル",
-    "problems": "AI開発の遅さと品質ばらつきの共通原因を整理したい",
-    "tools": [
-      "codex"
-    ],
-    "mechanisms": [
-      "skills",
-      "rules",
-      "hooks"
-    ],
-    "themes": [
-      "設定・規約遵守",
-      "運用ルール"
-    ],
-    "stages": [
-      "現状診断"
-    ],
-    "entities": [],
-    "pack": false,
-    "has_prompt": false,
-    "template": "課題比較影響型",
-    "date": "2026-07-25",
-    "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
   },
   {
     "key": "ai開発課題-重点行分析型",
@@ -1696,7 +1437,6 @@ const PACKS = [
     "name": "経営層向け初回提案",
     "slides": [
       "AI駆動開発導入-五段階計画表",
-      "リポジトリ現状理想-AI可読性対比",
       "自動検証基盤-整備計画",
       "AI実装フロー-一枚俯瞰"
     ]
@@ -1715,7 +1455,6 @@ const PACKS = [
     "slides": [
       "claude-md分割戦略",
       "rules階層構造-三層読み分け",
-      "hook強制助言-二層設計",
       "機密情報検査-コミット前ブロック",
       "docs同時更新-同一PR強制"
     ]
@@ -1732,8 +1471,6 @@ const PACKS = [
   {
     "name": "実務者向け拡大・運用編",
     "slides": [
-      "判断反映分離-委任設計",
-      "サブエージェント4分類-合否宣言権",
       "worktree並列開発-ポート採番",
       "レビューエンジン-3層構成",
       "観測基盤-空回り検知",
@@ -1745,7 +1482,6 @@ const PACKS = [
     "name": "大規模既存システム導入編",
     "slides": [
       "AI駆動開発導入-五段階計画表",
-      "リポジトリ現状理想-AI可読性対比",
       "既存コード整備優先順位-変更起点",
       "自動検証基盤-整備計画",
       "AI実装フロー-一枚俯瞰"
