@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>importing-repo-export-slides スキルガイド</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0 24px 96px;
+    font-family: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+    line-height: 1.85; color: #1a1a1a; background: #fafafa;
+    max-width: 980px; margin-inline: auto;
+  }
+  header { padding: 56px 0 24px; border-bottom: 3px solid #1a1a1a; }
+  header h1 { font-size: 1.9rem; margin: 0 0 10px; letter-spacing: 0.01em; }
+  header .skill-name {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 1.0rem; background: #1a1a1a; color: #fafafa;
+    padding: 2px 10px; border-radius: 4px; vertical-align: middle;
+  }
+  header p { margin: 6px 0 0; color: #555; }
+  .meta-table { margin-top: 16px; font-size: 0.9rem; color: #555; }
+  .meta-table td { padding: 1px 16px 1px 0; }
+
+  nav.toc {
+    margin-top: 32px; padding: 18px 22px;
+    background: #fff; border: 1px solid #e0e0e0; border-radius: 8px;
+  }
+  nav.toc .toc-title { font-weight: 700; margin-bottom: 6px; }
+  nav.toc ol { margin: 0; padding-left: 1.4em; columns: 2; column-gap: 40px; }
+  nav.toc li { margin: 2px 0; }
+  nav.toc a { color: #1a1a1a; text-decoration: none; border-bottom: 1px dotted #999; }
+  nav.toc a:hover { border-bottom-style: solid; }
+
+  section { margin-top: 64px; }
+  section > h2 {
+    font-size: 1.35rem; padding-bottom: 8px; margin-bottom: 20px;
+    border-bottom: 2px solid #1a1a1a;
+  }
+  section > h2 .sec-num {
+    display: inline-block; min-width: 2.4em; margin-right: 10px;
+    font-family: ui-monospace, monospace; font-size: 0.95rem;
+    background: #1a1a1a; color: #fafafa; text-align: center;
+    padding: 1px 8px; border-radius: 4px; vertical-align: 2px;
+  }
+  h3 { font-size: 1.05rem; margin: 32px 0 10px; }
+  .note { color: #555; font-size: 0.92rem; }
+
+  table.spec { border-collapse: collapse; width: 100%; margin: 14px 0; background: #fff; font-size: 0.93rem; }
+  table.spec th, table.spec td { border: 1px solid #d8d8d8; padding: 8px 12px; text-align: left; vertical-align: top; }
+  table.spec th { background: #f0f0ee; font-weight: 700; white-space: nowrap; }
+  table.spec td code, li code, p code, table.spec th code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.86em; background: #eeeeea; padding: 1px 5px; border-radius: 3px;
+  }
+
+  pre.flow {
+    background: #16211c; color: #d7e6dc; border-radius: 8px;
+    padding: 20px 24px; overflow-x: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.82rem; line-height: 1.55;
+  }
+  pre.flow .cap { color: #8fb8a0; }
+
+  figure.diagram { margin: 20px 0; padding: 8px; background: #fff;
+    border: 1px solid #e0e0e0; border-radius: 8px; }
+  figure.diagram svg { width: 100%; height: auto; display: block; cursor: zoom-in; }
+  figure.diagram figcaption { padding: 8px 10px 2px; }
+
+  .zoom-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(15, 23, 42, 0.93);
+    overflow: auto; padding: 24px; cursor: zoom-out;
+    -webkit-overflow-scrolling: touch;
+  }
+  .zoom-overlay svg {
+    width: 1880px; max-width: none; height: auto;
+    display: block; margin: 0 auto;
+    background: #fff; border-radius: 8px;
+  }
+
+  .def {
+    background: #fff; border-left: 4px solid #1a1a1a;
+    padding: 12px 18px; margin: 14px 0; border-radius: 0 6px 6px 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .def dt { font-weight: 700; margin-top: 8px; }
+  .def dt:first-child { margin-top: 0; }
+  .def dd { margin: 2px 0 0 0; color: #333; }
+
+  .constraint {
+    background: #eef2f7; border: 1px solid #c8d4e3; border-radius: 8px;
+    padding: 12px 18px; margin: 16px 0; font-size: 0.93rem;
+  }
+  .constraint strong:first-child { color: #2a4a7a; }
+
+  .tag {
+    display: inline-block; font-family: ui-monospace, monospace; font-size: 0.78rem;
+    font-weight: 700; padding: 0 8px; border-radius: 3px; border: 1px solid transparent;
+  }
+  .tag.pass  { background: #e7f3e7; color: #23662a; border-color: #b9d9ba; }
+  .tag.fail  { background: #fbe9e7; color: #9c2b1a; border-color: #ecc0b8; }
+  .tag.error { background: #fdf3d7; color: #7a5d10; border-color: #e8d59a; }
+  .tag.mode  { background: #e8eef7; color: #2a4a7a; border-color: #c2d2e8; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>repo-exportスライド取り込み<br><span class="skill-name">importing-repo-export-slides</span></h1>
+  <p>ダウンロードフォルダのrepo-exportから新デザインのHTMLスライドを取り込む前段処理。対象確定・差分判定・共有CSS判断・機械的補正までを完結させ、完了後はadding-catalog-slidesへ引き継ぐ。</p>
+
+  <div class="def">
+    <dt>こんな人向け</dt>
+    <dd>ダウンロードフォルダに生成されたrepo-export系フォルダから、新デザインのHTMLスライドを本リポジトリへ取り込みたい人</dd>
+    <dt>こんな場面で使う</dt>
+    <dd>「repo-exportを登録して」「新デザインのスライドを取り込んで」「ダウンロードのスライドをカタログに反映して」と依頼された時。複数バージョンのexportフォルダ（番号違い）が存在し対象の絞り込みが必要な時</dd>
+  </div>
+
+  <table class="meta-table">
+    <tr><td>対応 OS</td><td>macOS（Finder経由の複製手順を含むため）</td></tr>
+    <tr><td>検証状況</td><td>managing-agent-configs の review・test 実行済み（2026-07-30: 観点レビュー CRITICAL 2件・WARN 5件を検出し6件修正。未修正はインラインスクリプトの直書き1件のみで、レビュー規約が修正時の新規スクリプトファイル作成を禁じるため保留。実機検証は2シナリオ2周とも全要件 PASS）</td></tr>
+    <tr><td>使用ツール</td><td>Read（HTML・既存スライドの内容確認）、Write（補正済みHTMLの配置）、Edit（既存ファイルの部分修正）、Bash（フォルダ突合・Node.jsによるキー比較・git diffでの削除確認）、AskUserQuestion（削除・置き換えの承認確認）</td></tr>
+  </table>
+</header>
+
+<nav class="toc">
+  <div class="toc-title">目次</div>
+  <ol>
+    <li><a href="#s1">概要</a></li>
+    <li><a href="#s2">出力</a></li>
+    <li><a href="#s3">前提</a></li>
+    <li><a href="#s4">動作フロー</a></li>
+    <li><a href="#s5">Phase 1: 対象確定と既存カタログとの突合</a></li>
+    <li><a href="#s6">Phase 2: 共有CSS・デザイン仕様の取り込み判断</a></li>
+    <li><a href="#s7">Phase 3: 取り込み対象の機械的補正</a></li>
+    <li><a href="#s8">Phase 4: 承認とフロー引き継ぎ</a></li>
+    <li><a href="#s9">絶対に守ること・予想を裏切る挙動</a></li>
+    <li><a href="#s10">関連スキル・規約</a></li>
+  </ol>
+</nav>
+
+<section id="s1">
+  <h2><span class="sec-num">§1</span>概要</h2>
+  <p>ダウンロードフォルダに生成される「repo-export」「repo-export 2」のようなエクスポートフォルダから、新デザインのHTMLスライドを本リポジトリへ取り込む前段処理を担うスキル。対象確定・差分判定・共有CSS判断・機械的補正までを完結させ、完了後は<code>adding-catalog-slides</code>のPhase A以降（分類・機械検証・AIレビュー・承認・登録・公開）へ引き継ぐ。本スキル自身は<code>slides/</code>への最終登録・commit・pushを行わない。</p>
+  <div class="constraint">
+    <strong>対象外</strong>: 個別スライドの新規作成・修正（generating-explanation-html-slides / adding-catalog-slidesの領分）、新しいスライド型の登録（registering-html-slide-template）
+  </div>
+</section>
+
+<section id="s2">
+  <h2><span class="sec-num">§2</span>出力</h2>
+  <p>このスキルを実行すると次が生まれる。</p>
+  <div class="def">
+    <dt>補正済みHTMLスライド一式と4分類の判定結果</dt>
+    <dd>新規追加・差し替え候補として補正済みのHTMLスライド一式（<code>slides/&lt;キー&gt;/</code>へ配置可能な状態）と、4分類の判定結果</dd>
+  </div>
+</section>
+
+<section id="s3">
+  <h2><span class="sec-num">§3</span>前提</h2>
+  <ul>
+    <li><code>ls ~/Downloads</code>がsandbox制限で<code>Operation not permitted</code>になる場合がある。その場合はFinder経由で複製する: <code>osascript -e 'tell application "Finder" to duplicate folder ((path to downloads folder as text) &amp; "repo-export N") to POSIX file "$CLAUDE_JOB_DIR/tmp" with replacing'</code>。まず直接アクセス（<code>ls -la $HOME/Downloads/...</code>）を試し、失敗した場合のみFinder経由に切り替える</li>
+    <li>元のダウンロードフォルダは変更しない（複製先で作業する）</li>
+    <li>同梱の<code>導入手順.md</code>は内容が古い場合がある。実際のフォルダ構成を正とする</li>
+  </ul>
+</section>
+
+<section id="s4">
+  <h2><span class="sec-num">§4</span>動作フロー</h2>
+  <pre class="flow"><span class="cap">Phase 1</span> 対象確定と既存カタログとの突合
+  Step 1-1 複数exportフォルダの包含関係確認
+  Step 1-2 既存カタログとの機械的突合（NFC正規化）
+  Step 1-3 4分類の確定（新規追加／差し替え候補／取り込み不要）
+<span class="cap">Phase 2</span> 共有CSS・デザイン仕様の取り込み判断
+  Step 2-1 3条件チェック（既定は不取り込み）
+  Step 2-2 判断がつかない場合はユーザーに確認
+<span class="cap">Phase 3</span> 取り込み対象の機械的補正
+  Step 3-1 共有CSSタグの位置補正
+  Step 3-2 padding直接指定の削除
+  Step 3-3 titleの確認
+<span class="cap">Phase 4</span> 承認とフロー引き継ぎ
+  Step 4-1 分類結果の提示と承認
+  Step 4-2 adding-catalog-slidesへの引き継ぎ</pre>
+</section>
+
+<section id="s5">
+  <h2><span class="sec-num">§5</span>Phase 1: 対象確定と既存カタログとの突合</h2>
+  <h3>Step 1-1: 複数exportフォルダの包含関係確認</h3>
+  <p>番号違いのexportフォルダが複数存在する場合、各フォルダの<code>slides/</code>配下のフォルダ名（キー）集合を比較し、包含関係（一方が他方の完全なスーパーセットか）を確認する。最大集合を持つフォルダのみを以降の対象にする。</p>
+  <h3>Step 1-2: 既存カタログとの機械的突合</h3>
+  <p>既存<code>slides/</code>配下の全フォルダ名一覧と、対象フォルダのフォルダ名一覧を、Unicode正規化（NFC）を通してから比較する。<code>comm</code>はロケール・正規化形式（NFC/NFD）の差で誤判定するため、Node.js等で<code>String.normalize("NFC")</code>してから完全一致判定する。</p>
+  <h3>Step 1-3: 4分類の確定</h3>
+  <table class="spec">
+    <tr><th>分類</th><th>判定基準</th></tr>
+    <tr><td>新規追加</td><td>既存にキーがない</td></tr>
+    <tr><td>差し替え候補</td><td>既存にキーがある、または既存に類似名があり中身の比較が必要</td></tr>
+    <tr><td>取り込み不要</td><td>既存側が新デザイン文言なし・padding直接指定なしの補正済み状態であれば、既存のほうが正しい</td></tr>
+  </table>
+  <p class="note">既存側が既に補正済み（<code>&lt;title&gt;</code>に「新デザイン」等の文言が残っておらず、<code>.slide{padding}</code>の直接上書きもない）状態なら、同名キーは「取り込み不要」と判定する。名称が近似するが完全一致しないキーは、本文を読んで同一主題の亜種か無関係の新規かを判断し、候補として提示する（機械的に断定しない）。</p>
+  <div class="constraint"><strong>完了条件</strong>: 対象exportフォルダが1つに絞り込まれ、全キーが新規追加／差し替え候補／取り込み不要のいずれかに分類されていること</div>
+</section>
+
+<section id="s6">
+  <h2><span class="sec-num">§6</span>Phase 2: 共有CSS・デザイン仕様の取り込み判断</h2>
+  <h3>Step 2-1: 3条件チェック</h3>
+  <p>同梱の<code>assets/shared-slide-shell.css</code>と<code>references/slide-design-system.md</code>は、公開中のものより古い可能性が高い。次のいずれかに該当すれば取り込まない（既定は不取り込み）。</p>
+  <ul>
+    <li>Google Fontsの<code>@import</code>が含まれる</li>
+    <li><code>Shippori Mincho</code>が含まれる</li>
+    <li><code>.slide</code>のpaddingが公開中の値と異なる（現行値は都度<code>assets/shared-slide-shell.css</code>を実測して確認する。ハードコードした数値を鵜呑みにしない）</li>
+  </ul>
+  <h3>Step 2-2: 判断がつかない場合</h3>
+  <p>上記3条件のいずれにも該当しないが差分がある場合、差分をユーザーに提示して確認する。</p>
+  <div class="constraint"><strong>完了条件</strong>: 共有CSS・デザイン仕様を取り込むか否かが確定していること（既定は不取り込み）</div>
+</section>
+
+<section id="s7">
+  <h2><span class="sec-num">§7</span>Phase 3: 取り込み対象の機械的補正</h2>
+  <h3>Step 3-1: 共有CSSタグの位置補正</h3>
+  <p>同梱スライドは共有CSSの<code>&lt;link rel="stylesheet" data-shared-slide-shell&gt;</code>と<code>&lt;script defer data-shared-slide-shell-script&gt;</code>が独自<code>&lt;style&gt;</code>より前（7行目付近）にある場合がある。これを<code>&lt;/style&gt;</code>の直後・<code>&lt;/head&gt;</code>の直前へ、同じ順序で移動する。正しい形の見本は既存の登録済みスライド（例: <code>slides/レビューエンジン-3層構成/解説スライド.html</code>）を参照する。</p>
+  <h3>Step 3-2: padding直接指定の削除</h3>
+  <p><code>&lt;style&gt;</code>内に<code>.slide{ padding: ... }</code>の直接記述があれば削除する（共有CSS側の値に委ねる）。</p>
+  <h3>Step 3-3: titleの確認</h3>
+  <p><code>&lt;title&gt;</code>に「（新デザイン）」「（新デザイン v2）」等の作業中を示す文言が残っていないか全件確認し、除去する。同一シリーズの複数スライドは<code>&lt;ツール名&gt;｜&lt;共通の名前&gt;</code>の形で統一されているか確認する。タイトルが40字を超え実描画ではみ出す場合、文言を勝手に決めず候補を提示してユーザーに選んでもらう。</p>
+  <div class="constraint"><strong>完了条件</strong>: 新規追加・差し替え確定分の全HTMLが、共有CSSタグ位置・padding直接指定なし・title文言の3点で補正済みであること</div>
+</section>
+
+<section id="s8">
+  <h2><span class="sec-num">§8</span>Phase 4: 承認とフロー引き継ぎ</h2>
+  <h3>Step 4-1: 分類結果の提示と承認</h3>
+  <p>Phase 1〜3の結果（新規追加／差し替え／取り込み不要の各キー一覧、共有CSS取り込み可否）をユーザーへ提示し承認を得る。</p>
+  <ul>
+    <li>削除相当の判断（差し替えによる既存ファイルの置き換え）は1件ずつ挙げて承認を得る。「まとめて整理」「不要と思われる」で削除しない</li>
+    <li>承認の解釈が曖昧なときはその解釈を明示して確認し直す</li>
+    <li>削除・置き換え前に必ず<code>git diff --cached --name-status | awk '$1=="D"'</code>で消えるファイルを全件確認し、承認を得る</li>
+  </ul>
+  <h3>Step 4-2: adding-catalog-slidesへの引き継ぎ</h3>
+  <p>承認後、補正済みHTMLを<code>slides/&lt;キー&gt;/</code>へ配置し、<code>adding-catalog-slides</code>を起動する。以降の変更分類（Phase A）・機械検証（Phase C）・AIレビュー（Phase D）・ユーザー承認（Phase E）・登録・カタログ再生成（Phase F）・commit・push（Phase G）は<code>adding-catalog-slides</code>側で完結させる。本スキルはPhase F・Gの登録・公開を代行しない。</p>
+  <div class="constraint"><strong>完了条件</strong>: 承認済みの対象が<code>slides/</code>へ配置され、<code>adding-catalog-slides</code>が起動されていること</div>
+</section>
+
+<section id="s9">
+  <h2><span class="sec-num">§9</span>絶対に守ること・予想を裏切る挙動</h2>
+  <div class="def">
+    <dt>絶対に守ること</dt>
+    <dd>
+      スライドの削除・置き換えは1件ずつ挙げてユーザーの承認を得てから行う。「まとめて整理します」「不要と思われます」で削除しない。承認の解釈が曖昧なときは、その解釈を明示して確認し直す。削除・置き換え前に必ず<code>git diff --cached --name-status | awk '$1=="D"'</code>で消えるファイルを全件確認し、承認を得る。公開（push・マージ）はこのスキルの責務ではなく、<code>adding-catalog-slides</code>のPhase Gでユーザーの明示承認後にのみ行われる。
+    </dd>
+  </div>
+  <div class="def">
+    <dt>予想を裏切る挙動</dt>
+    <dd>
+      複数exportフォルダは包含関係にあることが多い。番号が大きいフォルダが必ずしも対象の全てとは限らないため、包含関係を機械的に確認してから最大集合のみを扱う。既存にキーがあっても、既存側が既に別の作業で補正済みなら「取り込み不要」が正しい。exportフォルダの内容が新しく見えても、実際には既存版のほうが新しい場合がある。共有CSS・デザイン仕様は複製せず、既存正本を参照するだけで良い。取り込み条件に反する場合は無条件に不採用とする。
+    </dd>
+  </div>
+</section>
+
+<section id="s10">
+  <h2><span class="sec-num">§10</span>関連スキル・規約</h2>
+  <table class="spec">
+    <tr><th>参照先</th><th>内容</th></tr>
+    <tr><td><code>.claude/skills/adding-catalog-slides/SKILL.md</code></td><td>本スキル完了後に引き継ぐ登録・検証・公開フロー</td></tr>
+    <tr><td><code>.claude/skills/registering-html-slide-template/SKILL.md</code></td><td>新しいスライド型を登録する場合はこちら（本スキルの対象外）</td></tr>
+    <tr><td><code>slides/レビューエンジン-3層構成/解説スライド.html</code></td><td>共有CSSタグ位置・補正済みHTMLの見本</td></tr>
+    <tr><td><code>docs/スライド蓄積簿.md</code></td><td>既存カタログの正本</td></tr>
+    <tr><td><code>assets/shared-slide-shell.css</code></td><td>公開中の共有CSS正本</td></tr>
+  </table>
+</section>
+
+<div id="zoom-overlay" class="zoom-overlay" hidden></div>
+<script>
+  (function () {
+    var overlay = document.getElementById('zoom-overlay');
+    if (!overlay) return;
+    document.querySelectorAll('figure.diagram svg').forEach(function (svg) {
+      svg.addEventListener('click', function () {
+        overlay.innerHTML = '';
+        overlay.appendChild(svg.cloneNode(true));
+        overlay.hidden = false;
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    overlay.addEventListener('click', function () {
+      overlay.hidden = true;
+      overlay.innerHTML = '';
+      document.body.style.overflow = '';
+    });
+  })();
+</script>
+
+</body>
+</html>
