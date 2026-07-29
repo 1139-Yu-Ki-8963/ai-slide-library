@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自動検証基盤の整備計画（統合版・新デザイン）</title>
+<style>
+  /* 骨格C: 対比型（slide-design-system.md 参照）。現状理想対比＋コンテキスト文書対応表の統合版。
+     現状｜（必要な文書 → 次に行うこと）を1px縦罫で分け、推す側だけを濃くする */
+  .figure{ flex: 1; display: flex; flex-direction: column; min-height: 0; padding-top: 20px; }
+  .gap-table{ width: 100%; flex: 1; border-collapse: collapse; table-layout: fixed; }
+  .gap-table th{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); text-align: left; padding: 0 18px 8px 0; border-bottom: 1px solid var(--faint); }
+  .gap-table th.side{ color: var(--ink); border-bottom: 2px solid var(--ink); }
+  .gap-table td{ vertical-align: top; padding: 9px 18px 9px 0; border-bottom: 1px solid var(--faint); font-size: 14px; line-height: 1.45; color: var(--muted); }
+  .gap-table .divide{ border-left: 1px solid var(--line); padding-left: 18px; }
+  .col-want{ width: 17%; } .col-now{ width: 24%; } .col-ctx{ width: 30%; } .col-next{ width: 29%; }
+  .want{ font-size: 15px; font-weight: 600; color: var(--ink); }
+  .status{ display: block; font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); margin-bottom: 3px; }
+  .doc{ display: block; font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+  td.next-cell{ font-size: 15px; font-weight: 600; color: var(--ink); }
+  .conclusion{ display: flex; align-items: baseline; gap: 18px; border-top: 2px solid var(--accent); padding-top: 14px; margin-top: 8px; }
+  .c-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--accent); flex-shrink: 0; }
+  .c-text{ font-size: 18px; font-weight: 600; line-height: 1.5; color: var(--ink); }
+  .pageno{ font: 12px/1.4 system-ui, sans-serif; color: var(--label); margin-left: auto; flex-shrink: 0; }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+<div class="slide">
+
+  <section class="slide-page is-active" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">自動検証基盤 — テスト系</span>
+      <h1 class="slide-title">AI導入前に、成果物を機械で証明できる基盤を整える</h1>
+      <p class="slide-subtitle">テスト系5項目：現状 → 先に整える文書 → 次の行動を、1行で読む</p>
+    </header>
+    <div class="figure">
+      <table class="gap-table">
+        <colgroup><col class="col-want"><col class="col-now"><col class="col-ctx"><col class="col-next"></colgroup>
+        <thead><tr>
+          <th scope="col">やりたいこと</th>
+          <th scope="col">現状</th>
+          <th scope="col" class="side divide">必要なコンテキスト文書</th>
+          <th scope="col" class="side">次に行うこと</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="want">テスト<br>フレームワーク導入</span></td>
+            <td><span class="status">未導入</span>フレームワーク未選定で自動テストが存在しない</td>
+            <td class="divide"><span class="doc">ツール選定</span>言語・既存ビルド構成に合わせて選ぶ（JS: vitest / Jest　Ruby: RSpec　Python: pytest 等）</td>
+            <td class="next-cell">言語とビルド構成に合うフレームワークを選定し、導入する</td>
+          </tr>
+          <tr>
+            <td><span class="want">単体テスト整備</span></td>
+            <td><span class="status">未整備</span>関数の入出力仕様が未定義で、テストを書く基準がない</td>
+            <td class="divide"><span class="doc">観点表</span>各関数の引数・戻り値・例外条件を一覧化する</td>
+            <td class="next-cell">観点表を整理 → 単体テストを実装</td>
+          </tr>
+          <tr>
+            <td><span class="want">結合テスト整備</span></td>
+            <td><span class="status">未整備</span>モジュール間の接続仕様が暗黙知のままになっている</td>
+            <td class="divide"><span class="doc">API 設計書 / データフロー定義</span>モジュール間のデータの流れ・形式・制約を定義する</td>
+            <td class="next-cell">API 設計書を整備 → 結合テストを実装</td>
+          </tr>
+          <tr>
+            <td><span class="want">E2E テスト整備</span></td>
+            <td><span class="status">未整備</span>画面操作の期待動作が口頭伝達で、再現性がない</td>
+            <td class="divide"><span class="doc">画面設計書</span>操作手順・画面遷移・期待表示を定義する</td>
+            <td class="next-cell">画面設計書を整備 → E2E テストを実装</td>
+          </tr>
+          <tr>
+            <td><span class="want">カバレッジ計測導入</span></td>
+            <td><span class="status">未導入</span>テストの網羅率を把握する手段がない</td>
+            <td class="divide"><span class="doc">CI 設定の前提定義</span>目標値・除外対象を定義する</td>
+            <td class="next-cell">目標値を決め、CI にカバレッジ計測を組み込む</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">結論</span>
+      <span class="c-text">テストコードより先に、観点表と設計書 — 文書の整備が「機械で証明できる状態」への最短経路</span>
+      <span class="pageno">1 / 2</span>
+    </div>
+  </section>
+
+  <section class="slide-page" data-slide-page="2">
+    <header class="slide-header">
+      <span class="kicker">自動検証基盤 — 静的検査系</span>
+      <h1 class="slide-title">AI導入前に、成果物を機械で証明できる基盤を整える</h1>
+      <p class="slide-subtitle">静的検査系4項目：規約の言語化 → 検査設定への変換を、行動順に読む</p>
+    </header>
+    <div class="figure">
+      <table class="gap-table">
+        <colgroup><col class="col-want"><col class="col-now"><col class="col-ctx"><col class="col-next"></colgroup>
+        <thead><tr>
+          <th scope="col">やりたいこと</th>
+          <th scope="col">現状</th>
+          <th scope="col" class="side divide">必要なコンテキスト文書</th>
+          <th scope="col" class="side">次に行うこと</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="want">コード linter 導入</span></td>
+            <td><span class="status">未導入</span>規約が暗黙知で、linter 設定の根拠がない</td>
+            <td class="divide"><span class="doc">コーディング規約</span>rules/ に命名規則・禁止パターン・ファイル構成方針を定義する</td>
+            <td class="next-cell">規約を rules/ に文書化 → linter 設定へ変換</td>
+          </tr>
+          <tr>
+            <td><span class="want">文体 linter 導入</span></td>
+            <td><span class="status">未導入</span>用語の表記揺れが放置され、読み手に負担がかかっている</td>
+            <td class="divide"><span class="doc">文体規約 + 用語辞書</span>文長・読点数・冗長表現等と用語辞書（prh.yml）を定義する</td>
+            <td class="next-cell">文体規約・用語辞書を整備 → textlint を導入</td>
+          </tr>
+          <tr>
+            <td><span class="want">リンク切れ検査導入</span></td>
+            <td><span class="status">未導入</span>リンク切れの検知が目視頼みで見落としが発生する</td>
+            <td class="divide"><span class="doc">リンク検査設定</span>検査対象のファイル範囲と除外パターンを定義する</td>
+            <td class="next-cell">検査範囲・除外条件を定義 → リンク検査を導入</td>
+          </tr>
+          <tr>
+            <td><span class="want">HTML 静的検査導入</span></td>
+            <td><span class="status">未導入</span>HTML 品質検査の基準が未定義で、検査が実施できない</td>
+            <td class="divide"><span class="doc">検査観点</span>rules/ に必須属性・アクセシビリティ等の機械検査の観点を定義する</td>
+            <td class="next-cell">検査観点を rules/ に定義 → linter 設定へ変換</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">結論</span>
+      <span class="c-text">規約の言語化が先、ツール導入が後 — linter の設定はすべて規約文書から導出する</span>
+      <span class="pageno">2 / 2</span>
+    </div>
+  </section>
+
+</div>
+</div>
+</body>
+</html>

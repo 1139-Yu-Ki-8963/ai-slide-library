@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>docsとプロジェクトポータルの構成（新デザイン）</title>
+<style>
+  /* 骨格B: 構造型（slide-design-system.md 参照）。P1=役割分担、P2=docs詳細、P3=ポータル詳細 */
+  .mono{ font-family: "SF Mono", "Cascadia Code", Consolas, Menlo, monospace; }
+  .docs{ flex: 1; min-height: 0; display: grid; grid-template-columns: 1.55fr .8fr; gap: 40px; padding-top: 20px; }
+  .guide{ display: flex; flex-direction: column; min-height: 0; }
+  .g-head{ display: grid; grid-template-columns: 190px 1fr 1fr; gap: 18px; padding-bottom: 8px; }
+  .g-head span{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .g-row{ flex: 1; display: grid; grid-template-columns: 190px 1fr 1fr; gap: 18px; align-items: center; border-top: 1px solid var(--faint); padding: 8px 0; }
+  .g-row.star{ border-top: 2px solid var(--ink); }
+  .g-what .path{ display: block; font-size: 15px; font-weight: 700; color: var(--ink); }
+  .g-row.star .g-what .path{ font-size: 17px; }
+  .g-what .sub{ display: block; margin-top: 2px; font-size: 12px; line-height: 1.4; color: var(--label); }
+  .g-mid{ font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .g-fx{ font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .g-row.star .g-fx{ color: var(--ink); font-weight: 600; }
+  .treebox{ min-width: 0; border-left: 1px solid var(--faint); padding-left: 32px; display: flex; flex-direction: column; }
+  .tree-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .treebox h2{ margin: 8px 0 14px; font-size: 18px; font-weight: 600; color: var(--ink); }
+  .treebox pre{ margin: 0; font-size: 12px; line-height: 1.75; color: var(--muted); white-space: pre; }
+  .treebox pre .hot{ color: var(--ink); font-weight: 700; }
+  .treebox pre .dim{ color: var(--label); }
+  .duo{ flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding-top: 20px; }
+  .pane{ display: flex; flex-direction: column; min-height: 0; border-top: 1px solid var(--line); padding: 12px 0 0; }
+  .pane.star{ border-top: 2px solid var(--ink); }
+  .pane-head{ display: flex; align-items: baseline; gap: 12px; }
+  .pane-head .tag{ font-size: 15px; font-weight: 700; color: var(--muted); }
+  .pane.star .pane-head .tag{ color: var(--ink); font-size: 17px; }
+  .pane-head .when{ font-size: 12px; color: var(--label); }
+  .stack{ flex: 1; min-height: 0; display: flex; flex-direction: column; padding-top: 28px; }
+  .sgroup{ flex: 1; display: grid; grid-template-columns: 270px 1fr; gap: 28px; border-top: 1px solid var(--line); padding: 18px 0 12px; }
+  .sgroup:first-child{ border-top: 0; padding-top: 0; }
+  .sg-left{ display: flex; flex-direction: column; gap: 6px; }
+  .sg-left .nm{ font-size: 20px; font-weight: 600; color: var(--ink); }
+  .sg-left .pt{ font-size: 12px; color: var(--label); }
+  .sg-left .hw{ margin: 4px 0 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
+  .sg-items{ display: flex; flex-direction: column; justify-content: space-evenly; min-height: 0; }
+  .si{ display: flex; align-items: baseline; gap: 14px; padding: 5px 0; border-top: 1px solid var(--faint); }
+  .si:first-child{ border-top: 0; }
+  .si .f{ font-size: 15px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+  .si .ds{ font-size: 14px; color: var(--muted); }
+  .si .nt{ font-size: 12px; color: var(--label); white-space: nowrap; }
+  .plist{ flex: 1; display: flex; flex-direction: column; justify-content: space-evenly; margin-top: 10px; }
+  .pl{ display: flex; align-items: baseline; gap: 10px; padding: 6px 0; border-top: 1px solid var(--faint); }
+  .pl:first-child{ border-top: 0; }
+  .pl .f{ font-size: 15px; font-weight: 600; color: var(--ink); }
+  .pl .nt{ font-size: 12px; color: var(--label); margin-left: auto; text-align: right; white-space: nowrap; padding-left: 12px; }
+  .pane-note{ margin: 0; padding-top: 10px; border-top: 1px solid var(--faint); font-size: 14px; line-height: 1.55; color: var(--muted); }
+  .pane-note strong{ color: var(--ink); font-weight: 600; }
+  .cats{ flex: 1; min-height: 0; display: flex; flex-direction: column; padding-top: 20px; }
+  .cats-head{ display: grid; grid-template-columns: 210px 1fr 60px; gap: 18px; padding-bottom: 8px; }
+  .cats-head span{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .cats-head .n-h{ text-align: right; }
+  .cat-row{ flex: 1; display: grid; grid-template-columns: 210px 1fr 60px; gap: 18px; align-items: center; border-top: 1px solid var(--faint); padding: 6px 0; }
+  .cat-row.star{ border-top: 2px solid var(--ink); }
+  .cat-name{ font-size: 15px; font-weight: 600; color: var(--ink); }
+  .cat-row.star .cat-name{ font-size: 18px; }
+  .cat-desc{ font-size: 14px; line-height: 1.45; color: var(--muted); }
+  .cat-row.star .cat-desc{ color: var(--ink); }
+  .cat-n{ font-size: 17px; font-weight: 600; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+  .cat-row.star .cat-n{ font-size: 21px; font-weight: 700; color: var(--ink); }
+  .conclusion{ display: flex; align-items: baseline; gap: 18px; border-top: 2px solid var(--accent); padding-top: 14px; margin-top: 16px; }
+  .c-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--accent); flex-shrink: 0; }
+  .c-text{ font-size: 18px; font-weight: 600; line-height: 1.5; color: var(--ink); }
+  .pageno{ font: 12px/1.4 system-ui, sans-serif; color: var(--label); margin-left: auto; flex-shrink: 0; }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+<div class="slide">
+
+  <section class="slide-page is-active" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">docs / project-portal — 役割分担</span>
+      <h1 class="slide-title">docsとプロジェクトポータルの構成 — 大元と閲覧を分離する</h1>
+      <p class="slide-subtitle">AIが読む大元はdocs/へ、人間が閲覧するHTMLはproject-portal/へ、各AIツールは索引で大元に到達する</p>
+    </header>
+    <div class="docs">
+      <div class="guide">
+        <div class="g-head"><span>領域</span><span>役割</span><span>置くもの</span></div>
+        <div class="g-row star">
+          <div class="g-what"><span class="path mono">docs/</span><span class="sub">AI可読資産の大元（英語の機械安定パス）</span></div>
+          <span class="g-mid">AIが直接読むMarkdownと根拠画像。許可する直下は rules/ と screens/ のみ</span>
+          <span class="g-fx">プロジェクト規約の大元と、画面単位の設計資産</span>
+        </div>
+        <div class="g-row">
+          <div class="g-what"><span class="path mono">project-portal/</span><span class="sub">人間向けHTML（日本語の分類名・ページ名）</span></div>
+          <span class="g-mid">大元または抽出結果からレンダリングした閲覧用サイト。docs/配下には置かない</span>
+          <span class="g-fx">規約・設計書・一覧・マトリクス等をカードで俯瞰</span>
+        </div>
+        <div class="g-row">
+          <div class="g-what"><span class="path mono">CLAUDE.md / AGENTS.md</span><span class="sub">大元への索引（派生アダプター）</span></div>
+          <span class="g-mid">各AIツールが大元へ到達するための入口。規約本文は記載しない</span>
+          <span class="g-fx">ツールごとの読み込み経路を固定</span>
+        </div>
+      </div>
+      <aside class="treebox">
+        <span class="tree-label">PROJECT TREE</span>
+        <h2>AI駆動でのコンテキスト配置像</h2>
+        <pre class="mono">project/
+├── <span class="hot">docs/</span>
+│   ├── rules/
+│   │   └── …/rule.md
+│   └── screens/
+│       └── screen-&lt;id&gt;/
+├── <span class="hot">project-portal/</span>
+│   ├── index.html
+│   ├── 基盤情報/
+│   ├── 規約/
+│   ├── 一覧/
+│   └── 画面/
+├── CLAUDE.md
+├── AGENTS.md
+└── src/ <span class="dim">（既存コード）</span></pre>
+      </aside>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">分離の原則</span>
+      <span class="c-text">大元はdocs/、表示はproject-portal/ — 日本語表示は大元のメタデータから生成し、二重管理しない</span>
+      <span class="pageno">1 / 3</span>
+    </div>
+  </section>
+
+  <section class="slide-page" data-slide-page="2">
+    <header class="slide-header">
+      <span class="kicker">docs / project-portal — docsの中身</span>
+      <h1 class="slide-title">docsに置くのは、規約と画面ごとの設計書</h1>
+      <p class="slide-subtitle">AIが読む設計資産の大元 — 分野別のルールと、1画面1フォルダの設計書で構成する</p>
+    </header>
+    <div class="stack">
+      <div class="sgroup">
+        <div class="sg-left">
+          <span class="nm">規約</span>
+          <span class="pt mono">docs/rules/</span>
+          <p class="hw">分野ごとのフォルダにルール文書（rule.md）を1つ。作業対象に応じて、必要な分野だけをAIへ渡せる。</p>
+        </div>
+        <div class="sg-items">
+          <div class="si"><span class="f">命名規則・ファイル配置</span><span class="nt mono">naming/ ・ placement/</span></div>
+          <div class="si"><span class="f">アーキテクチャ・コーディング</span><span class="nt mono">architecture/ ・ coding/</span></div>
+          <div class="si"><span class="f">テスト・レビュー観点</span><span class="nt mono">testing/ ・ review/</span></div>
+          <div class="si"><span class="f">安全な操作・セキュリティ・Git運用 ほか全20分野</span><span class="nt mono">safety/ ・ security/ ・ git/ …</span></div>
+        </div>
+      </div>
+      <div class="sgroup">
+        <div class="sg-left">
+          <span class="nm">画面ごとの設計書</span>
+          <span class="pt mono">docs/screens/</span>
+          <p class="hw">1画面＝1フォルダ（screen-画面ID）。AIが画面単位で設計・テストの文脈をまとめて読み込める。</p>
+        </div>
+        <div class="sg-items">
+          <div class="si"><span class="f">画面基本設計書</span><span class="ds">画面の目的・項目・遷移</span><span class="nt mono">basic-design/</span></div>
+          <div class="si"><span class="f">画面詳細設計書</span><span class="ds">処理仕様と実画面の画像</span><span class="nt mono">detailed-design/</span></div>
+          <div class="si"><span class="f">テスト仕様書</span><span class="ds">単体・結合・操作シナリオ</span><span class="nt mono">test-specifications/</span></div>
+          <div class="si"><span class="f">処理シーケンス</span><span class="ds">画面内の処理の流れ</span><span class="nt mono">sequence-data.json</span></div>
+          <div class="si"><span class="f">画面の台帳</span><span class="ds">整備済み画面の一覧</span><span class="nt mono">reverse-screen-registry.yml</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">整備の視点</span>
+      <span class="c-text">AIに渡す前提で置く — 規約は分野別に、画面の知識は1画面1フォルダに揃えるのがAI駆動の土台</span>
+      <span class="pageno">2 / 3</span>
+    </div>
+  </section>
+
+  <section class="slide-page" data-slide-page="3">
+    <header class="slide-header">
+      <span class="kicker">docs / project-portal — ポータルの中身</span>
+      <h1 class="slide-title">ポータルは、人がブラウザで設計情報を確認する場所</h1>
+      <p class="slide-subtitle">7カテゴリ・36カード。カードを開けば規約・設計書・各種一覧を読める</p>
+    </header>
+    <div class="cats">
+      <div class="cats-head"><span>カテゴリ</span><span>載るもの</span><span class="n-h">カード数</span></div>
+      <div class="cat-row">
+        <span class="cat-name">基盤情報</span>
+        <span class="cat-desc">技術スタック・環境構築手順・用語辞書・リリースノート</span>
+        <span class="cat-n">4</span>
+      </div>
+      <div class="cat-row">
+        <span class="cat-name">規約</span>
+        <span class="cat-desc">コーディング・命名・ディレクトリ構成・コンポーネント設計・レビュー観点表・テスト方針書（docs/rules/からレンダリング）</span>
+        <span class="cat-n">6</span>
+      </div>
+      <div class="cat-row">
+        <span class="cat-name">設計書</span>
+        <span class="cat-desc">基盤設計・共通設計書・データ設計・メッセージ定義書・UI共通設計 ほか</span>
+        <span class="cat-n">6</span>
+      </div>
+      <div class="cat-row">
+        <span class="cat-name">一覧・設計図</span>
+        <span class="cat-desc">画面・API・テーブル・バッチ・帳票・外部連携・機能・メッセージの一覧とテスト観点表、画面遷移図・ER図・状態遷移図</span>
+        <span class="cat-n">12</span>
+      </div>
+      <div class="cat-row">
+        <span class="cat-name">マトリクス・対応表</span>
+        <span class="cat-desc">権限×画面・権限×機能・CRUD図・追跡可能性</span>
+        <span class="cat-n">4</span>
+      </div>
+      <div class="cat-row">
+        <span class="cat-name">AI設定資産</span>
+        <span class="cat-desc">実在するrules・skills・agents・hooksのmanifestから生成</span>
+        <span class="cat-n">1</span>
+      </div>
+      <div class="cat-row">
+        <span class="cat-name">デザイン</span>
+        <span class="cat-desc">デザインシステム・コンポーネント棚卸し・アイコンカタログ</span>
+        <span class="cat-n">3</span>
+      </div>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">確認の入口</span>
+      <span class="c-text">規約・画面はdocsの大元から生成、一覧・設計図はHTMLを直接ポータルへ</span>
+      <span class="pageno">3 / 3</span>
+    </div>
+  </section>
+
+</div>
+</div>
+</body>
+</html>
