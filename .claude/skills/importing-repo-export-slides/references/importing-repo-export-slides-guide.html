@@ -120,7 +120,7 @@
 
   <table class="meta-table">
     <tr><td>対応 OS</td><td>macOS（Finder経由の複製手順を含むため）</td></tr>
-    <tr><td>検証状況</td><td>未検証</td></tr>
+    <tr><td>検証状況</td><td>managing-agent-configs の review・test 実行済み（2026-07-30: 観点レビュー CRITICAL 2件・WARN 5件を検出し6件修正。未修正はインラインスクリプトの直書き1件のみで、レビュー規約が修正時の新規スクリプトファイル作成を禁じるため保留。実機検証は2シナリオ2周とも全要件 PASS）</td></tr>
     <tr><td>使用ツール</td><td>Read（HTML・既存スライドの内容確認）、Write（補正済みHTMLの配置）、Edit（既存ファイルの部分修正）、Bash（フォルダ突合・Node.jsによるキー比較・git diffでの削除確認）、AskUserQuestion（削除・置き換えの承認確認）</td></tr>
   </table>
 </header>
@@ -153,8 +153,8 @@
   <h2><span class="sec-num">§2</span>出力</h2>
   <p>このスキルを実行すると次が生まれる。</p>
   <div class="def">
-    <dt>補正済みHTMLスライド一式と3分類の判定結果</dt>
-    <dd>新規追加・差し替え候補として補正済みのHTMLスライド一式（<code>slides/&lt;キー&gt;/</code>へ配置可能な状態）と、3分類の判定結果</dd>
+    <dt>補正済みHTMLスライド一式と4分類の判定結果</dt>
+    <dd>新規追加・差し替え候補として補正済みのHTMLスライド一式（<code>slides/&lt;キー&gt;/</code>へ配置可能な状態）と、4分類の判定結果</dd>
   </div>
 </section>
 
@@ -172,7 +172,7 @@
   <pre class="flow"><span class="cap">Phase 1</span> 対象確定と既存カタログとの突合
   Step 1-1 複数exportフォルダの包含関係確認
   Step 1-2 既存カタログとの機械的突合（NFC正規化）
-  Step 1-3 3分類の確定（新規追加／差し替え候補／取り込み不要）
+  Step 1-3 4分類の確定（新規追加／差し替え候補／取り込み不要）
 <span class="cap">Phase 2</span> 共有CSS・デザイン仕様の取り込み判断
   Step 2-1 3条件チェック（既定は不取り込み）
   Step 2-2 判断がつかない場合はユーザーに確認
@@ -191,7 +191,7 @@
   <p>番号違いのexportフォルダが複数存在する場合、各フォルダの<code>slides/</code>配下のフォルダ名（キー）集合を比較し、包含関係（一方が他方の完全なスーパーセットか）を確認する。最大集合を持つフォルダのみを以降の対象にする。</p>
   <h3>Step 1-2: 既存カタログとの機械的突合</h3>
   <p>既存<code>slides/</code>配下の全フォルダ名一覧と、対象フォルダのフォルダ名一覧を、Unicode正規化（NFC）を通してから比較する。<code>comm</code>はロケール・正規化形式（NFC/NFD）の差で誤判定するため、Node.js等で<code>String.normalize("NFC")</code>してから完全一致判定する。</p>
-  <h3>Step 1-3: 3分類の確定</h3>
+  <h3>Step 1-3: 4分類の確定</h3>
   <table class="spec">
     <tr><th>分類</th><th>判定基準</th></tr>
     <tr><td>新規追加</td><td>既存にキーがない</td></tr>
