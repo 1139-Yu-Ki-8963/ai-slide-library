@@ -269,6 +269,15 @@
   .card-actions .act:hover { background: var(--accent-soft); color: var(--accent-deep); }
   .card-actions .act[aria-expanded="true"] { background: var(--accent-soft); color: var(--accent-deep); }
   /* --- バリアントグループ束ねカード --- */
+  .variant-tabs { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 16px 0; }
+  .variant-tab {
+    font: 600 12px/1 system-ui, sans-serif; padding: 9px 13px; min-height: 34px;
+    border: 1px solid var(--border); border-radius: 999px;
+    background: transparent; color: var(--muted, #5A6570); cursor: pointer;
+  }
+  .variant-tab:hover { border-color: var(--accent); color: var(--accent-deep); }
+  .variant-tab.is-active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .variant-tab:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 2px; }
   .variant-badge {
     position: absolute; top: 10px; left: 10px; z-index: 3;
     background: var(--accent); color: #fff;
@@ -654,7 +663,7 @@ const SLIDES = [
     "template": "",
     "date": "2026-07-16",
     "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
+    "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
     "key": "cursor-テンプレート構成",
@@ -686,7 +695,7 @@ const SLIDES = [
     "template": "",
     "date": "2026-07-17",
     "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
+    "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
     "key": "codex-テンプレート構成",
@@ -717,7 +726,7 @@ const SLIDES = [
     "template": "",
     "date": "2026-07-17",
     "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
+    "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
     "key": "hook強制助言-二層設計",
@@ -1061,7 +1070,7 @@ const SLIDES = [
     "template": "",
     "date": "2026-07-17",
     "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
+    "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
     "key": "AI駆動開発導入-五段階計画表",
@@ -1086,7 +1095,7 @@ const SLIDES = [
     "template": "",
     "date": "2026-07-19",
     "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
+    "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
     "key": "リポジトリ現状理想-AI可読性対比",
@@ -1270,7 +1279,7 @@ const SLIDES = [
     "template": "現状理想対比テーブル型",
     "date": "2026-07-20",
     "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
+    "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
     "key": "リポジトリ整備-cursor版-現状理想対比",
@@ -1296,7 +1305,7 @@ const SLIDES = [
     "template": "",
     "date": "2026-07-20",
     "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
+    "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
     "key": "リポジトリ整備-codex版-現状理想対比",
@@ -1322,7 +1331,7 @@ const SLIDES = [
     "template": "",
     "date": "2026-07-20",
     "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
+    "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
     "key": "レビューエンジン-3層構成",
@@ -1352,7 +1361,7 @@ const SLIDES = [
     "template": "層構造型",
     "date": "2026-07-21",
     "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T02:49:29+09:00"
+    "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
     "key": "人AI役割分担-タスク委任構造",
@@ -1376,7 +1385,7 @@ const SLIDES = [
     "template": "役割分担型",
     "date": "2026-07-22",
     "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T02:49:29+09:00"
+    "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
     "key": "cursor-claude共存-フォルダ分離構成",
@@ -1431,7 +1440,7 @@ const SLIDES = [
     "template": "工程時系列型",
     "date": "2026-07-22",
     "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
+    "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
     "key": "AI開発五層モデル-プロンプトからグラフ",
@@ -1509,7 +1518,7 @@ const SLIDES = [
     "template": "診断要約型",
     "date": "2026-07-25",
     "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
+    "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
     "key": "ai開発課題-領域KPI型",
@@ -1652,7 +1661,7 @@ const SLIDES = [
     "template": "",
     "date": "2026-07-29",
     "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
+    "updatedAt": "2026-07-29T18:28:04+09:00"
   },
   {
     "key": "自動検証基盤-整備計画",
@@ -1679,7 +1688,7 @@ const SLIDES = [
     "template": "",
     "date": "2026-07-29",
     "updated": "2026-07-29",
-    "updatedAt": "2026-07-29T15:20:49+09:00"
+    "updatedAt": "2026-07-29T18:28:04+09:00"
   }
 ];
 const PACKS = [
@@ -2168,13 +2177,26 @@ function getVisibleSlides() {
   return { fullList, visibleList };
 }
 
+// 束ねカードごとに「いまどのツール版を見ているか」を保持する。絞り込み状態とは独立。
+const variantChoice = new Map();
+
 function renderGrid(visibleList) {
   const grid = document.getElementById("grid");
   grid.innerHTML = visibleList.map(s => {
     const canonicalKey = s.isBundle ? s.group.canonical : s.key;
     const selectedMember = selectedMemberForItem(s);
-    const openPath = slidePath(selectedMember ? selectedMember.key : canonicalKey);
-    const thumbPath = "slides/" + encodeURIComponent(canonicalKey) + "/" + encodeURIComponent("サムネイル.png");
+    // 表示中メンバーの優先順位: タブの選択 → 絞り込みによる選択 → 代表
+    const activeMember = s.isBundle
+      ? (s.group.members.find(m => m.slug === variantChoice.get(canonicalKey))
+         || selectedMember
+         || s.group.members.find(m => m.key === canonicalKey)
+         || s.group.members[0])
+      : selectedMember;
+    const activeKey = activeMember ? activeMember.key : canonicalKey;
+    // 説明文は表示中の版のものを出す。束ねでない場合は自身。
+    const activeSource = (s.isBundle && activeKey !== canonicalKey) ? (SLIDE_BY_KEY.get(activeKey) || s) : s;
+    const openPath = slidePath(activeKey);
+    const thumbPath = "slides/" + encodeURIComponent(activeKey) + "/" + encodeURIComponent("サムネイル.png");
     const toolTags = (s.tools || []).map(t => `<button type="button" class="tag" data-axis="tool" data-value="${esc(t)}">${esc(t)}</button>`).join("");
     const mechTags = (s.mechanisms || []).map(t => `<button type="button" class="tag mech" data-axis="mech" data-value="${esc(t)}">${esc(t)}</button>`).join("");
     const themeTags = (s.themes || []).map(t => `<button type="button" class="tag theme" data-axis="theme" data-value="${esc(t)}">${esc(t)}</button>`).join("");
@@ -2185,6 +2207,14 @@ function renderGrid(visibleList) {
     const packOrderBadge = packOrder ? `<span class="pack-order-badge">${packOrder}</span>` : "";
     const variantBadge = s.isBundle
       ? `<span class="variant-badge">${s.group.members.length} ${s.group.kind === "tool" ? "ツール対応" : "表示形式"}</span>`
+      : "";
+    const variantTabs = s.isBundle
+      ? `<div class="variant-tabs" role="group" aria-label="表示する版の切り替え">` +
+        s.group.members.map(m => {
+          const on = m.key === activeKey;
+          const src = SLIDE_BY_KEY.get(m.key) || {};
+          return `<button type="button" class="variant-tab${on ? " is-active" : ""}" data-variant-group="${esc(canonicalKey)}" data-variant-slug="${esc(m.slug)}" data-variant-key="${esc(m.key)}" data-variant-purpose="${esc(src.purpose || "")}" data-variant-target="${esc(src.target || "")}" data-variant-problems="${esc(src.problems || "")}" aria-pressed="${on}">${esc(m.label)}</button>`;
+        }).join("") + `</div>`
       : "";
     const hasPrompt = !!s.has_prompt;
     const packZipPath = "slides/" + encodeURIComponent(canonicalKey) + "/pack.zip";
@@ -2228,11 +2258,12 @@ function renderGrid(visibleList) {
         ${packOrderBadge}
         ${variantBadge}
       </div>
+      ${variantTabs}
       <div class="card-body">
         <h2 class="card-title">${esc(s.title)}</h2>
-        <details class="card-purpose"><summary>このスライドで伝えること</summary><p>${esc(s.purpose)}</p></details>
-        <p class="card-target">${esc(s.target)}</p>
-        <p class="card-problem">${esc(s.problems)}</p>
+        <details class="card-purpose"><summary>このスライドで伝えること</summary><p>${esc(activeSource.purpose)}</p></details>
+        <p class="card-target">${esc(activeSource.target)}</p>
+        <p class="card-problem">${esc(activeSource.problems)}</p>
         <div class="meta-row">${toolTags}${mechTags}${themeTags}${stageTags}${stale}<span class="date">${esc(s.updated || s.date)} 更新</span></div>
       </div>
       <div class="card-actions">
@@ -2323,6 +2354,36 @@ function bindCardEvents() {
         document.body.removeChild(ta);
         showFeedback();
       }
+    });
+  });
+  // 版の切り替え。カード内のサムネイル・リンクだけを差し替え、一覧の絞り込みには触れない。
+  document.querySelectorAll(".variant-tab").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".card");
+      if (!card) return;
+      const key = btn.dataset.variantKey;
+      variantChoice.set(btn.dataset.variantGroup, btn.dataset.variantSlug);
+      card.querySelectorAll(".variant-tab").forEach(b => {
+        const on = b === btn;
+        b.classList.toggle("is-active", on);
+        b.setAttribute("aria-pressed", String(on));
+      });
+      const thumb = card.querySelector(".thumb");
+      const img = card.querySelector(".thumb-img");
+      if (img) {
+        img.src = "slides/" + encodeURIComponent(key) + "/" + encodeURIComponent("サムネイル.png");
+        if (thumb) thumb.classList.remove("is-fallback");
+      }
+      const open = slidePath(key);
+      const thumbLink = card.querySelector(".thumb-link");
+      if (thumbLink) thumbLink.href = open;
+      card.querySelectorAll(".card-actions a[href*='slides/']").forEach(a => { a.href = open; });
+      const purposeEl = card.querySelector(".card-purpose p");
+      if (purposeEl) purposeEl.textContent = btn.dataset.variantPurpose || "";
+      const targetEl = card.querySelector(".card-target");
+      if (targetEl) targetEl.textContent = btn.dataset.variantTarget || "";
+      const problemEl = card.querySelector(".card-problem");
+      if (problemEl) problemEl.textContent = btn.dataset.variantProblems || "";
     });
   });
   document.querySelectorAll(".tag[data-axis]").forEach(btn => {
