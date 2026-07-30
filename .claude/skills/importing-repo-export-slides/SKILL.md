@@ -6,7 +6,7 @@ description: |
   SKIP: 個別スライドの新規作成・修正（generating-explanation-html-slides・adding-catalog-slidesの領分）、最初から型の登録だけを意図する場合のregistering-html-slide-template直行（export取り込み時はルートDで本スキルから接続する）。
 invocation: importing-repo-export-slides
 type: gateway
-allowed-tools: Read, Write, Edit, Bash, AskUserQuestion, ExitPlanMode
+allowed-tools: Read, Write, Edit, Bash, AskUserQuestion
 ---
 
 # repo-exportスライド取り込み（importing-repo-export-slides）
@@ -132,7 +132,7 @@ export側のファイル名は実際の構成を`ls`で確認して合わせる�
 
 完了条件: ルートB・C・D確定分の全HTMLが、補正3点をすべて満たしていること
 
-補正は複数HTMLへの一括変更になるため、着手前に`ExitPlanMode`で補正対象ファイル一覧と補正3点の変更内容を提示し、プラン承認を得る。補正対象が0件の場合はプラン承認を省略し、対象0件である旨をPhase 4の提示に含める。
+補正対象ファイル一覧と補正3点の変更内容は、Step 4-1の承認提示に含めて確認を得る。プランモードは使わない。補正対象が0件の場合はその旨をPhase 4の提示に含める。
 
 ## Step 3-1: 共有CSSタグの位置補正
 
@@ -203,6 +203,17 @@ Phase 1〜3の結果（ルートA〜Eの各キー一覧、共有CSS取り込み�
 - Claude Code: `Claude agent`列を`Agent(subagent_type: ...)`に渡す
 - Codex: `Codex agent`列の`~/agent-home/agents/codex/<name>/<name>.md`を全文読み、定義の`model`・`reasoning_effort`・本文と共通promptを`spawn_agent`に渡す
 - prompt骨格と期待返却値は両ランタイムで共通とし、モデル値をSkill側へ重複記載しない
+
+## 定型運用（時間予算と進行様式）
+
+本スキルと`adding-catalog-slides`の連結実行は定型作業である。計画成果物を別途作らず、本スキル自体を手順書として扱う。
+
+- プランモードを使わず、意思決定は各Stepの`AskUserQuestion`で都度行う。主要な承認点はパッケージ性質判定時の方針確認とStep 4-1の一括承認である
+- 進捗報告は1行とする（例:「Step 1-3完了、ルートB 4件・E 1件。次はPhase 2」）。中間報告に表や長文を使わない
+- 検査記録のAIレビューは1スライド=1担当者で並列に委任する
+- PR作成前の敵対的検証はdiffへ1回を基本とする。採用修正が出た場合の再検証は妨げない
+- 3ファイル以上の編集に入る前に`orchestrating-dev-flow`（設定・ドキュメント編集ルート）を起動してrouteを確定する。このskill-log記録が計画系スキルの実行記録となり、一括編集前計画ゲートを通過できる
+- 時間予算: 取り込み判定は5分以内、実行時間はルート表の目安時間に従う（B: 1件5分＋固定10分、C: 1件10分）。7件規模の全体は30分以内を目標とし、超える見込みが立った時点で原因と見直し案を報告する。検査は1スライド=1担当者の並列実行のため、壁時計時間は直列合算ではなく最長1件分＋固定分で見積もる
 
 ## 予想を裏切る挙動
 
