@@ -18,6 +18,10 @@ allowed-tools: Bash, Read, Write, Edit, AskUserQuestion
 - `ai-slide-library`でスライドを新規追加・更新し、公開カタログへ反映する時
 - タイトル、本文、タグ、共有CSS、サムネイルを変更した時
 
+## 運用注記
+
+repo-export取り込み（`importing-repo-export-slides`）から引き継がれた場合は定型運用とする。進捗報告は1行、検査は1スライド=1担当者で並列、計画成果物は作らない。時間予算は同スキルの「定型運用」節に従う。
+
 ## 前提
 
 - HTML、タイトル、副題、本文、図表、共有CSSを新規作成・変更した場合は、`generating-explanation-html-slides` のPhase 1〜6を完了していること（Phase B）
