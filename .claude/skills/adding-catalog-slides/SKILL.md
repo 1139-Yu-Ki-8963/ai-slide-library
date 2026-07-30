@@ -20,9 +20,11 @@ allowed-tools: Bash, Read, Write, Edit, AskUserQuestion, mcp__playwright__*
 
 ## 運用注記
 
-repo-export取り込み（`importing-repo-export-slides`）から引き継がれた場合は定型運用とする。定型運用の各項目は`importing-repo-export-slides`の「定型運用」節に従う。1回のフローで公開するスライドは1枚までとする。`importing-repo-export-slides`の登録キューから渡された1件を完走してから次の起動を受ける。
+1回のフローで公開するスライドは両レーン共通で1枚までとする。
 
-レーンの見分け方は次のとおりである。`importing-repo-export-slides`のStep 4-2から呼ばれた場合はrepo-exportレーン（標準承認済み）とする。`generating-explanation-html-slides`完了後にこのSkillを単独起動した場合は新規作成レーンとする。新規作成レーンはPhase Eでの明示承認を必須とする。
+repo-export取り込み（`importing-repo-export-slides`）から引き継がれた場合は定型運用とする。定型運用の各項目は`importing-repo-export-slides`の「定型運用」節に従う。`importing-repo-export-slides`の登録キューから渡された1件を完走してから次の起動を受ける。
+
+レーンの見分け方は次のとおりである。`importing-repo-export-slides`のStep 4-2から呼ばれた場合はrepo-exportレーン（標準承認済み）とする。`generating-explanation-html-slides`完了後にこのSkillを単独起動した場合は新規作成レーンとする。新規作成レーンはPhase Eでの明示承認を必須とする。どちらのレーンにも該当しない起動（台帳・語彙のみの変更、HTML不変のサムネイル再生成等）は新規作成レーン扱い（明示承認側）を既定とする。
 
 ## 前提
 
@@ -242,8 +244,6 @@ Step D-1〜D-4は同一のHTML、実描画、サムネイルを読み取り専�
 
 `not-applicable`はcriteria単位でのみ使用し、対象外の理由を`evidence`へ記録する。Step全体の`status`は`pass`とする。Step D-2はデッキ文脈がない単一スライドに限りこの扱いを許可する。Step D-1、D-3、D-4をスライド単位で適用対象外にしてはならない。
 
-複数スライドを対象にする場合は、上記のStep D-1〜D-4間の並列化（1スライド内の4枝の並列実行）に加えて、スライド間も並列化する。検査記録のAIレビュー（phase-8〜11・html-common-aiの判定）は1スライドあたり約4分かかるため、1スライド=1担当者で並列に委任する。複数件を1担当者へ直列で渡すと件数倍の壁時計時間になる（2026-07-30実測: 7件を3+4の2分割直列で32分。7並列なら約5分）。この段落はrepo-exportレーンの登録キュー経由の起動には適用しない。登録キューは1件ずつこのSkillを起動するため、複数スライド間の並列化は発生しない。
-
 対象ごとに次を実行し、終了コード0を必須とする。
 
 ```bash
@@ -310,6 +310,8 @@ repo-exportレーンは`importing-repo-export-slides` Step 4-1の標準承認を
 
 ### Step G-1: 最終検証・commit
 
+各件の作業ブランチは、直前の件のマージ完了後に`git fetch origin`した最新の`origin/main`から切る。同一起点から複数ブランチを切ると、マージ順で台帳・index.htmlが衝突する。
+
 1. Phase B〜Fの実行記録（Phase C・Phase Dの検査記録、4枝JSON、Phase Fの生成結果）を確認する。
 2. `npm test`をカタログ生成後の最終状態で実行し、静的検査・契約検査・レイアウト検査・一覧検査を全件PASSさせる（Phase Cの2回目の実行）。
 3. `git diff --check`を実行する。
@@ -340,7 +342,7 @@ repo-exportレーンは`importing-repo-export-slides` Step 4-1の標準承認を
 | Phase B | 対象がHTML変更を伴う場合、生成Skill Phase 1〜6が完了していること。台帳・語彙のみの変更は本Phase適用対象外として扱われていること |
 | Phase C | （1回目）HTML共通の同期・静的・実描画・契約と、スライド固有3系統が終了コード0。台帳・語彙のみの変更はカタログ整合検査のみが終了コード0であること |
 | Phase D | Step D-1〜D-4の所見が`検査記録/phase-8.json`〜`phase-11.json`と`html-common-ai.json`へ保存されていること。所見の重大度は公開可否を決めない |
-| Phase E | 実物成果物とPhase Dの所見をユーザーへ提示し、承認、または修正のためのPhase Bへの差し戻しのいずれかを得ていること |
+| Phase E | repo-exportレーンは`importing-repo-export-slides` Step 4-1の標準承認をもって完了とする。新規作成レーンは実物成果物とPhase Dの所見をユーザーへ提示し、承認、または修正のためのPhase Bへの差し戻しのいずれかを得ていること |
 | Phase F | HTML・蓄積簿・主題一覧・検査記録が整合し、サムネイル・カタログ・一覧画像がPASSしていること |
 | Phase G | Phase Cの2回目の実行（環境変数なしの`npm test`）、`git diff --check`、commit前ゲートがPASSし、commit・push・PRマージ・デプロイ完了確認・公開後Playwright検証・worktree cleanが完了していること |
 | **Goal** | 検証済みスライドが公開カタログで提示可能 |
@@ -349,7 +351,7 @@ repo-exportレーンは`importing-repo-export-slides` Step 4-1の標準承認を
 
 - 反復条件: Phase CがFAILしたらPhase Cを`blocked`として所有箇所で解消し、Phase Cを再実行する。Phase Dの所見を踏まえてユーザーがPhase Eで修正を要求した場合、生成Skill Phase 1または2へ修正を委任する。生成Skill Phase 6完了後、Phase B以降（Phase C・Phase D）をすべて再実行し、改めてPhase Eで提示する。
 - 上限回数: 5回
-- 停止条件: Phase Cが全PASSしPhase Eでユーザーが承認、5回到達、同一FAILが2回連続
+- 停止条件: Phase Cが全PASSし、新規作成レーンはPhase Eでユーザーが承認、repo-exportレーンは標準承認済みであること。5回到達、同一FAILが2回連続でも停止する
 
 ## 重要な注意事項
 
@@ -359,7 +361,7 @@ repo-exportレーンは`importing-repo-export-slides` Step 4-1の標準承認を
 - Phase D完了前にユーザー向け最終成果物を提示しない。
 - Phase Eの承認前にPhase F・Gへ進まない。commitはPhase Eでの提示・承認の後、Phase Gで行う。
 - 公開承認前にpushしない。
-- 1 commit・1 PRに複数スライドを含めることを禁止する。
+- 1回のフローで公開するスライドは両レーン共通で1枚まで。1 commit・1 PRに複数スライドを含めることを禁止する。
 - `index.html`のカタログデータを手編集しない。
 
 ## 予想を裏切る挙動
