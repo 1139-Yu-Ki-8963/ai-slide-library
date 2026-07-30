@@ -236,6 +236,8 @@ Step D-1〜D-4は同一のHTML、実描画、サムネイルを読み取り専�
 
 `not-applicable`はcriteria単位でのみ使用し、対象外の理由を`evidence`へ記録する。Step全体の`status`は`pass`とする。Step D-2はデッキ文脈がない単一スライドに限りこの扱いを許可する。Step D-1、D-3、D-4をスライド単位で適用対象外にしてはならない。
 
+複数スライドを対象にする場合は、上記のStep D-1〜D-4間の並列化（1スライド内の4枝の並列実行）に加えて、スライド間も並列化する。検査記録のAIレビュー（phase-8〜11・html-common-aiの判定）は1スライドあたり約4分かかるため、1スライド=1担当者で並列に委任する。複数件を1担当者へ直列で渡すと件数倍の壁時計時間になる（2026-07-30実測: 7件を3+4の2分割直列で32分。7並列なら約5分）。
+
 対象ごとに次を実行し、終了コード0を必須とする。
 
 ```bash
@@ -311,7 +313,8 @@ Step D-1〜D-4の所見を要約して提示に添える。Phase Dで`critical`�
 
 ### Step G-2: push・公開後検証・完了報告
 
-1. Phase Eで得たユーザーの公開承認を根拠に、`.git/slide-publish-approval.json`の`status=approved`と`approvedCommitSha=HEAD`を作成した後にpushしてGitHub Pagesへ反映する。承認記録がなければhookがpushを停止する。
+1. `.git/slide-publish-approval.json`は、Phase EでAskUserQuestionによりユーザーから公開の明示承認を得た場合にのみ、その承認の記録として作成する。作成時は`status=approved`と`approvedCommitSha=HEAD`を設定してからpushし、GitHub Pagesへ反映する。承認記録がなければhookがpushを停止する。
+   - この承認ファイルはユーザーの公開承認を担保する関門であり、明示承認を得ずに作成することを禁止する。承認後の作成は承認の記録に限られ、絶対的な作成禁止を意味しない。pushが承認不在でhookにblockされた場合は、回避せずユーザーへ承認を諮って止まる。承認前の代行作成は承認の経路そのものを無効化する（2026-07-30に発生し、ファイル削除とユーザーの明示指示による再実行で復旧した実例がある）。
 2. 公開URL、個別HTML、サムネイル、一覧をPlaywrightで検証する。
 3. 一覧画像数、`naturalWidth`、表示枠、代表スライドのHTTP 200を確認する。
 4. push後のworktreeがcleanで、公開前のcommitと公開物の生成内容が一致することを確認する。
