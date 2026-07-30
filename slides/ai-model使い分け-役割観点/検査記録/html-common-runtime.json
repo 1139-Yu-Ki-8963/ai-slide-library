@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/ai-model使い分け-役割観点/解説スライド.html",
-      "artifactSha256": "76476caeb73d1feaab9b506bc3ee5a1bd64e09bf0d87b65376aa1ca28bb7a9ca",
+      "file": "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/import-repo-export-new-design/slides/ai-model使い分け-役割観点/解説スライド.html",
+      "artifactSha256": "6ac022fa307cf96903d18d72d29d1eff8edd474edc8fe96d9897c56cdcfb2ef0",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,10 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/ai-model使い分け-役割観点/evidence/html-runtime/解説スライド-wide-76476caeb73d.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/ai-model使い分け-役割観点/evidence/html-runtime/解説スライド-narrow-76476caeb73d.png"
+            "/tmp/html-runtime-evidence/ai-model使い分け-役割観点/6ac022fa307c/解説スライド-wide-page-1-6ac022fa307c.png",
+            "/tmp/html-runtime-evidence/ai-model使い分け-役割観点/6ac022fa307c/解説スライド-wide-page-2-6ac022fa307c.png",
+            "/tmp/html-runtime-evidence/ai-model使い分け-役割観点/6ac022fa307c/解説スライド-narrow-page-1-6ac022fa307c.png",
+            "/tmp/html-runtime-evidence/ai-model使い分け-役割観点/6ac022fa307c/解説スライド-narrow-page-2-6ac022fa307c.png"
           ]
         }
       ]

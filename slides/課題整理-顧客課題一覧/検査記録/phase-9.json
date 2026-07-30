@@ -1,0 +1,33 @@
+{
+  "phase": 9,
+  "targetKeys": ["課題整理-顧客課題一覧"],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-role-sequence",
+      "status": "pass",
+      "evidence": "P1で全体像（3分類・8件の棚卸し）を示し、P2で分類Aの詳細、P3で分類B・Cの詳細へ展開する。kickerも『全体像（テンプレート）』→『分類A（テンプレート）』→『分類B・C（テンプレート）』と段階を明示し、P1の各分類見出しに『◯件 — 2ページ目／3ページ目』という参照が付き、後戻りのない一方向の展開になっている。"
+    },
+    {
+      "id": "deck-ai-strength-rhythm",
+      "status": "pass",
+      "evidence": "本テンプレートは棚卸し・詳細という一覧・台帳型の内容であり、Lv強調のような特定行の主役化は行われていない（html-ai-purpose-hierarchyの『均等配置が適切な内容へ、無理に主役を作らない』という例外に該当）。3ページとも均等な『静』ページとして機能し、3ページ以上の連続強調という制約にも抵触しない。最低1枚の静ページ条件はページ全体が満たす。"
+    },
+    {
+      "id": "deck-ai-layout-repetition",
+      "status": "pass",
+      "evidence": "P1=.inv（分類見出し+irow、44px/320px/1fr列）、P2/P3=.dt（dt-head+drow、44px/230px/1.2fr/1fr列）。P2とP3は同一のCSSクラス・列構成を持つ隣接ページだが、これは『分類ごとの詳細を同一フォーマットで比較できるようにする』という情報関係が反復を要求する典型例であり、根拠のある反復である。P1とP2/P3は列数・列幅が異なり単純な反復ではない。"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "suggestion",
+      "target": "P2/P3の.dt共通クラス構造",
+      "evidence": "P2とP3はgrid-template-columns（44px 230px 1.2fr 1fr）まで完全に同一であり、分類名（kicker）以外の視覚的な差別化がない。分類間比較のための意図的な反復として妥当だが、読み手が2ページを『同じページの繰り返し』と誤認する余地は残る。",
+      "fix": "対応不要な範囲だが、将来的な運用ではP3のkicker・見出しで分類B・Cが1ページに統合されている旨をより明確にする表現を検討する。"
+    }
+  ],
+  "checkedAt": "2026-07-30T02:12:55Z",
+  "artifactSha256": "f4e06dbfcdeb9982594d8cc8af43a7b2a04494f03748f7aafec137a87199ca9a"
+}

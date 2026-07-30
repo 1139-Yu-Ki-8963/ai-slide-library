@@ -1,0 +1,154 @@
+{
+  "artifact": "slides/課題整理-目標レベル設定/解説スライド.html",
+  "artifactSha256": "7f6091a76d7a64f49f7f396ab8fdfd8d68d347e4586023f8d4fdd21f7c9fee9c",
+  "status": "pass",
+  "summary": "課題整理型の派生テンプレート（CSSコメントに明記）を全3ページ確認した。P1はAI駆動レベルの5段階定義、P2は課題ごとの目標レベル宣言UI、P3は現状・理想・次に行うことの対比表で、〈課題名〉等の山括弧・◯はいずれも本テンプレートが意図する記入欄であり、タイトル・副題・Lv定義・conclusion行など実質コンテンツは完全に書き込まれている。プレースホルダーの是非はhtml-static-no-placeholdersの管轄であり、本規範（編集品質・図表品質）は架空内容の追加や情報欠落を禁じるものであってプレースホルダー自体を欠陥とする記述はない。必須修正に当たる欠陥は検出しなかった。",
+  "strengths": [
+    "P1のLv.3（既定の目標）が色・文字サイズ・太さの3要素で強調され、色だけに依存した差別化になっていない。",
+    "P2の目標レベル選択と現在レベル表示が別の背景色（accent／グレー）で区別され、隣接ラベル（目標レベル／選択中の目標）と組み合わせて意味を伝える。",
+    "P1〜P3のいずれも本文フォントサイズが5段スケール（34/17-20/14-15/12px）の範囲内に収まり、逸脱が見られない。"
+  ],
+  "findings": [],
+  "checks": [
+    {
+      "criterionId": "html-ai-purpose-hierarchy",
+      "decision": "pass",
+      "target": "全3ページのタイトル・副題・本文・conclusion",
+      "evidence": "P1『AI駆動のレベルは5段階 — どこまで任せるかを課題ごとに決める』、P2『課題ごとに目指すレベルを宣言する』、P3『課題ごとの現状・理想・次に行うこと』はいずれも一文で目的を説明できる。P1のみLv.3行がaccent色・20px・太字で主役化され、他のLv行は通常表示。P2/P3は課題を均等に扱う一覧であり、無理に主役を作っていない（一覧・台帳の例外に該当）。",
+      "impact": "読み手はP1で判断基準を把握し、P2/P3で個別課題への適用を均等に確認できる。",
+      "fix": "現状を維持する。",
+      "verification": "各ページの主張が一文で言えることを確認する。"
+    },
+    {
+      "criterionId": "html-ai-non-template",
+      "decision": "pass",
+      "target": "P1の5段Lv行、P2/P3の課題行",
+      "evidence": "P1は5段階という実際の定義数に基づく5行で、均等3分割・4象限の機械的パターンではない。P2の segmented button（Lv.1〜5）は機能するUIコントロールであり装飾アイコンではない。P2/P3の行数（6行・5行）は課題の実数に応じた一覧であり、白い角丸カードの反復や単語置換アイコンは検出されない。",
+      "impact": "反復要素が内容量・機能に基づいており機械的テンプレート感がない。",
+      "fix": "現状を維持する。",
+      "verification": "反復要素の数が実際の課題数・レベル数と一致することを確認する。"
+    },
+    {
+      "criterionId": "html-ai-content-preservation",
+      "decision": "pass",
+      "target": "P1のLv定義本文、JS内LVオブジェクト",
+      "evidence": "5段階の定義文言（人の対応のみ／AI補助／AI駆動・人が必ず承認／例外のみ人が承認・介入／完全自動）はHTML静的表示とJS内のLV定数（同一の名称・要約）で一致しており、意味の食い違いはない。〈課題名〉等のプレースホルダーは判読可能な記入指示であり、推測による内容補完や架空の課題名・数値の追加は行われていない。",
+      "impact": "テンプレートとして配布された場合も、レベル定義という中心情報は保持される。",
+      "fix": "現状を維持する。",
+      "verification": "静的HTML本文とJS定数の定義文言が一致することを確認する。"
+    },
+    {
+      "criterionId": "html-ai-information-density",
+      "decision": "pass",
+      "target": "P1（5行）、P2（6行）、P3（5行）",
+      "evidence": "各ページの行数は一覧・台帳としての網羅性に基づき、文字縮小による押し込みは見られない。P2はUIコントロール（5ボタンのセグメント×2種）を含むが、1行あたりの情報量は課題名・目標・選択状態の3要素に限定される。",
+      "impact": "台帳としての網羅性を保ちながら1画面に収まっている。",
+      "fix": "現状を維持する。",
+      "verification": "行追加時も1行あたりの情報量が増えすぎないことを確認する。"
+    },
+    {
+      "criterionId": "html-ai-improvement-over-source",
+      "decision": "not-applicable",
+      "target": "旧版との比較",
+      "evidence": "本ファイルはgit管理外の新規ファイル（`git log`が空、`git status`でuntracked表示）であり、このリポジトリ内に本キーの旧版・元資料は存在しない。比較対象となる旧成果物が存在しないため、改善判定の対象外。",
+      "impact": "該当なし。",
+      "fix": "該当なし。旧版が別途提示された場合は改めて比較する。",
+      "verification": "旧版が提示された場合、読み順・主従・比較可能性の変化を比較する。"
+    },
+    {
+      "criterionId": "html-ai-shapes",
+      "decision": "pass",
+      "target": "P1のlvrow罫線、P2のsegmented button、P3のcrow罫線",
+      "evidence": "行間罫線はborder-top: 1px solid var(--faint)のみで、塗り・太枠・影・立体・グラデーションの重複はない。segmented buttonはappearance: noneのフラットな矩形で、選択状態は背景色（accent／グレー）のみで表現され装飾的な立体効果は使われていない。",
+      "impact": "図形が選択状態の伝達に限定され装飾に見えない。",
+      "fix": "現状を維持する。",
+      "verification": "ボタンや罫線に影・グラデーションが追加されていないことを確認する。"
+    },
+    {
+      "criterionId": "html-ai-connectors",
+      "decision": "not-applicable",
+      "target": "全3ページ",
+      "evidence": "矢印・接続線要素はHTML/CSSに存在しない。P1→P2→P3の進行はページ送りとkicker文言のみで示され、視覚的な接続線は使われていない。",
+      "impact": "矢印を使わない構成でも読み順が成立している。",
+      "fix": "該当なし。",
+      "verification": "矢印を追加する場合は起点・終点・方向を明確にする。"
+    },
+    {
+      "criterionId": "html-ai-typography",
+      "decision": "pass",
+      "target": "全3ページの見出し・本文・ラベル",
+      "evidence": ".lv-id（34px、明朝）は32〜36px段、.lv-name（17px、star時20px）は17〜22px段、.lv-desc/.iname/.cell-text/.next-cell（14〜15px）は13〜16px段、.sel-head/.cmp-head span・.gdesc（12px）はラベル段に収まる。5段スケールからの逸脱は検出されなかった。",
+      "impact": "見出し・本文・ラベルの強度差が一貫している。",
+      "fix": "現状を維持する。",
+      "verification": "文字追加時も5段スケール内に収めることを確認する。"
+    },
+    {
+      "criterionId": "html-ai-color-accessibility",
+      "decision": "pass",
+      "target": "P1のLv.3強調、P2のgoal-seg／cur-seg配色",
+      "evidence": "P1のLv.3は色（accent）だけでなく文字サイズ（20px）と太字（.lv-desc font-weight: 600）を併用する。P2の目標（accent背景・白文字）と現在（グレー#C9CDD1背景・ink文字）は色相・明度が異なり、さらに列見出し『目標レベル』『選択中の目標』のラベルでも区別されるため、色だけに依存していない。",
+      "impact": "色覚差があっても文字サイズ・太さ・ラベル位置から区別できる。",
+      "fix": "現状を維持する。",
+      "verification": "グレースケール相当でも強調・選択状態が判別できることを確認する。"
+    },
+    {
+      "criterionId": "html-ai-flow-alignment-spacing",
+      "decision": "pass",
+      "target": "全3ページの列位置・行間",
+      "evidence": "P1のlv-id/lv-name/lv-descはgrid-template-columns: 100px 280px 1frで基準線が揃い、P2/P3のsel-head/cmp-headも同様のgrid列で行と見出しが対応する。視線は上→下（レベル順・課題番号順）、各行内は左→右で流れる。",
+      "impact": "行・列の対応関係を見失わずに追える。",
+      "fix": "現状を維持する。",
+      "verification": "見出しと行の列位置が揃っていることを確認する。"
+    },
+    {
+      "criterionId": "html-ai-graphs-numbers",
+      "decision": "not-applicable",
+      "target": "Lv.1〜5の段階番号",
+      "evidence": "Lv番号は序列を示すラベル（カテゴリカルな段階名）であり、軸・目盛を伴う測定データのグラフではない。比率・差分・推移を示すグラフ表現は本HTMLに存在しない。",
+      "impact": "グラフ特有の誤読リスクは発生しない。",
+      "fix": "該当なし。",
+      "verification": "数値データを追加する場合は基準線・単位を明示する。"
+    },
+    {
+      "criterionId": "html-ai-tables",
+      "decision": "pass",
+      "target": "P2の.sel（selection UI）、P3の.sel（cmp-head/crow）",
+      "evidence": "行列データはdivベースのgridで実装されているが、本HTMLは1280×720の固定レイアウトスライドであり、slide-design-system.mdの決定によりこの条件下でのdiv表組みは許容される。列見出しと行の対応は罫線・grid列位置で明確に保たれている。",
+      "impact": "固定レイアウトの規約上許容される実装であり、視覚上の行列対応は保たれている。",
+      "fix": "現状を維持する。",
+      "verification": "1280×720表示で列位置・罫線が崩れていないことを確認する。"
+    }
+  ],
+  "editPlan": {
+    "対象": "slides/課題整理-目標レベル設定/解説スライド.html（全3ページ、テンプレート）",
+    "要約": "図表・情報設計はPhase 8の公開品質を満たす。テンプレートとしての記入欄（〈課題名〉等）はhtml-static-no-placeholdersの管轄であり本規範上の欠陥ではない。",
+    "良い点": [
+      "Lv.3の強調が色・サイズ・太さの3要素で表現され色だけに依存しない",
+      "目標／現在の選択状態が背景色とラベルの両方で区別される",
+      "全文字サイズが5段スケール内に収まる"
+    ],
+    "指摘事項": [],
+    "情報設計の再編集案": "再編集は不要。テンプレートとしての現行構成を維持する。",
+    "観点別チェック": {
+      "図形": "罫線・segmented buttonが選択状態と対応",
+      "矢印": "使用箇所なし（ページ送りのみで成立）",
+      "文字": "5段スケール内に収まる",
+      "配色": "accent/グレーは背景色+ラベルの併用",
+      "視線": "上→下（レベル順・課題番号順）",
+      "表": "div実装だが固定レイアウトの緩和規約に該当し適合"
+    },
+    "優先修正方針": [
+      "必須修正なし"
+    ],
+    "ai-slide-library適合性": "公開安全性・16:9・編集可能性を満たし、規約違反は残っていない。",
+    "次のアクション": "テンプレートとして配布可能。実際の課題データ記入は利用者側の作業。"
+  },
+  "implementationPlan": [
+    {
+      "priority": "none",
+      "action": "現HTMLを変更しない",
+      "reason": "編集品質・図表品質の両規範で必須修正に当たる欠陥を検出していない",
+      "verification": "テンプレートへ実データを記入した際は改めて内容保持・情報密度の観点で再レビューする"
+    }
+  ]
+}

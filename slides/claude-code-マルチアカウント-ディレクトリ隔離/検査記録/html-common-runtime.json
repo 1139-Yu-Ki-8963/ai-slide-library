@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/claude-code-マルチアカウント-ディレクトリ隔離/解説スライド.html",
-      "artifactSha256": "d0d553a5833acd16f0224ed5c77af91b1665a6b45dcced86bc16cfb802649ce6",
+      "file": "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/import-repo-export-new-design/slides/claude-code-マルチアカウント-ディレクトリ隔離/解説スライド.html",
+      "artifactSha256": "93acae22d02b718efdd67e82d687de0a2d2624fa7226bb562d241ffd9b274cf9",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,14 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/claude-code-マルチアカウント-ディレクトリ隔離/evidence/html-runtime/解説スライド-wide-d0d553a5833a.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/claude-code-マルチアカウント-ディレクトリ隔離/evidence/html-runtime/解説スライド-narrow-d0d553a5833a.png"
+            "/tmp/html-runtime-evidence/claude-code-マルチアカウント-ディレクトリ隔離/93acae22d02b/解説スライド-wide-page-1-93acae22d02b.png",
+            "/tmp/html-runtime-evidence/claude-code-マルチアカウント-ディレクトリ隔離/93acae22d02b/解説スライド-wide-page-2-93acae22d02b.png",
+            "/tmp/html-runtime-evidence/claude-code-マルチアカウント-ディレクトリ隔離/93acae22d02b/解説スライド-wide-page-3-93acae22d02b.png",
+            "/tmp/html-runtime-evidence/claude-code-マルチアカウント-ディレクトリ隔離/93acae22d02b/解説スライド-wide-page-4-93acae22d02b.png",
+            "/tmp/html-runtime-evidence/claude-code-マルチアカウント-ディレクトリ隔離/93acae22d02b/解説スライド-narrow-page-1-93acae22d02b.png",
+            "/tmp/html-runtime-evidence/claude-code-マルチアカウント-ディレクトリ隔離/93acae22d02b/解説スライド-narrow-page-2-93acae22d02b.png",
+            "/tmp/html-runtime-evidence/claude-code-マルチアカウント-ディレクトリ隔離/93acae22d02b/解説スライド-narrow-page-3-93acae22d02b.png",
+            "/tmp/html-runtime-evidence/claude-code-マルチアカウント-ディレクトリ隔離/93acae22d02b/解説スライド-narrow-page-4-93acae22d02b.png"
           ]
         }
       ]

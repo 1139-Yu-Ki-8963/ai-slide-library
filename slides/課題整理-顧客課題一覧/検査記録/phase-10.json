@@ -1,0 +1,15 @@
+{
+  "phase": 10,
+  "targetKeys": ["課題整理-顧客課題一覧"],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-split-plan",
+      "status": "pass",
+      "evidence": "現HTMLの全3ページを確認した。P1全体像・P2分類A詳細・P3分類B・C詳細の3分割で、副題に明記された『3〜7件は一覧のみ、8件以上は分類別詳細ページを追加』という基準どおりの構成になっている（8件のため詳細ページを追加）。各ページは1メッセージに収束し、文字の押し込み・切れ・重なりは検出しなかった。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-30T02:12:55Z",
+  "artifactSha256": "f4e06dbfcdeb9982594d8cc8af43a7b2a04494f03748f7aafec137a87199ca9a"
+}
