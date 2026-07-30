@@ -8,6 +8,10 @@ import { fileURLToPath } from "node:url";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const slidesDir = join(root, "slides");
 const writeEvidence = process.argv.includes("--evidence");
+// キー指定実行を追加。全件一括のみだと対象外スライドの成果物まで再生成され、巻き戻し作業が発生するため（2026-07-30 実測: 38件生成→29件復元を2回）。
+const requestedKeys = [...new Set(
+  process.argv.slice(2).filter(arg => !arg.startsWith("--")).map(k => k.normalize("NFC"))
+)];
 
 let chromium;
 try {
@@ -18,11 +22,25 @@ try {
 }
 
 async function main() {
-  const keys = readdirSync(slidesDir, { withFileTypes: true })
+  const allDirs = readdirSync(slidesDir, { withFileTypes: true })
     .filter(d => d.isDirectory())
     .map(d => d.name)
     .filter(key => existsSync(join(slidesDir, key, "解説スライド.html")))
     .sort();
+  const allKeys = allDirs.map(n => n.normalize("NFC"));
+
+  let keys = allDirs;
+  if (requestedKeys.length > 0) {
+    keys = [];
+    for (const key of requestedKeys) {
+      const idx = allKeys.indexOf(key);
+      if (idx === -1) {
+        console.error(`エラー: 指定されたキー "${key}" のディレクトリ、または解説スライド.html が見つかりません`);
+        process.exit(1);
+      }
+      keys.push(allDirs[idx]);
+    }
+  }
 
   if (keys.length === 0) {
     console.error("エラー: 解説スライド.html を持つスライドが見つかりませんでした");
