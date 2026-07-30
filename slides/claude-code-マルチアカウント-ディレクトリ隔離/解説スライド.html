@@ -2,206 +2,204 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Claude Code 複数アカウント切り替えの仕組み</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code 複数アカウントのディレクトリ隔離</title>
 <style>
-:root{
-  --surface: #fff;
-  --soft: #f1f0ec;
-  --soft-warm: #f4ebe5;
-  --soft-green: #e9f1eb;
-  --line: #d7d9d5;
-  --good: #356b4a;
-  --critical: #9a3f32;
-  --code: #292d2d;
-}
-.page-heading{ display: grid; grid-template-columns: 55px 1fr; gap: 14px; align-items: start; margin-bottom: 18px; }
-.page-no{ color: var(--accent); font: 700 12px/1 system-ui, sans-serif; letter-spacing: .1em; padding-top: 6px; }
-.page-heading h2{ margin: 0; font-size: 25px; line-height: 1.25; font-weight: 680; }
-.page-heading p{ grid-column: 2; margin: -7px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
-.claim{
-  margin-bottom: 18px; padding: 11px 16px; border-left: 4px solid var(--accent);
-  background: var(--soft-warm); font-size: 18px; font-weight: 650; line-height: 1.45;
-}
-.isolation{ display: grid; grid-template-columns: 1fr 1fr; gap: 34px; flex: 1; }
-.environment{ border-top: 3px solid var(--good); padding: 16px 18px 0; background: linear-gradient(180deg, var(--soft-green), #fff 74%); }
-.environment.secondary{ border-top-color: var(--muted); background: linear-gradient(180deg, var(--soft), #fff 74%); }
-.environment h3{ margin: 0 0 4px; font-size: 18px; }
-.path{ margin: 0 0 15px; font: 700 20px/1.3 "SFMono-Regular", Menlo, monospace; }
-.hold-list{ margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
-.hold-list li{ display: grid; grid-template-columns: 120px 1fr; gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
-.hold-list strong{ font-weight: 700; }
-.environment-note{ margin: 12px 0 0; color: var(--muted); font-size: 12px; }
-.operation-grid{ display: grid; grid-template-columns: 1.15fr .85fr; gap: 42px; flex: 1; }
-.operation-grid h3, .model-grid h3{ margin: 0 0 9px; font-size: 16px; }
-.code-block{
-  margin: 0 0 17px; padding: 13px 16px; background: var(--code); color: #fff;
-  font: 13px/1.55 "SFMono-Regular", Menlo, monospace; white-space: pre-wrap;
-}
-.explain{ margin: 0 0 20px; color: var(--muted); font-size: 13px; line-height: 1.55; }
-.scope-list{ margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--ink); }
-.scope-list li{ padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 1.45; }
-.scope-list .danger{ color: var(--critical); font-weight: 700; }
-.auth-intro{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 13px; }
-.auth-intro p{ margin: 0; font-size: 12px; line-height: 1.5; color: var(--muted); }
-.auth-table{ width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 11.5px; line-height: 1.42; }
-.auth-table th{ padding: 9px 10px; text-align: left; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); font-size: 13px; }
-.auth-table td{ padding: 10px; vertical-align: top; border-bottom: 1px solid var(--line); }
-.auth-table th:first-child, .auth-table td:first-child{ width: 19%; }
-.auth-table th:nth-child(2), .auth-table td:nth-child(2){ width: 25%; }
-.auth-table code{ font: 10.5px/1.5 "SFMono-Regular", Menlo, monospace; white-space: pre-wrap; }
-.verify-note{ margin: 12px 0 0; color: var(--good); font-size: 12px; font-weight: 700; }
-.model-grid{ display: grid; grid-template-columns: 1.12fr .88fr; gap: 42px; flex: 1; }
-.model-rule{ padding: 20px 22px; background: var(--soft-warm); border-left: 4px solid var(--critical); }
-.model-rule p{ margin: 0 0 12px; font-size: 14px; line-height: 1.55; }
-.model-example{ font: 13px/1.5 "SFMono-Regular", Menlo, monospace; }
-.region-map{ margin: 0; }
-.region-map div{ display: grid; grid-template-columns: 135px 1fr; gap: 18px; padding: 13px 0; border-bottom: 1px solid var(--line); }
-.region-map dt{ font: 700 12px/1.4 "SFMono-Regular", Menlo, monospace; }
-.region-map dd{ margin: 0; font: 12px/1.4 "SFMono-Regular", Menlo, monospace; }
-.constraints{ margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--ink); }
-.constraints p{ margin: 0 0 8px; font-size: 14px; line-height: 1.45; }
+  /* 骨格B: 構造型（slide-design-system.md 参照）。CLI描写のみ黒地のターミナルを許可、それ以外は罫線＋濃淡 */
+  .mono{ font-family: "SF Mono", "Cascadia Code", Consolas, Menlo, monospace; }
+  .term{ background: #1B1F24; padding: 14px 18px; color: #D5D9DE; font-size: 14px; line-height: 1.7; white-space: pre-wrap; word-break: break-all; }
+  .term .p{ color: #7D8794; }
+  .duo{ flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding-top: 24px; }
+  .env{ display: flex; flex-direction: column; min-height: 0; padding: 16px 22px 14px; border-top: 1px solid var(--line); }
+  .env.star{ border-top: 2px solid var(--ink); background: var(--surface-2); }
+  .env .sid{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .env.star .sid{ color: var(--ink); }
+  .env h2{ margin: 6px 0 2px; font-size: 20px; font-weight: 600; color: var(--ink); }
+  .env .path{ margin: 0 0 12px; font-size: 17px; font-weight: 700; color: var(--ink); }
+  .hold{ list-style: none; margin: 0; padding: 0; flex: 1; display: flex; flex-direction: column; }
+  .hold li{ flex: 1; display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: center; border-top: 1px solid var(--faint); font-size: 15px; }
+  .hold li strong{ font-weight: 600; color: var(--ink); }
+  .hold li span{ color: var(--muted); }
+  .env .note{ margin: 10px 0 0; padding-top: 8px; border-top: 1px solid var(--faint); font-size: 14px; color: var(--muted); }
+  .ops{ flex: 1; min-height: 0; display: grid; grid-template-columns: 1.25fr 1fr; gap: 40px; padding-top: 24px; }
+  .ops h2, .col h2{ margin: 0 0 8px; font-size: 16px; font-weight: 600; color: var(--ink); }
+  .ops .blk + h2{ margin-top: 18px; }
+  .ops .explain{ margin: 10px 0 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
+  .scope{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .scope li{ flex: none; padding: 13px 0; border-top: 1px solid var(--faint); font-size: 15px; line-height: 1.5; color: var(--muted); }
+  .scope li strong{ display: block; font-size: 15px; font-weight: 600; color: var(--ink); }
+  .auth-table{ width: 100%; flex: 1; border-collapse: collapse; table-layout: fixed; }
+  .auth-table th{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); text-align: left; padding: 0 16px 8px 0; border-bottom: 1px solid var(--faint); }
+  .auth-table td{ vertical-align: top; padding: 10px 16px 10px 0; border-bottom: 1px solid var(--faint); font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .auth-table td.way{ font-size: 15px; font-weight: 600; color: var(--ink); }
+  .auth-table .cond{ display: block; margin-top: 2px; }
+  .auth-table td .term{ padding: 8px 12px; font-size: 12.5px; line-height: 1.6; }
+  .col-way{ width: 19%; } .col-cond{ width: 27%; } .col-env{ width: 54%; }
+  .figure{ flex: 1; display: flex; flex-direction: column; min-height: 0; padding-top: 20px; gap: 0; }
+  .model-grid{ flex: 1; min-height: 0; display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; padding-top: 24px; }
+  .col{ display: flex; flex-direction: column; min-height: 0; }
+  .col p{ margin: 10px 0 0; font-size: 15px; line-height: 1.65; color: var(--muted); }
+  .col p strong{ color: var(--ink); font-weight: 600; }
+  .rmap{ margin: 0; }
+  .rmap div{ display: grid; grid-template-columns: 170px 1fr; gap: 18px; padding: 12px 0; border-top: 1px solid var(--faint); }
+  .rmap dt{ font-size: 15px; font-weight: 600; color: var(--ink); }
+  .rmap dd{ margin: 0; font-size: 15px; color: var(--muted); }
+  .conclusion{ display: flex; align-items: baseline; gap: 18px; border-top: 2px solid var(--accent); padding-top: 14px; margin-top: 16px; }
+  .c-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--accent); flex-shrink: 0; }
+  .c-text{ font-size: 18px; font-weight: 600; line-height: 1.5; color: var(--ink); }
+  .pageno{ font: 12px/1.4 system-ui, sans-serif; color: var(--label); margin-left: auto; flex-shrink: 0; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
-  <main class="slide">
+<div class="slide">
+
+  <section class="slide-page is-active" data-slide-page="1">
     <header class="slide-header">
-      <span class="kicker">CLAUDE CODE 環境構築</span>
-      <h1 class="slide-title">複数アカウントを<wbr>設定ディレクトリで隔離する</h1>
-      <p class="slide-subtitle">CLAUDE_CONFIG_DIRで構成・起動・Bedrock認証・モデル制約を分けて確認する</p>
+      <span class="kicker">Claude Code 環境構築 — 原理</span>
+      <h1 class="slide-title">設定ディレクトリを分ければ、2つのアカウントを並行利用できる</h1>
+      <p class="slide-subtitle">CLAUDE_CONFIG_DIRが参照先を切り替え、認証・設定・規約・履歴を互いに隔離する</p>
     </header>
+    <div class="duo">
+      <article class="env star">
+        <span class="sid">メインアカウント</span>
+        <p class="path mono">~/.claude/</p>
+        <ul class="hold">
+          <li><strong>認証</strong><span>認証情報</span></li>
+          <li><strong>設定</strong><span class="mono">settings.json</span></li>
+          <li><strong>規約・手順</strong><span class="mono">rules / skills</span></li>
+          <li><strong>作業履歴</strong><span>セッション履歴</span></li>
+        </ul>
+        <p class="note">デスクトップアプリ・VS Code・CLIが参照する既定の場所</p>
+      </article>
+      <article class="env">
+        <span class="sid">サブアカウント</span>
+        <p class="path mono">~/.claude-account-b/</p>
+        <ul class="hold">
+          <li><strong>認証</strong><span>認証情報</span></li>
+          <li><strong>設定</strong><span class="mono">settings.json</span></li>
+          <li><strong>規約・手順</strong><span class="mono">rules / skills</span></li>
+          <li><strong>作業履歴</strong><span>セッション履歴</span></li>
+        </ul>
+        <p class="note">CLI専用。環境変数で参照先を切り替える</p>
+      </article>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">原理</span>
+      <span class="c-text">同じ構成一式を別ディレクトリに複製し、環境変数で参照先だけを切り替える</span>
+      <span class="pageno">1 / 4</span>
+    </div>
+  </section>
 
-    <section class="slide-page is-active" aria-labelledby="multi-page-1" data-slide-page="1">
-      <div class="page-heading">
-        <span class="page-no">01 / 原理</span>
-        <h2 id="multi-page-1">設定ディレクトリを分ければ、2つのアカウントを並行利用できる</h2>
-        <p>CLAUDE_CONFIG_DIRが参照先を切り替え、認証・設定・規約・履歴を互いに隔離する。</p>
+  <section class="slide-page" data-slide-page="2">
+    <header class="slide-header">
+      <span class="kicker">Claude Code 環境構築 — 運用</span>
+      <h1 class="slide-title">サブ環境は起動時に指定し、日常利用はaliasへ短縮する</h1>
+      <p class="slide-subtitle">切り替えに対応するのはCLIのみ — デスクトップアプリとVS Codeは既定環境で動く</p>
+    </header>
+    <div class="ops">
+      <div>
+        <h2>起動コマンド</h2>
+        <div class="term blk mono">CLAUDE_CONFIG_DIR=~/.claude-account-b claude</div>
+        <h2 style="margin-top: 18px;">~/.zshrc に追記するalias</h2>
+        <div class="term blk mono">alias claude-account-b='CLAUDE_CONFIG_DIR="$HOME/.claude-account-b" claude'</div>
+        <p class="explain">登録後は <span class="mono">claude-account-b</span> の1語でサブ環境を起動できる。</p>
       </div>
-      <div class="isolation">
-        <article class="environment">
-          <h3>メインアカウント</h3>
-          <p class="path">~/.claude/</p>
-          <ul class="hold-list">
-            <li><strong>認証</strong><span>認証情報</span></li>
-            <li><strong>設定</strong><span>settings.json</span></li>
-            <li><strong>規約・手順</strong><span>rules / skills</span></li>
-            <li><strong>作業履歴</strong><span>セッション履歴</span></li>
-          </ul>
-          <p class="environment-note">デスクトップアプリ・VS Code・CLIが参照</p>
-        </article>
-        <article class="environment secondary">
-          <h3>サブアカウント</h3>
-          <p class="path">~/.claude-account-b/</p>
-          <ul class="hold-list">
-            <li><strong>認証</strong><span>認証情報</span></li>
-            <li><strong>設定</strong><span>settings.json</span></li>
-            <li><strong>規約・手順</strong><span>rules / skills</span></li>
-            <li><strong>作業履歴</strong><span>セッション履歴</span></li>
-          </ul>
-          <p class="environment-note">CLI専用。環境変数で参照先を切り替える</p>
-        </article>
+      <div class="col">
+        <h2>対応範囲</h2>
+        <ul class="scope">
+          <li><strong>CLI</strong>CLAUDE_CONFIG_DIRによる切り替えに対応する</li>
+          <li><strong>デスクトップアプリ・VS Code</strong>非対応。常に既定の ~/.claude/ を参照する</li>
+          <li><strong>Bedrock接続</strong>サブ環境の settings.json で設定する（次ページ）</li>
+        </ul>
       </div>
-    </section>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">運用の原則</span>
+      <span class="c-text">サブ環境はCLI限定 — GUIから使う作業はメインアカウント側に寄せる</span>
+      <span class="pageno">2 / 4</span>
+    </div>
+  </section>
 
-    <section class="slide-page" aria-labelledby="multi-page-2" data-slide-page="2">
-      <div class="page-heading">
-        <span class="page-no">02 / 運用</span>
-        <h2 id="multi-page-2">サブ環境は起動時に指定し、日常利用はaliasへ短縮する</h2>
-        <p>対応範囲はCLIに限定される。デスクトップアプリとVS Codeでは切り替えられない。</p>
-      </div>
-      <div class="operation-grid">
-        <div>
-          <h3>起動コマンド</h3>
-          <pre class="code-block"><code>CLAUDE_CONFIG_DIR=~/.claude-account-b claude</code></pre>
-          <h3>~/.zshrcに追記するalias</h3>
-          <pre class="code-block"><code>alias claude-account-b='CLAUDE_CONFIG_DIR="$HOME/.claude-account-b" claude'</code></pre>
-          <p class="explain">登録後は<code>claude-account-b</code>で起動できる。</p>
-        </div>
-        <div>
-          <h3>対応範囲</h3>
-          <ul class="scope-list">
-            <li><strong>CLI</strong><br>CLAUDE_CONFIG_DIRによる切り替えに対応</li>
-            <li class="danger">デスクトップアプリ・VS Codeは非対応</li>
-            <li>Bedrock接続はサブ環境のsettings.jsonで設定する</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide-page" aria-labelledby="multi-page-3" data-slide-page="3">
-      <div class="page-heading">
-        <span class="page-no">03 / 認証</span>
-        <h2 id="multi-page-3">Bedrockサブ環境は認証方式に合わせてenvを選ぶ</h2>
-        <p>例示の識別名・リージョン・秘密値は実値ではない。実環境の値へ置き換える。</p>
-      </div>
-      <div class="auth-intro">
-        <p><strong>命名例:</strong> ~/.claude-bedrock-{識別名}/<br><strong>作成例:</strong> <code>mkdir -p ~/.claude-bedrock-dev</code></p>
-        <p>~/.claude-bedrock-{id}/settings.jsonのenvへ、CLAUDE_CODE_USE_BEDROCKとAWS_REGIONを必ず含める。</p>
-      </div>
+  <section class="slide-page" data-slide-page="3">
+    <header class="slide-header">
+      <span class="kicker">Claude Code 環境構築 — Bedrock認証</span>
+      <h1 class="slide-title">Bedrockサブ環境は、認証方式に合わせてenvを選ぶ</h1>
+      <p class="slide-subtitle">settings.json のenvに CLAUDE_CODE_USE_BEDROCK と AWS_REGION を含める（値は例示）</p>
+    </header>
+    <div class="figure">
       <table class="auth-table">
-        <thead><tr><th>認証方式</th><th>判別・事前条件</th><th>settings.jsonのenv例（秘密値はプレースホルダー）</th></tr></thead>
+        <colgroup><col class="col-way"><col class="col-cond"><col class="col-env"></colgroup>
+        <thead><tr>
+          <th scope="col">認証方式</th>
+          <th scope="col">判別・事前条件</th>
+          <th scope="col">settings.json のenv例</th>
+        </tr></thead>
         <tbody>
           <tr>
-            <td><strong>Bearer Token</strong></td>
-            <td>AccessKeyが<br><code>{user}-at-{accountId}</code>形式</td>
-            <td><code>"CLAUDE_CODE_USE_BEDROCK": "1",
+            <td class="way">Bearer Token</td>
+            <td>AccessKeyが<span class="cond mono">{user}-at-{accountId}</span>形式</td>
+            <td><div class="term mono">"CLAUDE_CODE_USE_BEDROCK": "1",
 "AWS_REGION": "ap-northeast-1",
-"AWS_BEARER_TOKEN_BEDROCK": "ABSK..."</code></td>
+"AWS_BEARER_TOKEN_BEDROCK": "ABSK..."</div></td>
           </tr>
           <tr>
-            <td><strong>IAMアクセスキー</strong></td>
-            <td>AccessKeyが<br><code>AKIA...</code>で始まる</td>
-            <td><code>"CLAUDE_CODE_USE_BEDROCK": "1",
+            <td class="way">IAMアクセスキー</td>
+            <td>AccessKeyが<span class="cond mono">AKIA...</span>で始まる</td>
+            <td><div class="term mono">"CLAUDE_CODE_USE_BEDROCK": "1",
 "AWS_REGION": "ap-northeast-1",
 "AWS_ACCESS_KEY_ID": "AKIA...",
-"AWS_SECRET_ACCESS_KEY": "..."</code></td>
+"AWS_SECRET_ACCESS_KEY": "..."</div></td>
           </tr>
           <tr>
-            <td><strong>SSO / Identity Center</strong></td>
-            <td>事前に<br><code>aws sso login --profile {profile}</code></td>
-            <td><code>"CLAUDE_CODE_USE_BEDROCK": "1",
+            <td class="way">SSO / Identity Center</td>
+            <td>事前に<span class="cond mono">aws sso login --profile {p}</span></td>
+            <td><div class="term mono">"CLAUDE_CODE_USE_BEDROCK": "1",
 "AWS_REGION": "ap-northeast-1",
-"AWS_PROFILE": "my-sso-profile"</code></td>
+"AWS_PROFILE": "my-sso-profile"</div></td>
           </tr>
         </tbody>
       </table>
-      <p class="verify-note">確認方法: /statusで「Provider: Amazon Bedrock」と表示されることを確認する。</p>
-    </section>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">確認方法</span>
+      <span class="c-text">/status で「Provider: Amazon Bedrock」と表示されれば接続完了</span>
+      <span class="pageno">3 / 4</span>
+    </div>
+  </section>
 
-    <section class="slide-page" aria-labelledby="multi-page-4" data-slide-page="4">
-      <div class="page-heading">
-        <span class="page-no">04 / 制約</span>
-        <h2 id="multi-page-4">Bedrockではリージョン別モデルIDを固定し、利用制約を確認する</h2>
-        <p>モデルID例は設定形式を示す例であり、実環境で利用可能なモデルを確認して指定する。</p>
+  <section class="slide-page" data-slide-page="4">
+    <header class="slide-header">
+      <span class="kicker">Claude Code 環境構築 — モデル制約</span>
+      <h1 class="slide-title">Bedrockではリージョン別モデルIDを固定し、制約を確認する</h1>
+      <p class="slide-subtitle">モデルID例は形式の例示 — 実環境で利用可能なモデルを確認して指定する</p>
+    </header>
+    <div class="model-grid">
+      <div class="col">
+        <h2>settings.json のenvへモデルIDを追加する</h2>
+        <p>Bedrockの既定モデルはAnthropic APIより遅延することがある。リージョンプレフィックス付きモデルIDを指定して固定する。</p>
+        <div class="term mono" style="margin-top: 14px;">"ANTHROPIC_MODEL": "jp.anthropic.claude-opus-4-8"</div>
+        <p style="margin-top: 18px;"><strong>実行上の制約</strong>　WebSearchツールは利用不可。</p>
       </div>
-      <div class="model-grid">
-        <div class="model-rule">
-          <h3>settings.jsonのenvへモデルIDを追加</h3>
-          <p>BedrockのデフォルトモデルはAnthropic APIより遅延する。リージョンプレフィックス付きモデルIDを追加して固定する。</p>
-          <p class="model-example"><strong>例:</strong> jp.anthropic.claude-opus-4-8</p>
-          <div class="constraints">
-            <p><strong>実行上の制約</strong></p>
-            <p>WebSearchツールは利用不可。</p>
-          </div>
-        </div>
-        <div>
-          <h3>リージョンとプレフィックスの対応</h3>
-          <dl class="region-map">
-            <div><dt>us-east-1</dt><dd>us.anthropic.</dd></div>
-            <div><dt>ap-northeast-1</dt><dd>jp.anthropic.</dd></div>
-            <div><dt>eu-west-1</dt><dd>eu.anthropic.</dd></div>
-          </dl>
-        </div>
+      <div class="col">
+        <h2>リージョンとプレフィックスの対応</h2>
+        <dl class="rmap mono">
+          <div><dt>us-east-1</dt><dd>us.anthropic.</dd></div>
+          <div><dt>ap-northeast-1</dt><dd>jp.anthropic.</dd></div>
+          <div><dt>eu-west-1</dt><dd>eu.anthropic.</dd></div>
+        </dl>
       </div>
-    </section>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">制約の要点</span>
+      <span class="c-text">モデルIDはリージョンに合わせて固定する — 既定のままでは速度も挙動も安定しない</span>
+      <span class="pageno">4 / 4</span>
+    </div>
+  </section>
 
-
-
-  </main>
 </div>
-
+</div>
 </body>
 </html>

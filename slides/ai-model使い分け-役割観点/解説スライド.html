@@ -1,19 +1,99 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Claude Codeのlimitが切れた時だけCursorへ切り替える</title>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIモデル使い分け — 役割観点</title>
 <style>
-:root{--ink:#1c2b3a;--muted:#60728a;--line:#d9e0e8;--claude:#d97858;--cursor:#252b31;--blue:#087db5}.table{display:grid;grid-template-columns:190px 1fr 1fr;border:1px solid var(--line);border-radius:10px;overflow:hidden;flex:1}.cell{padding:12px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:15px;line-height:1.28}.cell:nth-child(3n){border-right:0}.cell:nth-last-child(-n+3){border-bottom:0}.th{font-size:15px;font-weight:700;text-align:center;background:#eef2f6}.th.claude{background:var(--claude);color:#fff}.th.cursor{background:var(--cursor);color:#fff}.task{font-weight:700;background:#eef2f6}.claude-cell{background:#fff4ef}.cursor-cell{background:#f0f2f4}.model{font-weight:800}.accent{color:var(--blue)}.note{padding:12px 16px;border-radius:8px;background:#fff4dc;border:1px solid #efd08b;font-size:16px;font-weight:700}.foot{display:flex;gap:20px;justify-content:space-between;border-top:1px solid var(--line);padding-top:10px;font-size:14px;color:var(--muted)}.foot strong{color:var(--ink)}
-</style>
-<style>
-  :root{ --claude: #a84b31; --blue: #05618f; }
-  .matrix{ width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; overflow: hidden; flex: 1; border: 1px solid var(--line); border-radius: 10px; }
-  .matrix th, .matrix td{ padding: 12px 16px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.28; text-align: left; vertical-align: top; }
-  .matrix thead th{ font-size: 15px; font-weight: 700; text-align: center; background: #eef2f6; }
-  .matrix thead .claude{ background: var(--claude); color: #fff; }
-  .matrix thead .cursor{ background: var(--cursor); color: #fff; }
-  .matrix tbody th{ font-weight: 700; background: #eef2f6; }
-  .matrix .claude-cell{ background: #fff4ef; }
-  .matrix .cursor-cell{ background: #f0f2f4; }
+  /* 骨格B: 構造型（slide-design-system.md 参照）。P1=Claude Codeの場合、P2=Cursorの場合。主役は設計モデルの行 */
+  .rows{ flex: 1; min-height: 0; display: flex; flex-direction: column; padding-top: 20px; }
+  .rows-head{ display: grid; grid-template-columns: 210px 280px 1fr; gap: 20px; padding-bottom: 8px; }
+  .rows-head span{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .mrow{ flex: 1; display: grid; grid-template-columns: 210px 280px 1fr; gap: 20px; align-items: center; border-top: 1px solid var(--faint); padding: 10px 0; }
+  .task{ font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+  .model{ font-size: 17px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .mdesc{ font-size: 15px; line-height: 1.55; color: var(--muted); }
+  .mnote{ display: block; margin-top: 4px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .conclusion{ display: flex; align-items: baseline; gap: 18px; border-top: 2px solid var(--accent); padding-top: 14px; margin-top: 14px; }
+  .c-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--accent); flex-shrink: 0; }
+  .c-text{ font-size: 18px; font-weight: 600; line-height: 1.5; color: var(--ink); }
+  .pageno{ font: 12px/1.4 system-ui, sans-serif; color: var(--label); margin-left: auto; flex-shrink: 0; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
-</head><body><div class="slide-viewport"><main class="slide" data-slide-page="1"><header class="head slide-header"><div class="eyebrow">開発ツール運用ガイド｜改善提案</div><h1 class="slide-title">Claude Codeのlimitが切れた時だけCursorへ切り替える</h1><p class="slide-subtitle">通常はClaude Codeのモデルを役割で使い分け、limitが切れた時だけCursorへ切り替える。</p></header><table class="matrix"><thead><tr><th scope="col">タスク</th><th scope="col" class="claude">Claude Code（通常）</th><th scope="col" class="cursor">Cursor（Claude Codeのlimitが切れた時）</th></tr></thead><tbody><tr><th scope="row">設計・計画</th><td class="claude-cell"><span class="model">Opus</span><br>高い判断力が必要な設計判断・計画立案</td><td class="cursor-cell"><span class="model accent">Opus</span><br>設計を継続する</td></tr><tr><th scope="row">実装・調査・レビュー</th><td class="claude-cell"><span class="model">Sonnet</span><br>コード修正・仕様調査・差分レビュー</td><td class="cursor-cell"><span class="model accent">Composer</span><br>通常作業を継続する</td></tr><tr><th scope="row">コマンド実行・テスト起動</th><td class="claude-cell"><span class="model">Haiku</span><br>判断不要の定型作業を高速処理</td><td class="cursor-cell"><span class="model accent">Composer</span><br>CursorではComposerに統一</td></tr></tbody></table><div class="note">切替時の割当：設計はOpus、それ以外はComposer。Cursorのautoモードは使わない。</div></main></div></body></html>
+</head>
+<body>
+<div class="slide-viewport">
+<div class="slide">
+
+  <section class="slide-page is-active" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">AIモデル使い分け — Claude Codeの場合</span>
+      <h1 class="slide-title">Claude Codeは、タスクの役割でモデルを使い分ける</h1>
+      <p class="slide-subtitle">設計は最上位のFable 5、実装はSonnet、定型作業はHaiku</p>
+    </header>
+    <div class="rows">
+      <div class="rows-head"><span>タスク</span><span>モデル</span><span>役割</span></div>
+      <div class="mrow">
+        <span class="task">設計・計画</span>
+        <span class="model">Fable 5</span>
+        <div><span class="mdesc">判断力が必要な設計判断・計画立案</span><span class="mnote">Fable 5はMax／Team Premiumのみ。使えない場合はOpusで代替</span></div>
+      </div>
+      <div class="mrow">
+        <span class="task">実装・調査・レビュー</span>
+        <span class="model">Sonnet</span>
+        <div><span class="mdesc">コード修正・仕様調査・差分レビュー</span></div>
+      </div>
+      <div class="mrow">
+        <span class="task">コマンド実行・テスト起動</span>
+        <span class="model">Haiku</span>
+        <div><span class="mdesc">判断不要の定型作業を高速処理</span></div>
+      </div>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">割当の原則</span>
+      <span class="c-text">モデルはタスクの判断の重さで選ぶ — 全部を同じモデルで回さない</span>
+      <span class="pageno">1 / 2</span>
+    </div>
+  </section>
+
+  <section class="slide-page" data-slide-page="2">
+    <header class="slide-header">
+      <span class="kicker">AIモデル使い分け — Cursorの場合</span>
+      <h1 class="slide-title">Cursorは、Claude Codeのlimitが切れた時だけ使う</h1>
+      <p class="slide-subtitle">切替後の割当 — 設計とレビューはOpus、作業はComposer</p>
+    </header>
+    <div class="rows">
+      <div class="rows-head"><span>タスク</span><span>モデル</span><span>役割</span></div>
+      <div class="mrow">
+        <span class="task">設計・計画</span>
+        <span class="model">Opus</span>
+        <div><span class="mdesc">Claude Codeで進めていた設計を、同じ判断水準で継続する</span></div>
+      </div>
+      <div class="mrow">
+        <span class="task">実装・調査</span>
+        <span class="model">Composer</span>
+        <div><span class="mdesc">通常作業を継続する</span></div>
+      </div>
+      <div class="mrow">
+        <span class="task">レビュー</span>
+        <span class="model">Opus</span>
+        <div><span class="mdesc">差分レビューは判断力が要るため、ComposerではなくOpusを充てる</span></div>
+      </div>
+      <div class="mrow">
+        <span class="task">コマンド実行・テスト起動</span>
+        <span class="model">Composer</span>
+        <div><span class="mdesc">定型作業はComposerに統一する</span></div>
+      </div>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">切替時の割当</span>
+      <span class="c-text">設計とレビューはOpus、それ以外はComposer — Cursorのautoモードは使わない</span>
+      <span class="pageno">2 / 2</span>
+    </div>
+  </section>
+
+</div>
+</div>
+</body>
+</html>

@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/statusline-四行表示の見方/解説スライド.html",
-      "artifactSha256": "ec7b49a3e95e5a9584cd61458518eb907e46dcf5c44749c710765d62a459dcbf",
+      "file": "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/import-repo-export-new-design/slides/statusline-四行表示の見方/解説スライド.html",
+      "artifactSha256": "7e3f0c46a0943504ccc93015e3de884894a334881ab990696088d316d6a76d3b",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/statusline-四行表示の見方/evidence/html-runtime/解説スライド-wide-ec7b49a3e95e.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/statusline-四行表示の見方/evidence/html-runtime/解説スライド-narrow-ec7b49a3e95e.png"
+            "/tmp/html-runtime-evidence/statusline-四行表示の見方/7e3f0c46a094/解説スライド-wide-page-1-7e3f0c46a094.png",
+            "/tmp/html-runtime-evidence/statusline-四行表示の見方/7e3f0c46a094/解説スライド-narrow-page-1-7e3f0c46a094.png"
           ]
         }
       ]

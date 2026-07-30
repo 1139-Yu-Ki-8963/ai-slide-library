@@ -1,41 +1,30 @@
 {
   "phase": 8,
-  "targetKeys": [
-    "claude-code-マルチアカウント-ディレクトリ隔離"
-  ],
+  "targetKeys": ["claude-code-マルチアカウント-ディレクトリ隔離"],
   "status": "pass",
   "criteria": [
     {
       "id": "slide-ai-thumbnail-legibility",
       "status": "pass",
-      "evidence": "現行640×360サムネイルで、先頭ページの主張「複数アカウントを設定ディレクトリで隔離する」と主要な図表構造を識別できる。さらに現行HTML SHAの全4ページを1280×720 wideと390×844 narrowで確認し、切れ・重なり・白紙・誤ページ表示はなかった。 現SHAから640×360サムネイルと1280×720検証画像を再生成した。ヘッダー限定再検証で全90論理ページ状態に32件の機械規約を適用し、失敗0件を確認した。"
+      "evidence": "サムネイル.png（640×360）を目視確認した。タイトル『設定ディレクトリを分ければ、2つのアカウントを並行利用できる』、2アカウントのパス（~/.claude/、~/.claude-account-b/）、各4項目の見出し、結論行『同じ構成一式を別ディレクトリに複製し...』はいずれも縮小後も判読できる。"
     },
     {
       "id": "slide-ai-one-message",
       "status": "pass",
-      "evidence": "全4ページをページ単位で確認した。各ページは「設定ディレクトリ分離の原理」、「CLI起動時の切替」、「Bedrock認証方式ごとのenv選択」、「リージョン別モデルIDと利用制約」という一つずつの判断へ収束し、無関係な主張を競合させていない。 ヘッダー限定AI再レビューでslide-ai-one-messageを90/90件PASSと判定した。"
+      "evidence": "全4ページのHTML本文を確認した。P1『同じ構成一式を別ディレクトリに複製し、環境変数で参照先だけを切り替える』、P2『サブ環境はCLI限定』、P3『/statusで接続完了を確認する』、P4『モデルIDはリージョンに合わせて固定する』と、各ページのconclusion行が単一の主張に収束している。"
     },
     {
       "id": "slide-ai-title-claim",
       "status": "pass",
-      "evidence": "全4ページのタイトル「複数アカウントを設定ディレクトリで隔離する」、「複数アカウントを設定ディレクトリで隔離する」、「複数アカウントを設定ディレクトリで隔離する」、「複数アカウントを設定ディレクトリで隔離する」は、分類名だけでなく、そのページで理解・判断すべき主張または判断対象を単独で推測できる。wide・narrowとも実描画はヘッダー内に収まり、主図と矛盾しない。 ヘッダー限定AI再レビューでslide-ai-title-claimを90/90件PASSと判定した。"
+      "evidence": "各ページタイトルは判断対象を含む主張文になっている。P1『設定ディレクトリを分ければ、2つのアカウントを並行利用できる』、P3『Bedrockサブ環境は、認証方式に合わせてenvを選ぶ』のように、単なる話題ラベルではなく読み手が理解・判断すべき内容を示す。"
     },
     {
       "id": "slide-ai-subtitle-support",
       "status": "pass",
-      "evidence": "全4ページの副題「CLAUDE_CONFIG_DIRで構成・起動・Bedrock認証・モデル制約を分けて確認する」、「CLAUDE_CONFIG_DIRで構成・起動・Bedrock認証・モデル制約を分けて確認する」、「CLAUDE_CONFIG_DIRで構成・起動・Bedrock認証・モデル制約を分けて確認する」、「CLAUDE_CONFIG_DIRで構成・起動・Bedrock認証・モデル制約を分けて確認する」は、対象範囲・前提・比較軸・根拠・読み方のいずれかを補い、タイトルの単純な言い換えになっていない。wide・narrowで切れや本文への押し込みはない。 ヘッダー限定AI再レビューでslide-ai-subtitle-supportを90件PASS、0件N/A、FAIL 0件と判定した。"
+      "evidence": "副題はタイトルの言い換えでなく補足情報を追加している。P1副題『CLAUDE_CONFIG_DIRが参照先を切り替え、認証・設定・規約・履歴を互いに隔離する』は隔離される項目を具体化し、P3副題『settings.jsonのenvにCLAUDE_CODE_USE_BEDROCKとAWS_REGIONを含める（値は例示）』は必須項目と例示である旨を補足する。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T18:19:38.680Z",
-  "artifactSha256": "d0d553a5833acd16f0224ed5c77af91b1665a6b45dcced86bc16cfb802649ce6",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "09323f171b3e37e56a03d5fa24e860acba80bedd11009b9e7fe7053b624e9d51",
-    "toArtifactSha256": "d0d553a5833acd16f0224ed5c77af91b1665a6b45dcced86bc16cfb802649ce6",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "5b477bbac56b2a4b8c9ce54886110eea8969ac69bd54c0c54bad85e5cd85526d",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  }
+  "checkedAt": "2026-07-30T02:12:55Z",
+  "artifactSha256": "93acae22d02b718efdd67e82d687de0a2d2624fa7226bb562d241ffd9b274cf9"
 }

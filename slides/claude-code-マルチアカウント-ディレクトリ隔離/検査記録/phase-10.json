@@ -1,44 +1,15 @@
 {
   "phase": 10,
-  "targetKeys": [
-    "claude-code-マルチアカウント-ディレクトリ隔離"
-  ],
+  "targetKeys": ["claude-code-マルチアカウント-ディレクトリ隔離"],
   "status": "pass",
   "criteria": [
     {
       "id": "deck-ai-split-plan",
       "status": "pass",
-      "evidence": "最終HTML SHA 7fd6804529a7の全4ページを独立確認した。p1「隔離原理」、p2「CLI起動運用」、p3「認証方式別env」、p4「モデルIDと制約」の役割分担で、各ページは1メッセージに収束している。原理・運用・認証・制約を4ページへ分け、認証ページの表は方式別設定を安全に選ぶための参照一覧として網羅性が必要である。保存済み最新runtime画像はwide 4/4ページ、narrow 4/4ページを現SHAで確認した。文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "現HTMLの全4ページを確認した。P1原理・P2運用・P3認証・P4制約の4分割で、各ページは1メッセージに収束している。P3の認証方式表は方式別の設定を安全に選ぶための参照一覧として網羅性が必要であり単純削減の対象ではない。文字の押し込み、切れ、重なり、複数論点の同居は検出しなかった。"
     }
   ],
-  "findings": [
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "slides/claude-code-マルチアカウント-ディレクトリ隔離/解説スライド.html の全4ページ、現SHAのwide/narrow実描画、更新後サムネイル",
-      "evidence": "p1「隔離原理」、p2「CLI起動運用」、p3「認証方式別env」、p4「モデルIDと制約」として読める。原理・運用・認証・制約を4ページへ分け、認証ページの表は方式別設定を安全に選ぶための参照一覧として網羅性が必要である。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "impact": "これ以上分割すると、すでに分離済みの各ページ内で主張と根拠が離れ、前後ページを往復しないと判断できなくなる。",
-      "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
-      "preservedInformation": [
-        "CLAUDE_CONFIG_DIR",
-        "alias運用",
-        "認証方式別環境変数",
-        "リージョン別モデルID",
-        "利用制約"
-      ],
-      "splitPlan": "分割なし。原理・運用・認証・制約を4ページへ分け、認証ページの表は方式別設定を安全に選ぶための参照一覧として網羅性が必要である。",
-      "verification": "HTML SHA-256が7fd6804529a794398607fb6a41767b9b99ffb9100938ee36021d5d2ebd8b0809であること、保存済み最新runtime画像はwide 4/4ページ、narrow 4/4ページを現SHAで確認し、全4ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
-    }
-  ],
-  "checkedAt": "2026-07-27T23:25:00+09:00",
-  "artifactSha256": "d0d553a5833acd16f0224ed5c77af91b1665a6b45dcced86bc16cfb802649ce6",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "09323f171b3e37e56a03d5fa24e860acba80bedd11009b9e7fe7053b624e9d51",
-    "toArtifactSha256": "d0d553a5833acd16f0224ed5c77af91b1665a6b45dcced86bc16cfb802649ce6",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "5b477bbac56b2a4b8c9ce54886110eea8969ac69bd54c0c54bad85e5cd85526d",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  }
+  "findings": [],
+  "checkedAt": "2026-07-30T02:12:55Z",
+  "artifactSha256": "93acae22d02b718efdd67e82d687de0a2d2624fa7226bb562d241ffd9b274cf9"
 }

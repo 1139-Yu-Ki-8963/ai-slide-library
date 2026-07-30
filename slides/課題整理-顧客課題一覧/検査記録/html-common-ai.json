@@ -1,0 +1,154 @@
+{
+  "artifact": "slides/課題整理-顧客課題一覧/解説スライド.html",
+  "artifactSha256": "f4e06dbfcdeb9982594d8cc8af43a7b2a04494f03748f7aafec137a87199ca9a",
+  "status": "pass",
+  "summary": "課題整理型テンプレート（kickerに『（テンプレート）』と明記）を全3ページ確認した。P1は分類別の全体一覧（8件・3分類）、P2は分類A詳細、P3は分類B・C詳細で、タイトル・conclusion行を含め本文の大部分が〈...〉・◯のプレースホルダーで構成される、執筆前の空スキャフォールドである。プレースホルダーの是非はhtml-static-no-placeholders（静的規約）の管轄であり、本規範（編集品質・図表品質）はCSS・DOM構造・情報設計を評価対象とする。タイトル自体がプレースホルダーを含むページについてはslide-ai-title-claim等の該当criteriaをnot-applicableとして扱った。必須修正に当たる欠陥は検出しなかった。",
+  "strengths": [
+    "3〜7件は一覧1枚、8件以上は分類別詳細ページを追加するという分割基準が副題に明記され、テンプレート自身の使い方が読み取れる。",
+    "P2・P3の詳細ページは同一の列構成（課題／いま起きていること／確認する論点）を使い回しており、分類間の比較可能性を保つ意図的な反復になっている。",
+    "分類ごとの件数が3・3・2件と不均等であり、機械的な均等分割になっていない。"
+  ],
+  "findings": [],
+  "checks": [
+    {
+      "criterionId": "html-ai-purpose-hierarchy",
+      "decision": "pass",
+      "target": "全3ページの構造（タイトル・副題・本文・conclusion）",
+      "evidence": "本HTML自体の目的は『対処の主体で束ねた課題一覧を、全体像→分類別詳細の順に示すテンプレート』として一文で説明できる。各ページとも見出し→本文→conclusion行の順に文字サイズ・線の太さが下がる構造が保たれており、実データ未記入でも骨格の主従は成立している。",
+      "impact": "テンプレートとして配布された時点で、記入すべき情報の階層が明確。",
+      "fix": "現状を維持する。",
+      "verification": "実データ記入後も見出し・本文・conclusionの強弱が崩れていないことを確認する。"
+    },
+    {
+      "criterionId": "html-ai-non-template",
+      "decision": "pass",
+      "target": "P1の分類グループ（3グループ・8行）、P2/P3の詳細行",
+      "evidence": "P1の3分類はそれぞれ3件・3件・2件と件数が異なり、均等3等分ではない。P2/P3で同一の列構成を再利用しているが、これは分類ごとの比較可能性という内容上の理由に基づく反復であり、白い角丸カードの機械的反復や単語置換アイコンは検出されない。",
+      "impact": "反復が内容の比較軸として機能し、機械的テンプレート感がない。",
+      "fix": "現状を維持する。",
+      "verification": "分類件数が均等でないこと、列構成の再利用が比較目的であることを確認する。"
+    },
+    {
+      "criterionId": "html-ai-content-preservation",
+      "decision": "not-applicable",
+      "target": "全3ページの本文（課題名・内容記述・conclusion）",
+      "evidence": "本HTMLはkickerに『（テンプレート）』と明記された空スキャフォールドであり、〈課題名〉〈いま起きていることを1文で〉◯件等は執筆者への記入指示であって実データではない。保持すべき既存の主張・数値・固有名詞が本文にまだ存在しないため、内容保持の判定対象がない。",
+      "impact": "該当なし。実データ記入後に本criterionでの再評価が必要。",
+      "fix": "該当なし。",
+      "verification": "実データ記入後、記入前後で意味・数値・条件が変わっていないかを確認する。"
+    },
+    {
+      "criterionId": "html-ai-information-density",
+      "decision": "pass",
+      "target": "P1（8行・3分類）、P2（3行）、P3（5行）",
+      "evidence": "副題に明記された分割基準（3〜7件は一覧のみ、8件以上は分類別詳細ページを追加）どおりP1は8件のため詳細ページ（P2/P3）を追加しており、内容量に応じた分割が設計段階で組み込まれている。文字縮小による押し込みは見られない。",
+      "impact": "件数増加時の分割方針があらかじめ設計されている。",
+      "fix": "現状を維持する。",
+      "verification": "実データ記入後、行あたりの文字量が押し込みになっていないか確認する。"
+    },
+    {
+      "criterionId": "html-ai-improvement-over-source",
+      "decision": "not-applicable",
+      "target": "旧版との比較",
+      "evidence": "本ファイルはgit管理外の新規ファイル（`git log`が空、`git status`でuntracked表示）であり、このリポジトリ内に本キーの旧版・元資料は存在しない。比較対象となる旧成果物が存在しないため、改善判定の対象外。",
+      "impact": "該当なし。",
+      "fix": "該当なし。旧版が別途提示された場合は改めて比較する。",
+      "verification": "旧版が提示された場合、読み順・主従・比較可能性の変化を比較する。"
+    },
+    {
+      "criterionId": "html-ai-shapes",
+      "decision": "pass",
+      "target": "P1のgh（分類見出し）、P2/P3のdrow罫線",
+      "evidence": "分類見出し・行間はborder-top: 1px solid var(--faint)のみで、塗り・太枠・影・立体・グラデーションはCSSに存在しない。カードによる本文の機械的分割もない。",
+      "impact": "図形が分類の区切りとして機能し装飾に見えない。",
+      "fix": "現状を維持する。",
+      "verification": "行・見出しに影やグラデーションが追加されていないことを確認する。"
+    },
+    {
+      "criterionId": "html-ai-connectors",
+      "decision": "not-applicable",
+      "target": "全3ページ",
+      "evidence": "矢印・接続線要素はHTML/CSSに存在しない。P1の分類見出し内『◯件 — 2ページ目』という参照はテキストのみで、視覚的な接続線ではない。",
+      "impact": "矢印を使わない構成でも参照関係が読み取れる。",
+      "fix": "該当なし。",
+      "verification": "矢印を追加する場合は起点・終点・方向を明確にする。"
+    },
+    {
+      "criterionId": "html-ai-typography",
+      "decision": "pass",
+      "target": "全3ページの見出し・本文・ラベル",
+      "evidence": ".gname/.gcount/.dt-head span（12px）はラベル段、.iname（15px）/.ph/.dtext/.dq（14px）は13〜16px段に収まる。5段スケールからの逸脱は検出されなかった。",
+      "impact": "見出し・本文・ラベルの強度差が一貫している。",
+      "fix": "現状を維持する。",
+      "verification": "実データ記入時も5段スケール内に収めることを確認する。"
+    },
+    {
+      "criterionId": "html-ai-color-accessibility",
+      "decision": "pass",
+      "target": "var(--accent)の使用箇所",
+      "evidence": "唯一色（--accent）は各ページのconclusion行のc-labelと罫線にのみ使用され、分類間・行間の色分けは行われていない。分類の区別は見出しテキスト（分類A/B/C）と件数表記で行われ、色に依存していない。",
+      "impact": "色覚差があっても分類の区別が文言から判別できる。",
+      "fix": "現状を維持する。",
+      "verification": "各ページでaccentが結論行以外に出現しないことを確認する。"
+    },
+    {
+      "criterionId": "html-ai-flow-alignment-spacing",
+      "decision": "pass",
+      "target": "全3ページの列位置・行間",
+      "evidence": "P1のirow、P2/P3のdrowはいずれもgrid-template-columnsで番号・課題名・本文列の基準線が揃う。視線は上→下（番号順・分類順）、各行内は左→右で流れる。",
+      "impact": "行・列の対応関係を見失わずに追える。",
+      "fix": "現状を維持する。",
+      "verification": "見出しと行の列位置が揃っていることを確認する。"
+    },
+    {
+      "criterionId": "html-ai-graphs-numbers",
+      "decision": "not-applicable",
+      "target": "課題番号（01〜08）、件数表記（◯件）",
+      "evidence": "番号は課題を識別する連番であり、比率・推移を示すグラフではない。件数（◯件）はプレースホルダーであり、実データ記入後も単純な件数表記であってグラフ表現の対象ではない。",
+      "impact": "グラフ特有の誤読リスクは発生しない。",
+      "fix": "該当なし。",
+      "verification": "グラフを追加する場合は軸・単位・凡例の整合を確認する。"
+    },
+    {
+      "criterionId": "html-ai-tables",
+      "decision": "pass",
+      "target": "P1の.inv、P2/P3の.dt（dt-head/drow）",
+      "evidence": "行列情報はdivベースのgridで実装されているが、本HTMLは1280×720の固定レイアウトスライドであり、slide-design-system.mdの決定によりこの条件下でのdiv表組みは許容される。列見出しと行の対応は罫線・grid列位置で明確に保たれている。",
+      "impact": "固定レイアウトの規約上許容される実装であり、視覚上の行列対応は保たれている。",
+      "fix": "現状を維持する。",
+      "verification": "1280×720表示で列位置・罫線が崩れていないことを確認する。"
+    }
+  ],
+  "editPlan": {
+    "対象": "slides/課題整理-顧客課題一覧/解説スライド.html（全3ページ、テンプレート）",
+    "要約": "図表・情報設計はPhase 8の公開品質を満たす。タイトル・conclusion行を含む本文の大半がプレースホルダーであり、html-ai-content-preservationは実データ未記入のためnot-applicable、html-ai-improvement-over-sourceも旧版不在のためnot-applicableとした。",
+    "良い点": [
+      "分割基準（3〜7件/8件以上）が副題に明記されテンプレートの使い方が読み取れる",
+      "分類件数が3・3・2件と不均等で機械的な均等分割になっていない",
+      "P2/P3の列構成再利用が分類間比較という内容上の理由に基づく"
+    ],
+    "指摘事項": [],
+    "情報設計の再編集案": "再編集は不要。テンプレートとしての現行構成を維持する。",
+    "観点別チェック": {
+      "図形": "罫線のみで分類・行の区切りを表現",
+      "矢印": "使用箇所なし（テキスト参照のみ）",
+      "文字": "5段スケール内に収まる",
+      "配色": "accentは結論行1用途に限定",
+      "視線": "上→下（番号順・分類順）",
+      "表": "div実装だが固定レイアウトの緩和規約に該当し適合"
+    },
+    "優先修正方針": [
+      "必須修正なし"
+    ],
+    "ai-slide-library適合性": "公開安全性・16:9・編集可能性を満たし、規約違反は残っていない。",
+    "次のアクション": "テンプレートとして配布可能。実案件適用時は全プレースホルダーへの記入とcontent-preservation観点の再レビューが必要。"
+  },
+  "implementationPlan": [
+    {
+      "priority": "none",
+      "action": "現HTMLを変更しない",
+      "reason": "編集品質・図表品質の両規範で必須修正に当たる欠陥を検出していない",
+      "verification": "実案件へ適用しプレースホルダーへ実データを記入した際は、html-ai-content-preservation・html-ai-improvement-over-sourceを含め全criteriaを再レビューする"
+    }
+  ]
+}

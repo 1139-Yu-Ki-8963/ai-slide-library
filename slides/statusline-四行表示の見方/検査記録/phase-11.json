@@ -1,126 +1,24 @@
 {
   "phase": 11,
-  "targetKeys": [
-    "statusline-四行表示の見方"
-  ],
+  "targetKeys": ["statusline-四行表示の見方"],
   "status": "pass",
   "criteria": [],
   "findings": [
     {
       "severity": "low",
       "decision": "pass",
-      "target": "最終チェック1: 3カード構成",
-      "evidence": "主役は上段の実際の4行statuslineで、下段はその4行に対応する2×2の参照欄であり、同寸3カード構成ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "実例を主役、4欄を参照情報とする構成を維持する。"
-    },
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "最終チェック2: 項目ごとの丸アイコン依存",
-      "evidence": "丸い1〜4はstatuslineの各行との対応番号で、各欄は項目名と説明だけでも意味が成立する。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "番号を行対応に限定し、各説明項目への丸アイコン追加は避ける。"
-    },
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "最終チェック3: 写真の装飾使用",
-      "evidence": "サムネイル、wide、narrow画像に写真はなく、端末表示と参照説明だけで構成されている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "端末や開発者の装飾写真を追加しない。"
-    },
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "最終チェック4: 多角形装飾",
-      "evidence": "背景多角形や装飾図形はなく、端末枠と説明欄の矩形だけを使用している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "リソース率を装飾図形へ置き換えず、現行の文字・記号表現を保つ。"
-    },
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "最終チェック5: 濃紺フッター",
-      "evidence": "濃色面はstatuslineの端末実例であり、最下部は白地の出典注記なので濃紺フッターではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "端末面を内容として限定し、フッターを濃色帯へ変えない。"
-    },
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "最終チェック6: 架空情報",
-      "evidence": "my-project、feature/add-dashboard、my-account、a1b2c3d4は表示例として一般化され、個人名、実ユーザー名、絶対パス、会社ロゴ、費用、効果数値を含まない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "例示値はダミーであることが分かる一般化表現に限定し、実セッションIDや実アカウント名を入れない。"
-    },
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "最終チェック7: 情報の強弱",
-      "evidence": "濃色の4行実例を最上位に置き、下段4欄で各行を解説し、出典を最下位に後景化している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "実例→行別説明→出典の三段階を維持する。"
-    },
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "最終チェック8: 情報の詰め込み",
-      "evidence": "wide画像では各説明が短い定義行に整理され、リソース凡例と条件注記も欄内に収まり、narrow画像で欠落がない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "新しいstatusline項目を追加せず、4行の読み方に範囲を限定する。"
-    },
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "最終チェック9: 安易な青の企業資料色",
-      "evidence": "青灰の説明欄は端末実例を支える後景面で、赤・青灰・赤・緑の左罫線は4行との対応に使われている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "項目ごとの新色を増やさず、対応線と端末内表示の色だけに限定する。"
-    },
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "最終チェック10: 不要なアイコン",
-      "evidence": "🤖、📂、円弧、歯車は実際のstatusline例に含まれる識別記号で、説明欄の装飾目的に追加されたものではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "参照欄へ別の装飾アイコンを追加せず、実例由来の記号だけを示す。"
-    },
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "最終チェック11: 余白を装飾で埋めない",
-      "evidence": "セッション情報欄や開発フロー欄の余白は説明量の差をそのまま残し、図形で埋めていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "欄高を揃えるためのダミー情報や装飾を追加しない。"
-    },
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "最終チェック12: 読み順",
-      "evidence": "タイトル→4行の実例→左上から右下へ1〜4の説明→出典という順が番号と配置で明確である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "実例と説明番号の対応を維持する。"
-    },
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "最終チェック13: 1スライド1メッセージ",
-      "evidence": "全要素が「statuslineの4行が何を示すかを読み解く」という単一の利用目的に収束している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "設定スクリプトの実装方法を第二の主張として追加しない。"
-    },
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "最終チェック14: 人間が編集したように見える",
-      "evidence": "実際の4行表示を先に見せ、各行を対応番号で分解し、取得不能や条件付き行まで注記した実務編集が見える。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "汎用4カードだけの構成へ戻さず、実例との対応を主役にする。"
+      "target": "最終チェック（14項目、1ページ）",
+      "evidence": "(1)3カード構成でない: 下段は4行の実例に1対1対応する2×2区画であり均等カードではない。(2)丸アイコン不使用（記号○◔◑◕●は残量記号であり装飾アイコンではない）。(3)写真不使用。(4)多角形装飾不使用。(5)濃紺フッター不使用（実例のターミナル面は本文であり共有フッターとは別）。(6)架空の会社名・日付・費用・効果は検出されず、例示値は一般化されたダミー表記。(7)強弱: 実例のターミナル面が最も強く、下段解説は罫線1pxで脇役。(8)情報量は各区画2〜3項目に収まる。(9)accentはconclusion行1用途に限定。(10)不要なアイコンなし。(11)余白は行間・罫線の区切りとして機能。(12)読み順は上（実例）→下（解説、行番号順）。(13)1ページ1メッセージが成立。(14)行番号対応・凡例の3チャンネル表現など編集された構成に見える。",
+      "fix": ""
     },
     {
       "severity": "low",
       "decision": "suggestion",
-      "target": "情報設計の再編集案",
-      "evidence": "主役は上段の4行statusline実例。支える情報は下段の1〜4の行別定義とリソース率凡例、後景化する情報は最下部の出典と1行目の例示注記。レイアウトは実例の各行左端色と下段4欄の左罫線をより直接対応させ、2×2欄の高さは内容量に合わせて差を付ける。読み順はタイトル→4行実例→1モデル・作業場所→2セッション→3リソース→4フロー→出典。削除・統合・短縮候補はタイトルと副題の「4行」重複、出典内の長い括弧、各欄の自明なラベル反復。追加禁止情報は実セッションID、実アカウント名、実ブランチ、ユーザー名、絶対パス、未確認のモデル名、会社名、費用、期間、ロゴ。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "既存4行の内容を保ち、対応色と欄高の差で実例から定義への参照を速くする。"
+      "target": ".arow h2（16px）",
+      "evidence": "html-common-ai.jsonのhtml-ai-typography findingsと同一の指摘。5段文字スケールの脇役見出し段（17〜22px）にわずかに届かない。",
+      "fix": "17px以上へ調整する（低優先度、必須ではない）。"
     }
   ],
-  "artifactSha256": "ec7b49a3e95e5a9584cd61458518eb907e46dcf5c44749c710765d62a459dcbf",
-  "checkedAt": "2026-07-27T23:25:00+09:00",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "258dabb5286d0c4d602408aa129ae466aac9feafb37455951ef99b1763d0affa",
-    "toArtifactSha256": "ec7b49a3e95e5a9584cd61458518eb907e46dcf5c44749c710765d62a459dcbf",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "e47e23fa7b71a45b99f9725209bf3ddf37cfc98b8a45db1be014e302065c8a63",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  }
+  "checkedAt": "2026-07-30T02:12:55Z",
+  "artifactSha256": "7e3f0c46a0943504ccc93015e3de884894a334881ab990696088d316d6a76d3b"
 }

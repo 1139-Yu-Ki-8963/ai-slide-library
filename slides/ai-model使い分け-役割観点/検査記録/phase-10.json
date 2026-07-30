@@ -8,35 +8,10 @@
     {
       "id": "deck-ai-split-plan",
       "status": "pass",
-      "evidence": "最終HTML SHA 4d835ffe75acの全1ページを独立確認した。p1「通常時と上限到達時のモデル切替表」の役割分担で、各ページは1メッセージに収束している。設計・実装・コマンド実行の各行を共通軸で比較し、切替条件を1つの判断表として読むページである。保存済み最新runtime画像はwide 1/1ページ、narrow 1/1ページを現SHAで確認した。文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "2ページ構成（P1=Claude Code通常運用、P2=Cursor切替時運用）。各ページの主張は1つに収まり（P1:通常時のモデル割当／P2:切替時のモデル割当）、現状・原因・解決策・実施方法・効果・費用の混在はない。P1は3行、P2は4行に収まり文字縮小による押し込みはない。HEAD版（1ページの横並びtable）と比べ、通常運用と切替運用という異なる文脈を2ページへ分けたことで各ページの情報構造がより単純になっており、追加の分割・統合は不要と判断する。"
     }
   ],
-  "findings": [
-    {
-      "severity": "low",
-      "decision": "pass",
-      "target": "slides/ai-model使い分け-役割観点/解説スライド.html の全1ページ、現SHAのwide/narrow実描画、更新後サムネイル",
-      "evidence": "p1「通常時と上限到達時のモデル切替表」として読める。設計・実装・コマンド実行の各行を共通軸で比較し、切替条件を1つの判断表として読むページである。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "impact": "分割すると、共通軸で比較・追跡する関係または一続きの工程がページ間に分断され、全体判断が難しくなる。",
-      "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
-      "preservedInformation": [
-        "Claude Code通常時の役割",
-        "Cursor切替時の役割",
-        "上限到達時だけ切り替える条件"
-      ],
-      "splitPlan": "分割なし。設計・実装・コマンド実行の各行を共通軸で比較し、切替条件を1つの判断表として読むページである。",
-      "verification": "HTML SHA-256が4d835ffe75acb9b72418a53a1c35adf817221abc9fafdec9aeb53a88713aca76であること、保存済み最新runtime画像はwide 1/1ページ、narrow 1/1ページを現SHAで確認し、全1ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
-    }
-  ],
-  "checkedAt": "2026-07-27T23:25:00+09:00",
-  "artifactSha256": "76476caeb73d1feaab9b506bc3ee5a1bd64e09bf0d87b65376aa1ca28bb7a9ca",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "5044e4a1836c3db42b090b62affb340ce510211823da3fa7a095479d23abf490",
-    "toArtifactSha256": "76476caeb73d1feaab9b506bc3ee5a1bd64e09bf0d87b65376aa1ca28bb7a9ca",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "5fa9ad50277ee81d57541597709ba59f2eeafe696f274caac4e5ad56fa281b47",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  }
+  "findings": [],
+  "checkedAt": "2026-07-30T02:10:56Z",
+  "artifactSha256": "6ac022fa307cf96903d18d72d29d1eff8edd474edc8fe96d9897c56cdcfb2ef0"
 }

@@ -7,36 +7,21 @@
   "criteria": [
     {
       "id": "deck-ai-role-sequence",
-      "status": "pass",
-      "evidence": "現SHAの全3ページをHTMLとwide/narrowで確認した。P1で通常時・上限到達・復帰の共通判断を示し、P2で5時間枠、P3で週次枠の条件付き例へ進む。原則を先に置き、異なる時間軸を混ぜずに適用例へ展開している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "status": "not-applicable",
+      "evidence": "現SHAのHTMLはページ送りを持たない単一ページ（1/1）であり、5時間枠・週次枠・3段階フロー・結論はすべて同一ページ内で完結する。ページ間の役割・順序は判定対象外である。"
     },
     {
       "id": "deck-ai-strength-rhythm",
-      "status": "pass",
-      "evidence": "P1の3段階判断をデッキの主役とし、P2とP3は横長タイムラインを静かに確認する補足ページである。主張ページの後に分析ページを2枚置くため強調が連続せず、広い余白が条件・因果・注記の読み分けに機能している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "status": "not-applicable",
+      "evidence": "複数ページ間の強弱配分を持たない単一ページである。ページ内は2レーン→3段階フロー→結論行という主従をなすが、デッキとしての強度リズムは存在しない。"
     },
     {
       "id": "deck-ai-layout-repetition",
-      "status": "pass",
-      "evidence": "P1は通常・上限・復帰の3段階フロー、P2とP3は時間軸である。後半2ページのタイムライン反復は5時間枠と週次枠を同じ読み方で比較するために必要で、目盛・切替点・復帰点の左から右への読み順も一貫している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "status": "not-applicable",
+      "evidence": "前後ページがない単一ページであり、ページ間レイアウト反復は評価対象外である。5時間レーンと週次レーンの同型構造は同一ページ内での比較読みを成立させるための反復であり、他ページとの理由なき反復ではない。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T18:19:38.680Z",
-  "artifactSha256": "9ad1957fc9e54ee8b269df0e48ca65396fdc3c8e849aa76b01eb2376dbd640c6",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "a4ec6f8f8c35f4ac4f3fcf0b20be6ed89816fb778ef9b73b5b6222d97ebfaef5",
-    "toArtifactSha256": "9ad1957fc9e54ee8b269df0e48ca65396fdc3c8e849aa76b01eb2376dbd640c6",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "fa1044ebf63e68ed1ef2eba8f7c6bb8cac585d813ca967008e0be20c93497d54",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  },
-  "impactReview": {
-    "status": "pass",
-    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
-    "screenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4",
-    "evidence": "現HTMLから生成した一覧画像（SHA 1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
-  }
+  "checkedAt": "2026-07-30T02:10:56Z",
+  "artifactSha256": "739e83ef6d44bb39b738a6d6df284ec2a963525d26c24bde8d676823259a3222"
 }

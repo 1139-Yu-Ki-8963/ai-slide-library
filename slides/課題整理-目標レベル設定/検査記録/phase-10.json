@@ -1,0 +1,15 @@
+{
+  "phase": 10,
+  "targetKeys": ["課題整理-目標レベル設定"],
+  "status": "pass",
+  "criteria": [
+    {
+      "id": "deck-ai-split-plan",
+      "status": "pass",
+      "evidence": "現HTMLの全3ページを確認した。P1レベル定義・P2目標宣言・P3現状理想対比の3分割で、各ページは1メッセージに収束している。定義（P1）を先に確定させてから適用（P2/P3）する構成は、レベル基準と個別適用を同一画面へ混在させない適切な分割である。文字の押し込み、切れ、重なりは検出しなかった。"
+    }
+  ],
+  "findings": [],
+  "checkedAt": "2026-07-30T02:12:55Z",
+  "artifactSha256": "7f6091a76d7a64f49f7f396ab8fdfd8d68d347e4586023f8d4fdd21f7c9fee9c"
+}
