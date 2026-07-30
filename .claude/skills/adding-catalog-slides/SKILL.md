@@ -6,12 +6,12 @@ description: |
   SKIP: スライドの閲覧・検索のみの時、カタログ登録を伴わない生成のみの時。
 invocation: adding-catalog-slides
 type: orchestration
-allowed-tools: Bash, Read, Write, Edit, AskUserQuestion
+allowed-tools: Bash, Read, Write, Edit, AskUserQuestion, mcp__playwright__*
 ---
 
 # カタログスライド追加（adding-catalog-slides）
 
-`generating-explanation-html-slides`が完了したHTMLを受け取り、Phase Aから開始して、検証・登録・公開までを完結させる。このSkillは公開成果物の品質ゲートを所有し、別のレビューSkillへ品質判定を委譲しない。
+`generating-explanation-html-slides`が完了したHTMLを受け取り、Phase Aから開始して、検証・登録・公開までを完結させる。このSkillは公開成果物の品質確認を所有し、別のレビューSkillへ品質判定を委譲しない。
 
 ## 使用タイミング
 
@@ -20,11 +20,11 @@ allowed-tools: Bash, Read, Write, Edit, AskUserQuestion
 
 ## 運用注記
 
-repo-export取り込み（`importing-repo-export-slides`）から引き継がれた場合は定型運用とする。進捗報告は1行、検査は1スライド=1担当者で並列、計画成果物は作らない。時間予算は同スキルの「定型運用」節に従う。
+repo-export取り込み（`importing-repo-export-slides`）から引き継がれた場合は定型運用とする。定型運用の各項目は`importing-repo-export-slides`の「定型運用」節に従う。
 
 ## 前提
 
-- HTML、タイトル、副題、本文、図表、共有CSSを新規作成・変更した場合は、`generating-explanation-html-slides` のPhase 1〜6を完了していること（Phase B）
+- HTML、タイトル、副題、本文、図表、共有CSSの新規作成・変更時は、`generating-explanation-html-slides`のPhase 1〜6完了が前提（Phase B）
 - タグ・台帳だけの変更、またはHTMLを変更しないサムネイル再生成は生成工程（Phase B）を適用対象外とし、このSkillのPhase Aから開始する
 - 生成Skillの成果物はリポジトリ内の単一共有CSSを直接参照するHTMLで、型・スライドキー・内容が確定していること
 - Phase D完了前に、スライド画像、一覧画像、HTML、レビュー結果をユーザー向けの最終成果物として提示しないこと
@@ -72,9 +72,9 @@ repo-export取り込み（`importing-repo-export-slides`）から引き継がれ
 
 HTML、タイトル、副題、本文、図表、共有CSSを新規作成・変更する場合、`generating-explanation-html-slides`のPhase 1〜6を実行する。生成Skillの成果物はリポジトリ内の単一共有CSSを直接参照するHTMLで、型・スライドキー・内容が確定していること。生成SkillのPhase 1〜6をこのSkillで再実行しない。
 
-Phase AのStep A-4で「台帳・語彙のみ（HTML不変）」と判定された変更、またはHTMLを変更しないサムネイル再生成は、本Phaseを適用対象外とし、Phase Cから開始する。
+Phase AのStep A-4で「台帳・語彙のみ（HTML不変）」と判定された変更、またはHTMLを変更しないサムネイル再生成は、本Phaseを適用対象外とし、Phase Cから開始する。repo-export取り込み由来（`importing-repo-export-slides`のルートB・C）のHTMLも本Phase（生成Skillの実行）の適用対象外とする。取り込み時点で補正・検証済みで引き継がれるためである。
 
-完了条件: 対象がHTML変更を伴う場合、生成Skill Phase 1〜6が完了していること。台帳・語彙のみの変更、またはHTML不変のサムネイル再生成は本Phase適用対象外として扱われていること。
+完了条件: 対象がHTML変更を伴う場合、生成Skill Phase 1〜6が完了していること。台帳・語彙のみの変更、HTML不変のサムネイル再生成、またはrepo-export取り込み由来のHTMLは本Phase適用対象外として扱われていること。
 
 ## Phase C: 機械検証（止める）
 
@@ -91,7 +91,7 @@ Phase Cは本フロー中に2回実行する。1回目はPhase B完了後、Phas
 3. `verify-html-runtime.mjs <対象HTML>`
 4. `verify-html-review-contract.mjs`
 
-いずれかが未実装、未実行、証跡なし、終了コード非0ならPhase Cを`blocked`とし、Phase D以降へ進まない。HTML、タイトル、副題、本文、図表、共有CSSの修正が必要なら`generating-explanation-html-slides` Phase 2へ戻し、生成Skill Phase 4のレビューを経てPhase Cを再実行する。検査スクリプトまたは登録情報の不備は、その所有箇所で解消してPhase Cを再実行する。Phase CのFAILをStep D-5へ送らない。共通AIレビュー後の集約はStep D-5で対象HTMLごとに`aggregate-html-review.mjs`を実行する。
+いずれかが未実装、未実行、証跡なし、終了コード非0ならPhase Cを`blocked`とし、Phase D以降へ進まない。HTML、タイトル、副題、本文、図表、共有CSSの修正が必要なら`generating-explanation-html-slides` Phase 2へ戻す。生成Skill Phase 4のレビューを経てPhase Cを再実行する。検査スクリプトまたは登録情報の不備は、その所有箇所で解消してPhase Cを再実行する。Phase CのFAILをStep D-5へ送らない。共通AIレビュー後の集約はStep D-5で対象HTMLごとに`aggregate-html-review.mjs`を実行する。
 
 実行:
 
@@ -102,16 +102,16 @@ SLIDE_VERIFY_REGISTRY=0 SLIDE_VERIFY_CATALOG=0 npm test
 
 検査内容:
 
-- `npm run sync:slide-shell`を生成・修正工程として明示実行し、グローバル正本CSS・JavaScriptを`assets/shared-slide-shell.css`・`assets/shared-slide-shell.js`へ同期して全HTMLの参照を各1回へ統一する。`npm test`、`pretest`、`posttest`から同期・生成・修正を行わない
+- `npm run sync:slide-shell`を生成・修正工程として明示実行する。定義CSS・JavaScriptを`assets/shared-slide-shell.css`・`assets/shared-slide-shell.js`へ同期する。全HTMLの参照を各1回へ統一する。`npm test`、`pretest`、`posttest`から同期・生成・修正しない
 - `slide-inventory.mjs`を全スライド検査の唯一の母集団とし、再帰列挙したpath・SHA-256・inventory digestを全checkerで一致させる。別名HTML、refresh文書、symlink、母集団digest不一致はfail closedで停止する
-- `slide-mechanical-registry.json`と`verify-slide-mechanical-registry.mjs`で、全契約ファイル、規約文、criterion/check、checker、単独違反fixture、npm test到達性を全数照合する
-- `verify-slide-shell-completeness.mjs`で、全HTML・全論理ページ・全外枠候補を母集団化し、共有/許可済み本文/禁止の未分類0件、正本とのbyte一致、規約・criterion・正常fixture・単独違反fixture・実行経路の1対1対応を検査する
+- `slide-mechanical-registry.json`と`verify-slide-mechanical-registry.mjs`で契約を照合する。対象は全契約ファイル、規約文、criterion/check、checker、単独違反fixture、npm test到達性であり、これらを全数照合する
+- `verify-slide-shell-completeness.mjs`で全HTML・全論理ページ・全外枠候補を母集団化する。共有/許可済み本文/禁止の未分類0件、定義とのbyte一致を検査する。規約・criterion・正常fixture・単独違反fixture・実行経路の1対1対応も検査する
 - `test-slide-shell-completeness.mjs`で全機械criterionを1件ずつ単独破壊し、mutation survivor 0件を確認する
 - `verify-slide-shell-runtime.mjs`で、共有フッター・共有ページ送り・現在/総数・前後ボタン・左右キーを全ページ状態で実操作し、全遷移とcomputed styleを検査する
 - `test-slide-shell-runtime-contract.mjs`で実行時規約の全機械checkを1件ずつ単独破壊し、mutation survivor 0件を確認する
 - `verify-slide-rule-enforcement.mjs`で、ヘッダー規約1件・criterion 1件・checker・正常/違反fixture・証跡・公開ゲートの完全対応を検査する
-- `verify-slide-header-contract.mjs`で、HTMLファイル数・DOMヘッダー数とは独立に全論理ページ状態を検出して母数にし、共有ヘッダーも各状態で再検査する。DOM、文字数、改行、実描画行数、文字列内包、座標、computed style、子要素、疑似要素、inline style、`!important`、指定フォントとFontFaceの利用可能性を正本と比較する
-- 全スライドが`assets/shared-slide-shell.css`を1つだけ直接参照し、共有CSSのインライン複製が0件で、公開用CSSがグローバル正本と完全一致すること
+- `verify-slide-header-contract.mjs`で、HTMLファイル数・DOMヘッダー数とは独立に全論理ページ状態を検出して母数にし、共有ヘッダーも各状態で再検査する。DOM、文字数、改行、実描画行数、文字列内包、座標、computed style、子要素、疑似要素、inline style、`!important`を定義と比較する。指定フォントとFontFaceの利用可能性も比較する
+- 全スライドが`assets/shared-slide-shell.css`を1つだけ直接参照し、共有CSSのインライン複製が0件で、公開用CSSがグローバル定義と完全一致すること
 - タイトル40文字以内、副題70文字以内、両方に強制改行がなく、実描画1行かつ文字列描画矩形がスライド内に収まること
 - タイトル・副題・フッターのcomputed値が共通契約と一致すること
 - 1280×720のスライドサイズ、ヘッダー・タイトル・フッターの内包
@@ -125,7 +125,7 @@ Phase Cの検査項目には、グローバルSkillの`verify-slide-static-contr
 - 保存済み`サムネイル.png`の640×360寸法
 - 既存登録時のスライドキーと蓄積簿・主題一覧の集合一致
 
-完了条件（1回目・Phase D開始前）: 明示的な同期後、追加前は`SLIDE_VERIFY_REGISTRY=0 SLIDE_VERIFY_CATALOG=0 npm test`でスライド本体3系統と全論理ページ状態のヘッダー契約を通過すること。検査前後で`git diff`が増えず、全checkerのinventory digestが一致すること。ヘッダー契約は、独立検出した論理ページ状態数と検査済みページ状態数の一致、各状態に対応するヘッダーの存在を必須とする。台帳・語彙のみの変更（HTML不変）の場合はPhase A Step A-4の判定に従い、カタログ・蓄積簿・主題一覧の整合検査のみを通過させる。
+完了条件（1回目・Phase D開始前）: 明示的な同期後、追加前は`SLIDE_VERIFY_REGISTRY=0 SLIDE_VERIFY_CATALOG=0 npm test`を実行する。スライド本体3系統と全論理ページ状態のヘッダー契約を通過すること。検査前後で`git diff`が増えず、全checkerのinventory digestが一致すること。ヘッダー契約は、独立検出した論理ページ状態数と検査済みページ状態数の一致、各状態に対応するヘッダーの存在を必須とする。台帳・語彙のみの変更（HTML不変）の場合はPhase A Step A-4の判定に従い、カタログ・蓄積簿・主題一覧の整合検査のみを通過させる。
 
 完了条件（2回目・Phase G直前）: Phase FのStep F-1・F-2完了後、環境変数なしの`npm test`で台帳・主題一覧・カタログを含む全件を通過すること。この再実行で止めるのは、Fが生成した成果物の整合（カタログ・サムネイル・台帳の対応）に限る。Phase Eで承認済みのスライド本体の内容自体は再判定しない。
 
@@ -137,9 +137,9 @@ AIレビューの役割は判断材料の提供であり拒否権ではない。
 
 このSkill自身が、公開前レビューの観点と判定を完結させる。別のレビューSkillは呼び出さない。
 
-グローバルの配布コピー`reviewing-explanatory-html/references/rules/html-editorial-quality.md`と`html-visual-explanation.md`、スライド差分`generating-explanation-html-slides/references/rules/html-slide.md`、および`information-design-review-checklist.md`を全文で読む。このSkill自身が`artifact-review`相当の内容・表示・実装・安全性を判定し、別のレビューSkillは呼ばない。要約して観点を減らしてはならない。
+次の資料を全文で読む。グローバルの配布コピーは`reviewing-explanatory-html/references/rules/html-editorial-quality.md`である。`html-visual-explanation.md`も配布コピーとして読む。スライド差分`generating-explanation-html-slides/references/rules/html-slide.md`も読む。`information-design-review-checklist.md`も全文で読む。このSkill自身が`artifact-review`相当の内容・表示・実装・安全性を判定し、別のレビューSkillは呼ばない。要約して観点を減らしてはならない。
 
-1. レビュー前の内部確認16項目（目的、読み手、役割、結論、階層、図形関係、線の意味、色の意味、グラフ・表の読み方、装飾、保持情報、適用箇所、HTML構造、共通レイアウト、縮小・カタログ認識、関連ファイル）を整理する。
+1. レビュー前の内部確認16項目を整理する。項目は目的、読み手、役割、結論、階層、図形関係、線の意味、色の意味、グラフ・表の読み方、装飾、保持情報、適用箇所、HTML構造、共通レイアウト、縮小・カタログ認識、関連ファイルである。
 2. 図形、矢印・接続線、文字、配色・アクセシビリティ、視線の流れ、整列、余白を確認する。
 3. グラフがある場合はデータの視認性、線の強弱、軸・凡例・単位・目盛・注釈、直接ラベル、比較軸、数値・出典、グラフ種別、誤解を招く軸を確認する。
 4. 表がある場合は罫線、行の区別、項目・整数・小数の整列、単位、塗り分け、強調、項目・数値・注釈・出典、HTML`table`構造を確認する。
@@ -150,17 +150,17 @@ AIレビューの役割は判断材料の提供であり拒否権ではない。
 
 各指摘は「対象箇所 / 問題 / 理由 / 影響 / 必要な修正 / 修正後確認」で記録する。結果は対象、要約、良い点、指摘事項、情報設計の再編集案、観点別チェック、実装可能な優先順位付き修正方針、ai-slide-library適合性、次のアクションを持つ。ユーザーの明示的な修正依頼がない限り、レビュー中にHTML・CSS・画像・カタログ・サムネイルを変更しない。
 
-HTML共通12 criteriaの結果は、`reviewing-explanatory-html/references/html-review-record.schema.json`へ完全準拠するAI JSONとして、対象ごとに`slides/<キー>/検査記録/html-common-ai.json`へ保存する。`artifact`は対象HTMLのパス、`artifactSha256`はPhase Cの静的・実描画JSONと同じSHA-256、`checks`は共通12 criteriaを重複・欠落なく1件ずつ持つ。Step D-1固有の図表・情報設計結果は従来どおり`phase-8.json`へ分離し、共通AI JSONの代用にしない。
+HTML共通12 criteriaの結果はAI JSONとして保存する。JSONは`reviewing-explanatory-html/references/html-review-record.schema.json`へ完全準拠する。保存先は対象ごとに`slides/<キー>/検査記録/html-common-ai.json`である。`artifact`は対象HTMLのパス、`artifactSha256`はPhase Cの静的・実描画JSONと同じSHA-256、`checks`は共通12 criteriaを重複・欠落なく1件ずつ持つ。Step D-1固有の図表・情報設計結果は従来どおり`phase-8.json`へ分離し、共通AI JSONの代用にしない。
 
 単一スライドの図表・情報設計だけを対象にする。デッキ全体レビューはStep D-2、情報過多・分割要否はStep D-3、実務性・非テンプレ感はStep D-4で実施し、ここで再実行しない。複数ページでデッキ文脈がある場合も、Step D-1ではページ単位の図表・情報設計に限定する。
 
-各指摘は共通判定schemaの`severity`（`critical` / `high` / `medium` / `low`）と`decision`（`fail` / `hold` / `pass` / `suggestion`）で記録する。旧来の`P0〜P3`や「重大・要修正」は出力時にこのschemaへ正規化する。
+各指摘は共通判定schemaで記録する。`severity`は`critical` / `high` / `medium` / `low`のいずれかである。`decision`は`fail` / `hold` / `pass` / `suggestion`のいずれかである。旧来の`P0〜P3`や「重大・要修正」は出力時にこのschemaへ正規化する。
 
 レビューのみでは承認なしにHTML・CSS・画像・カタログを変更しない。
 
 ### Step D-2: デッキ全体・アートディレクションレビュー
 
-グローバルSkillの`references/deck-level-art-direction-review.md`を全文の正本として読み、全観点を適用する。以下の箇条書きは重点項目であり、全文レビューの代用にしない。Step D-1、D-3、D-4とは統合しない。
+グローバルSkillの`references/deck-level-art-direction-review.md`を全文の定義として読み、全観点を適用する。以下の箇条書きは重点項目であり、全文レビューの代用にしない。Step D-1、D-3、D-4とは統合しない。
 
 対象観点:
 
@@ -178,7 +178,7 @@ HTML共通12 criteriaの結果は、`reviewing-explanatory-html/references/html-
 
 ### Step D-3: 既存スライド・デッキの情報過多・分割要否レビュー
 
-既存HTMLスライドを資料全体として確認する。グローバルSkillの`references/existing-deck-split-review.md`を全文の正本として読み、ユーザーが指定したファイル・ディレクトリだけを対象にする。Step D-2のアートディレクションレビューとは統合しない。単一スライドでも、1ページ1メッセージ、情報密度、文字の押し込み、分割・移動の要否を必ず判定する。
+既存HTMLスライドを資料全体として確認する。グローバルSkillの`references/existing-deck-split-review.md`を全文の定義として読み、ユーザーが指定したファイル・ディレクトリだけを対象にする。Step D-2のアートディレクションレビューとは統合しない。単一スライドでも、1ページ1メッセージ、情報密度、文字の押し込み、分割・移動の要否を必ず判定する。
 
 レビューでは、対象・HTML構造・実描画・サムネイル・検査記録・関連プロンプト・前後関係を確認し、資料全体の主張、読み手の判断、ページ順、1ページ1メッセージ、主張と根拠、重複・欠落・順序を判定する。各スライドの仮主題、情報構造、図解候補、別ページへ移す情報、不要情報を記録する。
 
@@ -190,7 +190,7 @@ HTML共通12 criteriaの結果は、`reviewing-explanatory-html/references/html-
 
 ### Step D-4: 実務性・非テンプレ感レビュー
 
-既存スライドがテンプレートへ情報を流し込んだだけでなく、実務で使用できる編集済み資料になっているかを確認する。グローバルSkillの`references/practical-slide-editorial-review.md`を全文の正本として読み、Step D-1の図表レビュー、Step D-2のデッキ全体レビュー、Step D-3の分割要否レビューとは統合しない。
+既存スライドがテンプレートへ情報を流し込んだだけでなく、実務で使用できる編集済み資料になっているかを確認する。グローバルSkillの`references/practical-slide-editorial-review.md`を全文の定義として読む。Step D-1の図表レビュー、Step D-2のデッキ全体レビュー、Step D-3の分割要否レビューとは統合しない。
 
 主張、情報の主従、読み順、論証、余白、文字組み、配置、視覚的強弱、カード・アイコン・写真・色・フッター・多角形・グラデーションなどのテンプレ表現、会議利用性を判定する。元にない会社名、日付、ロゴ、数値、効果、費用、期間、キャッチコピー、注釈、写真、根拠のない図解を追加しない。
 
@@ -212,7 +212,7 @@ Phase C 機械検証
        Step D-5 指摘統合・記録の確定
 ```
 
-ヘッダー共有領域だけの一括変更では、Phase・Step番号と4枝の責務を維持したまま、グローバルSkillの`refresh-header-only-review-evidence.mjs`で影響限定再検証を実行できる。必須入力は、現SHAに対するHTML共通static/runtime全件PASS、全論理ページ状態のヘッダーlinter全件PASS、ヘッダーAI 3 criteria全件PASSまたは根拠付きN/A、HEAD比較による非ヘッダーmarkup・型固有CSS不変、再生成済みサムネイル・1280×720証跡、カタログ一覧画像によるヘッダー・本文境界のAI影響レビューである。AIレビューはheader report SHA、全HTML SHA、一覧画像SHAへ固定する。スクリプトはHEADのStep D-1〜D-4に対応するphase-8〜11のJSONを正本として差分影響だけを現SHAへ再発行し、各Stepのschemaと HTML共通aggregateを再検証する。本文差分、母数不一致、旧SHA、FAIL、証跡未生成を1件でも検出したら停止し、通常のStep D-1〜D-4レビューへ戻る。この経路でも4つのStepを統合・省略してはならない。
+ヘッダー共有領域だけの一括変更では、Phase・Step番号と4枝の責務を維持する。グローバルSkillの`refresh-header-only-review-evidence.mjs`で影響限定再検証ができる。必須入力は次の6点である。現SHAに対するHTML共通static/runtime全件PASS。全論理ページ状態のヘッダーlinter全件PASS。ヘッダーAI 3 criteria全件PASSまたは根拠付きN/A。HEAD比較による非ヘッダーmarkup・型固有CSS不変。再生成済みサムネイル・1280×720証跡。カタログ一覧画像によるヘッダー・本文境界のAI影響レビュー。AIレビューはheader report SHA、全HTML SHA、一覧画像SHAへ固定する。スクリプトはHEADのStep D-1〜D-4に対応するphase-8〜11のJSONを定義として差分影響だけを現SHAへ再発行する。各Stepのschemaと HTML共通aggregateを再検証する。本文差分、母数不一致、旧SHA、FAIL、証跡未生成を1件でも検出したら停止し、通常のStep D-1〜D-4レビューへ戻る。この経路でも4つのStepを統合・省略してはならない。
 
 ```json
 {
@@ -233,7 +233,7 @@ Phase C 機械検証
 
 Step D-1〜D-4は同一のHTML、実描画、サムネイルを読み取り専用で入力し、各枝は他枝の検査記録を書き換えない。各枝は次のJSON契約で`検査記録/phase-<N>.json`を1つだけ返す（ファイル名・schemaの`phase`番号は従来どおり8〜11を維持する）。
 
-- Step D-1（phase 8）: `slide-ai-thumbnail-legibility`、`slide-ai-one-message`、`slide-ai-title-claim`、`slide-ai-subtitle-support`
+- Step D-1（phase 8）: `slide-ai-thumbnail-legibility`と`slide-ai-one-message`である。`slide-ai-title-claim`と`slide-ai-subtitle-support`も含む。
 - Step D-2（phase 9）: `deck-ai-role-sequence`、`deck-ai-strength-rhythm`、`deck-ai-layout-repetition`
 - Step D-3（phase 10）: `deck-ai-split-plan`
 - Step D-4（phase 11）: スライド差分criteriaは空配列。実務性・非テンプレ感はHTML共通criteriaとStep D-4の`findings`で保持する
@@ -254,7 +254,7 @@ node ~/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide
 
 ### Step D-5: 指摘統合・記録の確定
 
-Step D-1〜D-4の所見を統合し、`検査記録/`へ保存する。所見に`fail`または`hold`が含まれる場合も、このSkillは生成HTML・タイトル・副題・本文・図表・共有CSSを直接修正しない。修正するかどうか、生成Skillへ修正を委譲するかどうかは、Phase Eでユーザーが判断する。ユーザーが修正を求めた場合は、要件変更を伴うなら`generating-explanation-html-slides` Phase 1、伴わないならPhase 2から開始し、生成Skill Phase 4の作成時機械検証・AIレビューを必ず通す。生成Skill Phase 6から戻った後、このSkillのPhase B以降（Phase C・Phase D）をすべて再実行し、改めてPhase Eで提示する。
+Step D-1〜D-4の所見を統合し、`検査記録/`へ保存する。所見に`fail`または`hold`が含まれる場合も、このSkillは生成HTML・タイトル・副題・本文・図表・共有CSSを直接修正しない。修正の実施と、生成Skillへの修正委譲の要否は、Phase Eでユーザーが判断する。ユーザーが修正を求めた場合、要件変更を伴うなら`generating-explanation-html-slides` Phase 1、伴わないならPhase 2から開始する。生成Skill Phase 4の作成時機械検証・AIレビューを必ず通す。生成Skill Phase 6から戻った後、このSkillのPhase B以降（Phase C・Phase D）をすべて再実行し、改めてPhase Eで提示する。
 
 `status=blocked`（実装・実行・証跡の不足による評価不能）は所見の重大度とは別に扱う。所有箇所（該当スクリプト・検査記録の欠落箇所）で解消し、Step D-5を再実行してからPhase Eへ進む。
 
@@ -274,7 +274,7 @@ Step D-1〜D-4の所見を要約して提示に添える。Phase Dで`critical`�
 
 ### Step E-3: 承認を取る
 
-1. 提示後にHTML、タイトル、副題、本文、図表、共有CSSの修正依頼が出た場合は、要件変更を伴うなら`generating-explanation-html-slides` Phase 1、伴わないならPhase 2へ戻る。生成Skill Phase 1〜6完了後、このSkillのPhase B以降（Phase C・Phase D）をすべて再実行し、改めてPhase Eで提示する。
+1. 提示後にHTML、タイトル、副題、本文、図表、共有CSSの修正依頼が出た場合、要件変更を伴うなら`generating-explanation-html-slides` Phase 1へ戻る。伴わないならPhase 2へ戻る。生成Skill Phase 1〜6完了後、このSkillのPhase B以降（Phase C・Phase D）をすべて再実行し、改めてPhase Eで提示する。
 2. 修正依頼がなく、ユーザーの明示的な承認を得た場合、Phase F・Gへ進む。
 3. 承認がなければPhase F・Gへ進まない。
 
@@ -284,7 +284,7 @@ Step D-1〜D-4の所見を要約して提示に添える。Phase Dで`critical`�
 
 ### Step F-1: HTML・台帳・主題一覧・検査記録の登録
 
-1. `slides/<スライドキー>/解説スライド.html`へ配置する。
+1. repo-export経由（`importing-repo-export-slides`のルートB・C）の場合は、同スキルのStep 4-2で配置済みであることを実体と台帳の突合で確認する。このSkill単独起動（新規スライドの直接登録）の場合は、このSkillが`slides/<スライドキー>/解説スライド.html`へ配置する。
 2. `docs/スライド蓄積簿.md`の語彙一覧と照合し、11列形式で新規行を追加または既存行を更新する。
 3. `docs/スライド主題一覧.md`へ主題を追加または更新する。
 4. 検査記録へ、機械検証・観点レビュー・修正履歴を保存する。
@@ -298,7 +298,7 @@ Step D-1〜D-4の所見を要約して提示に添える。Phase Dで`critical`�
 3. 枚数、対象キー、タイトル、タグ、主題の埋め込みを確認する。
 4. ローカル一覧をPlaywrightで開き、「もっと見る」を全展開して全画像を検証する。
 
-`node .claude/skills/adding-catalog-slides/scripts/verify-catalog-preview.mjs`を実行し、表示件数とカード件数の一致、全展開後の画像件数一致、`naturalWidth > 0`、ブラウザエラー0、一覧スクリーンショット生成をblocking判定する。URL文字列の存在確認だけで画像ロードPASSにしてはならない。
+`node .claude/skills/adding-catalog-slides/scripts/verify-catalog-preview.mjs`を実行する。表示件数とカード件数の一致、全展開後の画像件数一致、`naturalWidth > 0`、ブラウザエラー0、一覧スクリーンショット生成をblocking判定する。URL文字列の存在確認だけで画像ロードPASSにしてはならない。
 
 完了条件: サムネイル・カタログ生成成功、`verify-catalog-preview.mjs`で全画像ロード成功・全件展開・一覧表示の機械検証PASS。ここではcommitしない。
 
@@ -311,20 +311,22 @@ Step D-1〜D-4の所見を要約して提示に添える。Phase Dで`critical`�
 3. `git diff --check`を実行する。
 4. commit前hookで、機械検証PASS・観点レビュー記録・4枝JSON・証跡の存在・staged HTMLと記録のSHA一致を確認する。
 5. 条件未達ならcommitを停止する。ここで止めるのは、Fが生成した成果物の整合（カタログ・サムネイル・台帳の対応）に限る。Phase Eで承認済みのスライド本体を再判定しない。
-6. 全条件PASS後、このStepでcommitする。commit後は成果物を変更しない。HTML、タイトル、副題、本文、図表、共有CSSの変更が必要なら生成Skill Phase 1または2へ戻り、生成Skill Phase 1〜6と公開Skill Phase B〜Gをやり直す。タグ・台帳だけの変更またはHTMLを変えないサムネイル再生成はPhase Cへ戻る。
+6. 全条件PASS後、このStepでcommitする。commit後は成果物を変更しない。HTML、タイトル、副題、本文、図表、共有CSSの変更が必要なら生成Skill Phase 1または2へ戻り、生成Skill Phase 1〜6と公開Skill Phase B〜Gをやり直す。タグ・台帳だけの変更、あるいはHTMLを変えないサムネイル再生成はPhase Cへ戻る。
 
 完了条件: Phase B〜Fとcommit前ゲートがPASSし、レビュー済み成果物がcommitで固定されていること。
 
-### Step G-2: push・公開後検証・完了報告
+### Step G-2: push・PR作成・マージ・デプロイ確認・公開後検証・完了報告
 
-1. `.git/slide-publish-approval.json`は、Phase EでAskUserQuestionによりユーザーから公開の明示承認を得た場合にのみ、その承認の記録として作成する。作成時は`status=approved`と`approvedCommitSha=HEAD`を設定してからpushし、GitHub Pagesへ反映する。承認記録がなければhookがpushを停止する。
+1. `.git/slide-publish-approval.json`は、Phase EでAskUserQuestionによりユーザーから公開の明示承認を得た場合にのみ、その承認の記録として作成する。作成時は`status=approved`と`approvedCommitSha=HEAD`を設定してからpushする。承認記録がなければhookがpushを停止する。
    - この承認ファイルはユーザーの公開承認を担保する関門であり、明示承認を得ずに作成することを禁止する。承認後の作成は承認の記録に限られ、絶対的な作成禁止を意味しない。pushが承認不在でhookにblockされた場合は、回避せずユーザーへ承認を諮って止まる。承認前の代行作成は承認の経路そのものを無効化する（2026-07-30に発生し、ファイル削除とユーザーの明示指示による再実行で復旧した実例がある）。
-2. 公開URL、個別HTML、サムネイル、一覧をPlaywrightで検証する。
-3. 一覧画像数、`naturalWidth`、表示枠、代表スライドのHTTP 200を確認する。
-4. push後のworktreeがcleanで、公開前のcommitと公開物の生成内容が一致することを確認する。
-5. 検査結果と公開URLを報告する。
+2. pushしたブランチからPRを作成する。ユーザーの明示承認を得たうえでマージする。マージのみで完了とせず、次の検証まで完遂する。
+3. マージ後、GitHub Pagesのデプロイ完了を確認する。`gh run list`でdeployワークフローの`success`を確認するか、`gh api repos/<owner>/<repo>/pages`でデプロイ状況を確認する。
+4. デプロイ完了を確認したうえで、公開URL、個別HTML、サムネイル、一覧をPlaywrightで検証する。マージだけして表示未確認のまま完了報告することを禁止する。
+5. 一覧画像数、`naturalWidth`、表示枠、代表スライドのHTTP 200を確認する。
+6. マージ後のworktreeがcleanで、公開前のcommitと公開物の生成内容が一致することを確認する。
+7. 検査結果と公開URLを報告する。
 
-完了条件: 公開物のHTTP・画像ロード・一覧表示がPASSし、worktreeがcleanであること。
+完了条件: PRがマージされ、GitHub Pagesのデプロイ完了を確認したうえで公開物のHTTP・画像ロード・一覧表示がPASSし、worktreeがcleanであること。
 
 ## 完了条件
 
@@ -336,7 +338,7 @@ Step D-1〜D-4の所見を要約して提示に添える。Phase Dで`critical`�
 | Phase D | Step D-1〜D-4の所見が`検査記録/phase-8.json`〜`phase-11.json`と`html-common-ai.json`へ保存されていること。所見の重大度は公開可否を決めない |
 | Phase E | 実物成果物とPhase Dの所見をユーザーへ提示し、承認、または修正のためのPhase Bへの差し戻しのいずれかを得ていること |
 | Phase F | HTML・蓄積簿・主題一覧・検査記録が整合し、サムネイル・カタログ・一覧画像がPASSしていること |
-| Phase G | Phase Cの2回目の実行（環境変数なしの`npm test`）、`git diff --check`、commit前ゲートがPASSし、commit・push・公開後Playwright検証・worktree cleanが完了していること |
+| Phase G | Phase Cの2回目の実行（環境変数なしの`npm test`）、`git diff --check`、commit前ゲートがPASSし、commit・push・PRマージ・デプロイ完了確認・公開後Playwright検証・worktree cleanが完了していること |
 | **Goal** | 検証済みスライドが公開カタログで提示可能 |
 
 ## ループ設計
@@ -359,24 +361,27 @@ Step D-1〜D-4の所見を要約して提示に添える。Phase Dで`critical`�
 
 - サムネイル生成が成功しても、一覧全件表示と画像ロードが失敗することがあるため、Phase FのPlaywright検証を省略してはならない。
 - AIレビュー指摘による修正でも生成Skill Phase 4の作成時レビューを通し、公開Skill Phase B〜D（生成・機械検証・AIレビュー）をすべて再実行する。
+- カタログの`updated`はビルド時点のgit履歴から算出される。スライド変更と同一commitで再生成した場合、公開される更新日は1変更分古くなる（既知の制限）。
 
 ## 参照資料
 
-- `~/agent-home/skills/generating-explanation-html-slides/SKILL.md` — Phase 1〜6の生成工程
-- `~/agent-home/skills/reviewing-explanatory-html/references/rules/html-output.md` — HTML共通ゲートの配布コピー
-- `~/agent-home/skills/reviewing-explanatory-html/references/rules/html-editorial-quality.md` — HTML共通の編集品質詳細
-- `~/agent-home/skills/reviewing-explanatory-html/references/rules/html-visual-explanation.md` — HTML共通の図表・視覚説明品質詳細
-- `~/agent-home/skills/generating-explanation-html-slides/references/information-design-review-checklist.md` — Step D-1で全文適用する図表・情報設計レビュー正本
-- `~/agent-home/skills/generating-explanation-html-slides/references/rules/html-slide.md` — グローバルHTMLスライド差分ruleの完全同期コピー
-- `~/agent-home/skills/generating-explanation-html-slides/references/deck-level-art-direction-review.md` — Step D-2で全文適用するデッキ全体レビュー正本
-- `~/agent-home/skills/generating-explanation-html-slides/references/existing-deck-split-review.md` — Step D-3で全文適用する情報過多・分割要否レビュー正本
-- `~/agent-home/skills/generating-explanation-html-slides/references/practical-slide-editorial-review.md` — Step D-4で全文適用する実務性・非テンプレ感レビュー正本
-- `~/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-contract.mjs` — 共通契約検証
-- `~/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-static-contract.mjs` — 静的HTML・公開安全・登録整合性・保存済みサムネイル検証
-- `~/agent-home/skills/generating-explanation-html-slides/scripts/qa-slide-layout.mjs` — desktop/mobile表示検証
-- `docs/スライド蓄積簿.md` — タグ語彙と登録台帳
-- `docs/スライド主題一覧.md` — 主題台帳
+| 資料 | 用途 |
+|---|---|
+| `~/agent-home/skills/generating-explanation-html-slides/SKILL.md` | Phase 1〜6の生成工程 |
+| `~/agent-home/skills/reviewing-explanatory-html/references/rules/html-output.md` | HTML共通ゲートの配布コピー |
+| `~/agent-home/skills/reviewing-explanatory-html/references/rules/html-editorial-quality.md` | HTML共通の編集品質詳細 |
+| `~/agent-home/skills/reviewing-explanatory-html/references/rules/html-visual-explanation.md` | HTML共通の図表・視覚説明品質詳細 |
+| `~/agent-home/skills/generating-explanation-html-slides/references/information-design-review-checklist.md` | Step D-1で全文適用する図表・情報設計レビュー定義 |
+| `~/agent-home/skills/generating-explanation-html-slides/references/rules/html-slide.md` | グローバルHTMLスライド差分ruleの完全同期コピー |
+| `~/agent-home/skills/generating-explanation-html-slides/references/deck-level-art-direction-review.md` | Step D-2で全文適用するデッキ全体レビュー定義 |
+| `~/agent-home/skills/generating-explanation-html-slides/references/existing-deck-split-review.md` | Step D-3で全文適用する情報過多・分割要否レビュー定義 |
+| `~/agent-home/skills/generating-explanation-html-slides/references/practical-slide-editorial-review.md` | Step D-4で全文適用する実務性・非テンプレ感レビュー定義 |
+| `~/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-contract.mjs` | 共通契約検証 |
+| `~/agent-home/skills/generating-explanation-html-slides/scripts/verify-slide-static-contract.mjs` | 静的HTML・公開安全・登録整合性・保存済みサムネイル検証 |
+| `~/agent-home/skills/generating-explanation-html-slides/scripts/qa-slide-layout.mjs` | desktop/mobile表示検証 |
+| `docs/スライド蓄積簿.md` | タグ語彙と登録台帳 |
+| `docs/スライド主題一覧.md` | 主題台帳 |
 
 ## 完了報告
 
-`~/agent-home/skills/managing-agent-configs/references/skills/completion-report-format.md`の共通骨格に従い、Phase A〜GのPASS結果、反復回数、commit SHA、公開した場合は公開URLを報告する。
+完了報告は共通骨格に従う。骨格は`~/agent-home/skills/managing-agent-configs/references/skills/completion-report-format.md`を使う。Phase A〜GのPASS結果、反復回数、commit SHA、公開した場合は公開URLを報告する。
