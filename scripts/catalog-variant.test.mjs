@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 // 現行の正式仕様:
-// - 49登録のうち2組×3 variantを各1カードへ束ね、既定表示は45カード
+// - 2組×3 variantを各1カードへ束ね、既定表示は「登録数 − 束ねメンバー数 + グループ数」カード
+// - 件数は固定値で書かない。スライドの追加・削除で必ず陳腐化するため、slides/ 配下の実体と
+//   EXPECTED_GROUPS の宣言から算出して突合する
 // - 各variantはredirectではなく、固有HTML・タイトル・サムネイルを持つ
 // - docs/スライド蓄積簿.md → build-catalog.mjs → index.html の定義を検証する
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -245,13 +247,30 @@ test("リポジトリ整備の代表キー・メンバー・slugが正式仕様�
   );
 });
 
-test("登録スライドは49件", () => {
-  assert.equal(readCatalogModel().slides.length, 49);
+test("index.htmlの登録スライド件数がslides/配下の実体と一致する", () => {
+  const slides = readCatalogModel().slides;
+  const slidesDir = join(root, "slides");
+  const dirCount = readdirSync(slidesDir, { withFileTypes: true })
+    .filter(entry => entry.isDirectory())
+    .filter(entry => existsSync(join(slidesDir, entry.name, "解説スライド.html")))
+    .length;
+  assert.equal(
+    slides.length,
+    dirCount,
+    `index.html の登録 ${slides.length} 件と slides/ 配下の ${dirCount} 件が一致しません`,
+  );
 });
 
-test("49登録から2組の3variantを束ねると既定カードは45件", () => {
+test("束ねた既定カード数が登録数とEXPECTED_GROUPSの宣言から算出した値に一致する", () => {
   const result = validateVariantModel(readCatalogModel());
-  assert.equal(result.expectedCardCount, 45);
+  const specGroupCount = Object.keys(EXPECTED_GROUPS).length;
+  const specMemberCount = Object.values(EXPECTED_GROUPS)
+    .reduce((total, group) => total + group.members.length, 0);
+  assert.equal(
+    result.expectedCardCount,
+    result.registeredCount - specMemberCount + specGroupCount,
+    `登録 ${result.registeredCount} 件・宣言メンバー ${specMemberCount} 件・宣言グループ ${specGroupCount} 組から算出した値と一致しません`,
+  );
 });
 
 test("variantメンバーはグループ内・グループ間で重複しない", () => {
@@ -397,6 +416,10 @@ test("ツールまたは提案パックの絞り込み時に束ねカードか�
   assert.ok(html.includes("function selectedMemberForItem"));
   assert.match(html, /item\.group\.members\.find\(m => m\.slug === state\.tool\)/);
   assert.match(html, /const selectedMember = selectedMemberForItem\(s\);/);
-  assert.match(html, /const openPath = slidePath\(selectedMember \? selectedMember\.key : canonicalKey\);/);
+  // 束ねカードのツール切り替えタブ導入により、開く対象は activeMember 経由で決まる。
+  // タブ未選択時は selectedMember へフォールバックするため、絞り込みで指定member を開く動線は保たれる。
+  assert.match(html, /\|\| selectedMember$/m);
+  assert.match(html, /const activeKey = activeMember \? activeMember\.key : canonicalKey;/);
+  assert.match(html, /const openPath = slidePath\(activeKey\);/);
   assert.ok(html.includes('href="${openPath}" target="_blank"'));
 });
