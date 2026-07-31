@@ -2101,7 +2101,7 @@ const SHARED_SHELL_JS_PATH = "assets/shared-slide-shell.js";
 const SHELL_LINK_PATTERN = /<link\b[^>]*\bdata-shared-slide-shell\b[^>]*>/;
 const SHELL_SCRIPT_PATTERN = /<script\b[^>]*\bdata-shared-slide-shell-script\b[^>]*><\/script>/;
 const CARD_SELECTOR = ".card";
-const DOWNLOAD_NOTICE_TEXT = "共有スタイルの埋め込みに失敗したため、従来どおりの保存を行いました。このHTMLはカタログのフォルダ構成の中でのみ正しく表示されます。1枚で完結するファイルが必要な場合は、README の手順でローカル配信してから保存してください。";
+const DOWNLOAD_NOTICE_TEXT = "共有スタイルの埋め込みに失敗しました。ブラウザの既定の動作（保存、または同じタブでの表示）に切り替えます。保存された場合、そのHTMLはカタログのフォルダ構成の中でのみ正しく表示されます。1枚で完結するファイルが必要な場合は、README の手順でローカル配信してから保存してください。";
 let sharedShellPromise = null;
 
 function fetchText(path) {
@@ -2125,6 +2125,9 @@ function loadSharedShell() {
 
 function embedSharedShell(html, css, js) {
   if (!SHELL_LINK_PATTERN.test(html) || !SHELL_SCRIPT_PATTERN.test(html)) return null;
+  // 共有スタイルに </style を含む場合は埋め込みを諦める。style 要素がそこで打ち切られ、
+  // 残りが本文として漏れるため。CSS には JS の \/ に相当する安全な退避手段がない。
+  if (/<\/style/i.test(css)) return null;
   const safeJs = js.replace(/<\/script/gi, "<\\/script");
   return html
     .replace(SHELL_LINK_PATTERN, () => `<style data-shared-slide-shell>\n${css}\n</style>`)
