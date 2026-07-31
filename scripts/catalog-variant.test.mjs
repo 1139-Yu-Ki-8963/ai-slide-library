@@ -1,13 +1,20 @@
 #!/usr/bin/env node
 // 現行の正式仕様:
-// - 49登録のうち2組×3 variantを各1カードへ束ね、既定表示は45カード
+// - 2組×3 variantを各1カードへ束ね、既定表示は「登録数 − 束ねメンバー数 + グループ数」カード
+// - 件数は固定値で書かない。スライドの追加・削除で必ず陳腐化するため、slides/ 配下の実体と
+//   EXPECTED_GROUPS の宣言から算出して突合する
 // - 各variantはredirectではなく、固有HTML・タイトル・サムネイルを持つ
 // - docs/スライド蓄積簿.md → build-catalog.mjs → index.html の定義を検証する
+// - package.json の test:catalog-variant から実行する。検証の一部が build-catalog.mjs を
+//   実際に走らせるため、実行後の index.html に差分が出る。蓄積簿と slides/ に未反映の
+//   変更が無ければ差分はカタログデータの日付だけになる。コミット前に git diff で内容を
+//   確認し、日付だけであることを確かめてから git checkout -- index.html で戻すこと。
+//   日付以外の差分が含まれる場合は正当な再生成なので破棄せず、内容を確認して取り込むこと
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -43,6 +50,18 @@ function extractCatalogJson(html, name) {
   const valueEnd = html.indexOf(";\n", valueStart);
   assert.notEqual(valueEnd, -1, `${name} 定義の終端（;\\n）が見つかりません`);
   return JSON.parse(html.slice(valueStart, valueEnd));
+}
+
+// 作業ツリーの index.html は、同ファイル内の「build-catalog が正常終了する」テストが
+// build-catalog.mjs を実行して再生成する。再生成後の内容を読むと「たった今 build が
+// 書いた値」との突合になり、コミット済みカタログの反映漏れを検出できない。
+// 反映漏れの検出にはコミット済みの内容を使う。
+function readCommittedIndexHtml() {
+  return execFileSync("git", ["show", "HEAD:index.html"], {
+    cwd: root,
+    encoding: "utf8",
+    maxBuffer: 64 * 1024 * 1024,
+  });
 }
 
 function readCatalogModel() {
@@ -245,13 +264,19 @@ test("リポジトリ整備の代表キー・メンバー・slugが正式仕様�
   );
 });
 
-test("登録スライドは49件", () => {
-  assert.equal(readCatalogModel().slides.length, 49);
-});
-
-test("49登録から2組の3variantを束ねると既定カードは45件", () => {
-  const result = validateVariantModel(readCatalogModel());
-  assert.equal(result.expectedCardCount, 45);
+test("コミット済みindex.htmlの登録スライド件数がslides/配下の実体と一致する", () => {
+  const slides = extractCatalogJson(readCommittedIndexHtml(), "SLIDES");
+  const slidesDir = join(root, "slides");
+  const dirCount = readdirSync(slidesDir, { withFileTypes: true })
+    .filter(entry => entry.isDirectory())
+    .filter(entry => existsSync(join(slidesDir, entry.name, "解説スライド.html")))
+    .length;
+  assert.equal(
+    slides.length,
+    dirCount,
+    `コミット済み index.html の登録 ${slides.length} 件と slides/ 配下の ${dirCount} 件が一致しません。`
+      + "スライドを追加・削除した後に build-catalog.mjs の再生成をコミットし忘れている可能性があります",
+  );
 });
 
 test("variantメンバーはグループ内・グループ間で重複しない", () => {
@@ -392,11 +417,17 @@ test("check-css-drift.mjs が対象・共有セレクタ・乖離の集計を出
   assert.match(output, /乖離\s*\d+\s*件/);
 });
 
-test("ツールまたは提案パックの絞り込み時に束ねカードから指定memberのHTMLを開く", () => {
+test("タブ未選択時はツールまたは提案パックの絞り込みで指定したmemberのHTMLを開く", () => {
   const html = readCatalogModel().html;
   assert.ok(html.includes("function selectedMemberForItem"));
   assert.match(html, /item\.group\.members\.find\(m => m\.slug === state\.tool\)/);
   assert.match(html, /const selectedMember = selectedMemberForItem\(s\);/);
-  assert.match(html, /const openPath = slidePath\(selectedMember \? selectedMember\.key : canonicalKey\);/);
+  // 束ねカードのツール切り替えタブ導入により、開く対象は activeMember 経由で決まる。
+  // 優先順位はタブの選択（variantChoice）→ 絞り込みによる選択（selectedMember）→ 代表キーで、
+  // タブ未選択の場合に限り絞り込みの指定が使われる。variantChoice は消去されないため、
+  // 一度タブを押した束ねカードは以後の絞り込みよりタブの選択が優先される。
+  assert.match(html, /\|\| selectedMember$/m);
+  assert.match(html, /const activeKey = activeMember \? activeMember\.key : canonicalKey;/);
+  assert.match(html, /const openPath = slidePath\(activeKey\);/);
   assert.ok(html.includes('href="${openPath}" target="_blank"'));
 });
