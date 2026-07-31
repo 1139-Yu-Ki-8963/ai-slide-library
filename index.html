@@ -304,6 +304,11 @@
   .copy-feedback { margin-left: 8px; font-size: 12px; color: var(--pack-bg); font-weight: 600; opacity: 0; transition: opacity 0.2s; }
   .copy-feedback.show { opacity: 1; }
   .import-note { font-size: 11px; color: var(--ink-3); }
+  .download-notice {
+    margin: 8px 18px 10px;
+    font-size: 11px;
+    color: var(--ink-3);
+  }
 </style>
 </head>
 <body>
@@ -382,7 +387,7 @@
 
 <footer class="site-footer">
   <div class="inner">
-    スライドは1ファイル完結のHTMLです。ダウンロード後、ブラウザで開くだけで表示できます。
+    「ダウンロード」から保存したHTMLは1ファイルで完結し、ブラウザで開くだけで表示できます。
     ／ <a href="https://github.com/1139-Yu-Ki-8963/ai-slide-library">GitHub リポジトリ</a>
   </div>
 </footer>
@@ -2009,7 +2014,7 @@ function renderGrid(visibleList) {
     // 通常カード（束ね対象外）は単一表示で顧客提出可能なため従来どおりダウンロードを維持する。
     const slideHtmlDownload = s.isBundle
       ? `<a class="act" href="${openPath}" target="_blank" rel="noopener"><span class="material-symbols-outlined">open_in_new</span>スライドを開く</a>`
-      : `<a class="act" href="${openPath}" download="${esc(`${s.key}.html`)}"><span class="material-symbols-outlined">download</span>スライドHTML</a>`;
+      : `<a class="act" href="${openPath}" download="${esc(`${s.key}.html`)}" data-slide-download><span class="material-symbols-outlined">download</span>スライドHTML</a>`;
     const entityList = (s.entities || []).length
       ? `<h3>導入されるもの</h3><ul>${(s.entities || []).map(e => `<li>${esc(e)}</li>`).join("")}</ul>`
       : "";
@@ -2085,6 +2090,97 @@ function render() {
   const { fullList, visibleList } = getVisibleSlides();
   renderGrid(visibleList);
   renderStatus(fullList, visibleList);
+}
+
+/* ==== 単体HTMLダウンロード ====
+   スライドHTMLは共有シェル（スタイル・スクリプト）を相対パスで参照するため、
+   素の保存では参照が切れて表示が崩れる。保存時に共有シェルをHTML内へ埋め込み、
+   単体で開いても成立するファイルを組み立てる。 */
+const SHARED_SHELL_CSS_PATH = "assets/shared-slide-shell.css";
+const SHARED_SHELL_JS_PATH = "assets/shared-slide-shell.js";
+const SHELL_LINK_PATTERN = /<link\b[^>]*\bdata-shared-slide-shell\b[^>]*>/;
+const SHELL_SCRIPT_PATTERN = /<script\b[^>]*\bdata-shared-slide-shell-script\b[^>]*><\/script>/;
+const CARD_SELECTOR = ".card";
+const DOWNLOAD_NOTICE_TEXT = "共有スタイルの埋め込みに失敗しました。ブラウザの既定の動作（保存、または同じタブでの表示）に切り替えます。保存された場合、そのHTMLはカタログのフォルダ構成の中でのみ正しく表示されます。1枚で完結するファイルが必要な場合は、README の手順でローカル配信してから保存してください。";
+let sharedShellPromise = null;
+
+function fetchText(path) {
+  return fetch(path).then(res => {
+    if (!res.ok) throw new Error(`${path}: ${res.status}`);
+    return res.text();
+  });
+}
+
+function loadSharedShell() {
+  if (!sharedShellPromise) {
+    sharedShellPromise = Promise.all([
+      fetchText(SHARED_SHELL_CSS_PATH),
+      fetchText(SHARED_SHELL_JS_PATH),
+    ])
+      .then(([css, js]) => ({ css, js }))
+      .catch(err => { sharedShellPromise = null; throw err; });
+  }
+  return sharedShellPromise;
+}
+
+function embedSharedShell(html, css, js) {
+  if (!SHELL_LINK_PATTERN.test(html) || !SHELL_SCRIPT_PATTERN.test(html)) return null;
+  // 共有スタイルに </style を含む場合は埋め込みを諦める。style 要素がそこで打ち切られ、
+  // 残りが本文として漏れるため。CSS には JS の \/ に相当する安全な退避手段がない。
+  if (/<\/style/i.test(css)) return null;
+  const safeJs = js.replace(/<\/script/gi, "<\\/script");
+  return html
+    .replace(SHELL_LINK_PATTERN, () => `<style data-shared-slide-shell>\n${css}\n</style>`)
+    .replace(SHELL_SCRIPT_PATTERN, () => `<script data-shared-slide-shell-script>\ndocument.addEventListener("DOMContentLoaded", () => {\n${safeJs}\n});\n<\/script>`);
+}
+
+function saveTextAsFile(text, filename) {
+  const url = URL.createObjectURL(new Blob([text], { type: "text/html;charset=utf-8" }));
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = filename;
+  document.body.append(anchor);
+  anchor.click();
+  anchor.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function showDownloadNotice(link) {
+  const card = link.closest(CARD_SELECTOR);
+  if (!card || card.querySelector(".download-notice")) return;
+  const notice = document.createElement("p");
+  notice.className = "download-notice";
+  notice.setAttribute("role", "status");
+  notice.textContent = DOWNLOAD_NOTICE_TEXT;
+  link.parentElement.after(notice);
+}
+
+function clearDownloadNotice(link) {
+  const card = link.closest(CARD_SELECTOR);
+  const notice = card && card.querySelector(".download-notice");
+  if (notice) notice.remove();
+}
+
+function onSlideDownloadClick(event) {
+  const link = event.currentTarget;
+  if (link.dataset.slideDownloadFallback === "true") return;
+  event.preventDefault();
+  if (link.dataset.slideDownloadBusy === "true") return;
+  link.dataset.slideDownloadBusy = "true";
+  Promise.all([fetchText(link.getAttribute("href")), loadSharedShell()])
+    .then(([html, shell]) => {
+      const merged = embedSharedShell(html, shell.css, shell.js);
+      if (!merged) throw new Error("shared shell markers not found");
+      saveTextAsFile(merged, link.getAttribute("download"));
+      clearDownloadNotice(link);
+    })
+    .catch(() => {
+      showDownloadNotice(link);
+      link.dataset.slideDownloadFallback = "true";
+      link.click();
+      delete link.dataset.slideDownloadFallback;
+    })
+    .then(() => { delete link.dataset.slideDownloadBusy; });
 }
 
 function bindCardEvents() {
@@ -2174,6 +2270,9 @@ function bindCardEvents() {
       selectFacet(axis, next);
     });
   });
+  for (const link of document.querySelectorAll("[data-slide-download]")) {
+    link.addEventListener("click", onSlideDownloadClick);
+  }
 }
 
 // --- ダークモード切替 ---

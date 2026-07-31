@@ -375,7 +375,7 @@ test("束ねカード用リンクにdownload属性がない", () => {
 test("通常カードはdownload属性でスライドHTMLを保存する", () => {
   assert.ok(
     readCatalogModel().html.includes(
-      ': `<a class="act" href="${openPath}" download="${esc(`${s.key}.html`)}"><span class="material-symbols-outlined">download</span>スライドHTML</a>`;',
+      ': `<a class="act" href="${openPath}" download="${esc(`${s.key}.html`)}" data-slide-download><span class="material-symbols-outlined">download</span>スライドHTML</a>`;',
     ),
   );
 });
