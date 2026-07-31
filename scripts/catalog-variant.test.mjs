@@ -5,6 +5,9 @@
 //   EXPECTED_GROUPS の宣言から算出して突合する
 // - 各variantはredirectではなく、固有HTML・タイトル・サムネイルを持つ
 // - docs/スライド蓄積簿.md → build-catalog.mjs → index.html の定義を検証する
+// - package.json の test:catalog-variant から実行する。検証の一部が build-catalog.mjs を
+//   実際に走らせるため、実行後の index.html にはカタログデータの日付だけの差分が出る。
+//   コミット前に git checkout -- index.html で戻すこと
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
