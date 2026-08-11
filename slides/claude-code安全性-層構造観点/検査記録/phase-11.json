@@ -9,118 +9,144 @@
     {
       "severity": "low",
       "decision": "pass",
-      "target": "claude-code安全性-層構造観点 / 最終チェック1「3カード構成でない」",
-      "evidence": "PermissionとSandboxの2層を縦に積む構成で、均等3カードではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現状の2層構造と対象固有の編集を維持し、3カード構成でないの条件を崩す装飾や情報を追加しない。"
+      "target": "1. 対象",
+      "evidence": "claude-code安全性-層構造観点の全1ページ。現行HTML（artifact SHA-256 12b0e67575031d499c2c00c82aa664baf18a5a18bf2e2d5132ede9871363c175）を1440×900・390×844でPlaywright実描画し、サムネイル.png、html-common-static.json、html-common-runtime.jsonと突き合わせて確認した。",
+      "fix": "現行SHAと表示・検査記録の対応を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "claude-code安全性-層構造観点 / 最終チェック2「項目ごとの丸アイコンに依存しない」",
-      "evidence": "丸数字は2層の対応付けだけに限定され、全項目へ反復していない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現状の2層構造と対象固有の編集を維持し、項目ごとの丸アイコンに依存しないの条件を崩す装飾や情報を追加しない。"
+      "target": "2. 要約",
+      "evidence": "Permission（第1層・ツール呼び出しをallow/ask/denyの3段階で制御）とSandbox（第2層・Bashコマンドのファイル書込とネットワーク接続をOSレベルで制限）を上下に積み重ね、中央の橋渡し文でPermission通過後にSandboxが適用される順序を示し、末尾の結論帯「アプリの設定（Permission）をすり抜けても、OS（Sandbox）が最後に止める — 二重で守る」で1メッセージに収束する構成。",
+      "fix": "現行の実務判断とページ役割を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "claude-code安全性-層構造観点 / 最終チェック3「写真を装飾使用しない」",
-      "evidence": "サムネイル・wide・narrowに写真はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現状の2層構造と対象固有の編集を維持し、写真を装飾使用しないの条件を崩す装飾や情報を追加しない。"
+      "target": "3. 良い点",
+      "evidence": "第2層（Sandbox）だけborder-topを2pxへ太くし、色や装飾ではなく罫線の太さだけで『OSレベルという最終防衛線』の重みを表現している。各層の具体例（Read→allow、Write→ask、Bash(rm -rf *)→deny／書込先限定・接続先制限・認証情報遮断）が settings.json の実際の記法や具体的な制限対象で示され、抽象語に頼っていない。グラデーション・角丸カード・アイコン・色分けタグはなく、罫線と余白だけで層の区切りと主従を表現している。",
+      "fix": "共有シェルを独自上書きせず、現行の主従と整列を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "claude-code安全性-層構造観点 / 最終チェック4「多角形装飾を使用しない」",
-      "evidence": "帯・角丸矩形・円のみで、装飾多角形はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現状の2層構造と対象固有の編集を維持し、多角形装飾を使用しないの条件を崩す装飾や情報を追加しない。"
+      "target": "4. 指摘事項",
+      "evidence": "内容・表示・情報保持のいずれにも、公開を妨げる問題は確認できなかった。第1層の例（.monoクラスで等幅表示）と第2層の例（通常書体）でスタイルが異なるが、第1層はsettings.jsonの記法そのもの、第2層は制限内容の説明文であるという性質の違いに対応しており、不統一ではなく意図的な使い分けと判断した。",
+      "fix": "指摘事項なし。次回改訂時も、コード的な記法（設定キー・コマンド例）にのみ.monoを使う現行の使い分け基準を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "claude-code安全性-層構造観点 / 最終チェック5「濃紺フッターを追加しない」",
-      "evidence": "下端は白地の要約と出典注記で、濃紺フッターはない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現状の2層構造と対象固有の編集を維持し、濃紺フッターを追加しないの条件を崩す装飾や情報を追加しない。"
+      "target": "5. 情報設計の再編集案",
+      "evidence": "主役は『Claude Codeの安全性はPermissionとSandboxの2層で成立する』という結論。支える情報はallow/ask/denyの3段階制御、Permission通過後にSandboxが適用される順序関係、書込先・接続先・認証情報の3制限。後景化する情報はOS実装名（macOS→Seatbelt／Linux→bubblewrap）と『2026年7月時点の公式仕様』という時点注記。レイアウトは上下2層＋中央の橋渡し文＋末尾結論帯。読み順は上から下（タイトル→Permission→橋渡し文→Sandbox→結論）。削除・統合・短縮候補は現時点でなし。追加禁止情報は未確認の攻撃防止率・脆弱性件数、架空の会社名・日付、追加のツール名。",
+      "fix": "将来修正時も主役・支える情報・後景の順を崩さず、追加禁止情報を持ち込まない。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "claude-code安全性-層構造観点 / 最終チェック6「架空情報を追加しない」",
-      "evidence": "具体例はallow／ask／deny、macOS Seatbelt、Linux bubblewrapに限定され、会社名・ロゴ・効果値はない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現状の2層構造と対象固有の編集を維持し、架空情報を追加しないの条件を崩す装飾や情報を追加しない。"
+      "target": "6. 観点別チェック / 最終チェック1: 3カード構成でない",
+      "evidence": "PermissionとSandboxの2層を上下に積む構成であり、横並びの均等カードではない。両層はflexで1:1の高さを取るが、border-topの太さと文字サイズで明確に非対称化されている。",
+      "fix": "意味関係のない均等カード構成へ置き換えない。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "claude-code安全性-層構造観点 / 最終チェック7「情報の強弱がある」",
-      "evidence": "タイトル、青のPermission、緑のSandbox、下段要約の順に明確な強弱がある。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現状の2層構造と対象固有の編集を維持し、情報の強弱があるの条件を崩す装飾や情報を追加しない。"
+      "target": "6. 観点別チェック / 最終チェック2: 項目ごとの丸アイコンに依存しない",
+      "evidence": "丸いアイコン・バッジは一切使用せず、num・tag文字列・罫線太さの差だけで層の識別と主従を示している。",
+      "fix": "単語置換型の丸アイコンを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "claude-code安全性-層構造観点 / 最終チェック8「情報を詰め込みすぎない」",
-      "evidence": "2層それぞれの説明量は収まり、wideで衝突がなく、サムネイルでも層構造を識別できる。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現状の2層構造と対象固有の編集を維持し、情報を詰め込みすぎないの条件を崩す装飾や情報を追加しない。"
+      "target": "6. 観点別チェック / 最終チェック3: 写真を装飾使用しない",
+      "evidence": "wide・narrowいずれの実描画、サムネイルにも写真・人物・ストックフォトは存在しない。",
+      "fix": "説明に不要なストックフォトを追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "claude-code安全性-層構造観点 / 最終チェック9「青を安易な企業資料色にしない」",
-      "evidence": "青はPermission、緑はSandboxという意味対応があり、青一色に依存しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現状の2層構造と対象固有の編集を維持し、青を安易な企業資料色にしないの条件を崩す装飾や情報を追加しない。"
+      "target": "6. 観点別チェック / 最終チェック4: 多角形装飾を使用しない",
+      "evidence": "多角形・立体・グラデーションはなく、罫線（border-top）だけで層の区切りと深さを表現している。",
+      "fix": "余白を埋める図形や大きな装飾矢印を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "claude-code安全性-層構造観点 / 最終チェック10「不要なアイコンを使用しない」",
-      "evidence": "アイコンは層番号と鍵／OSラベルに限定され、本文項目を飾るための反復ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現状の2層構造と対象固有の編集を維持し、不要なアイコンを使用しないの条件を崩す装飾や情報を追加しない。"
+      "target": "6. 観点別チェック / 最終チェック5: 濃紺フッターを追加しない",
+      "evidence": "濃紺・黒背景の帯フッターはなく、フッターは共有シェルの規定に従っている。結論帯（.conclusion）もborder-topと文字色だけで構成され、塗りつぶし背景を使っていない。",
+      "fix": "footerの共通契約を独自CSSで上書きしない。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "claude-code安全性-層構造観点 / 最終チェック11「余白を装飾で埋めない」",
-      "evidence": "2層間と下段要約に十分な白地があり、装飾で埋めていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現状の2層構造と対象固有の編集を維持し、余白を装飾で埋めないの条件を崩す装飾や情報を追加しない。"
+      "target": "6. 観点別チェック / 最終チェック6: 架空情報を追加しない",
+      "evidence": "会社名、ロゴ、費用、根拠のない効果値を追加していない。OS実装（macOS→Seatbelt／Linux→bubblewrap）は『2026年7月時点の公式仕様』という時点注記付きで記載され、断定的な数値実績としては提示されていない。",
+      "fix": "一次情報または元資料で確認できない情報を追加しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "claude-code安全性-層構造観点 / 最終チェック12「読み順が明確」",
-      "evidence": "タイトル→Permission→適用矢印→Sandbox→2点要約の読み順が明確である。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現状の2層構造と対象固有の編集を維持し、読み順が明確の条件を崩す装飾や情報を追加しない。"
+      "target": "6. 観点別チェック / 最終チェック7: 情報の強弱がある",
+      "evidence": "第2層（Sandbox）だけborder-topを2pxの濃い線にし、num色をvar(--label)からvar(--ink)へ強めている。第1層は相対的に淡色・細線で、Sandboxが『最後の防衛線』であることが視覚的な重みとして伝わる。",
+      "fix": "タイトル、主役、根拠、補足の強度順を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "claude-code安全性-層構造観点 / 最終チェック13「1スライド1メッセージ」",
-      "evidence": "「安全性はPermissionとSandboxの2層」という1メッセージに集約されている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現状の2層構造と対象固有の編集を維持し、1スライド1メッセージの条件を崩す装飾や情報を追加しない。"
+      "target": "6. 観点別チェック / 最終チェック8: 情報を詰め込みすぎない",
+      "evidence": "各層はnum/h2/scope/what/desc/exsの6要素で構成され、1440×900・390×844いずれの実描画でも文字の押し込み、行間の窮屈さ、はみ出しは確認できなかった。html-runtime-clipped-text・html-runtime-horizontal-overflowはpassである。",
+      "fix": "情報追加時は文字縮小より先に統合・短縮・分割を検討する。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "claude-code安全性-層構造観点 / 最終チェック14「人間が編集したように見える」",
-      "evidence": "2層の適用順を情報に合わせて縦構成に編集しており、汎用カード貼付けに見えない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現状の2層構造と対象固有の編集を維持し、人間が編集したように見えるの条件を崩す装飾や情報を追加しない。"
+      "target": "6. 観点別チェック / 最終チェック9: 青を安易な企業資料色にしない",
+      "evidence": "配色はvar(--ink)・var(--muted)・var(--label)・var(--accent)による濃淡差が中心で、結論帯の罫線に使うアクセント色以外に広い面への青の使用はない。層ごとの機械的な色分けもない。",
+      "fix": "色を意味と強調に限定し、既定の青で全面を均質化しない。"
     },
     {
-      "severity": "medium",
-      "decision": "suggestion",
-      "target": "claude-code安全性-層構造観点 / 情報設計の再編集案",
-      "evidence": "主役: 「Claude Codeの安全性はPermissionとSandboxの2層で成立する」。支える情報: allow／ask／denyの制御、Permission通過後にSandboxが適用される順序、OSレベルの書込先・接続先制限。後景化: OS実装名と2026年7月時点注記。レイアウト: 現在の上下2層を維持し、中央の適用矢印を接続点にする。読み順: タイトル→Permission→適用関係→Sandbox→下段要約。削除・統合・短縮候補: 下段要約は本文との重複を避けて各1文に保つ。追加禁止情報: 未確認の安全保証、架空の攻撃防止率、会社ロゴ、写真、追加ツール名。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "修正を行う場合は、記載した主役・支える情報・後景化・レイアウト・読み順・削除／統合／短縮候補・追加禁止情報を一体の編集条件として適用し、wide・narrow・サムネイルで再確認する。"
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック10: 不要なアイコンを使用しない",
+      "evidence": "アイコンを使わず、罫線・文字太さ・文字サイズの差だけで層の識別と主従を示している。",
+      "fix": "情報関係を説明しないアイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック11: 余白を装飾で埋めない",
+      "evidence": "層間の余白（.betweenブロック）は橋渡し文と矢印の配置に使われており、装飾で埋めていない。",
+      "fix": "余白を区切りと強弱に使い、写真・図形・模様で埋めない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック12: 読み順が明確",
+      "evidence": "タイトル→第1層（Permission）→橋渡し文（↓）→第2層（Sandbox）→結論帯という上から下への読み順が明確で、視線の迷いは生じない。",
+      "fix": "現行の基準線と視線順を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック13: 1スライド1メッセージ",
+      "evidence": "『Claude Codeの安全性はPermissionとSandboxの2層で二重に守られている』という一つの結論に、2層の説明と橋渡し文が収束している。",
+      "fix": "別の判断軸を追加する場合は同一ページへ押し込まない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック14: 人間が編集したように見える",
+      "evidence": "2層を均等な器で並べるのではなく、Sandboxの重みをborder太さと色で意図的に強め、各層の例をコード記法と説明文で書き分けるなど、情報を編集した跡が見える。テンプレート的な均等比較ではない。",
+      "fix": "具体的な判断条件と情報関係を維持し、均等テンプレートへ戻さない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "7. 実装者がそのまま作業できる優先順位付き修正方針",
+      "evidence": "優先度1: 現状維持。公開を妨げる必須修正はない。優先度2: 内容・共有CSS・footer変更時は現行HTML SHAから全ページをwide／narrowで再描画し、本14項目を再判定する。優先度3: 元にない会社名、日付、ロゴ、数値、効果、費用、期間、写真、根拠のない図解を追加しない。",
+      "fix": "更新時は優先度順に適用し、Phase 11記録を新SHAへ更新する。"
     }
   ],
-  "checkedAt": "2026-07-27T23:25:00+09:00",
-  "artifactSha256": "119f1247b68ae69f071dd259d778d6717cee6b307ffb7397fc971ea9b64b06ef",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "6a24a2317f17b43fa47d5e3be3a000e0afc0521572d343e40c6b536f582432db",
-    "toArtifactSha256": "119f1247b68ae69f071dd259d778d6717cee6b307ffb7397fc971ea9b64b06ef",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "1a7cfab942fb958fdcc39555bd7ce48c0f507bbfd9be97c6b4c97d479a7da506",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  }
+  "checkedAt": "2026-08-10T13:27:37.000Z",
+  "artifactSha256": "12b0e67575031d499c2c00c82aa664baf18a5a18bf2e2d5132ede9871363c175"
 }

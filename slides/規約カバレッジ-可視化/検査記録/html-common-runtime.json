@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/規約カバレッジ-可視化/解説スライド.html",
-      "artifactSha256": "ff699616874201eecbe2707a782b072adb7773c48c5579730d6f966f4cbf046e",
+      "file": "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/規約カバレッジ-可視化/解説スライド.html",
+      "artifactSha256": "0c8c2d21759daa050e64220c13b82a387607b8001ee4c53656375dcf148fba07",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/規約カバレッジ-可視化/evidence/html-runtime/解説スライド-wide-ff6996168742.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/規約カバレッジ-可視化/evidence/html-runtime/解説スライド-narrow-ff6996168742.png"
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/規約カバレッジ-可視化/evidence/html-runtime/規約カバレッジ-可視化/0c8c2d21759d/解説スライド-wide-page-1-0c8c2d21759d.png",
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/規約カバレッジ-可視化/evidence/html-runtime/規約カバレッジ-可視化/0c8c2d21759d/解説スライド-narrow-page-1-0c8c2d21759d.png"
           ]
         }
       ]

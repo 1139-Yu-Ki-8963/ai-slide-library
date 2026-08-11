@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/ai開発課題-重点行分析型/解説スライド.html",
-      "artifactSha256": "87c568de929a21a15268d9e655897fabef998d54793b01df09f8cd4bee587d75",
+      "file": "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/ai開発課題-重点行分析型/解説スライド.html",
+      "artifactSha256": "8f6acf498e3c09c3c37849d32d9d6fd716131aa569ab99196e4cdfdac573bbf0",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/ai開発課題-重点行分析型/evidence/html-runtime/解説スライド-wide-87c568de929a.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/ai開発課題-重点行分析型/evidence/html-runtime/解説スライド-narrow-87c568de929a.png"
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/ai開発課題-重点行分析型/evidence/html-runtime/ai開発課題-重点行分析型/8f6acf498e3c/解説スライド-wide-page-1-8f6acf498e3c.png",
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/ai開発課題-重点行分析型/evidence/html-runtime/ai開発課題-重点行分析型/8f6acf498e3c/解説スライド-narrow-page-1-8f6acf498e3c.png"
           ]
         }
       ]

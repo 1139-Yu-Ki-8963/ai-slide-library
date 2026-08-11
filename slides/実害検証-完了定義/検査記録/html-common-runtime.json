@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/実害検証-完了定義/解説スライド.html",
-      "artifactSha256": "61e5ef01ddeaf8ce79bbf264944c1dbb181a699f15f5acfbd4a85cfc42d1d75f",
+      "file": "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/実害検証-完了定義/解説スライド.html",
+      "artifactSha256": "764e8b6d82a204f769656a9ee73573dd353ada8e6e1ed9e0041848aac9f2543b",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,10 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/実害検証-完了定義/evidence/html-runtime/解説スライド-wide-61e5ef01ddea.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/実害検証-完了定義/evidence/html-runtime/解説スライド-narrow-61e5ef01ddea.png"
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/実害検証-完了定義/evidence/html-runtime/実害検証-完了定義/764e8b6d82a2/解説スライド-wide-page-1-764e8b6d82a2.png",
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/実害検証-完了定義/evidence/html-runtime/実害検証-完了定義/764e8b6d82a2/解説スライド-wide-page-2-764e8b6d82a2.png",
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/実害検証-完了定義/evidence/html-runtime/実害検証-完了定義/764e8b6d82a2/解説スライド-narrow-page-1-764e8b6d82a2.png",
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/実害検証-完了定義/evidence/html-runtime/実害検証-完了定義/764e8b6d82a2/解説スライド-narrow-page-2-764e8b6d82a2.png"
           ]
         }
       ]

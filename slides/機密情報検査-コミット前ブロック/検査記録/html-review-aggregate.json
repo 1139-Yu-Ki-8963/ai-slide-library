@@ -2,5 +2,6 @@
   "kind": "html-review-aggregate",
   "overall": "pass",
   "blockers": [],
-  "artifactSha256": "7a5cbba7d4442b180ef1e04b8cc7cd163afbc22e3773c2ccbec52229bc783f96"
+  "advisories": [],
+  "artifactSha256": "8d01b308ec18a1f15986d720f414824e6f74f9d21a543dfa75f4416b36ed9156"
 }

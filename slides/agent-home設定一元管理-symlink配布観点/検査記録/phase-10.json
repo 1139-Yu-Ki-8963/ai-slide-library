@@ -8,35 +8,27 @@
     {
       "id": "deck-ai-split-plan",
       "status": "pass",
-      "evidence": "最終HTML SHA a09ca1a9a1a9の全1ページを独立確認した。p1「正本から各ツールへリンク配布する全体構造」の役割分担で、各ページは1メッセージに収束している。正本、配布先、変更管理の3要素は一元管理方式を理解する同一の構造であり、一望する価値が分割より高い。保存済み最新runtime画像はwide 1/1ページ、narrow 1/1ページを現SHAで確認した。更新後の640×360サムネイルも再確認し、文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "対象HTMLの全1ページを1440×900・390×844の実描画とサムネイルで確認した。ページは「正本（~/agent-home/）の資産一覧」と「配布先（Claude Code・Codex CLI・将来のツール）へのシンボリックリンク」を1画面に並べて対応関係を示し、末尾で「正本が1箇所であることの構造的効果」という1つの結論に収束する構成であり、正本と配布先を1画面で対応させること自体が主張の根拠になっている。左列は6資産（rules/・skills/・agents/・routines/・tools/・templates/）、右列は3配布先で構成され、1440×900・390×844いずれの実描画でも文字サイズの縮小や折り返し崩れ、余白不足による窮屈さは確認できなかった。正本と配布先を別ページへ分割すると、読み手が正本の内訳を記憶したまま配布先と対応づける負担が生じ、リンクによる対応関係が失われるため、分割は推奨しない。"
     }
   ],
   "findings": [
     {
       "severity": "low",
       "decision": "pass",
-      "target": "slides/agent-home設定一元管理-symlink配布観点/解説スライド.html の全1ページ、現SHAのwide/narrow実描画、更新後サムネイル",
-      "evidence": "p1「正本から各ツールへリンク配布する全体構造」として読める。正本、配布先、変更管理の3要素は一元管理方式を理解する同一の構造であり、一望する価値が分割より高い。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "impact": "分割すると、共通軸で比較・追跡する関係または一続きの工程がページ間に分断され、全体判断が難しくなる。",
-      "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
+      "target": "slides/agent-home設定一元管理-symlink配布観点/解説スライド.html の全1ページ",
+      "evidence": "正本の資産一覧（6項目）と配布先（3項目）＋末尾の結論という構成は、列ごとの情報量が概ね均質で、1440×900・390×844のいずれでも要素の重なり・はみ出し・過度な文字縮小は見られなかった。情報量はやや多いが、正本→配布先という対応関係を示す目的上、同一画面での並置に必然性がある。",
+      "impact": "分割すると正本と配布先の対応関係（どのディレクトリがどこへリンクされるか）が失われ、読み手が前ページを記憶しながら対応づける負担が増える。",
+      "fix": "分割・統合・移動は行わない。将来、配布先や資産を追加する場合は、既存6資産・3配布先の情報量をこれ以上増やさず、詳細は別ページ（変更履歴・運用手順等）へ逃がす。",
       "preservedInformation": [
-        "agent-homeの正本",
-        "Claude Code・Codex CLI等へのsymlink",
-        "git変更管理と一括配布"
+        "正本（~/agent-home/）の資産一覧と件数",
+        "Claude Code・Codex CLIへのシンボリックリンクパス",
+        "将来のツールへの拡張可能性",
+        "正本を1箇所に置くことによる分散防止とgit追跡・差し戻しという結論"
       ],
-      "splitPlan": "分割なし。正本、配布先、変更管理の3要素は一元管理方式を理解する同一の構造であり、一望する価値が分割より高い。",
-      "verification": "HTML SHA-256がa09ca1a9a1a9393c8a48fd47b7f843fe809e9795f631ce3bded34d2c40fab82aであること、保存済み最新runtime画像はwide 1/1ページ、narrow 1/1ページを現SHAで確認した。更新後サムネイルが640×360であること、全1ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
+      "splitPlan": "分割なし。正本と配布先の対応関係、およびそこから導かれる結論を1ページ内で完結させる。",
+      "verification": "artifact SHA-256がf7ab4de021f6ab18756b7c7c5bcdfff3d807cdc2c7b91a4c5aafdd8bb646866eであること、html-common-runtime.jsonのhtml-runtime-horizontal-overflow / html-runtime-clipped-text / html-runtime-critical-overlapがいずれもpassであることを確認した。"
     }
   ],
-  "checkedAt": "2026-07-27T23:25:00+09:00",
-  "artifactSha256": "6ec50b9f25658cc9590effa110bcb3c1fc5e65ea9c8ce3c2838d5575ad09b6bb",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "476bcd2266ca62cd6e7d9439c54e4178183e319aed3d5434d85eb9e378ef6c4d",
-    "toArtifactSha256": "6ec50b9f25658cc9590effa110bcb3c1fc5e65ea9c8ce3c2838d5575ad09b6bb",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "6125655205dee7d0ee4854de4fc5a4d353e9b8cf0027fab5cc2fbb71730c18be",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  }
+  "checkedAt": "2026-08-10T13:26:30.000Z",
+  "artifactSha256": "f7ab4de021f6ab18756b7c7c5bcdfff3d807cdc2c7b91a4c5aafdd8bb646866e"
 }

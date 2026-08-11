@@ -2,84 +2,71 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>規約の担保手段を示し、自動化の穴を見つける</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>規約カバレッジの可視化</title>
 <style>
-:root{
-  --surface: #fff;
-  --soft: #f1efea;
-  --critical: #934238;
-  --critical-soft: #f6ebe8;
-  --good: #356a4b;
-  --good-soft: #eaf2ed;
-}
-.content{ flex: 1; min-height: 0; padding: 24px 0 10px; font-family: system-ui, sans-serif; }
-.coverage-layout{ display: grid; grid-template-columns: 210px 1fr 220px; gap: 24px; height: 100%; align-items: center; }
-.context-note{ align-self: start; margin-top: 32px; padding: 14px 0 14px 15px; border-left: 4px solid var(--critical); color: var(--muted); }
-.context-note strong{ display: block; margin-bottom: 7px; color: var(--critical); font-size: 15px; }
-.context-note p, .backlog p{ margin: 0; font-size: 12px; line-height: 1.55; }
-.table-wrap{ align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
-table{ width: 100%; border-collapse: collapse; font-size: 13px; }
-caption{ padding-bottom: 10px; text-align: left; color: var(--ink); font-size: 18px; font-weight: 800; }
-th, td{ padding: 12px 13px; text-align: left; border-bottom: 1px solid var(--faint); vertical-align: middle; }
-th{ color: var(--muted); font-size: 11px; letter-spacing: .08em; }
-tbody th{ color: var(--ink); font-size: 13px; letter-spacing: 0; }
-.status{ font-weight: 800; }
-.status.machine{ color: var(--good); }
-.status.gap{ color: var(--critical); }
-.gap-row{ background: var(--critical-soft); }
-.backlog{ align-self: end; margin-bottom: 42px; padding: 16px 17px; border-top: 4px solid var(--good); background: var(--good-soft); }
-.backlog strong{ display: block; margin-bottom: 7px; font-size: 16px; }
-.backlog ol{ margin: 10px 0 0; padding-left: 18px; color: var(--ink); font-size: 12px; line-height: 1.55; }
-.first-step{ grid-column: 1 / -1; align-self: end; padding-top: 11px; border-top: 1px solid var(--faint); color: var(--muted); font-size: 12px; }
+  /* 骨格B: 構造型（slide-design-system.md 参照）。担保手段表。主役は未担保の行（2px罫） */
+  .layout{ flex: 1; min-height: 0; display: grid; grid-template-columns: 1.5fr 1fr; gap: 44px; padding-top: 20px; }
+  .tbl{ display: flex; flex-direction: column; min-height: 0; }
+  .t-head{ display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 18px; padding-bottom: 8px; }
+  .t-head span{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .trow{ flex: 1; display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 18px; align-items: center; border-top: 1px solid var(--faint); padding: 6px 0; }
+  .trow.star{ border-top: 2px solid var(--ink); }
+  .rn{ font-size: 15px; font-weight: 600; color: var(--ink); }
+  .trow.star .rn{ font-size: 17px; }
+  .tc{ font-size: 14px; color: var(--muted); }
+  .st{ font-size: 14px; font-weight: 600; color: var(--muted); }
+  .trow.star .st{ color: var(--ink); font-size: 15px; font-weight: 700; }
+  .side{ display: flex; flex-direction: column; min-height: 0; border-left: 1px solid var(--faint); padding-left: 32px; }
+  .side .tag{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .side h2{ margin: 6px 0 6px; font-size: 18px; font-weight: 600; color: var(--ink); line-height: 1.45; }
+  .side p{ margin: 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
+  .side ol{ margin: 14px 0 0; padding-left: 22px; font-size: 15px; line-height: 2.1; color: var(--ink); }
+  .conclusion{ display: flex; align-items: baseline; gap: 18px; border-top: 2px solid var(--accent); padding-top: 14px; margin-top: 16px; }
+  .c-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--accent); flex-shrink: 0; }
+  .c-text{ font-size: 18px; font-weight: 600; line-height: 1.5; color: var(--ink); }
+  .pageno{ font: 12px/1.4 system-ui, sans-serif; color: var(--label); margin-left: auto; flex-shrink: 0; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
-  <main class="slide" data-slide-page="1">
+<div class="slide">
+
+  <section class="slide-page is-active" data-slide-page="1">
     <header class="slide-header">
       <span class="kicker">AI開発ガバナンス — 規約カバレッジ</span>
       <h1 class="slide-title">規約の担保手段を示し、自動化の穴を見つける</h1>
-      <p class="slide-subtitle">規約ごとに「何で守るか」を記録し、未担保の行をそのまま自動化バックログへ送る。</p>
+      <p class="slide-subtitle">規約ごとに「何で守るか」を記録し、未担保の行をそのまま自動化バックログへ送る</p>
     </header>
-    <div class="content coverage-layout">
-      <aside class="context-note">
-        <strong>文書だけでは検証できない</strong>
-        <p>ルール集が存在しても、違反を検出できなければ形骸化する。新任者やAIが違反しても気づけない。</p>
-      </aside>
-
-      <section class="table-wrap">
-        <table>
-          <caption>規約一覧へ「担保手段」と「状態」を追加する</caption>
-          <thead>
-            <tr><th scope="col">規約・検査の例</th><th scope="col">担保手段</th><th scope="col">状態</th></tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">自動整形</th><td>フォーマッター</td><td class="status machine">自動整形で担保</td></tr>
-            <tr><th scope="row">静的検査</th><td>リンター・型検査</td><td class="status machine">静的検査で担保</td></tr>
-            <tr><th scope="row">実行時の割り込み検査</th><td>コミット・共有直前のhook</td><td class="status machine">割り込み検査で担保</td></tr>
-            <tr class="gap-row"><th scope="row">担保手段が未記載の規約</th><td>未設定</td><td class="status gap">未担保</td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <aside class="backlog">
-        <strong>未担保の行が次の自動化候補</strong>
-        <p>穴が一覧になれば、「守られているはず」を機械的に「守られている」へ変えられる。</p>
+    <div class="layout">
+      <div class="tbl">
+        <div class="t-head"><span>規約・検査の例</span><span>担保手段</span><span>状態</span></div>
+        <div class="trow"><span class="rn">自動整形</span><span class="tc">フォーマッター</span><span class="st">自動整形で担保</span></div>
+        <div class="trow"><span class="rn">静的検査</span><span class="tc">リンター・型検査</span><span class="st">静的検査で担保</span></div>
+        <div class="trow"><span class="rn">実行時の割り込み検査</span><span class="tc">コミット・共有直前のhook</span><span class="st">割り込み検査で担保</span></div>
+        <div class="trow star"><span class="rn">担保手段が未記載の規約</span><span class="tc">未設定</span><span class="st">未担保 — 次の自動化候補</span></div>
+      </div>
+      <div class="side">
+        <span class="tag">穴の使い方</span>
+        <h2>未担保の行が次の自動化候補になる</h2>
+        <p>ルール集が存在しても、違反を検出できなければ形骸化する。穴が一覧になれば、「守られているはず」を機械的に「守られている」へ変えられる。</p>
         <ol>
           <li>未担保行を抽出</li>
           <li>優先順位を付ける</li>
           <li>機械強制へ置き換える</li>
         </ol>
-      </aside>
-
-      <p class="first-step"><strong>導入の最初の一歩：</strong>既存のコーディング規約一覧へ「担保手段」の列を1列追加する。</p>
+      </div>
     </div>
+    <div class="conclusion">
+      <span class="c-label">最初の一歩</span>
+      <span class="c-text">既存のコーディング規約一覧へ「担保手段」の列を1列追加することから始める</span>
+      <span class="pageno">1 / 1</span>
+    </div>
+  </section>
 
-  </main>
 </div>
-
+</div>
 </body>
 </html>

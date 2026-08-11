@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/既存コード整備優先順位-変更起点/解説スライド.html",
-      "artifactSha256": "fc33a53f2e41ff20d81cfe6515f97c9ddf9997565704253fafdadf421f1fd842",
+      "file": "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/既存コード整備優先順位-変更起点/解説スライド.html",
+      "artifactSha256": "4d2d7ba8519b37283813fee9cf49c409133f24b2b29a1d5b78e8acb9b5482aab",
       "status": "pass",
       "checks": [
         {

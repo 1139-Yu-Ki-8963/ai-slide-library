@@ -2,152 +2,95 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CLAUDE.mdの分割戦略</title>
 <style>
-:root{
-  --line: #d7d9d5;
-  --soft: #f1f0ec;
-  --soft-warm: #f4ebe5;
-  --soft-green: #e7f0e9;
-  --critical: #9a3f32;
-  --good: #356b4a;
-  --code: #292d2d;
-}
-.strategy-layout{
-  display: grid; grid-template-columns: minmax(0, 39fr) minmax(0, 61fr);
-  gap: 38px; flex: 1; min-height: 0; padding: 24px 0 12px;
-  font-family: system-ui, -apple-system, "Hiragino Sans", sans-serif;
-}
-.path-to-recommendation{ display: grid; grid-template-rows: 1fr 28px 1fr; min-height: 0; }
-.compare-block{ padding: 15px 17px; border-top: 3px solid var(--critical); background: linear-gradient(180deg, var(--soft-warm), #fff); }
-.compare-block.partial{ border-top-color: var(--muted); background: linear-gradient(180deg, var(--soft), #fff); }
-.compare-label{ margin: 0 0 5px; color: var(--critical); font-size: 11px; font-weight: 750; letter-spacing: .08em; }
-.partial .compare-label{ color: var(--muted); }
-.compare-block h2{ margin: 0 0 5px; font-size: 17px; line-height: 1.3; }
-.compare-block > p{ margin: 0 0 8px; color: var(--muted); font-size: 11.5px; line-height: 1.45; }
-.progress-line{ display: grid; place-items: center; color: var(--muted); font-size: 19px; }
-.mini-tree, .hero-tree{
-  font-family: "SFMono-Regular", Menlo, monospace; color: var(--ink);
-  white-space: nowrap;
-}
-.mini-tree{ font-size: 10.5px; line-height: 1.45; }
-.mini-tree div, .hero-tree div{ display: flex; align-items: baseline; gap: 5px; }
-.tag{
-  margin-left: auto; padding: 1px 5px; background: var(--soft);
-  font-family: system-ui, sans-serif; font-size: 9.5px; font-weight: 700;
-}
-.tag.problem{ color: var(--critical); background: var(--soft-warm); }
-.tag.good{ color: var(--good); background: var(--soft-green); }
-.tag.condition{ color: #fff; background: var(--code); }
-.outcome{ margin-top: 8px; padding-top: 7px; border-top: 1px solid var(--line); font-size: 11px; line-height: 1.4; }
-.outcome.problem{ color: var(--critical); }
-.outcome.mixed{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.outcome .positive{ color: var(--good); }
-.outcome .negative{ color: var(--critical); }
-.recommendation{
-  position: relative; min-height: 0; padding: 21px 24px 17px;
-  border-top: 5px solid var(--good); background: linear-gradient(180deg, var(--soft-green), #fff 66%);
-}
-.recommendation::before{
-  content: "推奨"; position: absolute; top: 18px; right: 22px;
-  color: var(--good); font-size: 12px; font-weight: 800; letter-spacing: .14em;
-}
-.recommendation h2{ margin: 0 0 5px; font-size: 24px; line-height: 1.25; }
-.recommendation > p{ margin: 0 0 14px; color: var(--muted); font-size: 13px; line-height: 1.45; }
-.hero-tree{
-  padding: 16px 18px; background: #fff; border-left: 2px solid var(--good);
-  font-size: 12px; line-height: 1.72;
-}
-.tree-indent{ color: var(--muted); }
-.tree-folder{ font-weight: 750; }
-.tree-note{ color: var(--muted); font: 10.5px/1.3 system-ui, sans-serif; }
-.recommend-reasons{
-  display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
-  margin-top: 15px; padding-top: 13px; border-top: 1px solid var(--ink);
-}
-.recommend-reasons p{ margin: 0; font-size: 12px; line-height: 1.45; }
-.recommend-reasons strong{ color: var(--good); }
-.conclusion{
-  grid-column: 1 / -1; margin-top: 13px; padding: 10px 14px;
-  background: var(--code); color: #fff; font-size: 14px; font-weight: 680;
-}
-.method-note{
-  position: absolute; left: 58px; bottom: 56px; margin: 0;
-  color: var(--muted); font: 10px/1.4 system-ui, sans-serif;
-}
+  /* 骨格C: 対比型（slide-design-system.md 参照）。3案を縦罫で並べ、推す案（右）だけを濃くする */
+  .mono{ font-family: "SF Mono", "Cascadia Code", Consolas, Menlo, monospace; }
+  .tri{ flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr 1.3fr; padding-top: 20px; }
+  .opt{ display: flex; flex-direction: column; min-height: 0; padding: 12px 24px 0 0; border-top: 1px solid var(--faint); }
+  .opt + .opt{ border-left: 1px solid var(--line); padding-left: 24px; }
+  .opt.star{ border-top: 2px solid var(--ink); }
+  .opt .tag{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .opt.star .tag{ color: var(--ink); }
+  .opt h2{ margin: 6px 0 4px; font-size: 17px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+  .opt.star h2{ font-size: 20px; }
+  .opt .desc{ margin: 0 0 12px; font-size: 14px; line-height: 1.55; color: var(--muted); }
+  .tree{ font-size: 12px; line-height: 1.9; color: var(--muted); }
+  .tree .ln{ display: flex; align-items: baseline; gap: 6px; white-space: nowrap; }
+  .tree .ind{ color: var(--label); }
+  .tree .f{ color: var(--ink); font-weight: 600; }
+  .tree .nt{ font-family: "Hiragino Sans", system-ui, sans-serif; color: var(--label); font-size: 12px; margin-left: auto; padding-left: 10px; }
+  .opt .verdict{ margin: auto 0 0; padding-top: 10px; border-top: 1px solid var(--faint); font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .opt.star .verdict{ font-size: 15px; font-weight: 600; color: var(--ink); }
+  .conclusion{ display: flex; align-items: baseline; gap: 18px; border-top: 2px solid var(--accent); padding-top: 14px; margin-top: 16px; }
+  .c-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--accent); flex-shrink: 0; }
+  .c-text{ font-size: 18px; font-weight: 600; line-height: 1.5; color: var(--ink); }
+  .pageno{ font: 12px/1.4 system-ui, sans-serif; color: var(--label); margin-left: auto; flex-shrink: 0; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
-  <main class="slide" data-slide-page="1">
+<div class="slide">
+
+  <section class="slide-page is-active" data-slide-page="1">
     <header class="slide-header">
-      <span class="kicker">CLAUDE.MD 設計</span>
-      <h1 class="slide-title">パス条件のrules分割で遵守率とコストを両立する</h1>
-      <p class="slide-subtitle">全部入りの問題と種類別分離の限界を踏まえ、必要な規約だけを読み込む構造を推奨する</p>
+      <span class="kicker">CLAUDE.md 設計 — 分割戦略</span>
+      <h1 class="slide-title">規約はパス条件で読み分け、遵守率とコストを両立する</h1>
+      <p class="slide-subtitle">全部入り・種類別分離・パス条件分割の3案を比べ、右の構造を採用する</p>
     </header>
-
-    <section class="strategy-layout" aria-label="CLAUDE.md設定ファイルの3段階分割比較">
-      <div class="path-to-recommendation">
-        <article class="compare-block">
-          <p class="compare-label">現状の問題</p>
-          <h2>すべてCLAUDE.mdに書く</h2>
-          <p>規約も手順も1ファイルへ集約する。</p>
-          <div class="mini-tree">
-            <div><strong>CLAUDE.md</strong><span class="tag problem">例: 500行+</span></div>
-            <div><span class="tree-indent">├─</span>コーディング規約</div>
-            <div><span class="tree-indent">├─</span>レビュー手順／テスト方針</div>
-            <div><span class="tree-indent">└─</span>デプロイ手順／…すべてここに</div>
-          </div>
-          <div class="outcome problem">読み飛ばしで遵守率が低下。毎回全文を読み込み、コストが増える。</div>
-        </article>
-
-        <div class="progress-line" aria-hidden="true">↓</div>
-
-        <article class="compare-block partial">
-          <p class="compare-label">中間案の限界</p>
-          <h2>rules / skillsへ種類別に分離</h2>
-          <p>規約はrulesへ、手順はskillsへ分ける。</p>
-          <div class="mini-tree">
-            <div><strong>CLAUDE.md</strong><span class="tag good">索引のみ</span></div>
-            <div><span class="tree-folder">.claude/rules/</span><span class="tag problem">毎回全件</span></div>
-            <div><span class="tree-indent">└─</span>naming/・review/</div>
-            <div><span class="tree-folder">.claude/skills/</span><span class="tag good">呼出時のみ</span></div>
-            <div><span class="tree-indent">└─</span>deploy/・test/</div>
-          </div>
-          <div class="outcome mixed">
-            <span class="positive">ファイル短縮で読み飛ばしを解消</span>
-            <span class="negative">rulesは毎回全件を読み込む</span>
-          </div>
-        </article>
-      </div>
-
-      <article class="recommendation">
-        <h2>rulesをalways / scopedへ分ける</h2>
-        <p>推奨構造では、常時必要な規約とパス条件で必要になる規約を分離し、skillsは呼び出し時だけ読む。</p>
-        <div class="hero-tree">
-          <div><strong>CLAUDE.md</strong><span class="tag good">索引のみ</span></div>
-          <div><span class="tree-folder">.claude/rules/</span></div>
-          <div><span class="tree-indent">&nbsp;├─</span><span class="tree-folder">always/</span><span class="tag good">常時</span></div>
-          <div><span class="tree-indent">&nbsp;│&nbsp;&nbsp;└─</span>naming/</div>
-          <div><span class="tree-indent">&nbsp;└─</span><span class="tree-folder">scoped/</span><span class="tag condition">パス条件</span></div>
-          <div><span class="tree-indent">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─</span>review/ <span class="tree-note">*.htmlのみ</span></div>
-          <div><span class="tree-folder">.claude/skills/</span><span class="tag good">呼出時のみ</span></div>
+    <div class="tri">
+      <article class="opt">
+        <span class="tag">現状の問題</span>
+        <h2>すべてCLAUDE.mdに書く</h2>
+        <p class="desc">規約も手順も1ファイルへ集約する。</p>
+        <div class="tree mono">
+          <div class="ln"><span class="f">CLAUDE.md</span><span class="nt">例: 500行超</span></div>
+          <div class="ln"><span class="ind">├─</span>コーディング規約</div>
+          <div class="ln"><span class="ind">├─</span>レビュー手順・テスト方針</div>
+          <div class="ln"><span class="ind">└─</span>デプロイ手順 …すべてここに</div>
         </div>
-        <div class="recommend-reasons">
-          <p><strong>遵守率の狙い</strong><br>短いファイルへ分け、必要な規約を正確に適用しやすくする。</p>
-          <p><strong>読込コストの狙い</strong><br>対象外パスの不要なルールを読み込まない。</p>
-        </div>
-        <div class="conclusion">条件で読み分ける構造にすると、遵守率の改善と読込コストの抑制を同時に狙える。</div>
+        <p class="verdict">読み飛ばしで遵守率が下がり、毎回全文を読み込んでコストも増える。</p>
       </article>
-    </section>
+      <article class="opt">
+        <span class="tag">中間案の限界</span>
+        <h2>rules / skillsへ種類別に分離</h2>
+        <p class="desc">規約はrulesへ、手順はskillsへ分ける。</p>
+        <div class="tree mono">
+          <div class="ln"><span class="f">CLAUDE.md</span><span class="nt">索引のみ</span></div>
+          <div class="ln"><span class="f">.claude/rules/</span><span class="nt">毎回全件読込</span></div>
+          <div class="ln"><span class="ind">└─</span>naming/・review/</div>
+          <div class="ln"><span class="f">.claude/skills/</span><span class="nt">呼出時のみ</span></div>
+          <div class="ln"><span class="ind">└─</span>deploy/・test/</div>
+        </div>
+        <p class="verdict">ファイル短縮で読み飛ばしは解消するが、rulesは毎回全件を読み込む。</p>
+      </article>
+      <article class="opt star">
+        <span class="tag">推奨</span>
+        <h2>rulesをalways / scopedへ分ける</h2>
+        <p class="desc">常時必要な規約と、パス条件で必要になる規約を分離する。</p>
+        <div class="tree mono">
+          <div class="ln"><span class="f">CLAUDE.md</span><span class="nt">索引のみ</span></div>
+          <div class="ln"><span class="f">.claude/rules/</span></div>
+          <div class="ln"><span class="ind">├─</span><span class="f">always/</span><span class="nt">常時読込</span></div>
+          <div class="ln"><span class="ind">│　└─</span>naming/</div>
+          <div class="ln"><span class="ind">└─</span><span class="f">scoped/</span><span class="nt">パス条件で読込</span></div>
+          <div class="ln"><span class="ind">　　└─</span>review/<span class="nt">*.htmlのみ</span></div>
+          <div class="ln"><span class="f">.claude/skills/</span><span class="nt">呼出時のみ</span></div>
+        </div>
+        <p class="verdict">短いファイルで遵守率を保ち、対象外パスの規約を読み込まない。</p>
+      </article>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">結論</span>
+      <span class="c-text">条件で読み分ける構造が、遵守率の改善と読込コストの抑制を同時に満たす</span>
+      <span class="pageno">1 / 1</span>
+    </div>
+  </section>
 
-
-    <p class="method-note">「500行+」は肥大化したCLAUDE.mdの例示であり、良否を分ける実測の閾値ではない。</p>
-  </main>
 </div>
-
+</div>
 </body>
 </html>

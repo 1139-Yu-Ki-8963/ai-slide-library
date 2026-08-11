@@ -2,5 +2,8 @@
   "kind": "html-review-aggregate",
   "overall": "pass",
   "blockers": [],
-  "artifactSha256": "fc33a53f2e41ff20d81cfe6515f97c9ddf9997565704253fafdadf421f1fd842"
+  "advisories": [
+    "ai required criterion html-ai-flow-alignment-spacing is suggestion"
+  ],
+  "artifactSha256": "4d2d7ba8519b37283813fee9cf49c409133f24b2b29a1d5b78e8acb9b5482aab"
 }

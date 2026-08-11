@@ -8,26 +8,20 @@
     {
       "id": "deck-ai-role-sequence",
       "status": "pass",
-      "evidence": "全2ページを確認。1ページ目でDefault・Proactive・Explanatory・Learningを比較し、2ページ目でProactiveの5指示と確認境界を深掘りする。全体選択から注意が必要な自律型の詳細へ進む。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "P1（4スタイルの一覧比較）→P2（うち1スタイルであるProactiveの5指示と確認境界の深掘り）という順で、kickerが『Claude Code — Output Style』『Claude Code — Proactive』と対になっている。一覧で全体像を示してから、実務上リスクの高いスタイル（自律実行・低確認頻度）を掘り下げる一方向の展開であり、後戻りや同一内容の重複はない。"
     },
     {
       "id": "deck-ai-strength-rhythm",
       "status": "pass",
-      "evidence": "1ページ目は4分類を静かに比較し、2ページ目はProactiveの指示原文と確認境界を主役にする。強調を後半の重点論点へ移し、2ページを同じ強さにしていない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "P1は白背景の行table＋結論帯のみで構成され、視覚的な強調は結論帯（accent 2px罫）1箇所に限定される『静』寄りのページである。P2は本文中央に暗色ターミナル風ブロック（#1B1F24背景）を置き、P1にはない強いコントラストを持つ『強』のページである。2ページしかないデッキで『強』1枚・『静』寄り1枚という配分は、全体の『強』を2〜3割に抑え『静』を最低1枚確保するという原則に反しない最小構成であり、強ページの3連続もない。"
     },
     {
       "id": "deck-ai-layout-repetition",
       "status": "pass",
-      "evidence": "1ページ目の比較表と2ページ目の指示原文・3スタイル解説で配置が変化する。分類名は継続して参照するが、理由なき同型反復ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "P1は4カラムのrows/rows-head構造（Style／確認頻度／説明量／適用場面）、P2は2カラムのduo構造（term＋anno）であり、本文レイアウトは同一ではない。両ページに共通するheader（kicker/h1/subtitle）とconclusion帯は共有シェルの規約に基づく必須要素であり、これは理由なき反復ではなく、比較対象の性質（P1=4スタイルの並列比較、P2=1スタイルの指示＋注釈）に応じてレイアウトを描き分けている。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T23:10:31.156Z",
-  "artifactSha256": "a03d4f76bfc18f26f2e3bddf3d1ce9ea0d0d4c074b1e7ae1624a210cbf3aa161",
-  "impactReview": {
-    "status": "pass",
-    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
-    "screenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4",
-    "evidence": "現HTMLから生成した一覧画像（SHA 1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
-  }
+  "checkedAt": "2026-08-11T08:51:49.000Z",
+  "artifactSha256": "8330ead6a3348973d57c173bd91fa511d2fd783990969650a16c3ead94101b99"
 }

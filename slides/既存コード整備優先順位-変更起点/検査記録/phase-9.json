@@ -8,35 +8,20 @@
     {
       "id": "deck-ai-role-sequence",
       "status": "pass",
-      "evidence": "全2ページを確認。1ページ目で変更頻度×事業重要度から整備対象を選び、2ページ目で履歴集計・案件照合・対象箇所だけの整備へ進む。選定基準から実行手順へ直結している。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "全2ページの役割は、1ページ目＝対象選定の判断基準（分析）、2ページ目＝選んだ対象への着手方法（実施）であり、この順序で表示される。1ページ目のkicker「対象選定」→2ページ目のkicker「着手方法」という明示ラベルも同じ順を示す。2ページ目STEP1「実測で候補を出す」は1ページ目の実測根拠（git log集計）を引き継いで開始しており、前ページの結論を後ページの入口に接続している。役割の重複や逆順はない。"
     },
     {
       "id": "deck-ai-strength-rhythm",
       "status": "pass",
-      "evidence": "1ページ目は最優先領域を示す判断ページ、2ページ目は3手順を静かに追う実行ページである。重要領域の強調を前半に限定し、後半は運用へ強度を落としている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "各ページには主役がちょうど1つある（1ページ目：最優先象限＝border-top 2px・背景差・見出し20px、2ページ目：STEP3＝border-top 2px・箇条書き太字）。これはslide-design-system.mdの構造型が要求する『濃い側と薄い側の宣言』という必須要素であり、デッキ演出としての過剰な主役化ではない。全2ページの構成のため『強が3枚以上連続』は物理的に発生せず、両ページとも主役は1箇所に絞られ強調手法（罫線太さ・背景・文字サイズ）も重複併用していない。2ページのみの短いデッキで『静』ページを別途設けると1メッセージの原則に反するため、両ページとも実質的な情報提示を担う設計は妥当と判断する。"
     },
     {
       "id": "deck-ai-layout-repetition",
       "status": "pass",
-      "evidence": "1ページ目の非対称マトリクスと2ページ目の3段階フローで配置が明確に異なる。共通する優先順位の語彙は前後を接続するためで、理由なき反復ではない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "1ページ目は2x2マトリクス（.mx-wrap／.mx）、2ページ目は3ステップの横フロー（.flow3）であり、CSSクラス・グリッド構成とも異なる。情報構造も1ページ目が『対比・分布（4象限）』、2ページ目が『順序（STEP1→2→3）』で異なり、共通するのは共有ヘッダー・結論帯という共有シェル部分のみである。共有シェルの反復は規約が許容する範囲であり、本文レイアウトの理由なき反復には当たらない。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T18:19:38.680Z",
-  "artifactSha256": "fc33a53f2e41ff20d81cfe6515f97c9ddf9997565704253fafdadf421f1fd842",
-  "scopeCarryForward": {
-    "fromArtifactSha256": "53bab569071ffb134f25e23f5b81c8e35f8b231b79ce55e511fd8e49aefc4183",
-    "toArtifactSha256": "fc33a53f2e41ff20d81cfe6515f97c9ddf9997565704253fafdadf421f1fd842",
-    "validatedAt": "2026-07-27T18:19:38.680Z",
-    "unchangedScope": "non-header HTML, CSS, and DOM",
-    "nonHeaderFingerprintSha256": "a70abae50302213aa15bcddc8ba57b5ddd1d9fc51d2105a935fd46c16f81463b",
-    "headerReportSha256": "bd013e33d97012ec682a26a8e260dafca2b309e49e419b177e10c29a3c0296d3",
-    "impactScreenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4"
-  },
-  "impactReview": {
-    "status": "pass",
-    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
-    "screenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4",
-    "evidence": "現HTMLから生成した一覧画像（SHA 1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
-  }
+  "checkedAt": "2026-08-11T00:00:00.000Z",
+  "artifactSha256": "4d2d7ba8519b37283813fee9cf49c409133f24b2b29a1d5b78e8acb9b5482aab"
 }

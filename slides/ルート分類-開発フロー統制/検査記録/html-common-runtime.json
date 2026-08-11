@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/ルート分類-開発フロー統制/解説スライド.html",
-      "artifactSha256": "3bfbe00d6a81058ec0f38f5b3a3963908cb59869d5040cc2f3c85db7a2206371",
+      "file": "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/ルート分類-開発フロー統制/解説スライド.html",
+      "artifactSha256": "a90874338ea0565fd2c88442a936c0c32fa3bee2dc92274669a1252c977bed04",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/ルート分類-開発フロー統制/evidence/html-runtime/解説スライド-wide-3bfbe00d6a81.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/ルート分類-開発フロー統制/evidence/html-runtime/解説スライド-narrow-3bfbe00d6a81.png"
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/ルート分類-開発フロー統制/evidence/html-runtime/ルート分類-開発フロー統制/a90874338ea0/解説スライド-wide-page-1-a90874338ea0.png",
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/ルート分類-開発フロー統制/evidence/html-runtime/ルート分類-開発フロー統制/a90874338ea0/解説スライド-narrow-page-1-a90874338ea0.png"
           ]
         }
       ]

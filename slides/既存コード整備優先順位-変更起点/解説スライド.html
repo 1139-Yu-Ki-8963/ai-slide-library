@@ -2,115 +2,128 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>整備対象は変更頻度×事業重要度で選ぶ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>既存コード整備の優先順位 — 変更起点</title>
 <style>
-:root{
-  --surface: #fff;
-  --soft: #f1efea;
-  --critical: #934238;
-  --critical-soft: #f6ebe8;
-  --good: #356a4b;
-  --good-soft: #eaf2ed;
-}
-.content{ flex: 1; min-height: 0; padding: 22px 0 10px; font-family: system-ui, sans-serif; }
-.matrix-layout{ display: grid; grid-template-columns: 46px 1fr; grid-template-rows: 1fr 34px; height: 100%; }
-.y-axis{ grid-row: 1; display: grid; place-items: center; color: var(--muted); font-size: 12px; font-weight: 700; writing-mode: vertical-rl; }
-.matrix{ display: grid; grid-template-columns: 1fr 1.24fr; grid-template-rows: 1fr 1fr; gap: 10px; min-height: 0; }
-.quadrant{ padding: 13px 16px; border: 1px solid var(--faint); background: var(--surface); }
-.quadrant.priority{ border: 0; border-top: 5px solid var(--good); background: var(--good-soft); padding: 16px 19px; }
-.rank{ color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .1em; }
-.quadrant h2{ margin: 4px 0 6px; font-size: 16px; line-height: 1.35; }
-.quadrant.priority h2{ font-size: 22px; }
-.quadrant p{ margin: 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
-.x-axis{ grid-column: 2; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 12px; font-weight: 700; border-top: 1px solid var(--muted); }
-.axis-name{ color: var(--ink); }
-.evidence-line{ grid-column: 1 / -1; align-self: end; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--faint); color: var(--muted); font-size: 12px; }
-.workflow{ display: grid; grid-template-columns: .72fr 32px 1fr 32px 1.24fr; align-items: stretch; height: 100%; }
-.work-step{ padding: 20px 18px; border-top: 3px solid var(--faint); background: var(--soft); }
-.work-step.final{ border-color: var(--good); background: var(--good-soft); }
-.work-step .num{ display: block; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .12em; }
-.work-step h2{ margin: 7px 0 9px; font-size: 19px; }
-.work-step p{ margin: 0 0 10px; color: var(--muted); font-size: 13px; line-height: 1.55; }
-.work-step ul{ margin: 0; padding-left: 18px; color: var(--ink); font-size: 13px; line-height: 1.65; }
-.connector{ display: grid; place-items: center; color: var(--muted); font-size: 22px; }
-.warning{ grid-column: 1 / -1; align-self: end; padding: 11px 14px; border-left: 4px solid var(--critical); background: var(--critical-soft); color: var(--critical); font-size: 12px; line-height: 1.45; }
+  /* 骨格B: 構造型（slide-design-system.md 参照）。P1=2軸マトリクス（主役=最優先象限）、P2=3ステップ */
+  .mx-wrap{ flex: 1; min-height: 0; display: grid; grid-template-columns: 40px 1fr; grid-template-rows: 1fr 32px; padding-top: 20px; }
+  .y-ax{ display: grid; place-items: center; writing-mode: vertical-rl; font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .mx{ display: grid; grid-template-columns: 1fr 1.25fr; grid-template-rows: 1fr 1fr; gap: 14px; min-height: 0; }
+  .q{ display: flex; flex-direction: column; padding: 14px 18px 12px 0; border-top: 1px solid var(--faint); }
+  .q.star{ border-top: 2px solid var(--ink); background: var(--surface-2); padding-left: 18px; }
+  .q .rank{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .q.star .rank{ color: var(--ink); }
+  .q h2{ margin: 5px 0 5px; font-size: 17px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+  .q.star h2{ font-size: 20px; }
+  .q p{ margin: 0; font-size: 14px; line-height: 1.55; color: var(--muted); }
+  .q.star p{ color: var(--ink); }
+  .x-ax{ grid-column: 2; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); padding-top: 8px; }
+  .flow3{ flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 28px 1fr 28px 1.2fr; align-items: stretch; padding-top: 24px; }
+  .ws{ display: flex; flex-direction: column; padding: 14px 20px 0 0; border-top: 1px solid var(--faint); }
+  .ws.star{ border-top: 2px solid var(--ink); }
+  .ws .num{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .14em; color: var(--label); }
+  .ws.star .num{ color: var(--ink); }
+  .ws h2{ margin: 6px 0 6px; font-size: 18px; font-weight: 600; color: var(--ink); }
+  .ws.star h2{ font-size: 20px; }
+  .ws p{ margin: 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
+  .ws ul{ list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+  .ws ul li{ position: relative; padding-left: 16px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .ws ul li::before{ content: '—'; position: absolute; left: 0; color: var(--label); }
+  .ws.star ul li{ color: var(--ink); font-weight: 600; }
+  .ar3{ display: grid; place-items: center; color: var(--label); font-size: 21px; }
+  .conclusion{ display: flex; align-items: baseline; gap: 18px; border-top: 2px solid var(--accent); padding-top: 14px; margin-top: 16px; }
+  .c-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--accent); flex-shrink: 0; }
+  .c-text{ font-size: 18px; font-weight: 600; line-height: 1.5; color: var(--ink); }
+  .pageno{ font: 12px/1.4 system-ui, sans-serif; color: var(--label); margin-left: auto; flex-shrink: 0; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
 </head>
 <body>
 <div class="slide-viewport">
-  <main class="slide">
-    <section class="slide-page is-active" id="priority-matrix" aria-label="整備優先順位 1ページ目" data-slide-page="1">
-      <header class="slide-header">
-        <span class="kicker">レガシーコード整備 — 対象選定</span>
-        <h1 class="slide-title">整備対象は変更頻度×事業重要度で選ぶ</h1>
-        <p class="slide-subtitle">全面整備はしない。変更頻度を履歴で測り、事業影響と重なる場所から着手する。</p>
-      </header>
-      <div class="content matrix-layout">
-        <div class="y-axis">事業重要度　低 → 高</div>
-        <div class="matrix" aria-label="変更頻度と事業重要度の優先順位マトリクス">
-          <section class="quadrant">
-            <span class="rank">3番手｜低頻度 × 高重要度</span>
-            <h2>読み取り専用の調査と最小限の文書化</h2>
-            <p>変更予定はないが事業影響は大きい。手を入れず、把握だけしておく。</p>
-          </section>
-          <section class="quadrant priority">
-            <span class="rank">最優先｜高頻度 × 高重要度</span>
-            <h2>直近の開発案件がある場所</h2>
-            <p>案件と重ねて対象を確定し、設計文書・テスト・規約を整えてから変更する。</p>
-          </section>
-          <section class="quadrant">
-            <span class="rank">整備しない｜低頻度 × 低重要度</span>
-            <h2>触るときが来たら整備</h2>
-            <p>今は文書化もテストも追加せず、次の変更発生時点で着手する。</p>
-          </section>
-          <section class="quadrant">
-            <span class="rank">2番手｜高頻度 × 低重要度</span>
-            <h2>変更のたびに少しずつ整備</h2>
-            <p>頻繁に触るが影響は小さい。改修の都度、触った分だけ整備する。</p>
-          </section>
+<div class="slide">
+
+  <section class="slide-page is-active" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">レガシーコード整備 — 対象選定</span>
+      <h1 class="slide-title">整備対象は変更頻度×事業重要度で選ぶ</h1>
+      <p class="slide-subtitle">全面整備はしない — 変更頻度をgit logで実測し、事業影響と重なる場所から着手する</p>
+    </header>
+    <div class="mx-wrap">
+      <div class="y-ax">事業重要度　低 → 高</div>
+      <div class="mx">
+        <div class="q">
+          <span class="rank">3番手｜低頻度 × 高重要度</span>
+          <h2>読み取り専用の調査と最小限の文書化</h2>
+          <p>変更予定はないが事業影響は大きい。手を入れず、把握だけしておく。</p>
         </div>
-        <div class="x-axis"><span>低</span><span class="axis-name">変更頻度</span><span>高</span></div>
-        <p class="evidence-line"><strong>実測根拠：</strong>変更頻度はバージョン管理の履歴（git log）から機械的に集計し、勘ではなく実測で選ぶ。</p>
+        <div class="q star">
+          <span class="rank">最優先｜高頻度 × 高重要度</span>
+          <h2>直近の開発案件がある場所</h2>
+          <p>案件と重ねて対象を確定し、設計文書・テスト・規約を整えてから変更する。</p>
+        </div>
+        <div class="q">
+          <span class="rank">整備しない｜低頻度 × 低重要度</span>
+          <h2>触るときが来たら整備</h2>
+          <p>今は文書化もテストも追加せず、次の変更発生時点で着手する。</p>
+        </div>
+        <div class="q">
+          <span class="rank">2番手｜高頻度 × 低重要度</span>
+          <h2>変更のたびに少しずつ整備</h2>
+          <p>頻繁に触るが影響は小さい。改修の都度、触った分だけ整備する。</p>
+        </div>
       </div>
-    </section>
+      <div class="x-ax" style="grid-column: 2;"><span>低</span><span>変更頻度</span><span>高</span></div>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">実測根拠</span>
+      <span class="c-text">変更頻度はgit logから機械的に集計する — 勘ではなく実測で選ぶ</span>
+      <span class="pageno">1 / 2</span>
+    </div>
+  </section>
 
-    <section class="slide-page" id="priority-workflow" aria-label="着手フロー 2ページ目" hidden data-slide-page="2">
-      <header class="slide-header">
-        <span class="kicker">レガシーコード整備 — 着手方法</span>
-        <h1 class="slide-title">選んだ場所だけ、変更直前に整備する</h1>
-        <p class="slide-subtitle">履歴で候補を出し、案件と突き合わせ、対象箇所だけに設計文書・テスト・規約を用意する。</p>
-      </header>
-      <div class="content workflow">
-        <section class="work-step">
-          <span class="num">STEP 1</span>
-          <h2>実測で候補を出す</h2>
-          <p>git logから変更頻度を集計する。</p>
-          <ul><li>変更の多い場所を抽出</li><li>勘による優先付けを避ける</li></ul>
-        </section>
-        <div class="connector" aria-hidden="true">→</div>
-        <section class="work-step">
-          <span class="num">STEP 2</span>
-          <h2>案件と重ねる</h2>
-          <p>直近の開発案件と事業重要度を突き合わせ、最優先の対象を確定する。</p>
-        </section>
-        <div class="connector" aria-hidden="true">→</div>
-        <section class="work-step final">
-          <span class="num">STEP 3</span>
-          <h2>対象箇所だけ整備</h2>
-          <p>使う直前に、使う範囲だけをAIと一緒に整える。</p>
-          <ul><li>設計文書</li><li>テスト</li><li>規約</li></ul>
-        </section>
-        <p class="warning"><strong>避ける失敗：</strong>全体を文書化してから使い始めると、数百万行規模では終わらず、整備した端から古くなる。</p>
+  <section class="slide-page" data-slide-page="2">
+    <header class="slide-header">
+      <span class="kicker">レガシーコード整備 — 着手方法</span>
+      <h1 class="slide-title">選んだ場所だけ、変更直前に整備する</h1>
+      <p class="slide-subtitle">履歴で候補を出し、案件と突き合わせ、対象箇所だけに設計文書・テスト・規約を用意する</p>
+    </header>
+    <div class="flow3">
+      <div class="ws">
+        <span class="num">STEP 1</span>
+        <h2>実測で候補を出す</h2>
+        <p>git logから変更頻度を集計する。</p>
+        <ul>
+          <li>変更の多い場所を抽出</li>
+          <li>勘による優先付けを避ける</li>
+        </ul>
       </div>
-    </section>
+      <span class="ar3">→</span>
+      <div class="ws">
+        <span class="num">STEP 2</span>
+        <h2>案件と重ねる</h2>
+        <p>直近の開発案件と事業重要度を突き合わせ、最優先の対象を確定する。</p>
+      </div>
+      <span class="ar3">→</span>
+      <div class="ws star">
+        <span class="num">STEP 3</span>
+        <h2>対象箇所だけ整備</h2>
+        <p>使う直前に、使う範囲だけをAIと一緒に整える。</p>
+        <ul>
+          <li>設計文書</li>
+          <li>テスト</li>
+          <li>規約</li>
+        </ul>
+      </div>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">避ける失敗</span>
+      <span class="c-text">全体を文書化してから使い始めない — 数百万行規模では終わらず、整備した端から古くなる</span>
+      <span class="pageno">2 / 2</span>
+    </div>
+  </section>
 
-
-
-  </main>
 </div>
-
+</div>
 </body>
 </html>

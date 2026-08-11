@@ -8,26 +8,27 @@
     {
       "id": "deck-ai-split-plan",
       "status": "pass",
-      "evidence": "最終HTML SHA 14b375116057の全2ページを独立確認した。p1「4スタイルの選択表」、p2「Proactiveの5指示と確認境界」の役割分担で、各ページは1メッセージに収束している。スタイル選択とProactive詳細を2ページへ分離済み。2ページ目のコード例と対比欄は「即時実行するが破壊的変更は確認する」という同一境界を説明する根拠である。保存済み最新runtime画像は現SHAのwide 1/2ページ、narrow 1/2ページを確認し、保存対象外の追加ページは同一SHAをPlaywrightでwide/narrow一時描画して補完確認した。更新後の640×360サムネイルも再確認し、文字の押し込み、切れ、重なり、白紙、分割・統合・移動が必要な情報混在は認めなかった。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "対象HTMLの全2ページを1440×900・390×844の実描画とサムネイルで確認した。P1は4スタイルの比較（Style/確認頻度/説明量/適用場面の4カラム×4行＋結論帯）、P2はProactive1スタイルの5指示（ターミナル風ブロック）と3スタイル比較（anno 3行）＋結論帯という、それぞれ異なる情報構造を1ページずつに割り当てている。1440×900・390×844いずれの実描画でも文字の押し込み、折り返し崩れ、余白不足、要素の重なりは確認できず、html-runtime-clipped-text・html-runtime-horizontal-overflow・html-runtime-critical-overlapはいずれもpassである。P1・P2を1枚へ統合すると比較表とターミナル詳細が同居し情報過多になり、逆にP2の5指示・3スタイル比較をさらに分割すると指示と該当スタイルの対応関係（有効中カード）が分断されるため、現行の2分割が適切である。"
     }
   ],
   "findings": [
     {
       "severity": "low",
       "decision": "pass",
-      "target": "slides/output-style-応答態度切替/解説スライド.html の全2ページ、現SHAのwide/narrow実描画、更新後サムネイル",
-      "evidence": "p1「4スタイルの選択表」、p2「Proactiveの5指示と確認境界」として読める。スタイル選択とProactive詳細を2ページへ分離済み。2ページ目のコード例と対比欄は「即時実行するが破壊的変更は確認する」という同一境界を説明する根拠である。全ページで主要主張と根拠の対応が保たれ、最小表示文字、余白、表・工程・関係図の同居は内容上の必然または一覧・定義・参照ページの網羅性による。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "impact": "これ以上分割すると、すでに分離済みの各ページ内で主張と根拠が離れ、前後ページを往復しないと判断できなくなる。",
-      "fix": "分割・統合・移動は行わない。将来情報を追加する場合は、現ページの主張・共通軸・工程関係を残し、詳細だけを後続ページへ移す。",
+      "target": "slides/output-style-応答態度切替/解説スライド.html の全2ページ",
+      "evidence": "P1（4スタイル一覧比較）とP2（Proactiveの詳細）は情報構造が異なり、それぞれの情報量は1440×900・390×844いずれでも文字縮小や要素の重なりを引き起こしていない。P1の4行×4列の表とP2のターミナル＋3カード比較は、それぞれ単独のページで完結する情報量に収まっている。",
+      "impact": "統合すると比較表と指示詳細が同一画面に混在し情報過多になり、これ以上の細分化は指示と該当スタイルの対応関係を分断する。",
+      "fix": "分割・統合・移動は行わない。将来スタイルを追加する場合もP1の4列構造とP2の詳細ページ構成を崩さず、情報量が増える場合は別ページへ逃がす。",
       "preservedInformation": [
-        "Default・Proactive・Explanatory・Learning",
-        "Proactiveの5指示",
-        "削除・共有システム変更の確認境界"
+        "4スタイル（Default/Proactive/Explanatory/Learning）の確認頻度・説明量・適用場面",
+        "Proactiveの5指示の原文",
+        "Proactive/Default/Explanatoryの向く場面",
+        "削除・共有システム変更は確認するという安全境界"
       ],
-      "splitPlan": "分割なし。スタイル選択とProactive詳細を2ページへ分離済み。2ページ目のコード例と対比欄は「即時実行するが破壊的変更は確認する」という同一境界を説明する根拠である。",
-      "verification": "HTML SHA-256が14b375116057c8ca5af520a784115c7f7c05dfcb3c845b867654490bbedce70cであること、保存済み最新runtime画像は現SHAのwide 1/2ページ、narrow 1/2ページを確認し、保存対象外の追加ページは同一SHAをPlaywrightでwide/narrow一時描画して補完確認した。更新後サムネイルが640×360であること、全2ページで1ページ1メッセージ、文字切れ・重なり・押し込みなしを再確認した。"
+      "splitPlan": "分割なし。現行の2ページ構成（一覧比較→1スタイル深掘り）を維持する。",
+      "verification": "artifact SHA-256が8330ead6a3348973d57c173bd91fa511d2fd783990969650a16c3ead94101b99であること、html-common-runtime.jsonのhtml-runtime-horizontal-overflow / html-runtime-clipped-text / html-runtime-critical-overlapがいずれもpassであることを確認した。出典行を各ページの結論帯直後に1行追加した後も、この確認結果に変化はない。"
     }
   ],
-  "checkedAt": "2026-07-27T23:10:31.156Z",
-  "artifactSha256": "a03d4f76bfc18f26f2e3bddf3d1ce9ea0d0d4c074b1e7ae1624a210cbf3aa161"
+  "checkedAt": "2026-08-11T08:51:49.000Z",
+  "artifactSha256": "8330ead6a3348973d57c173bd91fa511d2fd783990969650a16c3ead94101b99"
 }

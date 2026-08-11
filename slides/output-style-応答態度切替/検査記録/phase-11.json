@@ -9,46 +9,163 @@
     {
       "severity": "low",
       "decision": "pass",
-      "target": "対象・要約",
-      "evidence": "4スタイルの選択表とProactiveの確認境界を2ページに分け、場面選択と実行前確認を実務で使える形にした。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "変更不要。現行のページ役割と主張を維持する。"
+      "target": "1. 対象",
+      "evidence": "output-style-応答態度切替の全2ページ。現行HTML（artifact SHA-256 8330ead6a3348973d57c173bd91fa511d2fd783990969650a16c3ead94101b99）を1440×900・390×844でPlaywright実描画し、サムネイル.png、html-common-static.json、html-common-runtime.jsonと突き合わせて確認した。git HEAD版（テーブル＋ターミナルモックアップ＋カード型の旧デザイン）を比較対象として参照した。今回、両ページの結論帯直後に出典行（P1: 根拠：Claude Code 2.1.219 の組み込み Learning 説明。設定：/config の Output style（settings.json の outputStyle で永続設定可能）。／P2: Proactive は即時実行・仮定・割込み最小化・計画抑制・方向転換を扱う。設定：/config の Output style（settings.json の outputStyle で永続設定可能）。）をgit HEAD版から一字一句復元した。",
+      "fix": "現行SHAと表示・検査記録の対応を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "良い点",
-      "evidence": "一覧表とコード＋比較パネルでページの役割を変え、色・カード・アイコンを機械的に反復せず、利用判断を主役にしている。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "情報上の理由がない装飾や均等化を追加しない。"
+      "target": "2. 要約",
+      "evidence": "P1は4スタイル（Default/Proactive/Explanatory/Learning）を確認頻度・説明量・適用場面で比較し、P2はProactiveの5指示と確認境界を詳細化する。旧デザイン（グレー系グラデーション基調のtable＋濃色ターミナル＋色分けカード）から、罫線と余白中心の対比型レイアウトへ全面刷新されている。",
+      "fix": "現行の実務判断とページ役割を維持する。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "指摘事項",
-      "evidence": "wide／narrowの全ページと640×360サムネイルを確認し、会議利用を妨げる重大な問題、表示欠陥、テンプレート依存は認められない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現時点で必須修正なし。"
+      "target": "3. 良い点",
+      "evidence": "P1のrows構造は罫線区切りのみで、旧デザインのtable罫線・学習ノートの色付きボックス（.learning-note、緑系背景）を排し、余白と行間だけで4スタイルを区別している。P2はターミナルブロックを保持しつつ、旧デザインのstep-chip（丸バッジ）・anno-card（角丸カード＋左罫線の色分け）を排し、罫線と文字強弱（.arow.starのborder-top太字化）だけで主役（Proactive）を示している。旧デザインの装飾的なドット3色（terminal-dot）も維持しつつ簡素化され、AIらしいカード反復感が低減した。",
+      "fix": "共有シェルを独自上書きせず、現行の主従と整列を維持する。"
+    },
+    {
+      "severity": "high",
+      "decision": "suggestion",
+      "target": "4. 指摘事項 / P2 Proactiveカードの「方向転換」説明の欠落",
+      "evidence": "git HEAD版のP2 anno-card（Proactive）には「即座に実行を開始し、妥当な判断ができる場面では確認せずに進む。方向転換は通常の入力として受け止める。ただしデータ削除・共有システムへの操作は必ず確認する。」という一文があり、ターミナル内の指示『4. Expect course corrections』が実務上どう扱われるか（方向転換の指示を通常の入力として継続処理する）を説明していた。新デザインのanno row（Proactive）はこの一文を欠き「即座に実行を開始し、妥当な判断ができる場面では確認せずに進む。ただしデータ削除・共有システムへの操作は必ず確認する。」のみになっている。指示4はターミナル内でも本文説明を持たないラベルのみのため、この説明の削除により指示4の意味（方向転換をどう扱うか）を裏付ける記述がHTML内のどこにも残っていない。",
+      "impact": "読み手は指示1・2・3・5の内容は具体的に理解できるが、指示4『Expect course corrections』が実務上何を意味するか（中断ではなく通常の入力として継続すること）を本文から読み取れなくなっている。5指示のうち1つの意味説明が失われている点は、内容保持の観点で軽視できない。",
+      "fix": "次回改訂時に、Proactiveのanno rowへ『方向転換は通常の入力として受け止める。』相当の一文を復元する。",
+      "verification": "改訂後、artifact SHA-256を更新したうえでhtml-ai-content-preservationとslide-ai-one-messageを再判定し、指示4の説明が本文のどこかに存在することを確認する。"
+    },
+    {
+      "severity": "medium",
+      "decision": "suggestion",
+      "target": "4. 指摘事項 / P2 Default・Explanatoryカードの補足説明の欠落",
+      "evidence": "git HEAD版のDefaultカードは「大きな変更の前に計画の概要を提示し、不明点があれば事前に質問する。」、Explanatoryカードは「各ステップで『なぜそうするか』を添えて説明する。複数の方法がある場面で比較を提示し、コードの背景知識や設計判断の根拠を補足する。」だった。新デザインではDefaultから「不明点があれば事前に質問する。」、Explanatoryから「コードの背景知識や設計判断の根拠を補足する。」がそれぞれ削除され、より短い説明に置き換わっている。",
+      "impact": "Default・Explanatoryそれぞれのふるまいの一部（不明点の事前質問、背景知識・設計根拠の補足）が本文から読み取れなくなっている。P1の適用場面欄と重複しない固有の説明であり、単純な言い換えではなく情報量の減少にあたる。",
+      "fix": "次回改訂時に、両カードへ削除された一文を短縮形で復元するか、同義の一文を追加する。",
+      "verification": "改訂後、DefaultとExplanatoryの説明文に元の2つの挙動（事前質問／背景知識の補足）が含まれることを確認する。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "観点別チェック（14項目）",
-      "evidence": "1=PASS（3カードでない）、2=PASS（丸アイコン非依存）、3=PASS（写真なし）、4=PASS（多角形なし）、5=PASS（濃紺フッターなし）、6=PASS（設定名と確認境界に限定）、7=PASS（表とProactiveの強弱あり）、8=PASS（2ページへ適切に分割）、9=PASS（色はスタイル識別に限定）、10=PASS（不要アイコンなし）、11=PASS（余白を比較境界に使用）、12=PASS（選択表→Proactive詳細）、13=PASS（各ページ1メッセージ）、14=PASS（選択条件の編集判断が見える）。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "14項目のPASS状態を維持する。"
+      "target": "4. 指摘事項 / P1・P2の出典・注記の対象特定性（復元済み）",
+      "evidence": "前回レビューでP1出典行のスタイル名喪失（『根拠：Claude Code 2.1.219の組み込みLearning説明。』→『根拠：Claude Code 2.1.219の組み込み説明』）とP2出典行の5指示要約の削除を指摘していたが、今回git HEAD版から一字一句そのまま復元した。P1は`<p class=\"src\">根拠：Claude Code 2.1.219 の組み込み Learning 説明。設定：/config の Output style（settings.json の outputStyle で永続設定可能）。</p>`をconclusion帯直後に追加し、P2は`<p class=\"src\">Proactive は即時実行・仮定・割込み最小化・計画抑制・方向転換を扱う。設定：/config の Output style（settings.json の outputStyle で永続設定可能）。</p>`を同様に追加した。1440×900・390×844いずれの実描画でもはみ出し・重なり・切れは発生していない（html-runtime-clipped-text / html-runtime-horizontal-overflow / html-runtime-critical-overlapはpass）。",
+      "impact": "P1はLearningスタイル固有の出典であることが再び明示され、P2は5指示全体（即時実行・仮定・割込み最小化・計画抑制・方向転換）の総括がHTML内に復元されたことで、根拠の追跡可能性が回復した。",
+      "fix": "現行の出典行の位置・文言を維持し、共有シェルや本文レイアウトの変更時もこの2行を削除しない。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "情報設計の再編集案",
-      "evidence": "主役はスタイル選択条件とProactiveの5指示、支える情報は他3スタイルとの境界、後景化は設定注記。実際の設定名を保持し、架空の動作保証や効果を加えない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "将来修正時は主役・支え・後景の順に調整し、保持情報を削らない。"
+      "target": "5. 情報設計の再編集案",
+      "evidence": "P1の主役は4スタイル比較表とconclusion帯の選び方。P2の主役はProactiveの5指示とconclusion帯の確認境界。支える情報はP2のDefault/Explanatoryとの対比カード。後景化する情報はP1のsetting注記、P2のkicker。読み順はP1: 表→conclusion、P2: ターミナル→anno→conclusion。削除・統合・短縮候補は現時点でなし。追加禁止情報は未確認の運用実績・コスト削減値、架空の会社名・日付。",
+      "fix": "将来修正時も主役・支える情報・後景の順を崩さず、4. 指摘事項に残る未対応2件（指示4の説明、Default/Explanatoryの補足）を優先的に検討する。出典の対象特定性は今回復元済み。"
     },
     {
       "severity": "low",
       "decision": "pass",
-      "target": "優先順位付き修正方針",
-      "evidence": "P0/P1の修正なし。将来変更時のP2は、現行の読み順・数値・条件・出典・ページ役割を保持したまま文言を短縮すること。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。",
-      "fix": "現行を公開候補として維持する。"
+      "target": "6. 観点別チェック / 最終チェック1: 3カード構成でない",
+      "evidence": "P2のanno rowは3行あるが、背景塗り・角丸・影を持たない罫線区切りの行であり、旧デザインの角丸カード（.anno-card、背景色・左罫線色分け）とは異なる。均等な白い角丸カードの3並びには該当しない。",
+      "fix": "意味関係のない均等3カードへ置き換えない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック2: 項目ごとの丸アイコンに依存しない",
+      "evidence": "旧デザインにあった丸バッジ（.step-chip、色分き円形ラベル）は排され、新デザインは文字ラベル（有効中／既定／解説）と罫線太さの差だけで役割を示している。",
+      "fix": "単語置換型の丸アイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック3: 写真を装飾使用しない",
+      "evidence": "wide・narrowいずれの実描画にも写真・人物・ストックフォトは存在しない。",
+      "fix": "説明に不要なストックフォトを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック4: 多角形装飾を使用しない",
+      "evidence": "多角形・立体・グラデーションはなく、罫線（border-top）とターミナル背景の単色塗りだけで構成されている。",
+      "fix": "余白を埋める図形や大きな装飾矢印を追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック5: 濃紺フッターを追加しない",
+      "evidence": "濃紺・黒背景の帯フッターはなく、P2のターミナルブロック（#1B1F24）はコード表示のための限定領域であり、フッター全体を覆う装飾ではない。",
+      "fix": "footerの共通契約を独自CSSで上書きしない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック6: 架空情報を追加しない",
+      "evidence": "会社名、ロゴ、費用、根拠のない効果値を追加していない。P1・P2の出典行は今回git HEAD版と一字一句一致するよう復元済み。ただし4.指摘事項で記録した通り、P2 Proactiveカードの指示4説明とDefault/Explanatoryカードの補足挙動は、旧版にあった記述が依然として削除されたままである点を別途記録した。",
+      "fix": "一次情報または元資料で確認できない情報を追加しない。次回改訂時に4.の指摘へ対応する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック7: 情報の強弱がある",
+      "evidence": "P2のProactiveカードだけborder-topを2pxに太くし、h2を18pxへ拡大して主役化している。P1・P2ともconclusion帯がaccent罫で強調され、他の行・カードは相対的に淡い罫線・通常太さで後景化している。",
+      "fix": "タイトル、主役、根拠、補足の強度順を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック8: 情報を詰め込みすぎない",
+      "evidence": "P1は4行×4列、P2はターミナル＋3行の構成で、1440×900・390×844いずれの実描画でも文字の押し込み、行間の窮屈さ、はみ出しは確認できなかった。html-runtime-clipped-text・html-runtime-horizontal-overflowはpassである。",
+      "fix": "情報追加時は文字縮小より先に統合・短縮・分割を検討する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック9: 青を安易な企業資料色にしない",
+      "evidence": "配色はvar(--ink)・var(--muted)・var(--label)による濃淡差とターミナルの単色暗背景が中心で、広い面への青の使用はない。旧デザインのterm-green/term-cyan等の機械的色分けも簡素化されている。",
+      "fix": "色を意味と強調に限定し、既定の青で全面を均質化しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック10: 不要なアイコンを使用しない",
+      "evidence": "アイコンを使わず、罫線・文字太さ・ラベル文字だけで役割と主従を示している。ターミナルの3色ドットは旧デザインから継承されているが、コード的な文脈の一部であり単語置換アイコンではない。",
+      "fix": "情報関係を説明しないアイコンを追加しない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック11: 余白を装飾で埋めない",
+      "evidence": "各行・各anno rowの余白はborder-topによる区切りとjustify-content:centerによる縦方向の整列に使われており、装飾で埋めていない。",
+      "fix": "余白を区切りと強弱に使い、写真・図形・模様で埋めない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック12: 読み順が明確",
+      "evidence": "P1は表の見出し行→4行→conclusion帯の順、P2はターミナル（左）→anno（右、有効中が最上段）→conclusion帯の順で読める。列・行間はborder-topで区切られ、視線の迷いは生じない。",
+      "fix": "現行の基準線と視線順を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック13: 1スライド1メッセージ",
+      "evidence": "P1は『4分類を確認頻度・説明量・実装の担い手の3軸で選ぶ』、P2は『Proactiveでも削除と共有システム変更は止まる』という一つの結論にそれぞれ収束している。",
+      "fix": "別の判断軸を追加する場合は同一ページへ押し込まない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック14: 人間が編集したように見える",
+      "evidence": "旧デザインの装飾（角丸カード、色分きバッジ、学習ノートの色付きボックス）を削り、罫線と文字強弱による編集の跡が見える。出典行の対象特定性は今回git HEAD版から復元済みだが、4.指摘事項の通り、P2 Proactiveカードの指示4の意味説明とDefault/Explanatoryカードの補足挙動は依然として失われたままであり、純粋な改善だけでなく情報量の縮小も一部残っている。",
+      "fix": "具体的な判断条件と情報関係を維持し、次回改訂で4.の指摘へ対応したうえで均等テンプレートへ戻さない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "7. 実装者がそのまま作業できる優先順位付き修正方針",
+      "evidence": "優先度1: 現状維持。公開を妨げる必須修正（表示不備・安全性の欠陥・主張の誤り）はない。優先度2: 今回、P1出典行へスタイル名（Learning）を含めて復元し、P2に5指示全体の要約（出典行）を復元した（対応済み）。優先度3: 次回改訂時に、①P2 Proactiveカードへ『方向転換は通常の入力として受け止める』相当の一文を復元、②P2 Default/Explanatoryカードへ削除された補足挙動を復元、の2点を検討する。優先度4: 内容・共有CSS・footer変更時は現行HTML SHAから全ページをwide／narrowで再描画し、本14項目を再判定する。優先度5: 元にない会社名、日付、ロゴ、数値、効果、費用、期間、写真、根拠のない図解を追加しない。",
+      "fix": "更新時は優先度順に適用し、Phase 11記録を新SHAへ更新する。"
     }
   ],
-  "checkedAt": "2026-07-27T23:10:31.156Z",
-  "artifactSha256": "a03d4f76bfc18f26f2e3bddf3d1ce9ea0d0d4c074b1e7ae1624a210cbf3aa161"
+  "checkedAt": "2026-08-11T08:51:49.000Z",
+  "artifactSha256": "8330ead6a3348973d57c173bd91fa511d2fd783990969650a16c3ead94101b99"
 }

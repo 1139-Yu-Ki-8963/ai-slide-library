@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/worktree並列開発-ポート採番/解説スライド.html",
-      "artifactSha256": "d658d44982222dc6e5d40ef7f4cd9dd45bf23b3b5c59142bd6fb1ee5160fec42",
+      "file": "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/worktree並列開発-ポート採番/解説スライド.html",
+      "artifactSha256": "1c8a2616c25db91554d94e6f8c13a5f3dd7800549692c4303460bb9be647f901",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/worktree並列開発-ポート採番/evidence/html-runtime/解説スライド-wide-d658d4498222.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/worktree並列開発-ポート採番/evidence/html-runtime/解説スライド-narrow-d658d4498222.png"
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/worktree並列開発-ポート採番/evidence/html-runtime/worktree並列開発-ポート採番/1c8a2616c25d/解説スライド-wide-page-1-1c8a2616c25d.png",
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/worktree並列開発-ポート採番/evidence/html-runtime/worktree並列開発-ポート採番/1c8a2616c25d/解説スライド-narrow-page-1-1c8a2616c25d.png"
           ]
         }
       ]

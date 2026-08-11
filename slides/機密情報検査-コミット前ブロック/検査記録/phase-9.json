@@ -8,26 +8,20 @@
     {
       "id": "deck-ai-role-sequence",
       "status": "not-applicable",
-      "evidence": "単一ページで明示されたデッキ文脈はない。タイトル「機密情報を三重に検査し、公開は承認で守る」に対し、コミット時→push時→公開前の3関門を上から下へ並べ、一枚で順序を完結させているため、ページ間の役割・順序を判定する対象がない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "対象HTMLはdata-slide-pageを1つだけ持つ単一ページであり、前後ページが存在しない。ページ間の役割分担・順序は判定対象を持たない。1ページ内の上→下の読み順（ヘッダー→第一関門→遷移→第二関門→遷移→最終防衛線→結論帯→出典行）はslide-ai-flow-alignment-spacing相当の観点であり、本criterionのデッキ間順序とは別軸である。"
     },
     {
       "id": "deck-ai-strength-rhythm",
       "status": "not-applicable",
-      "evidence": "単一ページで明示されたデッキ文脈はない。第一関門を赤、再検査を中立色、最終防衛線を緑で置き、停止・再検査・承認という役割差を明確にするが、複数ページの強度配分は存在しない。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "単一ページのため、複数ページにまたがる強弱リズム（強ページの連続回避、静ページの確保等）を判定する母集団がない。ページ内では第一関門（.gate.star）が2px罫・21px見出しで主役化され、第二関門・最終防衛線は1px罫・19px見出しの同格処理、結論帯だけborder-top（2px、var(--accent)）と文字サイズ（18px）でさらに強く扱われ、出典行は11px・var(--label)で最も後景に置かれているが、これはデッキの強度配分ではなくページ内の主従表現である。"
     },
     {
       "id": "deck-ai-layout-repetition",
       "status": "not-applicable",
-      "evidence": "単一ページで明示されたデッキ文脈はない。3つの横長関門は同じ検査対象が時点ごとに強化される順序を読ませるための反復であり、別ページとの理由なき同型反復は評価対象外。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。 全CSSと全headerを除外したHEAD比較で、本文内容・本文DOM構造が不変であることを確認し、wide・narrow実描画も再実行した。"
+      "evidence": "比較対象の前後ページが存在しないため、ページ間でのレイアウト反復の有無を判定できない。ページ内の第二関門・最終防衛線は同一の.gate構造（230px幅のg-head＋1frのg-body）で反復しているが、これは時系列で連続する3関門を同一基準で示す構造上必要な反復であり、理由のない反復には当たらない。"
     }
   ],
   "findings": [],
-  "checkedAt": "2026-07-27T23:10:36.822Z",
-  "artifactSha256": "7a5cbba7d4442b180ef1e04b8cc7cd163afbc22e3773c2ccbec52229bc783f96",
-  "impactReview": {
-    "status": "pass",
-    "screenshotPath": "/tmp/ai-slide-catalog-preview.png",
-    "screenshotSha256": "1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4",
-    "evidence": "現HTMLから生成した一覧画像（SHA 1d04f5b7d76516ea01d790833fa0938bc2ff2b1929b3a2bc8f0532eb07d782b4）で49枚のヘッダー・本文境界をAI再レビューし、重なり・切れ・本文退行0件、カタログ45/45件を確認した。"
-  }
+  "checkedAt": "2026-08-11T08:46:00.000Z",
+  "artifactSha256": "8d01b308ec18a1f15986d720f414824e6f74f9d21a543dfa75f4416b36ed9156"
 }

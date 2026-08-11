@@ -2,5 +2,8 @@
   "kind": "html-review-aggregate",
   "overall": "pass",
   "blockers": [],
-  "artifactSha256": "6ec50b9f25658cc9590effa110bcb3c1fc5e65ea9c8ce3c2838d5575ad09b6bb"
+  "advisories": [
+    "ai required criterion html-ai-content-preservation is suggestion"
+  ],
+  "artifactSha256": "f7ab4de021f6ab18756b7c7c5bcdfff3d807cdc2c7b91a4c5aafdd8bb646866e"
 }

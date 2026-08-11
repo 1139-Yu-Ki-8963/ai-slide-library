@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/開発プロセス-成果物化/解説スライド.html",
-      "artifactSha256": "df62346a3f386bc15bb04e0e75d6b212ae9d2282c38e134bc8d6883c1118e9c2",
+      "file": "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/開発プロセス-成果物化/解説スライド.html",
+      "artifactSha256": "8820e0ef974322d1cec554348340fec6d4c24a5cc0ae101fd766e504dcef0c5c",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/Users/MacPro/Projects/ai-slide-library/slides/開発プロセス-成果物化/evidence/html-runtime/解説スライド-wide-df62346a3f38.png",
-            "/Users/MacPro/Projects/ai-slide-library/slides/開発プロセス-成果物化/evidence/html-runtime/解説スライド-narrow-df62346a3f38.png"
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/開発プロセス-成果物化/evidence/html-runtime/開発プロセス-成果物化/8820e0ef9743/解説スライド-wide-page-1-8820e0ef9743.png",
+            "/Users/MacPro/Projects/worktrees/ai-slide-library/feature/slide-new-design-replacement/slides/開発プロセス-成果物化/evidence/html-runtime/開発プロセス-成果物化/8820e0ef9743/解説スライド-narrow-page-1-8820e0ef9743.png"
           ]
         }
       ]
