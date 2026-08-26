@@ -4,3 +4,4 @@ node_modules/
 .claude/settings.local.json
 .port-slot
 .flow-progress.json
+slides/*/evidence/

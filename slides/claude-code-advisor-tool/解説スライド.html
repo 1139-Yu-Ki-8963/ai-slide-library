@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>advisor tool — 相談が上がる3地点と、委任との違い</title>
+<style>
+  /* 骨格B: 構造型。1ページ目は2レーンのエスカレーション図、2ページ目は委任手段との比較表。唯一色は各ページ1用途 */
+  .figure{ flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 34px; min-height: 0; }
+
+  /* 1ページ目 */
+  .fig{ flex: 0 0 auto; display: grid; grid-template-columns: 116px 1fr 1.4fr 1fr 1.4fr 1fr 1.4fr 1fr; grid-template-rows: auto auto auto auto; }
+  .lane{ display: flex; flex-direction: column; gap: 3px; }
+  .lane-who{ font: 700 12px/1.3 system-ui, sans-serif; letter-spacing: .1em; color: var(--ink); }
+  .lane-role{ font-size: 11px; line-height: 1.3; color: var(--muted); }
+  .lane-top{ grid-column: 1; grid-row: 1; align-self: center; padding-right: 10px; }
+  .lane-bot{ grid-column: 1; grid-row: 4; align-self: start; padding: 18px 10px 0 0; }
+  .esc{ grid-row: 1; margin: 0 8px; padding: 14px 16px; background: var(--surface-2); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; }
+  .esc-head{ font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--ink); }
+  .esc-desc{ font-size: 12px; line-height: 1.5; color: var(--muted); }
+  .conn{ grid-row: 2; width: 4px; height: 76px; background: var(--accent); justify-self: center; }
+  .axis{ grid-column: 2 / -1; grid-row: 3; height: 3px; background: var(--ink); }
+  .step{ grid-row: 4; align-self: start; padding: 16px 12px 0 0; display: flex; flex-direction: column; gap: 5px; }
+  .step-head{ font-size: 17px; font-weight: 600; line-height: 1.35; color: var(--ink); }
+  .step-desc{ font-size: 13px; line-height: 1.55; color: var(--muted); }
+  .c3{ grid-column: 3; } .c5{ grid-column: 5; } .c7{ grid-column: 7; }
+  .s2{ grid-column: 2; } .s4{ grid-column: 4; } .s6{ grid-column: 6; } .s8{ grid-column: 8; }
+
+  /* 2ページ目: 比較表 */
+  .cmp{ flex: 0 0 auto; display: grid; grid-template-columns: 152px 1.3fr 1fr 1fr; column-gap: 26px; align-items: baseline; }
+  .cmp-h{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .06em; color: var(--muted); border-top: 1px solid var(--faint); padding: 14px 0 20px; }
+  .cmp-h-star{ font-size: 16px; color: var(--ink); border-top: 3px solid var(--ink); }
+  .cmp-k{ font: 700 11px/1.6 system-ui, sans-serif; letter-spacing: .1em; color: var(--muted); border-top: 1px solid var(--faint); padding: 16px 0 20px; }
+  .cmp-v{ font-size: 14px; line-height: 1.6; color: var(--muted); border-top: 1px solid var(--faint); padding: 16px 0 20px; }
+  .cmp-v-star{ font-size: 15px; color: var(--ink); }
+  .cmp-note{ display: grid; grid-template-columns: 152px 1fr; row-gap: 8px; column-gap: 26px; border-top: 1px solid var(--faint); padding-top: 16px; }
+  .n-key{ font: 700 11px/1.5 system-ui, sans-serif; letter-spacing: .1em; color: var(--muted); }
+  .n-val{ font-size: 13px; line-height: 1.55; color: var(--muted); }
+  .n-val code{ font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+
+  .fig-note{ margin: 0; font-size: 14px; line-height: 1.65; color: var(--muted); }
+  .fig-note + .fig-note{ margin-top: 6px; }
+  .notes{ display: grid; grid-template-columns: 116px 1fr; row-gap: 8px; column-gap: 20px; border-top: 1px solid var(--faint); padding-top: 15px; }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+<div class="slide">
+
+  <section class="slide-page is-active" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">Claude Code 公式機能</span>
+      <h1 class="slide-title">advisor tool — 上位モデルを相談役として常駐させる</h1>
+      <p class="slide-subtitle">設定は /advisor opus の1行。相談時は会話全文が渡り、前提を書き直さない</p>
+    </header>
+
+    <div class="figure">
+      <div class="fig">
+        <span class="lane lane-top"><span class="lane-who">OPUS 5</span><span class="lane-role">アドバイザー</span></span>
+
+        <div class="esc c3">
+          <span class="esc-head">方針を決める前</span>
+          <span class="esc-desc">進め方の見立てを取る</span>
+        </div>
+        <div class="esc c5">
+          <span class="esc-head">失敗が続く時</span>
+          <span class="esc-desc">別の見方を得る</span>
+        </div>
+        <div class="esc c7">
+          <span class="esc-head">完了の宣言前</span>
+          <span class="esc-desc">見落としを検める</span>
+        </div>
+
+        <div class="conn c3"></div>
+        <div class="conn c5"></div>
+        <div class="conn c7"></div>
+
+        <div class="axis"></div>
+
+        <span class="lane lane-bot"><span class="lane-who">SONNET 5</span><span class="lane-role">メイン</span></span>
+
+        <div class="step s2">
+          <span class="step-head">着手</span>
+          <span class="step-desc">範囲を読む</span>
+        </div>
+        <div class="step s4">
+          <span class="step-head">実装と修正</span>
+          <span class="step-desc">検査が通るまで</span>
+        </div>
+        <div class="step s6">
+          <span class="step-head">差分の整理</span>
+          <span class="step-desc">完了条件と照合</span>
+        </div>
+        <div class="step s8">
+          <span class="step-head">完了</span>
+          <span class="step-desc">検証を経て提示</span>
+        </div>
+      </div>
+
+      <p class="fig-note">上の3つは相談が入りやすい場面の例で、規則で定まった発火条件ではない。時機はモデルが決める。</p>
+      <p class="fig-note">設定で回数を増やすことも抑えることもできない。「advisor に批判的なレビューを受けてから提示して」のように、指示文で頻度や場面を調整する。</p>
+
+      <div class="notes">
+        <span class="n-key">設定</span>
+        <span class="n-val"><code>/advisor opus</code>　解除は <code>/advisor off</code></span>
+        <span class="n-key">選べる階層</span>
+        <span class="n-val">相談先はメインと同等以上に限る。メインが <code>claude-sonnet-5</code> なら Fable・Opus 5・Sonnet 5 が選べる</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide-page" data-slide-page="2">
+    <header class="slide-header">
+      <span class="kicker">Claude Code 公式機能</span>
+      <h1 class="slide-title">advisor tool の違い — 文脈を渡し直さずに上位へ聞ける</h1>
+      <p class="slide-subtitle">サブエージェントは新しい文脈から始まり、別の会話では前提を人が書いて渡す</p>
+    </header>
+
+    <div class="figure">
+      <div class="cmp">
+        <span class="cmp-h"></span>
+        <span class="cmp-h cmp-h-star">advisor tool</span>
+        <span class="cmp-h">サブエージェント</span>
+        <span class="cmp-h">別の会話へ相談</span>
+
+        <span class="cmp-k">相手に渡る文脈</span>
+        <span class="cmp-v cmp-v-star">会話全文。ツールの呼び出しと結果も含む</span>
+        <span class="cmp-v">隔離された新しい文脈。親の会話は見えない</span>
+        <span class="cmp-v">人が説明し直した分だけ</span>
+
+        <span class="cmp-k">相手ができること</span>
+        <span class="cmp-v cmp-v-star">答えるだけ。ファイルには触らない</span>
+        <span class="cmp-v">与えたツールの範囲で作業する</span>
+        <span class="cmp-v">その会話の権限で作業する</span>
+
+        <span class="cmp-k">モデルの階層</span>
+        <span class="cmp-v cmp-v-star">メインと同等以上に限る。下位は拒否される</span>
+        <span class="cmp-v">任意。下位モデルへも渡せる</span>
+        <span class="cmp-v">任意</span>
+      </div>
+
+      <div class="cmp-note">
+        <span class="n-key">共通する点</span>
+        <span class="n-val">どちらもモデルの判断で起動する。サブエージェントも <code>description</code> と文脈に基づいて自動で委任される</span>
+        <span class="n-key">消費トークン</span>
+        <span class="n-val">相談のたびに会話全文を読み直すため、その分のトークンを別途使う</span>
+        <span class="n-key">定額プラン</span>
+        <span class="n-val">追加の請求はない。使ったトークンがプランの利用上限を消費する</span>
+        <span class="n-key">API 課金</span>
+        <span class="n-val">使ったトークンが上位モデルの料率で計上される</span>
+        <span class="n-key">呼ばれる頻度</span>
+        <span class="n-val">毎ターンではなく、判断の要所だけで呼ばれる</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+</div>
+</body>
+</html>
