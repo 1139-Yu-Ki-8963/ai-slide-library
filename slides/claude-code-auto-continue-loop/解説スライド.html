@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Auto-continue と /loop — 止まらない運用の作り方</title>
+<style>
+  /* 骨格B: 構造型。1ページ目は時間軸図、2ページ目は縦の循環図。唯一色は各ページ1用途（事象の縦罫／戻るレール） */
+  .figure{ flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 34px; min-height: 0; }
+
+  /* 1ページ目: 時間軸図 */
+  .tl{ flex: 0 0 auto; display: grid; grid-template-columns: 104px repeat(3, 1fr); grid-template-rows: auto auto auto; }
+  .tl-lane{ grid-column: 1; grid-row: 2; align-self: center; font: 700 12px/1.3 system-ui, sans-serif; letter-spacing: .1em; color: var(--ink); }
+  .ev{ grid-row: 1; height: 92px; padding: 0 0 16px 14px; border-left: 4px solid var(--accent); display: flex; flex-direction: column; gap: 6px; justify-content: flex-end; }
+  .ev-when{ font: 700 11px/1 system-ui, sans-serif; letter-spacing: .14em; color: var(--muted); }
+  .ev-name{ font-size: 19px; font-weight: 600; line-height: 1.35; color: var(--ink); }
+  .seg{ grid-row: 2; }
+  .seg-run{ height: 3px; background: var(--ink); }
+  .seg-wait{ height: 3px; border-top: 3px dashed var(--label); }
+  .zone{ grid-row: 3; align-self: start; padding: 18px 18px 0 14px; display: flex; flex-direction: column; gap: 7px; }
+  .zone-name{ font-size: 15px; font-weight: 600; line-height: 1.35; color: var(--muted); }
+  .zone-desc{ font-size: 13px; line-height: 1.55; color: var(--muted); }
+  .zone-star .zone-name{ font-size: 21px; color: var(--ink); }
+  .zone-star .zone-desc{ font-size: 14px; color: var(--ink); }
+  .z2{ grid-column: 2; } .z3{ grid-column: 3; } .z4{ grid-column: 4; }
+
+  /* 2ページ目: 縦の循環図 */
+  .cycle-wrap{ flex: 0 0 auto; display: flex; align-items: center; gap: 48px; }
+  .loopmd{ flex: 0 0 340px; align-self: center; background: var(--surface-2); padding: 24px 26px; display: flex; flex-direction: column; gap: 9px; }
+  .lm-file{ font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .lm-line{ margin: 0; font-size: 16px; line-height: 1.65; color: var(--ink); }
+  .cyc{ flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 9px; }
+  .rail-note{ font: 700 11px/1.4 system-ui, sans-serif; letter-spacing: .1em; color: var(--muted); padding-left: 2px; }
+  .rail-box{ border-left: 4px solid var(--accent); padding-left: 26px; display: flex; flex-direction: column; gap: 14px; }
+  .cy{ display: flex; align-items: baseline; gap: 16px; border-top: 1px solid var(--faint); padding-top: 11px; }
+  .cy-head{ flex: 0 0 128px; font-size: 17px; font-weight: 600; line-height: 1.35; color: var(--ink); }
+  .cy-desc{ font-size: 13px; line-height: 1.5; color: var(--muted); }
+  .rail-stop{ font-size: 13px; line-height: 1.5; color: var(--muted); padding-left: 30px; }
+
+  .notes{ display: grid; grid-template-columns: 110px 1fr; row-gap: 8px; column-gap: 20px; border-top: 1px solid var(--faint); padding-top: 15px; }
+  .n-key{ font: 700 11px/1.5 system-ui, sans-serif; letter-spacing: .1em; color: var(--muted); }
+  .n-val{ font-size: 13px; line-height: 1.55; color: var(--muted); }
+  .n-val code{ font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+<div class="slide">
+
+  <section class="slide-page is-active" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">Claude Code 公式機能</span>
+      <h1 class="slide-title">Auto-continue — 解除後に中断ターンを自分で再試行する</h1>
+      <p class="slide-subtitle">切り替えは /config の Continue automatically at usage limit。off で止まる</p>
+    </header>
+
+    <div class="figure">
+      <div class="tl">
+        <span class="tl-lane">セッション</span>
+
+        <div class="ev z3">
+          <span class="ev-when">この時刻に到達</span>
+          <span class="ev-name">リミット</span>
+        </div>
+        <div class="ev z4">
+          <span class="ev-when">この時刻に解除</span>
+          <span class="ev-name">再開</span>
+        </div>
+
+        <div class="seg seg-run z2"></div>
+        <div class="seg seg-wait z3"></div>
+        <div class="seg seg-run z4"></div>
+
+        <div class="zone z2">
+          <span class="zone-name">実行中</span>
+          <span class="zone-desc">通常どおり進む</span>
+        </div>
+        <div class="zone z3">
+          <span class="zone-name">待機</span>
+          <span class="zone-desc">新規リクエストが block される</span>
+        </div>
+        <div class="zone zone-star z4">
+          <span class="zone-name">再開後</span>
+          <span class="zone-desc">中断したターンを自動で再試行する</span>
+          <span class="zone-desc">人が打ち直さない</span>
+        </div>
+      </div>
+
+      <div class="notes">
+        <span class="n-key">設定</span>
+        <span class="n-val"><code>/config</code> の「Continue automatically at usage limit」。デスクトップ版は制限画面の「Auto-continue when limits reset」</span>
+        <span class="n-key">発火の条件</span>
+        <span class="n-val">Claude Code が起動して待機している間だけ発火する。ターミナルを閉じると止まる</span>
+        <span class="n-key">続ける手段</span>
+        <span class="n-val">セッションをバックグラウンド化すれば、ターミナルなしで動き続ける</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide-page" data-slide-page="2">
+    <header class="slide-header">
+      <span class="kicker">Claude Code 公式機能</span>
+      <h1 class="slide-title">/loop — loop.md に書いた手順を、尽きるまで回す</h1>
+      <p class="slide-subtitle">間隔とプロンプトはどちらも省ける。省くと .claude/loop.md を反復ごとに読む</p>
+    </header>
+
+    <div class="figure">
+      <div class="cycle-wrap">
+        <div class="loopmd">
+          <span class="lm-file">.claude/loop.md</span>
+          <p class="lm-line">TASK.md の未完了タスクを上から1件だけ処理する。</p>
+          <p class="lm-line">完了したらそのタスクの行を TASK.md から消す。</p>
+          <p class="lm-line">未完了タスクが残っていなければ、ループを止める。</p>
+        </div>
+
+        <div class="cyc">
+          <span class="rail-note">↑　残りがあれば、次の反復で先頭へ戻る</span>
+          <div class="rail-box">
+            <div class="cy">
+              <span class="cy-head">読む</span>
+              <span class="cy-desc">loop.md の指示を読む</span>
+            </div>
+            <div class="cy">
+              <span class="cy-head">1件処理</span>
+              <span class="cy-desc">先頭のタスクを片づける</span>
+            </div>
+            <div class="cy">
+              <span class="cy-head">行を消す</span>
+              <span class="cy-desc">済んだ行を一覧から削る</span>
+            </div>
+            <div class="cy">
+              <span class="cy-head">残りを見る</span>
+              <span class="cy-desc">未完了があるか確かめる</span>
+            </div>
+          </div>
+          <span class="rail-stop">残りが無ければ、そこで止まる</span>
+        </div>
+      </div>
+
+      <div class="notes">
+        <span class="n-key">呼び方</span>
+        <span class="n-val"><code>/loop 5m &lt;指示&gt;</code> は固定間隔。<code>/loop &lt;指示&gt;</code> は間隔をモデルが1分から1時間で選ぶ。<code>/loop</code> だけなら loop.md を読む</span>
+        <span class="n-key">止め方</span>
+        <span class="n-val">次の反復を待っている間に <code>Esc</code>。間隔の指定によらず7日で失効する</span>
+        <span class="n-key">一覧の名前</span>
+        <span class="n-val">参照する側と合っていれば何でもよい。TASK.md という名前に公式の定めはない</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+</div>
+</body>
+</html>

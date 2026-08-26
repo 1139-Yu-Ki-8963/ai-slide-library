@@ -36,7 +36,7 @@
   .check-desc{ margin: 0; font-size: 15px; line-height: 1.65; color: var(--muted); }
   .ex-list{ display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
   .ex-list span{ font-size: 13px; line-height: 1.5; color: var(--muted); }
-  .arrow{ width: 56px; display: flex; align-items: center; justify-content: center; color: var(--line); font-size: 18px; flex-shrink: 0; }
+  .arrow{ width: 56px; display: flex; align-items: center; justify-content: center; color: var(--label); font-size: 18px; flex-shrink: 0; }
   /* ページ3: 可変レビューの解決マップ（対象のシグナル → 適用規約） */
   .map{ flex: 1; display: flex; flex-direction: column; padding-top: 12px; min-height: 0; }
   .grp{ flex: 1; display: flex; gap: 48px; border-top: 1px solid var(--faint); padding: 20px 0; }
@@ -46,7 +46,7 @@
   .grp-desc{ margin: 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
   .grp-map{ flex: 1; display: grid; grid-template-columns: 1fr 48px 1fr; row-gap: 10px; align-content: center; }
   .sig{ font-size: 15px; line-height: 1.5; color: var(--muted); text-align: right; }
-  .arr{ text-align: center; color: var(--line); font-size: 15px; line-height: 1.5; }
+  .arr{ text-align: center; color: var(--label); font-size: 15px; line-height: 1.5; }
   .rule{ font-size: 16px; line-height: 1.5; font-weight: 600; color: var(--ink); }
   /* ページ4: 4専門家（宣言権で濃淡） */
   .grid2{ flex: 1; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; padding-top: 12px; }
@@ -93,14 +93,14 @@
     </div>
     <div class="main">
       <div class="row">
-        <span class="row-num" style="color: var(--line)">01</span>
+        <span class="row-num" style="color: var(--label)">01</span>
         <div class="row-body">
           <span class="row-name">機械的チェック</span>
           <span class="row-desc">置き換え辞書・textlint・略称照合。全対象で共通に流す</span>
         </div>
       </div>
       <div class="row">
-        <span class="row-num" style="color: var(--label)">02</span>
+        <span class="row-num" style="color: var(--muted)">02</span>
         <div class="row-body">
           <span class="row-name">可変レビュー</span>
           <span class="row-desc">領域と変更パスから適用規約を解決。対象ごとに中身が変わる</span>
