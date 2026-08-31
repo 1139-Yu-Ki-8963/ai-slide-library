@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>提示前レビューと自己改善の循環</title>
+<style>
+  /* 骨格: 構造型（全幅帯の縦積み4段）。slide-design-system.md 参照 */
+  .rl-stack{ flex: 1; display: flex; flex-direction: column; min-height: 0; padding-top: 10px; gap: 8px; }
+  .rl-band{ flex: 1; display: flex; flex-direction: column; min-height: 0; gap: 6px; border-top: 1px solid var(--faint); padding-top: 10px; }
+  .rl-band-1, .rl-band-4{ flex: 1.5; }
+  .rl-band-strong{ border-top: 2px solid var(--ink); padding-top: 9px; }
+  .rl-band-head{ display: flex; align-items: baseline; gap: 12px; }
+  .rl-num{ font-family: var(--serif); font-weight: 600; font-size: 30px; line-height: 1; color: var(--label); flex-shrink: 0; }
+  .rl-band-2 .rl-num, .rl-band-3 .rl-num{ color: var(--muted); }
+  .rl-band-strong .rl-num{ color: var(--ink); font-weight: 700; }
+  .rl-title{ margin: 0; font-size: 18px; font-weight: 600; line-height: 1.35; color: var(--ink); }
+  .rl-band-strong .rl-title{ font-size: 19px; }
+  .rl-desc{ margin: 0; font-size: 13px; line-height: 1.55; color: var(--muted); }
+  .rl-band-strong .rl-desc{ color: var(--ink); }
+
+  /* 帯1: 対象→観点表→判定役の対応表 */
+  .rl-table{ flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 5px; min-height: 0; }
+  .rl-trow{ display: grid; grid-template-columns: 190px 22px 250px 1fr; align-items: baseline; gap: 4px; font-size: 13px; line-height: 1.4; }
+  .rl-c-a{ color: var(--ink); font-weight: 600; }
+  .rl-arrow{ color: var(--label); text-align: center; }
+  .rl-c-b{ color: var(--muted); }
+  .rl-c-c{ color: var(--ink); }
+  .rl-c-c b{ font-weight: 600; }
+
+  /* 帯2・帯3: 3項目の並列列挙（矢印なし = 順序関係ではない） */
+  .rl-trio{ flex: 1; display: flex; align-items: stretch; min-height: 0; }
+  .rl-trio-item{ flex: 1; padding: 2px 18px; display: flex; align-items: center; }
+  .rl-trio-item + .rl-trio-item{ border-left: 1px solid var(--faint); }
+  .rl-trio-item:first-child{ padding-left: 0; }
+  .rl-trio-name{ font-size: 14px; line-height: 1.45; color: var(--ink); font-weight: 600; }
+
+  /* 帯3: タイミング+検査内容の3項目 */
+  .rl-checks{ flex: 1; display: flex; align-items: stretch; min-height: 0; }
+  .rl-check{ flex: 1; display: flex; flex-direction: column; gap: 3px; padding: 2px 18px; justify-content: center; }
+  .rl-check + .rl-check{ border-left: 1px solid var(--faint); }
+  .rl-check:first-child{ padding-left: 0; }
+  .rl-check-when{ font-size: 11px; font-weight: 700; letter-spacing: .06em; color: var(--label); }
+  .rl-check-what{ font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+
+  /* 帯4: 入口2件 + 循環5段 */
+  .rl-body-4{ flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 10px; min-height: 0; }
+  .rl-entries{ display: flex; gap: 28px; }
+  .rl-entry{ display: flex; align-items: baseline; gap: 8px; }
+  .rl-entry-label{ font-size: 11px; font-weight: 700; letter-spacing: .06em; color: var(--label); flex-shrink: 0; }
+  .rl-entry-text{ font-size: 14px; font-weight: 600; color: var(--ink); }
+  .rl-cycle{ display: flex; align-items: stretch; gap: 0; border-top: 1px solid var(--faint); padding-top: 8px; }
+  .rl-step{ flex: 1; display: flex; align-items: center; font-size: 12.5px; line-height: 1.4; color: var(--ink); font-weight: 600; text-align: left; padding-right: 6px; }
+  .rl-cycle-arrow{ flex: 0 0 20px; display: flex; align-items: center; justify-content: center; color: var(--label); font-size: 15px; }
+
+  .conclusion{ display: flex; align-items: flex-start; gap: 18px; border-top: 2px solid var(--accent); padding-top: 12px; margin-top: 10px; }
+  .c-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--accent); flex-shrink: 0; }
+  .c-text{ font-size: 16px; font-weight: 600; line-height: 1.55; color: var(--ink); }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+<div class="slide">
+
+  <section class="slide-page is-active" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">AIエージェント品質管理</span>
+      <h1 class="slide-title">提示前レビューと自己改善の<wbr>循環</h1>
+      <p class="slide-subtitle">成果物の<wbr>分類が<wbr>通す観点表を<wbr>決め、<wbr>指摘は<wbr>受けた直後に<wbr>観点表へ<wbr>還元される</p>
+    </header>
+
+    <div class="rl-stack">
+
+      <section class="rl-band rl-band-1">
+        <div class="rl-band-head">
+          <span class="rl-num">1</span>
+          <h2 class="rl-title">どの表を<wbr>通すか</h2>
+        </div>
+        <p class="rl-desc">観点表はレビュー観点を列挙した規約文書、判定役はレビュー専任のAIエージェント。対象物の分類が両者を機械的に決め、「+」は両方の表を通すことを表す。</p>
+        <div class="rl-table">
+          <div class="rl-trow">
+            <span class="rl-c-a">先方へ<wbr>出す資料</span>
+            <span class="rl-arrow">→</span>
+            <span class="rl-c-b">business-content + document</span>
+            <span class="rl-c-c">判定役: <b>business-content-reviewer</b></span>
+          </div>
+          <div class="rl-trow">
+            <span class="rl-c-a">納品物や<wbr>内部の<wbr>設計書</span>
+            <span class="rl-arrow">→</span>
+            <span class="rl-c-b">document（+ プロジェクト固有）</span>
+            <span class="rl-c-c">判定役: <b>document-reviewer</b></span>
+          </div>
+          <div class="rl-trow">
+            <span class="rl-c-a">コード差分</span>
+            <span class="rl-arrow">→</span>
+            <span class="rl-c-b">code</span>
+            <span class="rl-c-c">判定役: <b>code-reviewer</b></span>
+          </div>
+          <div class="rl-trow">
+            <span class="rl-c-a">委任先から<wbr>の報告</span>
+            <span class="rl-arrow">→</span>
+            <span class="rl-c-b">report</span>
+            <span class="rl-c-c">判定役: <b>report-reviewer</b></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="rl-band rl-band-2">
+        <div class="rl-band-head">
+          <span class="rl-num">2</span>
+          <h2 class="rl-title">いつ通すか<wbr>（3つの<wbr>場面）</h2>
+        </div>
+        <div class="rl-trio">
+          <div class="rl-trio-item"><span class="rl-trio-name">判定を<wbr>仰ぐ（「ご確認を<wbr>お願いします」）</span></div>
+          <div class="rl-trio-item"><span class="rl-trio-name">選択を<wbr>求める（選択肢の<wbr>提示）</span></div>
+          <div class="rl-trio-item"><span class="rl-trio-name">完成を<wbr>宣言する（「完成しました」）</span></div>
+        </div>
+        <p class="rl-desc">この3つのいずれかを行う前に、分類に応じた全ての表を通していること。</p>
+      </section>
+
+      <section class="rl-band rl-band-3">
+        <div class="rl-band-head">
+          <span class="rl-num">3</span>
+          <h2 class="rl-title">どう守らせるか<wbr>（3つの<wbr>検査、<wbr>通知型で<wbr>作業は<wbr>止めない）</h2>
+        </div>
+        <div class="rl-checks">
+          <div class="rl-check">
+            <span class="rl-check-when">選択肢を<wbr>提示する<wbr>直前</span>
+            <span class="rl-check-what">このセッションで判定役が走ったかを検査し、未実行なら注意を注入</span>
+          </div>
+          <div class="rl-check">
+            <span class="rl-check-when">応答を返す直前</span>
+            <span class="rl-check-what">完成宣言や判定依頼の文言があるのに判定役が未実行なら通知</span>
+          </div>
+          <div class="rl-check">
+            <span class="rl-check-when">応答を返す直前</span>
+            <span class="rl-check-what">直前の発話が指摘なのに観点表が未更新なら通知</span>
+          </div>
+        </div>
+        <p class="rl-desc">検査は場面と1対1ではなく、機械で観測できるタイミングに置く。定型句で拾えない検知漏れは、常時読み込まれる行動規範が受け持つ。</p>
+      </section>
+
+      <section class="rl-band rl-band-4 rl-band-strong">
+        <div class="rl-band-head">
+          <span class="rl-num">4</span>
+          <h2 class="rl-title">いつ自己改善されるか<wbr>（指摘が<wbr>観点へ<wbr>還る経路）</h2>
+        </div>
+        <div class="rl-body-4">
+          <div class="rl-entries">
+            <div class="rl-entry"><span class="rl-entry-label">入口</span><span class="rl-entry-text">ユーザー判定で<wbr>否が<wbr>出たとき</span></div>
+            <div class="rl-entry"><span class="rl-entry-label">入口</span><span class="rl-entry-text">実測で<wbr>自分の<wbr>誤りを<wbr>見つけたとき</span></div>
+          </div>
+          <div class="rl-cycle">
+            <span class="rl-step">指摘</span>
+            <span class="rl-cycle-arrow">→</span>
+            <span class="rl-step">観点として言語化</span>
+            <span class="rl-cycle-arrow">→</span>
+            <span class="rl-step">観点表へ<wbr>追記（機械で<wbr>拾えるものは<wbr>検査へ）</span>
+            <span class="rl-cycle-arrow">→</span>
+            <span class="rl-step">既存成果物を<wbr>全件見直す</span>
+            <span class="rl-cycle-arrow">→</span>
+            <span class="rl-step">次の成果物へ</span>
+          </div>
+          <p class="rl-desc">還元は指摘を受けたその場で行い、先送りしない。作業手順の誤りは観点表ではなく規約の「繰り返した失敗」へ記録する。</p>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="conclusion">
+      <span class="c-label">要点</span>
+      <span class="c-text">欠けやすいのは観点ではなく「どの表を通すかの判定」と「通した証明」。還元された観点は次の成果物から検査を強くし、同じ指摘を2度受けない。</span>
+    </div>
+
+  </section>
+
+</div>
+</div>
+</body>
+</html>
