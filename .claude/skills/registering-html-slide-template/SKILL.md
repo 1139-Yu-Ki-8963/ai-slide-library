@@ -81,11 +81,13 @@ allowed-tools: [Bash, Read, Write, Edit, Agent, AskUserQuestion]
 
 完了条件: 蓄積簿・型検証・一覧データが新型を認識し、生成検査が成功している。
 
-1. 蓄積簿に型名、説明対象、提示課題、タグ、登録日を追加する。
+1. 蓄積簿に型名、説明対象、提示課題、タグ、登録日を追加し、見本となる行の「型の見本」列に型名を記入する（各型につき見本は 1 枚のみ）。
 2. カタログ生成スクリプトの許可型一覧へ新型を追加する。
-3. `node scripts/build-catalog.mjs` を実行する。
-4. 生成された一覧に新型、HTMLリンク、サムネイルリンクがあることを確認する。
-5. スライドをコミットした後に、カタログをもう一度生成する。`updated` は実際のスライドコミット日を使うため、先に生成すると更新順が古いままになる。
+3. `docs/スライド型台帳.md` の「型一覧」へ、型名・構造の要約・向く内容・見本スライドキーの行を追加する。
+4. `slides/<見本スライドキー>/型再現プロンプト.md` を作成する。既存 7 型のプロンプトを雛形とし、任意の AI チャットへ貼るだけで同じ型を再現できる自己完結の内容にする（デザイン規約の要点・型の骨格・入力項目を含める）。
+5. `node scripts/build-catalog.mjs` と `node scripts/build-templates.mjs` を実行する。
+6. 生成された一覧に新型・HTMLリンク・サムネイルリンクがあること、templates.html に新型のカードと型パック（zip）が生成されていることを確認する。
+7. スライドをコミットした後に、カタログと型ギャラリーをもう一度生成する。`updated` は実際のスライドコミット日を使うため、先に生成すると更新順が古いままになる。
 
 ### Phase 6: レビューと実機検証
 
@@ -117,6 +119,7 @@ allowed-tools: [Bash, Read, Write, Edit, Agent, AskUserQuestion]
 |---|---|
 | HTML生成 | `generating-explanation-html-slides` |
 | カタログ生成 | `node scripts/build-catalog.mjs` |
+| 型ギャラリー生成・型パック zip 生成 | `node scripts/build-templates.mjs` |
 | 品質レビュー | `managing-review-sets` |
 | ブラウザ検証 | Playwright MCP優先。利用できない場合は利用可能なPlaywright実装 |
 | 検証画像の保存 | `~/agent-home/tools/MCP/playwright/` |
@@ -147,7 +150,7 @@ HTMLとサムネイルがローカルで存在しても、カタログ生成前�
 | Phase 2 | 全件比較と共通シェル契約が記録されている |
 | Phase 3 | 共通シェル準拠のHTMLとサムネイルがある |
 | Phase 4 | 共通スキルの型診断・ヒアリング・構造・レビューが新型を認識する |
-| Phase 5 | 蓄積簿・検証スクリプト・一覧が新型を認識する |
+| Phase 5 | 蓄積簿・型台帳・検証スクリプト・一覧・型ギャラリー（templates.html と型パック zip）が新型を認識する |
 | Phase 6 | 固定レビューとデスクトップ／モバイル検証が合格する |
 | Phase 7 | push後の公開一覧・HTML・サムネイルが一致する |
 | **Goal** | 新型が再利用可能な型として登録され、公開URLで内容を確認できる |
