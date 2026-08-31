@@ -1,0 +1,39 @@
+{
+  "artifact": "slides/ポータル運用-データ更新分担/解説スライド.html",
+  "artifactSha256": "29bca10f62b5c57b625c6cd7df06bf770f804ab817b983dfc7f5fe2ec7546044",
+  "status": "pass",
+  "summary": "5工程の更新フローと人/AIの役割分担、4つの規約、集約結論を1枚に収めたスライド。原本3点（03_運用設計.md、consult-portal-update/SKILL.md、page-conventions/rule.md）と突合し、矛盾・捏造は検出されなかった。副題が明示する範囲（5工程・4規約）内での要約であり、範囲外項目の不記載は改変ではない。新規作成物のため旧版比較は対象外。",
+  "strengths": [
+    "step-h（人が担う01・05）とstep（AIが担う02〜04）で罫線の太さ・文字の濃淡を意図的に変え、凡例『濃い枠＝人の判断　薄い面＝AIの実行』と一致させている。",
+    "規約4点の文言が原本（SKILL.md確定ルール1〜4）と意味レベルで正確に対応しており、要約による意味の変質がない。",
+    "アクセントカラーは集約行の1箇所に限定し、他は無彩色で構成している。"
+  ],
+  "findings": [
+    {
+      "criterionId": "html-ai-color-accessibility",
+      "severity": "low",
+      "decision": "suggestion",
+      "target": ".s-desc（13px）・.r-desc（12.5px）のvar(--muted)文字色",
+      "evidence": "共有CSS変数--mutedの実値が本ファイル内で定義されておらず（共有シェルCSS側で定義）、正確なコントラスト比を本レビューでは算出できていない。スクリーンショット上は目視で可読。",
+      "impact": "本文相当の閾値を下回っている場合、可読性に影響する可能性がある。",
+      "fix": "実描画環境で--mutedのcomputed colorを取得し、背景との比を計算する。",
+      "verification": "取得した色値でコントラスト比を計算し4.5以上であることを確認する。"
+    }
+  ],
+  "checks": [
+    {"criterionId":"html-ai-purpose-hierarchy","decision":"pass","target":"タイトル/工程番号/集約行の文字サイズ・太さ・配置","evidence":"タイトル最大、工程番号(01〜05)大きめのセリフ数字、s-desc(13px)は補助、集約行は太字で締める、という優先順位が面積・太さ・配置に反映されている。","impact":"該当なし","fix":"不要","verification":"スクリーンショット上で情報の主従が視覚的に読み取れることを確認済み"},
+    {"criterionId":"html-ai-non-template","decision":"pass","target":"5工程のカード・規約4項目のレイアウト","evidence":"5要素は均等な同一デザインではなく、人担当(01・05)とAI担当(02-04)で罫線太さ・文字濃淡を意図的に変えている。アイコンの機械的多用、単語置換アイコン、白角丸カード＋影の量産、項目ごとの色分けは見られない。","impact":"該当なし","fix":"不要","verification":"HTML/CSSとスクリーンショットで反復パターンの不在を確認済み"},
+    {"criterionId":"html-ai-content-preservation","decision":"pass","target":"5工程の説明・規約4点・集約文","evidence":"原本3点と突合した結果、記載内容に矛盾・捏造・数値/固有名詞の改変は見つからなかった。工程02はSKILL.md Phase2の分類対象6種のうち会議・資料・決定・課題の4種を代表例として挙げ人物・アクセスは省略、工程03/04は03_運用設計.mdの4系統検証を正確に反映しつつ表示確認(Step4-2)は省略、工程05は判断・仮説(type=j)を挙げリスク(type=r)・論点(type=q)は省略、規約4点はSKILL.md確定ルール1〜4と正確に対応し確定ルール5(迷ったら止まる)は含めていない。これらはいずれも副題が自ら宣言する範囲(5工程・4つの規約)内での代表化であり、対応する記載自体に誤り・矛盾はない。","impact":"該当なし（範囲外項目は意図的な要約であり欠落ではない）","fix":"不要","verification":"原本3ファイルの該当箇所とスライド記載を逐次突合し矛盾がないことを確認済み"},
+    {"criterionId":"html-ai-information-density","decision":"pass","target":"フロー図＋凡例＋規約4項目＋集約文の同居","evidence":"複数の情報構造（工程フロー・規約一覧・結論）が同居するが、規約は工程02（仕分けと反映）を補強し、集約文が全体を1文へ収斂させており相互参照の根拠がある。文字サイズは11〜19px程度で1280×720固定枠内に収まり、極端な圧縮は見られない。","impact":"該当なし","fix":"不要","verification":"スクリーンショットで文字の詰め込み・はみ出しがないことを確認済み"},
+    {"criterionId":"html-ai-improvement-over-source","decision":"not-applicable","target":"該当なし","evidence":"本スライドは新規作成物であり、比較対象となる旧版スライドは存在しない。","impact":"該当なし","fix":"該当なし","verification":"該当なし"},
+    {"criterionId":"html-ai-shapes","decision":"pass","target":".step / .step-h / .rule-item のボーダー・背景","evidence":"塗り・太枠線・影・立体・グラデーションの同時使用はなく、罫線は細いborder-topのみ。本文を枠で囲んでおらず、罫線・余白・番号で区切りを表現している。","impact":"該当なし","fix":"不要","verification":"CSS定義（box-shadow/border-radius未使用）とスクリーンショットで確認済み"},
+    {"criterionId":"html-ai-connectors","decision":"pass","target":".arrow（→）・05→01の循環注記","evidence":"矢印は細いテキスト矢印のみで、極端なブロック矢印や太い曲線は使用していない。循環（05→01）は図形でなくテキスト注記で示しており、装飾目的の矢印を追加していない。","impact":"該当なし","fix":"不要","verification":"スクリーンショットで矢印の形状と用途を確認済み"},
+    {"criterionId":"html-ai-typography","decision":"pass","target":"見出し・工程名・s-desc・s-who・凡例","evidence":"見出し(h1)・工程名(17〜19px 太字)・説明文(13px 標準)・役割ラベル(11px 太字・letter-spacing)でサイズと太さの階層があり、影付き文字や過大なタイトルは見られない。日本語の折り返しはwbrで制御されている。","impact":"該当なし","fix":"不要","verification":"スクリーンショットで文字切れ・はみ出し・不自然な改行がないことを確認済み"},
+    {"criterionId":"html-ai-color-accessibility","decision":"pass","target":"アクセント色(青)の使用範囲、モノトーン基調","evidence":"アクセント色は集約行の罫線・ラベル1箇所に限定され、他は黒・グレーの無彩色。人/AIの区別は色だけでなく罫線太さ・文字濃淡・テキストラベル（人/AI）・凡例の4チャネルで示しており、赤緑のみでの差別化はない。--mutedの厳密なコントラスト比は本ファイル単体からは未算出（findings参照）。","impact":"該当なし（低リスクの確認事項はfindingsに記載）","fix":"不要（追加確認はfindings参照）","verification":"スクリーンショット目視、および将来的なcomputed color取得によるコントラスト比算出"},
+    {"criterionId":"html-ai-flow-alignment-spacing","decision":"pass","target":"header→flow→legend→rules→conclusionの縦方向配置","evidence":"読み順は上から下、各行内は左から右で一貫している。工程の境界・番号・矢印の基準線が揃っており、余白で工程間・セクション間の区切りを表現している。","impact":"該当なし","fix":"不要","verification":"スクリーンショットで整列とセクション間余白を確認済み"},
+    {"criterionId":"html-ai-graphs-numbers","decision":"not-applicable","target":"該当要素なし","evidence":"本スライドにグラフ・数値系列の可視化要素は存在しない（工程番号01〜05はラベルであり測定データではない）。","impact":"該当なし","fix":"該当なし","verification":"HTML内にグラフ要素が存在しないことをソースで確認済み"},
+    {"criterionId":"html-ai-tables","decision":"not-applicable","target":"該当要素なし","evidence":"table要素は存在せず、規約4項目もセルを持つ表形式ではなく短い名称+説明のリストとして構成されている。","impact":"該当なし","fix":"該当なし","verification":"HTMLソースでtable不使用を確認済み"}
+  ],
+  "editPlan": {},
+  "implementationPlan": []
+}
