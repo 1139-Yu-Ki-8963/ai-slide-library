@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>型ギャラリー — AI解説スライドライブラリ</title>
+<meta name="description" content="スライドの型（レイアウトの骨格）ごとに、見本 HTML と、任意の AI チャットで同じ型を再現できるプロンプトを配布します。">
+<meta property="og:title" content="型ギャラリー — AI解説スライドライブラリ">
+<meta property="og:description" content="スライドの型（レイアウトの骨格）ごとに、見本 HTML と、任意の AI チャットで同じ型を再現できるプロンプトを配布します。">
+<meta property="og:type" content="website">
+<script>
+(function () {
+  try {
+    var saved = localStorage.getItem("theme");
+    var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var theme = saved || (prefersDark ? "dark" : "light");
+    if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  } catch (e) {}
+})();
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9A%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+<style>
+  :root {
+    --page: #EDF0F4;
+    --surface: #FFFFFF;
+    --ink: #1C2B3A;
+    --ink-2: #55667A;
+    --ink-3: #5B6B7D;
+    --border: #D9E0E8;
+    --accent: #D97757;
+    --accent-deep: #BC5B3B;
+    --accent-soft: #FBF0EA;
+    --tag-bg: #EDF1F6;
+  }
+  :root[data-theme="dark"] {
+    --page: #151B23;
+    --surface: #1E2733;
+    --ink: #E6ECF2;
+    --ink-2: #A8B4C0;
+    --ink-3: #8C9AA8;
+    --border: #303C4A;
+    --accent: #E08663;
+    --accent-deep: #EDA184;
+    --accent-soft: #33261F;
+    --tag-bg: #2A3441;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal; font-style: normal;
+    font-size: 18px; line-height: 1; letter-spacing: normal;
+    text-transform: none; display: inline-block; white-space: nowrap;
+    direction: ltr; -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased; vertical-align: -4px;
+  }
+  .card-actions .material-symbols-outlined { font-size: 18px; margin-right: 4px; }
+  .copy-btn .material-symbols-outlined { font-size: 16px; vertical-align: -3px; margin-right: 3px; }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, system-ui, sans-serif;
+    line-height: 1.6;
+  }
+  .site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 32px 20px;
+  }
+  .site-header .inner, main, .site-footer .inner {
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+  .brand-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .site-title { font-size: 24px; font-weight: 700; letter-spacing: 0.02em; }
+  .site-title .accent-bar {
+    display: inline-block; width: 10px; height: 22px;
+    background: var(--accent); border-radius: 3px;
+    margin-right: 10px; vertical-align: -2px;
+  }
+  .back-link { color: var(--ink-2); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+  .back-link:hover { color: var(--accent-deep); }
+  .site-subtitle { color: var(--ink-2); font-size: 13px; }
+  .theme-toggle {
+    width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border);
+    background: var(--surface); color: var(--ink-2); display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; flex-shrink: 0; margin-left: auto; font-family: inherit;
+  }
+  .theme-toggle .material-symbols-outlined { font-size: 22px; vertical-align: 0; }
+  main { padding: 28px 32px 48px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 24px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: box-shadow 0.18s, transform 0.18s;
+  }
+  .card:hover { box-shadow: 0 8px 24px rgba(28, 43, 58, 0.12); transform: translateY(-2px); }
+  .thumb {
+    position: relative; width: 100%; aspect-ratio: 16 / 9;
+    background: var(--page); overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .thumb-fallback { display: none; }
+  .thumb.is-fallback .thumb-fallback {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px; color: var(--ink-3); position: absolute; inset: 0;
+  }
+  .thumb.is-fallback .thumb-fallback .material-symbols-outlined { font-size: 30px; }
+  .thumb.is-fallback .thumb-fallback .fallback-label { font-size: 11.5px; }
+  .thumb.is-fallback .thumb-img { display: none; }
+  .card-body { padding: 16px 18px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .card-title { font-size: 15.5px; font-weight: 700; line-height: 1.45; }
+  .card-structure { font-size: 12.5px; color: var(--ink-2); }
+  .card-fits {
+    font-size: 12.5px; color: var(--ink-2);
+    background: var(--accent-soft); border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0; padding: 7px 10px;
+  }
+  .card-fits strong { color: var(--accent-deep); font-weight: 700; }
+  .card-sample { font-size: 11.5px; color: var(--ink-3); margin-top: auto; padding-top: 4px; }
+  .card-actions { display: flex; border-top: 1px solid var(--border); }
+  .card-actions .act {
+    flex: 1; text-align: center; padding: 10px 6px;
+    font-size: 12.5px; font-weight: 600; text-decoration: none;
+    color: var(--ink-2); background: none; border: none; cursor: pointer;
+    font-family: inherit; transition: background 0.15s, color 0.15s;
+    border-left: 1px solid var(--border);
+  }
+  .card-actions .act:first-child { border-left: 0; }
+  .card-actions .act:hover { background: var(--accent-soft); color: var(--accent-deep); }
+  .card-actions .act[aria-expanded="true"] { background: var(--accent-soft); color: var(--accent-deep); }
+  .pack-note { font-size: 11px; color: var(--ink-3); padding: 8px 16px 0; }
+  .prompt-panel { display: none; border-top: 1px solid var(--border); background: var(--page); padding: 14px 16px 16px; flex-direction: column; gap: 8px; }
+  .prompt-panel.open { display: flex; }
+  .prompt-box pre {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 12px; font-size: 11px; line-height: 1.55; white-space: pre-wrap; word-break: break-word;
+    color: var(--ink); max-height: 260px; overflow-y: auto; margin: 0;
+  }
+  .copy-btn {
+    margin-top: 8px; background: var(--accent); color: #fff; border: none;
+    border-radius: 6px; padding: 6px 14px; font-size: 12px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+  .copy-btn:hover { background: var(--accent-deep); }
+  .copy-feedback { margin-left: 8px; font-size: 12px; color: var(--accent-deep); font-weight: 600; opacity: 0; transition: opacity 0.2s; }
+  .copy-feedback.show { opacity: 1; }
+  .empty {
+    text-align: center; color: var(--ink-3); padding: 64px 0; font-size: 14px;
+    display: none;
+  }
+  .site-footer {
+    border-top: 1px solid var(--border); background: var(--surface);
+    padding: 20px 32px; font-size: 12px; color: var(--ink-3);
+  }
+  .site-footer a { color: var(--ink-2); }
+  @media (pointer: coarse) {
+    .theme-toggle, .copy-btn { min-height: 44px; }
+    .card-actions .act, .copy-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+  }
+  @media (max-width: 640px) {
+    .site-header, main, .site-footer { padding-left: 16px; padding-right: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <div class="brand-row">
+      <h1 class="site-title"><span class="accent-bar"></span>型ギャラリー</h1>
+      <p class="site-subtitle">スライドの型（レイアウトの骨格）ごとに、見本 HTML と、任意の AI チャットで同じ型を再現できるプロンプトを配布します。</p>
+      <a class="back-link" href="index.html">← カタログへ戻る</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="表示モード切替"><span class="material-symbols-outlined" id="theme-toggle-icon">dark_mode</span></button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="grid" id="template-grid"></div>
+  <div class="empty" id="empty">型がまだ登録されていません。</div>
+  <noscript><p style="padding:32px;color:var(--ink-2)">この型ギャラリーの一覧表示・プロンプト表示には JavaScript が必要です。zip は slides/ フォルダから直接開けます。</p></noscript>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    型パック（zip）の見本 HTML は 1 ファイルで完結し、ブラウザで開くだけで表示できます。
+    ／ <a href="https://github.com/1139-Yu-Ki-8963/ai-slide-library">GitHub リポジトリ</a>
+  </div>
+</footer>
+
+<script>
+/*TEMPLATE-DATA-START*/
+const TEMPLATES = [
+  {
+    "name": "段階比較型",
+    "structure": "段階・レベルをカード列で横並びにし、状態・機能・条件の行で比較する",
+    "fits": "成熟度・導入段階など、段階ごとの違いと次へ進む条件を見せたいとき",
+    "sampleKey": "AI採用成熟度-5段階比較",
+    "sampleTitle": "AI採用の5段階 — 状態と進行条件"
+  },
+  {
+    "name": "層構造型",
+    "structure": "階層・レイヤーを全幅の帯で縦に積み、各層の役割を示す",
+    "fits": "仕組みの多層構成（検査の層・防御の層など）を一望させたいとき",
+    "sampleKey": "レビューエンジン-3層構成",
+    "sampleTitle": "レビューエンジン 3層構成"
+  },
+  {
+    "name": "現状理想対比テーブル型",
+    "structure": "項目ごとに現状と理想を左右で対比するギャップ分析表",
+    "fits": "現在地と目指す姿の差分を項目別に示し、整備の全体像を見せたいとき",
+    "sampleKey": "リポジトリ整備-claude-code版-現状理想対比",
+    "sampleTitle": "Claude Code｜リポジトリ整備の現状・理想・差分"
+  },
+  {
+    "name": "役割分担型",
+    "structure": "2 者の担当を上下レーンに分け、ステップの受け渡しを L 字矢印で示す",
+    "fits": "人と AI・依頼者と実行者など、2 者の分担と遷移を説明したいとき",
+    "sampleKey": "人AI役割分担-タスク委任構造",
+    "sampleTitle": "AIに任せる — 定型レポートの委任構造"
+  },
+  {
+    "name": "工程時系列型",
+    "structure": "工程を時間軸（月・四半期）の矢印バーで配置し、重なりを見せる",
+    "fits": "導入計画・プロジェクト工程の前後関係と並行期間を示したいとき",
+    "sampleKey": "工程時系列-AI導入手順",
+    "sampleTitle": "AI導入プロジェクトの工程時系列"
+  },
+  {
+    "name": "診断要約型",
+    "structure": "総合スコア・レーダーチャート・項目別スコア表を 1 枚に集約する",
+    "fits": "複数項目の採点結果と、次に整備すべき領域を 1 枚で示したいとき",
+    "sampleKey": "現状レベル診断-診断要約型",
+    "sampleTitle": "現状レベル診断 — 診断要約型"
+  },
+  {
+    "name": "重点行分析型",
+    "structure": "区分別の時系列表で重点行を枠で強調し、下段に全体サマリーを置く",
+    "fits": "区分別の推移から重点対象を特定し、優先順位を説明したいとき",
+    "sampleKey": "ai開発課題-重点行分析型",
+    "sampleTitle": "導入段階別の達成指標表を確認する"
+  }
+];
+/*TEMPLATE-DATA-END*/
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+
+function samplePath(sampleKey, fileName) {
+  return "slides/" + encodeURIComponent(sampleKey) + "/" + encodeURIComponent(fileName);
+}
+
+function extractPromptBody(text) {
+  const lines = text.split("\n");
+  const idx = lines.findIndex(l => l.trim() === "---");
+  if (idx === -1) return text.trim();
+  return lines.slice(idx + 1).join("\n").trim();
+}
+
+function renderGrid() {
+  const grid = document.getElementById("template-grid");
+  document.getElementById("empty").style.display = TEMPLATES.length ? "none" : "block";
+  grid.innerHTML = TEMPLATES.map(t => {
+    const thumbPath = samplePath(t.sampleKey, "サムネイル.png");
+    const openPath = samplePath(t.sampleKey, "解説スライド.html");
+    const zipPath = samplePath(t.sampleKey, "型パック.zip");
+    return `
+    <article class="card">
+      <div class="thumb">
+        <img class="thumb-img" loading="lazy" src="${thumbPath}" alt="${esc(t.name)} のサムネイル" width="640" height="360" onerror="this.closest('.thumb').classList.add('is-fallback')">
+        <div class="thumb-fallback"><span class="material-symbols-outlined">image</span><span class="fallback-label">サムネイル準備中</span></div>
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">${esc(t.name)}</h2>
+        <p class="card-structure">${esc(t.structure)}</p>
+        <p class="card-fits"><strong>向く内容:</strong> ${esc(t.fits)}</p>
+        <p class="card-sample">見本: ${esc(t.sampleTitle)}</p>
+      </div>
+      <div class="card-actions">
+        <button type="button" class="act" data-toggle aria-expanded="false"><span class="material-symbols-outlined">terminal</span>プロンプトを表示</button>
+        <a class="act" href="${zipPath}" download><span class="material-symbols-outlined">download</span>型パック（zip）</a>
+        <a class="act" href="${openPath}" target="_blank" rel="noopener"><span class="material-symbols-outlined">open_in_new</span>見本を開く</a>
+      </div>
+      <p class="pack-note">型パック（zip）には見本スライド.html（単体で開ける自己完結版）と型再現プロンプト.md が入っています。</p>
+      <div class="prompt-panel" data-sample-key="${esc(t.sampleKey)}">
+        <div class="prompt-box">
+          <pre data-prompt-text>読み込み中…</pre>
+          <button type="button" class="copy-btn" data-copy><span class="material-symbols-outlined">content_copy</span>コピー</button>
+          <span class="copy-feedback">コピーしました</span>
+        </div>
+      </div>
+    </article>`;
+  }).join("");
+  bindCardEvents();
+}
+
+function bindCardEvents() {
+  document.querySelectorAll(".card-actions button.act[data-toggle]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".card");
+      const panel = card.querySelector(".prompt-panel");
+      if (!panel) return;
+      const open = panel.classList.toggle("open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) {
+        const pre = panel.querySelector("[data-prompt-text]");
+        const sampleKey = panel.dataset.sampleKey;
+        if (pre && !pre.dataset.loaded) {
+          fetch(samplePath(sampleKey, "型再現プロンプト.md"))
+            .then(res => { if (!res.ok) throw new Error("failed"); return res.text(); })
+            .then(text => {
+              pre.textContent = extractPromptBody(text);
+              pre.dataset.loaded = "true";
+            })
+            .catch(() => {
+              pre.textContent = "オフラインでは読み込めません。zip 内の 型再現プロンプト.md を開いてください";
+            });
+        }
+      }
+    });
+  });
+  document.querySelectorAll(".copy-btn[data-copy]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".card");
+      const pre = card.querySelector(".prompt-box pre");
+      if (!pre) return;
+      const text = pre.textContent;
+      const feedback = btn.parentElement.querySelector(".copy-feedback");
+      const showFeedback = () => {
+        if (!feedback) return;
+        feedback.classList.add("show");
+        setTimeout(() => feedback.classList.remove("show"), 1500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(showFeedback);
+      } else {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); } catch (e) {}
+        document.body.removeChild(ta);
+        showFeedback();
+      }
+    });
+  });
+}
+
+// --- ダークモード切替 ---
+function currentTheme() {
+  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+}
+function applyThemeIcon() {
+  document.getElementById("theme-toggle-icon").textContent = currentTheme() === "dark" ? "light_mode" : "dark_mode";
+}
+document.getElementById("theme-toggle").addEventListener("click", () => {
+  const next = currentTheme() === "dark" ? "light" : "dark";
+  if (next === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  else document.documentElement.removeAttribute("data-theme");
+  try { localStorage.setItem("theme", next); } catch (e) {}
+  applyThemeIcon();
+});
+applyThemeIcon();
+
+renderGrid();
+</script>
+</body>
+</html>
