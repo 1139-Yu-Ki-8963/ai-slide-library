@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>書くのはAI、確かめるのは人 — ポータル運用の分担</title>
+<style>
+  /* 骨格B: 構造型（slide-design-system.md 参照） */
+  .pageno{ font: 12px/1.4 system-ui, sans-serif; color: var(--label); margin-left: auto; }
+  .figure{ flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 0; gap: 14px; }
+  .flow{ display: flex; align-items: stretch; }
+  .step{ flex: 1; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--faint); background: var(--surface-2); padding: 14px 14px 0; }
+  .step-h{ flex: 1.1; border-top: 2px solid var(--ink); background: var(--surface); }
+  .step-h.first{ padding: 14px 18px 0 0; }
+  .step-h.last{ padding: 14px 0 0 18px; }
+  .s-num{ font-family: var(--serif); font-weight: 500; font-size: 28px; line-height: 1; color: var(--label); }
+  .step-h .s-num{ font-weight: 600; color: var(--ink); }
+  .s-name{ font-size: 17px; font-weight: 600; color: var(--muted); }
+  .step-h .s-name{ font-size: 19px; color: var(--ink); }
+  .s-desc{ font-size: 13px; line-height: 1.6; color: var(--muted); }
+  .s-who{ font: 600 11px/1 system-ui, sans-serif; letter-spacing: .16em; color: var(--label); margin-top: auto; padding-bottom: 12px; }
+  .step-h .s-who{ color: var(--ink); }
+  .arrow{ width: 32px; display: flex; align-items: center; justify-content: center; color: var(--label); font-size: 18px; }
+  .legend{ display: flex; align-items: baseline; gap: 14px; border-top: 1px dashed var(--line); padding-top: 8px; }
+  .legend span{ font: 12px/1.5 system-ui, sans-serif; color: var(--label); }
+  .legend .right{ margin-left: auto; }
+  .rules{ display: flex; align-items: stretch; gap: 0; }
+  .rules-label{ flex: none; width: 64px; border-top: 2px solid var(--ink); padding-top: 10px; font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--ink); }
+  .rule-item{ flex: 1; border-top: 1px solid var(--faint); padding: 10px 16px 0 0; }
+  .rule-item + .rule-item{ margin-left: 16px; }
+  .r-name{ display: block; font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .r-desc{ display: block; font-size: 12.5px; line-height: 1.6; color: var(--muted); }
+  .conclusion{ display: flex; align-items: baseline; gap: 18px; border-top: 2px solid var(--accent); padding-top: 14px; }
+  .c-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--accent); flex-shrink: 0; }
+  .c-text{ font-size: 18px; font-weight: 600; line-height: 1.5; color: var(--ink); }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+<div class="slide">
+
+  <section class="slide-page is-active" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">ポータル運用 — 更新フローと規約</span>
+      <h1 class="slide-title">書くのは<wbr>AI、確かめるのは<wbr>人 — ポータル運用の分担</h1>
+      <p class="slide-subtitle">コンサル業務管理ポータルの更新フロー5工程と、AIが守る4つの規約。手入力の画面は置かない</p>
+    </header>
+
+    <div class="figure">
+      <div class="flow">
+        <div class="step step-h first">
+          <span class="s-num">01</span>
+          <span class="s-name">素材を渡す</span>
+          <span class="s-desc">議事録・メール・資料を、<wbr>日付と<wbr>出所を<wbr>添えて渡す</span>
+          <span class="s-who">人</span>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <span class="s-num">02</span>
+          <span class="s-name">仕分けと反映</span>
+          <span class="s-desc">会議・資料・決定・課題へ<wbr>振り分け、<wbr>全件に<wbr>出典を<wbr>付けて反映</span>
+          <span class="s-who">AI</span>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <span class="s-num">03</span>
+          <span class="s-name">機械検証</span>
+          <span class="s-desc">構文・必須項目・状態値・参照整合の<wbr>4系統を検査</span>
+          <span class="s-who">AI</span>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <span class="s-num">04</span>
+          <span class="s-name">記録する</span>
+          <span class="s-desc">版管理はgitが担う。<wbr>検証に<wbr>通らない<wbr>更新は記録しない</span>
+          <span class="s-who">AI</span>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step step-h last">
+          <span class="s-num">05</span>
+          <span class="s-name">確認と判断</span>
+          <span class="s-desc">確認済・差戻しの<wbr>判断と、<wbr>判断・仮説の<wbr>記名追記</span>
+          <span class="s-who">人</span>
+        </div>
+      </div>
+      <div class="legend">
+        <span>05 → 01　次の素材が届いたら繰り返す</span>
+        <span class="right">濃い枠＝人の判断　薄い面＝AIの実行</span>
+      </div>
+      <div class="rules">
+        <span class="rules-label">規約</span>
+        <div class="rule-item">
+          <span class="r-name">出典必須</span>
+          <span class="r-desc">いつ・どこから<wbr>来たかを<wbr>持たない情報は<wbr>入れない</span>
+        </div>
+        <div class="rule-item">
+          <span class="r-name">捏造禁止</span>
+          <span class="r-desc">進捗・日付・人名を<wbr>推測で<wbr>埋めない。<wbr>曖昧な点は<wbr>人に確認</span>
+        </div>
+        <div class="rule-item">
+          <span class="r-name">事実と判断の分離</span>
+          <span class="r-desc">事実は<wbr>出典付き、<wbr>判断・仮説は<wbr>記名。<wbr>混ぜない</span>
+        </div>
+        <div class="rule-item">
+          <span class="r-name">スキーマ厳守</span>
+          <span class="r-desc">定義に<wbr>ない項目や<wbr>状態値を<wbr>作らない</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="conclusion">
+      <span class="c-label">集約</span>
+      <span class="c-text">出典のない情報はポータルに入れない。人の仕事は、素材の受け渡しと確認・判断に絞られる</span>
+      <span class="pageno">1 / 1</span>
+    </div>
+  </section>
+
+</div>
+</div>
+</body>
+</html>
