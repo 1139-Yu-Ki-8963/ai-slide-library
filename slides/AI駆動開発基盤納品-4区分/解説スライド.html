@@ -70,27 +70,23 @@
     </header>
     <div class="docs">
       <div class="guide">
-        <div class="g-head"><span>このプロジェクトは</span><span>説明</span></div>
+        <div class="g-head"><span>読み手の疑問</span><span>答え</span></div>
         <div class="g-row star">
-          <div class="g-what"><span class="nm">基盤一式を納品する</span><span class="sub">設計書・規約・用語・AI設定・開発フロー</span></div>
-          <span class="g-mid">対象リポジトリを解析し、AIと人の両方が開発に使える資産一式を生成して配る。人が書くのではなく、ツール群が決定的に生成する</span>
+          <div class="g-what"><span class="nm">AI駆動開発の基盤とは</span><span class="sub">AIが人と同じ前提で開発へ参加するための資産一式</span></div>
+          <span class="g-mid">AIが読む設計書・規約・用語、各AIツールの設定、人が確認するポータルからなる。これが無いと、AIはコードだけを手がかりに場当たりで書く。有れば、規約と設計書を読んでから書く</span>
         </div>
         <div class="g-row">
-          <div class="g-what"><span class="nm">入力は対象リポジトリだけ</span><span class="sub">既存の設計書・ドキュメントは不要</span></div>
-          <span class="g-mid">統括スキルが成果物の実在から現在の状態を判定し、調査 → 一覧化 → 設計書執筆 → 検証のうち必要な工程だけを自動で続行する</span>
+          <div class="g-what"><span class="nm">どう作られるのか</span><span class="sub">入力は対象リポジトリだけ。既存の設計書は不要</span></div>
+          <span class="g-mid">統括スキルが成果物の実在から現在の状態を判定し、調査 → 一覧化 → 設計書執筆 → 検証を自動で進める。詳しい流れは2ページ目の4区分で示す</span>
         </div>
         <div class="g-row">
-          <div class="g-what"><span class="nm">品質は機械で判定する</span><span class="sub">往復検証（主観のレビューに頼らない）</span></div>
-          <span class="g-mid">設計書だけからコードを再生成し、元のコードと照らし合わせて一致を確かめる。一致しなければ設計書に欠落がある、という考え方で完成度を証明する</span>
-        </div>
-        <div class="g-row">
-          <div class="g-what"><span class="nm">納品して終わりにしない</span><span class="sub">保守の仕組みごと配る</span></div>
-          <span class="g-mid">規約提案の取り込み、開発フロー、手編集の検出のスキルを対象リポジトリへ同梱し、納品後も定義と生成物の一致が保たれ続ける</span>
+          <div class="g-what"><span class="nm">なぜ信じられるのか</span><span class="sub">往復検証（品質の機械判定）</span></div>
+          <span class="g-mid">設計書だけからコードを再生成し、元のコードと照らし合わせて一致を確かめる。一致しなければ設計書に欠落がある、という考え方で、人の主観でなく機械が完成度を判定する</span>
         </div>
       </div>
       <aside class="treebox">
         <span class="tree-label">DELIVERED TREE</span>
-        <p class="tree-title">納品後の対象リポジトリの姿（主なフォルダ）</p>
+        <p class="tree-title">何が出てくるのか：納品後の主なフォルダ</p>
         <pre class="mono">project/
 ├── <span class="hot">docs/</span> <span class="dim">AIが読む定義の大元</span>
 │   ├── rules/ <span class="dim">分野別の規約一式</span>
@@ -118,7 +114,7 @@
     <header class="slide-header">
       <span class="kicker">AI駆動開発セットアップ｜4つの区分</span>
       <h1 class="slide-title">4つの区分：セットアップ・リバース・保守・現場運用</h1>
-      <p class="slide-subtitle">保守の主体は2つに分かれる。ツール群が担う納品物の維持と、納品先の現場が回す開発サイクルである</p>
+      <p class="slide-subtitle">どう作られるのかの詳細フロー。4つの区分と、それぞれの実行主体を示す</p>
     </header>
     <p class="thesis">セットアップから保守までの3区分は、本ツール群（納品する側のAI）が実行する。現場運用だけは、納品先の開発チームが同梱スキルで回す。</p>
     <div class="roles">
