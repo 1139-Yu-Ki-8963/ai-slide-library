@@ -40,6 +40,7 @@
   .role-nm{ margin:0; font-size:19px; font-weight:700; line-height:1.25; color:var(--ink); }
   .nm-sub{ display:block; font-size:11px; font-weight:400; color:var(--label); margin-top:1px; }
   .actor{ align-self:flex-start; font:700 10px/1 system-ui,sans-serif; letter-spacing:.06em; color:var(--label); border:1px solid var(--line); padding:3px 6px; }
+  .actor-set{ display:flex; flex-direction:column; gap:3px; align-self:flex-start; }
   .stage.focus .actor{ color:var(--accent); border-color:var(--accent); }
   .items{ margin:0; padding-left:15px; color:var(--muted); font-size:12px; line-height:1.55; }
   .items li+li{ margin-top:2px; }
@@ -72,12 +73,12 @@
       <div class="guide">
         <div class="g-head"><span>読み手の疑問</span><span>答え</span></div>
         <div class="g-row star">
-          <div class="g-what"><span class="nm">AI駆動開発の基盤とは</span><span class="sub">AIが人と同じ前提で開発へ参加するための資産一式</span></div>
+          <div class="g-what"><span class="nm">AI駆動開発の基盤とは</span><span class="sub">AIが人と同じ前提で開発するための資産一式</span></div>
           <span class="g-mid">AIが読む設計書・規約・用語と、各AIツールの設定からなる。ポータルは、その中身を人が確認するための閲覧ページとして併せて生成する</span>
         </div>
         <div class="g-row">
           <div class="g-what"><span class="nm">どう作られるのか</span><span class="sub">入力は対象リポジトリだけ。既存の設計書は不要</span></div>
-          <span class="g-mid">統括スキルが成果物の実在から現在の状態を判定し、調査 → 一覧化 → 設計書執筆 → 検証を自動で進める。詳しい流れは2ページ目の4区分で示す</span>
+          <span class="g-mid">統括スキルが成果物のそろい具合から現在の状態を判定し、調査 → 一覧化 → 設計書執筆 → 検証を自動で進める。詳しい流れは2ページ目の4区分で示す</span>
         </div>
         <div class="g-row">
           <div class="g-what"><span class="nm">なぜ信じられるのか</span><span class="sub">往復検証（品質の機械判定）</span></div>
@@ -121,20 +122,20 @@
       <article class="stage">
         <span class="level">1｜SETUP</span>
         <p class="role-nm">セットアップ</p>
-        <span class="actor">実行：本ツール群｜対象：納品先のリポジトリ</span>
+        <div class="actor-set"><span class="actor">実行：本ツール群</span><span class="actor">対象：納品先のリポジトリ</span></div>
         <ul class="items">
           <li>規約のひな形の配布</li>
           <li>AI設定（CLAUDE.md等）の生成</li>
           <li>同梱スキルの設置</li>
         </ul>
-        <p class="state">対象リポジトリに、AIが読む定義、各AIツールの設定、ポータルを立ち上げる。</p>
-        <p class="gate">成果：AIと人が同じ定義に到達できる状態</p>
+        <p class="state">対象リポジトリに、AIが読む定義と、各AIツールの設定と、ポータルを作って配置する。</p>
+        <p class="gate">成果：AIと人が同じ定義を参照できる状態</p>
       </article>
       <article class="stage focus">
         <span class="level">2｜REVERSE</span>
         <p class="role-nm">リバース</p>
-        <span class="actor">実行：本ツール群｜対象：納品先のリポジトリ</span>
-        <p class="state">既存コードから動作の事実を取り出して確定し（確定後は変更しない）、業務の言葉だけで設計書と一覧を書き起こす。作業は9つの手順（R1〜R9）で進む。</p>
+        <div class="actor-set"><span class="actor">実行：本ツール群</span><span class="actor">対象：納品先のリポジトリ</span></div>
+        <p class="state">既存コードを読み取って動作を記録し、確定する（確定後は変更しない）。その記録をもとに、業務の言葉で設計書と一覧を書く。作業は9つの手順（R1〜R9）で進む。</p>
         <div class="verify">
           <p class="v-nm">往復検証（品質の機械判定）</p>
           <p class="v-tx">設計書だけからコードを再生成し、元のコードと照らし合わせる。6観点がすべて一致した時だけ合格。</p>
@@ -145,21 +146,21 @@
       <article class="stage">
         <span class="level">3｜MAINTAIN</span>
         <p class="role-nm">保守<span class="nm-sub">納品物の維持</span></p>
-        <span class="actor">実行：本ツール群｜対象：配布する側の資産</span>
+        <div class="actor-set"><span class="actor">実行：本ツール群</span><span class="actor">対象：配布する側の資産</span></div>
         <ul class="items">
           <li>定義と生成物の食い違いの検出と作り直し</li>
           <li>定義と生成物の一致の検査</li>
           <li>機械検証の一括実行</li>
         </ul>
-        <p class="state">生成した時点の中身の指紋（ハッシュ値）を記録しておき、いまの中身と比べる。生成物への手編集を見つけたら、定義側を直して作り直す。</p>
-        <p class="gate">成果：定義と納品物がずれない状態</p>
+        <p class="state">生成した時点の中身の指紋（ハッシュ値）を記録しておき、いまの中身と比べる。生成物への手作業の書き換えを見つけたら、定義側を直して作り直す。</p>
+        <p class="gate">成果：定義と生成物が一致し続ける状態</p>
       </article>
       <article class="stage">
         <span class="level">4｜OPERATE</span>
         <p class="role-nm">現場運用<span class="nm-sub">納品先の開発サイクル</span></p>
-        <span class="actor">実行：納品先の開発チーム｜対象：納品先のリポジトリ</span>
+        <div class="actor-set"><span class="actor">実行：納品先の開発チーム</span><span class="actor">対象：納品先のリポジトリ</span></div>
         <ul class="items">
-          <li>開発フロー運転</li>
+          <li>開発フローの運用</li>
           <li>未確定事項の記録と反映</li>
           <li>規約提案の取り込みと生成物の同期</li>
           <li>用語を人が承認して確定する運用</li>
