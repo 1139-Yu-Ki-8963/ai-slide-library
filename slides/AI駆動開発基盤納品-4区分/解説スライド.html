@@ -66,14 +66,14 @@
     <header class="slide-header">
       <span class="kicker">AI駆動開発セットアップ｜全体像</span>
       <h1 class="slide-title">対象プロジェクトへ「AI駆動開発の基盤一式」を納品するツール群</h1>
-      <p class="slide-subtitle">Claude Code 上で動くスキル群。全体の手順を管理する統括スキルが、コードの調査から設計書、規約、AI設定の生成、納品後の保守までを進める</p>
+      <p class="slide-subtitle">Claude Code 上で動くスキル群。統括スキルが、調査から設計書と規約とAI設定の生成、納品後の保守までを進める</p>
     </header>
     <div class="docs">
       <div class="guide">
         <div class="g-head"><span>読み手の疑問</span><span>答え</span></div>
         <div class="g-row star">
           <div class="g-what"><span class="nm">AI駆動開発の基盤とは</span><span class="sub">AIが人と同じ前提で開発へ参加するための資産一式</span></div>
-          <span class="g-mid">AIが読む設計書・規約・用語、各AIツールの設定、人が確認するポータルからなる。これが無いと、AIはコードだけを手がかりに場当たりで書く。有れば、規約と設計書を読んでから書く</span>
+          <span class="g-mid">AIが読む設計書・規約・用語と、各AIツールの設定からなる。これが無いと、AIはコードだけを手がかりに場当たりで書く。人が確認するポータル（閲覧ページ）は付属の確認手段で、無くてもAI開発は回る</span>
         </div>
         <div class="g-row">
           <div class="g-what"><span class="nm">どう作られるのか</span><span class="sub">入力は対象リポジトリだけ。既存の設計書は不要</span></div>
@@ -114,7 +114,7 @@
     <header class="slide-header">
       <span class="kicker">AI駆動開発セットアップ｜4つの区分</span>
       <h1 class="slide-title">4つの区分：セットアップ・リバース・保守・現場運用</h1>
-      <p class="slide-subtitle">どう作られるのかの詳細フロー。4つの区分と、それぞれの実行主体を示す</p>
+      <p class="slide-subtitle">どう作られるのかの詳細。4つの区分と実行主体を示す</p>
     </header>
     <p class="thesis">セットアップから保守までの3区分は、本ツール群（納品する側のAI）が実行する。現場運用だけは、納品先の開発チームが同梱スキルで回す。</p>
     <div class="roles">
@@ -123,9 +123,9 @@
         <p class="role-nm">セットアップ</p>
         <span class="actor">実行：本ツール群（納品する側のAI）</span>
         <ul class="items">
-          <li>規約配布と派生生成</li>
-          <li>AI設定資産の生成</li>
-          <li>配布スキルの設置</li>
+          <li>規約のひな形の配布</li>
+          <li>AI設定（CLAUDE.md等）の生成</li>
+          <li>同梱スキルの設置</li>
         </ul>
         <p class="state">対象リポジトリに、AIが読む定義、各AIツールの設定、ポータルを立ち上げる。</p>
         <p class="gate">成果：AIと人が同じ定義に到達できる状態</p>
