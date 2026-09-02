@@ -1,0 +1,28 @@
+{
+  "artifact": "slides/AI駆動開発-支援ツールの要件/解説スライド.html",
+  "artifactSha256": "684118b8ef4c0255ee2d144dfc802a2fc10c75cbfa876c7cd0c8e41999c34851",
+  "status": "pass",
+  "summary": "AI駆動開発の導入を支援するツールが満たすべき要件を、業務の3段階に対応する3本柱（調査・基盤一式の作成・現場運用）で示す1ページのスライド。各柱を入力・出力・完了条件の同一構造で並べ、テンプレート流し込み感がなく内容保持・図表品質とも問題は見当たらない。",
+  "strengths": [
+    "3本柱を入力・出力・完了条件という同一項目で揃え、比較しやすい構成にしている",
+    "完了条件を機械的に確かめられる文で書き、抽象的なスローガンにしていない",
+    "架空の数値・固有名詞・写真・装飾アイコンを使わず、具体的な成果物名だけで構成している"
+  ],
+  "findings": [],
+  "checks": [
+    {"criterionId":"html-ai-purpose-hierarchy","decision":"pass","target":"ページ全体","evidence":"タイトル・副題で目的（支援ツールの要件）と構成軸（3段階に対応する3本柱）が明確に示され、3列の見出しが階層を作っている。","impact":"該当なし","fix":"該当なし","verification":"実描画1280x720で確認済み"},
+    {"criterionId":"html-ai-non-template","decision":"pass","target":"ページ全体","evidence":"3等分の均等カードではあるが、内容量に応じて各列の箇条書き件数が異なり、機械的な流し込みではなく編集された文章量になっている。","impact":"該当なし","fix":"該当なし","verification":"実描画で各列の高さ・行数の違いを確認済み"},
+    {"criterionId":"html-ai-content-preservation","decision":"pass","target":"ページ全体","evidence":"3本柱それぞれの入力・出力・完了条件は本文に明示され、省略や要約による欠落は無い。","impact":"該当なし","fix":"該当なし","verification":"HTML本文の該当箇所を確認済み"},
+    {"criterionId":"html-ai-information-density","decision":"pass","target":"ページ全体","evidence":"各柱の箇条書きは1〜3項目、完了条件は1〜2文に絞られ、実描画で文字の押し込み・重なりは見られない。","impact":"該当なし","fix":"該当なし","verification":"1280x720実描画で確認済み"},
+    {"criterionId":"html-ai-improvement-over-source","decision":"not-applicable","target":"該当なし","evidence":"本スライドは既存資料の改善ではなく新規作成であるため、原資料との比較対象が無い。","impact":"該当なし","fix":"該当なし","verification":"対象外"},
+    {"criterionId":"html-ai-shapes","decision":"pass","target":"ページ全体","evidence":"矢印・図形は使用しておらず、罫線と余白だけで区分している。過剰な立体・グラデーション装飾は無い。","impact":"該当なし","fix":"該当なし","verification":"実描画で確認済み"},
+    {"criterionId":"html-ai-connectors","decision":"not-applicable","target":"該当なし","evidence":"矢印・接続線を用いた図解要素が無いため対象外。","impact":"該当なし","fix":"該当なし","verification":"対象外"},
+    {"criterionId":"html-ai-typography","decision":"pass","target":"ページ全体","evidence":"見出し・役割名・本文でフォントサイズと太さが区分され、階層が視覚的に読み取れる。","impact":"該当なし","fix":"該当なし","verification":"実描画で確認済み"},
+    {"criterionId":"html-ai-color-accessibility","decision":"pass","target":"ページ全体","evidence":"本文は濃色、補足は中間色、上部区切り線のみアクセント色で、色だけに依存した情報伝達はない。","impact":"該当なし","fix":"該当なし","verification":"実描画で配色を確認済み"},
+    {"criterionId":"html-ai-flow-alignment-spacing","decision":"pass","target":"ページ全体","evidence":"左から右へ柱1→柱2→柱3、各列は上から下へ読む配置で、余白は列間・項目間のグリッド間隔として機能している。","impact":"該当なし","fix":"該当なし","verification":"実描画で確認済み"},
+    {"criterionId":"html-ai-graphs-numbers","decision":"not-applicable","target":"該当なし","evidence":"グラフや数値データの可視化要素が無いため対象外。","impact":"該当なし","fix":"該当なし","verification":"対象外"},
+    {"criterionId":"html-ai-tables","decision":"not-applicable","target":"該当なし","evidence":"表構造（table要素相当のグリッド）ではなく、3枚のカード状の列で構成されているため対象外。","impact":"該当なし","fix":"該当なし","verification":"対象外"}
+  ],
+  "editPlan": {},
+  "implementationPlan": []
+}

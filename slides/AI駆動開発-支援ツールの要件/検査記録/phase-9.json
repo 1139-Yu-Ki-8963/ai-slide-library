@@ -1,0 +1,13 @@
+{
+  "phase": 9,
+  "targetKeys": ["AI駆動開発-支援ツールの要件"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-role-sequence", "status": "not-applicable", "evidence": "単一ページのみで構成され、他ページとの前後関係を判定するデッキ文脈が存在しない。"},
+    {"id": "deck-ai-strength-rhythm", "status": "not-applicable", "evidence": "単一ページのため複数ページ間の強度配分を評価する対象がない。3列は同一の強さで並び、ページ内で特定の柱だけを強調していない。"},
+    {"id": "deck-ai-layout-repetition", "status": "not-applicable", "evidence": "単一ページのため直前ページとのレイアウト反復を評価する対象がない。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-09-02T08:08:54Z",
+  "artifactSha256": "684118b8ef4c0255ee2d144dfc802a2fc10c75cbfa876c7cd0c8e41999c34851"
+}

@@ -1,0 +1,14 @@
+{
+  "phase": 8,
+  "targetKeys": ["AI駆動開発-支援ツールの要件"],
+  "status": "pass",
+  "criteria": [
+    {"id": "slide-ai-thumbnail-legibility", "status": "pass", "evidence": "サムネイル640x360でタイトル・副題・3本柱見出しを判読できる。実描画1280x720で文字切れ・重なりは無い。"},
+    {"id": "slide-ai-one-message", "status": "pass", "evidence": "タイトルと副題で3本柱の入力出力完了条件という単一主張へ収束し、3列は等価な粒度で並ぶ根拠になっている。"},
+    {"id": "slide-ai-title-claim", "status": "pass", "evidence": "タイトルは支援ツールの要件という対象を単独で推測できる。実描画で1行に収まる。"},
+    {"id": "slide-ai-subtitle-support", "status": "pass", "evidence": "副題はタイトルの言い換えでなく、構成の軸と各柱の記載項目を補っている。実描画で1行に収まる。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-09-02T08:08:31Z",
+  "artifactSha256": "684118b8ef4c0255ee2d144dfc802a2fc10c75cbfa876c7cd0c8e41999c34851"
+}
