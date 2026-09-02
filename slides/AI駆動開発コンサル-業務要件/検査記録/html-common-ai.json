@@ -1,0 +1,28 @@
+{
+  "artifact": "slides/AI駆動開発コンサル-業務要件/解説スライド.html",
+  "artifactSha256": "cec6a57cbf2f612d9d4238d99729303515442d0c39b3f0a85be7154b34f6feea",
+  "status": "pass",
+  "summary": "業務要件（納品物3つ）と進め方（3段階・役割分担）を扱う2ページのスライド。表とカードによる情報編集で構成され、テンプレート流し込み感がなく、内容保持・図表品質とも問題は見当たらない。",
+  "strengths": [
+    "3つの納品物のうち土台（設計書・規約）を視覚的に強調し、他2つとの依存関係を表構造だけで示している",
+    "p2の3段階で支援側・開発チームの役割を対で並べ、どの段階でも判断は開発チームが担うという主張を一貫させている",
+    "架空の数値・固有名詞・写真・装飾アイコンを一切使わず、業務文脈の具体語彙だけで構成している"
+  ],
+  "findings": [],
+  "checks": [
+    {"criterionId":"html-ai-purpose-hierarchy","decision":"pass","target":"p1/p2 全体","evidence":"各ページに単一の結論帯・テーゼ帯があり、目的（納品物の説明／進め方の説明）と階層（土台→周辺、段階1→2→3）が明確。","impact":"該当なし","fix":"該当なし","verification":"実描画2ページで結論帯・テーゼ帯の視認を確認済み"},
+    {"criterionId":"html-ai-non-template","decision":"pass","target":"p1/p2 全体","evidence":"3等分の均等カードやアイコン埋めではなく、内容量に応じた可変幅の表・カードで構成されている。","impact":"該当なし","fix":"該当なし","verification":"実描画で行・カードの高さが内容に応じて異なることを確認済み"},
+    {"criterionId":"html-ai-content-preservation","decision":"pass","target":"p1/p2 全体","evidence":"納品物3種・進め方3段階・完了条件・制約の記述はいずれも本文に明示され、省略や要約による欠落は無い。","impact":"該当なし","fix":"該当なし","verification":"HTML本文の該当箇所を確認済み"},
+    {"criterionId":"html-ai-information-density","decision":"pass","target":"p1/p2 全体","evidence":"各セル・カードの箇条書きは2〜3項目、説明文は1〜2文に絞られ、実描画で文字の押し込み・重なりは見られない。","impact":"該当なし","fix":"該当なし","verification":"wide/narrow実描画で確認済み"},
+    {"criterionId":"html-ai-improvement-over-source","decision":"not-applicable","target":"該当なし","evidence":"本スライドは既存資料の改善ではなく新規作成であるため、原資料との比較対象が無い。","impact":"該当なし","fix":"該当なし","verification":"対象外"},
+    {"criterionId":"html-ai-shapes","decision":"pass","target":"p1/p2 全体","evidence":"矢印・図形は使用しておらず、罫線と背景色差だけで区分している。過剰な立体・グラデーション装飾は無い。","impact":"該当なし","fix":"該当なし","verification":"実描画で確認済み"},
+    {"criterionId":"html-ai-connectors","decision":"not-applicable","target":"該当なし","evidence":"矢印・接続線を用いた図解要素が無いため対象外。","impact":"該当なし","fix":"該当なし","verification":"対象外"},
+    {"criterionId":"html-ai-typography","decision":"pass","target":"p1/p2 全体","evidence":"見出し・本文・ラベルでフォントサイズと太さが明確に区分され、階層が視覚的に読み取れる。","impact":"該当なし","fix":"該当なし","verification":"実描画で確認済み"},
+    {"criterionId":"html-ai-color-accessibility","decision":"pass","target":"p1/p2 全体","evidence":"本文は濃色（--ink）、補足は中間色（--muted/--label）、強調は単一アクセント色に限定され、色だけに依存した情報伝達はない（罫線・太字・背景差を併用）。","impact":"該当なし","fix":"該当なし","verification":"実描画で配色を確認済み"},
+    {"criterionId":"html-ai-flow-alignment-spacing","decision":"pass","target":"p1/p2 全体","evidence":"p1は上から下、p2は左から右へ視線が流れる配置で、余白はグリッド間隔として機能し装飾で埋めていない。","impact":"該当なし","fix":"該当なし","verification":"実描画で確認済み"},
+    {"criterionId":"html-ai-graphs-numbers","decision":"not-applicable","target":"該当なし","evidence":"グラフや数値データの可視化要素が無いため対象外。","impact":"該当なし","fix":"該当なし","verification":"対象外"},
+    {"criterionId":"html-ai-tables","decision":"pass","target":"p1 の3行×3列相当の表構成","evidence":"見出し行・各行が意味単位で揃い、最下段（設計書・規約）を罫線・太字で強調して土台であることを示している。HTML構造はグリッドdivだが、視覚的な表としての整列・強調は適切。","impact":"該当なし","fix":"該当なし","verification":"実描画・HTML構造で確認済み"}
+  ],
+  "editPlan": {},
+  "implementationPlan": []
+}
