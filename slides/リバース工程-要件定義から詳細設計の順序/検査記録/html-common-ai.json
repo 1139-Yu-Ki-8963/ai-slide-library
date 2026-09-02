@@ -1,6 +1,6 @@
 {
   "artifact": "slides/リバース工程-要件定義から詳細設計の順序/解説スライド.html",
-  "artifactSha256": "b22bc380193737e96e6d2d0b74757c604f128bec47cab3ec2652a5c6a10d0fc7",
+  "artifactSha256": "3ee249c820dd75fe8454b3e6b8539a5580edd147de38d64cd9d1c650debeb3f3",
   "status": "pass",
   "summary": "リバース工程5工程（アーキテクチャ調査・一覧・要件定義・基本設計・詳細設計）の順序と、規約が定める4つの決まりを1枚に収めたスライド。設計書の書き方の決まり（document-writing.md）の要件定義書・基本設計書の定義と完了状態の記述と突合し、矛盾・捏造は検出されなかった。新規作成物のため旧版比較は対象外。",
   "strengths": [

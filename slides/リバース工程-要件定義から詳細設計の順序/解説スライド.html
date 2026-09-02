@@ -6,7 +6,7 @@
 <title>要件定義を先に、基本設計を閉じてから詳細設計へ — リバース工程の順序</title>
 <style>
   /* 骨格B: 構造型（slide-design-system.md 参照） */
-  .pageno{ font: 12px/1.4 system-ui, sans-serif; color: var(--label); margin-left: auto; }
+  .pageno{ font: 12px/1.4 system-ui, sans-serif; color: var(--label); margin-left: auto; flex-shrink: 0; white-space: nowrap; }
   .figure{ flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 0; gap: 14px; }
   .flow{ display: flex; align-items: stretch; }
   .step{ flex: 1; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--faint); background: var(--surface-2); padding: 14px 12px 0; }
@@ -110,7 +110,7 @@
 
     <div class="conclusion">
       <span class="c-label">集約</span>
-      <span class="c-text">要件定義を先に置き、基本設計を全単位で閉じてから詳細設計へ進む。現行は基本設計と詳細設計を同時に走らせており、この順序へ改める</span>
+      <span class="c-text">要件定義を先に置き、基本設計を全単位で閉じてから詳細設計へ進む。基本と詳細の同時進行を改める</span>
       <span class="pageno">1 / 1</span>
     </div>
   </section>
