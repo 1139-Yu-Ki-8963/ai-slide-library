@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>要件定義を先に、基本設計を閉じてから詳細設計へ — リバース工程の順序</title>
+<style>
+  /* 骨格B: 構造型（slide-design-system.md 参照） */
+  .pageno{ font: 12px/1.4 system-ui, sans-serif; color: var(--label); margin-left: auto; }
+  .figure{ flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 0; gap: 14px; }
+  .flow{ display: flex; align-items: stretch; }
+  .step{ flex: 1; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--faint); background: var(--surface-2); padding: 14px 12px 0; }
+  .step-h{ flex: 1.1; border-top: 2px solid var(--ink); background: var(--surface); }
+  .s-num{ font-family: var(--serif); font-weight: 500; font-size: 28px; line-height: 1; color: var(--label); }
+  .step-h .s-num{ font-weight: 600; color: var(--ink); }
+  .s-name{ font-size: 16px; font-weight: 600; color: var(--muted); word-break: keep-all; }
+  .step-h .s-name{ font-size: 18px; color: var(--ink); }
+  .s-desc{ font-size: 12.5px; line-height: 1.6; color: var(--muted); }
+  .s-who{ font: 600 11px/1.4 system-ui, sans-serif; letter-spacing: .08em; color: var(--label); margin-top: auto; padding-bottom: 12px; word-break: keep-all; }
+  .step-h .s-who{ color: var(--ink); }
+  .arrow{ width: 28px; display: flex; align-items: center; justify-content: center; color: var(--label); font-size: 18px; }
+  .legend{ display: flex; align-items: baseline; gap: 14px; border-top: 1px dashed var(--line); padding-top: 8px; }
+  .legend span{ font: 12px/1.5 system-ui, sans-serif; color: var(--label); }
+  .legend .right{ margin-left: auto; }
+  .rules{ display: flex; align-items: stretch; gap: 0; }
+  .rules-label{ flex: none; width: 76px; border-top: 2px solid var(--ink); padding-top: 10px; font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--ink); }
+  .rule-item{ flex: 1; border-top: 1px solid var(--faint); padding: 10px 16px 0 0; }
+  .rule-item + .rule-item{ margin-left: 16px; }
+  .r-name{ display: block; font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .r-desc{ display: block; font-size: 12.5px; line-height: 1.6; color: var(--muted); }
+  .conclusion{ display: flex; align-items: baseline; gap: 18px; border-top: 2px solid var(--accent); padding-top: 14px; }
+  .c-label{ font: 700 12px/1.4 system-ui, sans-serif; letter-spacing: .16em; color: var(--accent); flex-shrink: 0; }
+  .c-text{ font-size: 18px; font-weight: 600; line-height: 1.5; color: var(--ink); }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+<div class="slide">
+
+  <section class="slide-page is-active" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">リバース工程を規約の順序に合わせる</span>
+      <h1 class="slide-title">要件定義を<wbr>先に、<wbr>基本設計を<wbr>閉じてから<wbr>詳細設計へ</h1>
+      <p class="slide-subtitle">既存コードから設計書を起こす5工程の大枠。設計書の書き方の決まりが定める順序に合わせる</p>
+    </header>
+
+    <div class="figure">
+      <div class="flow">
+        <div class="step">
+          <span class="s-num">01</span>
+          <span class="s-name">アーキテクチャ<wbr>調査</span>
+          <span class="s-desc">対象コードの<wbr>構成と<wbr>技術を調べ、<wbr>調査書と<wbr>対象範囲を<wbr>確定する</span>
+          <span class="s-who">調査書</span>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <span class="s-num">02</span>
+          <span class="s-name">一覧</span>
+          <span class="s-desc">画面・接続窓口・<wbr>テーブルなど<wbr>7種別の<wbr>単位を<wbr>洗い出す</span>
+          <span class="s-who">一覧と元データ</span>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step step-h">
+          <span class="s-num">03</span>
+          <span class="s-name">要件定義</span>
+          <span class="s-desc">調査書と<wbr>一覧から、<wbr>範囲・優先度・<wbr>受入条件と<wbr>非機能を確定。<wbr>コードは読まない</span>
+          <span class="s-who">要件定義5文書</span>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step step-h">
+          <span class="s-num">04</span>
+          <span class="s-name">基本設計</span>
+          <span class="s-desc">共通の基本設計、<wbr>単位ごとの<wbr>事実の取り出しと<wbr>基本設計、<wbr>単体テスト設計。<wbr>全単位で<wbr>不明点なしを確認</span>
+          <span class="s-who">基本設計書・<wbr>単体テスト設計書</span>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step step-h">
+          <span class="s-num">05</span>
+          <span class="s-name">詳細設計</span>
+          <span class="s-desc">共通処理の<wbr>詳細設計の後、<wbr>単位ごとの<wbr>詳細設計。<wbr>コードと<wbr>1対1で書く</span>
+          <span class="s-who">詳細設計書</span>
+        </div>
+      </div>
+      <div class="legend">
+        <span>04 → 05　基本設計を全単位で閉じてから進む</span>
+        <span class="right">濃い枠＝規約が順序を定める3つの設計書　薄い面＝その前の工程</span>
+      </div>
+      <div class="rules">
+        <span class="rules-label">決まり</span>
+        <div class="rule-item">
+          <span class="r-name">要件定義が先</span>
+          <span class="r-desc">基本設計書は<wbr>要件定義書で<wbr>確定した要求を<wbr>実現する文書。<wbr>要件なしに<wbr>書き始めない</span>
+        </div>
+        <div class="rule-item">
+          <span class="r-name">基本設計を閉じてから詳細へ</span>
+          <span class="r-desc">共通と全単位の<wbr>基本設計が揃い、<wbr>不明点なしを<wbr>確認してから<wbr>詳細設計へ。<wbr>同時に走らせない</span>
+        </div>
+        <div class="rule-item">
+          <span class="r-name">単体テスト設計は基本設計の段</span>
+          <span class="r-desc">単体テスト設計書は<wbr>基本設計の成果物。<wbr>詳細設計と<wbr>一緒に書かない</span>
+        </div>
+        <div class="rule-item">
+          <span class="r-name">共通処理の詳細設計が先</span>
+          <span class="r-desc">基盤層と<wbr>共通部品の<wbr>詳細設計を、<wbr>単位ごとの<wbr>詳細設計より<wbr>前に書く</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="conclusion">
+      <span class="c-label">集約</span>
+      <span class="c-text">要件定義を先に置き、基本設計を全単位で閉じてから詳細設計へ進む。現行は基本設計と詳細設計を同時に走らせており、この順序へ改める</span>
+      <span class="pageno">1 / 1</span>
+    </div>
+  </section>
+
+</div>
+</div>
+</body>
+</html>
