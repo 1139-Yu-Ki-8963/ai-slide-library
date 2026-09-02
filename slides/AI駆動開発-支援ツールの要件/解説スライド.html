@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI駆動開発の導入を支援するツールの要件</title>
+<style>
+  :root{ --accent-soft:#E3EDF6; }
+  .roles{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; flex:1; min-height:0; margin-top:18px; }
+  .stage{ display:flex; flex-direction:column; gap:8px; padding:14px 14px 12px; border-top:4px solid var(--faint); border-bottom:1px solid var(--faint); background:var(--surface); }
+  .level{ color:var(--muted); font:700 11px/1.2 system-ui,sans-serif; letter-spacing:.11em; }
+  .role-nm{ margin:0; font-size:19px; font-weight:700; line-height:1.25; color:var(--ink); }
+  .io{ margin-top:6px; font:700 11px/1.2 system-ui,sans-serif; letter-spacing:.08em; color:var(--label); }
+  .items{ margin:0; padding-left:15px; color:var(--muted); font-size:13px; line-height:1.55; }
+  .items li+li{ margin-top:2px; }
+  .gate{ margin-top:auto; padding-top:8px; border-top:1px solid var(--faint); color:var(--ink); font:700 13px/1.45 system-ui,sans-serif; }
+  .conclusion{ display:flex; align-items:baseline; gap:16px; border-top:2px solid var(--accent); padding-top:12px; margin-top:14px; }
+  .pageno{ font:12px/1.4 system-ui,sans-serif; color:var(--label); margin-left:auto; flex-shrink:0; }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+<main class="slide">
+
+  <section class="slide-page is-active" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">支援ツールの要件｜3本柱</span>
+      <h1 class="slide-title">AI駆動開発の導入を支援するツールの要件</h1>
+      <p class="slide-subtitle">業務の3段階に対応する3本柱。各柱の入力・出力・完了条件</p>
+    </header>
+    <div class="roles">
+      <article class="stage">
+        <span class="level">柱1｜調査を支える</span>
+        <p class="role-nm">全体像と支援範囲を提示する</p>
+        <span class="io">入力</span>
+        <ul class="items">
+          <li>対象コード一式</li>
+        </ul>
+        <span class="io">出力</span>
+        <ul class="items">
+          <li>規模・構成と、画面・API・テーブルなど種別ごとの件数</li>
+          <li>支援範囲と、対象外とする理由</li>
+          <li>設計書の試作</li>
+        </ul>
+        <p class="gate">完了条件：件数が実測と一致する。対象外の全件に理由がある。試作を柱2と同じ手順で作成している</p>
+      </article>
+      <article class="stage">
+        <span class="level">柱2｜基盤一式の作成を支える</span>
+        <p class="role-nm">設計書・規約を作成し、設定を生成し、判断を反映する</p>
+        <span class="io">入力</span>
+        <ul class="items">
+          <li>対象コード一式</li>
+          <li>確認事項への回答と、規約提案の採否</li>
+        </ul>
+        <span class="io">出力</span>
+        <ul class="items">
+          <li>種別ごとの設計書と、業務の言葉の決まりを含む規約</li>
+          <li>各AIツールの設定</li>
+          <li>確認事項と規約提案</li>
+        </ul>
+        <p class="gate">完了条件：設計書だけからコードを再生成し、元のコードとの照合が通る。設定と設計書・規約に差異が無い。未回答の確認事項が無い</p>
+      </article>
+      <article class="stage">
+        <span class="level">柱3｜現場運用を支える</span>
+        <p class="role-nm">支援なしで開発フローを運用できる</p>
+        <span class="io">入力</span>
+        <ul class="items">
+          <li>改修の要求</li>
+          <li>人の判断（仕様の確定・レビュー・公開・採否）</li>
+        </ul>
+        <span class="io">出力</span>
+        <ul class="items">
+          <li>開発フローの完了記録</li>
+          <li>更新された設計書・規約と設定</li>
+          <li>設計書・規約とコードの差異の検査結果</li>
+        </ul>
+        <p class="gate">完了条件：判断の場面を経て改修が完了する。設計書・規約とコードに差異が無い。支援側の同席なしで運用できる</p>
+      </article>
+    </div>
+    <div class="conclusion">
+      <span class="pageno">1 / 1</span>
+    </div>
+  </section>
+
+</main>
+</div>
+</body>
+</html>
