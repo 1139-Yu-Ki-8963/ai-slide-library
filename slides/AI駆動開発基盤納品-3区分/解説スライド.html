@@ -33,7 +33,7 @@
 
   /* P2: 4区分の比較カード */
   .thesis{ margin:18px 0 12px; padding:10px 14px; border-left:4px solid var(--accent); background:var(--accent-soft); font-size:15px; line-height:1.5; }
-  .roles{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; flex:1; min-height:0; }
+  .roles{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; flex:1; min-height:0; }
   .stage{ display:flex; flex-direction:column; gap:8px; padding:14px 14px 12px; border-top:4px solid var(--faint); border-bottom:1px solid var(--faint); background:var(--surface); }
   .stage.focus{ border-top-color:var(--accent); background:var(--focus-bg); }
   .level{ color:var(--muted); font:700 11px/1.2 system-ui,sans-serif; letter-spacing:.11em; }
@@ -67,7 +67,7 @@
     <header class="slide-header">
       <span class="kicker">AI駆動開発セットアップ｜全体像</span>
       <h1 class="slide-title">対象プロジェクトへ「AI駆動開発の基盤一式」を納品するツール群</h1>
-      <p class="slide-subtitle">Claude Code 上で動くスキル群。統括スキルが、調査から設計書と規約とAI設定の生成、納品後の保守までを進める</p>
+      <p class="slide-subtitle">Claude Code 上で動くスキル群。統括スキルが、調査から設計書と規約とAI設定の生成までを自動で進める</p>
     </header>
     <div class="docs">
       <div class="guide">
@@ -78,11 +78,11 @@
         </div>
         <div class="g-row">
           <div class="g-what"><span class="nm">どう作られるのか</span><span class="sub">入力は対象リポジトリだけ。既存の設計書は不要</span></div>
-          <span class="g-mid">統括スキルが成果物のそろい具合から現在の状態を判定し、調査 → 一覧化 → 設計書執筆 → 検証を自動で進める。詳しい流れは2ページ目の4区分で示す</span>
+          <span class="g-mid">統括スキルが成果物のそろい具合から現在の状態を判定し、調査 → 一覧化 → 設計書執筆 → 検証を自動で進める。詳しい流れは2ページ目の3区分で示す</span>
         </div>
         <div class="g-row">
-          <div class="g-what"><span class="nm">なぜ信じられるのか</span><span class="sub">往復検証（品質の機械判定）</span></div>
-          <span class="g-mid">設計書だけからコードを再生成し、元のコードと照らし合わせて一致を確かめる。一致しなければ設計書に欠落がある、という考え方で、人の主観でなく機械が完成度を判定する</span>
+          <div class="g-what"><span class="nm">受け取った後、何をするのか</span><span class="sub">納品先の開発チームの役割</span></div>
+          <span class="g-mid">ポータルで中身を確認し、確認事項に答え、規約提案の採否を決める。日々の開発は、同梱された開発フローに沿って進める</span>
         </div>
       </div>
       <aside class="treebox">
@@ -113,16 +113,16 @@
 
   <section class="slide-page" data-slide-page="2">
     <header class="slide-header">
-      <span class="kicker">AI駆動開発セットアップ｜4つの区分</span>
-      <h1 class="slide-title">4つの区分：セットアップ・リバース・保守・現場運用</h1>
-      <p class="slide-subtitle">どう作られるのかの詳細。4つの区分と実行主体を示す</p>
+      <span class="kicker">AI駆動開発セットアップ｜3つの区分</span>
+      <h1 class="slide-title">3つの区分：セットアップ・リバース・現場運用</h1>
+      <p class="slide-subtitle">どう作られるのかの詳細。3つの区分と実行主体を示す</p>
     </header>
-    <p class="thesis">セットアップから保守までの3区分は、本ツール群（納品する側のAI）が実行する。現場運用だけは、納品先の開発チームが同梱スキルで回す。</p>
+    <p class="thesis">対象はすべて納品先のリポジトリである。セットアップとリバースは本ツール群（納品する側のAI）が実行し、現場運用は納品先の開発チームが同梱スキルで回す。</p>
     <div class="roles">
       <article class="stage">
         <span class="level">1｜SETUP</span>
         <p class="role-nm">セットアップ</p>
-        <div class="actor-set"><span class="actor">実行：本ツール群</span><span class="actor">対象：納品先のリポジトリ</span></div>
+        <span class="actor">実行：本ツール群（納品する側のAI）</span>
         <ul class="items">
           <li>規約のひな形の配布</li>
           <li>AI設定（CLAUDE.md等）の生成</li>
@@ -134,7 +134,7 @@
       <article class="stage focus">
         <span class="level">2｜REVERSE</span>
         <p class="role-nm">リバース</p>
-        <div class="actor-set"><span class="actor">実行：本ツール群</span><span class="actor">対象：納品先のリポジトリ</span></div>
+        <span class="actor">実行：本ツール群（納品する側のAI）</span>
         <p class="state">既存コードを読み取って動作を記録し、確定する（確定後は変更しない）。その記録をもとに、業務の言葉で設計書と一覧を書く。作業は9つの手順（R1〜R9）で進む。</p>
         <div class="verify">
           <p class="v-nm">往復検証（品質の機械判定）</p>
@@ -144,21 +144,9 @@
         <p class="gate">成果：完成度を機械が証明した設計書一式</p>
       </article>
       <article class="stage">
-        <span class="level">3｜MAINTAIN</span>
-        <p class="role-nm">保守<span class="nm-sub">納品物の維持</span></p>
-        <div class="actor-set"><span class="actor">実行：本ツール群</span><span class="actor">対象：配布する側の資産</span></div>
-        <ul class="items">
-          <li>定義と生成物の食い違いの検出と作り直し</li>
-          <li>定義と生成物の一致の検査</li>
-          <li>機械検証の一括実行</li>
-        </ul>
-        <p class="state">生成した時点の中身の指紋（ハッシュ値）を記録しておき、いまの中身と比べる。生成物への手作業の書き換えを見つけたら、定義側を直して作り直す。</p>
-        <p class="gate">成果：定義と生成物が一致し続ける状態</p>
-      </article>
-      <article class="stage">
-        <span class="level">4｜OPERATE</span>
+        <span class="level">3｜OPERATE</span>
         <p class="role-nm">現場運用<span class="nm-sub">納品先の開発サイクル</span></p>
-        <div class="actor-set"><span class="actor">実行：納品先の開発チーム</span><span class="actor">対象：納品先のリポジトリ</span></div>
+        <span class="actor">実行：納品先の開発チーム</span>
         <ul class="items">
           <li>開発フローの運用</li>
           <li>未確定事項の記録と反映</li>
