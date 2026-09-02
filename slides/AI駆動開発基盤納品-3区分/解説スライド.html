@@ -129,19 +129,19 @@
           <li>同梱スキルの設置</li>
         </ul>
         <p class="state">対象リポジトリに、AIが読む定義と、各AIツールの設定と、ポータルを作って配置する。</p>
-        <p class="gate">成果：AIと人が同じ定義を参照できる状態</p>
+        <p class="gate">出力：AIが読む定義・各AIツールの設定・ポータル</p>
       </article>
-      <article class="stage focus">
+      <article class="stage">
         <span class="level">2｜REVERSE</span>
         <p class="role-nm">リバース</p>
         <span class="actor">実行：本ツール群（納品する側のAI）</span>
-        <p class="state">既存コードを読み取って動作を記録し、確定する（確定後は変更しない）。その記録をもとに、業務の言葉で設計書と一覧を書く。作業は9つの手順（R1〜R9）で進む。</p>
-        <div class="verify">
-          <p class="v-nm">往復検証（品質の機械判定）</p>
-          <p class="v-tx">設計書だけからコードを再生成し、元のコードと照らし合わせる。6観点がすべて一致した時だけ合格。</p>
-          <div class="chips"><span>画面描画</span><span>内容</span><span>ARIA</span><span>画素差分</span><span>console</span><span>操作</span></div>
-        </div>
-        <p class="gate">成果：完成度を機械が証明した設計書一式</p>
+        <ul class="items">
+          <li>既存コードの調査と一覧作り</li>
+          <li>業務の言葉での設計書の執筆</li>
+          <li>再生成したコードと元のコードの照合</li>
+        </ul>
+        <p class="state">既存コードを読み取って動作を記録し、その記録をもとに設計書と一覧を書く。仕上げに、設計書だけからコードを再生成して元のコードと照らし合わせ、一致することを機械で確かめる。</p>
+        <p class="gate">出力：機械の照合で完成度を確かめた設計書と一覧</p>
       </article>
       <article class="stage">
         <span class="level">3｜OPERATE</span>
@@ -154,7 +154,7 @@
           <li>用語を人が承認して確定する運用</li>
         </ul>
         <p class="state">納品時に同梱したスキルを使い、納品先の開発チームが開発サイクルを回し続ける。</p>
-        <p class="gate">成果：納品後も基盤が現場で回り続ける</p>
+        <p class="gate">出力：日々の開発で更新され続ける定義と生成物</p>
       </article>
     </div>
     <div class="conclusion">
