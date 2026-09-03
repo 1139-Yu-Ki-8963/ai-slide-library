@@ -1,0 +1,135 @@
+{
+  "artifact": "slides/リバース工程-二フェーズの流れ/解説スライド.html",
+  "artifactSha256": "6ec382f98b46e63a5923f68cfc459378a048309a38b328d477eed1fecdee55cb",
+  "status": "pass",
+  "summary": "全6ページを実描画（wide/narrow）と機械検証JSONで確認した。各ページはタイトル1文が主張を宣言し、ステージカード・パネル・codebox・表がその主張を支える構成で、装飾のための図形・グラデーション・写真はない。全観点PASS。",
+  "strengths": [
+    "全6論理ページの工程番号（1-1〜1-6、2-1〜2-13）が一貫し、矢印の向き（左→右）と番号順が一致している",
+    "設計文書からの転記のみで、効果・工数等の未検証数値の創作が無い",
+    "カード見出しの語中折れをwbrで解消済み（4枚目・5枚目とも語の境界で改行）"
+  ],
+  "findings": [
+    {
+      "criterionId": "html-ai-information-density",
+      "severity": "low",
+      "decision": "suggestion",
+      "target": "2枚目・4枚目・5枚目のステージカード枚数（6〜7枚）",
+      "evidence": "検査記録.md「行数-共通上限」観点で、指示書が各ページの工程数・カード構成・7枚時の2段折り返しを明示指定した対応と判断済み。5件目安の超過は自己判断による例外ではない。",
+      "impact": "母集団検査で今後の一般スライドと横並び比較した際、カード枚数が目安を超えるページとして識別される可能性がある。",
+      "fix": "対応不要。将来この工程数自体が変わる場合のみ、カード枚数の見直しを検討する。",
+      "verification": "検査記録.md「観点レビュー表の照合結果」内「行数-共通上限」の記載どおりであることを確認した。"
+    }
+  ],
+  "checks": [
+    {
+      "criterionId": "html-ai-purpose-hierarchy",
+      "decision": "pass",
+      "target": "全6ページのタイトル（h1）と副題",
+      "evidence": "各ページのタイトルが単一主張を宣言し、副題が範囲・前提・比較軸を補う。1-6・2-6・2-12・2-13等の人の判断が絡む工程だけアクセント罫で強調し、他は均等（検査記録.md「強弱-資料全体配分」「主張-単一」PASS）。",
+      "impact": "情報の主従が不明瞭だと読み手が判断対象を誤る。",
+      "fix": "不要（現状PASS）。",
+      "verification": "検査記録.md観点レビュー表「主題-一文宣言」「強弱-資料全体配分」「主張-単一」の3行がPASS。"
+    },
+    {
+      "criterionId": "html-ai-non-template",
+      "decision": "pass",
+      "target": "全6ページのカード・パネル・表のスタイル",
+      "evidence": "カード乱立・大きな矢印・グラデーション・立体図形・人物イラストの使用なし。カードは工程番号・工程名・説明・出すものの3要素に絞り、色分けも局面（人の判断が絡む工程）に限定使用（検査記録.md「強調-巨大見出し抑制」「配色-彩度明度面積」PASS）。",
+      "impact": "テンプレ的装飾があると実務資料として使いにくい印象になる。",
+      "fix": "不要（現状PASS）。",
+      "verification": "検査記録.md観点レビュー表の該当行、および解説スライド.htmlのCSS（装飾用グラデーション・立体影の定義なし）を確認。"
+    },
+    {
+      "criterionId": "html-ai-content-preservation",
+      "decision": "pass",
+      "target": "全ページの工程名・数値・決まり・差し戻し表",
+      "evidence": "検査記録.md「出所」節に、全ページの内容が設計文書の該当節からの転記・要約であり創作が無いと明記。3ページの検出条件の例は設計文書の転記ではなく、設計文書「検出条件の形の制約」に従った作例。他のページは転記・要約。",
+      "impact": "内容の欠落・創作は元資料との齟齬を生む。",
+      "fix": "不要（現状PASS）。",
+      "verification": "検査記録.md「出所」節、および観点レビュー表「具体性-実値明示」「効果数値-未検証記載禁止」「例示数値-検算整合」PASS。"
+    },
+    {
+      "criterionId": "html-ai-information-density",
+      "decision": "suggestion",
+      "target": "2枚目・4枚目・5枚目のステージカード（6〜7枚）",
+      "evidence": "5件目安を超えるカード数だが、指示書が工程数・カード構成・7枚時の2段折り返しを明示指定しており自己判断の例外ではない（検査記録.md「行数-共通上限: 判断済み例外」）。",
+      "impact": "カード数が多いページは情報密度が高く見える。",
+      "fix": "対応不要。将来カード数が変わる場合のみ見直す。",
+      "verification": "検査記録.md観点レビュー表「行数-共通上限」の記載を確認。"
+    },
+    {
+      "criterionId": "html-ai-improvement-over-source",
+      "decision": "pass",
+      "target": "5枚目タイトルの短縮（39字から33字へ）",
+      "evidence": "検査記録.md「指示書との差分」節に、実描画検証で判明した重なりを解消するため、意味（提示と受け入れ）を副題に残したまま33字へ再短縮し、委任元が承認した経緯を記録。",
+      "impact": "元原文のまま実装すると表示破綻（副題との重なり）が残る。",
+      "fix": "不要（現状PASS、承認済み）。",
+      "verification": "検査記録.md「指示書との差分」節および「反復記録」1.の記載を確認。"
+    },
+    {
+      "criterionId": "html-ai-shapes",
+      "decision": "pass",
+      "target": "1枚目の役割分担型2パネルと中央矢印要素",
+      "evidence": "図形は機能を持つ要素（パネル境界・中央矢印）のみで、装飾目的の多角形・立体図形は無い（検査記録.md「強調-巨大見出し抑制」「配色-彩度明度面積」PASS）。",
+      "impact": "装飾図形は情報伝達に寄与せず読み手の負荷を増やす。",
+      "fix": "不要（現状PASS）。",
+      "verification": "解説スライド.htmlのCSS定義と検査記録.md該当行を確認。"
+    },
+    {
+      "criterionId": "html-ai-connectors",
+      "decision": "pass",
+      "target": "全6ページの矢印・接続線",
+      "evidence": "工程番号（1-1〜1-6、2-1〜2-13）が全ページで一貫し、矢印の向き（左→右）と番号順が一致（検査記録.md「読み順-番号対応」PASS）。1枚目の中央矢印はパネル内容に対して視覚的に中央を保つよう調整済み（反復記録6.）。",
+      "impact": "矢印の向きと番号順が食い違うと読み順を誤認させる。",
+      "fix": "不要（現状PASS）。",
+      "verification": "検査記録.md観点レビュー表「読み順-番号対応」、反復記録6.の記載を確認。"
+    },
+    {
+      "criterionId": "html-ai-typography",
+      "decision": "pass",
+      "target": "全6ページの見出し・本文・カード内文字",
+      "evidence": "runtime検証html-runtime-clipped-text・html-runtime-critical-overlapが両モードでPASS。4枚目「単位の事実の取り出し」・5枚目「完了報告と受け入れ」等、語中折れを起こしていた見出しにwbrを語の境界へ挿入して解消（反復記録7.、check-wbr-quality.sh exit 0）。文字サイズはステージカード内部とcodeboxのみ13px、他はすべて14px以上に統一（反復記録3.）。",
+      "impact": "語中折れ・過小文字は読みにくさ・実務不適格の直接原因になる。",
+      "fix": "不要（現状PASS）。",
+      "verification": "html-common-runtime.jsonのhtml-runtime-clipped-text/html-runtime-critical-overlapがpass、check-wbr-quality.sh exit 0、検査記録.md反復記録3・7を確認。"
+    },
+    {
+      "criterionId": "html-ai-color-accessibility",
+      "decision": "pass",
+      "target": "全6ページの配色・コントラスト",
+      "evidence": "runtime検証html-runtime-contrastがPASS。反復記録1・4でラベル色のコントラスト不足（比4.43）を別トークン（比6.14）へ変更して解消済み。配色トークンのhex直書きなし（検査記録.md「配色トークン-hex直書き」PASS）。",
+      "impact": "コントラスト不足はアクセシビリティ上の可読性問題になる。",
+      "fix": "不要（現状PASS）。",
+      "verification": "html-common-runtime.jsonのhtml-runtime-contrastがpass、検査記録.md反復記録1・4、観点レビュー表「配色トークン-hex直書き」を確認。"
+    },
+    {
+      "criterionId": "html-ai-flow-alignment-spacing",
+      "decision": "pass",
+      "target": "2・4・5枚目のカード群、1枚目パネル、3枚目codebox",
+      "evidence": "反復記録6.のとおり、カード・パネル・codeboxを内容の高さに合わせ上寄せに変更し、余った下側は詰め物を追加せず空白のまま維持（指示書の明示指定に基づく）。検査記録.md「カード空白バランス」PASSで、区切り線を挟んだ「何をするか」「出すもの」の配置も確認済み。",
+      "impact": "引き伸ばしによる不自然な余白は視線誘導を乱す。",
+      "fix": "不要（現状PASS）。",
+      "verification": "検査記録.md反復記録6.、観点レビュー表「カード空白バランス」PASSを確認。"
+    },
+    {
+      "criterionId": "html-ai-graphs-numbers",
+      "decision": "not-applicable",
+      "target": "全6ページ",
+      "evidence": "本スライドはグラフを含まない（工程図・表・codeboxのみ）。数値（3回・2割等）は表・カードの数値表記としてhtml-ai-content-preservation側で確認済み。",
+      "impact": "対象外。",
+      "fix": "対象外。",
+      "verification": "解説スライド.html全体にグラフ描画要素（折れ線・棒グラフ）が無いことを確認。"
+    },
+    {
+      "criterionId": "html-ai-tables",
+      "decision": "pass",
+      "target": "6枚目の差し戻し表（back-tableクラス）",
+      "evidence": "table要素はthead内tr/th 3列見出しとtbody内4行の構造を持つ。列見出し（どこで見つかる／どこへ戻る／上限）と値の種類が一致（検査記録.md「見出し-中身整合」PASS）。文字拡大に合わせセルpaddingも拡張し余白過多を緩和済み（反復記録3.）。",
+      "impact": "table要素の意味構造が無いと読み上げ・可読性が低下する。",
+      "fix": "不要（現状PASS）。",
+      "verification": "解説スライド.html 349〜354行目のtable/thead/tbody構造、検査記録.md「見出し-中身整合」PASS、反復記録3.を確認。"
+    }
+  ],
+  "editPlan": {},
+  "implementationPlan": []
+}
