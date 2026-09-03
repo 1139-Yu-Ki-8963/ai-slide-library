@@ -1,0 +1,9 @@
+{
+  "kind": "html-review-aggregate",
+  "overall": "pass",
+  "blockers": [],
+  "advisories": [
+    "ai required criterion html-ai-color-accessibility is suggestion"
+  ],
+  "artifactSha256": "3ee249c820dd75fe8454b3e6b8539a5580edd147de38d64cd9d1c650debeb3f3"
+}

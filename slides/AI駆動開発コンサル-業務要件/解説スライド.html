@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI駆動開発の導入を支援する業務の要件</title>
+<style>
+  :root{ --accent-soft:#E3EDF6; --focus-bg:#F5F9FC; }
+
+  /* P1: 4つの層 */
+  .layers{ flex:1; min-height:0; display:flex; flex-direction:column; padding-top:18px; }
+  .l-head{ display:grid; grid-template-columns:190px 1.1fr 1fr; gap:24px; padding-bottom:8px; }
+  .l-head span{ font:700 12px/1.4 system-ui,sans-serif; letter-spacing:.14em; color:var(--label); }
+  .band{ flex:1; display:grid; grid-template-columns:190px 1.1fr 1fr; gap:24px; align-items:center; border-top:1px solid var(--faint); padding:10px 0; }
+  .band.base{ border-top:2px solid var(--ink); }
+  .b-nm{ display:block; font-size:20px; font-weight:700; color:var(--ink); }
+  .band.base .b-nm{ font-size:22px; }
+  .b-tx{ font-size:15px; line-height:1.6; color:var(--muted); }
+  .band.base .b-tx{ color:var(--ink); }
+  .b-who{ font-size:14px; line-height:1.6; color:var(--muted); }
+  .band.base .b-who{ color:var(--ink); font-weight:600; }
+  .conclusion{ display:flex; align-items:baseline; gap:16px; border-top:2px solid var(--accent); padding-top:12px; margin-top:14px; }
+  .c-label{ font:700 12px/1.4 system-ui,sans-serif; letter-spacing:.16em; color:var(--accent); flex-shrink:0; }
+  .c-text{ font-size:17px; font-weight:600; line-height:1.5; color:var(--ink); }
+  .pageno{ font:12px/1.4 system-ui,sans-serif; color:var(--label); margin-left:auto; flex-shrink:0; }
+
+  /* P2: 3段階の横並び */
+  .thesis{ margin:18px 0 12px; padding:10px 14px; border-left:4px solid var(--accent); background:var(--accent-soft); font-size:15px; line-height:1.5; }
+  .roles{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; flex:1; min-height:0; }
+  .stage{ display:flex; flex-direction:column; gap:8px; padding:14px 14px 12px; border-top:4px solid var(--faint); border-bottom:1px solid var(--faint); background:var(--surface); }
+  .stage.focus{ border-top-color:var(--accent); background:var(--focus-bg); }
+  .level{ color:var(--muted); font:700 11px/1.2 system-ui,sans-serif; letter-spacing:.11em; }
+  .role-nm{ margin:0; font-size:19px; font-weight:700; line-height:1.25; color:var(--ink); }
+  .who{ margin-top:6px; font:700 11px/1.2 system-ui,sans-serif; letter-spacing:.08em; color:var(--label); }
+  .items{ margin:0; padding-left:15px; color:var(--muted); font-size:13px; line-height:1.55; }
+  .items li+li{ margin-top:2px; }
+  .gate{ margin-top:auto; padding-top:8px; border-top:1px solid var(--faint); color:var(--ink); font:700 13px/1.45 system-ui,sans-serif; }
+  .note{ margin-top:12px; padding-top:8px; border-top:1px solid var(--faint); font-size:12px; line-height:1.5; color:var(--label); }
+  .note b{ font-weight:700; color:var(--muted); margin-right:8px; }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+<main class="slide">
+
+  <section class="slide-page is-active" data-slide-page="1">
+    <header class="slide-header">
+      <span class="kicker">業務要件｜納品物</span>
+      <h1 class="slide-title">AI駆動開発の導入を支援する業務の要件</h1>
+      <p class="slide-subtitle">納品物は3つ。設計書・規約、各AIツールの設定、開発フロー。いずれも既存コードから作成する</p>
+    </header>
+    <div class="layers">
+      <div class="l-head"><span>納品物</span><span>内容</span><span>開発チームへの効果</span></div>
+      <div class="band">
+        <span class="b-nm">開発フロー</span>
+        <span class="b-tx">要求・設計・実装・レビュー・記録の手順と、その中で人が判断する場面の定義</span>
+        <span class="b-who">進め方が人によってばらつかない。AIが仕様の確定や公開を単独で行わない</span>
+      </div>
+      <div class="band">
+        <span class="b-nm">各AIツールの設定</span>
+        <span class="b-tx">設計書・規約を、開発チームが使う各AIツールが読める形にした設定</span>
+        <span class="b-who">誰がどのツールを使っても、AIが同じ前提で動く</span>
+      </div>
+      <div class="band base">
+        <span class="b-nm">設計書・規約</span>
+        <span class="b-tx">画面・API・テーブルなど種別ごとの設計書と、分野別の規約。規約には業務の言葉の決まりを含む</span>
+        <span class="b-who">AIが設計書から影響範囲を引き、規約に沿って実装する。特定の担当者に依存せずに改修できる</span>
+      </div>
+    </div>
+    <div class="conclusion">
+      <span class="c-label">一言で</span>
+      <span class="c-text">土台は設計書・規約。設定と開発フローは、その前提で開発を回すためにある</span>
+      <span class="pageno">1 / 2</span>
+    </div>
+  </section>
+
+  <section class="slide-page" data-slide-page="2">
+    <header class="slide-header">
+      <span class="kicker">業務要件｜進め方</span>
+      <h1 class="slide-title">AI駆動開発の導入を支援する業務の進め方</h1>
+      <p class="slide-subtitle">調査・基盤一式の作成・引き渡しの3段階。判断は開発チームが担う</p>
+    </header>
+    <p class="thesis">人が判断する場面（確認事項への回答・規約提案の採否・仕様の確定・レビュー・公開の可否）は、どの段階でも開発チームが担う。支援側は設計書・規約と進め方を用意し、判断を代わらない。</p>
+    <div class="roles">
+      <article class="stage">
+        <span class="level">1｜調査</span>
+        <p class="role-nm">支援できる範囲を見極める</p>
+        <span class="who">支援側</span>
+        <ul class="items">
+          <li>対象の規模・技術・環境条件を確認する</li>
+          <li>全体像と支援できる範囲を見極める</li>
+          <li>設計書を試作して提示する</li>
+        </ul>
+        <span class="who">開発チーム</span>
+        <ul class="items">
+          <li>対象システムと実行環境を提供する</li>
+        </ul>
+        <p class="gate">完了条件：試作と支援範囲に基づき、発注側が実施可否を判断している</p>
+      </article>
+      <article class="stage focus">
+        <span class="level">2｜基盤一式の作成</span>
+        <p class="role-nm">設計書・規約を作り、開発フローを回す</p>
+        <span class="who">支援側</span>
+        <ul class="items">
+          <li>既存コードから設計書・規約を作る</li>
+          <li>各AIツールの設定と開発フローを整える</li>
+          <li>開発チームの初回の改修に同席し、不備を直す</li>
+        </ul>
+        <span class="who">開発チーム</span>
+        <ul class="items">
+          <li>確認事項に答え、規約提案の採否を決める</li>
+          <li>開発フローで改修を実施し、判断の場面を担う</li>
+        </ul>
+        <p class="gate">完了条件：開発チームが開発フローで改修を完了している</p>
+      </article>
+      <article class="stage">
+        <span class="level">3｜引き渡し</span>
+        <p class="role-nm">支援なしで回す</p>
+        <span class="who">支援側</span>
+        <ul class="items">
+          <li>進め方と、人が判断する場面を文書で渡す</li>
+        </ul>
+        <span class="who">開発チーム</span>
+        <ul class="items">
+          <li>支援側の同席なしに、開発フローで改修を実施する</li>
+        </ul>
+        <p class="gate">完了条件：開発チームが支援なしで改修を完了している</p>
+      </article>
+    </div>
+    <p class="note"><b>制約</b>コードと成果物を対象システムの環境の外へ出さない。AIツールは複数あるため、前提を特定のツールに依存させない</p>
+    <div class="conclusion">
+      <span class="pageno">2 / 2</span>
+    </div>
+  </section>
+
+</main>
+</div>
+</body>
+</html>

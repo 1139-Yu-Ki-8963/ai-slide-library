@@ -1,0 +1,39 @@
+{
+  "artifact": "slides/リバース工程-要件定義から詳細設計の順序/解説スライド.html",
+  "artifactSha256": "3ee249c820dd75fe8454b3e6b8539a5580edd147de38d64cd9d1c650debeb3f3",
+  "status": "pass",
+  "summary": "リバース工程5工程（アーキテクチャ調査・一覧・要件定義・基本設計・詳細設計）の順序と、規約が定める4つの決まりを1枚に収めたスライド。設計書の書き方の決まり（document-writing.md）の要件定義書・基本設計書の定義と完了状態の記述と突合し、矛盾・捏造は検出されなかった。新規作成物のため旧版比較は対象外。",
+  "strengths": [
+    "step-h（規約が順序を定める03〜05）とstep（その前提となる01・02）で罫線の太さ・背景・文字サイズを意図的に変え、凡例『濃い枠＝規約が順序を定める3つの設計書　薄い面＝その前の工程』と一致させている。",
+    "決まり4項目の文言が設計書の書き方の決まりの定義・完了状態の記述と意味レベルで正確に対応しており、要約による意味の変質がない。",
+    "アクセントカラーは集約行の罫線1箇所に限定し、他は無彩色で構成している。"
+  ],
+  "findings": [
+    {
+      "criterionId": "html-ai-color-accessibility",
+      "severity": "low",
+      "decision": "suggestion",
+      "target": ".s-desc（12.5px）・.r-desc（12.5px）のvar(--muted)文字色",
+      "evidence": "共有CSS変数--mutedの実値が本ファイル内で定義されておらず（共有シェルCSS側で定義）、正確なコントラスト比を本レビューでは算出できていない。スクリーンショット上は目視で可読。",
+      "impact": "本文相当の閾値を下回っている場合、可読性に影響する可能性がある。",
+      "fix": "実描画環境で--mutedのcomputed colorを取得し、背景との比を計算する。",
+      "verification": "取得した色値でコントラスト比を計算し4.5以上であることを確認する。"
+    }
+  ],
+  "checks": [
+    {"criterionId":"html-ai-purpose-hierarchy","decision":"pass","target":"タイトル/工程番号/決まり/集約行の文字サイズ・太さ・配置","evidence":"タイトル最大、工程番号(01〜05)が28pxのセリフ数字で大きめ、s-desc(12.5px)は補助、集約行は太字18pxで締める、という優先順位が面積・太さ・配置に反映されている。","impact":"該当なし","fix":"不要","verification":"スクリーンショット上で情報の主従が視覚的に読み取れることを確認済み"},
+    {"criterionId":"html-ai-non-template","decision":"pass","target":"5工程のカード・決まり4項目のレイアウト","evidence":"5要素は均等な同一デザインではなく、規約が順序を定める03〜05とその前提の01・02で罫線太さ・背景・文字サイズを意図的に変えている。アイコンの機械的多用、単語置換アイコン、白角丸カード＋影の量産、項目ごとの色分けは見られない。","impact":"該当なし","fix":"不要","verification":"HTML/CSSにアイコンフォント・box-shadow・border-radiusの多用が無いことをソースで確認済み"},
+    {"criterionId":"html-ai-content-preservation","decision":"pass","target":"5工程の説明・決まり4項目・集約文","evidence":"要件定義書の対象範囲・優先度・受入条件の確定、基本設計書の外部仕様・方式・単体テスト設計書作成という完了状態、詳細設計書のコードと1対1という定義を、設計書の書き方の決まりの記述と照合し、意味の欠落・改変は検出されなかった。","impact":"該当なし","fix":"不要","verification":"document-writing.mdの要件定義書・基本設計書・詳細設計書の各節と本文を突合済み"},
+    {"criterionId":"html-ai-information-density","decision":"pass","target":"工程5(20情報単位)+決まり4(8情報単位)+集約","evidence":"目安（根拠最大3点程度）をやや超過するが、実描画で重なり・はみ出しは無く、集約文が両ブロックを結ぶ単一主張として機能している。分割は改善候補としてphase-10へ記録済み。","impact":"情報密度がやや高く、読み手が集約文へ到達するまでの視線移動が長い。","fix":"任意。分割する場合はフロー（01〜05）と決まり（4項目）の2枚構成が候補。","verification":"phase-10.jsonのdeck-ai-split-plan判定を参照"},
+    {"criterionId":"html-ai-improvement-over-source","decision":"not-applicable","target":"該当なし","evidence":"本スライドは新規作成物であり、比較対象となる旧版スライドは存在しない。","impact":"該当なし","fix":"該当なし","verification":"該当なし"},
+    {"criterionId":"html-ai-shapes","decision":"pass","target":"矢印(→)のみで構成されたフロー図","evidence":"立体図形・グラデーション・無関係な人物イラストは無く、5つの矩形（.step）を矢印で繋ぐ単純な構造。","impact":"該当なし","fix":"不要","verification":"CSSにgradient/transform 3d/box-shadow多用が無いことを確認済み"},
+    {"criterionId":"html-ai-connectors","decision":"pass","target":".arrow（→）5箇所","evidence":"すべて左から右への単一方向で、交差・曖昧な接続は無い。矢印の意味（工程の前後関係）は凡例と一致している。","impact":"該当なし","fix":"不要","verification":"実描画で矢印の向きと配置を確認済み"},
+    {"criterionId":"html-ai-typography","decision":"pass","target":"工程番号28px/工程名16-18px/説明12.5px/集約18pxの階層","evidence":"seriffont(工程番号)とsystem-ui(ラベル・本文)の使い分け、サイズ階層が視覚的な重要度と一致している。強制改行（wbr）を用いた日本語の折り返し制御も適切。","impact":"該当なし","fix":"不要","verification":"実描画で文字サイズ・折り返しを確認済み（Phase C静的・実描画検査PASS）"},
+    {"criterionId":"html-ai-color-accessibility","decision":"suggestion","target":".s-desc・.r-descのvar(--muted)文字色","evidence":"findings参照。共有CSS変数の実値がこのファイル単体からは判定できないため、コントラスト比の数値検証は未実施。","impact":"本文相当の閾値を下回る場合、可読性に影響する可能性がある。","fix":"実描画環境で--mutedのcomputed colorを取得しコントラスト比を計算する。","verification":"findings参照"},
+    {"criterionId":"html-ai-flow-alignment-spacing","decision":"pass","target":".flow内の5要素と.arrowの配置","evidence":"flexboxによる均等配置で、余白（gap 8px/14px）が視覚的なグルーピングとして機能している。決まり4項目も同様にflexで整列。","impact":"該当なし","fix":"不要","verification":"実描画でずれ・オーバーフローが無いことを確認済み（Phase C desktop/mobile検査PASS）"},
+    {"criterionId":"html-ai-graphs-numbers","decision":"not-applicable","target":"該当要素なし","evidence":"本スライドにグラフ・数値系列の可視化要素は存在しない（工程番号01〜05はラベルであり測定データではない）。","impact":"該当なし","fix":"該当なし","verification":"HTML内にグラフ要素が存在しないことをソースで確認済み"},
+    {"criterionId":"html-ai-tables","decision":"not-applicable","target":"該当要素なし","evidence":"本スライドにtable要素は存在しない。","impact":"該当なし","fix":"該当なし","verification":"HTML内にtable要素が存在しないことをソースで確認済み"}
+  ],
+  "editPlan": {},
+  "implementationPlan": []
+}
