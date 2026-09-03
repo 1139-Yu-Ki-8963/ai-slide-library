@@ -1,6 +1,6 @@
 {
   "artifact": "slides/リバース工程-二フェーズの流れ/解説スライド.html",
-  "artifactSha256": "e0fa2c69e2178c0a00a86294431193736a77370c2094dd45a557c975842e3318",
+  "artifactSha256": "6ec382f98b46e63a5923f68cfc459378a048309a38b328d477eed1fecdee55cb",
   "status": "pass",
   "summary": "全6ページを実描画（wide/narrow）と機械検証JSONで確認した。各ページはタイトル1文が主張を宣言し、ステージカード・パネル・codebox・表がその主張を支える構成で、装飾のための図形・グラデーション・写真はない。全観点PASS。",
   "strengths": [
