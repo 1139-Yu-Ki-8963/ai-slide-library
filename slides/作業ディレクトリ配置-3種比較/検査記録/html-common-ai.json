@@ -1,0 +1,200 @@
+{
+  "artifact": "/Users/MacPro/Projects/worktrees/ai-slide-library/adding-3dir-work-slide/slides/作業ディレクトリ配置-3種比較/解説スライド.html",
+  "artifactSha256": "f97a0a97112f77da18cb9fa2ae8b16594f47a5c4539b277866a8a5572232e2a0",
+  "status": "fail",
+  "summary": "3ページの解説スライドは正本(docs/design/作業ディレクトリと出力の配置.md)の3行表・各段の詳細表を、カードとツリー図と往復フロー図に視覚化しており、情報階層・配色・レイアウトの基本原則には概ね準拠している。ただし正本との逐語照合で reports/ の『検証の判定の要約』と design/common/ の2文書名(共通処理の詳細設計書・アーキテクチャ調査書)が欠落しており、improvement-over-sourceの『改善と引き換えの欠落を認めない』原則に反する。ページ3のconfirmations往復フロー図は矢印の意味が正本と整合しない箇所がある。加えてカタログ用サムネイルと検証用スクリーンショットが現行HTMLより古い内容(旧タイトル)のまま配布されている。",
+  "strengths": [
+    "ページ1の3カラム比較は正本の3行表と1:1対応しており、恣意的な3等分ではなく内容に基づく分割になっている",
+    "配色はアクセントの青1色+グレー階調のみに抑制されており、項目ごとの機械的な色分けを避けている",
+    "各ページのタイトルはいずれも判断対象を示す主張文であり、副題もタイトルの言い換えでなく範囲・根拠を補っている",
+    "kv行・ツリー図により、正本のMarkdown表よりも視覚的な読みやすさが向上している",
+    "3ページとも矢印・アイコン・グラデーション・立体効果・ストックフォトの濫用が見られず、AIテンプレート的な装飾は概ね回避できている"
+  ],
+  "findings": [
+    {
+      "criterionId": "html-ai-content-preservation",
+      "severity": "high",
+      "decision": "fail",
+      "target": "ページ3 ai-output/reports/ の説明",
+      "evidence": "正本の reports/ 行は『完了報告・納品物一覧の写し・検証の判定の要約』の3項目だが、スライドは2項目のみ(guide-row本文・ツリー図とも)。",
+      "impact": "reports/に検証結果の要約も保存される事実が読み手に伝わらない。",
+      "fix": "guide-row本文とツリー図のreports/行へ『検証の判定の要約』を追記する。",
+      "verification": "修正後の文言を正本のreports/行と再照合し3項目とも含まれることを確認する。"
+    },
+    {
+      "criterionId": "html-ai-content-preservation",
+      "severity": "high",
+      "decision": "fail",
+      "target": "ページ2 docs/design/common/ の説明",
+      "evidence": "正本のdesign/common/行は『共通設計文書・共通処理の詳細設計書・アーキテクチャ調査書』の3文書だが、スライドは『共通設計文書』のみ(guide-row本文・ツリー図とも)。",
+      "impact": "design/common/配下に存在する2つの具体的成果物が読み手に伝わらない。",
+      "fix": "guide-row本文とツリー図のdesign/common/行へ残り2文書名を追記する。",
+      "verification": "修正後の文言を正本のdesign/common/行と再照合し3文書名とも含まれることを確認する。"
+    },
+    {
+      "criterionId": "html-ai-improvement-over-source",
+      "severity": "high",
+      "decision": "fail",
+      "target": "ページ2・ページ3全体",
+      "evidence": "上記2件の欠落は、カード/ツリー形式による可読性向上と引き換えに正本の列挙情報の一部を失う『改善と引き換えの欠落』に該当する。",
+      "impact": "『改善と引き換えの欠落を認めない』という規約に反する。",
+      "fix": "上記2件を修正したうえで、全guide-row・ツリー行を正本の対応セルと再度1:1照合する。",
+      "verification": "全guide-row・ツリー行の文言を正本の対応する表セルと突き合わせ、欠落0件を確認する。"
+    },
+    {
+      "criterionId": "html-ai-connectors",
+      "severity": "medium",
+      "decision": "fail",
+      "target": "ページ3 flow-svgの3本の矢印(fw-fwd-1, fw-fwd-2, fw-back)",
+      "evidence": "box2→box3矢印『回答』とbox3→box1破線矢印『書き戻す』が併存し、box3のキャプション『支援ツールの機能が回答を書き戻す』と合わせて読むと、正本(『運用の機能が回答を先方リポジトリの設計書へ書き戻す』)が示す書き戻し先(box3)と矢印上の『書き戻す』ラベルの位置(box3→box1)が食い違う。",
+      "impact": "読み手が書き戻し動作の起点・終点・実行主体を誤読しうる。",
+      "fix": "box2→box3の矢印を『書き戻す』として明示し、box3→box1の破線矢印は削除する。",
+      "verification": "矢印の向きとラベルだけで一連の処理の起点・終点・実行主体が説明なしに読み取れるかを確認する。"
+    },
+    {
+      "criterionId": "html-ai-information-density",
+      "severity": "low",
+      "decision": "suggestion",
+      "target": "ページ3全体",
+      "evidence": "ai-output/の構造ツリー図とconfirmations往復フロー図という2種の図解が1枚に同居している。",
+      "impact": "関連はしているが1枚あたりの図解要素がページ1・2よりやや多い。",
+      "fix": "フロー図を独立した4枚目のスライドに分割することを検討してもよい。",
+      "verification": "分割した場合、各ページが単独で1メッセージを推測できるかを確認する。"
+    }
+  ],
+  "checks": [
+    {
+      "criterionId": "html-ai-purpose-hierarchy",
+      "decision": "pass",
+      "target": "3ページ全体の情報階層",
+      "evidence": "各ページでタイトル(主張)>thesisバナー/副題>カード・行>ツリー/図>結論行という優先順位が、文字サイズ・太さ・色・配置面積で一貫して反映されている。",
+      "impact": "主張と根拠の主従が視覚的に明確で理解を助けている。",
+      "fix": "なし。",
+      "verification": "3ページのレンダリング画像で各要素の視覚的重みと情報の重要度の対応を確認済み。"
+    },
+    {
+      "criterionId": "html-ai-non-template",
+      "decision": "pass",
+      "target": "3ページ全体の装飾・反復パターン",
+      "evidence": "角丸(border-radius)0、影(box-shadow)なし、アイコン・ストックフォト・グラデーション・立体図形・大きな矢印なし。ページ1の3カードは色分けではなく1色(accent)のみを1カード(先方リポジトリ)に限定使用しており、恣意的な機械的色分けではない。3カラムは正本の3行表に対応した内容起因の分割である。",
+      "impact": "AI生成物特有のテンプレート感が抑制されている。",
+      "fix": "なし。",
+      "verification": "CSS(style要素)を確認し、border-radius・box-shadow・グラデーション指定が存在しないことを確認済み。"
+    },
+    {
+      "criterionId": "html-ai-content-preservation",
+      "decision": "fail",
+      "target": "正本(docs/design/作業ディレクトリと出力の配置.md)全体との逐語照合",
+      "evidence": "reports/の『検証の判定の要約』、design/common/の『共通処理の詳細設計書』『アーキテクチャ調査書』が欠落(findings参照)。他の大半の数値・固有名詞・単位・条件は正確に保持されている(版管理・書く側の値、ai-output配下6フォルダ名、7種別名等)。",
+      "impact": "一部の固有名詞(具体的な成果物名)が読み手に伝わらない。",
+      "fix": "findings記載の2箇所を修正する。",
+      "verification": "正本の全表セルとスライドの対応箇所を1行ずつ突き合わせ、欠落0件を確認する。"
+    },
+    {
+      "criterionId": "html-ai-information-density",
+      "decision": "pass",
+      "target": "ページ2・ページ3の情報密度",
+      "evidence": "ページ2は4行の見出し+ツリー図、ページ3はツリー図+フロー図を同居させているが、いずれも同一テーマ(先方リポジトリ直下の構成/ai-output配下の構成)の異なる側面を補強する関係にあり、無関係な情報の詰め込みではない。",
+      "impact": "情報量はやや多いが理解を阻害するほどではない。",
+      "fix": "ページ3のフロー図分割を検討してもよい(findings参照、suggestion)。",
+      "verification": "レンダリング画像で文字の詰め込みや読み取りにくさがないことを確認済み。"
+    },
+    {
+      "criterionId": "html-ai-improvement-over-source",
+      "decision": "fail",
+      "target": "正本(Markdown表形式)との比較",
+      "evidence": "カード/ツリー/フロー図による視覚化は読み順・比較可能性を正本より改善しているが、findings記載の2箇所は改善と引き換えに情報が欠落しており、規約が禁じる状態に該当する。",
+      "impact": "可読性は向上したが完全性が犠牲になっている箇所がある。",
+      "fix": "findings記載の2箇所を修正すれば、可読性向上と情報保持を両立できる。",
+      "verification": "修正後、正本の全項目が漏れなく含まれることを確認する。"
+    },
+    {
+      "criterionId": "html-ai-shapes",
+      "decision": "pass",
+      "target": "dirカード・g-row・flow-boxの図形表現",
+      "evidence": "カードは太い枠線・影・立体効果・グラデーションを持たず、border-top4px+border-bottom1pxの細い罫線のみ。文章を全て枠で囲んでおらず、g-rowは罫線区切りのみでカード化していない。",
+      "impact": "図形が本文より目立ちすぎることがない。",
+      "fix": "なし。",
+      "verification": "CSSのborder/box-shadow指定を確認済み。"
+    },
+    {
+      "criterionId": "html-ai-connectors",
+      "decision": "fail",
+      "target": "ページ3 flow-svg",
+      "evidence": "findings参照。矢印自体の太さ・線種は細く統一されており過度な装飾はないが、方向の意味が正本と整合しない箇所がある。",
+      "impact": "矢印の意味を読み手が誤解する可能性がある。",
+      "fix": "findings記載のとおり修正する。",
+      "verification": "修正後、矢印だけで処理の起点・終点・実行主体が説明なしに読み取れるかを確認する。"
+    },
+    {
+      "criterionId": "html-ai-typography",
+      "decision": "pass",
+      "target": "3ページ全体の文字表現",
+      "evidence": "見出し・本文・注釈がサイズ・太さ・色濃淡で区別されている。極端な太字・影付き文字・縁取り文字・複数書体の無秩序な混在は見られない。<wbr>によるソフト改行が長い日本語文言に適切に挿入されており、レンダリング画像で不自然な折り返し・文字切れは確認されなかった。",
+      "impact": "階層と可読性が保たれている。",
+      "fix": "なし。",
+      "verification": "1280x720実描画で3ページとも文字の折り返し・はみ出しがないことを確認済み。"
+    },
+    {
+      "criterionId": "html-ai-color-accessibility",
+      "decision": "pass",
+      "target": "配色パレット(--ink/--muted/--label/--accent等)",
+      "evidence": "使用色はアクセント青(#3D6CA5)+グレー階調のみ。--muted(#5A6066)と白背景のコントラスト比は約6.36:1、--label(#70767C)は約4.59:1で、いずれも本文相当の閾値4.5を満たす(--labelは10px以下のラベル用途が主でありその場合の閾値2.8も余裕で満たす)。赤緑の対比に依存する表現はない。",
+      "impact": "色覚特性に関わらず情報を判別できる。",
+      "fix": "なし。",
+      "verification": "WCAG相対輝度式によりhex値からコントラスト比を手計算し確認済み。"
+    },
+    {
+      "criterionId": "html-ai-flow-alignment-spacing",
+      "decision": "pass",
+      "target": "3ページ全体の視線誘導・整列・余白",
+      "evidence": "左から右・上から下の読み順が一貫している。dir-gate(『中身：』行)がmargin-top:autoで各カード下端に揃えられ基準線が一致している。ページ1の各カード下部にはやや大きな空白があるが、3カードとも同量で意図的な整列装置であり特定要素の孤立ではない。",
+      "impact": "視線が迷わず主要情報から補足情報へ自然に移動できる。",
+      "fix": "なし(空白量については低優先度の改善提案をfindingsに記載)。",
+      "verification": "レンダリング画像で基準線の揃いと余白の均等性を確認済み。"
+    },
+    {
+      "criterionId": "html-ai-graphs-numbers",
+      "decision": "not-applicable",
+      "target": "対象なし",
+      "evidence": "本スライドには折れ線・棒グラフ等の数値系列を持つグラフは存在しない。",
+      "impact": "該当なし。",
+      "fix": "該当なし。",
+      "verification": "3ページのHTML構造・レンダリング画像にグラフ要素が存在しないことを確認済み。"
+    },
+    {
+      "criterionId": "html-ai-tables",
+      "decision": "not-applicable",
+      "target": "対象なし",
+      "evidence": "本スライドは<table>要素、および数値の右揃え・小数点整列を要するデータグリッドを持たない。dirカードのkv行・g-rowは定義リスト形式の比較表現であり、罫線・整数/小数の整列を要する典型的な表とは性質が異なる。",
+      "impact": "該当なし。",
+      "fix": "該当なし。",
+      "verification": "HTML内に<table>要素、数値データの列が存在しないことを確認済み。"
+    }
+  ],
+  "editPlan": {
+    "priority1_mustFix": [
+      "ページ3 reports/の説明(guide-row・ツリー図)へ『検証の判定の要約』を追記",
+      "ページ2 design/common/の説明(guide-row・ツリー図)へ『共通処理の詳細設計書』『アーキテクチャ調査書』を追記",
+      "ページ3 flow-svgの矢印を修正(box2→box3を『書き戻す』に、box3→box1の破線矢印を削除)"
+    ],
+    "priority2_confirmBeforeShipping": [
+      "ページ2 project-portal/の説明文が正本外の追加情報である旨を著者に確認",
+      "上記修正後にサムネイル.pngとevidence/検証用スクリーンショット.pngを再生成"
+    ],
+    "priority3_optional": [
+      "ページ2 design/lists/ツリー行への括弧内補足の追記要否を検討",
+      "ページ3のツリー図とフロー図の分割要否を検討",
+      "ページ1の各dirカード下部の余白の使い方を再検討"
+    ]
+  },
+  "implementationPlan": [
+    "1. ページ3のreports/説明(guide-row本文とツリー図の両方)に『検証の判定の要約』を追記する",
+    "2. ページ2のdesign/common/説明(guide-row本文とツリー図の両方)に『共通処理の詳細設計書』『アーキテクチャ調査書』を追記する",
+    "3. ページ3のflow-svgのbox2→box3矢印ラベルを『書き戻す』に変更し、box3→box1の破線矢印(fw-back)とその関連要素を削除する",
+    "4. 1〜3の修正後、正本の全表セルとスライド全文を再度1行ずつ突き合わせ、他に欠落がないことを確認する",
+    "5. project-portal/の説明文について正本外の追加が許容されるか確認し、必要なら文言を調整する",
+    "6. 修正確定後にサムネイル.pngとevidence/検証用スクリーンショット.pngを現行HTMLから再生成する",
+    "7. 再生成後、本レビュー(Phase 8 / html-common-ai)を再実行しstatusがpassになることを確認する"
+  ]
+}
