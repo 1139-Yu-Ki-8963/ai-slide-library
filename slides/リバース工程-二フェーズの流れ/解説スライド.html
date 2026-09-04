@@ -15,10 +15,10 @@
   .p1-block{ flex:1 1 0; min-width:0; display:flex; flex-direction:column; gap:9px; padding:14px 16px; background:var(--surface-2); border-top:3px solid var(--ink); }
   .p1-block.final{ background:var(--surface); border:1px solid var(--accent); border-top:4px solid var(--accent); flex:0.92 1 0; }
   .p1-arrow{ flex:0 0 24px; display:flex; align-items:center; justify-content:center; padding-top:56px; color:var(--label); font-size:17px; }
-  .p1-gate{ flex:0 0 70px; display:flex; flex-direction:column; align-items:center; padding:0 2px; }
-  .p1-gate .g-top{ font-size:11.5px; font-weight:700; color:var(--accent); text-align:center; line-height:1.3; padding-top:2px; }
+  .p1-gate{ flex:0 0 110px; display:flex; flex-direction:column; align-items:center; padding:0 2px; }
+  .p1-gate .g-top{ font-size:11.5px; font-weight:700; color:var(--accent); text-align:center; line-height:1.3; padding-top:2px; white-space:nowrap; }
   .p1-gate .bar{ flex:1; width:4px; min-height:16px; background:var(--accent); margin:6px 0; }
-  .p1-gate .g-bottom{ font-size:11.5px; font-weight:700; color:var(--accent); text-align:center; line-height:1.35; padding-bottom:2px; }
+  .p1-gate .g-bottom{ font-size:11.5px; font-weight:700; color:var(--accent); text-align:center; line-height:1.35; padding-bottom:2px; white-space:nowrap; }
   .p1-phase{ font:700 11.5px/1.3 system-ui,sans-serif; letter-spacing:.05em; color:var(--muted); }
   .p1-title{ font-size:18px; font-weight:700; color:var(--ink); line-height:1.3; }
   .p1-card{ background:var(--surface); border:1px solid var(--faint); padding:9px 11px; display:flex; flex-direction:column; gap:3px; }
@@ -43,13 +43,12 @@
   .stat.accent .num{ color:var(--accent); }
   .stat .unit{ font-size:15px; color:var(--muted); }
   .p2-mid{ flex:1; min-height:0; display:flex; align-items:stretch; gap:0; }
-  .p2-panel{ flex:1 1 0; background:var(--surface-2); border-top:3px solid var(--ink); padding:18px 24px; }
-  .p2-panel.split{ flex:1.7 1 0; display:flex; align-items:stretch; }
+  .p2-panel{ flex:1 1 0; background:var(--surface-2); border-top:3px solid var(--ink); padding:18px 24px; display:flex; flex-direction:column; }
+  .p2-panel.split{ flex:1.7 1 0; flex-direction:row; align-items:stretch; }
   .p2-half{ flex:1 1 0; display:flex; flex-direction:column; gap:8px; min-width:0; }
   .p2-divider{ flex:0 0 3px; background:var(--accent); margin:0 22px; }
-  .p2-arrow-mid{ flex:0 0 110px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:0 8px; text-align:center; }
-  .p2-arrow-mid .l1{ font-size:14px; color:var(--muted); line-height:1.5; }
-  .p2-arrow-mid .glyph{ font-size:20px; color:var(--ink); }
+  .p2-arrow-mid{ flex:0 0 140px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:0 8px; text-align:center; }
+  .p2-arrow-mid .l1{ font-size:14px; color:var(--muted); line-height:1.5; white-space:nowrap; }
   .p2-ph{ display:block; font:700 12px/1.3 system-ui,sans-serif; letter-spacing:.05em; color:var(--muted); }
   .p2-t{ display:block; font-size:22px; font-weight:700; color:var(--ink); margin-top:2px; }
   .p2-l{ display:block; font-size:14px; color:var(--muted); margin-top:8px; }
@@ -73,7 +72,7 @@
   .p3-gate-row{ margin:2px 0; padding:3px 4px; border-top:2px solid var(--accent); border-bottom:2px solid var(--accent); text-align:center; font-size:11px; font-weight:700; color:var(--accent); line-height:1.3; }
 
   /* ==== 4枚目: メッセージ型 ==== */
-  .p4-grid{ flex:1; min-height:0; display:grid; grid-template-columns:1fr 90px 1fr; grid-template-rows:1fr 1fr; gap:14px 0; padding-top:10px; }
+  .p4-grid{ flex:1; min-height:0; display:grid; grid-template-columns:1fr 120px 1fr; grid-template-rows:1fr 1fr; gap:14px 0; padding-top:10px; }
   .p4-block{ background:var(--surface-2); border-top:3px solid var(--ink); padding:18px 22px; display:flex; flex-direction:column; gap:9px; min-height:0; }
   .p4-block.final{ background:var(--surface); border:1px solid var(--accent); border-top:4px solid var(--accent); }
   .p4-b1{ grid-column:1; grid-row:1; }
@@ -90,7 +89,7 @@
   .p4-human strong{ font-size:13px; color:var(--ink); }
   .p4-gate{ grid-column:2; grid-row:1 / 3; display:flex; flex-direction:column; align-items:center; min-height:0; }
   .p4-gate .bar{ flex:1; width:4px; min-height:10px; background:var(--accent); }
-  .p4-gate .txt{ padding:8px 2px; text-align:center; font-size:13px; font-weight:700; color:var(--accent); line-height:1.5; }
+  .p4-gate .txt{ padding:8px 2px; text-align:center; font-size:13px; font-weight:700; color:var(--accent); line-height:1.5; white-space:nowrap; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
@@ -145,7 +144,7 @@
       <div class="p1-gate">
         <span class="g-top">チェックポイント</span>
         <span class="bar"></span>
-        <span class="g-bottom">保留が合格するまで進まない</span>
+        <span class="g-bottom">保留が合格する<br>まで進まない</span>
       </div>
       <div class="p1-block">
         <span class="p1-phase">第二フェーズ後半</span>
@@ -215,8 +214,7 @@
         <div class="p2-human"><span class="human-icon">人</span><span>範囲の承認で締める</span></div>
       </div>
       <div class="p2-arrow-mid">
-        <span class="l1">承認済み定義書</span>
-        <span class="glyph">→</span>
+        <span class="l1">承認済み<br>定義書<br>→</span>
       </div>
       <div class="p2-panel split">
         <div class="p2-half">
