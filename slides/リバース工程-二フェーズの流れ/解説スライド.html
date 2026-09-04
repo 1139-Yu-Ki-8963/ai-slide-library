@@ -3,73 +3,94 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>流れは第一フェーズと第二フェーズに分かれる</title>
+<title>リバース工程の全体像</title>
 <style>
-  .mono{ font-family:"SF Mono","Cascadia Code",Consolas,Menlo,monospace; }
   .note-line{ margin-top:auto; padding-top:12px; border-top:2px solid var(--accent); font-size:15px; line-height:1.6; color:var(--muted); }
+  .human-icon{ display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; width:24px; height:24px; border-radius:50%; background:var(--accent); color:var(--surface); font:700 12px/1 "Hiragino Sans","Hiragino Kaku Gothic ProN",sans-serif; }
+  .chip{ display:inline-flex; align-items:center; padding:3px 9px; background:var(--surface); border:1px solid var(--faint); border-radius:3px; font-size:12px; line-height:1.4; color:var(--muted); }
+  .chip.dim{ opacity:.55; border-style:dashed; }
 
-  /* ==== 全体像: 2パネル + 中央矢印（1・6枚目） ==== */
-  .dual{ flex:1; min-height:0; display:grid; grid-template-columns:1fr 120px 1fr; align-items:stretch; padding-top:14px; margin-bottom:14px; }
-  .dual.gate{ grid-template-columns:1fr 180px 1fr; }
-  .panel{ display:flex; flex-direction:column; gap:10px; padding:18px 26px; background:var(--surface-2); border-top:3px solid var(--ink); min-height:0; }
-  .panel-head{ font-size:20px; font-weight:700; color:var(--ink); }
-  .panel-head .rng{ margin-left:10px; font:700 14px/1.3 system-ui,sans-serif; color:var(--label); letter-spacing:.04em; }
-  .panel-row{ display:flex; flex-direction:column; gap:4px; border-top:1px solid var(--faint); padding-top:9px; }
-  .panel-row:first-of-type{ border-top:0; padding-top:0; }
-  .panel-row .k{ font:700 14px/1.3 system-ui,sans-serif; letter-spacing:.08em; color:var(--muted); }
-  .panel-row .v{ font-size:15px; line-height:1.6; color:var(--muted); }
-  .mid{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:0 4px; align-self:center; }
-  .mid .glyph{ font-size:30px; color:var(--accent); line-height:1; }
-  .mid .label{ font-size:14px; line-height:1.4; color:var(--label); text-align:center; }
-  .mid.gate-mid{ gap:12px; padding:16px 10px; background:var(--surface-2); border-left:3px solid var(--accent); border-right:3px solid var(--accent); align-self:stretch; }
-  .mid.gate-mid .label{ font-size:15px; font-weight:700; color:var(--ink); line-height:1.6; }
+  /* ==== 1枚目: 全体像・ブロック連結 ==== */
+  .p1-flow{ flex:1; min-height:0; display:flex; align-items:stretch; gap:0; padding-top:12px; }
+  .p1-block{ flex:1 1 0; min-width:0; display:flex; flex-direction:column; gap:9px; padding:14px 16px; background:var(--surface-2); border-top:3px solid var(--ink); }
+  .p1-block.final{ background:var(--surface); border:1px solid var(--accent); border-top:4px solid var(--accent); flex:0.92 1 0; }
+  .p1-arrow{ flex:0 0 24px; display:flex; align-items:center; justify-content:center; padding-top:56px; color:var(--label); font-size:17px; }
+  .p1-gate{ flex:0 0 70px; display:flex; flex-direction:column; align-items:center; padding:0 2px; }
+  .p1-gate .g-top{ font-size:11.5px; font-weight:700; color:var(--accent); text-align:center; line-height:1.3; padding-top:2px; }
+  .p1-gate .bar{ flex:1; width:4px; min-height:16px; background:var(--accent); margin:6px 0; }
+  .p1-gate .g-bottom{ font-size:11.5px; font-weight:700; color:var(--accent); text-align:center; line-height:1.35; padding-bottom:2px; }
+  .p1-phase{ font:700 11.5px/1.3 system-ui,sans-serif; letter-spacing:.05em; color:var(--muted); }
+  .p1-title{ font-size:18px; font-weight:700; color:var(--ink); line-height:1.3; }
+  .p1-card{ background:var(--surface); border:1px solid var(--faint); padding:9px 11px; display:flex; flex-direction:column; gap:3px; }
+  .p1-card .ct{ font-size:13.5px; font-weight:700; color:var(--ink); }
+  .p1-card .cl{ font-size:12px; color:var(--muted); }
+  .p1-card .co{ font-size:12px; color:var(--ink); }
+  .p1-chips{ display:flex; flex-wrap:wrap; gap:6px; }
+  .p1-plain-note{ margin-top:auto; padding-top:9px; border-top:1px solid var(--faint); font-size:12px; color:var(--muted); }
+  .p1-human{ margin-top:auto; padding-top:9px; border-top:1px solid var(--faint); display:flex; align-items:flex-start; gap:8px; }
+  .p1-human-t{ display:flex; flex-direction:column; gap:2px; }
+  .p1-human-t strong{ font-size:13px; color:var(--ink); }
+  .p1-human-t span{ font-size:11.5px; color:var(--muted); }
+  .p1-block.final .p1-human{ margin-top:0; padding-top:0; border-top:0; }
+  .p1-final-note{ margin-top:auto; padding-top:9px; border-top:1px solid var(--faint); font-size:12px; color:var(--muted); }
+  .p1-back{ margin-top:12px; padding-top:10px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; align-items:baseline; gap:5px 18px; font-size:13px; color:var(--muted); }
+  .p1-back strong{ color:var(--ink); margin-right:2px; }
 
-  /* ==== 全体像: 3段パネル（2枚目） ==== */
-  .tri{ flex:1; min-height:0; display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; padding-top:14px; margin-bottom:14px; }
-  .tri .panel{ border-top-color:var(--line); }
-  .tri .panel.last{ border-top-color:var(--accent); }
+  /* ==== 2枚目: 俯瞰 ==== */
+  .p2-stats{ display:flex; align-items:baseline; gap:34px; padding:18px 0 22px; }
+  .stat{ display:flex; align-items:baseline; gap:8px; }
+  .stat .num{ font-size:52px; font-weight:800; color:var(--ink); line-height:1; }
+  .stat.accent .num{ color:var(--accent); }
+  .stat .unit{ font-size:15px; color:var(--muted); }
+  .p2-mid{ flex:1; min-height:0; display:flex; align-items:stretch; gap:0; }
+  .p2-panel{ flex:1 1 0; background:var(--surface-2); border-top:3px solid var(--ink); padding:18px 24px; }
+  .p2-panel.split{ flex:1.7 1 0; display:flex; align-items:stretch; }
+  .p2-half{ flex:1 1 0; display:flex; flex-direction:column; gap:8px; min-width:0; }
+  .p2-divider{ flex:0 0 3px; background:var(--accent); margin:0 22px; }
+  .p2-arrow-mid{ flex:0 0 110px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:0 8px; text-align:center; }
+  .p2-arrow-mid .l1{ font-size:14px; color:var(--muted); line-height:1.5; }
+  .p2-arrow-mid .glyph{ font-size:20px; color:var(--ink); }
+  .p2-ph{ display:block; font:700 12px/1.3 system-ui,sans-serif; letter-spacing:.05em; color:var(--muted); }
+  .p2-t{ display:block; font-size:22px; font-weight:700; color:var(--ink); margin-top:2px; }
+  .p2-l{ display:block; font-size:14px; color:var(--muted); margin-top:8px; }
+  .p2-gate-text{ display:block; font-size:14px; font-weight:700; color:var(--accent); line-height:1.5; margin-top:8px; }
+  .p2-note{ margin-top:auto; padding-top:10px; font-size:12.5px; color:var(--muted); }
+  .p2-human{ display:flex; align-items:center; gap:8px; margin-top:10px; }
+  .p2-human span{ font-size:13px; font-weight:700; color:var(--ink); }
+  .p2-panel .p2-human:first-of-type{ margin-top:auto; }
 
-  /* ==== 詳細: ステージカード列（3・4・7・8・9・10枚目） ==== */
-  .stage-row{ display:flex; align-items:stretch; padding-top:14px; margin-bottom:14px; }
-  .stage-row .arrow{ flex:0 0 22px; display:flex; align-items:flex-start; justify-content:center; padding-top:62px; color:var(--label); font-size:20px; }
-  .scard{ flex:1; min-width:0; display:flex; flex-direction:column; gap:12px; padding:20px 20px 18px; border-top:3px solid var(--line); background:var(--surface-2); }
-  .scard.star{ border-top-color:var(--accent); background:var(--surface); }
-  .scard .cno{ font:700 15px/1.3 system-ui,sans-serif; color:var(--label); letter-spacing:.02em; }
-  .scard .cname{ font-size:21px; font-weight:700; color:var(--ink); line-height:1.35; word-break:keep-all; }
-  .scard .cname .human{ display:inline-block; margin-left:8px; padding:1px 8px; border:1px solid var(--ink); font:700 14px/1.4 system-ui,sans-serif; color:var(--ink); vertical-align:middle; }
-  .scard .cdesc{ font-size:16px; line-height:1.65; color:var(--muted); }
-  .scard .cout{ margin-top:auto; padding-top:12px; border-top:1px solid var(--faint); font-size:16px; line-height:1.6; color:var(--ink); }
-  .scard .cout .lbl{ display:block; font:700 13px/1.3 system-ui,sans-serif; letter-spacing:.08em; color:var(--label); margin-bottom:4px; }
-  .side-band{ flex:0 0 220px; margin-left:22px; padding:20px 22px; background:var(--surface-2); border-left:3px solid var(--accent); display:flex; flex-direction:column; justify-content:center; gap:10px; min-height:0; }
-  .side-band .bk{ font:700 13px/1.3 system-ui,sans-serif; letter-spacing:.08em; color:var(--label); }
-  .side-band .bt{ font-size:17px; font-weight:700; color:var(--ink); line-height:1.6; }
+  /* ==== 3枚目: 工程表 ==== */
+  .p3-cols{ flex:1; min-height:0; display:grid; grid-template-columns:1fr 1fr; gap:44px; padding-top:4px; }
+  .p3-col{ display:flex; flex-direction:column; min-height:0; }
+  .p3-col-h{ font-size:13.5px; font-weight:700; color:var(--muted); padding-bottom:5px; border-bottom:2px solid var(--ink); margin-bottom:0; }
+  .p3-row{ display:grid; grid-template-columns:1.55fr 1fr; gap:14px; padding:3px 0; border-bottom:1px solid var(--faint); font-size:12px; line-height:1.3; color:var(--muted); align-items:baseline; }
+  .p3-row span:first-child{ color:var(--ink); }
+  .p3-row.head{ font-weight:700; color:var(--label); font-size:10.5px; letter-spacing:.03em; border-bottom:1px solid var(--line); padding-bottom:4px; }
+  .p3-row.head span:first-child{ color:var(--label); }
+  .p3-row.human span:first-child{ color:var(--accent); font-weight:700; }
+  .p3-row.dim{ color:var(--label); }
+  .p3-row.dim span:first-child{ color:var(--label); }
+  .p3-gate-row{ margin:2px 0; padding:3px 4px; border-top:2px solid var(--accent); border-bottom:2px solid var(--accent); text-align:center; font-size:11px; font-weight:700; color:var(--accent); line-height:1.3; }
 
-  /* ==== 道標: 節一覧 + 検出条件例（5枚目） ==== */
-  .p3-wrap{ flex:1; min-height:0; display:grid; grid-template-columns:1fr 1fr; gap:40px; padding-top:14px; margin-bottom:14px; align-items:stretch; }
-  .sec-list{ display:flex; flex-direction:column; min-height:0; }
-  .sec-row{ display:flex; align-items:baseline; gap:10px; padding:6px 0; border-top:1px solid var(--faint); }
-  .sec-row:first-child{ border-top:0; }
-  .sec-row .snum{ font:700 14px/1.3 system-ui,sans-serif; color:var(--label); width:22px; flex-shrink:0; }
-  .sec-row .sname{ font-size:14px; line-height:1.4; color:var(--muted); }
-  .sec-row.key{ border-top:2px solid var(--ink); background:var(--surface-2); padding:8px 10px; margin:2px 0; }
-  .sec-row.key .snum, .sec-row.key .sname{ color:var(--ink); font-weight:700; }
-  .sec-row.key .tag{ margin-left:8px; font:700 14px/1.4 system-ui,sans-serif; letter-spacing:.06em; color:var(--accent); border:1px solid var(--accent); padding:1px 6px; }
-  .codebox{ display:flex; flex-direction:column; min-height:0; background:var(--surface-2); border-top:2px solid var(--ink); padding:16px 18px; }
-  .codebox .clabel{ font:700 14px/1.4 system-ui,sans-serif; letter-spacing:.1em; color:var(--muted); margin-bottom:10px; }
-  .codebox pre{ margin:0; font-size:13px; line-height:1.65; color:var(--ink); white-space:pre-wrap; }
-
-  /* ==== 決まり + 差し戻し表（11枚目） ==== */
-  .p6-wrap{ flex:1; min-height:0; display:grid; grid-template-columns:1fr 1.7fr; gap:40px; padding-top:14px; margin-bottom:14px; }
-  .rules{ display:flex; flex-direction:column; }
-  .rule-item{ display:flex; gap:12px; align-items:flex-start; padding:16px 0; border-top:1px solid var(--faint); }
-  .rule-item:first-child{ border-top:0; padding-top:0; }
-  .rule-item .chk{ flex:0 0 auto; font-size:18px; color:var(--accent); font-weight:700; line-height:1.6; }
-  .rule-item .txt{ font-size:17px; line-height:1.6; color:var(--ink); }
-  .back-table{ width:100%; height:100%; border-collapse:collapse; align-self:stretch; }
-  .back-table th{ background:var(--ink); color:var(--surface); font-size:16px; font-weight:700; text-align:left; padding:12px 16px; }
-  .back-table td{ font-size:17px; line-height:1.6; color:var(--muted); padding:14px 16px; border-bottom:1px solid var(--faint); vertical-align:middle; }
-  .back-table td strong{ color:var(--ink); }
-  .back-table tbody tr:last-child td{ border-bottom:2px solid var(--ink); }
+  /* ==== 4枚目: メッセージ型 ==== */
+  .p4-grid{ flex:1; min-height:0; display:grid; grid-template-columns:1fr 90px 1fr; grid-template-rows:1fr 1fr; gap:14px 0; padding-top:10px; }
+  .p4-block{ background:var(--surface-2); border-top:3px solid var(--ink); padding:18px 22px; display:flex; flex-direction:column; gap:9px; min-height:0; }
+  .p4-block.final{ background:var(--surface); border:1px solid var(--accent); border-top:4px solid var(--accent); }
+  .p4-b1{ grid-column:1; grid-row:1; }
+  .p4-b2{ grid-column:1; grid-row:2; }
+  .p4-b3{ grid-column:3; grid-row:1; }
+  .p4-b4{ grid-column:3; grid-row:2; }
+  .p4-head{ display:flex; align-items:baseline; gap:10px; }
+  .p4-head .ttl{ font-size:18px; font-weight:700; color:var(--ink); }
+  .p4-head .sub{ font-size:12px; color:var(--muted); }
+  .p4-body{ margin:0; font-size:13.5px; line-height:1.6; color:var(--muted); }
+  .p4-note{ margin:0; margin-top:auto; padding-top:8px; font-size:12px; color:var(--muted); }
+  .p4-human{ display:flex; align-items:center; gap:9px; }
+  .p4-human span{ font-size:13px; color:var(--ink); }
+  .p4-human strong{ font-size:13px; color:var(--ink); }
+  .p4-gate{ grid-column:2; grid-row:1 / 3; display:flex; flex-direction:column; align-items:center; min-height:0; }
+  .p4-gate .bar{ flex:1; width:4px; min-height:10px; background:var(--accent); }
+  .p4-gate .txt{ padding:8px 2px; text-align:center; font-size:13px; font-weight:700; color:var(--accent); line-height:1.5; }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
@@ -80,422 +101,216 @@
 
   <section class="slide-page is-active" data-slide-page="1">
     <header class="slide-header">
-      <span class="kicker">AI駆動開発セットアップ｜リバース工程・全体像（1/11）</span>
-      <h1 class="slide-title">流れは<wbr>第一フェーズと<wbr>第二フェーズに分かれる</h1>
-      <p class="slide-subtitle">第一はAIが読んで地図を作り、第二は地図を実行して設計書を作る。人の判断は3回。</p>
+      <span class="kicker">AI駆動開発セットアップ｜リバース工程・全体像（1/4）</span>
+      <h1 class="slide-title">リバース工程の全体像</h1>
+      <p class="slide-subtitle">AIが読んで定義書をつくり、定義書どおりに設計書を書く。人が関わるのは3回だけ</p>
     </header>
-    <div class="dual">
-      <div class="panel">
-        <span class="panel-head">第一フェーズ</span>
-        <div class="panel-row">
-          <span class="k">役割</span>
-          <span class="v">対象コードをAIが読み、第二フェーズが使う検出条件と、要件定義書・共通設計文書を作る</span>
+    <div class="p1-flow">
+      <div class="p1-block">
+        <span class="p1-phase">第一フェーズ</span>
+        <span class="p1-title">AIが読む</span>
+        <div class="p1-card">
+          <span class="ct">領域ごとの調査</span>
+          <span class="cl">⟳ 全領域が終わるまで繰り返す</span>
+          <span class="co">→ 調査と検出条件の定義書</span>
         </div>
-        <div class="panel-row">
-          <span class="k">入力</span>
-          <span class="v">対象コード（コミットを固定）</span>
+        <div class="p1-chips">
+          <span class="chip">切り出しと除外</span>
+          <span class="chip">要件定義書</span>
+          <span class="chip">共通設計文書</span>
+          <span class="chip">検査と出し直し</span>
         </div>
-        <div class="panel-row">
-          <span class="k">出力</span>
-          <span class="v">道標（検出条件を含む）、要件定義書、共通設計文書6つ、承認用の要約1枚</span>
-        </div>
-        <div class="panel-row">
-          <span class="k">人の判断</span>
-          <span class="v">範囲の承認（1回）</span>
+        <div class="p1-human">
+          <span class="human-icon">人</span>
+          <div class="p1-human-t"><strong>範囲の承認</strong><span>承認済みの定義書を次へ渡す</span></div>
         </div>
       </div>
-      <div class="mid">
-        <span class="glyph">→</span>
-        <span class="label">承認された道標</span>
+      <div class="p1-arrow">→</div>
+      <div class="p1-block">
+        <span class="p1-phase">第二フェーズ前半</span>
+        <span class="p1-title">基本設計を書く</span>
+        <div class="p1-card">
+          <span class="ct">単位の基本設計</span>
+          <span class="cl">完了判定</span>
+          <span class="co">→ 基本設計書・合格の記録</span>
+        </div>
+        <div class="p1-chips">
+          <span class="chip">一覧化（実測）</span>
+          <span class="chip">裏付け</span>
+          <span class="chip">基盤文書</span>
+          <span class="chip">コード読み取り</span>
+        </div>
+        <div class="p1-plain-note">不合格の単位は基本設計をやり直す</div>
       </div>
-      <div class="panel">
-        <span class="panel-head">第二フェーズ</span>
-        <div class="panel-row">
-          <span class="k">役割</span>
-          <span class="v">道標の検出条件を実行して単位を実測し、単位ごとの基本設計・詳細設計・確認事項一覧を作る</span>
+      <div class="p1-gate">
+        <span class="g-top">チェックポイント</span>
+        <span class="bar"></span>
+        <span class="g-bottom">保留が合格するまで進まない</span>
+      </div>
+      <div class="p1-block">
+        <span class="p1-phase">第二フェーズ後半</span>
+        <span class="p1-title">詳細設計を書く</span>
+        <div class="p1-card">
+          <span class="ct">単位の詳細設計</span>
+          <span class="co">→ 詳細設計書</span>
         </div>
-        <div class="panel-row">
-          <span class="k">入力</span>
-          <span class="v">道標・要件定義書・共通設計文書・対象コード</span>
+        <div class="p1-chips">
+          <span class="chip">共通処理</span>
+          <span class="chip">規約提案</span>
+          <span class="chip">確認事項一覧</span>
+          <span class="chip dim">テスト設計（スコープ外）</span>
         </div>
-        <div class="panel-row">
-          <span class="k">出力</span>
-          <span class="v">一覧、基本設計書、詳細設計書、確認事項一覧</span>
+        <div class="p1-plain-note">確認事項一覧をまとめて次へ</div>
+      </div>
+      <div class="p1-arrow">→</div>
+      <div class="p1-block final">
+        <span class="p1-phase">最終確認</span>
+        <span class="p1-title">人が完了を判断する</span>
+        <div class="p1-human">
+          <span class="human-icon">人</span>
+          <div class="p1-human-t"><strong>確認事項の提示</strong></div>
         </div>
-        <div class="panel-row">
-          <span class="k">人の判断</span>
-          <span class="v">確認事項の提示、完了の受け入れ（2回）</span>
+        <div class="p1-human">
+          <span class="human-icon">人</span>
+          <div class="p1-human-t"><strong>完了報告</strong></div>
         </div>
+        <div class="p1-final-note">→ 完了報告・納品物一覧</div>
       </div>
     </div>
-    <p class="note-line">既製の検索パターンは使わない。知らないリポジトリをAIが読み、その対象に合った検出条件を組む。</p>
+    <div class="p1-back">
+      <strong>差し戻しは4本だけ</strong>
+      <span>実測が2割超で乖離 → 調査からやり直す</span>
+      <span>不合格 → 基本設計をやり直す</span>
+      <span>原因が共通設計文書 → 共通設計を直す</span>
+      <span>承認で否 → 理由の指す工程へ</span>
+    </div>
+    <p class="note-line">人に聞くのは3回だけ。中間で人を待たない ／ 回数では止めない。同じ不合格が2回続いたら方法を変える</p>
   </section>
 
   <section class="slide-page" data-slide-page="2">
     <header class="slide-header">
-      <span class="kicker">AI駆動開発セットアップ｜リバース工程・第一フェーズの全体（2/11）</span>
-      <h1 class="slide-title">第一フェーズは<wbr>「読む→書く→閉じる」の<wbr>3段で進む</h1>
-      <p class="slide-subtitle">6工程を3つの段にまとめる。大きな対象は領域に切って段階的に読み、承認で閉じる。</p>
+      <span class="kicker">AI駆動開発セットアップ｜リバース工程・骨格（2/4）</span>
+      <h1 class="slide-title">リバース工程 — 30秒でわかる骨格</h1>
+      <p class="slide-subtitle">2フェーズ・1つのチェックポイント・3回の人の判断で全体をつかむ</p>
     </header>
-    <div class="tri">
-      <div class="panel">
-        <span class="panel-head">読む<span class="rng">1-1・1-2</span></span>
-        <div class="panel-row">
-          <span class="k">何をする</span>
-          <span class="v">フォルダ構成から読む領域と除外を決め、領域を1つずつ読んで検出条件と候補数を書く</span>
-        </div>
-        <div class="panel-row">
-          <span class="k">出力</span>
-          <span class="v">道標（対象・領域・除外・単位の見つけ方・候補数・到達範囲）</span>
-        </div>
+    <div class="p2-stats">
+      <div class="stat">
+        <span class="num">2</span>
+        <span class="unit">フェーズ</span>
       </div>
-      <div class="panel">
-        <span class="panel-head">書く<span class="rng">1-3・1-4</span></span>
-        <div class="panel-row">
-          <span class="k">何をする</span>
-          <span class="v">道標と文書から現状の要件を確定し、共通方式の実装を読んで共通設計文書を書く</span>
-        </div>
-        <div class="panel-row">
-          <span class="k">出力</span>
-          <span class="v">要件定義書（6節）、共通設計文書6つ</span>
-        </div>
+      <div class="stat accent">
+        <span class="num">1</span>
+        <span class="unit">つのチェックポイント</span>
       </div>
-      <div class="panel last">
-        <span class="panel-head">閉じる<span class="rng">1-5・1-6</span></span>
-        <div class="panel-row">
-          <span class="k">何をする</span>
-          <span class="v">機械検査と自己レビューで直し、要約1枚を提示して範囲・除外・到達範囲の承認を得る</span>
+      <div class="stat accent">
+        <span class="num">3</span>
+        <span class="unit">回だけ人が判断</span>
+      </div>
+    </div>
+    <div class="p2-mid">
+      <div class="p2-panel">
+        <span class="p2-ph">第一フェーズ</span>
+        <span class="p2-t">AIが読む</span>
+        <span class="p2-l">調査 → 要件 → 共通設計 → 検査</span>
+        <div class="p2-human"><span class="human-icon">人</span><span>範囲の承認で締める</span></div>
+      </div>
+      <div class="p2-arrow-mid">
+        <span class="l1">承認済み定義書</span>
+        <span class="glyph">→</span>
+      </div>
+      <div class="p2-panel split">
+        <div class="p2-half">
+          <span class="p2-ph">第二フェーズ前半</span>
+          <span class="p2-t">基本設計</span>
+          <span class="p2-l">全単位で合格するまで</span>
+          <span class="p2-note">不合格なら戻ってやり直す</span>
         </div>
-        <div class="panel-row">
-          <span class="k">出力</span>
-          <span class="v">検査の記録、承認用の要約1枚、承認の記録（人の判断1回）</span>
+        <div class="p2-divider"></div>
+        <div class="p2-half">
+          <span class="p2-ph">第二フェーズ後半</span>
+          <span class="p2-t">詳細設計</span>
+          <span class="p2-gate-text">チェックポイント: 保留が合格するまで進まない</span>
+          <div class="p2-human"><span class="human-icon">人</span><span>確認事項の提示</span></div>
+          <div class="p2-human"><span class="human-icon">人</span><span>完了報告</span></div>
         </div>
       </div>
     </div>
-    <p class="note-line">人に聞くのは最後の承認1回だけ。中間で人を待たず、機械検査と自己レビューで前へ進める。</p>
+    <p class="note-line">人に聞くのは3回だけ。中間で人を待たない ／ 同じ不合格が2回続いたら方法を変える</p>
   </section>
 
   <section class="slide-page" data-slide-page="3">
     <header class="slide-header">
-      <span class="kicker">AI駆動開発セットアップ｜リバース工程・第一フェーズ 読む段（3/11）</span>
-      <h1 class="slide-title">読む段は、<wbr>領域に切って<wbr>道標を書く</h1>
-      <p class="slide-subtitle">1-1〜1-2。大きな対象は一度に読まず、領域を1つずつ読んで道標を育てる。</p>
+      <span class="kicker">AI駆動開発セットアップ｜リバース工程・全19工程（3/4）</span>
+      <h1 class="slide-title">全19工程と出力物</h1>
+      <p class="slide-subtitle">第一フェーズ7工程と第二フェーズ12工程。【人】が付く3工程だけ人が動く</p>
     </header>
-    <div class="stage-row">
-      <div class="scard">
-        <span class="cno">1-1</span>
-        <span class="cname">領域の<wbr>切り出しと除外</span>
-        <p class="cdesc">フォルダ構成を読み、読む領域と読まない領域（生成物・依存・テスト等）を決める。ここで対象のコミットを固定する</p>
-        <p class="cout"><span class="lbl">出力</span>道標の節0〜3（対象と時点・調査・領域・除外）</p>
+    <div class="p3-cols">
+      <div class="p3-col">
+        <span class="p3-col-h">第一フェーズ（AIが読む）</span>
+        <div class="p3-row head"><span>工程</span><span>出力物（つくるもの）</span></div>
+        <div class="p3-row"><span>領域の切り出しと除外</span><span>—</span></div>
+        <div class="p3-row"><span>領域ごとの調査 ⟳</span><span>調査と検出条件の定義書</span></div>
+        <div class="p3-row"><span>要件定義書</span><span>要件定義書</span></div>
+        <div class="p3-row"><span>共通設計文書</span><span>共通設計文書（6つ）</span></div>
+        <div class="p3-row"><span>第一フェーズの検査と出し直し</span><span>—</span></div>
+        <div class="p3-row human"><span>範囲の承認【人】</span><span>承認用の要約・承認の記録</span></div>
       </div>
-      <div class="arrow">→</div>
-      <div class="scard">
-        <span class="cno">1-2</span>
-        <span class="cname">領域ごとの調査</span>
-        <p class="cdesc">領域を1つずつ読み、種別ごとの単位の見つけ方（検出条件）と候補数を書く。全領域を読み終えるまで繰り返す</p>
-        <p class="cout"><span class="lbl">出力</span>道標の節4・6・9（単位の見つけ方・候補数・到達範囲）と節10（読みの記録）</p>
+      <div class="p3-col">
+        <span class="p3-col-h">第二フェーズ（定義書を実行して書く）</span>
+        <div class="p3-row head"><span>工程</span><span>出力物（つくるもの）</span></div>
+        <div class="p3-row"><span>一覧化（実測）</span><span>一覧と元データ</span></div>
+        <div class="p3-row"><span>要件定義書の裏付け</span><span>—</span></div>
+        <div class="p3-row"><span>基盤文書</span><span>技術スタック・環境構築手順書</span></div>
+        <div class="p3-row"><span>単位のコードの読み取り結果の取得</span><span>読み取り結果</span></div>
+        <div class="p3-row"><span>単位の基本設計</span><span>基本設計書</span></div>
+        <div class="p3-row"><span>基本設計の完了判定</span><span>合格の記録</span></div>
+        <div class="p3-gate-row">ここで一旦停止 — 上の工程が全単位で合格するまで、下の工程へ進まない</div>
+        <div class="p3-row"><span>共通処理の詳細設計</span><span>共通処理の詳細設計書</span></div>
+        <div class="p3-row"><span>単位の詳細設計</span><span>詳細設計書</span></div>
+        <div class="p3-row dim"><span>テスト設計（スコープ外）</span><span>—</span></div>
+        <div class="p3-row"><span>規約提案</span><span>規約提案</span></div>
+        <div class="p3-row"><span>確認事項一覧</span><span>確認事項一覧</span></div>
+        <div class="p3-row human"><span>確認事項の提示【人】</span><span>—</span></div>
+        <div class="p3-row human"><span>完了報告【人】</span><span>完了報告・納品物一覧</span></div>
       </div>
     </div>
-    <p class="note-line">既製の検索パターンは当てない。知らないリポジトリをAIが読み、その対象に合った検出条件を組む。</p>
+    <p class="note-line">差し戻し: 実測乖離2割超→調査へ ／ 不合格→基本設計へ ／ 原因が共通設計文書→共通設計へ ／ 承認で否→理由の指す工程へ</p>
   </section>
 
   <section class="slide-page" data-slide-page="4">
     <header class="slide-header">
-      <span class="kicker">AI駆動開発セットアップ｜リバース工程・第一フェーズ 書く・閉じる段（4/11）</span>
-      <h1 class="slide-title">書く・閉じる段は、<wbr>要件と共通設計を起こし<wbr>承認で閉じる</h1>
-      <p class="slide-subtitle">1-3〜1-6。道標を根拠に文書を書き、機械検査で直し、要約1枚で承認を得る。</p>
+      <span class="kicker">AI駆動開発セットアップ｜リバース工程・メッセージ（4/4）</span>
+      <h1 class="slide-title">基本設計を全単位で閉じるまで、詳細設計は始まらない</h1>
+      <p class="slide-subtitle">リバース工程の全体像 — 人が判断するのは3回だけ</p>
     </header>
-    <div class="stage-row">
-      <div class="scard">
-        <span class="cno">1-3</span>
-        <span class="cname">要件定義書</span>
-        <p class="cdesc">道標と文書から現状の要件を確定して書く</p>
-        <p class="cout"><span class="lbl">出力</span>要件定義書（6節）</p>
+    <div class="p4-grid">
+      <div class="p4-block p4-b1">
+        <div class="p4-head"><span class="ttl">① AIが読む</span><span class="sub">第一フェーズ</span></div>
+        <p class="p4-body">領域を切り出し、領域ごとの調査を繰り返して定義書にまとめる</p>
+        <div class="p4-human"><span class="human-icon">人</span><span><strong>範囲の承認</strong> → 承認済み定義書</span></div>
       </div>
-      <div class="arrow">→</div>
-      <div class="scard">
-        <span class="cno">1-4</span>
-        <span class="cname">共通設計文書</span>
-        <p class="cdesc">共通方式の実装を読んで書く</p>
-        <p class="cout"><span class="lbl">出力</span>業務仕様・方式・データ・エラー・共通外部仕様・基盤の6文書</p>
+      <div class="p4-block p4-b2">
+        <div class="p4-head"><span class="ttl">② 基本設計を書く</span><span class="sub">第二フェーズ前半</span></div>
+        <p class="p4-body">実測で一覧化し、単位ごとに基本設計書を書いて完了判定にかける</p>
       </div>
-      <div class="arrow">→</div>
-      <div class="scard">
-        <span class="cno">1-5</span>
-        <span class="cname">検査と出し直し</span>
-        <p class="cdesc">機械検査と自己レビューで直す。同じ不合格が2回続いたら方法を変える</p>
-        <p class="cout"><span class="lbl">出力</span>検査の記録、承認用の要約1枚</p>
+      <div class="p4-block p4-b3">
+        <div class="p4-head"><span class="ttl">③ 詳細設計を書く</span><span class="sub">第二フェーズ後半</span></div>
+        <p class="p4-body">共通処理と単位の詳細設計書を書き、規約提案と確認事項一覧を揃える</p>
+        <p class="p4-note">（テスト設計はスコープ外）</p>
       </div>
-      <div class="arrow">→</div>
-      <div class="scard star">
-        <span class="cno">1-6</span>
-        <span class="cname">範囲の承認<span class="human">人</span></span>
-        <p class="cdesc">要約を提示し、範囲・除外・到達範囲の承認を得る</p>
-        <p class="cout"><span class="lbl">出力</span>承認の記録</p>
+      <div class="p4-block p4-b4 final">
+        <div class="p4-head"><span class="ttl">④ 人が完了を判断</span><span class="sub">最終確認</span></div>
+        <div class="p4-human"><span class="human-icon">人</span><span>確認事項の提示</span></div>
+        <div class="p4-human"><span class="human-icon">人</span><span>完了報告</span></div>
+        <p class="p4-note">→ 完了報告・納品物一覧</p>
+      </div>
+      <div class="p4-gate">
+        <span class="bar"></span>
+        <span class="txt">チェックポイント<br>保留が合格する<br>まで進まない</span>
+        <span class="bar"></span>
       </div>
     </div>
-    <p class="note-line">承認で否なら、理由の指す工程へ戻す。回数では止めず、同じ不合格が2回続いたら方法を変える。</p>
-  </section>
-
-  <section class="slide-page" data-slide-page="5">
-    <header class="slide-header">
-      <span class="kicker">AI駆動開発セットアップ｜リバース工程・道標の構造（5/11）</span>
-      <h1 class="slide-title">道標には、<wbr>第二フェーズが<wbr>実行する検出条件が入る</h1>
-      <p class="slide-subtitle">道標は11節。要の節は「単位の見つけ方」で、種別ごとに実行できる形の条件を持つ。</p>
-    </header>
-    <div class="p3-wrap">
-      <div class="sec-list">
-        <div class="sec-row"><span class="snum">0</span><span class="sname">対象と時点</span></div>
-        <div class="sec-row"><span class="snum">1</span><span class="sname">調査</span></div>
-        <div class="sec-row"><span class="snum">2</span><span class="sname">領域</span></div>
-        <div class="sec-row"><span class="snum">3</span><span class="sname">除外</span></div>
-        <div class="sec-row key"><span class="snum">4</span><span class="sname">単位の見つけ方（検出条件・取り出しの規則）</span><span class="tag">要の節</span></div>
-        <div class="sec-row"><span class="snum">5</span><span class="sname">動的な定義</span></div>
-        <div class="sec-row"><span class="snum">6</span><span class="sname">候補数</span></div>
-        <div class="sec-row"><span class="snum">7</span><span class="sname">共通方式の場所</span></div>
-        <div class="sec-row"><span class="snum">8</span><span class="sname">用語の候補</span></div>
-        <div class="sec-row"><span class="snum">9</span><span class="sname">到達範囲</span></div>
-        <div class="sec-row"><span class="snum">10</span><span class="sname">読みの記録</span></div>
-      </div>
-      <div class="codebox">
-        <span class="clabel">検出条件の例（画面）</span>
-        <pre class="mono">{ "種別": "screen",
-  "単位の定義": "経路に対応するページを1つと数える",
-  "走査": { "含む": ["frontend/src/pages"],
-            "除く": ["**/*.test.tsx"], "拡張子": [".tsx"] },
-  "一致": [{ "対象": "内容", "正規表現": "&lt;Header title=" }],
-  "分割": "ファイル",
-  "名前": { "元": "内容", "正規表現": "title=\"([^\"]+)\"" },
-  "例": ["frontend/src/pages/CharacterListPage.tsx"] }</pre>
-      </div>
-    </div>
-    <p class="note-line">第二フェーズの実行器は、この条件を解釈するだけで言語別の分岐を持たない。</p>
-  </section>
-
-  <section class="slide-page" data-slide-page="6">
-    <header class="slide-header">
-      <span class="kicker">AI駆動開発セットアップ｜リバース工程・第二フェーズの全体（6/11）</span>
-      <h1 class="slide-title">第二フェーズは、<wbr>基本設計を全単位で閉じてから<wbr>詳細設計へ進む</h1>
-      <p class="slide-subtitle">2-1〜2-13。前半で基本設計を閉じ、門を通ってから後半で詳細設計から受け入れまで進む。</p>
-    </header>
-    <div class="dual gate">
-      <div class="panel">
-        <span class="panel-head">前半<span class="rng">2-1〜2-6</span></span>
-        <div class="panel-row">
-          <span class="k">何をする</span>
-          <span class="v">検出条件を実行して単位を実測し、事実を固定し、基本設計を書いて完了判定で閉じる</span>
-        </div>
-        <div class="panel-row">
-          <span class="k">出力</span>
-          <span class="v">一覧と元データ、機能と単位の対応表、技術スタック・環境構築手順書、単位ごとの事実、基本設計書、合格の記録</span>
-        </div>
-        <div class="panel-row">
-          <span class="k">人の判断</span>
-          <span class="v">無し</span>
-        </div>
-      </div>
-      <div class="mid gate-mid">
-        <span class="glyph">→</span>
-        <span class="label">保留を除く全単位と共通設計文書が合格するまで、後半へ進まない</span>
-      </div>
-      <div class="panel">
-        <span class="panel-head">後半<span class="rng">2-7〜2-13</span></span>
-        <div class="panel-row">
-          <span class="k">何をする</span>
-          <span class="v">共通処理の詳細設計から単位の詳細設計へ進み、規約提案と確認事項をまとめ、提示と受け入れで完了する</span>
-        </div>
-        <div class="panel-row">
-          <span class="k">出力</span>
-          <span class="v">共通処理の詳細設計書、詳細設計書、規約提案、確認事項一覧、完了報告、納品物一覧</span>
-        </div>
-        <div class="panel-row">
-          <span class="k">人の判断</span>
-          <span class="v">確認事項の提示、完了の受け入れ（2回）</span>
-        </div>
-      </div>
-    </div>
-    <p class="note-line">詳細設計へ進む判定は人に聞かない。機械検査と自己レビューの繰り返しで判定し、hookで止める。テスト設計（2-9）はいまのリバースではスコープ外。</p>
-  </section>
-
-  <section class="slide-page" data-slide-page="7">
-    <header class="slide-header">
-      <span class="kicker">AI駆動開発セットアップ｜リバース工程・第二フェーズ前半 実測（7/11）</span>
-      <h1 class="slide-title">前半は、<wbr>検出条件を実測して<wbr>事実を固定する</h1>
-      <p class="slide-subtitle">2-1〜2-4。道標を地図にして単位を数え、要件と突き合わせ、単位ごとの事実を取り出す。</p>
-    </header>
-    <div class="stage-row">
-      <div class="scard">
-        <span class="cno">2-1</span>
-        <span class="cname">一覧化</span>
-        <p class="cdesc">検出条件を実行して単位を実測し、候補数と突き合わせる</p>
-        <p class="cout"><span class="lbl">出力</span>一覧と元データ</p>
-      </div>
-      <div class="arrow">→</div>
-      <div class="scard">
-        <span class="cno">2-2</span>
-        <span class="cname">要件定義書の<wbr>裏付け</span>
-        <p class="cdesc">機能要件と一覧を突き合わせる</p>
-        <p class="cout"><span class="lbl">出力</span>機能と単位の対応表</p>
-      </div>
-      <div class="arrow">→</div>
-      <div class="scard">
-        <span class="cno">2-3</span>
-        <span class="cname">基盤文書</span>
-        <p class="cdesc">依存の定義から書く</p>
-        <p class="cout"><span class="lbl">出力</span>技術スタック、環境構築手順書</p>
-      </div>
-      <div class="arrow">→</div>
-      <div class="scard">
-        <span class="cno">2-4</span>
-        <span class="cname">単位の<wbr>事実の取り出し</span>
-        <p class="cdesc">取り出しの規則を実行して事実を固定する。機械で埋まる項目とAIが埋める項目を分ける</p>
-        <p class="cout"><span class="lbl">出力</span>単位ごとの事実</p>
-      </div>
-    </div>
-    <p class="note-line">一覧化で実測が候補数と2割を超えて食い違えば、道標の当該領域へ戻して再承認を受ける。</p>
-  </section>
-
-  <section class="slide-page" data-slide-page="8">
-    <header class="slide-header">
-      <span class="kicker">AI駆動開発セットアップ｜リバース工程・第二フェーズ前半 基本設計（8/11）</span>
-      <h1 class="slide-title">前半の終わりで、<wbr>基本設計を書いて<wbr>完了判定で閉じる</h1>
-      <p class="slide-subtitle">2-5〜2-6。事実を業務の言葉に写し、完了状態の観点を機械検査して合格の記録を残す。</p>
-    </header>
-    <div class="stage-row">
-      <div class="scard">
-        <span class="cno">2-5</span>
-        <span class="cname">単位の基本設計</span>
-        <p class="cdesc">事実を業務の言葉に写す。共通設計文書・要件定義書の受入条件・業務の言葉の決まりを参照する</p>
-        <p class="cout"><span class="lbl">出力</span>基本設計書</p>
-      </div>
-      <div class="arrow">→</div>
-      <div class="scard star">
-        <span class="cno">2-6</span>
-        <span class="cname">基本設計の<wbr>完了判定</span>
-        <p class="cdesc">完了状態の観点を機械検査し、合格の記録を書く。不合格は単位の基本設計へ戻す</p>
-        <p class="cout"><span class="lbl">出力</span>合格の記録（共通設計文書を含む）</p>
-      </div>
-      <div class="side-band">
-        <span class="bk">門</span>
-        <span class="bt">保留を除く全単位と共通設計文書の合格の記録が揃うまで、後半へ進まない</span>
-      </div>
-    </div>
-    <p class="note-line">不合格の原因が共通設計文書なら、共通設計文書の再承認へ戻す。方法を変えても解決しない単位は保留にする。</p>
-  </section>
-
-  <section class="slide-page" data-slide-page="9">
-    <header class="slide-header">
-      <span class="kicker">AI駆動開発セットアップ｜リバース工程・第二フェーズ後半 詳細設計（9/11）</span>
-      <h1 class="slide-title">後半は、<wbr>詳細設計を共通から単位へ書き、<wbr>提案と確認事項を出す</h1>
-      <p class="slide-subtitle">2-7〜2-11。共通処理を先に書き、コードと1対1の詳細設計へ進む。</p>
-    </header>
-    <div class="stage-row">
-      <div class="scard">
-        <span class="cno">2-7</span>
-        <span class="cname">共通処理の<wbr>詳細設計</span>
-        <p class="cdesc">基盤層と共通部品を先に書く</p>
-        <p class="cout"><span class="lbl">出力</span>共通処理の詳細設計書</p>
-      </div>
-      <div class="arrow">→</div>
-      <div class="scard">
-        <span class="cno">2-8</span>
-        <span class="cname">単位の詳細設計</span>
-        <p class="cdesc">コードと1対1で書く。表はテーブル定義書にする</p>
-        <p class="cout"><span class="lbl">出力</span>詳細設計書</p>
-      </div>
-      <div class="arrow">→</div>
-      <div class="scard">
-        <span class="cno">2-10</span>
-        <span class="cname">規約提案</span>
-        <p class="cdesc">文書とコードから提案を出す。用語の追加候補を含む</p>
-        <p class="cout"><span class="lbl">出力</span>規約提案</p>
-      </div>
-      <div class="arrow">→</div>
-      <div class="scard">
-        <span class="cno">2-11</span>
-        <span class="cname">確認事項一覧</span>
-        <p class="cdesc">各工程の確認事項を1枚にまとめる</p>
-        <p class="cout"><span class="lbl">出力</span>確認事項一覧</p>
-      </div>
-    </div>
-    <p class="note-line">2-9 テスト設計はいまのリバースではスコープ外。番号は将来の拡張のために残す。</p>
-  </section>
-
-  <section class="slide-page" data-slide-page="10">
-    <header class="slide-header">
-      <span class="kicker">AI駆動開発セットアップ｜リバース工程・第二フェーズ後半 人の判断（10/11）</span>
-      <h1 class="slide-title">人に聞くのは<wbr>提示と受け入れの2回で、<wbr>完了する</h1>
-      <p class="slide-subtitle">2-12〜2-13。確認事項をまとめて提示し、完了報告と納品物一覧で受け入れを得る。</p>
-    </header>
-    <div class="stage-row">
-      <div class="scard star">
-        <span class="cno">2-12</span>
-        <span class="cname">確認事項の提示<span class="human">人</span></span>
-        <p class="cdesc">確認事項一覧を提示し、回答を受ける。回答は設計書へ反映する</p>
-        <p class="cout"><span class="lbl">出力</span>提示の記録</p>
-      </div>
-      <div class="arrow">→</div>
-      <div class="scard star">
-        <span class="cno">2-13</span>
-        <span class="cname">完了報告と受け入れ<span class="human">人</span></span>
-        <p class="cdesc">納品物一覧と完了報告を出し、受け入れを得る</p>
-        <p class="cout"><span class="lbl">出力</span>完了報告、納品物一覧</p>
-      </div>
-    </div>
-    <p class="note-line">中間で人を待たない。差し戻しは表で決め、回数では止めない。</p>
-  </section>
-
-  <section class="slide-page" data-slide-page="11">
-    <header class="slide-header">
-      <span class="kicker">AI駆動開発セットアップ｜リバース工程・決まりと差し戻し（11/11）</span>
-      <h1 class="slide-title">守る決まりは4つ。<wbr>差し戻しは表で決め、<wbr>人に聞くのは3回</h1>
-      <p class="slide-subtitle">決まりを崩さないために、戻り先と方法の変え方を表に固定する。</p>
-    </header>
-    <div class="p6-wrap">
-      <div class="rules">
-        <div class="rule-item">
-          <span class="chk">✓</span>
-          <span class="txt">要件が先（要件定義を基本設計より先に置く）</span>
-        </div>
-        <div class="rule-item">
-          <span class="chk">✓</span>
-          <span class="txt">基本設計を閉じる（全単位の基本設計を閉じてから詳細設計へ）</span>
-        </div>
-        <div class="rule-item">
-          <span class="chk">✓</span>
-          <span class="txt">単体テスト設計書はスコープ外（いまのリバースでは作らない）</span>
-        </div>
-        <div class="rule-item">
-          <span class="chk">✓</span>
-          <span class="txt">共通の詳細が先（共通処理の詳細設計を単位より先に書く）</span>
-        </div>
-      </div>
-      <table class="back-table">
-        <colgroup><col style="width:56%"><col style="width:44%"></colgroup>
-        <thead>
-          <tr><th>どこで見つかる</th><th>どこへ戻る</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>一覧化で実測が候補数と2割を超えて食い違う</td>
-            <td>道標の当該領域（再承認）</td>
-          </tr>
-          <tr>
-            <td>基本設計の完了判定で不合格</td>
-            <td><strong>単位の基本設計</strong></td>
-          </tr>
-          <tr>
-            <td>不合格の原因が共通設計文書</td>
-            <td>共通設計文書（再承認）</td>
-          </tr>
-          <tr>
-            <td>承認で否</td>
-            <td>理由の指す工程</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note-line">回数では止めず、人にも戻さない。同じ不合格が2回続いたら方法を変え、方法が尽きたときだけ対象外かAIの読み取りに倒して進む。</p>
+    <p class="note-line">人に聞くのは3回だけ。中間で人を待たない ／ 回数では止めない。同じ不合格が2回続いたら方法を変える</p>
   </section>
 
 </main>
