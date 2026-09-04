@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>作業ディレクトリと出力の配置</title>
+<title>作業フォルダと出力の配置</title>
 <style>
   :root{ --accent-soft:#E3EDF6; --focus-bg:#F5F9FC; }
   .mono{ font-family: "SF Mono", "Cascadia Code", Consolas, Menlo, monospace; }
 
-  /* P1: 3カラムのディレクトリ比較カード */
+  /* P1: 3カラムのフォルダ比較カード */
   .thesis{ margin:18px 0 12px; padding:10px 14px; border-left:4px solid var(--accent); background:var(--accent-soft); font-size:15px; line-height:1.5; }
   .dirs{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; flex:1; min-height:0; }
   .dir{ display:flex; flex-direction:column; gap:8px; padding:14px 14px 12px; border-top:4px solid var(--faint); border-bottom:1px solid var(--faint); background:var(--surface); }
@@ -64,16 +64,16 @@
 
   <section class="slide-page is-active" data-slide-page="1">
     <header class="slide-header">
-      <span class="kicker">AI駆動開発セットアップ｜<wbr>作業ディレクトリ</span>
-      <h1 class="slide-title">作業で<wbr>使うディレクトリは、<wbr>役割で<wbr>3つに分かれる</h1>
-      <p class="slide-subtitle">支援ツールのリポジトリ・<wbr>先方リポジトリ・<wbr>先方リポジトリに<wbr>含めない出力の<wbr>置き場</p>
+      <span class="kicker">AI駆動開発セットアップ｜<wbr>作業フォルダ</span>
+      <h1 class="slide-title">作業で<wbr>使うフォルダは、<wbr>役割で<wbr>3つに分かれる</h1>
+      <p class="slide-subtitle">支援ツールの<wbr>フォルダ・<wbr>対象プロジェクトの<wbr>フォルダ・<wbr>対象プロジェクトの<wbr>フォルダに<wbr>含めない出力の<wbr>置き場</p>
     </header>
     <p class="thesis">3つは役割・版管理・書く側がそれぞれ異なる。混ぜて置くと、何が納品物で何が記録かが読めなくなる。</p>
     <div class="dirs">
       <article class="dir">
-        <p class="dir-nm">支援ツールの<wbr>リポジトリ<span class="path">ai-driven-development-setup</span></p>
+        <p class="dir-nm">支援ツールの<wbr>フォルダ<span class="path">ai-driven-development-setup</span></p>
         <p class="dir-role">機能の定義と配布物を持つ。作業中は読むだけ。</p>
-        <div class="kv"><span class="kv-key">版管理</span><p class="kv-val">支援ツール側の<wbr>リポジトリ</p></div>
+        <div class="kv"><span class="kv-key">版管理</span><p class="kv-val">支援ツール側で<wbr>管理</p></div>
         <div class="kv"><span class="kv-key">書く側</span><p class="kv-val">支援ツールの<wbr>開発者だけ</p></div>
         <ul class="items">
           <li>docs/design・docs/rules・docs/skills</li>
@@ -82,9 +82,9 @@
         <p class="dir-gate">中身：<wbr>機能の<wbr>定義・<wbr>規約・<wbr>配布物</p>
       </article>
       <article class="dir focus">
-        <p class="dir-nm">先方リポジトリ<span class="path">（納品先）</span></p>
+        <p class="dir-nm">対象プロジェクトの<wbr>フォルダ<span class="path">（納品先）</span></p>
         <p class="dir-role">納品物と、開発チームが運用で使う記録を持つ。</p>
-        <div class="kv"><span class="kv-key">版管理</span><p class="kv-val">先方の<wbr>リポジトリ</p></div>
+        <div class="kv"><span class="kv-key">版管理</span><p class="kv-val">対象プロジェクト側で<wbr>管理</p></div>
         <div class="kv"><span class="kv-key">書く側</span><p class="kv-val">支援ツールの<wbr>機能（配置・生成）と<wbr>開発チーム</p></div>
         <ul class="items">
           <li>docs/（AIが読む定義・納品物）</li>
@@ -93,8 +93,8 @@
         <p class="dir-gate">中身：<wbr>納品物・<wbr>AI設定・<wbr>運用の記録</p>
       </article>
       <article class="dir">
-        <p class="dir-nm">先方に<wbr>含めない<wbr>出力の<wbr>置き場<span class="path">ai-output/</span></p>
-        <p class="dir-role">確認事項・完了報告と、事実の抽出・再生成・照合・一時ファイル。先方リポジトリには入れない。</p>
+        <p class="dir-nm">対象プロジェクトに<wbr>含めない<wbr>出力の<wbr>置き場<span class="path">ai-output/</span></p>
+        <p class="dir-role">確認事項・完了報告と、事実の抽出・再生成・照合・一時ファイル。対象プロジェクトのフォルダには入れない。</p>
         <div class="kv"><span class="kv-key">版管理</span><p class="kv-val">入れない</p></div>
         <div class="kv"><span class="kv-key">書く側</span><p class="kv-val">支援ツールの<wbr>機能。<wbr>回答欄だけ<wbr>開発チーム</p></div>
         <ul class="items">
@@ -113,8 +113,8 @@
 
   <section class="slide-page" data-slide-page="2">
     <header class="slide-header">
-      <span class="kicker">AI駆動開発セットアップ｜<wbr>先方リポジトリの中</span>
-      <h1 class="slide-title">先方リポジトリの中：<wbr>直下に<wbr>足すのは4種</h1>
+      <span class="kicker">AI駆動開発セットアップ｜<wbr>対象プロジェクトの<wbr>フォルダの中</span>
+      <h1 class="slide-title">対象プロジェクトの<wbr>フォルダの中：<wbr>直下に<wbr>足すのは4種</h1>
       <p class="slide-subtitle">docsには<wbr>AIが<wbr>読む定義だけを<wbr>置く。<wbr>記録と<wbr>確認事項は<wbr>別の場所に出す</p>
     </header>
     <div class="docs">
@@ -151,7 +151,7 @@
     </div>
     <div class="conclusion">
       <span class="c-label">一言で</span>
-      <span class="c-text">docsは<wbr>定義専用。<wbr>完了記録は<wbr>ai-work/、<wbr>確認事項は<wbr>先方の外（ai-output/）に出す</span>
+      <span class="c-text">docsは<wbr>定義専用。<wbr>完了記録は<wbr>ai-work/、<wbr>確認事項は<wbr>対象プロジェクトの<wbr>外（ai-output/）に出す</span>
       <span class="pageno">2 / 3</span>
     </div>
   </section>
@@ -159,14 +159,14 @@
   <section class="slide-page" data-slide-page="3">
     <header class="slide-header">
       <span class="kicker">AI駆動開発セットアップ｜<wbr>出力の<wbr>置き場</span>
-      <h1 class="slide-title">確認・<wbr>記録・<wbr>一時ファイルは、<wbr>先方リポジトリに<wbr>入れない</h1>
-      <p class="slide-subtitle">確認事項は<wbr>開発チームが<wbr>回答し、<wbr>支援ツールの<wbr>機能が<wbr>先方の<wbr>設計書へ<wbr>書き戻す</p>
+      <h1 class="slide-title">確認・<wbr>記録・<wbr>一時ファイルは、<wbr>対象プロジェクトのフォルダに<wbr>入れない</h1>
+      <p class="slide-subtitle">確認事項は<wbr>開発チームが<wbr>回答し、<wbr>支援ツールの<wbr>機能が<wbr>対象プロジェクトの<wbr>設計書へ<wbr>書き戻す</p>
     </header>
     <div class="docs">
       <div class="guide">
         <div class="g-row">
-          <div class="g-what"><span class="nm">ai-output/<wbr>&lt;先方の名前&gt;/<wbr>&lt;実行の識別子&gt;/</span></div>
-          <p class="g-mid">実行の識別子は日時とコミットハッシュから作る。先方リポジトリには入れず、版管理の対象外とする。</p>
+          <div class="g-what"><span class="nm">ai-output/<wbr>&lt;対象プロジェクト名&gt;/<wbr>&lt;実行の識別子&gt;/</span></div>
+          <p class="g-mid">実行の識別子は日時とコミットハッシュから作る。対象プロジェクトのフォルダには入れず、版管理の対象外とする。</p>
         </div>
         <div class="g-row">
           <div class="g-what"><span class="nm">confirmations/</span><span class="badge">開発チームが回答</span></div>
@@ -180,7 +180,7 @@
       <aside class="treebox">
         <span class="tree-label">ai-output の中</span>
         <p class="tree-title">確認事項・<wbr>報告・<wbr>照合の<wbr>置き場</p>
-        <pre class="mono">ai-output/&lt;先方&gt;/&lt;実行の識別子&gt;/
+        <pre class="mono">ai-output/&lt;対象プロジェクト&gt;/&lt;実行の識別子&gt;/
 ├── <span class="hot">confirmations/</span> <span class="dim">確認事項一覧・対象範囲の承認</span>
 ├── <span class="hot">reports/</span> <span class="dim">完了報告・納品物一覧の写し・検証の判定の要約</span>
 ├── <span class="hot">facts/</span> <span class="dim">原本コードから取り出した事実</span>
@@ -194,7 +194,7 @@
       <div class="flow-boxes">
         <div class="flow-box"><span class="fb-nm">支援ツールの機能</span><span class="fb-sub">確認事項一覧.mdを書く</span></div>
         <div class="flow-box"><span class="fb-nm">confirmations/<wbr>確認事項一覧.md</span><span class="fb-sub">開発チームが<wbr>回答欄を書く</span></div>
-        <div class="flow-box"><span class="fb-nm">先方の設計書</span><span class="fb-sub">支援ツールの<wbr>機能が<wbr>回答を<wbr>書き戻す</span></div>
+        <div class="flow-box"><span class="fb-nm">対象プロジェクトの<wbr>設計書</span><span class="fb-sub">支援ツールの<wbr>機能が<wbr>回答を<wbr>書き戻す</span></div>
       </div>
       <svg class="flow-svg" viewBox="0 0 1000 40" preserveAspectRatio="none" role="img" aria-label="確認事項が支援ツールの機能から開発チームへ渡り、回答が設計書へ戻る流れ">
         <path class="flow-arrow" d="M 166 14 L 500 14" marker-end="url(#fw-fwd-1)"></path>
@@ -213,7 +213,7 @@
     </div>
     <div class="conclusion">
       <span class="c-label">一言で</span>
-      <span class="c-text">回答の<wbr>途中経過は<wbr>先方に混ぜず、<wbr>書き戻した結果だけが<wbr>先方リポジトリに残る</span>
+      <span class="c-text">回答の<wbr>途中経過は<wbr>対象プロジェクトに混ぜず、<wbr>書き戻した結果だけが<wbr>対象プロジェクトの<wbr>フォルダに残る</span>
       <span class="pageno">3 / 3</span>
     </div>
   </section>
