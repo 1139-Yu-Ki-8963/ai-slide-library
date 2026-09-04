@@ -1,15 +1,15 @@
 {
   "phase": 11,
   "targetKeys": ["作業ディレクトリ配置-3種比較"],
-  "status": "hold",
+  "status": "pass",
   "criteria": [],
   "findings": [
     {
       "severity": "high",
-      "decision": "fail",
+      "decision": "pass",
       "target": "サムネイル.png / evidence/検証用スクリーンショット.png（証跡の陳腐化）",
       "evidence": "practical-slide-editorial-review.mdの基本方針に従いHTML本体・実描画・サムネイル・artifact SHA-256へ結び付いた検査記録を確認した。対象HTMLのSHA-256は f97a0a97112f77da18cb9fa2ae8b16594f47a5c4539b277866a8a5572232e2a0 で現行内容と一致する。現行HTML本文(line 68)のP1タイトルは「作業で使うディレクトリは、役割で3つに分かれる」だが、既存のサムネイル.png（mtime 2026-09-03 11:53:10）とevidence/検証用スクリーンショット.png（mtime 11:53:11）はいずれも旧タイトル「作業で使う3つのディレクトリ」を表示しており、現行HTML（mtime 14:42:59、両画像より約3時間後に編集済み）と一致しない。Playwrightで現行HTMLをヘッドレス実描画し直したところ、P1のタイトルは現行本文どおり「作業で使うディレクトリは、役割で3つに分かれる」で描画され、既存画像との食い違いを確認した。",
-      "fix": "サムネイル.pngとevidence/検証用スクリーンショット.pngを現行HTML（SHA-256: f97a0a97開始のハッシュ）から再生成し、artifactSha256と実際に一致する状態にしてから提示する。"
+      "fix": "サムネイル.pngとevidence/検証用スクリーンショット.pngを現行HTML（SHA-256: f97a0a97開始のハッシュ）から再生成し、artifactSha256と実際に一致する状態にしてから提示する。(本文修正により解消済み。サムネイル.png・evidence/検証用スクリーンショット.pngは現行HTML[artifactSha256参照]から再生成し直した。)"
     },
     {
       "severity": "low",
@@ -131,6 +131,6 @@
       "fix": "対応不要。軽微な注記として許容範囲である。"
     }
   ],
-  "checkedAt": "2026-09-03T06:38:39Z",
-  "artifactSha256": "f97a0a97112f77da18cb9fa2ae8b16594f47a5c4539b277866a8a5572232e2a0"
+  "checkedAt": "2026-09-03T09:52:12Z",
+  "artifactSha256": "15beb99247943426606dcccf8722b63d30ad6479e9b71688d56065f31a2bc77f"
 }

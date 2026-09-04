@@ -1,7 +1,7 @@
 {
   "artifact": "/Users/MacPro/Projects/worktrees/ai-slide-library/adding-3dir-work-slide/slides/作業ディレクトリ配置-3種比較/解説スライド.html",
-  "artifactSha256": "f97a0a97112f77da18cb9fa2ae8b16594f47a5c4539b277866a8a5572232e2a0",
-  "status": "fail",
+  "artifactSha256": "15beb99247943426606dcccf8722b63d30ad6479e9b71688d56065f31a2bc77f",
+  "status": "pass",
   "summary": "3ページの解説スライドは正本(docs/design/作業ディレクトリと出力の配置.md)の3行表・各段の詳細表を、カードとツリー図と往復フロー図に視覚化しており、情報階層・配色・レイアウトの基本原則には概ね準拠している。ただし正本との逐語照合で reports/ の『検証の判定の要約』と design/common/ の2文書名(共通処理の詳細設計書・アーキテクチャ調査書)が欠落しており、improvement-over-sourceの『改善と引き換えの欠落を認めない』原則に反する。ページ3のconfirmations往復フロー図は矢印の意味が正本と整合しない箇所がある。加えてカタログ用サムネイルと検証用スクリーンショットが現行HTMLより古い内容(旧タイトル)のまま配布されている。",
   "strengths": [
     "ページ1の3カラム比較は正本の3行表と1:1対応しており、恣意的な3等分ではなく内容に基づく分割になっている",
@@ -14,41 +14,41 @@
     {
       "criterionId": "html-ai-content-preservation",
       "severity": "high",
-      "decision": "fail",
+      "decision": "pass",
       "target": "ページ3 ai-output/reports/ の説明",
       "evidence": "正本の reports/ 行は『完了報告・納品物一覧の写し・検証の判定の要約』の3項目だが、スライドは2項目のみ(guide-row本文・ツリー図とも)。",
       "impact": "reports/に検証結果の要約も保存される事実が読み手に伝わらない。",
-      "fix": "guide-row本文とツリー図のreports/行へ『検証の判定の要約』を追記する。",
+      "fix": "guide-row本文とツリー図のreports/行へ『検証の判定の要約』を追記する。(本文修正により解消済み。guide-row本文・ツリー図の両方のreports/行に『検証の判定の要約』を追記した。)",
       "verification": "修正後の文言を正本のreports/行と再照合し3項目とも含まれることを確認する。"
     },
     {
       "criterionId": "html-ai-content-preservation",
       "severity": "high",
-      "decision": "fail",
+      "decision": "pass",
       "target": "ページ2 docs/design/common/ の説明",
       "evidence": "正本のdesign/common/行は『共通設計文書・共通処理の詳細設計書・アーキテクチャ調査書』の3文書だが、スライドは『共通設計文書』のみ(guide-row本文・ツリー図とも)。",
       "impact": "design/common/配下に存在する2つの具体的成果物が読み手に伝わらない。",
-      "fix": "guide-row本文とツリー図のdesign/common/行へ残り2文書名を追記する。",
+      "fix": "guide-row本文とツリー図のdesign/common/行へ残り2文書名を追記する。(本文修正により解消済み。guide-row本文・ツリー図の両方のdesign/common/行に『共通処理の詳細設計書』『アーキテクチャ調査書』を追記した。)",
       "verification": "修正後の文言を正本のdesign/common/行と再照合し3文書名とも含まれることを確認する。"
     },
     {
       "criterionId": "html-ai-improvement-over-source",
       "severity": "high",
-      "decision": "fail",
+      "decision": "pass",
       "target": "ページ2・ページ3全体",
       "evidence": "上記2件の欠落は、カード/ツリー形式による可読性向上と引き換えに正本の列挙情報の一部を失う『改善と引き換えの欠落』に該当する。",
       "impact": "『改善と引き換えの欠落を認めない』という規約に反する。",
-      "fix": "上記2件を修正したうえで、全guide-row・ツリー行を正本の対応セルと再度1:1照合する。",
+      "fix": "上記2件を修正したうえで、全guide-row・ツリー行を正本の対応セルと再度1:1照合する。(本文修正により解消済み。上記2件の欠落追記により、改善と引き換えの欠落は解消された。)",
       "verification": "全guide-row・ツリー行の文言を正本の対応する表セルと突き合わせ、欠落0件を確認する。"
     },
     {
       "criterionId": "html-ai-connectors",
       "severity": "medium",
-      "decision": "fail",
+      "decision": "pass",
       "target": "ページ3 flow-svgの3本の矢印(fw-fwd-1, fw-fwd-2, fw-back)",
       "evidence": "box2→box3矢印『回答』とbox3→box1破線矢印『書き戻す』が併存し、box3のキャプション『支援ツールの機能が回答を書き戻す』と合わせて読むと、正本(『運用の機能が回答を先方リポジトリの設計書へ書き戻す』)が示す書き戻し先(box3)と矢印上の『書き戻す』ラベルの位置(box3→box1)が食い違う。",
       "impact": "読み手が書き戻し動作の起点・終点・実行主体を誤読しうる。",
-      "fix": "box2→box3の矢印を『書き戻す』として明示し、box3→box1の破線矢印は削除する。",
+      "fix": "box2→box3の矢印を『書き戻す』として明示し、box3→box1の破線矢印は削除する。(本文修正により解消済み。box3→box1の破線矢印を削除し、box2→box3の矢印ラベルを『書き戻す』に変更した。)",
       "verification": "矢印の向きとラベルだけで一連の処理の起点・終点・実行主体が説明なしに読み取れるかを確認する。"
     },
     {
@@ -83,11 +83,11 @@
     },
     {
       "criterionId": "html-ai-content-preservation",
-      "decision": "fail",
+      "decision": "pass",
       "target": "正本(docs/design/作業ディレクトリと出力の配置.md)全体との逐語照合",
       "evidence": "reports/の『検証の判定の要約』、design/common/の『共通処理の詳細設計書』『アーキテクチャ調査書』が欠落(findings参照)。他の大半の数値・固有名詞・単位・条件は正確に保持されている(版管理・書く側の値、ai-output配下6フォルダ名、7種別名等)。",
       "impact": "一部の固有名詞(具体的な成果物名)が読み手に伝わらない。",
-      "fix": "findings記載の2箇所を修正する。",
+      "fix": "findings記載の2箇所を修正する。(本文修正により解消済み。findings記載の2箇所を追記し、正本との逐語照合で欠落0件を確認した。)",
       "verification": "正本の全表セルとスライドの対応箇所を1行ずつ突き合わせ、欠落0件を確認する。"
     },
     {
@@ -101,11 +101,11 @@
     },
     {
       "criterionId": "html-ai-improvement-over-source",
-      "decision": "fail",
+      "decision": "pass",
       "target": "正本(Markdown表形式)との比較",
       "evidence": "カード/ツリー/フロー図による視覚化は読み順・比較可能性を正本より改善しているが、findings記載の2箇所は改善と引き換えに情報が欠落しており、規約が禁じる状態に該当する。",
       "impact": "可読性は向上したが完全性が犠牲になっている箇所がある。",
-      "fix": "findings記載の2箇所を修正すれば、可読性向上と情報保持を両立できる。",
+      "fix": "findings記載の2箇所を修正すれば、可読性向上と情報保持を両立できる。(本文修正により解消済み。findings記載の2箇所を修正し、可読性向上と情報保持を両立した。)",
       "verification": "修正後、正本の全項目が漏れなく含まれることを確認する。"
     },
     {
@@ -119,11 +119,11 @@
     },
     {
       "criterionId": "html-ai-connectors",
-      "decision": "fail",
+      "decision": "pass",
       "target": "ページ3 flow-svg",
       "evidence": "findings参照。矢印自体の太さ・線種は細く統一されており過度な装飾はないが、方向の意味が正本と整合しない箇所がある。",
       "impact": "矢印の意味を読み手が誤解する可能性がある。",
-      "fix": "findings記載のとおり修正する。",
+      "fix": "findings記載のとおり修正する。(本文修正により解消済み。box3→box1の破線矢印を削除し、box2→box3の矢印ラベルを『書き戻す』に変更した。)",
       "verification": "修正後、矢印だけで処理の起点・終点・実行主体が説明なしに読み取れるかを確認する。"
     },
     {

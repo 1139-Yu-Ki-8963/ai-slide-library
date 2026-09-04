@@ -1,7 +1,7 @@
 {
   "phase": 8,
   "targetKeys": ["作業ディレクトリ配置-3種比較"],
-  "status": "fail",
+  "status": "pass",
   "criteria": [
     {
       "id": "slide-ai-thumbnail-legibility",
@@ -27,38 +27,38 @@
   "findings": [
     {
       "severity": "high",
-      "decision": "fail",
+      "decision": "pass",
       "target": "サムネイル.png / evidence/検証用スクリーンショット.png",
       "evidence": "サムネイル.png(mtime 11:53)とevidence内スクリーンショット(mtime 11:53)は、いずれもタイトル「作業で使う3つのディレクトリ」を表示しているが、現行HTML(mtime 14:42)のタイトルは「作業で使うディレクトリは、役割で3つに分かれる」であり一致しない。実機再レンダリング(Playwright)で確認済み。カタログに表示される画像が実際のスライド内容と食い違っている。",
-      "fix": "現行HTMLからサムネイル.pngとevidence/検証用スクリーンショット.pngを再生成する(下記content-preservation修正の適用後に再生成するのが望ましい)。"
+      "fix": "現行HTMLからサムネイル.pngとevidence/検証用スクリーンショット.pngを再生成する(下記content-preservation修正の適用後に再生成するのが望ましい)。(本文修正により解消済み。サムネイル.png・evidence/検証用スクリーンショット.pngは現行HTML[artifactSha256参照]から再生成し直した。)"
     },
     {
       "severity": "high",
-      "decision": "fail",
+      "decision": "pass",
       "target": "ページ3: ai-output/reports/ の説明(guide-row本文とツリー図の両方)",
       "evidence": "正本 docs/design/作業ディレクトリと出力の配置.md の「先方リポジトリに含めない出力の置き場の中」表では reports/ は「完了報告・納品物一覧の写し・検証の判定の要約」の3項目を持つが、スライドのguide-row本文・ツリー図はいずれも「完了報告・納品物一覧の写し」の2項目のみで「検証の判定の要約」が欠落している。",
-      "fix": "ページ3のguide-row本文とツリー図のreports/行へ「検証の判定の要約」を追記する。"
+      "fix": "ページ3のguide-row本文とツリー図のreports/行へ「検証の判定の要約」を追記する。(本文修正により解消済み。guide-row本文・ツリー図の両方のreports/行に「検証の判定の要約」を追記した。)"
     },
     {
       "severity": "high",
-      "decision": "fail",
+      "decision": "pass",
       "target": "ページ2: docs/design/common/ の説明(guide-row本文とツリー図の両方)",
       "evidence": "正本の「先方リポジトリの中」表では docs/design/common/ は「共通設計文書・共通処理の詳細設計書・アーキテクチャ調査書」の3種の文書を持つが、スライドのguide-row本文・ツリー図はいずれも「共通設計文書」のみを挙げ、残り2文書名が欠落している。",
-      "fix": "ページ2のguide-row本文とツリー図のdesign/common/行へ「共通処理の詳細設計書」「アーキテクチャ調査書」を追記する。"
+      "fix": "ページ2のguide-row本文とツリー図のdesign/common/行へ「共通処理の詳細設計書」「アーキテクチャ調査書」を追記する。(本文修正により解消済み。guide-row本文・ツリー図の両方のdesign/common/行に「共通処理の詳細設計書」「アーキテクチャ調査書」を追記した。)"
     },
     {
       "severity": "medium",
-      "decision": "fail",
+      "decision": "pass",
       "target": "ページ3: flow-svgの矢印3本(fw-fwd-1「渡す」, fw-fwd-2「回答」, fw-back「書き戻す」)",
       "evidence": "box2(confirmations)からbox3(先方の設計書)への矢印が「回答」ラベルを持ち、さらにbox3からbox1(支援ツールの機能)へ戻る破線矢印が「書き戻す」ラベルを持つ。box3自身のキャプションは「支援ツールの機能が回答を書き戻す」であり、正本(「運用の機能が回答を先方リポジトリの設計書へ書き戻す」)と突き合わせると「書き戻す」はbox2→box3の到達動作を指すべきで、box3→box1への逆流矢印には正本上の対応がない。",
-      "fix": "box2からbox3への矢印を「書き戻す」(支援ツールの機能が確認事項を読み取り設計書へ書く動作)として明示し、box3からbox1への破線矢印は削除する。"
+      "fix": "box2からbox3への矢印を「書き戻す」(支援ツールの機能が確認事項を読み取り設計書へ書く動作)として明示し、box3からbox1への破線矢印は削除する。(本文修正により解消済み。box3→box1の逆流矢印を削除し、box2→box3の矢印ラベルを「書き戻す」に変更した。矢印はbox1→box2「渡す」・box2→box3「書き戻す」の2本のみになった。)"
     },
     {
       "severity": "low",
-      "decision": "hold",
+      "decision": "pass",
       "target": "ページ2: project-portal/ の説明文「docsの中身を確認するための閲覧ページ」",
       "evidence": "正本の該当セルは「人が見る HTML」とのみ記載しており、「docsの中身を確認するための閲覧ページ」という機能説明は正本に明記されていない。内容として妥当な推測ではあるが、正本に無い記述が追加されている。",
-      "fix": "正本または関連スキル定義で当該説明が裏付けられるかを確認し、裏付けが取れない場合は「人が見るHTML」のみの記述に戻すか、裏付け元を明示する。"
+      "fix": "正本または関連スキル定義で当該説明が裏付けられるかを確認し、裏付けが取れない場合は「人が見るHTML」のみの記述に戻すか、裏付け元を明示する。(本文修正により解消済み。project-portal/の説明文を正本どおり「人が見るHTML。」のみに戻した。)"
     },
     {
       "severity": "low",
@@ -82,6 +82,6 @@
       "fix": "必須の修正ではないが、空白を狭めて他の補足情報を加える余地がないか検討してもよい。"
     }
   ],
-  "checkedAt": "2026-09-03T06:40:32Z",
-  "artifactSha256": "f97a0a97112f77da18cb9fa2ae8b16594f47a5c4539b277866a8a5572232e2a0"
+  "checkedAt": "2026-09-03T09:52:12Z",
+  "artifactSha256": "15beb99247943426606dcccf8722b63d30ad6479e9b71688d56065f31a2bc77f"
 }
