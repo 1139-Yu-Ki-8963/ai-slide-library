@@ -9,7 +9,7 @@
   .note-line{ margin-top:10px; padding-top:10px; border-top:2px solid var(--accent); font-size:14px; line-height:1.6; color:var(--muted); }
 
   /* ==== P1: 2パネル + 中央矢印 ==== */
-  .dual{ display:grid; grid-template-columns:1fr 92px 1fr; align-items:start; padding-top:14px; }
+  .dual{ flex:1; min-height:0; display:grid; grid-template-columns:1fr 120px 1fr; align-items:stretch; padding-top:14px; }
   .panel{ display:flex; flex-direction:column; gap:10px; padding:18px 26px; background:var(--surface-2); border-top:3px solid var(--ink); min-height:0; }
   .panel-head{ font-size:20px; font-weight:700; color:var(--ink); }
   .panel-row{ display:flex; flex-direction:column; gap:4px; border-top:1px solid var(--faint); padding-top:9px; }
@@ -21,23 +21,23 @@
   .mid .label{ font-size:14px; line-height:1.4; color:var(--label); text-align:center; }
 
   /* ==== P2/P4/P5: ステージカード列 ==== */
-  .stage-row{ display:flex; align-items:flex-start; padding-top:14px; }
-  .stage-row .arrow{ flex:0 0 14px; display:flex; align-items:center; justify-content:center; color:var(--label); font-size:15px; }
-  .scard{ flex:1; min-width:0; display:flex; flex-direction:column; gap:8px; padding:14px 12px 12px; border-top:3px solid var(--line); background:var(--surface-2); }
+  .stage-row{ flex:1; min-height:0; display:flex; align-items:stretch; padding-top:14px; }
+  .stage-row .arrow{ flex:0 0 16px; display:flex; align-items:flex-start; justify-content:center; padding-top:52px; color:var(--label); font-size:18px; }
+  .scard{ flex:1; min-width:0; display:flex; flex-direction:column; gap:12px; padding:18px 14px 16px; border-top:3px solid var(--line); background:var(--surface-2); }
   .scard.star{ border-top-color:var(--accent); background:var(--surface); }
-  .scard .cno{ font:700 13px/1.3 system-ui,sans-serif; color:var(--label); letter-spacing:.02em; }
-  .scard .cname{ font-size:15px; font-weight:700; color:var(--ink); line-height:1.3; white-space:nowrap; }
-  .p5 .scard .cname{ font-size:14px; }
-  .scard .cname .human{ display:inline-block; margin-left:6px; padding:1px 6px; border:1px solid var(--ink); font:700 13px/1.4 system-ui,sans-serif; color:var(--ink); vertical-align:middle; }
-  .scard .cdesc{ font-size:13px; line-height:1.45; color:var(--muted); }
-  .scard .cout{ margin-top:8px; padding-top:8px; border-top:1px solid var(--faint); font-size:13px; line-height:1.45; color:var(--ink); }
-  .side-band{ flex:0 0 36px; margin-left:10px; background:var(--surface-2); border-left:3px solid var(--accent); display:flex; align-items:center; justify-content:center; }
-  .side-band span{ writing-mode:vertical-rl; font-size:14px; font-weight:700; color:var(--ink); letter-spacing:.04em; white-space:nowrap; }
-  .row-with-band{ display:flex; align-items:stretch; }
-  .row-with-band .stage-row{ padding-top:0; }
+  .scard .cno{ font:700 15px/1.3 system-ui,sans-serif; color:var(--label); letter-spacing:.02em; }
+  .scard .cname{ font-size:18px; font-weight:700; color:var(--ink); line-height:1.35; word-break:keep-all; }
+  .p5 .scard .cname{ font-size:17px; }
+  .scard .cname .human{ display:inline-block; margin-left:6px; padding:1px 7px; border:1px solid var(--ink); font:700 14px/1.4 system-ui,sans-serif; color:var(--ink); vertical-align:middle; }
+  .scard .cdesc{ font-size:15px; line-height:1.6; color:var(--muted); }
+  .scard .cout{ margin-top:auto; padding-top:12px; border-top:1px solid var(--faint); font-size:15px; line-height:1.6; color:var(--ink); }
+  .side-band{ flex:0 0 60px; margin-left:10px; padding:12px 0; background:var(--surface-2); border-left:3px solid var(--accent); display:flex; align-items:center; justify-content:center; min-height:0; }
+  .side-band span{ writing-mode:vertical-rl; font-size:16px; font-weight:700; color:var(--ink); letter-spacing:.06em; line-height:1.7; max-height:100%; }
+  .row-with-band{ flex:1; min-height:0; display:flex; align-items:stretch; padding-top:14px; }
+  .row-with-band .stage-row{ flex:1; min-width:0; padding-top:0; }
 
   /* ==== P3: 節一覧 + 検出条件例 ==== */
-  .p3-wrap{ display:grid; grid-template-columns:1fr 1fr; gap:40px; padding-top:14px; align-items:start; }
+  .p3-wrap{ flex:1; min-height:0; display:grid; grid-template-columns:1fr 1fr; gap:40px; padding-top:14px; align-items:stretch; }
   .sec-list{ display:flex; flex-direction:column; min-height:0; }
   .sec-row{ display:flex; align-items:baseline; gap:10px; padding:6px 0; border-top:1px solid var(--faint); }
   .sec-row:first-child{ border-top:0; }
@@ -53,13 +53,13 @@
   /* ==== P6: 決まり + 差し戻し表 ==== */
   .p6-wrap{ flex:1; min-height:0; display:grid; grid-template-columns:1fr 1.7fr; gap:40px; padding-top:14px; }
   .rules{ display:flex; flex-direction:column; }
-  .rule-item{ display:flex; gap:10px; align-items:flex-start; padding:10px 0; border-top:1px solid var(--faint); }
+  .rule-item{ display:flex; gap:12px; align-items:flex-start; padding:16px 0; border-top:1px solid var(--faint); }
   .rule-item:first-child{ border-top:0; padding-top:0; }
-  .rule-item .chk{ flex:0 0 auto; font-size:16px; color:var(--accent); font-weight:700; line-height:1.5; }
-  .rule-item .txt{ font-size:14px; line-height:1.55; color:var(--ink); }
-  .back-table{ width:100%; border-collapse:collapse; align-self:start; }
-  .back-table th{ background:var(--ink); color:var(--surface); font-size:14px; font-weight:700; text-align:left; padding:11px 14px; }
-  .back-table td{ font-size:14px; line-height:1.6; color:var(--muted); padding:12px 14px; border-bottom:1px solid var(--faint); vertical-align:top; }
+  .rule-item .chk{ flex:0 0 auto; font-size:18px; color:var(--accent); font-weight:700; line-height:1.6; }
+  .rule-item .txt{ font-size:17px; line-height:1.6; color:var(--ink); }
+  .back-table{ width:100%; height:100%; border-collapse:collapse; align-self:stretch; }
+  .back-table th{ background:var(--ink); color:var(--surface); font-size:16px; font-weight:700; text-align:left; padding:12px 16px; }
+  .back-table td{ font-size:17px; line-height:1.6; color:var(--muted); padding:14px 16px; border-bottom:1px solid var(--faint); vertical-align:middle; }
   .back-table td strong{ color:var(--ink); }
   .back-table tbody tr:last-child td{ border-bottom:2px solid var(--ink); }
 </style>
@@ -104,7 +104,7 @@
         <span class="panel-head">第二フェーズ</span>
         <div class="panel-row">
           <span class="k">役割</span>
-          <span class="v">道標の検出条件を実行して単位を実測し、単位ごとの基本設計・詳細設計・テスト設計・確認事項一覧を作る</span>
+          <span class="v">道標の検出条件を実行して単位を実測し、単位ごとの基本設計・詳細設計・確認事項一覧を作る</span>
         </div>
         <div class="panel-row">
           <span class="k">入力</span>
@@ -112,7 +112,7 @@
         </div>
         <div class="panel-row">
           <span class="k">出力</span>
-          <span class="v">一覧、基本設計書と単体テスト設計書、詳細設計書、テスト設計書、確認事項一覧</span>
+          <span class="v">一覧、基本設計書、詳細設計書、確認事項一覧</span>
         </div>
         <div class="panel-row">
           <span class="k">人の判断</span>
@@ -132,7 +132,7 @@
     <div class="stage-row">
       <div class="scard">
         <span class="cno">1-1</span>
-        <span class="cname">領域の切り出しと除外</span>
+        <span class="cname">領域の<wbr>切り出しと除外</span>
         <p class="cdesc">フォルダ構成から読む領域と除外を決める</p>
         <p class="cout">道標の対象・領域・除外</p>
       </div>
@@ -226,7 +226,7 @@
         <div class="arrow">→</div>
         <div class="scard">
           <span class="cno">2-2</span>
-          <span class="cname">要件定義書の裏付け</span>
+          <span class="cname">要件定義書の<wbr>裏付け</span>
           <p class="cdesc">機能要件と一覧を突き合わせる</p>
           <p class="cout">機能と単位の対応表</p>
         </div>
@@ -247,14 +247,14 @@
         <div class="arrow">→</div>
         <div class="scard">
           <span class="cno">2-5</span>
-          <span class="cname">単位の<wbr>基本設計と<wbr>単体テスト設計</span>
+          <span class="cname">単位の基本設計</span>
           <p class="cdesc">事実を業務の言葉に写す</p>
-          <p class="cout">基本設計書、単体テスト設計書</p>
+          <p class="cout">基本設計書</p>
         </div>
         <div class="arrow">→</div>
         <div class="scard star">
           <span class="cno">2-6</span>
-          <span class="cname">基本設計の完了判定</span>
+          <span class="cname">基本設計の<wbr>完了判定</span>
           <p class="cdesc">完了状態の観点を機械検査し、合格の記録を書く</p>
           <p class="cout">合格の記録（共通設計文書を含む）</p>
         </div>
@@ -272,7 +272,7 @@
     <div class="stage-row">
       <div class="scard">
         <span class="cno">2-7</span>
-        <span class="cname">共通処理の詳細設計</span>
+        <span class="cname">共通処理の<wbr>詳細設計</span>
         <p class="cdesc">基盤層と共通部品を先に書く</p>
         <p class="cout">共通処理の詳細設計書</p>
       </div>
@@ -286,9 +286,9 @@
       <div class="arrow">→</div>
       <div class="scard">
         <span class="cno">2-9</span>
-        <span class="cname">テスト設計</span>
-        <p class="cdesc">受入条件から観点とケースを起こす</p>
-        <p class="cout">テスト観点表、テストケース一覧、結合テスト仕様書</p>
+        <span class="cname">テスト設計<wbr>（スコープ外）</span>
+        <p class="cdesc">いまのリバースでは作らない。番号は将来の拡張のために残す</p>
+        <p class="cout">出力なし</p>
       </div>
       <div class="arrow">→</div>
       <div class="scard">
@@ -307,7 +307,7 @@
       <div class="arrow">→</div>
       <div class="scard star">
         <span class="cno">2-12</span>
-        <span class="cname">確認事項の提示<span class="human">人</span></span>
+        <span class="cname">確認事項の<wbr>提示<span class="human">人</span></span>
         <p class="cdesc">一覧を提示し回答を受ける</p>
         <p class="cout">提示の記録</p>
       </div>
@@ -339,7 +339,7 @@
         </div>
         <div class="rule-item">
           <span class="chk">✓</span>
-          <span class="txt">単体テストは基本設計で（単体テスト設計書は基本設計の段で作る）</span>
+          <span class="txt">単体テスト設計書はスコープ外（いまのリバースでは作らない）</span>
         </div>
         <div class="rule-item">
           <span class="chk">✓</span>
@@ -347,30 +347,26 @@
         </div>
       </div>
       <table class="back-table">
-        <colgroup><col style="width:44%"><col style="width:34%"><col style="width:22%"></colgroup>
+        <colgroup><col style="width:56%"><col style="width:44%"></colgroup>
         <thead>
-          <tr><th>どこで見つかる</th><th>どこへ戻る</th><th>上限</th></tr>
+          <tr><th>どこで見つかる</th><th>どこへ戻る</th></tr>
         </thead>
         <tbody>
           <tr>
             <td>一覧化で実測が候補数と2割を超えて食い違う</td>
             <td>道標の当該領域（再承認）</td>
-            <td>無し（同じ不合格が2回続いたら方法を変える）</td>
           </tr>
           <tr>
             <td>基本設計の完了判定で不合格</td>
             <td><strong>単位の基本設計</strong></td>
-            <td>無し（同じ不合格が2回続いたら方法を変える）</td>
           </tr>
           <tr>
             <td>不合格の原因が共通設計文書</td>
             <td>共通設計文書（再承認）</td>
-            <td>無し（同じ不合格が2回続いたら方法を変える）</td>
           </tr>
           <tr>
             <td>承認で否</td>
             <td>理由の指す工程</td>
-            <td>無し（同じ不合格が2回続いたら方法を変える）</td>
           </tr>
         </tbody>
       </table>
