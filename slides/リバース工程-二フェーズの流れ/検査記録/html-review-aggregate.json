@@ -1,0 +1,9 @@
+{
+  "kind": "html-review-aggregate",
+  "overall": "pass",
+  "blockers": [],
+  "advisories": [
+    "ai required criterion html-ai-information-density is suggestion"
+  ],
+  "artifactSha256": "6ec382f98b46e63a5923f68cfc459378a048309a38b328d477eed1fecdee55cb"
+}

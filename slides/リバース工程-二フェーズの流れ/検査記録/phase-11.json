@@ -1,0 +1,138 @@
+{
+  "phase": 11,
+  "targetKeys": [
+    "リバース工程-二フェーズの流れ"
+  ],
+  "status": "pass",
+  "criteria": [],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック1: 3カード構成でない",
+      "evidence": "2・4・5ページ目のステージカードは4〜7枚と工程数に応じて変化し、機械的な3等分構成ではない。",
+      "impact": "対象なし。",
+      "fix": "不要（現状PASS）。",
+      "verification": "解説スライド.htmlのstage-card要素数を確認。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック2: 項目ごとの丸アイコンに依存しない",
+      "evidence": "6ページ目の決まり4項目にチェック印（.chk）が4件あるのみで、各作業項目を丸アイコンへ機械的に変換していない。",
+      "impact": "対象なし。",
+      "fix": "不要（現状PASS）。",
+      "verification": "解説スライド.html 333/337/341/345行目の.chk要素4件のみであることを確認。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック3: 写真を装飾使用しない",
+      "evidence": "写真・人物・ストック素材の使用なし。",
+      "impact": "対象なし。",
+      "fix": "不要（現状PASS）。",
+      "verification": "解説スライド.htmlにimg/写真要素が無いことを確認。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック4: 多角形装飾を使用しない",
+      "evidence": "多角形・立体装飾は無く、矢印は工程間の遷移を示す機能要素。",
+      "impact": "対象なし。",
+      "fix": "不要（現状PASS）。",
+      "verification": "解説スライド.htmlのCSS定義を確認。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック5: 濃紺フッターを追加しない",
+      "evidence": "フッターは共有シェル規約に準拠した共通コンポーネントであり、本スライド独自の濃紺大面積フッターは追加していない。",
+      "impact": "対象なし。",
+      "fix": "不要（現状PASS）。",
+      "verification": "検査記録.md観点レビュー表『フッタ-区切り線』PASSを確認。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック6: 架空情報を追加しない",
+      "evidence": "会社名・ロゴ・効果値・費用・期間を追加せず、設計文書からの転記のみ（検査記録.md『出所』節）。",
+      "impact": "対象なし。",
+      "fix": "不要（現状PASS）。",
+      "verification": "検査記録.md『出所』節、観点レビュー表『効果数値-未検証記載禁止』PASSを確認。"
+    },
+    {
+      "severity": "medium",
+      "decision": "pass",
+      "target": "最終チェック7: 情報の強弱がある",
+      "evidence": "人の判断が絡む工程（1-6・2-6・2-12・2-13）だけアクセント罫で強調し、他は均等（検査記録.md『強弱-資料全体配分』PASS）。",
+      "impact": "対象なし。",
+      "fix": "不要（現状PASS）。",
+      "verification": "検査記録.md観点レビュー表『強弱-資料全体配分』を確認。"
+    },
+    {
+      "severity": "low",
+      "decision": "suggestion",
+      "target": "最終チェック8: 情報を詰め込みすぎない",
+      "evidence": "2・4・5ページ目のステージカードは6〜7枚と目安（5件）を超えるが、指示書の明示指定（工程数・カード構成・7枚時の2段折り返し）に基づく対応であり、自己判断の例外ではない（phase-10.json参照）。",
+      "impact": "対象の工程数が変わらない限り実害はないが、密度としては目安超過が残る。",
+      "fix": "対応不要。将来この工程数自体が変わる場合のみカード枚数の見直しを検討する。",
+      "verification": "検査記録.md『行数-共通上限』、phase-10.jsonのfindingsを確認。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック9: 青を安易な企業資料色にしない",
+      "evidence": "白面+ネイビー基調（既存ライブラリ共通トーン）を採用し、装飾目的の多色使いは無い（検査記録.md『配色-用途とブランド適合』PASS）。",
+      "impact": "対象なし。",
+      "fix": "不要（現状PASS）。",
+      "verification": "検査記録.md観点レビュー表『配色-用途とブランド適合』を確認。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック10: 不要なアイコンを使用しない",
+      "evidence": "決まり4項目のチェック印（.chk）以外に装飾アイコンは無い。",
+      "impact": "対象なし。",
+      "fix": "不要（現状PASS）。",
+      "verification": "解説スライド.htmlのアイコン要素を確認。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック11: 余白を装飾で埋めない",
+      "evidence": "カード・パネル・codeboxは内容の高さに合わせ上寄せとし、余った下側は空白のまま詰め物を追加していない（反復記録6.）。",
+      "impact": "対象なし。",
+      "fix": "不要（現状PASS）。",
+      "verification": "検査記録.md反復記録6.を確認。"
+    },
+    {
+      "severity": "medium",
+      "decision": "pass",
+      "target": "最終チェック12: 読み順が明確",
+      "evidence": "工程番号（1-1〜1-6、2-1〜2-13）が全ページで一貫し、矢印の向き（左→右）と番号順が一致（検査記録.md『読み順-番号対応』PASS）。",
+      "impact": "対象なし。",
+      "fix": "不要（現状PASS）。",
+      "verification": "検査記録.md観点レビュー表『読み順-番号対応』を確認。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "最終チェック13: 1スライド1メッセージ",
+      "evidence": "各ページのタイトルが単一主張へ収束している（phase-8.jsonのslide-ai-one-message参照）。",
+      "impact": "対象なし。",
+      "fix": "不要（現状PASS）。",
+      "verification": "phase-8.jsonのslide-ai-one-messageを確認。"
+    },
+    {
+      "severity": "medium",
+      "decision": "suggestion",
+      "target": "最終チェック14: 人間が編集したように見える",
+      "evidence": "5枚目タイトルを実描画検証の重なり判明を受けて意味を保ったまま短縮する等、機械的テンプレ流し込みではない編集判断がある（検査記録.md『指示書との差分』節）。一方、2・4・5ページ目は同一のステージカード型を反復使用しており、工程テンプレ感がわずかに残る。",
+      "impact": "実務利用上の支障はないが、テンプレ感の完全な払拭には至っていない。",
+      "fix": "次回編集時は、ページごとに強調するカードの幅・余白配分を工程の重要度に応じて変え、テンプレ感をさらに弱める余地がある。",
+      "verification": "検査記録.md『指示書との差分』節、解説スライド.htmlの2/4/5ページ目のstage-card構造を確認。"
+    }
+  ],
+  "checkedAt": "2026-09-03T09:25:23.000Z",
+  "artifactSha256": "6ec382f98b46e63a5923f68cfc459378a048309a38b328d477eed1fecdee55cb"
+}
