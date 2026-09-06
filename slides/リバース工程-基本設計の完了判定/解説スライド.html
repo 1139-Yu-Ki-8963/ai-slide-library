@@ -17,9 +17,9 @@
 
   .flow-col{ display:flex; flex-direction:column; justify-content:center; min-height:0; border-left:1px solid var(--faint); padding-left:44px; }
   .flow-grid{ display:grid; grid-template-columns:104px 1fr; }
-  .loop{ grid-row:1 / 4; position:relative; }
-  .loop-svg{ position:absolute; inset:0; width:100%; height:100%; }
-  .loop-label{ position:absolute; inset:0; left:2px; display:flex; align-items:center; writing-mode:vertical-rl; white-space:nowrap; font-size:12px; font-weight:700; letter-spacing:.12em; color:var(--ink); }
+  .loop{ grid-row:1 / 4; display:flex; align-items:stretch; gap:10px; }
+  .loop-label{ flex:0 0 auto; display:flex; align-items:center; writing-mode:vertical-rl; white-space:nowrap; font-size:12px; font-weight:700; letter-spacing:.12em; color:var(--ink); }
+  .loop-svg{ flex:1 1 auto; min-width:0; height:100%; }
 
   .stage-box, .gate-box, .next-box{ grid-column:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:7px; padding:12px; }
   .stage-box{ background:var(--surface-2); height:94px; }
@@ -61,11 +61,11 @@
       <div class="flow-col">
         <div class="flow-grid">
           <div class="loop">
-            <svg class="loop-svg" viewBox="0 0 60 130" preserveAspectRatio="none" role="presentation" aria-hidden="true">
-              <path d="M 52 126 H 10 V 4 H 42" fill="none" stroke="var(--ink)" stroke-width="2"></path>
-              <polygon points="42,-3 42,11 55,4" fill="var(--ink)"></polygon>
-            </svg>
             <span class="loop-label">不合格 — 名指しの項目だけ直す</span>
+            <svg class="loop-svg" viewBox="0 0 40 130" preserveAspectRatio="none" role="presentation" aria-hidden="true">
+              <path d="M 32 126 H 8 V 4 H 22" fill="none" stroke="var(--ink)" stroke-width="2"></path>
+              <polygon points="22,-3 22,11 35,4" fill="var(--ink)"></polygon>
+            </svg>
           </div>
           <div class="stage-box">
             <span class="lbl">工程</span>
