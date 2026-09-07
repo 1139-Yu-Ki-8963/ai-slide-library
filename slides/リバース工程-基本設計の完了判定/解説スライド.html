@@ -9,7 +9,7 @@
 
   .cond-list{ display:flex; flex-direction:column; min-height:0; }
   .cond-head{ font:700 12px/1.3 system-ui,sans-serif; letter-spacing:.14em; color:var(--label); padding-bottom:8px; }
-  .cond-rows{ flex:1; display:grid; grid-template-rows:repeat(6,1fr); }
+  .cond-rows{ flex:1; display:grid; grid-template-rows:repeat(5,1fr); }
   .cond-row{ display:grid; grid-template-columns:30px 1fr; gap:10px; align-items:center; border-top:1px solid var(--faint); }
   .cond-row:last-child{ border-bottom:1px solid var(--faint); }
   .cond-row .num{ font:700 12px/1 system-ui,sans-serif; color:var(--label); }
@@ -62,18 +62,17 @@
     <header class="slide-header">
       <span class="kicker">AI駆動開発 支援ツール｜<wbr>既存コードから設計書を起こす工程</span>
       <h1 class="slide-title">リバース工程で基本設計から詳細設計へ進む条件</h1>
-      <p class="slide-subtitle">合格の条件は、規約が定める6項目をすべて満たしていること。不合格は名指しされた項目だけ直して、再判定する。</p>
+      <p class="slide-subtitle">合格の条件は、規約が定める5項目をすべて満たしていること。不合格は名指しされた項目だけ直して、再判定する。</p>
     </header>
     <div class="gate-body">
       <div class="cond-list">
-        <span class="cond-head">合格の条件 — 規約が定める6項目</span>
+        <span class="cond-head">合格の条件 — 規約が定める5項目</span>
         <div class="cond-rows">
           <div class="cond-row"><span class="num">1</span><span class="txt">外部仕様が曖昧さなく確定している（画面・帳票・外部インタフェース）</span></div>
           <div class="cond-row"><span class="num">2</span><span class="txt">業務ルールと例外系（取消・二重送信・リトライ・タイムアウト）が矛盾なく確定している</span></div>
           <div class="cond-row"><span class="num">3</span><span class="txt">非機能要件を満たす方式が確定している（性能・可用性・セキュリティ・監査・運用・災害対策）</span></div>
           <div class="cond-row"><span class="num">4</span><span class="txt">データの整合性・トランザクション境界・排他の方針が確定している</span></div>
           <div class="cond-row"><span class="num">5</span><span class="txt">詳細設計書を書き始める上での不明点が存在しない（確認事項へ登録済みかで判定する）</span></div>
-          <div class="cond-row"><span class="num">6</span><span class="txt">単体テスト設計書が作成されている</span></div>
         </div>
       </div>
       <div class="flow-col">
@@ -98,7 +97,7 @@
           <div class="flow-arrow">↓</div>
           <div class="gate-box">
             <span class="lbl">完了判定 — 通過の条件</span>
-            <span class="val">左の6項目をすべて満たしているか</span>
+            <span class="val">左の5項目をすべて満たしているか</span>
           </div>
           <div class="flow-arrow pass">↓ 合格</div>
           <div class="next-box">
