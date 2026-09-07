@@ -16,12 +16,30 @@
   .cond-row .txt{ font-size:14px; line-height:1.55; color:var(--ink); text-wrap:pretty; }
 
   .flow-col{ display:flex; flex-direction:column; justify-content:center; min-height:0; border-left:1px solid var(--faint); padding-left:44px; }
-  .flow-grid{ display:grid; grid-template-columns:104px 1fr; }
-  .loop{ grid-row:1 / 4; display:flex; align-items:stretch; gap:10px; }
-  .loop-label{ flex:0 0 auto; display:flex; align-items:center; writing-mode:vertical-rl; white-space:nowrap; font-size:12px; font-weight:700; letter-spacing:.12em; color:var(--ink); }
-  .loop-svg{ flex:1 1 auto; min-width:0; height:100%; }
+  /* 列: ラベル(18px) / すきま(10px) / 折れ線(76px) / 箱(残り)。合計104pxは旧レイアウトの
+     左列幅と同じ。折れ線を1本のSVGで3行にまたがらせず行ごとの要素へ分けるのは、
+     縦書きラベルの必要高さが箱の高さの合計を上回り、グリッドの行が均等に伸びる
+     （2026-09-07実測）ため。行ごとに分ければ、伸びた行の中でも「工程」「完了判定」の
+     箱と同じ上詰め・同じ高さ（94px・88px）で揃い、矢印の位置を箱の高さから直接出せる。 */
+  .flow-grid{ display:grid; grid-template-columns:18px 10px 76px 1fr; }
 
-  .stage-box, .gate-box, .next-box{ grid-column:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:7px; padding:12px; }
+  .loop-label{ grid-column:1; grid-row:1 / 4; display:flex; align-items:center; justify-content:center; writing-mode:vertical-rl; white-space:nowrap; font-size:12px; font-weight:700; letter-spacing:.12em; color:var(--ink); }
+
+  /* 折れ線の3区画。左端の位置(14px)は列内で揃えるための固定値、縦の起点・終点は
+     箱の高さの半分（工程94px→47px・完了判定88px→44px）から出す。 */
+  .loop-seg{ grid-column:3; position:relative; }
+  .loop-seg-top{ grid-row:1; }
+  .loop-seg-mid{ grid-row:2; }
+  .loop-seg-bottom{ grid-row:3; }
+  .loop-seg .trunk{ position:absolute; left:14px; width:2px; background:var(--ink); }
+  .loop-seg-top .trunk{ top:47px; bottom:0; } /* 94px(工程の箱の高さ) / 2 */
+  .loop-seg-mid .trunk{ top:0; bottom:0; }
+  .loop-seg-bottom .trunk{ top:0; height:44px; } /* 88px(完了判定の箱の高さ) / 2 */
+  .loop-seg-top .stub{ position:absolute; left:14px; right:8px; top:46px; height:2px; background:var(--ink); }
+  .loop-seg-top .arrowhead{ position:absolute; right:0; top:41px; width:0; height:0; border-top:6px solid transparent; border-bottom:6px solid transparent; border-left:8px solid var(--ink); }
+  .loop-seg-bottom .stub{ position:absolute; left:14px; right:0; top:43px; height:2px; background:var(--ink); }
+
+  .stage-box, .gate-box, .next-box{ grid-column:4; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:7px; padding:12px; }
   .stage-box{ background:var(--surface-2); height:94px; }
   .gate-box{ gap:6px; border-top:2px solid var(--ink); border-bottom:2px solid var(--ink); height:88px; padding:10px 12px; }
   .next-box{ background:var(--accent); height:94px; }
@@ -30,7 +48,7 @@
   .stage-box .val, .gate-box .val, .next-box .val{ font-size:16px; font-weight:600; line-height:1.55; white-space:nowrap; color:var(--ink); }
   .next-box .lbl, .next-box .val{ color:var(--surface); }
 
-  .flow-arrow{ grid-column:2; display:flex; align-items:center; justify-content:center; height:36px; font-size:16px; color:var(--muted); }
+  .flow-arrow{ grid-column:4; display:flex; align-items:center; justify-content:center; height:36px; font-size:16px; color:var(--muted); }
   .flow-arrow.pass{ height:42px; font-size:14px; font-weight:600; color:var(--ink); }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
@@ -60,12 +78,18 @@
       </div>
       <div class="flow-col">
         <div class="flow-grid">
-          <div class="loop">
-            <span class="loop-label">不合格 — 名指しの項目だけ直す</span>
-            <svg class="loop-svg" viewBox="0 0 40 130" preserveAspectRatio="none" role="presentation" aria-hidden="true">
-              <path d="M 32 126 H 8 V 4 H 22" fill="none" stroke="var(--ink)" stroke-width="2"></path>
-              <polygon points="22,-3 22,11 35,4" fill="var(--ink)"></polygon>
-            </svg>
+          <span class="loop-label">不合格 — 名指しの項目だけ直す</span>
+          <div class="loop-seg loop-seg-top" aria-hidden="true">
+            <span class="trunk"></span>
+            <span class="stub"></span>
+            <span class="arrowhead"></span>
+          </div>
+          <div class="loop-seg loop-seg-mid" aria-hidden="true">
+            <span class="trunk"></span>
+          </div>
+          <div class="loop-seg loop-seg-bottom" aria-hidden="true">
+            <span class="trunk"></span>
+            <span class="stub"></span>
           </div>
           <div class="stage-box">
             <span class="lbl">工程</span>
