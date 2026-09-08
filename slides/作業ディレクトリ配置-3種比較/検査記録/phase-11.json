@@ -1,6 +1,8 @@
 {
   "phase": 11,
-  "targetKeys": ["作業ディレクトリ配置-3種比較"],
+  "targetKeys": [
+    "作業ディレクトリ配置-3種比較"
+  ],
   "status": "pass",
   "criteria": [],
   "findings": [
@@ -131,6 +133,6 @@
       "fix": "対応不要。軽微な注記として許容範囲である。"
     }
   ],
-  "checkedAt": "2026-09-03T09:52:12Z",
-  "artifactSha256": "15beb99247943426606dcccf8722b63d30ad6479e9b71688d56065f31a2bc77f"
+  "checkedAt": "2026-09-09T03:30:00+09:00",
+  "artifactSha256": "d6f7a1018ccb4cce0ffd470d8c20ac4fceb8aabda476cc661d5e7c673ceed152"
 }
