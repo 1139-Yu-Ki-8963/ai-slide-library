@@ -74,14 +74,15 @@
       <article class="dir">
         <p class="dir-nm">AI駆動セットアップツールの<wbr>実行フォルダ<span class="path">ai-driven-development-setup</span></p>
         <p class="dir-role">機能の定義と配布物を持つ。作業中は読むだけ。</p>
-        <div class="kv"><span class="kv-key">版管理</span><p class="kv-val">このツール側で<wbr>管理</p></div>
-        <div class="kv"><span class="kv-key">書き込む主体</span><p class="kv-val">このツールの<wbr>開発者だけ</p></div>
+        <div class="kv"><span class="kv-key">版管理</span><p class="kv-val">AI駆動セットアップツール側で<wbr>管理</p></div>
+        <div class="kv"><span class="kv-key">書き込む主体</span><p class="kv-val">AI駆動セットアップツールの<wbr>開発者だけ</p></div>
         <pre class="tree mono">ai-driven-development-setup/
-├── <span class="hot">docs/rules/</span> <span class="dim">規約の定義</span>
-├── <span class="hot">docs/design/</span> <span class="dim">要件と設計の文書</span>
-├── <span class="hot">docs/skills/</span> <span class="dim">機能の定義</span>
+├── <span class="hot">docs/</span>
+│   ├── <span class="hot">rules/</span> <span class="dim">規約の定義</span>
+│   ├── <span class="hot">design/</span> <span class="dim">要件と設計の文書</span>
+│   └── <span class="hot">skills/</span> <span class="dim">機能の定義</span>
 ├── <span class="hot">delivery-payload/</span> <span class="dim">配布物</span>
-└── <span class="hot">.claude/ .cursor/ .codex/</span> <span class="dim">派生</span></pre>
+└── <span class="hot">.claude/ .cursor/ .codex/</span> <span class="dim">各AIツールの設定</span></pre>
         <p class="dir-gate">中身：<wbr>機能の<wbr>定義・<wbr>規約・<wbr>配布物</p>
       </article>
       <article class="dir focus">
@@ -89,12 +90,13 @@
         <p class="dir-role">納品物の設計書・規約と、各AIツールの設定を持つ。</p>
         <div class="kv"><span class="kv-key">版管理</span><p class="kv-val">対象プロジェクト側で<wbr>管理</p></div>
         <div class="kv"><span class="kv-key">書き込む主体</span><p class="kv-val">AI駆動セットアップツールの<wbr>機能と<wbr>開発チーム</p></div>
-        <pre class="tree mono">&lt;対象プロジェクト&gt;/
-├── <span class="hot">docs/design/</span> <span class="dim">要件定義書・基本設計書・詳細設計書</span>
-├── <span class="hot">docs/rules/</span> <span class="dim">規約</span>
-├── <span class="hot">docs/skills/</span> <span class="dim">運用手順の定義</span>
+        <pre class="tree mono">&lt;対象プロジェクト名&gt;/
+├── <span class="hot">docs/</span>
+│   ├── <span class="hot">design/</span> <span class="dim">要件定義書・基本設計書・詳細設計書</span>
+│   ├── <span class="hot">rules/</span> <span class="dim">規約</span>
+│   └── <span class="hot">skills/</span> <span class="dim">運用手順の定義</span>
 ├── <span class="hot">project-portal/</span> <span class="dim">人が見るHTML</span>
-└── <span class="hot">.claude/ .cursor/ .codex/</span> <span class="dim">派生</span></pre>
+└── <span class="hot">.claude/ .cursor/ .codex/</span> <span class="dim">各AIツールの設定</span></pre>
         <p class="dir-gate">中身：<wbr>納品物の<wbr>設計書・<wbr>規約・<wbr>AI設定</p>
       </article>
       <article class="dir">
@@ -102,7 +104,7 @@
         <p class="dir-role">確認事項・完了報告と、読み取り結果の抽出・再生成・照合・記録。対象プロジェクトのフォルダには入れない。</p>
         <div class="kv"><span class="kv-key">版管理</span><p class="kv-val">入れない</p></div>
         <div class="kv"><span class="kv-key">書き込む主体</span><p class="kv-val">AI駆動セットアップツールの<wbr>機能。<wbr>回答欄だけ<wbr>開発チーム</p></div>
-        <pre class="tree mono">ai-output/&lt;対象プロジェクト&gt;/&lt;実行の識別子&gt;/
+        <pre class="tree mono">ai-output/&lt;対象プロジェクト名&gt;/&lt;実行の識別子&gt;/
 ├── <span class="hot">confirmations/</span> <span class="dim">確認事項・承認</span>
 ├── <span class="hot">reports/</span> <span class="dim">完了報告・判定の要約</span>
 ├── <span class="hot">code-readings/</span> <span class="dim">読み取り結果</span>
@@ -155,7 +157,7 @@
     </div>
     <div class="conclusion">
       <span class="c-label">一言で</span>
-      <span class="c-text">docsは<wbr>定義専用。<wbr>確認事項も<wbr>報告も<wbr>記録も<wbr>作業フォルダ（ai-output/）に出す</span>
+      <span class="c-text">docsは<wbr>定義専用。<wbr>確認事項も<wbr>報告も<wbr>作業フォルダ（ai-output/）に出す</span>
       <span class="pageno">2 / 3</span>
     </div>
   </section>
@@ -184,7 +186,7 @@
       <aside class="treebox">
         <span class="tree-label">作業フォルダ（ai-output）の中</span>
         <p class="tree-title">確認事項・<wbr>報告・<wbr>照合の<wbr>置き場</p>
-        <pre class="mono">ai-output/&lt;対象プロジェクト&gt;/&lt;実行の識別子&gt;/
+        <pre class="mono">ai-output/&lt;対象プロジェクト名&gt;/&lt;実行の識別子&gt;/
 ├── <span class="hot">confirmations/</span> <span class="dim">確認事項一覧・対象範囲の承認</span>
 ├── <span class="hot">reports/</span> <span class="dim">完了報告・納品物一覧の写し・検証の判定の要約</span>
 ├── <span class="hot">code-readings/</span> <span class="dim">原本コードから取り出した読み取り結果</span>
