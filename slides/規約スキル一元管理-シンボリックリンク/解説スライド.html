@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>複数AIツールの規約・スキルを一元管理する仕組み</title>
+<style>
+  /* ==== デザイントークン（変更禁止） ==== */
+  :root{
+    --page: #EDF0F4;          /* 背景（スライドの外） */
+    --surface: #FFFFFF;       /* スライド面 */
+    --ink: #1C2B3A;           /* 見出し・強調文字（ネイビー） */
+    --ink-2: #55667A;         /* 本文 */
+    --ink-3: #63758A;         /* 補足・軸ラベル */
+    --border: #D9E0E8;        /* 罫線 */
+    --grid: #E9EDF2;          /* 図中グリッド線 */
+    --critical: #C0392B;      /* 警告・上限・停止 */
+    --critical-soft: #FAECEA;
+    --good: #1F7A46;          /* 回復・完了・推奨 */
+    --good-soft: #EAF4EE;
+    --tag-bg: #EDF1F6;        /* パネルタグ地 */
+    /* ツール識別色（実在ツールを描く時のみここに追記する） */
+    --claude: #A54832;        /* Claude: コーラル */
+    --claude-deep: #BC5B3B;
+    --claude-soft: #FBF0EA;
+    --cursor: #23282E;        /* Cursor: チャコール */
+    --cursor-soft: #EFF1F4;
+  }
+
+  /* ==== ステップ番号チップ（図と本文で同番号・同色を使う） ==== */
+  .step-chip{
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-chip--main{ background: var(--claude); }
+  .step-chip--critical{ background: var(--critical); }
+  .step-chip--good{ background: var(--good); }
+
+  /* ==== 対比カード（時間構造がない「並べて比べる」型に使う） ==== */
+  .compare-row{ display: flex; gap: 24px; flex: 1; align-items: stretch; min-height: 0; }
+  .compare-card{ flex: 1; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+  .compare-card h2{ font-size: 16px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .compare-card p{ font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+  .stage-arrow{ display: flex; align-items: center; justify-content: center; }
+
+  /* ==== 利点・欠点の列挙（レ点/×） ==== */
+  .stage-status{ display: flex; flex-direction: column; gap: 4px; }
+  .status-row{
+    display: flex; align-items: flex-start; gap: 6px;
+    font-size: 12px; line-height: 1.3;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .status-ng{ background: var(--critical-soft); color: var(--critical); }
+  .status-ok{ background: var(--good-soft); color: var(--good); }
+  .status-icon{ font-weight: 700; flex-shrink: 0; width: 1em; text-align: center; }
+
+  /* ==== 例チップ ==== */
+  .layer-examples{ display: flex; gap: 6px; flex-wrap: wrap; }
+  .ex{ font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); white-space: nowrap; }
+
+  /* ==== 層・積層構造（全幅帯。上辺ではなく左辺の色で層の位置づけを示す） ==== */
+  .layer-band{
+    display: flex; align-items: center; gap: 20px;
+    padding: 20px 26px;
+    border-radius: 10px;
+    background: var(--tag-bg);
+    border: 1.5px solid var(--border);
+    border-left: 5px solid var(--ink-3);
+  }
+  .layer-body{ flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .layer-body h3{ font-size: 16px; font-weight: 700; color: var(--ink); }
+  .layer-desc{ font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+
+  /* ==== フッタ: ステップ要約（図中の番号チップと同番号・同色で対応させる） ==== */
+  .steps{ display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .step{ display: flex; gap: 8px; align-items: center; }
+  .step-text{ font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+  .step-text strong{ color: var(--ink); }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+<div class="slide-viewport">
+  <div class="slide" data-slide-page="1">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI開発ガバナンス — 設定資産管理</span>
+      <h1 class="slide-title">複数AIツールの規約・スキルを一元管理する仕組み</h1>
+      <p class="slide-subtitle">定義は docs/ の1か所、Claude Code と Cursor はシンボリックリンクで同じファイルを読む</p>
+    </header>
+
+    <div class="compare-row">
+
+      <article class="compare-card" style="border-color: var(--critical);">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="step-chip step-chip--critical">1</span>
+          <h2>変換スクリプトによる転記</h2>
+        </div>
+        <p>docs/rules の定義を、変換スクリプトが .claude/rules・.cursor/rules/*.mdc・AGENTS.md へその都度転記していた。</p>
+        <div class="stage-status">
+          <div class="status-row status-ng"><span class="status-icon">×</span><span>複製がずれるため、ずれ検知・台帳・整合検査を常設していた</span></div>
+          <div class="status-row status-ng"><span class="status-icon">×</span><span>変換スクリプト7本・約5,000行、規約1件の修正で4か所を触る</span></div>
+        </div>
+      </article>
+
+      <div class="stage-arrow">
+        <svg width="16" height="28" viewBox="0 0 16 28" fill="none" role="presentation">
+          <path d="M2 2 L14 14 L2 26" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <article class="compare-card" style="border-color: var(--good); border-width: 2px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="step-chip step-chip--good">2</span>
+          <h2>シンボリックリンクによる一元化</h2>
+        </div>
+        <p>.claude/rules と .claude/skills は docs/ 配下へのディレクトリのリンク、.cursor/rules/*.mdc は各 rule.md へのファイルのリンクにする。</p>
+        <div class="layer-examples">
+          <span class="ex">.claude/rules → docs/rules</span>
+          <span class="ex">.claude/skills → docs/skills</span>
+          <span class="ex">.cursor/rules/*.mdc → rule.md</span>
+          <span class="ex">AGENTS.md は静的な数行のみ</span>
+        </div>
+        <div class="stage-status">
+          <div class="status-row status-ok"><span class="status-icon">レ</span><span>同じ実体を指すため複製のずれが原理的に起きない</span></div>
+          <div class="status-row status-ok"><span class="status-icon">レ</span><span>ずれ検知・台帳・変換スクリプトが0になる</span></div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="layer-band">
+      <span class="step-chip step-chip--main">3</span>
+      <div class="layer-body">
+        <h3>1ファイルを両ツールが読める理由: front matter に両方の鍵を同居させる</h3>
+        <p class="layer-desc">description・globs・alwaysApply は Cursor が読み、paths は Claude Code が読む。各ツールは自分の鍵だけを見て他の鍵は無視するため、1つの rule.md がそのまま両方の設定として機能する。（注意：Cursor は 2.5 以降を使う。それより前のバージョンはリンク先を読まない不具合がある）</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step-chip step-chip--critical">1</span>
+        <p class="step-text"><strong>転記の限界</strong>— 複製がずれ、直すたびに4か所を触る</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--good">2</span>
+        <p class="step-text"><strong>一元化</strong>— リンクで同じ実体を指し、ずれを原理的に無くす</p>
+      </div>
+      <div class="step">
+        <span class="step-chip step-chip--main">3</span>
+        <p class="step-text"><strong>両立</strong>— front matter の鍵の同居で両ツールが1ファイルを読む</p>
+      </div>
+    </div>
+
+    <p style="font-size:11px;color:var(--ink-3);border-top:none;padding-top:4px;">導入の最初の一歩：規約1件をシンボリックリンク化し、両ツールから読めることを確認してから全件へ展開する</p>
+
+
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・1ページでも削除禁止） ==== -->
+
+</body>
+</html>
