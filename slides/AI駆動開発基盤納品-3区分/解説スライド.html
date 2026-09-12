@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI駆動開発の基盤一式を納品するツール群</title>
+<title>AI駆動開発の基盤一式: 受け取る3つの区分</title>
 <style>
   :root{ --accent-soft:#E3EDF6; --focus-bg:#F5F9FC; }
   .mono{ font-family: "SF Mono", "Cascadia Code", Consolas, Menlo, monospace; }
@@ -66,7 +66,7 @@
   <section class="slide-page is-active" data-slide-page="1">
     <header class="slide-header">
       <span class="kicker">AI駆動開発セットアップ｜全体像</span>
-      <h1 class="slide-title">対象プロジェクトへ「AI駆動開発の基盤一式」を納品するツール群</h1>
+      <h1 class="slide-title">AI駆動開発の基盤一式: 受け取る3つの区分</h1>
       <p class="slide-subtitle">Claude Code 上で動くスキル群。統括スキルが、調査から設計書と規約とAI設定の生成までを自動で進める</p>
     </header>
     <div class="docs">
@@ -81,13 +81,13 @@
           <span class="g-mid">統括スキルが成果物のそろい具合から現在の状態を判定し、調査 → 一覧化 → 設計書執筆 → 検証を自動で進める。詳しい流れは2ページ目の3区分で示す</span>
         </div>
         <div class="g-row">
-          <div class="g-what"><span class="nm">受け取った後、何をするのか</span><span class="sub">納品先の開発チームの役割</span></div>
+          <div class="g-what"><span class="nm">受け取った後、何をするのか</span><span class="sub">あなたの開発チームの役割</span></div>
           <span class="g-mid">ポータルで中身を確認し、確認事項に答え、規約提案の採否を決める。日々の開発は、同梱された開発フローに沿って進める</span>
         </div>
       </div>
       <aside class="treebox">
         <span class="tree-label">DELIVERED TREE</span>
-        <p class="tree-title">何が出てくるのか：納品後の主なフォルダ</p>
+        <p class="tree-title">何が出てくるのか：受け取った後の主なフォルダ</p>
         <pre class="mono">project/
 ├── <span class="hot">docs/</span> <span class="dim">AIが読む定義の大元</span>
 │   ├── rules/ <span class="dim">分野別の規約一式</span>
@@ -106,7 +106,7 @@
     </div>
     <div class="conclusion">
       <span class="c-label">一言で</span>
-      <span class="c-text">AIが読む定義と、人が見るポータルと、それを保つ仕組みまでを、まとめて納品する</span>
+      <span class="c-text">AIが読む定義と、人が見るポータルと、それを保つ仕組みまでを、まとめて受け取れる</span>
       <span class="pageno">1 / 2</span>
     </div>
   </section>
@@ -117,12 +117,12 @@
       <h1 class="slide-title">3つの区分：セットアップ・リバース・現場運用</h1>
       <p class="slide-subtitle">どう作られるのかの詳細。3つの区分と実行主体を示す</p>
     </header>
-    <p class="thesis">対象はすべて納品先のリポジトリである。セットアップとリバースは本ツール群（納品する側のAI）が実行し、現場運用は納品先の開発チームが同梱スキルで回す。</p>
+    <p class="thesis">対象はすべてあなたのプロジェクトのリポジトリである。セットアップとリバースは支援側のAIが実行し、現場運用はあなたの開発チームが同梱スキルで回す。</p>
     <div class="roles">
       <article class="stage">
         <span class="level">1｜SETUP</span>
         <p class="role-nm">セットアップ</p>
-        <span class="actor">実行：本ツール群（納品する側のAI）</span>
+        <span class="actor">実行：支援側のAI</span>
         <ul class="items">
           <li>規約のひな形の配布</li>
           <li>AI設定（CLAUDE.md等）の生成</li>
@@ -134,7 +134,7 @@
       <article class="stage">
         <span class="level">2｜REVERSE</span>
         <p class="role-nm">リバース</p>
-        <span class="actor">実行：本ツール群（納品する側のAI）</span>
+        <span class="actor">実行：支援側のAI</span>
         <ul class="items">
           <li>既存コードの調査と一覧作り</li>
           <li>業務の言葉での設計書の執筆</li>
@@ -145,15 +145,15 @@
       </article>
       <article class="stage">
         <span class="level">3｜OPERATE</span>
-        <p class="role-nm">現場運用<span class="nm-sub">納品先の開発サイクル</span></p>
-        <span class="actor">実行：納品先の開発チーム</span>
+        <p class="role-nm">現場運用<span class="nm-sub">あなたの開発サイクル</span></p>
+        <span class="actor">実行：あなたの開発チーム</span>
         <ul class="items">
           <li>開発フローの運用</li>
           <li>未確定事項の記録と反映</li>
           <li>規約提案の取り込みと生成物の同期</li>
           <li>用語を人が承認して確定する運用</li>
         </ul>
-        <p class="state">納品時に同梱したスキルを使い、納品先の開発チームが開発サイクルを回し続ける。</p>
+        <p class="state">受け取った時点で同梱されたスキルを使い、あなたの開発チームが開発サイクルを回し続ける。</p>
         <p class="gate">出力：日々の開発で更新され続ける定義と生成物</p>
       </article>
     </div>
