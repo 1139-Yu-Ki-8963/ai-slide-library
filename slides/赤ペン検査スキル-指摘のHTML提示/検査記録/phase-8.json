@@ -1,0 +1,14 @@
+{
+  "phase": 8,
+  "targetKeys": ["赤ペン検査スキル-指摘のHTML提示"],
+  "status": "pass",
+  "criteria": [
+    {"id": "slide-ai-thumbnail-legibility", "status": "pass", "evidence": "1280×720実描画で、利用者→検査→赤ペン見本→直す人の左右対称構成と赤字・波線の訂正表現を識別できる。縮小640×360相当でも赤字強調が判別できる。"},
+    {"id": "slide-ai-one-message", "status": "pass", "evidence": "タイトル・副題・図の3要素はすべて「textlintの機械検査結果を赤ペンHTMLで示し、直すかどうかは人が判断する」という単一の主張へ収束し、別主張は混在しない。"},
+    {"id": "slide-ai-title-claim", "status": "pass", "evidence": "タイトル「赤ペン検査スキル: md を検査し、指摘を HTML で示す」は分類名だけでなく、このページで理解すべき判断対象（スキルの入出力）を単独で示す。実描画1行でヘッダー内に収まる。"},
+    {"id": "slide-ai-subtitle-support", "status": "pass", "evidence": "副題「Claude Code のスキル。md を辞書・文の規則・癖の規則で機械検査し、指摘箇所に訂正線と波線を入れた HTML を書き出す」は検査対象・検査観点・出力形式を補い、タイトルの単純な言い換えになっていない。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-09-15T06:44:45.000Z",
+  "artifactSha256": "cf46582c8207e4c1572d3b4f54dca5d0078868bc3628216665bb1b68b3ee81f3"
+}

@@ -1,0 +1,40 @@
+{
+  "artifact": "slides/赤ペン検査スキル-指摘のHTML提示/解説スライド.html",
+  "artifactSha256": "cf46582c8207e4c1572d3b4f54dca5d0078868bc3628216665bb1b68b3ee81f3",
+  "status": "pass",
+  "summary": "利用者の依頼から textlint 機械検査、赤ペン report.html、直す人までの一連の流れを1ページで確認した。表示破綻・重大な内容欠落・判断を誤らせる図表表現は検出していない。必須修正はない。",
+  "strengths": [
+    "利用者→検査→赤ペン見本→直す人の左右対称構成で、入力と出力の対応が視覚的に明確",
+    "置き換え済み例と指摘のみの例をタグ色（置き換え=赤系、指摘=黄系）で区別している",
+    "訂正線・波線という赤ペン添削の慣用表現を用いており、意味が直感的に伝わる"
+  ],
+  "findings": [],
+  "checks": [
+    {"criterionId": "html-ai-purpose-hierarchy", "decision": "pass", "target": "タイトル・副題・図・見本3件", "evidence": "タイトル→副題→図の順に主張・補足・詳細の主従が保たれ、見本3件は同格の並列情報として配置されている。", "impact": "読み手は先に主張を把握し、後から検査観点の詳細を追える。", "fix": "追加時も見本の主従を崩さない。", "verification": "wide表示でタイトル→副題→図の順に視線が流れることを確認する。"},
+    {"criterionId": "html-ai-non-template", "decision": "pass", "target": "人物アイコン・吹き出し・report パネル", "evidence": "図形は依頼者・検査・修正者という内容の役割に対応しており、無意味な色分けやカード乱立はない。", "impact": "テンプレートの器ではなく内容固有の流れが主役になる。", "fix": "今後も装飾目的の図形追加をしない。", "verification": "各図形が内容上の役割を持つことを確認する。"},
+    {"criterionId": "html-ai-content-preservation", "decision": "pass", "target": "akapen.html の吹き出し文・見本3件・矢印ラベル・人物ラベル", "evidence": "吹き出し文、見本3件の文・タグ・表示名・注記、矢印ラベル、人物ラベルはすべて元のakapen.htmlの文言のまま保持されている。", "impact": "構造移植による意味の欠落がない。", "fix": "今後の編集でも文言の照合を維持する。", "verification": "元HTMLと現HTMLの該当テキストを項目単位で再照合する。"},
+    {"criterionId": "html-ai-information-density", "decision": "pass", "target": "見本3件・吹き出し2件", "evidence": "1280×720内に3件の見本と2件の吹き出しが収まり、文字縮小による過密や画面端への密集はない。", "impact": "情報量と可読性のバランスが保たれている。", "fix": "追記時は文字を縮小せず要素数を絞る。", "verification": "wide・narrowで文字切れがないことを確認する。"},
+    {"criterionId": "html-ai-improvement-over-source", "decision": "pass", "target": "akapen.html（1600×900独自レイアウト）と現HTML（共有シェル1280×720）", "evidence": "共有シェルのヘッダー構造へ移植したことで、他スライドと同じ視線誘導・タイトル階層になり、カタログ内での一貫性が向上した。", "impact": "単体資料としてだけでなくカタログ内の一貫した1枚として機能する。", "fix": "現行の共有ヘッダー構造を維持する。", "verification": "他スライドと並べてヘッダー階層の一貫性を確認する。"},
+    {"criterionId": "html-ai-shapes", "decision": "pass", "target": "人物アイコン・吹き出し・report パネルの枠", "evidence": "枠は細線・低彩度で、塗り・太枠・影・立体・グラデーションの重複がない。", "impact": "図形が装飾でなく内容理解を助ける。", "fix": "現行の線幅・彩度を維持する。", "verification": "各図形の枠が本文より目立たないことを確認する。"},
+    {"criterionId": "html-ai-connectors", "decision": "pass", "target": "左右2本の矢印", "evidence": "矢印は依頼→検査結果、結果→修正という遷移だけに使われ、起点・終点が一意である。", "impact": "処理の流れを誤解なく追える。", "fix": "現行の矢印方向・位置を維持する。", "verification": "wide・narrowで矢印の方向が判別できることを確認する。"},
+    {"criterionId": "html-ai-typography", "decision": "pass", "target": "タイトル・副題・吹き出し文・見本本文", "evidence": "タイトルは実描画1行でヘッダー内に収まり、見本本文・吹き出し文はサイズ差で階層が区別されている。文字化け・意図しない折返しはない。", "impact": "主張と詳細の強度差が保たれる。", "fix": "本文量が増えた場合は文字サイズを下げずページ分割を検討する。", "verification": "1280×720・390×844でタイトル・副題・本文の内包を確認する。"},
+    {"criterionId": "html-ai-color-accessibility", "decision": "pass", "target": "置き換え・指摘タグの配色、訂正線・波線の赤", "evidence": "色分けはタグ文言（置き換え／指摘）を併用しており、色だけに意味を依存していない。地色と文字のコントラストも確保されている。", "impact": "色覚差があっても文言から状態を判別できる。", "fix": "新規タグ追加時も文言を併用する。", "verification": "グレースケール相当でもタグ文言から分類を判別できることを確認する。"},
+    {"criterionId": "html-ai-flow-alignment-spacing", "decision": "pass", "target": "左右対称の3カラム構成", "evidence": "利用者・報告・直す人が横一列に整列し、余白で各要素が分離されている。孤立や接触はない。", "impact": "左から右への処理の流れを迷わず追える。", "fix": "現行の整列・余白を維持する。", "verification": "wide・narrowで要素間の余白と整列を確認する。"},
+    {"criterionId": "html-ai-graphs-numbers", "decision": "pass", "target": "見本3件の行数表示（7行・7行・9行）", "evidence": "行数はakapen.htmlの元表記のまま各見本項目のメタ情報に対応付けて配置されている。", "impact": "行数と該当見本の対応関係を誤解なく読み取れる。", "fix": "行数を変更する場合は元資料と再照合する。", "verification": "各見本の行数表示と本文の対応を再確認する。"},
+    {"criterionId": "html-ai-tables", "decision": "not-applicable", "target": "表データ", "evidence": "行列データを示す表はなく、report パネルをtableとして誤実装していない。", "impact": "表でない情報へ不要な罫線を持ち込んでいない。", "fix": "表を追加する場合はtable要素を使う。", "verification": "表追加時にセマンティクスを確認する。"}
+  ],
+  "editPlan": {
+    "対象": "slides/赤ペン検査スキル-指摘のHTML提示/解説スライド.html",
+    "要約": "図表・情報設計はPhase 8共通12観点を満たす。",
+    "良い点": ["左右対称構成で入出力の対応が明確", "タグ色と文言の併用で状態を区別", "元HTMLの文言をすべて保持"],
+    "指摘事項": [],
+    "情報設計の再編集案": "再編集は不要。現行の左右対称構成と文言を維持する。",
+    "観点別チェック": {"図形": "内容の役割と形が一致", "矢印": "起点・終点・方向が明確", "文字": "タイトル・副題・本文の階層が安定", "配色": "タグ文言と色を併用", "視線": "左→右", "余白": "3要素の分離が明確"},
+    "優先修正方針": ["必須修正なし"],
+    "ai-slide-library適合性": "最終HTML SHA、16:9、縮小表示、公開安全、編集可能性の範囲で適合する。",
+    "次のアクション": "HTMLは変更せずPhase 8をPASSとして保存する。"
+  },
+  "implementationPlan": [
+    {"priority": "none", "action": "現HTMLを変更しない", "reason": "必須修正に当たる欠陥を検出していない", "verification": "HTML変更時は同じレビューを再実行する"}
+  ]
+}

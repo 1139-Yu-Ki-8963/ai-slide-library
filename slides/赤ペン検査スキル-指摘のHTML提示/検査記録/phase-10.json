@@ -1,0 +1,11 @@
+{
+  "phase": 10,
+  "targetKeys": ["赤ペン検査スキル-指摘のHTML提示"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-split-plan", "status": "pass", "evidence": "1ページ1メッセージで、利用者の依頼・機械検査・人による確定という一連の流れを1枚で完結して示している。現状・原因・対策・体制等の異種テーマの同居はなく、分割・統合の必要はない。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-09-15T06:44:45.000Z",
+  "artifactSha256": "cf46582c8207e4c1572d3b4f54dca5d0078868bc3628216665bb1b68b3ee81f3"
+}

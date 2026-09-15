@@ -1,0 +1,9 @@
+{
+  "phase": 11,
+  "targetKeys": ["赤ペン検査スキル-指摘のHTML提示"],
+  "status": "pass",
+  "criteria": [],
+  "findings": [],
+  "checkedAt": "2026-09-15T06:44:45.000Z",
+  "artifactSha256": "cf46582c8207e4c1572d3b4f54dca5d0078868bc3628216665bb1b68b3ee81f3"
+}
