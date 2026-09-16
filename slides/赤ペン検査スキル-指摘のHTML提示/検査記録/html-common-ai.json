@@ -1,41 +1,40 @@
 {
   "artifact": "slides/赤ペン検査スキル-指摘のHTML提示/解説スライド.html",
-  "artifactSha256": "d71b037a199f0d8e43f603a3a7f248f58aa2cf7c090b14110076faa42df884d7",
+  "artifactSha256": "4aa3e0c206853f8c3458d5820b8c03f0191b8dbbbd5abf7d06d271ca7a1f71f9",
   "status": "pass",
-  "summary": "利用者の依頼からtextlint機械検査、赤ペンreport.html、人による確認までの一連の流れを1ページで確認した。git diffで旧版と比較したところ、prh辞書による自動置換機能の廃止(コミットc61bddc/33c38c9)に合わせ『置き換え』タグと副題の辞書言及を削除し、指摘(波線)のみへ正しく更新されている。HTML本体に必須修正はない。ただし同ディレクトリのサムネイル.pngと検査記録.mdはこの更新前の内容のままであり、критical findingとしてphase-8に記録した。",
+  "summary": "利用者の依頼→スキルによるtextlint検査→赤ペン入りHTML→人による確認、という単一メッセージの処理連鎖を確認した。3つの指摘例は実在するルールID・実装挙動と一致し、架空情報はない。必須修正なし。",
   "strengths": [
-    "旧版のprh辞書機能への言及を削除し、現行の検査対象(ai-words-ja/ja-technical-writing/ai-writingの3プリセット)と矛盾しない内容に更新されている",
-    "確認者側の吹き出しが『指摘通りに直す』ではなく『「土台」は「前提」に直す』という利用者自身の判断に基づく文言になっており、『修正案は提示しない』というスキル仕様を正確に反映している",
-    "3つの見本がAIが使いがちな語・文の規則・癖の規則の3区分を過不足なく1件ずつ示し、読み手が3プリセットの存在を直感的に把握できる"
+    "3つの指摘例(土台/no-ai-words、読点4個/max-ten、太字ラベル/no-ai-list-formatting)が実在するルール名・振る舞いと一致する",
+    "『土台』→『前提』という具体的な修正後テキストまで示し、指摘から修正までの流れが実務的",
+    "処理内容(スキルがtextlintで検査し、赤ペン入りHTMLを書き出す)を吹き出しで明示し、ブラックボックス感がない"
   ],
   "findings": [],
   "checks": [
-    {"criterionId": "html-ai-purpose-hierarchy", "decision": "pass", "target": "タイトル・副題・図・見本3件", "evidence": "タイトル→副題→図の順に主張・補足・詳細の主従が保たれ、report.htmlパネルが罫線と背景色で視覚的主役になっている。", "impact": "読み手は先に結論(指摘のみ・修正は人)を把握し、詳細を後から追える。", "fix": "現状を維持する。", "verification": "wide表示でタイトル→副題→図の順に視線が流れることを確認する。"},
-    {"criterionId": "html-ai-non-template", "decision": "pass", "target": "5カラム(320/200/460/200/320px)の非対称構成", "evidence": "列幅が均等でなく、依頼吹き出し・処理説明・report見本・処理説明・確認吹き出しという役割ごとに幅が異なる。カードの機械的反復はない。", "impact": "内容に応じた個別設計に見える。", "fix": "現状を維持する。", "verification": "列幅が内容量に対応していることを確認する。"},
-    {"criterionId": "html-ai-content-preservation", "decision": "pass", "target": "見本3件の文言・行番号・区分ラベル", "evidence": "git diffで旧版と照合し、行番号(14/7/9)・指摘文言・区分ラベル(AIが使いがちな語/文の規則/癖の規則)が実際のtextlintルール名(no-ai-words/max-ten/no-ai-list-formatting)と一致することを確認した。架空の数値・ルール名の追加はない。", "impact": "実際のスキル仕様と食い違わない。", "fix": "現状を維持する。", "verification": "ルール名を実装(SKILL.md)と再照合する。"},
-    {"criterionId": "html-ai-information-density", "decision": "pass", "target": "見本3件・吹き出し2件", "evidence": "1280×720内に3件の見本と2件の吹き出しが収まり、文字縮小による過密はない。", "impact": "情報量と可読性のバランスが保たれている。", "fix": "現状を維持する。", "verification": "wide・narrowで文字切れがないことを確認する。"},
-    {"criterionId": "html-ai-improvement-over-source", "decision": "pass", "target": "旧版(prh置換例あり)と現行版(指摘のみ)", "evidence": "git diffで確認した旧版は『指摘通り「関係者」に直す』という、ツールが未実装の自動置換提案に従う体裁だった。現行版は『「土台」は「前提」に直す』という利用者自身の裁量による修正へ改め、実際の仕様(修正案は出さない)と一致させた。副題も辞書機能への言及を削除し正確性が向上した。", "impact": "スキルの実際の能力について読み手に誤解を与えない。", "fix": "現行の記述を維持する。", "verification": "SKILL.mdの対象外節(置き換え案の提示をしない)と再照合する。"},
-    {"criterionId": "html-ai-shapes", "decision": "pass", "target": "人物アイコン・report.htmlパネルの枠", "evidence": "枠は1px細線・低彩度で、塗り・太枠・影・立体・グラデーションの重複がない。", "impact": "図形が装飾でなく内容理解を助ける。", "fix": "現状を維持する。", "verification": "各図形の枠が本文より目立たないことを確認する。"},
-    {"criterionId": "html-ai-connectors", "decision": "pass", "target": "左右2本の矢印(SVG)", "evidence": "矢印は依頼→処理結果、結果→修正判断という遷移だけに使われ、起点・終点が一意。", "impact": "処理の流れを誤解なく追える。", "fix": "現状を維持する。", "verification": "wide・narrowで矢印の方向が判別できることを確認する。"},
-    {"criterionId": "html-ai-typography", "decision": "pass", "target": "タイトル・副題・吹き出し・見本本文", "evidence": "タイトルは実描画1行、見本本文(22px)・区分ラベル(16px)・タグ(16px)でサイズ差による階層がある。文字化け・意図しない折返しはない。", "impact": "主張と詳細の強度差が保たれる。", "fix": "現状を維持する。", "verification": "1280×720・390×844でタイトル・副題・本文の内包を確認する。"},
-    {"criterionId": "html-ai-color-accessibility", "decision": "pass", "target": "指摘タグ(#FFF4CC背景)・波線(#B42318)", "evidence": "タグは背景色に加え『指摘』という文言を併記しており、色だけに意味を依存していない。波線の赤は文字色と地色で十分なコントラストを持つ。", "impact": "色覚差があっても文言から状態を判別できる。", "fix": "現状を維持する。", "verification": "グレースケール相当でもタグ文言から分類を判別できることを確認する。"},
-    {"criterionId": "html-ai-flow-alignment-spacing", "decision": "pass", "target": "5カラムの整列", "evidence": "5要素が横一列に並び、各要素間に余白があり孤立・接触はない。", "impact": "左から右への処理の流れを迷わず追える。", "fix": "現状を維持する。", "verification": "wide・narrowで要素間の余白と整列を確認する。"},
-    {"criterionId": "html-ai-graphs-numbers", "decision": "pass", "target": "見本3件の行数表示(14行・7行・9行)", "evidence": "行数は各見本項目のメタ情報として対応付けて配置され、対応関係が明確である。", "impact": "行数と該当見本の対応関係を誤解なく読み取れる。", "fix": "現状を維持する。", "verification": "各見本の行数表示と本文の対応を再確認する。"},
-    {"criterionId": "html-ai-tables", "decision": "not-applicable", "target": "表データ", "evidence": "行列データを示す表はなく、report.htmlパネルをtableとして誤実装していない。", "impact": "該当なし。", "fix": "表を追加する場合はtable要素を使う。", "verification": "表追加時にセマンティクスを確認する。"}
+    {"criterionId": "html-ai-purpose-hierarchy", "decision": "pass", "target": "5要素の左右フロー", "evidence": "利用者の依頼→処理→赤ペンパネル→処理→利用者の確認、という順で情報の主従が配置に反映されている。赤ペンパネル(460px幅)が図中最大の要素。", "impact": "読み手はまず入出力の全体像を把握できる。", "fix": "現状を維持する。", "verification": "赤ペンパネルが図中最大の要素であることを確認する。"},
+    {"criterionId": "html-ai-non-template", "decision": "pass", "target": "5要素の並び", "evidence": "均等配置ではなく、利用者(320px)・処理説明(200px)・パネル(460px)・処理説明(200px)・利用者(320px)と役割に応じた幅を持つ。装飾目的の反復ではない。", "impact": "反復ではなく因果連鎖として読める。", "fix": "現状を維持する。", "verification": "各要素の幅が役割に応じて異なることを確認する。"},
+    {"criterionId": "html-ai-content-preservation", "decision": "pass", "target": "3つの指摘例文言・ルールID", "evidence": "『ビルドが通ったら、土台ができた』→no-ai-words、『入れて、設定して、確認して、共有』→max-ten、『- **必要性**: node が必要』→no-ai-list-formattingは、reporting-textlint-findings SKILL.mdの規則表・実装挙動と一致する。", "impact": "実装と食い違わない正確な内容である。", "fix": "現状を維持する。", "verification": "スキル仕様変更時は同じ3例で再確認する。"},
+    {"criterionId": "html-ai-information-density", "decision": "pass", "target": "赤ペンパネル内の3指摘", "evidence": "各指摘は行番号・重さ・文言・ルール名の4要素に絞られ、押し込みはない。", "impact": "情報量は適切。", "fix": "現状を維持する。", "verification": "指摘追加時も4要素構成を維持する。"},
+    {"criterionId": "html-ai-improvement-over-source", "decision": "not-applicable", "target": "旧版との比較", "evidence": "既存キーの更新だが、直前版のHTML本体との差分記録が本レビューの入力に含まれておらず、旧版内容を確認できない。", "impact": "該当なし。", "fix": "該当なし。", "verification": "旧版が別途提示された場合は改めて比較する。"},
+    {"criterionId": "html-ai-shapes", "decision": "pass", "target": "枠線・人物SVG・吹き出し三角形", "evidence": "枠線は1px、人物は stroke-width 2.5 の細線。塗り・影・立体・グラデーションの重複はない。", "impact": "図形が装飾でなく役割を示す。", "fix": "現状を維持する。", "verification": "影やグラデーションが追加されていないことを確認する。"},
+    {"criterionId": "html-ai-connectors", "decision": "pass", "target": "処理→パネル間の矢印", "evidence": "SVGのmarker付き直線で起点・終点・方向が一意。線種・太さは統一されている。", "impact": "処理の流れを誤解なく追える。", "fix": "現状を維持する。", "verification": "矢印が同一スタイルであることを確認する。"},
+    {"criterionId": "html-ai-typography", "decision": "pass", "target": "赤ペン見出し(26px)・指摘見出し(22px)・行番号(16px)", "evidence": "見出し・本文・注記の階層が一貫し、指摘テキストに波線装飾を使い分けている。", "impact": "最重要情報(指摘文言)が最初に目に入る。", "fix": "現状を維持する。", "verification": "指摘文言のフォントサイズが行番号より大きいことを確認する。"},
+    {"criterionId": "html-ai-color-accessibility", "decision": "pass", "target": "赤い波線・黄色い『指摘』バッジ", "evidence": "指摘は赤波線と黄色背景バッジの両方で示され、色以外の記号(波線・『指摘』の文言)を併用している。", "impact": "色覚差があっても指摘箇所を判別できる。", "fix": "現状を維持する。", "verification": "グレースケール相当でも波線から指摘箇所を判別できることを確認する。"},
+    {"criterionId": "html-ai-flow-alignment-spacing", "decision": "pass", "target": "5要素の縦位置", "evidence": "利用者ブロックと処理ブロックの縦位置がpadding-topで揃えられ、視線が左から右へ自然に流れる。", "impact": "読み順が明確。", "fix": "現状を維持する。", "verification": "5要素が横一列に整列していることを確認する。"},
+    {"criterionId": "html-ai-graphs-numbers", "decision": "not-applicable", "target": "グラフ要素", "evidence": "本スライドに数値グラフは存在しない(行番号は指摘位置情報であり系列データではない)。", "impact": "該当なし。", "fix": "該当なし。", "verification": "グラフ追加時に改めて確認する。"},
+    {"criterionId": "html-ai-tables", "decision": "not-applicable", "target": "表データ", "evidence": "3指摘はカード状の並列情報であり、table構造を要する行列データではない。", "impact": "該当なし。", "fix": "該当なし。", "verification": "表を追加する場合はtable要素を使う。"}
   ],
   "editPlan": {
     "対象": "slides/赤ペン検査スキル-指摘のHTML提示/解説スライド.html",
-    "要約": "HTML本体はprh廃止に合わせた正しい更新済みで必須修正はない。サムネイル.png・検査記録.mdの追従更新のみPhase Fで必要。",
-    "良い点": ["旧prh言及の削除による正確性向上", "利用者自身の裁量による修正判断の描写", "3プリセットを1件ずつ示す見本構成"],
+    "要約": "図表・情報設計・内容保持のいずれも満たす。必須修正はない。",
+    "良い点": ["実在するルールIDと挙動に基づく3指摘例", "修正前後のテキストまで示す実務的な構成"],
     "指摘事項": [],
-    "情報設計の再編集案": "再編集は不要。",
-    "観点別チェック": {"図形": "枠は細線・低彩度", "矢印": "起点・終点・方向が明確", "文字": "階層が安定", "配色": "タグ文言と色を併用", "視線": "左→右", "余白": "5要素の分離が明確"},
-    "優先修正方針": ["HTML本体は必須修正なし。サムネイル.png・検査記録.mdをPhase Fで現行内容へ更新する"],
-    "ai-slide-library適合性": "最終HTML SHA・16:9・縮小表示・公開安全・編集可能性の範囲で適合する。",
-    "次のアクション": "HTMLは変更せずPhase 8をPASSとして保存する。サムネイル・検査記録.mdはPhase Fで追従させる。"
+    "情報設計の再編集案": "現状維持で問題ない。",
+    "観点別チェック": {"図形": "細線・機能的", "矢印": "起点・終点・方向が明確", "文字": "指摘文言を頂点とした階層", "配色": "波線と文言併記で色以外の区分あり", "視線": "左→右", "余白": "役割に応じた幅配分"},
+    "優先修正方針": ["必須修正なし"],
+    "ai-slide-library適合性": "16:9・公開安全・編集可能性の範囲で適合する。",
+    "次のアクション": "現行内容のままPhase Eへ進行可能。"
   },
   "implementationPlan": [
-    {"priority": "none", "action": "現HTMLを変更しない", "reason": "必須修正に当たる欠陥を検出していない", "verification": "HTML変更時は同じレビューを再実行する"},
-    {"priority": "high", "action": "サムネイル.pngと検査記録.mdをPhase Fで現行内容へ更新する", "reason": "旧版(prh置換機能)の内容のままで公開すると誤情報になる", "verification": "更新後のartifactSha256がd71b037a...と一致することを確認する"}
+    {"priority": "none", "action": "現HTMLを変更しない", "reason": "必須修正に当たる欠陥を検出していない", "verification": "HTML変更時は同じレビューを再実行する"}
   ]
 }

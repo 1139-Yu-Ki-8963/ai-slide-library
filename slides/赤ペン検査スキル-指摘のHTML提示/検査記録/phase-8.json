@@ -3,14 +3,12 @@
   "targetKeys": ["赤ペン検査スキル-指摘のHTML提示"],
   "status": "pass",
   "criteria": [
-    {"id": "slide-ai-thumbnail-legibility", "status": "pass", "evidence": "サムネイル.pngは現行HTMLと内容不一致の旧版画像のため判定に使えず、1280×720実描画(evidence/検証用スクリーンショット.png)を縮小相当で目視した。利用者→スキル処理→赤ペンreport.html→読む→確認するのは人という左右対称5カラム構成と赤波線の指摘表現は、640×360相当でも『検査結果を人が確認する』という主題を判別できる。"},
-    {"id": "slide-ai-one-message", "status": "pass", "evidence": "依頼吹き出し、処理説明、report.htmlの見本3件、確認する人の吹き出しはすべて『機械検査は指摘の場所を示すだけで、直すかどうかは人が決める』という単一主張へ収束する。"},
-    {"id": "slide-ai-title-claim", "status": "pass", "evidence": "タイトル『赤ペン検査スキル: md を検査し、指摘を HTML で示す』は入力(md)と出力(指摘HTML)という判断対象を単独で示す。実描画で1行に収まる。"},
-    {"id": "slide-ai-subtitle-support", "status": "pass", "evidence": "副題『AI が使いがちな語・文の規則・癖の規則で機械検査し、指摘箇所に波線を引いた HTML を書き出す』は検査観点3種と出力形式(置換提案なし)を補い、タイトルの言い換えになっていない。"}
+    {"id": "slide-ai-thumbnail-legibility", "status": "pass", "evidence": "利用者/確認するのは人の見出し(24px)、赤ペンパネルの見出し(26px)は縮小しても判読できる。5ブロックの左右フロー構造も縮小時に維持される。"},
+    {"id": "slide-ai-one-message", "status": "pass", "evidence": "利用者が依頼→スキルがtextlintで検査し赤ペン入りHTMLを書き出す→人が読んで直す、という単一の処理連鎖に終始する。"},
+    {"id": "slide-ai-title-claim", "status": "pass", "evidence": "タイトル『md を検査し、指摘を HTML で示す』がスキルの機能を単独で示す。実描画で1行に収まる。"},
+    {"id": "slide-ai-subtitle-support", "status": "pass", "evidence": "副題『AI が使いがちな語・文の規則・癖の規則で機械検査し…』は3区分の存在を補い、タイトルの言い換えになっていない。"}
   ],
-  "findings": [
-    {"severity": "critical", "decision": "hold", "target": "slides/赤ペン検査スキル-指摘のHTML提示/サムネイル.png と 検査記録.md", "evidence": "gitでこのファイルはM(変更未commit)であり、diffを取ると旧版は『置き換え』タグとprh辞書による自動置換例(ステークホルダー→関係者)、副題『Claude Code のスキル。md を辞書・文の規則・癖の規則で機械検査し、指摘箇所に訂正線と波線を入れた HTML を書き出す』を持っていた。現行版はprh廃止・ai-words-jaプリセット採用(コミットc61bddc/33c38c9)に合わせて『置き換え』表現を削除し指摘のみへ統一した、正しい更新である。しかしサムネイル.pngと検査記録.mdは旧内容・旧artifactSha256(cf46582c...)のまま更新されておらず、現在のhash d71b037a...と不一致。このまま公開すると実際には持たない辞書自動置換機能を持つかのような誤情報を読み手に与える。", "fix": "Phase Fでサムネイルを現行HTMLから再生成し、検査記録.mdの観点表・artifactSha256を現行版へ更新する。", "verification": "再生成後のサムネイル.pngが指摘タグのみ(置き換えタグなし)であること、検査記録.mdのartifactSha256がd71b037a199f0d8e43f603a3a7f248f58aa2cf7c090b14110076faa42df884d7と一致することを確認する。"}
-  ],
-  "checkedAt": "2026-09-16T00:00:00Z",
-  "artifactSha256": "d71b037a199f0d8e43f603a3a7f248f58aa2cf7c090b14110076faa42df884d7"
+  "findings": [],
+  "checkedAt": "2026-09-17T00:00:00Z",
+  "artifactSha256": "4aa3e0c206853f8c3458d5820b8c03f0191b8dbbbd5abf7d06d271ca7a1f71f9"
 }

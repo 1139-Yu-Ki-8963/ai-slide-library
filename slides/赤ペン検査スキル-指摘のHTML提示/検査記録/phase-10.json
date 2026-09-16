@@ -3,9 +3,9 @@
   "targetKeys": ["赤ペン検査スキル-指摘のHTML提示"],
   "status": "pass",
   "criteria": [
-    {"id": "deck-ai-split-plan", "status": "pass", "evidence": "1ページ1メッセージで、依頼・機械検査・人による確認という一連の流れを1枚で完結して示す。異種テーマの同居はなく分割の必要はない。"}
+    {"id": "deck-ai-split-plan", "status": "pass", "evidence": "利用者→検査→赤ペンHTML→確認という単一の因果連鎖の図解であり、これ以上分割すると入出力の対応関係が追いにくくなる。分割不要。"}
   ],
   "findings": [],
-  "checkedAt": "2026-09-16T00:00:00Z",
-  "artifactSha256": "d71b037a199f0d8e43f603a3a7f248f58aa2cf7c090b14110076faa42df884d7"
+  "checkedAt": "2026-09-17T00:00:00Z",
+  "artifactSha256": "4aa3e0c206853f8c3458d5820b8c03f0191b8dbbbd5abf7d06d271ca7a1f71f9"
 }

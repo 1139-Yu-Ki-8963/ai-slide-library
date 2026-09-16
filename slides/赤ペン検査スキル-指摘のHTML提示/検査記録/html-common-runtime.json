@@ -4,7 +4,7 @@
   "files": [
     {
       "file": "/Users/MacPro/Projects/ai-slide-library/slides/赤ペン検査スキル-指摘のHTML提示/解説スライド.html",
-      "artifactSha256": "d71b037a199f0d8e43f603a3a7f248f58aa2cf7c090b14110076faa42df884d7",
+      "artifactSha256": "4aa3e0c206853f8c3458d5820b8c03f0191b8dbbbd5abf7d06d271ca7a1f71f9",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/tmp/html-runtime-evidence/赤ペン検査スキル-指摘のHTML提示/d71b037a199f/解説スライド-wide-page-1-d71b037a199f.png",
-            "/tmp/html-runtime-evidence/赤ペン検査スキル-指摘のHTML提示/d71b037a199f/解説スライド-narrow-page-1-d71b037a199f.png"
+            "/tmp/html-runtime-evidence/赤ペン検査スキル-指摘のHTML提示/4aa3e0c20685/解説スライド-wide-page-1-4aa3e0c20685.png",
+            "/tmp/html-runtime-evidence/赤ペン検査スキル-指摘のHTML提示/4aa3e0c20685/解説スライド-narrow-page-1-4aa3e0c20685.png"
           ]
         }
       ]
