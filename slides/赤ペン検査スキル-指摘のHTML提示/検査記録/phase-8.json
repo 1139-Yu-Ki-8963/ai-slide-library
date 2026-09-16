@@ -3,12 +3,14 @@
   "targetKeys": ["赤ペン検査スキル-指摘のHTML提示"],
   "status": "pass",
   "criteria": [
-    {"id": "slide-ai-thumbnail-legibility", "status": "pass", "evidence": "1280×720実描画で、利用者→検査→赤ペン見本→直す人の左右対称構成と赤字・波線の訂正表現を識別できる。縮小640×360相当でも赤字強調が判別できる。"},
-    {"id": "slide-ai-one-message", "status": "pass", "evidence": "タイトル・副題・図の3要素はすべて「textlintの機械検査結果を赤ペンHTMLで示し、直すかどうかは人が判断する」という単一の主張へ収束し、別主張は混在しない。"},
-    {"id": "slide-ai-title-claim", "status": "pass", "evidence": "タイトル「赤ペン検査スキル: md を検査し、指摘を HTML で示す」は分類名だけでなく、このページで理解すべき判断対象（スキルの入出力）を単独で示す。実描画1行でヘッダー内に収まる。"},
-    {"id": "slide-ai-subtitle-support", "status": "pass", "evidence": "副題「Claude Code のスキル。md を辞書・文の規則・癖の規則で機械検査し、指摘箇所に訂正線と波線を入れた HTML を書き出す」は検査対象・検査観点・出力形式を補い、タイトルの単純な言い換えになっていない。"}
+    {"id": "slide-ai-thumbnail-legibility", "status": "pass", "evidence": "サムネイル.pngは現行HTMLと内容不一致の旧版画像のため判定に使えず、1280×720実描画(evidence/検証用スクリーンショット.png)を縮小相当で目視した。利用者→スキル処理→赤ペンreport.html→読む→確認するのは人という左右対称5カラム構成と赤波線の指摘表現は、640×360相当でも『検査結果を人が確認する』という主題を判別できる。"},
+    {"id": "slide-ai-one-message", "status": "pass", "evidence": "依頼吹き出し、処理説明、report.htmlの見本3件、確認する人の吹き出しはすべて『機械検査は指摘の場所を示すだけで、直すかどうかは人が決める』という単一主張へ収束する。"},
+    {"id": "slide-ai-title-claim", "status": "pass", "evidence": "タイトル『赤ペン検査スキル: md を検査し、指摘を HTML で示す』は入力(md)と出力(指摘HTML)という判断対象を単独で示す。実描画で1行に収まる。"},
+    {"id": "slide-ai-subtitle-support", "status": "pass", "evidence": "副題『AI が使いがちな語・文の規則・癖の規則で機械検査し、指摘箇所に波線を引いた HTML を書き出す』は検査観点3種と出力形式(置換提案なし)を補い、タイトルの言い換えになっていない。"}
   ],
-  "findings": [],
-  "checkedAt": "2026-09-15T06:44:45.000Z",
-  "artifactSha256": "cf46582c8207e4c1572d3b4f54dca5d0078868bc3628216665bb1b68b3ee81f3"
+  "findings": [
+    {"severity": "critical", "decision": "hold", "target": "slides/赤ペン検査スキル-指摘のHTML提示/サムネイル.png と 検査記録.md", "evidence": "gitでこのファイルはM(変更未commit)であり、diffを取ると旧版は『置き換え』タグとprh辞書による自動置換例(ステークホルダー→関係者)、副題『Claude Code のスキル。md を辞書・文の規則・癖の規則で機械検査し、指摘箇所に訂正線と波線を入れた HTML を書き出す』を持っていた。現行版はprh廃止・ai-words-jaプリセット採用(コミットc61bddc/33c38c9)に合わせて『置き換え』表現を削除し指摘のみへ統一した、正しい更新である。しかしサムネイル.pngと検査記録.mdは旧内容・旧artifactSha256(cf46582c...)のまま更新されておらず、現在のhash d71b037a...と不一致。このまま公開すると実際には持たない辞書自動置換機能を持つかのような誤情報を読み手に与える。", "fix": "Phase Fでサムネイルを現行HTMLから再生成し、検査記録.mdの観点表・artifactSha256を現行版へ更新する。", "verification": "再生成後のサムネイル.pngが指摘タグのみ(置き換えタグなし)であること、検査記録.mdのartifactSha256がd71b037a199f0d8e43f603a3a7f248f58aa2cf7c090b14110076faa42df884d7と一致することを確認する。"}
+  ],
+  "checkedAt": "2026-09-16T00:00:00Z",
+  "artifactSha256": "d71b037a199f0d8e43f603a3a7f248f58aa2cf7c090b14110076faa42df884d7"
 }

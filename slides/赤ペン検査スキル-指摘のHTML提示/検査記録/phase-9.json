@@ -8,6 +8,6 @@
     {"id": "deck-ai-layout-repetition", "status": "not-applicable", "evidence": "単一スライドでデッキ文脈がないため対象外。"}
   ],
   "findings": [],
-  "checkedAt": "2026-09-15T06:44:45.000Z",
-  "artifactSha256": "cf46582c8207e4c1572d3b4f54dca5d0078868bc3628216665bb1b68b3ee81f3"
+  "checkedAt": "2026-09-16T00:00:00Z",
+  "artifactSha256": "d71b037a199f0d8e43f603a3a7f248f58aa2cf7c090b14110076faa42df884d7"
 }

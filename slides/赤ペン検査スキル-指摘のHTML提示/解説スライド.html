@@ -5,53 +5,26 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>赤ペン検査スキル: md を検査し、指摘を HTML で示す</title>
 <style>
-  /* ==== デザイントークン（変更禁止） ==== */
-  :root{
-    --page: #EDF0F4;
-    --surface: #FFFFFF;
-    --ink: #1C2B3A;
-    --ink-2: #55667A;
-    --ink-3: #52677A;
-    --border: #D9E0E8;
-    --critical: #B42318;
-    --replace-bg: #FBE9E6;
-    --flag-bg: #FFF4CC;
-    --flag-ink: #8A6D00;
-    --mono: ui-monospace, Menlo, monospace;
+  /* ==== アートボード（1600x900）を 0.8 倍の等比変換でシェル本文へ移植する専用ラッパー ==== */
+  .canvas-scale-outer{
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0 -64px -40px -64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
   }
-
-  /* ==== 左右2名の吹き出し＋人型（同一構造を左右で使い回す） ==== */
-  .flow-row{ display:flex; flex:1; min-height:0; align-items:center; justify-content:center; gap:16px; padding-top:6px; }
-  .flow-col{ flex:0 0 150px; display:flex; flex-direction:column; align-items:center; gap:8px; }
-  .speech-bubble{ box-sizing:border-box; width:100%; border:1.5px solid var(--ink); border-radius:8px; background:var(--surface); padding:12px 14px; font-size:12px; font-weight:600; line-height:1.5; color:var(--ink); text-align:left; }
-  .speech-bubble .mono{ font-family:var(--mono); font-size:11px; }
-  .bubble-tail{ width:0; height:0; border-left:9px solid transparent; border-right:9px solid transparent; border-top:14px solid var(--ink); margin-top:-2px; }
-  .person-icon{ width:46px; height:46px; border:2px solid var(--ink); border-radius:50%; box-sizing:border-box; }
-  .person-body{ width:96px; height:50px; border:2px solid var(--ink); border-bottom:none; border-radius:60px 60px 0 0; box-sizing:border-box; margin-top:4px; }
-  .person-label{ font-size:13px; font-weight:700; color:var(--ink); margin-top:2px; white-space:nowrap; }
-
-  /* ==== 左右の矢印（横並びの工程間を1行の帯で説明） ==== */
-  .flow-arrow{ flex:0 0 148px; display:flex; flex-direction:column; align-items:center; gap:6px; }
-  .flow-arrow-line{ position:relative; width:100%; height:2px; background:var(--ink); }
-  .flow-arrow-head{ position:absolute; right:-1px; top:50%; transform:translateY(-50%); width:0; height:0; border-top:6px solid transparent; border-bottom:6px solid transparent; border-left:9px solid var(--ink); }
-  .flow-arrow-text{ font-size:11px; font-weight:600; color:var(--ink-3); line-height:1.35; text-align:center; }
-
-  /* ==== 赤ペン report.html の見本パネル ==== */
-  .report-panel{ flex:0 0 470px; align-self:stretch; margin:8px 0; box-sizing:border-box; border:1.5px solid var(--ink); background:#FBFAF7; padding:18px 22px; display:flex; flex-direction:column; justify-content:space-between; gap:12px; }
-  .report-head{ display:flex; justify-content:space-between; align-items:baseline; border-bottom:1.5px solid var(--ink); padding-bottom:9px; }
-  .report-head .label{ font-size:17px; font-weight:700; color:var(--ink); }
-  .report-head .mono{ font-family:var(--mono); font-size:13px; color:var(--ink-2); }
-  .report-item{ display:flex; flex-direction:column; gap:3px; }
-  .report-item-meta{ display:flex; justify-content:space-between; align-items:center; font-size:11.5px; color:var(--ink-2); }
-  .tag{ padding:1px 9px; border-radius:5px; font-size:11px; font-weight:700; }
-  .tag--replace{ background:var(--replace-bg); color:var(--critical); }
-  .tag--flag{ background:var(--flag-bg); color:var(--flag-ink); }
-  .report-item-text{ font-size:14px; line-height:1.5; color:var(--ink); }
-  .strike{ color:var(--critical); text-decoration:line-through; text-decoration-thickness:2px; }
-  .fix{ color:var(--critical); font-weight:700; margin-left:4px; }
-  .wavy{ text-decoration:underline wavy var(--critical); text-decoration-thickness:2px; text-underline-offset:4px; }
-  .report-item-source{ font-size:11.5px; color:var(--ink-2); }
-  .report-item-note{ font-size:10.5px; color:var(--ink-3); }
+  .canvas-scale-inner{
+    flex-shrink: 0;
+    transform: scale(0.8);
+    transform-origin: center center;
+    background: #FFFFFF;
+    color: #1E2226;
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    font-size: 20px;
+    line-height: 1.5;
+  }
 </style>
 <link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
 <script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
@@ -64,60 +37,62 @@
     <header class="slide-header">
       <span class="slide-eyebrow">AI駆動開発セットアップ｜スキル説明</span>
       <h1 class="slide-title">赤ペン検査スキル: md を検査し、指摘を HTML で示す</h1>
-      <p class="slide-subtitle">Claude Code のスキル。md を辞書・文の規則・癖の規則で機械検査し、指摘箇所に訂正線と波線を入れた HTML を書き出す</p>
+      <p class="slide-subtitle">AI が使いがちな語・文の規則・癖の規則で機械検査し、指摘箇所に波線を引いた HTML を書き出す</p>
     </header>
 
-    <div class="flow-row">
+    <div class="canvas-scale-outer">
+      <div class="canvas-scale-inner">
 
-      <div class="flow-col">
-        <div class="speech-bubble"><span class="mono">onboarding.md</span> を検査して。<br>結果はデスクトップに</div>
-        <div class="bubble-tail"></div>
-        <div class="person-icon"></div>
-        <div class="person-body"></div>
-        <div class="person-label">利用者</div>
-      </div>
+        <div style="display: flex; align-items: flex-start; gap: 0;">
 
-      <div class="flow-arrow">
-        <div class="flow-arrow-line"><div class="flow-arrow-head"></div></div>
-        <span class="flow-arrow-text">スキルが textlint で検査し、赤ペンを入れた HTML を書き出す</span>
-      </div>
+          <div style="width: 320px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center;">
+            <div style="width: 320px; border: 1px solid #1E2226; padding: 16px 18px; box-sizing: border-box; font-size: 18px; font-weight: 600; line-height: 1.55;">onboarding.md を検査して。<br>結果はデスクトップに</div>
+            <svg role="presentation" width="30" height="20" viewBox="0 0 30 20" style="display: block; margin-left: -120px;"><path d="M0 0 H30 L15 20 Z" fill="#1E2226"></path></svg>
+            <svg role="presentation" width="120" height="150" viewBox="0 0 120 150" style="display: block; margin-top: 16px;" fill="none" stroke="#1E2226" stroke-width="2.5"><circle cx="60" cy="34" r="30"></circle><path d="M4 132 C4 64 116 64 116 132"></path></svg>
+            <div style="margin-top: 4px; font-size: 24px; font-weight: 600;">利用者</div>
+          </div>
 
-      <div class="report-panel">
-        <div class="report-head">
-          <span class="label">赤ペン</span>
-          <span class="mono">report.html</span>
+          <div style="width: 200px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding-top: 150px;">
+            <div style="text-align: center; font-size: 17px; font-weight: 600; line-height: 1.4; width: 170px; height: 72px; display: flex; align-items: flex-end; justify-content: center;"><span>スキルが textlint で<br>検査し、赤ペン入り<br>HTML を書き出す</span></div>
+            <svg role="presentation" width="120" height="40" viewBox="0 0 120 40" style="display: block; margin-top: 10px;"><path d="M0 20 H106" stroke="#1E2226" stroke-width="2.5"></path><path d="M98 8 L114 20 L98 32" fill="none" stroke="#1E2226" stroke-width="2.5"></path></svg>
+          </div>
+
+          <div style="width: 460px; flex-shrink: 0; background: #FBFAF7; border: 1px solid #1E2226; box-sizing: border-box; padding: 20px 26px;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #C9C4B8; padding-bottom: 10px;"><span style="font-size: 26px; font-weight: 600;">赤ペン</span><span style="font-size: 17px; color: #3E4348; font-family: ui-monospace, Menlo, monospace;">report.html</span></div>
+            <div style="margin-top: 18px; display: flex; flex-direction: column; gap: 22px;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 16px; color: #3E4348;">14 行</span><span style="font-size: 16px; padding: 1px 8px; background: #FFF4CC; color: #876a00;">指摘</span></div>
+                <div style="font-size: 22px; margin-top: 4px;">ビルドが通ったら、<span style="text-decoration: underline wavy #B42318; text-underline-offset: 4px;">土台</span>ができた</div>
+                <div style="font-size: 16px; color: #3E4348;">AI が使いがちな語 › no-ai-words</div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 16px; color: #3E4348;">7 行</span><span style="font-size: 16px; padding: 1px 8px; background: #FFF4CC; color: #876a00;">指摘</span></div>
+                <div style="font-size: 22px; margin-top: 4px;">入れて、設定して、<span style="text-decoration: underline wavy #B42318; text-underline-offset: 4px;">確認して、共有</span></div>
+                <div style="font-size: 16px; color: #3E4348;">文の規則 › 読点の数（max-ten）</div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 16px; color: #3E4348;">9 行</span><span style="font-size: 16px; padding: 1px 8px; background: #FFF4CC; color: #876a00;">指摘</span></div>
+                <div style="font-size: 22px; margin-top: 4px;"><span style="text-decoration: underline wavy #B42318; text-underline-offset: 4px;">- **必要性**: node が必要</span></div>
+                <div style="font-size: 16px; color: #3E4348;">癖の規則 › 太字ラベル（no-ai-list-formatting）</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="width: 200px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding-top: 150px;">
+            <div style="text-align: center; font-size: 19px; color: #3E4348; line-height: 1.4; height: 72px; display: flex; align-items: flex-end; justify-content: center;"><span>読む</span></div>
+            <svg role="presentation" width="120" height="40" viewBox="0 0 120 40" style="display: block; margin-top: 10px;"><path d="M0 20 H106" stroke="#1E2226" stroke-width="2.5"></path><path d="M98 8 L114 20 L98 32" fill="none" stroke="#1E2226" stroke-width="2.5"></path></svg>
+          </div>
+
+          <div style="width: 320px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center;">
+            <div style="width: 320px; border: 1px solid #1E2226; padding: 16px 18px; box-sizing: border-box; font-size: 18px; font-weight: 600; line-height: 1.55;">「土台」は「前提」に直す。<br>読点はこのままでいい</div>
+            <svg role="presentation" width="30" height="20" viewBox="0 0 30 20" style="display: block; margin-left: -120px;"><path d="M0 0 H30 L15 20 Z" fill="#1E2226"></path></svg>
+            <svg role="presentation" width="120" height="150" viewBox="0 0 120 150" style="display: block; margin-top: 16px;" fill="none" stroke="#1E2226" stroke-width="2.5"><circle cx="60" cy="34" r="30"></circle><path d="M4 132 C4 64 116 64 116 132"></path></svg>
+            <div style="margin-top: 4px; font-size: 24px; font-weight: 600;">確認するのは人</div>
+          </div>
+
         </div>
-        <div class="report-item">
-          <div class="report-item-meta"><span>7 行</span><span class="tag tag--replace">置き換え</span></div>
-          <div class="report-item-text">まず、<span class="strike">ステークホルダー</span><span class="fix">関係者</span>に連絡</div>
-          <div class="report-item-source">辞書 › 置き換え語（prh）</div>
-          <div class="report-item-note">辞書に語を足した後の例</div>
-        </div>
-        <div class="report-item">
-          <div class="report-item-meta"><span>7 行</span><span class="tag tag--flag">指摘</span></div>
-          <div class="report-item-text">入れて、設定し<span class="wavy">て、確認して、共有</span></div>
-          <div class="report-item-source">文の規則 › 読点の数（max-ten）</div>
-        </div>
-        <div class="report-item">
-          <div class="report-item-meta"><span>9 行</span><span class="tag tag--flag">指摘</span></div>
-          <div class="report-item-text"><span class="wavy">- **必要性**: node が必要</span></div>
-          <div class="report-item-source">癖の規則 › 太字ラベル（no-ai-list-formatting）</div>
-        </div>
-      </div>
 
-      <div class="flow-arrow">
-        <div class="flow-arrow-line"><div class="flow-arrow-head"></div></div>
-        <span class="flow-arrow-text">読む</span>
       </div>
-
-      <div class="flow-col">
-        <div class="speech-bubble">指摘通り「関係者」に直す。<br>読点はこのままでいい</div>
-        <div class="bubble-tail"></div>
-        <div class="person-icon"></div>
-        <div class="person-body"></div>
-        <div class="person-label">直すのは人</div>
-      </div>
-
     </div>
 
   </div>
