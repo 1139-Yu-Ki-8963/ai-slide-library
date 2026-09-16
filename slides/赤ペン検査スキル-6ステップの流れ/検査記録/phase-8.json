@@ -1,0 +1,17 @@
+{
+  "phase": 8,
+  "targetKeys": ["赤ペン検査スキル-6ステップの流れ"],
+  "status": "pass",
+  "criteria": [
+    {"id": "slide-ai-thumbnail-legibility", "status": "pass", "evidence": "本キーはPhase F未実施でサムネイル.png未生成のため、1280×720実描画(evidence/検証用スクリーンショット.png)を縮小相当で目視した。タイトル『スキルは6 Step。人が答えるのは最初の2つだけ』と6列の黒いStep見出し帯、Step1・2のみに付く人物アイコンは縮小しても『6段階の処理で最初の2つだけ人が関与する』という主題を判別できる。ただし各列内の入力・出力小文字(15px)は縮小後の可読性が未検証。"},
+    {"id": "slide-ai-one-message", "status": "pass", "evidence": "凡例、6つのStep列、フッター注記はすべて『スキルは6段階で進み、人が答えるのは最初の2段階だけ』という単一主張へ収束する。"},
+    {"id": "slide-ai-title-claim", "status": "pass", "evidence": "タイトルは段階数(6)と人の関与範囲(最初の2つ)という具体的な判断対象を単独で示す。実描画1行でヘッダー内に収まる。"},
+    {"id": "slide-ai-subtitle-support", "status": "pass", "evidence": "副題『各 Step が何を受け取り、何を返すか』は図が示す情報(入力・出力の対応)を補い、タイトルの言い換えになっていない。"}
+  ],
+  "findings": [
+    {"severity": "critical", "decision": "hold", "target": "検査記録/html-common-static.json", "evidence": "同ディレクトリのhtml-common-static.jsonのartifactSha256は721895f78ccfe48967a7ab419a58c5b87fb2a0bddc12c61f9b7018d5b67c6b79だが、実ファイル(解説スライド.html)のSHA-256はcd7777e6089668bd43b0f49f2b9bbe00c64585bd33d7e450e6fa5693738b99e7であり、html-common-runtime.jsonのartifactSha256(同じくcd7777e6...)とも不一致。static検査は現在の内容とは異なる旧版に対するPASSであり、現在のHTMLについてはPhase Cのstatic検査が未実施のまま。本レビュー(phase-8〜11、html-common-ai.json)はartifactSha256にrantime.json・実ファイルと一致する現在値(cd7777e6...)を用いて実施した(static.jsonが指示する値ではない。理由: static.jsonの値は現在のartifactに対して事実として誤っているため)。", "fix": "Phase Eへ進む前にPhase Cのstatic検査(verify-html-static.mjs相当)を現在のHTMLに対して再実行し、html-common-static.jsonを更新する。", "verification": "再実行後のhtml-common-static.jsonのartifactSha256がcd7777e6089668bd43b0f49f2b9bbe00c64585bd33d7e450e6fa5693738b99e7と一致し、statusがpassであることを確認する。"},
+    {"severity": "medium", "decision": "suggestion", "target": "6列×3〜4段の入力・出力テキスト(15〜18px)", "evidence": "1280×720に6ステップ分の入力・処理・出力を並べており、精緻な情報を保持する一覧としては妥当だが、Step2以降は各セル15〜18pxの小文字を含む。サムネイル(Phase F生成予定)や一覧カードでの縮小時に文字が判読できるかは実機での確認が必要。", "fix": "Phase Fでサムネイル生成後、640×360相当で入力・出力ラベルの可読性を目視確認する。", "verification": "生成後のサムネイルでStep名(黒帯)と入力・出力ラベルの両方が判読できることを確認する。"}
+  ],
+  "checkedAt": "2026-09-16T00:00:00Z",
+  "artifactSha256": "cd7777e6089668bd43b0f49f2b9bbe00c64585bd33d7e450e6fa5693738b99e7"
+}

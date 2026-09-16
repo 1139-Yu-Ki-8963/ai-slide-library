@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>スキルは 6 Step。人が答えるのは最初の 2 つだけ</title>
+<style>
+  /* ==== アートボード（1600x900）を 0.8 倍の等比変換でシェル本文へ移植する専用ラッパー ==== */
+  .canvas-scale-outer{
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0 -64px -40px -64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+  .canvas-scale-inner{
+    flex-shrink: 0;
+    transform: scale(0.8);
+    transform-origin: center center;
+    width: 1600px;
+    box-sizing: border-box;
+    padding: 0 48px;
+    background: #FFFFFF;
+    color: #1E2226;
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    font-size: 19px;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+  }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+
+<div class="slide-viewport">
+  <div class="slide" data-slide-page="1">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI駆動開発セットアップ｜スキル説明</span>
+      <h1 class="slide-title">スキルは 6 Step。人が答えるのは最初の 2 つだけ</h1>
+      <p class="slide-subtitle">各 Step が何を受け取り、何を返すか</p>
+    </header>
+
+    <div class="canvas-scale-outer">
+      <div class="canvas-scale-inner">
+
+        <div style="display: flex; gap: 22px; align-items: center; font-size: 18px; color: #3E4348; white-space: nowrap; justify-content: flex-end; margin-bottom: 14px;">
+          <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="display: inline-block; width: 14px; height: 14px; background: #EEF0F2; border: 1px solid #C9CDD1;"></span>入力・出力（Step の間を流れるデータ）</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="display: inline-block; width: 14px; height: 14px; background: #FFFFFF; border: 1px solid #1E2226;"></span>処理（スキルが行う）</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px;"><svg role="presentation" width="20" height="22" viewBox="0 0 22 24" fill="none" stroke="#1E2226" stroke-width="2"><circle cx="11" cy="7" r="6"></circle><path d="M1 23 C1 12 21 12 21 23"></path></svg>利用者が答える</span>
+        </div>
+
+        <div style="display: flex; align-items: stretch; height: 470px;">
+
+          <div style="flex: 1; min-width: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;">
+            <div style="display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px;"><svg role="presentation" width="40" height="44" viewBox="0 0 22 24" fill="none" stroke="#1E2226" stroke-width="1.6"><circle cx="11" cy="7" r="6"></circle><path d="M1 23 C1 12 21 12 21 23"></path></svg></div>
+            <div style="background: #EEF0F2; border: 1px solid #1E2226; border-bottom: none; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">入力</div>textlint が無い時だけ、導入先を 3 択で答える</div>
+            <div style="border: 1px solid #1E2226; border-top: none; border-bottom: none; display: flex; flex-direction: column;"><div style="background: #1E2226; color: #FFFFFF; padding: 10px 16px; display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 15px; opacity: 1;">Step 1</span><span style="font-size: 26px; font-weight: 600;">環境確認</span></div><div style="padding: 14px 16px; font-size: 18px; line-height: 1.5;">textlint が実行できるか確かめる</div></div>
+            <div style="background: #EEF0F2; border: 1px solid #1E2226; border-top: 1px solid #C9CDD1; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">出力</div>起動方法</div>
+          </div>
+          <div style="width: 36px; flex-shrink: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;"><div></div><div></div><div style="display: flex; align-items: center; justify-content: center;"><svg role="presentation" width="28" height="16" viewBox="0 0 40 20" fill="none" stroke="#1E2226" stroke-width="2.5"><path d="M0 10 H36"></path><path d="M28 2 L38 10 L28 18"></path></svg></div><div></div></div>
+
+          <div style="flex: 1; min-width: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;">
+            <div style="display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px;"><svg role="presentation" width="40" height="44" viewBox="0 0 22 24" fill="none" stroke="#1E2226" stroke-width="1.6"><circle cx="11" cy="7" r="6"></circle><path d="M1 23 C1 12 21 12 21 23"></path></svg></div>
+            <div style="background: #EEF0F2; border: 1px solid #1E2226; border-bottom: none; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">入力</div>検査対象の md と出力先</div>
+            <div style="border: 1px solid #1E2226; border-top: none; border-bottom: none; display: flex; flex-direction: column;"><div style="background: #1E2226; color: #FFFFFF; padding: 10px 16px; display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 15px; opacity: 1;">Step 2</span><span style="font-size: 26px; font-weight: 600;">入力受付</span></div><div style="padding: 14px 16px; font-size: 18px; line-height: 1.5;">1 問ずつ聞く</div></div>
+            <div style="background: #EEF0F2; border: 1px solid #1E2226; border-top: 1px solid #C9CDD1; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">出力</div>md の一覧、出力フォルダ</div>
+          </div>
+          <div style="width: 36px; flex-shrink: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;"><div></div><div></div><div style="display: flex; align-items: center; justify-content: center;"><svg role="presentation" width="28" height="16" viewBox="0 0 40 20" fill="none" stroke="#1E2226" stroke-width="2.5"><path d="M0 10 H36"></path><path d="M28 2 L38 10 L28 18"></path></svg></div><div></div></div>
+
+          <div style="flex: 1; min-width: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;">
+            <div></div>
+            <div style="background: #EEF0F2; border: 1px solid #1E2226; border-bottom: none; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">入力</div>起動方法、md の一覧</div>
+            <div style="border: 1px solid #1E2226; border-top: none; border-bottom: none; display: flex; flex-direction: column;"><div style="background: #1E2226; color: #FFFFFF; padding: 10px 16px; display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 15px; opacity: 1;">Step 3</span><span style="font-size: 26px; font-weight: 600;">検査</span></div><div style="padding: 14px 16px; font-size: 18px; line-height: 1.5;">textlint を 1 回実行する。中身は次の 1 枚</div></div>
+            <div style="background: #EEF0F2; border: 1px solid #1E2226; border-top: 1px solid #C9CDD1; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">出力</div>指摘の一覧（JSON）</div>
+          </div>
+          <div style="width: 36px; flex-shrink: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;"><div></div><div></div><div style="display: flex; align-items: center; justify-content: center;"><svg role="presentation" width="28" height="16" viewBox="0 0 40 20" fill="none" stroke="#1E2226" stroke-width="2.5"><path d="M0 10 H36"></path><path d="M28 2 L38 10 L28 18"></path></svg></div><div></div></div>
+
+          <div style="flex: 1; min-width: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;">
+            <div></div>
+            <div style="background: #EEF0F2; border: 1px solid #1E2226; border-bottom: none; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">入力</div>指摘の一覧、md</div>
+            <div style="border: 1px solid #1E2226; border-top: none; border-bottom: none; display: flex; flex-direction: column;"><div style="background: #1E2226; color: #FFFFFF; padding: 10px 16px; display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 15px; opacity: 1;">Step 4</span><span style="font-size: 26px; font-weight: 600;">変換</span></div><div style="padding: 14px 16px; font-size: 18px; line-height: 1.5;">同じ位置の指摘を束ね、規則ごとに数える</div></div>
+            <div style="background: #EEF0F2; border: 1px solid #1E2226; border-top: 1px solid #C9CDD1; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">出力</div>1 か所 1 指摘の一覧、規則の一覧</div>
+          </div>
+          <div style="width: 36px; flex-shrink: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;"><div></div><div></div><div style="display: flex; align-items: center; justify-content: center;"><svg role="presentation" width="28" height="16" viewBox="0 0 40 20" fill="none" stroke="#1E2226" stroke-width="2.5"><path d="M0 10 H36"></path><path d="M28 2 L38 10 L28 18"></path></svg></div><div></div></div>
+
+          <div style="flex: 1; min-width: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;">
+            <div></div>
+            <div style="background: #EEF0F2; border: 1px solid #1E2226; border-bottom: none; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">入力</div>2 つの一覧、HTML の雛形</div>
+            <div style="border: 1px solid #1E2226; border-top: none; border-bottom: none; display: flex; flex-direction: column;"><div style="background: #1E2226; color: #FFFFFF; padding: 10px 16px; display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 15px; opacity: 1;">Step 5</span><span style="font-size: 26px; font-weight: 600;">レポート</span></div><div style="padding: 14px 16px; font-size: 18px; line-height: 1.5;">雛形に埋めて書き出す</div></div>
+            <div style="background: #EEF0F2; border: 1px solid #1E2226; border-top: 1px solid #C9CDD1; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">出力</div><span style="font-family: ui-monospace, Menlo, monospace;">report.html</span></div>
+          </div>
+          <div style="width: 36px; flex-shrink: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;"><div></div><div></div><div style="display: flex; align-items: center; justify-content: center;"><svg role="presentation" width="28" height="16" viewBox="0 0 40 20" fill="none" stroke="#1E2226" stroke-width="2.5"><path d="M0 10 H36"></path><path d="M28 2 L38 10 L28 18"></path></svg></div><div></div></div>
+
+          <div style="flex: 1; min-width: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;">
+            <div></div>
+            <div style="background: #EEF0F2; border: 1px solid #1E2226; border-bottom: none; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">入力</div>出力先、件数</div>
+            <div style="border: 1px solid #1E2226; border-top: none; border-bottom: none; display: flex; flex-direction: column;"><div style="background: #1E2226; color: #FFFFFF; padding: 10px 16px; display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 15px; opacity: 1;">Step 6</span><span style="font-size: 26px; font-weight: 600;">報告</span></div><div style="padding: 14px 16px; font-size: 18px; line-height: 1.5;">3 行の固定形式で返す</div></div>
+            <div style="background: #EEF0F2; border: 1px solid #1E2226; border-top: 1px solid #C9CDD1; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">出力</div>出力先、指摘の件数、規則の状態</div>
+          </div>
+
+        </div>
+
+        <div style="margin-top: 18px; font-size: 18px; color: #3E4348;">必要なのは node だけ。textlint が無ければ、Step 1 で導入先を聞いて入れる</div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・1ページでも削除禁止。削除可はページ送りスクリプトのみ） ==== -->
+
+</body>
+</html>
