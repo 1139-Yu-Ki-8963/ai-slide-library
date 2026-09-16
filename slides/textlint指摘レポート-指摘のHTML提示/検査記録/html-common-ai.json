@@ -1,0 +1,40 @@
+{
+  "artifact": "slides/textlint指摘レポート-指摘のHTML提示/解説スライド.html",
+  "artifactSha256": "38302ebdadc642ecc93b3a3f048ab0468acf68e3869888e4e1aa0c3a6012cf2c",
+  "status": "pass",
+  "summary": "利用者の依頼→スキルによるtextlint検査→指摘入りHTML→人による確認、という単一メッセージの処理連鎖を確認した。改名(赤ペン検査スキル→textlint 指摘レポート)に伴うeyebrow・タイトル・図中語(赤ペン→指摘)の置換は全箇所で一貫しており、矛盾する呼称は残っていない。必須修正なし。",
+  "strengths": [
+    "eyebrow『スキル説明｜textlint 指摘レポート（reporting-textlint-findings）』がタイトル・図中の『指摘』表記と矛盾なく揃っている",
+    "3つの指摘例(土台/no-ai-words、読点4個/max-ten、太字ラベル/no-ai-list-formatting)が実在するルール名・振る舞いと一致する",
+    "『土台』→『前提』という具体的な修正後テキストまで示し、指摘から修正までの流れが実務的"
+  ],
+  "findings": [],
+  "checks": [
+    {"criterionId": "html-ai-purpose-hierarchy", "decision": "pass", "target": "5要素の左右フロー", "evidence": "利用者の依頼→処理→指摘パネル→処理→利用者の確認、という順で情報の主従が配置に反映されている。", "impact": "読み手はまず入出力の全体像を把握できる。", "fix": "現状を維持する。", "verification": "指摘パネルが図中最大の要素であることを確認する。"},
+    {"criterionId": "html-ai-non-template", "decision": "pass", "target": "5要素の並び", "evidence": "均等配置ではなく役割に応じた幅を持つ。装飾目的の反復ではない。", "impact": "反復ではなく因果連鎖として読める。", "fix": "現状を維持する。", "verification": "各要素の幅が役割に応じて異なることを確認する。"},
+    {"criterionId": "html-ai-content-preservation", "decision": "pass", "target": "呼称統一と3つの指摘例", "evidence": "『赤ペン』が『指摘』へ全箇所で置換され、eyebrow・タイトル・図中表記に矛盾がない(grep検索で残存0件)。3指摘例の文言・ルールIDはreporting-textlint-findings SKILL.mdと一致する。", "impact": "改名後も情報の欠落・矛盾がなく、実装と食い違わない正確な内容である。", "fix": "現状を維持する。", "verification": "grep -n 赤ペン で残存0件であることを確認する。"},
+    {"criterionId": "html-ai-information-density", "decision": "pass", "target": "指摘パネル内の3指摘", "evidence": "各指摘は行番号・重さ・文言・ルール名の4要素に絞られ、押し込みはない。", "impact": "情報量は適切。", "fix": "現状を維持する。", "verification": "指摘追加時も4要素構成を維持する。"},
+    {"criterionId": "html-ai-improvement-over-source", "decision": "pass", "target": "旧版(赤ペン検査スキル)との比較", "evidence": "呼称のみの置換であり、5要素の構成・矢印・3指摘例の内容はすべて保持されている。欠落は確認されない。", "impact": "改名の意図(スキル呼称の統一)が達成され、情報の欠落もない。", "fix": "現状を維持する。", "verification": "旧版とのdiffが呼称関連の4箇所のみであることを確認する。"},
+    {"criterionId": "html-ai-shapes", "decision": "pass", "target": "枠線・人物SVG・吹き出し三角形", "evidence": "枠線は1px、人物はstroke-width 2.5の細線。塗り・影・立体・グラデーションの重複はない。", "impact": "図形が装飾でなく役割を示す。", "fix": "現状を維持する。", "verification": "影やグラデーションが追加されていないことを確認する。"},
+    {"criterionId": "html-ai-connectors", "decision": "pass", "target": "処理→パネル間の矢印", "evidence": "SVGのmarker付き直線で起点・終点・方向が一意。", "impact": "処理の流れを誤解なく追える。", "fix": "現状を維持する。", "verification": "矢印が同一スタイルであることを確認する。"},
+    {"criterionId": "html-ai-typography", "decision": "pass", "target": "指摘見出し(26px)・指摘見出し(22px)・行番号(16px)", "evidence": "見出し・本文・注記の階層が一貫している。", "impact": "最重要情報が最初に目に入る。", "fix": "現状を維持する。", "verification": "指摘文言のフォントサイズが行番号より大きいことを確認する。"},
+    {"criterionId": "html-ai-color-accessibility", "decision": "pass", "target": "赤い波線・黄色い『指摘』バッジ", "evidence": "指摘は赤波線と黄色背景バッジの両方で示され、色以外の記号を併用している。", "impact": "色覚差があっても指摘箇所を判別できる。", "fix": "現状を維持する。", "verification": "グレースケール相当でも波線から指摘箇所を判別できることを確認する。"},
+    {"criterionId": "html-ai-flow-alignment-spacing", "decision": "pass", "target": "5要素の縦位置", "evidence": "利用者ブロックと処理ブロックの縦位置が揃えられ、視線が左から右へ自然に流れる。", "impact": "読み順が明確。", "fix": "現状を維持する。", "verification": "5要素が横一列に整列していることを確認する。"},
+    {"criterionId": "html-ai-graphs-numbers", "decision": "not-applicable", "target": "グラフ要素", "evidence": "本スライドに数値グラフは存在しない。", "impact": "該当なし。", "fix": "該当なし。", "verification": "グラフ追加時に改めて確認する。"},
+    {"criterionId": "html-ai-tables", "decision": "not-applicable", "target": "表データ", "evidence": "3指摘はカード状の並列情報であり、table構造を要する行列データではない。", "impact": "該当なし。", "fix": "該当なし。", "verification": "表を追加する場合はtable要素を使う。"}
+  ],
+  "editPlan": {
+    "対象": "slides/textlint指摘レポート-指摘のHTML提示/解説スライド.html",
+    "要約": "改名に伴う呼称置換(赤ペン→指摘)が全箇所で一貫しており、必須修正はない。",
+    "良い点": ["呼称統一が矛盾なく完了", "実在するルールIDと挙動に基づく3指摘例"],
+    "指摘事項": [],
+    "情報設計の再編集案": "現状維持で問題ない。",
+    "観点別チェック": {"図形": "細線・機能的", "矢印": "起点・終点・方向が明確", "文字": "指摘文言を頂点とした階層", "配色": "波線と文言併記で色以外の区分あり", "視線": "左→右", "余白": "役割に応じた幅配分"},
+    "優先修正方針": ["必須修正なし"],
+    "ai-slide-library適合性": "16:9・公開安全・編集可能性の範囲で適合する。",
+    "次のアクション": "現行内容のままPhase Eへ進行可能。"
+  },
+  "implementationPlan": [
+    {"priority": "none", "action": "現HTMLを変更しない", "reason": "必須修正に当たる欠陥を検出していない", "verification": "HTML変更時は同じレビューを再実行する"}
+  ]
+}

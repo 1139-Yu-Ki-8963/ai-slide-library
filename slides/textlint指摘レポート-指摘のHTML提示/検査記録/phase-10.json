@@ -1,0 +1,11 @@
+{
+  "phase": 10,
+  "targetKeys": ["textlint指摘レポート-指摘のHTML提示"],
+  "status": "pass",
+  "criteria": [
+    {"id": "deck-ai-split-plan", "status": "pass", "evidence": "利用者→検査→指摘入りHTML→確認という単一の因果連鎖の図解であり、分割すると入出力の対応関係が追いにくくなる。分割不要。"}
+  ],
+  "findings": [],
+  "checkedAt": "2026-09-17T00:00:00Z",
+  "artifactSha256": "38302ebdadc642ecc93b3a3f048ab0468acf68e3869888e4e1aa0c3a6012cf2c"
+}

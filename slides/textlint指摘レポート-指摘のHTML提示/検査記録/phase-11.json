@@ -1,0 +1,12 @@
+{
+  "phase": 11,
+  "targetKeys": ["textlint指摘レポート-指摘のHTML提示"],
+  "status": "pass",
+  "criteria": [],
+  "findings": [
+    {"severity": "low", "decision": "pass", "target": "14項目チェック（該当性検討含む）", "evidence": "(1)3カード構成でない：5要素の左右フローであり3カードではない。(2)丸アイコンは利用者と確認者の2箇所のみで役割上必要。(3)写真不使用。(4)多角形装飾不使用。(5)濃紺フッター不使用。(6)架空情報なし：3つの指摘例(no-ai-words/max-ten/no-ai-list-formatting)は実装と整合。(7)指摘パネルが最も強い視覚要素で強弱がある。(8)詰め込みなし。(9)青不使用。(10)不要なアイコンなし。(11)余白は左右矢印の間隔として機能。(12)左→右で読み順明確。(13)1スライド1メッセージ。(14)実在するルールIDと具体的な指摘文言により編集された資料に見える。", "fix": ""},
+    {"severity": "low", "decision": "pass", "target": "呼称統一の確認(旧『赤ペン検査スキル』→新『textlint 指摘レポート』)", "evidence": "左上eyebrow『スキル説明｜textlint 指摘レポート（reporting-textlint-findings）』、タイトル『textlint 指摘レポート: md を検査し、指摘を HTML で示す』、図中パネル見出し『指摘』、吹き出し『指摘入りHTML』のすべてで『赤ペン』の語が一掃され、呼称が『指摘』『textlint 指摘レポート』に統一されていることを確認した。grep検索で『赤ペン』の残存は0件。", "fix": ""}
+  ],
+  "checkedAt": "2026-09-17T00:00:00Z",
+  "artifactSha256": "38302ebdadc642ecc93b3a3f048ab0468acf68e3869888e4e1aa0c3a6012cf2c"
+}

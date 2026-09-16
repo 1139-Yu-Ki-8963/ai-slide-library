@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/赤ペン検査スキル-指摘のHTML提示/解説スライド.html",
-      "artifactSha256": "4aa3e0c206853f8c3458d5820b8c03f0191b8dbbbd5abf7d06d271ca7a1f71f9",
+      "file": "/Users/MacPro/Projects/ai-slide-library/slides/textlint指摘レポート-指摘のHTML提示/解説スライド.html",
+      "artifactSha256": "38302ebdadc642ecc93b3a3f048ab0468acf68e3869888e4e1aa0c3a6012cf2c",
       "status": "pass",
       "checks": [
         {
@@ -66,8 +66,8 @@
           "id": "html-runtime-screenshot",
           "status": "pass",
           "evidence": [
-            "/tmp/html-runtime-evidence/赤ペン検査スキル-指摘のHTML提示/4aa3e0c20685/解説スライド-wide-page-1-4aa3e0c20685.png",
-            "/tmp/html-runtime-evidence/赤ペン検査スキル-指摘のHTML提示/4aa3e0c20685/解説スライド-narrow-page-1-4aa3e0c20685.png"
+            "/tmp/html-runtime-evidence/textlint指摘レポート-指摘のHTML提示/38302ebdadc6/解説スライド-wide-page-1-38302ebdadc6.png",
+            "/tmp/html-runtime-evidence/textlint指摘レポート-指摘のHTML提示/38302ebdadc6/解説スライド-narrow-page-1-38302ebdadc6.png"
           ]
         }
       ]
