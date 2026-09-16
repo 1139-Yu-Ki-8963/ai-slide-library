@@ -1,0 +1,41 @@
+{
+  "artifact": "slides/赤ペン検査スキル-3プリセット30ルール/解説スライド.html",
+  "artifactSha256": "683166940461a35b02ca3f3130a3a6c04e070883b8b68293fc9cc8e05341c47e",
+  "status": "pass",
+  "summary": "md入力→3プリセット30ルールの検査→report.html→人による確認、という単一メッセージの1ページを確認した。3カードのルール数(2/23/5)は実行環境でnode -e requireにより実測し合計30であることを確認済みで、架空の数値はない。必須修正はないが、検査パネル下端とフッターの間に大きな余白の偏りがあり、suggestionとして記録した。",
+  "strengths": [
+    "3カードのルール数(2/23/5)が実際にインストールされたtextlintプリセットのエクスポートと一致することを実測で確認できた",
+    "各カードの『例』が実在するルール名(no-ai-words/max-ten/no-ai-list-formatting等)に対応する具体例になっており、架空の例ではない",
+    "タイトル『辞書は持たず、何も管理しない』が、実際の仕様変更(prh廃止・ai-words-jaプリセット採用)を正確に反映している"
+  ],
+  "findings": [],
+  "checks": [
+    {"criterionId": "html-ai-purpose-hierarchy", "decision": "pass", "target": "タイトル・検査パネル・3カード", "evidence": "タイトルが判断対象(3プリセット30ルール・辞書なし)を示し、罫線付きの検査パネルが画面内で最も強い視覚要素になっている。3カードは並列情報として同格に扱われ、無理な主役化はない。", "impact": "読み手はまず主張を把握し、次に3区分の内訳を確認できる。", "fix": "現状を維持する。", "verification": "検査パネルが最も強い視覚要素であることを確認する。"},
+    {"criterionId": "html-ai-non-template", "decision": "pass", "target": "3枚の同幅カード", "evidence": "字面上は『同じ形・大きさのカードを3つ並べる』というAIテンプレート的パターンに一致するが、これは実在する3つのtextlintプリセットという genuinely 並列なデータの提示であり、ルール数(2/23/5=30、node実行で実測確認済み)という実データに基づく。装飾目的のカード分割ではないため、根拠付きでpassとする。", "impact": "反復が内容の必然性に基づいており、意味のない均等化ではない。", "fix": "現状を維持する。", "verification": "カード数が実際のプリセット数と一致することを確認する。"},
+    {"criterionId": "html-ai-content-preservation", "decision": "pass", "target": "3カードのルール数・パッケージ名・例文", "evidence": "実行環境で`node -e \"require('textlint-rule-preset-ai-words-ja').default\"`等により各プリセットのrules数を実測したところ、ai-words-ja=2、ja-technical-writing=23、ai-writing=5(合計30)であり、スライドの数値と完全に一致した。例文(土台/効く/照合、革命的な/太字ラベル等)も対応するルールの検出対象と整合する。", "impact": "実装と食い違わない正確な内容である。", "fix": "現状を維持する。", "verification": "プリセットのバージョンアップ時は同じnode -eコマンドで再実測する。"},
+    {"criterionId": "html-ai-information-density", "decision": "pass", "target": "3カード+検査パネル", "evidence": "各カードはパッケージ名・数字・説明・例の4要素に絞られ、押し込みは見られない。むしろ画面下部に余白が残る(html-ai-flow-alignment-spacing参照)。", "impact": "情報量は適切に抑制されている。", "fix": "現状を維持する。", "verification": "カード追加時も4要素構成を維持する。"},
+    {"criterionId": "html-ai-improvement-over-source", "decision": "not-applicable", "target": "旧版との比較", "evidence": "git status上ではこのファイルは`??`(untracked)の新規追加であり、リポジトリ内に比較対象となる旧版は存在しない。", "impact": "該当なし。", "fix": "該当なし。", "verification": "旧版が別途提示された場合は改めて比較する。"},
+    {"criterionId": "html-ai-shapes", "decision": "pass", "target": "3カードの枠線、md/report/人物のSVGアイコン", "evidence": "枠線は1px低彩度、アイコンはstroke-width 2.5の細線で、塗り・影・立体・グラデーションの重複はない。", "impact": "図形が装飾でなく内容(md/検査/報告/確認)の役割を示す。", "fix": "現状を維持する。", "verification": "アイコンに影やグラデーションが追加されていないことを確認する。"},
+    {"criterionId": "html-ai-connectors", "decision": "pass", "target": "md→検査パネル→report→人の3本の矢印", "evidence": "SVGのmarker(矢じり)付き直線で、起点・終点・方向が一意。線種・太さは統一されている。", "impact": "処理の流れを誤解なく追える。", "fix": "現状を維持する。", "verification": "3本の矢印が同一スタイルであることを確認する。"},
+    {"criterionId": "html-ai-typography", "decision": "pass", "target": "検査パネル見出し(30px)・カード見出し(23px)・数字(44px)・本文(16-19px)", "evidence": "数字(44px)が最も強い視覚要素として意図的に強調され、見出し・本文・パッケージ名(monospace)の階層が一貫している。", "impact": "主要数値(ルール数)が最初に目に入る設計になっている。", "fix": "現状を維持する。", "verification": "数字が見出し・本文より大きいことを確認する。"},
+    {"criterionId": "html-ai-color-accessibility", "decision": "pass", "target": "凡例の指摘あり(赤)/指摘なし(緑)、波線の赤", "evidence": "赤・緑の色見本に『指摘あり』『指摘なし(通った)』という文言が併記されており、色だけに意味を依存していない。", "impact": "色覚差があっても文言から状態を判別できる。", "fix": "現状を維持する。", "verification": "グレースケール相当でも凡例文言から状態を判別できることを確認する。"},
+    {"criterionId": "html-ai-flow-alignment-spacing", "decision": "suggestion", "target": "検査パネル(y≈36-516)とフッター注記(y≈676)の間の余白", "evidence": "検査パネルの下端からフッター注記までの間に約140pxの未使用領域があり、下部だけが不均衡に空いている。余白が意図的な区切りというより、パネル配置の結果として生じた孤立した空白に見える。", "impact": "レイアウトの完成度としてはやや粗く見える可能性があるが、内容の理解には影響しない。", "fix": "検査パネルの高さを広げるか、パネルとフッターの間隔をヘッダーとパネルの間隔に近づける。", "verification": "上下の余白比率が均等に近づいたことを目視確認する。"},
+    {"criterionId": "html-ai-graphs-numbers", "decision": "pass", "target": "2/23/5/30という数字", "evidence": "3つの数字の合計が見出しで示す30と一致し、単位(ルール)も統一されている。実測(node -e require)でも正確性を確認済み。", "impact": "誤解を招く数値表現がない。", "fix": "現状を維持する。", "verification": "プリセットのルール数変更時は数字を再実測する。"},
+    {"criterionId": "html-ai-tables", "decision": "not-applicable", "target": "表データ", "evidence": "3カードはカテゴリごとの並列カードであり、行列を持つtable構造ではない。", "impact": "該当なし。", "fix": "該当なし。", "verification": "表を追加する場合はtable要素を使う。"}
+  ],
+  "editPlan": {
+    "対象": "slides/赤ペン検査スキル-3プリセット30ルール/解説スライド.html",
+    "要約": "図表・情報設計・内容保持は満たす。3カード構成は実データに基づく正当な反復と判断した。下部の余白配分のみ改善余地がある。",
+    "良い点": ["ルール数を実測で検証できる正確な数値", "実在するルール名に基づく具体例", "prh廃止という仕様変更を正しく反映したタイトル"],
+    "指摘事項": ["検査パネル下とフッターの間の余白が不均衡(suggestion)"],
+    "情報設計の再編集案": "検査パネルの高さを広げるか、パネル・フッター間隔を詰めて上下バランスを整える。",
+    "観点別チェック": {"図形": "細線・機能的", "矢印": "起点・終点・方向が明確", "文字": "数字を頂点とした階層", "配色": "文言併記で色以外の区分あり", "視線": "左→右", "余白": "下部に偏りあり"},
+    "優先修正方針": ["必須修正なし。任意でパネル・フッター間の余白配分を調整する"],
+    "ai-slide-library適合性": "16:9・公開安全・編集可能性の範囲で適合する。",
+    "次のアクション": "現行内容のままPhase Eへ進行可能。余白配分は任意改善として記録する。"
+  },
+  "implementationPlan": [
+    {"priority": "none", "action": "現HTMLを変更しない", "reason": "必須修正に当たる欠陥を検出していない", "verification": "HTML変更時は同じレビューを再実行する"},
+    {"priority": "low", "action": "検査パネルとフッターの間の余白配分を見直す", "reason": "下部に約140pxの不均衡な余白がある", "verification": "上下余白比率がヘッダー・パネル間隔に近づいたことを目視確認する"}
+  ]
+}
