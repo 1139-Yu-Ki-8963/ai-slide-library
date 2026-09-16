@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>検査は 3 つの既製プリセット、30 ルール。辞書は持たず、何も管理しない</title>
+<style>
+  /* ==== アートボード（1600x900、うち上部160pxは実ヘッダーへ差し替え）を 0.8 倍の等比変換でシェル本文へ移植する専用ラッパー ==== */
+  .canvas-scale-outer{
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0 -64px -40px -64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+  .canvas-scale-inner{
+    flex-shrink: 0;
+    transform: scale(0.8);
+    transform-origin: center center;
+    position: relative;
+    width: 1600px;
+    height: 740px;
+    background: #FFFFFF;
+    color: #1E2226;
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    font-size: 19px;
+    line-height: 1.5;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+
+<div class="slide-viewport">
+  <div class="slide" data-slide-page="1">
+
+    <header class="slide-header">
+      <span class="slide-eyebrow">AI駆動開発セットアップ｜スキル説明</span>
+      <h1 class="slide-title">検査は 3 つの既製プリセット、30 ルール。辞書は持たず、何も管理しない</h1>
+      <p class="slide-subtitle">md を渡すと、30 ルールがすべて走り、指摘の場所と各ルールの結果を 1 つの HTML にして返す</p>
+    </header>
+
+    <div class="canvas-scale-outer">
+      <div class="canvas-scale-inner">
+
+        <svg role="presentation" width="1600" height="740" viewBox="0 0 1600 740" style="position: absolute; left: 0; top: 0;" font-family="'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif">
+          <defs><marker id="ar" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L12 6 L0 12 Z" fill="#1E2226"></path></marker></defs>
+          <g transform="translate(60, 280)">
+            <path d="M0 0 H52 L72 20 V96 H0 Z" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></path><path d="M52 0 V20 H72" fill="none" stroke="#1E2226" stroke-width="2.5"></path>
+            <line x1="14" y1="40" x2="58" y2="40" stroke="#3E4348" stroke-width="2.5"></line><line x1="14" y1="56" x2="58" y2="56" stroke="#3E4348" stroke-width="2.5"></line><line x1="14" y1="72" x2="44" y2="72" stroke="#3E4348" stroke-width="2.5"></line>
+            <text x="36" y="126" font-size="20" text-anchor="middle">md</text>
+          </g>
+          <line x1="140" y1="328" x2="214" y2="328" stroke="#1E2226" stroke-width="2.5" marker-end="url(#ar)"></line>
+          <line x1="1190" y1="328" x2="1264" y2="328" stroke="#1E2226" stroke-width="2.5" marker-end="url(#ar)"></line>
+          <g transform="translate(1272, 260)">
+            <path d="M0 0 H52 L72 20 V96 H0 Z" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></path><path d="M52 0 V20 H72" fill="none" stroke="#1E2226" stroke-width="2.5"></path>
+            <path d="M14 40 q6 -6 12 0 t12 0 t12 0 t12 0" fill="none" stroke="#B42318" stroke-width="2.5"></path>
+            <rect x="14" y="58" width="8" height="8" fill="#B42318"></rect><rect x="30" y="58" width="28" height="8" fill="#C9C4B8"></rect>
+            <rect x="14" y="72" width="8" height="8" fill="#3B7D4E"></rect><rect x="30" y="72" width="28" height="8" fill="#C9C4B8"></rect>
+            <text x="36" y="126" font-size="19" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">report.html</text>
+            <text x="36" y="150" font-size="16" text-anchor="middle" fill="#3E4348">指摘タブ・規則タブ</text>
+            <g transform="translate(-36, 176)" font-size="15"><rect x="0" y="0" width="10" height="10" fill="#B42318"></rect><text x="18" y="10" fill="#3E4348">指摘あり</text><rect x="0" y="22" width="10" height="10" fill="#3B7D4E"></rect><text x="18" y="32" fill="#3E4348">指摘なし（通った）</text></g>
+          </g>
+          <line x1="1352" y1="328" x2="1420" y2="328" stroke="#1E2226" stroke-width="2.5"></line>
+          <g transform="translate(1424, 274)">
+            <circle cx="40" cy="22" r="20" fill="none" stroke="#1E2226" stroke-width="2.5"></circle><path d="M2 82 C2 42 78 42 78 82" fill="none" stroke="#1E2226" stroke-width="2.5"></path>
+            <text x="40" y="112" font-size="18" text-anchor="middle">確認するのは人</text>
+          </g>
+        </svg>
+
+        <div style="position: absolute; left: 220px; top: 36px; width: 968px; height: 480px; border: 2px solid #1E2226; box-sizing: border-box; padding: 22px 26px; display: flex; flex-direction: column;">
+          <div style="display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;"><span style="font-size: 30px; font-weight: 600;">検査</span><span style="font-size: 19px; color: #3E4348;">textlint が 3 つのプリセットの 30 ルールをすべて当てる。通った規則も記録する</span></div>
+          <div style="margin-top: 18px; flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px;">
+            <div style="background: #FFFFFF; border: 1px solid #C9CDD1; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;">
+              <div style="font-size: 23px; font-weight: 600;">AI が使いがちな語</div>
+              <div style="font-size: 16px; color: #3E4348; font-family: ui-monospace, Menlo, monospace;">textlint-rule-preset-ai-words-ja</div>
+              <div style="font-size: 44px; font-weight: 600; line-height: 1;">2<span style="font-size: 18px; font-weight: 400; color: #3E4348; margin-left: 6px;">ルール</span></div>
+              <div style="font-size: 17px; color: #3E4348;">約 60 語の内蔵リストと、短い主題直後の読点</div>
+              <div style="margin-top: auto; font-size: 19px;">例: <span style="text-decoration: underline wavy #B42318; text-underline-offset: 3px;">土台</span> ／ <span style="text-decoration: underline wavy #B42318; text-underline-offset: 3px;">効く</span> ／ <span style="text-decoration: underline wavy #B42318; text-underline-offset: 3px;">照合</span></div>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid #C9CDD1; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;">
+              <div style="font-size: 23px; font-weight: 600;">文の規則</div>
+              <div style="font-size: 16px; color: #3E4348; font-family: ui-monospace, Menlo, monospace;">textlint-rule-preset-ja-technical-writing</div>
+              <div style="font-size: 44px; font-weight: 600; line-height: 1;">23<span style="font-size: 18px; font-weight: 400; color: #3E4348; margin-left: 6px;">ルール</span></div>
+              <div style="font-size: 17px; color: #3E4348;">長さ・読点・助詞・ら抜き・冗長表現など。23 ルールすべて有効</div>
+              <div style="margin-top: auto; font-size: 19px;">例: 1 文 100 字超 ／ 読点 4 個 ／ ら抜き</div>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid #C9CDD1; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;">
+              <div style="font-size: 23px; font-weight: 600;">癖の規則</div>
+              <div style="font-size: 16px; color: #3E4348; font-family: ui-monospace, Menlo, monospace;">@textlint-ja/textlint-rule-preset-ai-writing</div>
+              <div style="font-size: 44px; font-weight: 600; line-height: 1;">5<span style="font-size: 18px; font-weight: 400; color: #3E4348; margin-left: 6px;">ルール</span></div>
+              <div style="font-size: 17px; color: #3E4348;">誇張語・太字ラベル・コロン継続など。5 ルールすべて有効</div>
+              <div style="margin-top: auto; font-size: 19px;">例: <span style="text-decoration: underline wavy #B42318; text-underline-offset: 3px;">革命的な</span> ／ <span style="text-decoration: underline wavy #B42318; text-underline-offset: 3px;">**太字**:</span> の箇条書き</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="position: absolute; left: 48px; top: 676px; font-size: 18px; color: #3E4348;">必要なのは node だけ。textlint が無ければ、スキルが導入先を聞いて入れる</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・1ページでも削除禁止。削除可はページ送りスクリプトのみ） ==== -->
+
+</body>
+</html>
