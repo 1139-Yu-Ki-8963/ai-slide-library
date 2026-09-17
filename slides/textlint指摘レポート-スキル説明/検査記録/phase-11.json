@@ -1,0 +1,152 @@
+{
+  "phase": 11,
+  "targetKeys": [
+    "textlint指摘レポート-スキル説明"
+  ],
+  "status": "pass",
+  "criteria": [],
+  "findings": [
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "1. 対象",
+      "evidence": "textlint指摘レポート-スキル説明の全7ページ。現行HTML SHA-256 b79285f82293e8b10af100f1f269bfaf752c94d56286a65fa4b0997dccd6baaf。evidence配下の1280×720実描画スクリーンショット全7枚(page1〜7)を確認した。照合先はpublic-skillsリポジトリのreporting-textlint-findings SKILL.md、およびagent-home配下にインストール済みの3プリセット(textlint-rule-preset-ai-words-ja 1.2.1、textlint-rule-preset-ja-technical-writing、@textlint-ja/textlint-rule-preset-ai-writing 1.7.0)のソースコード。",
+      "fix": "現行SHAに結び付いた表示証跡を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "2. 要約",
+      "evidence": "reporting-textlint-findingsスキルの動作(6 Step、3プリセット30ルール、textlint本体の3機能、各プリセットの判定方式)を、実装ソースと突き合わせながら1つのHTMLで解説している。数値・ルール名・番号・既定の重さ・しきい値のすべてがSKILL.mdおよび実際のパッケージ実装と一致することを確認した。",
+      "fix": "現行の実務利用性を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "3. 良い点",
+      "evidence": "ルール数(2+23+5=30)、Stepの入出力、出力ファイル名パターン、ルール番号(A-1 no-ai-words、B-3 max-ten、C-2 no-ai-hype-expressions)、既定の重さ(ai-tech-writing-guideline=info)、しきい値(sentence-length 100字・max-ten 3個・max-kanji-continuous-len 6字・no-short-topic-comma 5字)のすべてを実装のソースコードと1件ずつ突き合わせて正確であることを確認した。各ページの図は「文字列検索(grep)ではなぜ代用できないか」という問いを一貫させ、単なる機能一覧に終わっていない。",
+      "fix": "主役(実装根拠に基づく解説)と支える情報の役割差を維持する。"
+    },
+    {
+      "severity": "medium",
+      "decision": "suggestion",
+      "target": "4. 指摘事項",
+      "evidence": "公開を妨げる問題(critical/high)は検出しなかった。中程度の指摘が1件、軽微な指摘が1件ある。(a) 4ページ目のルール番号バッジ(A-1・B-3・C-2)と7ページ目の丸番号(1〜5)が同じ視覚記号でありながら異なる採番体系であり、デッキを通して読むと混同しうる(Phase 9 deck-ai-role-sequence関連finding参照)。(b) 2ページ目と3ページ目のフッター注記がほぼ同一内容で連続して重複している(Phase 10 deck-ai-split-plan関連finding参照)。",
+      "fix": "優先順位付き修正方針(下記7)に従い対応する。"
+    },
+    {
+      "severity": "medium",
+      "decision": "suggestion",
+      "target": "5. 情報設計の再編集案",
+      "evidence": "主役は『実装のどの処理がtextlintをgrepと違う判定にしているか』という判断根拠。支える情報はStep構成とルール数の内訳。後景化する情報は環境条件(nodeの要否)の繰り返し注記。レイアウトは1(利用シナリオ)→2(6 Step)→3(3プリセット概要)→4(textlint内部処理)→5〜7(プリセット別詳細)の順で理解の深さが段階的に増す。読み順は『何ができるか→どう動くか→なぜ他の方法では拾えないか』の順で判断できる。削除・統合候補は3ページ目フッターの重複注記。追加禁止情報は架空の効果数値・未実装機能・会社名・顧客名。",
+      "fix": "修正が必要になった場合も、概要から内部処理へ深まる順序と主役の優先順位を崩さない。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック1: 3カード構成でない",
+      "evidence": "3列カードは3ページ目の1箇所のみで、3プリセットの対比という内容上の必然を持つ。他の6ページは3カード構成を用いていない。",
+      "fix": "現行を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック2: 項目ごとの丸アイコンに依存しない",
+      "evidence": "丸アイコンは人物アイコンと、4・7ページ目のルール番号マーカーに限られ、分類のための機械的な丸アイコン反復ではない。7ページ目の番号マーカーについてはPhase 9の指摘(番号体系の不整合)を参照。",
+      "fix": "Phase 9の指摘に従い番号体系を統一する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック3: 写真を装飾使用しない",
+      "evidence": "写真は一切使用せず、すべてSVGによる構造図と文字組みで説明している。",
+      "fix": "現行を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック4: 多角形装飾を使用しない",
+      "evidence": "背景を埋める多角形装飾はない。図形はすべて情報の分類・関係を表す矩形・円・線に限定される。",
+      "fix": "現行を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック5: 濃紺フッターを追加しない",
+      "evidence": "フッターは白地に灰色の細字注記のみで、濃色の帯フッターは使用していない。",
+      "fix": "現行を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック6: 架空情報を追加しない",
+      "evidence": "ルール数・ルール名・番号・既定の重さ・しきい値をSKILL.mdおよびagent-home配下の実インストール済みパッケージのソースコードと1件ずつ突き合わせ、架空の数値・機能は検出しなかった。会社名・費用・効果値の記載もない。",
+      "fix": "現行を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック7: 情報の強弱がある",
+      "evidence": "タイトル・副題・主図・注記の間で文字サイズと配色濃淡による強弱が7ページ共通で保たれている。",
+      "fix": "現行を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック8: 情報を詰め込みすぎない",
+      "evidence": "各ページ1テーマに限定され、最小文字は14〜15pxで判読可能な範囲に収まっている。",
+      "fix": "現行を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック9: 青を安易な企業資料色にしない",
+      "evidence": "配色は黒・白・灰・赤(指摘)・緑(通過)に限定され、青は使用していない。",
+      "fix": "現行を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック10: 不要なアイコンを使用しない",
+      "evidence": "使用しているアイコンは人物・矢印・書類のみで、いずれも図の意味に対応している。汎用装飾アイコンはない。",
+      "fix": "現行を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック11: 余白を装飾で埋めない",
+      "evidence": "余白はグルーピングと視線誘導に使われ、模様や図形での装飾埋めはない。",
+      "fix": "現行を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック12: 読み順が明確",
+      "evidence": "全7ページで左上のタイトルから始まり、矢印・番号・位置関係で読み順が示される。",
+      "fix": "現行を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック13: 1スライド1メッセージ",
+      "evidence": "各ページの主張がタイトル1文に収束している(Phase 8のslide-ai-one-messageと同一根拠)。",
+      "fix": "現行を維持する。"
+    },
+    {
+      "severity": "low",
+      "decision": "pass",
+      "target": "6. 観点別チェック / 最終チェック14: 人間が編集したように見える",
+      "evidence": "各ページの図は均等配置のテンプレートではなく、木構造・物差し・型パターンなど内容固有の構造で構成されている。",
+      "fix": "現行を維持する。"
+    },
+    {
+      "severity": "medium",
+      "decision": "suggestion",
+      "target": "7. 実装者がそのまま作業できる優先順位付き修正方針",
+      "evidence": "優先度1: 3ページ目フッターの重複注記を削除または差し替える。優先度2: 7ページ目の丸番号をA/B/C-N表記に統一する、または視覚的に別体系と分かる記号に変える。優先度3: 上記2点以外は現状維持。いずれも公開を妨げるcritical/highの問題ではなく、Phase Eでユーザーが対応要否を判断する。",
+      "fix": "修正時は優先度順に適用し、Phase 8〜11を再実行する。"
+    }
+  ],
+  "checkedAt": "2026-09-17T00:02:25Z",
+  "artifactSha256": "b79285f82293e8b10af100f1f269bfaf752c94d56286a65fa4b0997dccd6baaf"
+}

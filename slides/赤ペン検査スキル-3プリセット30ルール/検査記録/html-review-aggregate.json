@@ -1,9 +1,0 @@
-{
-  "kind": "html-review-aggregate",
-  "overall": "pass",
-  "blockers": [],
-  "advisories": [
-    "ai required criterion html-ai-flow-alignment-spacing is suggestion"
-  ],
-  "artifactSha256": "683166940461a35b02ca3f3130a3a6c04e070883b8b68293fc9cc8e05341c47e"
-}
