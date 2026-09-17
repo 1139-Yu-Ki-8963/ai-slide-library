@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>textlint 指摘レポート: md を検査し、指摘を HTML で示す</title>
+<style>
+  /* ==== アートボード（1600x900）を 0.8 倍の等比変換でシェル本文へ移植する専用ラッパー（7ページ共通の外枠、内枠は各ページごとに寸法が異なる） ==== */
+  .canvas-scale-outer{
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0 -64px -40px -64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+  .canvas-scale-inner{
+    flex-shrink: 0;
+    transform: scale(0.8);
+    transform-origin: center center;
+    background: #FFFFFF;
+    color: #1E2226;
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    line-height: 1.5;
+  }
+  .slide-page[data-slide-page="1"] .canvas-scale-inner{
+    font-size: 20px;
+  }
+  .slide-page[data-slide-page="2"] .canvas-scale-inner{
+    width: 1600px;
+    box-sizing: border-box;
+    padding: 0 48px;
+    font-size: 19px;
+    display: flex;
+    flex-direction: column;
+  }
+  .slide-page[data-slide-page="3"] .canvas-scale-inner,
+  .slide-page[data-slide-page="4"] .canvas-scale-inner,
+  .slide-page[data-slide-page="5"] .canvas-scale-inner,
+  .slide-page[data-slide-page="6"] .canvas-scale-inner,
+  .slide-page[data-slide-page="7"] .canvas-scale-inner{
+    position: relative;
+    width: 1600px;
+    height: 740px;
+    font-size: 19px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+</style>
+<link rel="stylesheet" data-shared-slide-shell href="../../assets/shared-slide-shell.css">
+<script defer data-shared-slide-shell-script src="../../assets/shared-slide-shell.js"></script>
+</head>
+<body>
+
+<div class="slide-viewport">
+  <div class="slide">
+
+    <section class="slide-page is-active" data-slide-page="1">
+      <header class="slide-header">
+        <span class="slide-eyebrow">スキル説明｜textlint 指摘レポート（reporting-textlint-findings）</span>
+        <h1 class="slide-title">textlint 指摘レポート: md を検査し、指摘を HTML で示す</h1>
+        <p class="slide-subtitle">AI が使いがちな語・文の規則・癖の規則で機械検査し、指摘箇所に波線を引いた HTML を書き出す</p>
+      </header>
+      
+      <div class="canvas-scale-outer">
+        <div class="canvas-scale-inner">
+      
+          <div style="display: flex; align-items: flex-start; gap: 0;">
+      
+            <div style="width: 320px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center;">
+              <div style="width: 320px; border: 1px solid #1E2226; padding: 16px 18px; box-sizing: border-box; font-size: 18px; font-weight: 600; line-height: 1.55;">onboarding.md を検査して。<br>結果はデスクトップに</div>
+              <svg role="presentation" width="30" height="20" viewBox="0 0 30 20" style="display: block; margin-left: -120px;"><path d="M0 0 H30 L15 20 Z" fill="#1E2226"></path></svg>
+              <svg role="presentation" width="120" height="150" viewBox="0 0 120 150" style="display: block; margin-top: 16px;" fill="none" stroke="#1E2226" stroke-width="2.5"><circle cx="60" cy="34" r="30"></circle><path d="M4 132 C4 64 116 64 116 132"></path></svg>
+              <div style="margin-top: 4px; font-size: 24px; font-weight: 600;">利用者</div>
+            </div>
+      
+            <div style="width: 200px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding-top: 150px;">
+              <div style="text-align: center; font-size: 17px; font-weight: 600; line-height: 1.4; width: 170px; height: 72px; display: flex; align-items: flex-end; justify-content: center;"><span>スキルが textlint で<br>検査し、指摘入り<br>HTML を書き出す</span></div>
+              <svg role="presentation" width="120" height="40" viewBox="0 0 120 40" style="display: block; margin-top: 10px;"><path d="M0 20 H106" stroke="#1E2226" stroke-width="2.5"></path><path d="M98 8 L114 20 L98 32" fill="none" stroke="#1E2226" stroke-width="2.5"></path></svg>
+            </div>
+      
+            <div style="width: 460px; flex-shrink: 0; background: #FBFAF7; border: 1px solid #1E2226; box-sizing: border-box; padding: 20px 26px;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #C9C4B8; padding-bottom: 10px;"><span style="font-size: 26px; font-weight: 600;">指摘</span><span style="font-size: 17px; color: #3E4348; font-family: ui-monospace, Menlo, monospace;">onboarding-textlint-….html</span></div>
+              <div style="margin-top: 18px; display: flex; flex-direction: column; gap: 22px;">
+                <div>
+                  <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 16px; color: #3E4348;">14 行</span><span style="font-size: 16px; padding: 1px 8px; background: #FFF4CC; color: #876a00;">指摘</span></div>
+                  <div style="font-size: 22px; margin-top: 4px;">ビルドが通ったら、<span style="text-decoration: underline wavy #B42318; text-underline-offset: 4px;">土台</span>ができた</div>
+                  <div style="font-size: 16px; color: #3E4348;">AI が使いがちな語 › no-ai-words</div>
+                </div>
+                <div>
+                  <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 16px; color: #3E4348;">7 行</span><span style="font-size: 16px; padding: 1px 8px; background: #FFF4CC; color: #876a00;">指摘</span></div>
+                  <div style="font-size: 22px; margin-top: 4px;">入れて、設定して、<span style="text-decoration: underline wavy #B42318; text-underline-offset: 4px;">確認して、共有</span></div>
+                  <div style="font-size: 16px; color: #3E4348;">文の規則 › 読点の数（max-ten）</div>
+                </div>
+                <div>
+                  <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 16px; color: #3E4348;">9 行</span><span style="font-size: 16px; padding: 1px 8px; background: #FFF4CC; color: #876a00;">指摘</span></div>
+                  <div style="font-size: 22px; margin-top: 4px;"><span style="text-decoration: underline wavy #B42318; text-underline-offset: 4px;">- **必要性**: node が必要</span></div>
+                  <div style="font-size: 16px; color: #3E4348;">癖の規則 › 太字ラベル（no-ai-list-formatting）</div>
+                </div>
+              </div>
+            </div>
+      
+            <div style="width: 200px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding-top: 150px;">
+              <div style="text-align: center; font-size: 19px; color: #3E4348; line-height: 1.4; height: 72px; display: flex; align-items: flex-end; justify-content: center;"><span>読む</span></div>
+              <svg role="presentation" width="120" height="40" viewBox="0 0 120 40" style="display: block; margin-top: 10px;"><path d="M0 20 H106" stroke="#1E2226" stroke-width="2.5"></path><path d="M98 8 L114 20 L98 32" fill="none" stroke="#1E2226" stroke-width="2.5"></path></svg>
+            </div>
+      
+            <div style="width: 320px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center;">
+              <div style="width: 320px; border: 1px solid #1E2226; padding: 16px 18px; box-sizing: border-box; font-size: 18px; font-weight: 600; line-height: 1.55;">「土台」は「前提」に直す。<br>読点はこのままでいい</div>
+              <svg role="presentation" width="30" height="20" viewBox="0 0 30 20" style="display: block; margin-left: -120px;"><path d="M0 0 H30 L15 20 Z" fill="#1E2226"></path></svg>
+              <svg role="presentation" width="120" height="150" viewBox="0 0 120 150" style="display: block; margin-top: 16px;" fill="none" stroke="#1E2226" stroke-width="2.5"><circle cx="60" cy="34" r="30"></circle><path d="M4 132 C4 64 116 64 116 132"></path></svg>
+              <div style="margin-top: 4px; font-size: 24px; font-weight: 600;">確認するのは人</div>
+            </div>
+      
+          </div>
+      
+        </div>
+      </div>
+      
+    </section>
+
+    <section class="slide-page" hidden data-slide-page="2">
+      <header class="slide-header">
+        <span class="slide-eyebrow">スキル説明｜textlint 指摘レポート（reporting-textlint-findings）</span>
+        <h1 class="slide-title">スキルは 6 Step。人が答えるのは最初の 2 つだけ</h1>
+        <p class="slide-subtitle">各 Step が何を受け取り、何を返すか</p>
+      </header>
+      
+      <div class="canvas-scale-outer">
+        <div class="canvas-scale-inner">
+      
+          <div style="display: flex; gap: 22px; align-items: center; font-size: 18px; color: #3E4348; white-space: nowrap; justify-content: flex-end; margin-bottom: 14px;">
+            <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="display: inline-block; width: 14px; height: 14px; background: #EEF0F2; border: 1px solid #C9CDD1;"></span>入力・出力（Step の間を流れるデータ）</span>
+            <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="display: inline-block; width: 14px; height: 14px; background: #FFFFFF; border: 1px solid #1E2226;"></span>処理（スキルが行う）</span>
+            <span style="display: inline-flex; align-items: center; gap: 6px;"><svg role="presentation" width="20" height="22" viewBox="0 0 22 24" fill="none" stroke="#1E2226" stroke-width="2"><circle cx="11" cy="7" r="6"></circle><path d="M1 23 C1 12 21 12 21 23"></path></svg>利用者が答える</span>
+          </div>
+      
+          <div style="display: flex; align-items: stretch; height: 470px;">
+      
+            <div style="flex: 1; min-width: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;">
+              <div style="display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px;"><svg role="presentation" width="40" height="44" viewBox="0 0 22 24" fill="none" stroke="#1E2226" stroke-width="1.6"><circle cx="11" cy="7" r="6"></circle><path d="M1 23 C1 12 21 12 21 23"></path></svg></div>
+              <div style="background: #EEF0F2; border: 1px solid #1E2226; border-bottom: none; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">入力</div>textlint が無い時だけ、導入先を 3 択で答える</div>
+              <div style="border: 1px solid #1E2226; border-top: none; border-bottom: none; display: flex; flex-direction: column;"><div style="background: #1E2226; color: #FFFFFF; padding: 10px 16px; display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 15px; opacity: 1;">Step 1</span><span style="font-size: 26px; font-weight: 600;">環境確認</span></div><div style="padding: 14px 16px; font-size: 18px; line-height: 1.5;">必要な道具を案内してから、textlint が実行できるか確かめる</div></div>
+              <div style="background: #EEF0F2; border: 1px solid #1E2226; border-top: 1px solid #C9CDD1; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">出力</div>起動方法</div>
+            </div>
+            <div style="width: 36px; flex-shrink: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;"><div></div><div></div><div style="display: flex; align-items: center; justify-content: center;"><svg role="presentation" width="28" height="16" viewBox="0 0 40 20" fill="none" stroke="#1E2226" stroke-width="2.5"><path d="M0 10 H36"></path><path d="M28 2 L38 10 L28 18"></path></svg></div><div></div></div>
+      
+            <div style="flex: 1; min-width: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;">
+              <div style="display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px;"><svg role="presentation" width="40" height="44" viewBox="0 0 22 24" fill="none" stroke="#1E2226" stroke-width="1.6"><circle cx="11" cy="7" r="6"></circle><path d="M1 23 C1 12 21 12 21 23"></path></svg></div>
+              <div style="background: #EEF0F2; border: 1px solid #1E2226; border-bottom: none; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">入力</div>検査対象の md と出力先</div>
+              <div style="border: 1px solid #1E2226; border-top: none; border-bottom: none; display: flex; flex-direction: column;"><div style="background: #1E2226; color: #FFFFFF; padding: 10px 16px; display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 15px; opacity: 1;">Step 2</span><span style="font-size: 26px; font-weight: 600;">入力受付</span></div><div style="padding: 14px 16px; font-size: 18px; line-height: 1.5;">1 問ずつ聞く</div></div>
+              <div style="background: #EEF0F2; border: 1px solid #1E2226; border-top: 1px solid #C9CDD1; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">出力</div>md の一覧、出力フォルダ</div>
+            </div>
+            <div style="width: 36px; flex-shrink: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;"><div></div><div></div><div style="display: flex; align-items: center; justify-content: center;"><svg role="presentation" width="28" height="16" viewBox="0 0 40 20" fill="none" stroke="#1E2226" stroke-width="2.5"><path d="M0 10 H36"></path><path d="M28 2 L38 10 L28 18"></path></svg></div><div></div></div>
+      
+            <div style="flex: 1; min-width: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;">
+              <div></div>
+              <div style="background: #EEF0F2; border: 1px solid #1E2226; border-bottom: none; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">入力</div>起動方法、md の一覧</div>
+              <div style="border: 1px solid #1E2226; border-top: none; border-bottom: none; display: flex; flex-direction: column;"><div style="background: #1E2226; color: #FFFFFF; padding: 10px 16px; display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 15px; opacity: 1;">Step 3</span><span style="font-size: 26px; font-weight: 600;">検査</span></div><div style="padding: 14px 16px; font-size: 18px; line-height: 1.5;">textlint を 1 回実行する。中身は次の 1 枚</div></div>
+              <div style="background: #EEF0F2; border: 1px solid #1E2226; border-top: 1px solid #C9CDD1; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">出力</div>指摘の一覧（JSON）</div>
+            </div>
+            <div style="width: 36px; flex-shrink: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;"><div></div><div></div><div style="display: flex; align-items: center; justify-content: center;"><svg role="presentation" width="28" height="16" viewBox="0 0 40 20" fill="none" stroke="#1E2226" stroke-width="2.5"><path d="M0 10 H36"></path><path d="M28 2 L38 10 L28 18"></path></svg></div><div></div></div>
+      
+            <div style="flex: 1; min-width: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;">
+              <div></div>
+              <div style="background: #EEF0F2; border: 1px solid #1E2226; border-bottom: none; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">入力</div>指摘の一覧、md</div>
+              <div style="border: 1px solid #1E2226; border-top: none; border-bottom: none; display: flex; flex-direction: column;"><div style="background: #1E2226; color: #FFFFFF; padding: 10px 16px; display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 15px; opacity: 1;">Step 4</span><span style="font-size: 26px; font-weight: 600;">変換</span></div><div style="padding: 14px 16px; font-size: 18px; line-height: 1.5;">同じ位置の指摘を束ね、規則ごとに数える</div></div>
+              <div style="background: #EEF0F2; border: 1px solid #1E2226; border-top: 1px solid #C9CDD1; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">出力</div>1 か所 1 指摘の一覧、規則の一覧</div>
+            </div>
+            <div style="width: 36px; flex-shrink: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;"><div></div><div></div><div style="display: flex; align-items: center; justify-content: center;"><svg role="presentation" width="28" height="16" viewBox="0 0 40 20" fill="none" stroke="#1E2226" stroke-width="2.5"><path d="M0 10 H36"></path><path d="M28 2 L38 10 L28 18"></path></svg></div><div></div></div>
+      
+            <div style="flex: 1; min-width: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;">
+              <div></div>
+              <div style="background: #EEF0F2; border: 1px solid #1E2226; border-bottom: none; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">入力</div>2 つの一覧、HTML の雛形</div>
+              <div style="border: 1px solid #1E2226; border-top: none; border-bottom: none; display: flex; flex-direction: column;"><div style="background: #1E2226; color: #FFFFFF; padding: 10px 16px; display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 15px; opacity: 1;">Step 5</span><span style="font-size: 26px; font-weight: 600;">レポート</span></div><div style="padding: 14px 16px; font-size: 18px; line-height: 1.5;">雛形に埋めて書き出す</div></div>
+              <div style="background: #EEF0F2; border: 1px solid #1E2226; border-top: 1px solid #C9CDD1; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">出力</div><span style="font-family: ui-monospace, Menlo, monospace;">対象名-textlint-日時.html</span></div>
+            </div>
+            <div style="width: 36px; flex-shrink: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;"><div></div><div></div><div style="display: flex; align-items: center; justify-content: center;"><svg role="presentation" width="28" height="16" viewBox="0 0 40 20" fill="none" stroke="#1E2226" stroke-width="2.5"><path d="M0 10 H36"></path><path d="M28 2 L38 10 L28 18"></path></svg></div><div></div></div>
+      
+            <div style="flex: 1; min-width: 0; display: grid; grid-template-rows: 64px 120px 1fr 110px;">
+              <div></div>
+              <div style="background: #EEF0F2; border: 1px solid #1E2226; border-bottom: none; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">入力</div>出力先、件数</div>
+              <div style="border: 1px solid #1E2226; border-top: none; border-bottom: none; display: flex; flex-direction: column;"><div style="background: #1E2226; color: #FFFFFF; padding: 10px 16px; display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 15px; opacity: 1;">Step 6</span><span style="font-size: 26px; font-weight: 600;">報告</span></div><div style="padding: 14px 16px; font-size: 18px; line-height: 1.5;">3 行の固定形式で返す</div></div>
+              <div style="background: #EEF0F2; border: 1px solid #1E2226; border-top: 1px solid #C9CDD1; padding: 12px 16px; font-size: 18px; color: #3E4348; line-height: 1.45;"><div style="font-size: 15px; color: #3E4348; letter-spacing: .08em; margin-bottom: 4px;">出力</div>出力先、指摘の件数、規則の状態</div>
+            </div>
+      
+          </div>
+      
+          <div style="margin-top: 18px; font-size: 18px; color: #3E4348;">必要なのは node だけ。textlint が無ければ、Step 1 で導入先を聞いて入れる</div>
+      
+        </div>
+      </div>
+      
+    </section>
+
+    <section class="slide-page" hidden data-slide-page="3">
+      <header class="slide-header">
+        <span class="slide-eyebrow">スキル説明｜textlint 指摘レポート（reporting-textlint-findings）</span>
+        <h1 class="slide-title">検査は 3 つの既製プリセット、30 ルール。辞書は持たず、何も管理しない</h1>
+        <p class="slide-subtitle">md を渡すと、30 ルールがすべて走り、指摘の場所と各ルールの結果を 1 つの HTML にして返す</p>
+      </header>
+      
+      <div class="canvas-scale-outer">
+        <div class="canvas-scale-inner">
+      
+          <svg role="presentation" width="1600" height="740" viewBox="0 0 1600 740" style="position: absolute; left: 0; top: 0;" font-family="'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif">
+            <defs><marker id="ar3" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L12 6 L0 12 Z" fill="#1E2226"></path></marker></defs>
+            <g transform="translate(60, 280)">
+              <path d="M0 0 H52 L72 20 V96 H0 Z" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></path><path d="M52 0 V20 H72" fill="none" stroke="#1E2226" stroke-width="2.5"></path>
+              <line x1="14" y1="40" x2="58" y2="40" stroke="#3E4348" stroke-width="2.5"></line><line x1="14" y1="56" x2="58" y2="56" stroke="#3E4348" stroke-width="2.5"></line><line x1="14" y1="72" x2="44" y2="72" stroke="#3E4348" stroke-width="2.5"></line>
+              <text x="36" y="126" font-size="20" text-anchor="middle">md</text>
+            </g>
+            <line x1="140" y1="328" x2="214" y2="328" stroke="#1E2226" stroke-width="2.5" marker-end="url(#ar3)"></line>
+            <line x1="1190" y1="328" x2="1264" y2="328" stroke="#1E2226" stroke-width="2.5" marker-end="url(#ar3)"></line>
+            <g transform="translate(1272, 260)">
+              <path d="M0 0 H52 L72 20 V96 H0 Z" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></path><path d="M52 0 V20 H72" fill="none" stroke="#1E2226" stroke-width="2.5"></path>
+              <path d="M14 40 q6 -6 12 0 t12 0 t12 0 t12 0" fill="none" stroke="#B42318" stroke-width="2.5"></path>
+              <rect x="14" y="58" width="8" height="8" fill="#B42318"></rect><rect x="30" y="58" width="28" height="8" fill="#C9C4B8"></rect>
+              <rect x="14" y="72" width="8" height="8" fill="#3B7D4E"></rect><rect x="30" y="72" width="28" height="8" fill="#C9C4B8"></rect>
+              <text x="36" y="124" font-size="15" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">対象名-textlint-</text><text x="36" y="142" font-size="15" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">日時.html</text>
+              <text x="36" y="166" font-size="16" text-anchor="middle" fill="#3E4348">指摘タブ・規則タブ</text>
+              <g transform="translate(-36, 190)" font-size="15"><rect x="0" y="0" width="10" height="10" fill="#B42318"></rect><text x="18" y="10" fill="#3E4348">指摘あり</text><rect x="0" y="22" width="10" height="10" fill="#3B7D4E"></rect><text x="18" y="32" fill="#3E4348">指摘なし（通った）</text></g>
+            </g>
+            <line x1="1352" y1="328" x2="1420" y2="328" stroke="#1E2226" stroke-width="2.5"></line>
+            <g transform="translate(1424, 274)">
+              <circle cx="40" cy="22" r="20" fill="none" stroke="#1E2226" stroke-width="2.5"></circle><path d="M2 82 C2 42 78 42 78 82" fill="none" stroke="#1E2226" stroke-width="2.5"></path>
+              <text x="40" y="112" font-size="18" text-anchor="middle">確認するのは人</text>
+            </g>
+          </svg>
+      
+          <div style="position: absolute; left: 220px; top: 36px; width: 968px; height: 480px; border: 2px solid #1E2226; box-sizing: border-box; padding: 22px 26px; display: flex; flex-direction: column;">
+            <div style="display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;"><span style="font-size: 30px; font-weight: 600;">検査</span><span style="font-size: 19px; color: #3E4348;">textlint が 3 つのプリセットの 30 ルールをすべて当てる。通った規則も記録する</span></div>
+            <div style="margin-top: 18px; flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px;">
+              <div style="background: #FFFFFF; border: 1px solid #C9CDD1; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;">
+                <div style="font-size: 23px; font-weight: 600;">AI が使いがちな語</div>
+                <div style="font-size: 16px; color: #3E4348; font-family: ui-monospace, Menlo, monospace;">textlint-rule-preset-ai-words-ja</div>
+                <div style="font-size: 44px; font-weight: 600; line-height: 1;">2<span style="font-size: 18px; font-weight: 400; color: #3E4348; margin-left: 6px;">ルール</span></div>
+                <div style="font-size: 17px; color: #3E4348;">約 55 語の内蔵リストと、短い主題直後の読点</div>
+                <div style="margin-top: auto; font-size: 19px;">例: <span style="text-decoration: underline wavy #B42318; text-underline-offset: 3px;">土台</span> ／ <span style="text-decoration: underline wavy #B42318; text-underline-offset: 3px;">効く</span> ／ <span style="text-decoration: underline wavy #B42318; text-underline-offset: 3px;">照合</span></div>
+              </div>
+              <div style="background: #FFFFFF; border: 1px solid #C9CDD1; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;">
+                <div style="font-size: 23px; font-weight: 600;">文の規則</div>
+                <div style="font-size: 16px; color: #3E4348; font-family: ui-monospace, Menlo, monospace;">textlint-rule-preset-ja-technical-writing</div>
+                <div style="font-size: 44px; font-weight: 600; line-height: 1;">23<span style="font-size: 18px; font-weight: 400; color: #3E4348; margin-left: 6px;">ルール</span></div>
+                <div style="font-size: 17px; color: #3E4348;">長さ・読点・助詞・ら抜き・冗長表現など。23 ルールすべて有効</div>
+                <div style="margin-top: auto; font-size: 19px;">例: 1 文 100 字超 ／ 読点 4 個 ／ ら抜き</div>
+              </div>
+              <div style="background: #FFFFFF; border: 1px solid #C9CDD1; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;">
+                <div style="font-size: 23px; font-weight: 600;">癖の規則</div>
+                <div style="font-size: 16px; color: #3E4348; font-family: ui-monospace, Menlo, monospace;">@textlint-ja/textlint-rule-preset-ai-writing</div>
+                <div style="font-size: 44px; font-weight: 600; line-height: 1;">5<span style="font-size: 18px; font-weight: 400; color: #3E4348; margin-left: 6px;">ルール</span></div>
+                <div style="font-size: 17px; color: #3E4348;">誇張語・太字ラベル・コロン継続など。5 ルールすべて有効</div>
+                <div style="margin-top: auto; font-size: 19px;">例: <span style="text-decoration: underline wavy #B42318; text-underline-offset: 3px;">革命的な</span> ／ <span style="text-decoration: underline wavy #B42318; text-underline-offset: 3px;">**太字**:</span> の箇条書き</div>
+              </div>
+            </div>
+          </div>
+      
+          <div style="position: absolute; left: 48px; top: 676px; font-size: 18px; color: #3E4348;">必要なのは node だけ。textlint が無ければ、スキルが導入先を聞いて入れる</div>
+        </div>
+      </div>
+      
+    </section>
+
+    <section class="slide-page" hidden data-slide-page="4">
+      <header class="slide-header">
+        <span class="slide-eyebrow">スキル説明｜textlint 指摘レポート（reporting-textlint-findings）</span>
+        <h1 class="slide-title">textlint 本体の 3 機能。木にする・葉にルールを呼ぶ・指摘を束ねる</h1>
+        <p class="slide-subtitle">ルールは本体に無い。別のパッケージ（次の 3 枚で示す 3 プリセット）が持ち、本体はそれを呼ぶだけ</p>
+      </header>
+      
+      <div class="canvas-scale-outer">
+        <div class="canvas-scale-inner">
+      
+          <div style="position: absolute; left: 48px; top: 6px; font-size: 16px; color: #3E4348;">黒帯＝本体の機能　白＝要素の節　灰＝データ（本文の葉・指摘）　斜線＝コード（ルールに渡さない）　破線＝ルールの呼び出し　赤＝指摘</div>
+          <svg role="presentation" width="1600" height="740" viewBox="0 160 1600 740" style="position: absolute; left: 0; top: 0;" font-family="'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif" font-size="16" fill="#1E2226">
+            <defs>
+              <marker id="ar4" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L12 6 L0 12 Z" fill="#1E2226"></path></marker>
+              <pattern id="hatch4" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#3E4348" stroke-width="1.5"></line></pattern>
+            </defs>
+      
+            <!-- 3 段の見出し帯 -->
+            <rect x="48" y="200" width="472" height="44" fill="#1E2226"></rect><text x="64" y="229" font-size="20" font-weight="600" fill="#FFFFFF">1　md を要素の木にする</text>
+            <rect x="564" y="200" width="472" height="44" fill="#1E2226"></rect><text x="580" y="229" font-size="20" font-weight="600" fill="#FFFFFF">2　本文の葉ごとにルールを呼ぶ</text>
+            <rect x="1080" y="200" width="472" height="44" fill="#1E2226"></rect><text x="1096" y="229" font-size="20" font-weight="600" fill="#FFFFFF">3　指摘を 1 つの一覧に束ねる</text>
+            <line x1="520" y1="222" x2="564" y2="222" stroke="#1E2226" stroke-width="2.5"></line>
+            <line x1="1036" y1="222" x2="1080" y2="222" stroke="#1E2226" stroke-width="2.5"></line>
+      
+            <!-- 段 1: md → 木 -->
+            <text x="48" y="276" font-size="16" fill="#3E4348">入力: md</text>
+            <rect x="48" y="288" width="200" height="180" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect>
+            <text x="60" y="316" font-size="16" font-weight="600"># 導入手順</text>
+            <rect x="58" y="330" width="180" height="22" fill="#EEF0F2"></rect><text x="62" y="346" font-size="15">効いていないので…</text>
+            <rect x="58" y="360" width="180" height="22" fill="#EEF0F2"></rect><text x="62" y="376" font-size="15">設定キー</text><rect x="126" y="362" width="40" height="18" fill="url(#hatch4)" stroke="#3E4348"></rect><rect x="129" y="364" width="34" height="14" fill="#FFFFFF" fill-opacity="0.85"></rect><text x="146" y="376" font-size="14" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">効く</text><text x="170" y="376" font-size="15">を確かめる</text>
+            <rect x="58" y="392" width="180" height="60" fill="url(#hatch4)" stroke="#3E4348"></rect><rect x="62" y="396" width="172" height="52" fill="#FFFFFF" fill-opacity="0.85"></rect>
+            <text x="68" y="414" font-size="14" font-family="ui-monospace, Menlo, monospace">```</text><text x="68" y="432" font-size="14" font-family="ui-monospace, Menlo, monospace">grep -n 効く a.md</text><text x="68" y="446" font-size="14" font-family="ui-monospace, Menlo, monospace">```</text>
+            <line x1="250" y1="396" x2="258" y2="396" stroke="#1E2226" stroke-width="2.5" marker-end="url(#ar4)"></line>
+            <!-- 木 -->
+            <g stroke="#1E2226" stroke-width="2" fill="none">
+              <line x1="392" y1="312" x2="392" y2="330"></line><line x1="296" y1="330" x2="488" y2="330"></line>
+              <line x1="296" y1="330" x2="296" y2="346"></line><line x1="392" y1="330" x2="392" y2="346"></line><line x1="488" y1="330" x2="488" y2="346"></line>
+              <line x1="296" y1="386" x2="296" y2="420"></line>
+              <line x1="392" y1="386" x2="392" y2="404"></line><line x1="348" y1="404" x2="448" y2="404"></line><line x1="348" y1="404" x2="348" y2="420"></line><line x1="398" y1="404" x2="398" y2="420"></line><line x1="448" y1="404" x2="448" y2="420"></line>
+              <line x1="488" y1="386" x2="488" y2="404"></line><line x1="488" y1="404" x2="495" y2="404"></line><line x1="495" y1="404" x2="495" y2="420"></line>
+            </g>
+            <g font-size="15">
+              <rect x="342" y="288" width="100" height="24" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="392" y="305" text-anchor="middle">文書全体</text>
+              <rect x="262" y="346" width="68" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="296" y="371" text-anchor="middle">見出し</text>
+              <rect x="358" y="346" width="68" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="392" y="371" text-anchor="middle">段落</text>
+              <rect x="454" y="346" width="68" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="488" y="371" text-anchor="middle">コード枠</text>
+              <rect x="276" y="420" width="40" height="34" fill="#EEF0F2" stroke="#1E2226" stroke-width="2"></rect><text x="296" y="442" text-anchor="middle">本文</text>
+              <rect x="328" y="420" width="40" height="34" fill="#EEF0F2" stroke="#1E2226" stroke-width="2"></rect><text x="348" y="442" text-anchor="middle">本文</text>
+              <rect x="370" y="420" width="56" height="34" fill="url(#hatch4)" stroke="#3E4348" stroke-width="2"></rect><rect x="374" y="424" width="48" height="26" fill="#FFFFFF" fill-opacity="0.85"></rect><text x="398" y="442" text-anchor="middle">コード</text>
+              <rect x="428" y="420" width="40" height="34" fill="#EEF0F2" stroke="#1E2226" stroke-width="2"></rect><text x="448" y="442" text-anchor="middle">本文</text>
+              <rect x="470" y="420" width="50" height="34" fill="url(#hatch4)" stroke="#3E4348" stroke-width="2"></rect><rect x="474" y="424" width="42" height="26" fill="#FFFFFF" fill-opacity="0.85"></rect><text x="495" y="442" text-anchor="middle">コード</text>
+            </g>
+            <text x="288" y="276" font-size="16" fill="#3E4348">出力: 要素の木（構文木）</text>
+            <g font-size="15" fill="#3E4348">
+              <text x="48" y="640">見出し・段落・コード枠・文中のコードを要素として分け、</text>
+              <text x="48" y="662">本文の文字は葉に、コードは別の節に入れる（remark）。</text>
+              <text x="48" y="712" fill="#1E2226">grep は行のまま全行を見る。textlint は要素に分けてから見る。</text>
+              <text x="48" y="734" fill="#1E2226">この違いが、コードの中の「効く」を拾わない理由。</text>
+            </g>
+      
+            <!-- 段 2: 葉 → ルール -->
+            <text x="564" y="276" font-size="16" fill="#3E4348">入力: 木の葉（本文とコード）</text>
+            <g font-size="15">
+              <rect x="564" y="288" width="72" height="40" fill="#EEF0F2" stroke="#1E2226" stroke-width="2"></rect><text x="600" y="313" text-anchor="middle">本文</text>
+              <rect x="648" y="288" width="72" height="40" fill="#EEF0F2" stroke="#1E2226" stroke-width="2"></rect><text x="684" y="313" text-anchor="middle">本文</text>
+              <rect x="732" y="288" width="72" height="40" fill="url(#hatch4)" stroke="#3E4348" stroke-width="2"></rect><rect x="737" y="293" width="62" height="30" fill="#FFFFFF" fill-opacity="0.85"></rect><text x="768" y="313" text-anchor="middle">コード</text>
+              <rect x="816" y="288" width="72" height="40" fill="#EEF0F2" stroke="#1E2226" stroke-width="2"></rect><text x="852" y="313" text-anchor="middle">本文</text>
+              <rect x="900" y="288" width="72" height="40" fill="url(#hatch4)" stroke="#3E4348" stroke-width="2"></rect><rect x="905" y="293" width="62" height="30" fill="#FFFFFF" fill-opacity="0.85"></rect><text x="936" y="313" text-anchor="middle">コード</text>
+            </g>
+            <rect x="564" y="480" width="472" height="110" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect>
+            <text x="800" y="514" text-anchor="middle" font-size="18" font-weight="600">30 ルール（3 プリセット）</text>
+            <text x="800" y="542" text-anchor="middle" font-size="15" fill="#3E4348">各ルールは「本文の葉が来たら」「段落が来たら」の関数を持つ</text>
+            <text x="800" y="566" text-anchor="middle" font-size="15" fill="#3E4348">本体は葉を 1 つずつ渡し、ルールが返した指摘を受け取る</text>
+            <g stroke="#1E2226" stroke-width="2" stroke-dasharray="6 5" fill="none" marker-end="url(#ar4)">
+              <line x1="640" y1="480" x2="604" y2="334"></line>
+              <line x1="720" y1="480" x2="688" y2="334"></line>
+              <line x1="860" y1="480" x2="854" y2="334"></line>
+            </g>
+            <text x="768" y="400" text-anchor="middle" font-size="15" fill="#3E4348">コードの葉には矢印が無い ＝ ルールが呼ばれない</text>
+            <g font-size="15" fill="#3E4348">
+              <text x="564" y="640">本文の葉だけを渡すので、コードの中の語や記号は</text>
+              <text x="564" y="662">最初からルールに届かない。</text>
+              <text x="564" y="712" fill="#1E2226">どのルールが葉の中の何を探すかは次の 3 枚。</text>
+              <text x="564" y="734" fill="#1E2226">語（A）・文（B）・癖（C）の 3 プリセット。</text>
+            </g>
+      
+            <!-- 段 3: 指摘を束ねる -->
+            <text x="1080" y="276" font-size="16" fill="#3E4348">入力: 各ルールが返した指摘</text>
+            <g font-size="15">
+              <rect x="1080" y="288" width="140" height="56" fill="#FFFFFF" stroke="#B42318" stroke-width="2"></rect><text x="1090" y="308" font-weight="600" fill="#B42318">A-1 no-ai-words</text><text x="1090" y="330" fill="#3E4348">3 行 1 列「効く」</text>
+              <rect x="1246" y="288" width="140" height="56" fill="#FFFFFF" stroke="#B42318" stroke-width="2"></rect><text x="1256" y="308" font-weight="600" fill="#B42318">B-3 max-ten</text><text x="1256" y="330" fill="#3E4348">14 行 19 列 読点 4</text>
+              <rect x="1412" y="288" width="140" height="56" fill="#FFFFFF" stroke="#B42318" stroke-width="2"></rect><text x="1422" y="308" font-weight="600" fill="#B42318">C-2 hype</text><text x="1422" y="330" fill="#3E4348">3 行 6 列「革命的な」</text>
+            </g>
+            <g stroke="#1E2226" stroke-width="2" fill="none" marker-end="url(#ar4)">
+              <line x1="1150" y1="344" x2="1290" y2="476"></line><line x1="1316" y1="344" x2="1316" y2="476"></line><line x1="1482" y1="344" x2="1342" y2="476"></line>
+            </g>
+            <rect x="1080" y="480" width="472" height="110" fill="#EEF0F2"></rect>
+            <text x="1316" y="514" text-anchor="middle" font-size="18" font-weight="600">指摘の一覧（JSON）</text>
+            <text x="1316" y="542" text-anchor="middle" font-size="15" fill="#3E4348">1 件 ＝ 行・列・ルール名・文言・重さ</text>
+            <text x="1316" y="566" text-anchor="middle" font-size="15" fill="#3E4348">除外指定（行頭パターン・停止コメント）に当たる件は落とす</text>
+            <line x1="1316" y1="590" x2="1316" y2="636" stroke="#1E2226" stroke-width="2.5" marker-end="url(#ar4)"></line>
+            <rect x="1080" y="640" width="472" height="44" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect>
+            <text x="1316" y="668" text-anchor="middle" font-size="15">スキルが一覧を受け取りレポート（HTML）にする（2 枚目の Step 4・5）</text>
+            <g font-size="15" fill="#3E4348">
+              <text x="1080" y="734" fill="#1E2226">本体は指摘を集めるだけ。直し方は返さない。</text>
+            </g>
+          </svg>
+          <div style="position: absolute; left: 48px; top: 686px; font-size: 16px; color: #3E4348;">確認環境: textlint 15.8、remark（md → 木）。ルール番号 A-1・B-3・C-2 はレポートの規則タブと同じ付け方</div>
+      
+        </div>
+      </div>
+      
+    </section>
+
+    <section class="slide-page" hidden data-slide-page="5">
+      <header class="slide-header">
+        <span class="slide-eyebrow">スキル説明｜textlint 指摘レポート（reporting-textlint-findings）</span>
+        <h1 class="slide-title">AI が使いがちな語は、文字ではなく「形態素の鎖」に型を当てて探す</h1>
+        <p class="slide-subtitle">文を単語の鎖にし、辞書の型（品詞＋原形の並び）を左から右へ滑らせる。型が嵌まった所を指摘する</p>
+      </header>
+      
+      <div class="canvas-scale-outer">
+        <div class="canvas-scale-inner">
+      
+          <div style="position: absolute; left: 48px; top: 6px; font-size: 16px; color: #3E4348;">白い枠＝単語（形態素）1 つ。上段が表層形、下段が品詞と原形　赤い枠＝辞書の型が嵌まった所　灰の枠＝嵌まらなかった所</div>
+          <svg role="presentation" width="1600" height="740" viewBox="0 160 1600 740" style="position: absolute; left: 0; top: 0;" font-family="'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif" font-size="16" fill="#1E2226">
+            <defs><marker id="ar5" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L12 6 L0 12 Z" fill="#1E2226"></path></marker></defs>
+      
+            <!-- 1 段目: 効く -->
+            <text x="48" y="222" font-size="18" font-weight="600">1　no-ai-words　「効く」の型 ＝ 動詞・原形 効く（1 語）</text>
+            <g>
+              <rect x="48" y="240" width="130" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="113" y="266" text-anchor="middle" font-size="20">効い</text><text x="113" y="292" text-anchor="middle" font-size="15" fill="#3E4348">動詞 ／ 効く</text>
+              <rect x="182" y="240" width="70" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="217" y="266" text-anchor="middle" font-size="20">て</text><text x="217" y="292" text-anchor="middle" font-size="15" fill="#3E4348">助詞</text>
+              <rect x="256" y="240" width="110" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="311" y="266" text-anchor="middle" font-size="20">い</text><text x="311" y="292" text-anchor="middle" font-size="15" fill="#3E4348">動詞 ／ いる</text>
+              <rect x="370" y="240" width="90" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="415" y="266" text-anchor="middle" font-size="20">ない</text><text x="415" y="292" text-anchor="middle" font-size="15" fill="#3E4348">助動詞</text>
+              <rect x="464" y="240" width="80" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="504" y="266" text-anchor="middle" font-size="20">ので</text><text x="504" y="292" text-anchor="middle" font-size="15" fill="#3E4348">助詞</text>
+              <rect x="548" y="240" width="60" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="578" y="266" text-anchor="middle" font-size="20">、</text><text x="578" y="292" text-anchor="middle" font-size="15" fill="#3E4348">読点</text>
+              <rect x="612" y="240" width="90" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="657" y="266" text-anchor="middle" font-size="20">設定</text><text x="657" y="292" text-anchor="middle" font-size="15" fill="#3E4348">名詞</text>
+              <rect x="706" y="240" width="60" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="736" y="266" text-anchor="middle" font-size="20">を</text><text x="736" y="292" text-anchor="middle" font-size="15" fill="#3E4348">助詞</text>
+              <rect x="770" y="240" width="140" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="840" y="266" text-anchor="middle" font-size="20">見直す</text><text x="840" y="292" text-anchor="middle" font-size="15" fill="#3E4348">動詞 ／ 見直す</text>
+              <!-- 型 -->
+              <rect x="42" y="232" width="142" height="80" fill="none" stroke="#B42318" stroke-width="3"></rect>
+              <text x="113" y="336" text-anchor="middle" font-size="16" fill="#B42318" font-weight="600">嵌まる</text>
+              <rect x="252" y="232" width="118" height="80" fill="none" stroke="#C9CDD1" stroke-width="3" stroke-dasharray="6 5"></rect>
+              <text x="311" y="336" text-anchor="middle" font-size="16" fill="#3E4348">動詞だが原形が違う</text>
+              <rect x="764" y="232" width="152" height="80" fill="none" stroke="#C9CDD1" stroke-width="3" stroke-dasharray="6 5"></rect>
+              <text x="840" y="336" text-anchor="middle" font-size="16" fill="#3E4348">原形が違う</text>
+            </g>
+            <!-- 活用形が 1 つの原形へ集まる -->
+            <g>
+              <text x="1000" y="222" font-size="18" font-weight="600">活用形は全部、原形に戻してから比べる</text>
+              <rect x="1000" y="240" width="70" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="1.5"></rect><text x="1035" y="263" text-anchor="middle">効い</text>
+              <rect x="1000" y="282" width="70" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="1.5"></rect><text x="1035" y="305" text-anchor="middle">効か</text>
+              <rect x="1000" y="324" width="70" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="1.5"></rect><text x="1035" y="347" text-anchor="middle">効け</text>
+              <rect x="1000" y="366" width="70" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="1.5"></rect><text x="1035" y="389" text-anchor="middle">効こう</text>
+              <g stroke="#1E2226" stroke-width="2" fill="none" marker-end="url(#ar5)">
+                <line x1="1070" y1="257" x2="1150" y2="310"></line><line x1="1070" y1="299" x2="1150" y2="313"></line><line x1="1070" y1="341" x2="1150" y2="319"></line><line x1="1070" y1="383" x2="1150" y2="324"></line>
+              </g>
+              <rect x="1156" y="298" width="150" height="40" fill="#EEF0F2" stroke="#1E2226" stroke-width="2"></rect><text x="1231" y="324" text-anchor="middle" font-size="18">原形 効く</text>
+              <line x1="1306" y1="318" x2="1360" y2="318" stroke="#1E2226" stroke-width="2" marker-end="url(#ar5)"></line>
+              <rect x="1364" y="298" width="188" height="40" fill="#FFFFFF" stroke="#B42318" stroke-width="3"></rect><text x="1458" y="324" text-anchor="middle" font-size="17" fill="#B42318" font-weight="600">辞書の型と一致</text>
+              <text x="1000" y="424" font-size="15" fill="#3E4348">grep「効く」では左の 4 つの活用形を 1 つも拾えない</text>
+            </g>
+      
+            <!-- 2 段目: 2 語の型 -->
+            <text x="48" y="490" font-size="18" font-weight="600">2　「〜に落ちる」の型 ＝ 格助詞 に ＋ 動詞・原形 落ちる（2 語）。単独の「落ちる」は拾わない</text>
+            <g>
+              <rect x="48" y="508" width="110" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="103" y="534" text-anchor="middle" font-size="20">既定</text><text x="103" y="560" text-anchor="middle" font-size="15" fill="#3E4348">名詞</text>
+              <rect x="162" y="508" width="60" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="192" y="534" text-anchor="middle" font-size="20">に</text><text x="192" y="560" text-anchor="middle" font-size="15" fill="#3E4348">格助詞</text>
+              <rect x="226" y="508" width="130" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="291" y="534" text-anchor="middle" font-size="20">落ちる</text><text x="291" y="560" text-anchor="middle" font-size="15" fill="#3E4348">動詞 ／ 落ちる</text>
+              <rect x="156" y="500" width="206" height="80" fill="none" stroke="#B42318" stroke-width="3"></rect>
+              <text x="259" y="604" text-anchor="middle" font-size="16" fill="#B42318" font-weight="600">2 語とも嵌まる</text>
+      
+              <rect x="520" y="508" width="90" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="565" y="534" text-anchor="middle" font-size="20">石</text><text x="565" y="560" text-anchor="middle" font-size="15" fill="#3E4348">名詞</text>
+              <rect x="614" y="508" width="60" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="644" y="534" text-anchor="middle" font-size="20">が</text><text x="644" y="560" text-anchor="middle" font-size="15" fill="#3E4348">格助詞</text>
+              <rect x="678" y="508" width="130" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="743" y="534" text-anchor="middle" font-size="20">落ちる</text><text x="743" y="560" text-anchor="middle" font-size="15" fill="#3E4348">動詞 ／ 落ちる</text>
+              <rect x="608" y="500" width="206" height="80" fill="none" stroke="#C9CDD1" stroke-width="3" stroke-dasharray="6 5"></rect>
+              <text x="711" y="604" text-anchor="middle" font-size="16" fill="#3E4348">1 語目が「に」でないので嵌まらない</text>
+            </g>
+            <g font-size="15" fill="#3E4348">
+              <text x="1000" y="490" font-size="18" font-weight="600" fill="#1E2226">辞書 55 項目の型の種類</text>
+              <text x="1000" y="522">1 語: 効く・焼く・黙る・崩す／経路・死活・漏れ・帰結・穴</text>
+              <text x="1000" y="548">2 語: に＋落ちる、から＋引く</text>
+              <text x="1000" y="574">3 語: 値＋を＋動かす</text>
+              <text x="1000" y="600">接頭詞＋名詞: 無＋差別（kuromoji が 2 語に割るため）</text>
+            </g>
+      
+            <!-- 3 段目: 短い主題の読点 -->
+            <text x="48" y="672" font-size="18" font-weight="600">3　no-short-topic-comma　係助詞「は」の直後の読点まで、文頭から 5 字以内なら指摘</text>
+            <g>
+              <rect x="48" y="690" width="70" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="83" y="716" text-anchor="middle" font-size="20">私</text><text x="83" y="742" text-anchor="middle" font-size="15" fill="#3E4348">名詞</text>
+              <rect x="122" y="690" width="70" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="157" y="716" text-anchor="middle" font-size="20">は</text><text x="157" y="742" text-anchor="middle" font-size="15" fill="#3E4348">係助詞</text>
+              <rect x="196" y="690" width="60" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="226" y="716" text-anchor="middle" font-size="20">、</text><text x="226" y="742" text-anchor="middle" font-size="15" fill="#3E4348">読点</text>
+              <rect x="260" y="690" width="90" height="64" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="305" y="716" text-anchor="middle" font-size="20">思う</text><text x="305" y="742" text-anchor="middle" font-size="15" fill="#3E4348">動詞</text>
+              <rect x="116" y="682" width="146" height="80" fill="none" stroke="#B42318" stroke-width="3"></rect>
+              <!-- 物差し -->
+              <line x1="48" y1="790" x2="196" y2="790" stroke="#1E2226" stroke-width="2"></line>
+              <line x1="48" y1="782" x2="48" y2="798" stroke="#1E2226" stroke-width="2"></line><line x1="196" y1="782" x2="196" y2="798" stroke="#1E2226" stroke-width="2"></line>
+              <text x="122" y="822" text-anchor="middle" font-size="16">文頭から読点まで 2 字 ≦ 5</text>
+              <text x="380" y="720" font-size="16" fill="#B42318" font-weight="600">→ 指摘: 主題を 2 文字示しただけで読点を打っています</text>
+              <text x="380" y="746" font-size="15" fill="#3E4348">「この設定ファイルは、」なら 9 字なので通す</text>
+            </g>
+            <g font-size="15" fill="#3E4348">
+              <text x="1000" y="672" font-size="18" font-weight="600" fill="#1E2226">なぜ grep で代用できないか</text>
+              <text x="1000" y="704">・活用形を原形に戻すには、単語の切れ目と品詞が要る</text>
+              <text x="1000" y="730">・「に落ちる」と「が落ちる」の区別は、前の語の品詞で決まる</text>
+              <text x="1000" y="756">・「は、」の「は」が係助詞か（「では、」の一部でないか）は品詞で決まる</text>
+              <text x="1000" y="782">・切れ目・品詞・原形を出すのが形態素解析（kuromoji、IPA 辞書）</text>
+            </g>
+          </svg>
+          <div style="position: absolute; left: 48px; top: 686px; font-size: 16px; color: #3E4348;">パッケージ textlint-rule-preset-ai-words-ja。読点の規則はプリセットの既定が無効のため、同梱の設定で有効にしてある</div>
+      
+        </div>
+      </div>
+      
+    </section>
+
+    <section class="slide-page" hidden data-slide-page="6">
+      <header class="slide-header">
+        <span class="slide-eyebrow">スキル説明｜textlint 指摘レポート（reporting-textlint-findings）</span>
+        <h1 class="slide-title">文の規則は 3 つの単位で見る。切って測る・型を当てる・文字を数える</h1>
+        <p class="slide-subtitle">同じ 1 段落に、23 ルールがそれぞれの単位で動く。grep と同じ「文字」を見るのは C だけ</p>
+      </header>
+      
+      <div class="canvas-scale-outer">
+        <div class="canvas-scale-inner">
+      
+          <div style="position: absolute; left: 48px; top: 6px; font-size: 16px; color: #3E4348;">灰の帯＝段落の文字列（データ）　白い枠＝単語 1 つ　赤い枠・赤い印＝指摘　灰の破線＝型に合わず通した所</div>
+          <svg role="presentation" width="1600" height="740" viewBox="0 160 1600 740" style="position: absolute; left: 0; top: 0;" font-family="'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif" font-size="16" fill="#1E2226">
+            <defs><marker id="ar6" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L12 6 L0 12 Z" fill="#1E2226"></path></marker></defs>
+      
+            <!-- A -->
+            <text x="48" y="216" font-size="18" font-weight="600">A　「。」で文に切ってから、文ごとに測る（sentence-length・max-ten）</text>
+            <rect x="48" y="228" width="560" height="34" fill="#EEF0F2"></rect>
+            <text x="52" y="252" font-size="18" xml:space="preserve">入れて、設定して、確認して、共有して、終わる。この文は短い。</text>
+            <line x1="480" y1="222" x2="480" y2="268" stroke="#1E2226" stroke-width="2.5"></line><line x1="588" y1="222" x2="588" y2="268" stroke="#1E2226" stroke-width="2.5"></line>
+            <text x="620" y="252" font-size="15" fill="#3E4348">縦線＝切る位置（「。」の後ろ）。改行は切る位置にしない</text>
+            <text x="48" y="290" font-size="15" fill="#3E4348">切った文を、1 字 8px の帯にして物差しに載せる</text>
+            <!-- 物差し -->
+            <line x1="48" y1="380" x2="848" y2="380" stroke="#1E2226" stroke-width="2"></line>
+            <g stroke="#1E2226" stroke-width="2"><line x1="48" y1="374" x2="48" y2="386"></line><line x1="448" y1="374" x2="448" y2="386"></line><line x1="848" y1="374" x2="848" y2="386"></line></g>
+            <text x="48" y="404" font-size="15" fill="#3E4348">0 字</text><text x="448" y="404" font-size="15" fill="#3E4348" text-anchor="middle">50 字</text><text x="848" y="404" font-size="15" fill="#3E4348" text-anchor="middle">100 字（ここを越えたら指摘）</text>
+            <!-- 文 1: 24 字, 読点 4 -->
+            <rect x="48" y="304" width="192" height="30" fill="#EEF0F2" stroke="#1E2226" stroke-width="1.5"></rect>
+            <g stroke="#B42318" stroke-width="3"><line x1="76" y1="304" x2="76" y2="334"></line><line x1="116" y1="304" x2="116" y2="334"></line><line x1="156" y1="304" x2="156" y2="334"></line><line x1="196" y1="304" x2="196" y2="334"></line></g>
+            <text x="48" y="356" font-size="15" fill="#B42318" font-weight="600">24 字・読点 4 → 指摘（3 個まで）</text>
+            <!-- 文 2: 6 字 -->
+            <rect x="340" y="304" width="48" height="30" fill="#EEF0F2" stroke="#1E2226" stroke-width="1.5"></rect>
+            <text x="340" y="356" font-size="15" fill="#3B7D4E" font-weight="600">6 字・読点 0 → 通す</text>
+            <text x="900" y="300" font-size="15" fill="#3E4348">帯の長さ＝文の字数、赤い縦線＝読点。</text>
+            <text x="900" y="324" font-size="15" fill="#3E4348">表・コード・引用・箇条書きの行は帯にしない（測らない）</text>
+      
+            <!-- B -->
+            <text x="48" y="456" font-size="18" font-weight="600">B　形態素の鎖に「品詞の型」を当てる（no-dropping-the-ra・ja-no-redundant-expression など）</text>
+            <g>
+              <rect x="48" y="474" width="90" height="60" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="93" y="498" text-anchor="middle" font-size="19">見れ</text><text x="93" y="522" text-anchor="middle" font-size="15" fill="#3E4348">動詞・一段</text>
+              <rect x="142" y="474" width="60" height="60" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="172" y="498" text-anchor="middle" font-size="19">る</text><text x="172" y="522" text-anchor="middle" font-size="15" fill="#3E4348">助動詞</text>
+              <rect x="42" y="466" width="166" height="76" fill="none" stroke="#B42318" stroke-width="3"></rect>
+              <text x="125" y="566" text-anchor="middle" font-size="15" fill="#B42318" font-weight="600">型「一段動詞＋れる」に嵌まる → ら抜き</text>
+      
+              <rect x="360" y="474" width="70" height="60" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="395" y="498" text-anchor="middle" font-size="19">見</text><text x="395" y="522" text-anchor="middle" font-size="15" fill="#3E4348">動詞・一段</text>
+              <rect x="434" y="474" width="90" height="60" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="479" y="498" text-anchor="middle" font-size="19">られる</text><text x="479" y="522" text-anchor="middle" font-size="15" fill="#3E4348">助動詞</text>
+              <rect x="354" y="466" width="176" height="76" fill="none" stroke="#C9CDD1" stroke-width="3" stroke-dasharray="6 5"></rect>
+              <text x="442" y="566" text-anchor="middle" font-size="15" fill="#3E4348">「られる」は型に合わない → 通す</text>
+      
+              <rect x="680" y="474" width="80" height="60" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="720" y="498" text-anchor="middle" font-size="19">確認</text><text x="720" y="522" text-anchor="middle" font-size="15" fill="#3E4348">名詞</text>
+              <rect x="764" y="474" width="70" height="60" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="799" y="498" text-anchor="middle" font-size="19">する</text><text x="799" y="522" text-anchor="middle" font-size="15" fill="#3E4348">動詞</text>
+              <rect x="838" y="474" width="70" height="60" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="873" y="498" text-anchor="middle" font-size="19">こと</text><text x="873" y="522" text-anchor="middle" font-size="15" fill="#3E4348">名詞</text>
+              <rect x="912" y="474" width="56" height="60" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="940" y="498" text-anchor="middle" font-size="19">が</text><text x="940" y="522" text-anchor="middle" font-size="15" fill="#3E4348">助詞</text>
+              <rect x="972" y="474" width="84" height="60" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="1014" y="498" text-anchor="middle" font-size="19">できる</text><text x="1014" y="522" text-anchor="middle" font-size="15" fill="#3E4348">動詞</text>
+              <rect x="758" y="466" width="304" height="76" fill="none" stroke="#B42318" stroke-width="3"></rect>
+              <text x="910" y="566" text-anchor="middle" font-size="15" fill="#B42318" font-weight="600">型「する＋こと＋が＋できる」に嵌まる → 冗長。「確認できる」で足りる</text>
+            </g>
+            <text x="1120" y="498" font-size="15" fill="#3E4348">型は 4 語まである。grep は「見れる」を書けても</text>
+            <text x="1120" y="522" font-size="15" fill="#3E4348">「食べれる」「来れる」まで網羅できない。品詞の型なら 1 つで済む</text>
+      
+            <!-- C -->
+            <text x="48" y="632" font-size="18" font-weight="600">C　文字を 1 字ずつ見て、種類と連続を数える（max-kanji-continuous-len・no-hankaku-kana・no-zero-width-spaces）</text>
+            <g font-size="19">
+              <rect x="48" y="650" width="34" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></rect><text x="65" y="677" text-anchor="middle">自</text>
+              <rect x="86" y="650" width="34" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></rect><text x="103" y="677" text-anchor="middle">動</text>
+              <rect x="124" y="650" width="34" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></rect><text x="141" y="677" text-anchor="middle">検</text>
+              <rect x="162" y="650" width="34" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></rect><text x="179" y="677" text-anchor="middle">証</text>
+              <rect x="200" y="650" width="34" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></rect><text x="217" y="677" text-anchor="middle">基</text>
+              <rect x="238" y="650" width="34" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></rect><text x="255" y="677" text-anchor="middle">盤</text>
+              <rect x="276" y="650" width="34" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></rect><text x="293" y="677" text-anchor="middle">整</text>
+              <rect x="314" y="650" width="34" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></rect><text x="331" y="677" text-anchor="middle">備</text>
+              <rect x="352" y="650" width="34" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></rect><text x="369" y="677" text-anchor="middle">計</text>
+              <rect x="390" y="650" width="34" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></rect><text x="407" y="677" text-anchor="middle">画</text>
+              <rect x="428" y="650" width="34" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></rect><text x="445" y="677" text-anchor="middle">表</text>
+              <rect x="466" y="650" width="34" height="40" fill="#FFFFFF" stroke="#C9CDD1" stroke-width="1.5"></rect><text x="483" y="677" text-anchor="middle">を</text>
+              <rect x="504" y="650" width="34" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></rect><text x="521" y="677" text-anchor="middle">作</text>
+              <rect x="542" y="650" width="34" height="40" fill="#FFFFFF" stroke="#C9CDD1" stroke-width="1.5"></rect><text x="559" y="677" text-anchor="middle">る</text>
+              <path d="M48 700 V712 H462 V700" fill="none" stroke="#B42318" stroke-width="3"></path>
+              <text x="255" y="738" text-anchor="middle" font-size="15" fill="#B42318" font-weight="600">漢字が 11 字連続 → 指摘（6 字まで）</text>
+              <text x="48" y="768" font-size="15" fill="#3E4348">太い枠＝漢字、細い枠＝かな。連続は種類が切り替わるまで数える</text>
+      
+              <rect x="700" y="650" width="34" height="40" fill="#FFFFFF" stroke="#B42318" stroke-width="3"></rect><text x="717" y="677" text-anchor="middle">ﾃ</text>
+              <rect x="738" y="650" width="34" height="40" fill="#FFFFFF" stroke="#B42318" stroke-width="3"></rect><text x="755" y="677" text-anchor="middle">ｽ</text>
+              <rect x="776" y="650" width="34" height="40" fill="#FFFFFF" stroke="#B42318" stroke-width="3"></rect><text x="793" y="677" text-anchor="middle">ﾄ</text>
+              <text x="755" y="738" text-anchor="middle" font-size="15" fill="#B42318" font-weight="600">半角カナ → 指摘</text>
+      
+              <rect x="1000" y="650" width="34" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></rect><text x="1017" y="677" text-anchor="middle">設</text>
+              <rect x="1038" y="650" width="34" height="40" fill="#FFFFFF" stroke="#B42318" stroke-width="3" stroke-dasharray="5 4"></rect>
+              <rect x="1076" y="650" width="34" height="40" fill="#FFFFFF" stroke="#1E2226" stroke-width="2.5"></rect><text x="1093" y="677" text-anchor="middle">定</text>
+              <text x="1055" y="738" text-anchor="middle" font-size="15" fill="#B42318" font-weight="600">見えない文字（ゼロ幅スペース）→ 指摘</text>
+              <text x="700" y="768" font-size="15" fill="#3E4348">C だけは grep でも書ける。ただし textlint はコードとリンク先の文字を最初から数えない</text>
+            </g>
+          </svg>
+          <div style="position: absolute; left: 48px; top: 686px; font-size: 16px; color: #3E4348;">パッケージ textlint-rule-preset-ja-technical-writing。23 ルールすべて既定値で有効。例はすべて textlint で検出を確認済み</div>
+      
+        </div>
+      </div>
+      
+    </section>
+
+    <section class="slide-page" hidden data-slide-page="7">
+      <header class="slide-header">
+        <span class="slide-eyebrow">スキル説明｜textlint 指摘レポート（reporting-textlint-findings）</span>
+        <h1 class="slide-title">癖の規則は木の「節の形」に掛かる。文字列検索は位置しか推測できない</h1>
+        <p class="slide-subtitle">段落の末尾・箇条書きの先頭・太字の節。5 ルールがどの節で何を見るかを、同じ md の木の上に置く</p>
+      </header>
+      
+      <div class="canvas-scale-outer">
+        <div class="canvas-scale-inner">
+      
+          <div style="position: absolute; left: 48px; top: 6px; font-size: 16px; color: #3E4348;">白＝要素の節（段落・箇条書き・太字）　灰＝本文の葉　赤い丸＝ルールが掛かる節と番号　右の表＝番号の意味</div>
+          <svg role="presentation" width="1600" height="740" viewBox="0 160 1600 740" style="position: absolute; left: 0; top: 0;" font-family="'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif" font-size="16" fill="#1E2226">
+            <defs><marker id="ar7" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L12 6 L0 12 Z" fill="#1E2226"></path></marker></defs>
+            <!-- md -->
+            <text x="48" y="216" font-size="18" font-weight="600">md</text>
+            <rect x="48" y="228" width="370" height="240" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect>
+            <g font-size="17">
+              <text x="64" y="262">この機能は<tspan text-decoration="underline" fill="#B42318">革命的な</tspan>速さです。</text>
+              <text x="64" y="300">手順は次のとおりです<tspan fill="#B42318" font-weight="600">：</tspan></text>
+              <text x="64" y="338">- <tspan fill="#B42318" font-weight="600">**必要性**:</tspan> node が必要</text>
+              <text x="64" y="376">- <tspan fill="#B42318" font-weight="600">✅</tspan> 動作確認</text>
+              <text x="64" y="414"><tspan fill="#B42318" font-weight="600">**重要**</tspan>な点と<tspan fill="#B42318" font-weight="600">**注意**</tspan>すべき点です。</text>
+              <text x="64" y="452">設定を変更<tspan text-decoration="underline" fill="#B42318">する必要があります</tspan>。</text>
+            </g>
+            <text x="48" y="500" font-size="15" fill="#3E4348">この 6 行を textlint に渡すと、右の 1〜5 がすべて指摘される（確認済み）</text>
+            <line x1="418" y1="340" x2="470" y2="340" stroke="#1E2226" stroke-width="2.5" marker-end="url(#ar7)"></line>
+      
+            <!-- 木 -->
+            <g stroke="#1E2226" stroke-width="2" fill="none">
+              <line x1="860" y1="248" x2="860" y2="270"></line>
+              <line x1="548" y1="270" x2="1180" y2="270"></line>
+              <line x1="548" y1="270" x2="548" y2="290"></line><line x1="690" y1="270" x2="690" y2="290"></line><line x1="832" y1="270" x2="832" y2="290"></line><line x1="1000" y1="270" x2="1000" y2="290"></line><line x1="1180" y1="270" x2="1180" y2="290"></line>
+              <line x1="548" y1="324" x2="548" y2="370"></line>
+              <line x1="690" y1="324" x2="690" y2="370"></line>
+              <line x1="832" y1="324" x2="832" y2="350"></line><line x1="790" y1="350" x2="874" y2="350"></line><line x1="790" y1="350" x2="790" y2="370"></line><line x1="874" y1="350" x2="874" y2="370"></line>
+              <line x1="1000" y1="324" x2="1000" y2="350"></line><line x1="940" y1="350" x2="1060" y2="350"></line><line x1="940" y1="350" x2="940" y2="370"></line><line x1="1000" y1="350" x2="1000" y2="370"></line><line x1="1060" y1="350" x2="1060" y2="370"></line>
+              <line x1="1180" y1="324" x2="1180" y2="370"></line>
+              <line x1="790" y1="404" x2="790" y2="450"></line><line x1="874" y1="404" x2="874" y2="450"></line>
+              <line x1="790" y1="484" x2="790" y2="510"></line><line x1="762" y1="510" x2="818" y2="510"></line><line x1="762" y1="510" x2="762" y2="530"></line><line x1="818" y1="510" x2="818" y2="530"></line>
+              <line x1="874" y1="484" x2="874" y2="530"></line>
+            </g>
+            <rect x="800" y="214" width="120" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="860" y="237" text-anchor="middle">文書全体</text>
+            <g>
+              <rect x="500" y="290" width="96" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="548" y="313" text-anchor="middle">段落</text>
+              <rect x="642" y="290" width="96" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="690" y="313" text-anchor="middle">段落</text>
+              <rect x="796" y="290" width="72" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="832" y="313" text-anchor="middle">箇条書き</text>
+              <rect x="952" y="290" width="96" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="1000" y="313" text-anchor="middle">段落</text>
+              <rect x="1132" y="290" width="96" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="1180" y="313" text-anchor="middle">段落</text>
+            </g>
+            <g font-size="15">
+              <rect x="518" y="370" width="60" height="34" fill="#EEF0F2" stroke="#1E2226" stroke-width="2"></rect><text x="548" y="392" text-anchor="middle">本文</text>
+              <rect x="660" y="370" width="60" height="34" fill="#EEF0F2" stroke="#1E2226" stroke-width="2"></rect><text x="690" y="392" text-anchor="middle">本文</text>
+              <rect x="752" y="370" width="76" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="790" y="392" text-anchor="middle">項目</text>
+              <rect x="836" y="370" width="76" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="874" y="392" text-anchor="middle">項目</text>
+              <rect x="912" y="370" width="56" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="940" y="392" text-anchor="middle">太字</text>
+              <rect x="972" y="370" width="56" height="34" fill="#EEF0F2" stroke="#1E2226" stroke-width="2"></rect><text x="1000" y="392" text-anchor="middle">本文</text>
+              <rect x="1032" y="370" width="56" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="1060" y="392" text-anchor="middle">太字</text>
+              <rect x="1150" y="370" width="60" height="34" fill="#EEF0F2" stroke="#1E2226" stroke-width="2"></rect><text x="1180" y="392" text-anchor="middle">本文</text>
+              <rect x="742" y="450" width="96" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="790" y="472" text-anchor="middle">段落</text>
+              <rect x="846" y="450" width="96" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="894" y="472" text-anchor="middle">段落</text>
+              <rect x="734" y="530" width="56" height="34" fill="#FFFFFF" stroke="#1E2226" stroke-width="2"></rect><text x="762" y="552" text-anchor="middle">太字</text>
+              <rect x="794" y="530" width="48" height="34" fill="#EEF0F2" stroke="#1E2226" stroke-width="2"></rect><text x="818" y="552" text-anchor="middle">本文</text>
+              <rect x="850" y="530" width="48" height="34" fill="#EEF0F2" stroke="#1E2226" stroke-width="2"></rect><text x="874" y="552" text-anchor="middle">本文</text>
+              <!-- 葉の中身 -->
+              <text x="548" y="428" text-anchor="middle" fill="#3E4348">…革命的な速さ…</text>
+              <text x="690" y="428" text-anchor="middle" fill="#3E4348">…とおりです：</text>
+              <text x="940" y="428" text-anchor="middle" fill="#3E4348">重要</text>
+              <text x="1000" y="428" text-anchor="middle" fill="#3E4348">な点と</text>
+              <text x="1060" y="428" text-anchor="middle" fill="#3E4348">注意</text>
+              <text x="1180" y="428" text-anchor="middle" fill="#3E4348">…する必要が…</text>
+              <text x="762" y="588" text-anchor="middle" fill="#3E4348">必要性</text>
+              <text x="818" y="588" text-anchor="middle" fill="#3E4348">: node…</text>
+              <text x="874" y="612" text-anchor="middle" fill="#3E4348">✅ 動作確認</text>
+            </g>
+            <!-- 赤い丸 -->
+            <g font-size="15" font-weight="600">
+              <circle cx="582" cy="366" r="13" fill="#B42318"></circle><text x="582" y="371" text-anchor="middle" fill="#FFFFFF">1</text>
+              <circle cx="742" cy="286" r="13" fill="#B42318"></circle><text x="742" y="291" text-anchor="middle" fill="#FFFFFF">2</text>
+              <circle cx="832" cy="366" r="13" fill="#B42318"></circle><text x="832" y="371" text-anchor="middle" fill="#FFFFFF">3</text>
+              <circle cx="874" cy="354" r="13" fill="#B42318"></circle><text x="874" y="359" text-anchor="middle" fill="#FFFFFF">3</text>
+              <circle cx="1052" cy="286" r="13" fill="#B42318"></circle><text x="1052" y="291" text-anchor="middle" fill="#FFFFFF">4</text>
+              <circle cx="1214" cy="366" r="13" fill="#B42318"></circle><text x="1214" y="371" text-anchor="middle" fill="#FFFFFF">5</text>
+            </g>
+      
+            <!-- 右の表 -->
+            <g font-size="15">
+              <text x="1270" y="216" font-size="18" font-weight="600">番号 ＝ ルールと、見る節</text>
+              <line x1="1270" y1="232" x2="1552" y2="232" stroke="#1E2226" stroke-width="1.5"></line>
+              <circle cx="1283" cy="258" r="12" fill="#B42318"></circle><text x="1283" y="263" text-anchor="middle" fill="#FFFFFF" font-weight="600">1</text>
+              <text x="1304" y="263" font-weight="600">no-ai-hype-expressions</text>
+              <text x="1304" y="286" fill="#3E4348">本文の文字列に固定の語を</text>
+              <text x="1304" y="308" fill="#3E4348">正規表現で当てる。grep に近い</text>
+              <circle cx="1283" cy="342" r="12" fill="#B42318"></circle><text x="1283" y="347" text-anchor="middle" fill="#FFFFFF" font-weight="600">2</text>
+              <text x="1304" y="347" font-weight="600">no-ai-colon-continuation</text>
+              <text x="1304" y="370" fill="#3E4348">段落の末尾が「：」か</text>
+              <circle cx="1283" cy="404" r="12" fill="#B42318"></circle><text x="1283" y="409" text-anchor="middle" fill="#FFFFFF" font-weight="600">3</text>
+              <text x="1304" y="409" font-weight="600">no-ai-list-formatting</text>
+              <text x="1304" y="432" fill="#3E4348">項目の先頭が太字＋「:」か、</text>
+              <text x="1304" y="454" fill="#3E4348">絵文字か</text>
+              <circle cx="1283" cy="488" r="12" fill="#B42318"></circle><text x="1283" y="493" text-anchor="middle" fill="#FFFFFF" font-weight="600">4</text>
+              <text x="1304" y="493" font-weight="600">no-ai-emphasis-patterns</text>
+              <text x="1304" y="516" fill="#3E4348">段落の中の太字の直後に</text>
+              <text x="1304" y="538" fill="#3E4348">本文が続く形（**重要**な）</text>
+              <circle cx="1283" cy="572" r="12" fill="#B42318"></circle><text x="1283" y="577" text-anchor="middle" fill="#FFFFFF" font-weight="600">5</text>
+              <text x="1304" y="577" font-weight="600">ai-tech-writing-guideline</text>
+              <text x="1304" y="600" fill="#3E4348">段落の文字列に決まり文句</text>
+              <text x="1304" y="622" fill="#3E4348">（する必要があります 等）を当てる</text>
+            </g>
+            <text x="500" y="660" font-size="16" fill="#3E4348">「箇条書きの先頭」「段落の末尾」「太字の直後」は、木があるから位置を推測せずに決まる。</text>
+            <text x="500" y="684" font-size="16" fill="#3E4348">行頭の「- 」や「**」を文字列で探すと、コードブロックの中や表の中まで拾う。</text>
+            <text x="500" y="730" font-size="16">語の規則は単語、文の規則は文、癖の規則は節の形。3 プリセットで見る単位が重ならない。</text>
+          </svg>
+          <div style="position: absolute; left: 48px; top: 686px; font-size: 16px; color: #3E4348;">パッケージ @textlint-ja/textlint-rule-preset-ai-writing。5 ルールすべて既定値で有効。5 は既定の重さが「情報」</div>
+      
+        </div>
+      </div>
+      
+    </section>
+
+  </div>
+</div>
+
+<!-- ==== スケーリング（常時必須・1ページでも削除禁止。削除可はページ送りスクリプトのみ） ==== -->
+
+</body>
+</html>

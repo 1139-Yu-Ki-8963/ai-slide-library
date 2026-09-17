@@ -3,8 +3,8 @@
   "status": "pass",
   "files": [
     {
-      "file": "/Users/MacPro/Projects/ai-slide-library/slides/赤ペン検査スキル-3プリセット30ルール/解説スライド.html",
-      "artifactSha256": "683166940461a35b02ca3f3130a3a6c04e070883b8b68293fc9cc8e05341c47e",
+      "file": "/Users/MacPro/Projects/ai-slide-library/slides/textlint指摘レポート-スキル説明/解説スライド.html",
+      "artifactSha256": "b79285f82293e8b10af100f1f269bfaf752c94d56286a65fa4b0997dccd6baaf",
       "status": "pass",
       "checks": [
         {
